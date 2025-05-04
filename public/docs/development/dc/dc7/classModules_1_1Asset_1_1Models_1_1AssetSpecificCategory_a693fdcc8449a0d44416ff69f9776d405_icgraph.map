@@ -1,0 +1,4 @@
+<map id="assetSubcategory" name="assetSubcategory">
+<area shape="rect" id="node1" title="Método que obtiene la subcategoria asociada a la categoria especifica." alt="" coords="232,5,371,32"/>
+<area shape="rect" id="node2" href="$dc/dc7/classModules_1_1Asset_1_1Models_1_1AssetSpecificCategory.html#a1fbe90039eeef08d03c074bb54d75dc1" title="Método que obtiene el valor asociado al campo asset_type_id." alt="" coords="5,5,184,32"/>
+</map>

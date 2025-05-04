@@ -1,0 +1,5 @@
+<map id="DataExport" name="DataExport">
+<area shape="rect" id="node1" title="Permite la exportación de datos." alt="" coords="167,5,313,112"/>
+<area shape="rect" id="node2" href="$de/d4c/classModules_1_1Payroll_1_1Exports_1_1PayrollSalaryAssignmentExport.html" title="Clase que gestiona los objetos exportados del modelo de asignaciones salariales." alt="" coords="5,167,232,303"/>
+<area shape="rect" id="node3" href="$df/d6b/classModules_1_1Payroll_1_1Exports_1_1PayrollSalaryTabulatorExport.html" title="Clase que gestiona los objetos exportados del modelo de tabuladores salariales." alt="" coords="257,160,466,311"/>
+</map>

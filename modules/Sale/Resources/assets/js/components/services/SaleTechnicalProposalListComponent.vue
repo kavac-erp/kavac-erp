@@ -1,0 +1,162 @@
+<template>
+    <section>
+        <v-client-table :columns="columns" :data="records" :options="table_options" ref="tableResults">
+            <div slot="code" slot-scope="props">
+                <span>
+                    {{ (props.row.code) ? props.row.code : '' }}
+                </span>
+            </div>
+            <div slot="application_date" slot-scope="props">
+                <span>
+                    {{ (props.row.created_at) ? format_date(props.row.created_at) : '' }}
+                </span>
+            </div>
+            <div slot="sale_client" slot-scope="props">
+                <span>
+                    {{ (props.row.sale_client.name) ? props.row.sale_client.name : '' }}
+                </span>
+                <span>
+                    {{ (props.row.sale_client.business_name) ? props.row.sale_client.business_name : '' }}
+                </span>
+            </div>
+            <div slot="department" slot-scope="props">
+                <span v-for="sale_good in props.row.sale_goods">
+                    <span>
+                        {{ (sale_good) ? sale_good.department.name : '' }}
+                    </span>
+                </span>
+            </div>
+            <div slot="state" slot-scope="props">
+                <span v-for="technical_proposal in props.row.sale_technical_proposal">
+                    {{ (props.row.sale_technical_proposal) ? technical_proposal.status : '' }}
+                </span>
+            </div>
+            <div slot="id" slot-scope="props" class="text-center">
+                <div class="d-inline-flex">
+                    <span v-for="technical_proposal in props.row.sale_technical_proposal">
+                        <button @click.prevent="setDetails('ServiceInfo', props.row.id, 'SaleServiceInfo')"
+                                class="btn btn-info btn-xs btn-icon btn-action btn-tooltip"
+                                title="Ver registro" data-toggle="tooltip" data-placement="bottom" type="button">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                        <button @click="completeTechnicalProposal(props.row.id)"
+                                class="btn btn-default btn-xs btn-icon btn-action"
+                                title="Completar propuesta técnica" data-toggle="tooltip" type="button" v-has-tooltip
+                                :disabled="technical_proposal.status != 'En proceso'">
+                            <i class="fa fa-check"></i>
+                        </button>
+                        <button @click="completeTechnicalProposal(props.row.id)"
+                                class="btn btn-warning btn-xs btn-icon btn-action"
+                                title="Modificar registro" data-toggle="tooltip" type="button" v-has-tooltip
+                                :disabled="technical_proposal.status != 'Culminada'">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button @click="deleteRecord(props.row.id, 'sale/technical-proposals/delete')"
+                                class="btn btn-danger btn-xs btn-icon btn-action"
+                                title="Eliminar registro" data-toggle="tooltip" type="button" v-has-tooltip>
+                            <i class="fa fa-trash-o"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </v-client-table>
+    </section>
+</template>
+
+<script>
+    export default {
+        data() {
+            return {
+                records: [],
+                columns: ['code', 'application_date', 'sale_client', 'department', 'state', 'id']
+            }
+        },
+        created() {
+            this.table_options.headings = {
+                'code': 'Código',
+                'application_date': 'Fecha de solicitud',
+                'sale_client': 'Nombre del cliente',
+                'department': 'Unidad o departamento responsable',
+                'state': 'Estado de la propuesta',
+                'id': 'Acción'
+            };
+            this.table_options.sortable = ['code', 'application_date', 'sale_client', 'department', 'state'];
+            this.table_options.filterable = ['code', 'application_date', 'sale_client', 'department', 'state'];
+            this.table_options.columnsClasses = {
+                'code': 'col-md-2',
+                'application_date': 'col-md-2',
+                'sale_client': 'col-md-2',
+                'department': 'col-md-2',
+                'state': 'col-md-2',
+                'id': 'col-md-2'
+            };
+        },
+        mounted () {
+            const vm = this;
+            vm.getSalePendingService();
+        },
+        methods: {
+            /**
+             * Inicializa los datos del formulario
+             *
+             * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve | roldandvg@gmail.com>
+             */
+            reset() {
+                
+            },
+
+            /**
+             * Método que carga los registros en la tabla
+             *
+             * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
+             */
+            getSalePendingService() {
+                const vm = this;
+
+                axios.get('/sale/services/vue-pending-list/Aprobado').then(response => {
+                    vm.records = response.data.records;
+                });
+            },
+
+            /**
+             * Método reemplaza el metodo setDetails para usar la referencia del parent por defecto
+             *
+             * @method    setDetails
+             *
+             * @author     Daniel Contreras <dcontreras@cenditel.gob.ve>
+             *
+             * @param     string   ref       Identificador del componente
+             * @param     integer  id        Identificador del registro seleccionado
+             * @param     object  var_list  Objeto con las variables y valores a asignar en las variables del componente
+             */
+            setDetails(ref, id, modal ,var_list = null) {
+                const vm = this;
+                if (var_list) {
+                    for(var i in var_list){
+                        vm.$parent.$refs[ref][i] = var_list[i];
+                    }
+                }else{
+                    vm.$parent.$refs[ref].record = vm.$refs.tableResults.data.filter(r => {
+                        return r.id === id;
+                    })[0];
+                }
+                vm.$parent.$refs[ref].id = id;
+
+                $(`#${modal}`).modal('show');
+                document.getElementById("info_general").click();
+            },
+
+            /**
+             * Redirige al formulario para completar la propuesta técnica
+             *
+             * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+             *
+             * * @param [Integer] $id Identificador único del servicio
+             */
+            completeTechnicalProposal(id)
+            {
+                location.href = '/sale/technical-proposals/complete/' + id;
+            },
+        }
+    }
+</script>

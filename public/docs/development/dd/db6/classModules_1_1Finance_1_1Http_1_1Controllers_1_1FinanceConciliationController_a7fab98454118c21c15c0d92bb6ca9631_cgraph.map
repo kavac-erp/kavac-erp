@@ -1,0 +1,8 @@
+<map id="validateFileStructure" name="validateFileStructure">
+<area shape="rect" id="node1" title="Método que valida la estructura del archivo usado para realizar la conciliación bancaria." alt="" coords="5,122,163,149"/>
+<area shape="rect" id="node2" href="$dd/db6/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceConciliationController.html#a583b9864c965be97def0af4d42b7429f" title="Método que consigue el separador de decimales usado en el archivo csv/.txt." alt="" coords="215,5,421,47"/>
+<area shape="rect" id="node3" href="$dd/db6/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceConciliationController.html#a5e80224ceb707141a7ba0d6d9106815c" title="Método que consigue el delimitador usado en el archivo csv/.txt." alt="" coords="211,71,425,98"/>
+<area shape="rect" id="node4" href="$dd/db6/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceConciliationController.html#acfaa96497989fbe4cdd36a9b052b5edb" title="Método que obtiene el array de validación para el archivo de configuración." alt="" coords="235,122,401,149"/>
+<area shape="rect" id="node5" href="$dd/db6/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceConciliationController.html#acdcd5d4c0ace9d353b05295c89a48d6e" title="Método que obtiene el separador usado en el formato de monto." alt="" coords="229,173,407,199"/>
+<area shape="rect" id="node6" href="$dd/db6/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceConciliationController.html#aa9c949505d1e98703d8da5d552b3732f" title="Método que retorna el delimitador usado un archiv .csv." alt="" coords="257,223,379,250"/>
+</map>

@@ -1,0 +1,15 @@
+[
+    {
+        "element" : "#payroll_work_age",
+        "intro" : "Esta sección permite gestionar la configuración de la edad mínima permitida para trabajar, del módulo de talento humano."
+    },
+    {
+        "element" : "#helpWorkAge",
+        "intro" : "Este campo establece la edad mínima permitida para trabajar en la organización, debe ser un número entero positivo."
+    },
+    {
+        "element" : "#helpParamButtons",
+        "intro" : "Botones para ejecutar las acciones de limpiar, cancelar o guardar los datos del formulario",
+        "position" : "left"
+    }
+]

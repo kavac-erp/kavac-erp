@@ -1,0 +1,46 @@
+[
+    {
+        "element": "#help_fiscal_years",
+        "intro": "Lista desplegable Ejercicio Fiscal: En esta se listan los años fiscales para la formulación de presupuesto."
+    },
+    {
+        "element": "#help_institution",
+        "intro": "Lista desplegable Instituciones: En esta se listan las instituciones configuradas en el sistema. En caso de tener configurada solo una institución, este campo seleccionará automáticamente la institución activa al momento de llenar el formulario. Este campo es requerido."
+    },
+    {
+        "element": "#help_currencies",
+        "intro": "Lista desplegable Moneda: Lista las monedas configuradas en la organización. Este campo es requerido."
+    },
+    {
+        "element": "#help_financement_type",
+        "intro": "Lista desplegable Tipo de financiamiento: Lista los tipos de financiamiento configurados en la sección de los registros comunes de presupuesto. Este campo es requerido."
+    },
+    {
+        "element": "#help_financement_source",
+        "intro": "Lista desplegable Fuente de financiamiento: Lista las fuentes de financiamiento configurados en la sección de los registros comunes de presupuesto. Este campo es requerido."
+    },
+    {
+        "element": "#help_amount",
+        "intro": "Campo numérico Monto: En este campo debe ingresar el monto total de la formulación presupuestaria. Este campo es requerido."
+    },
+    {
+        "element": "#help_project",
+        "intro": "Si desea seleccionar un Proyecto, primero haga clic en el switch sobre el campo para habilitarlo, y luego seleccione el proyecto entre las opciones disponibles."
+    },
+    {
+        "element": "#help_action",
+        "intro": "Si desea seleccionar una Acción Centralizada, primero haga clic en el switch sobre el campo para habilitarlo, y luego seleccione la acción entre las opciones disponibles."
+    },
+    {
+        "element": "#help_specific",
+        "intro": "Lista desplegable de Acción específica: Luego de haber escogido un proyecto o una acción centralizada, este campo se habilita. En él puede escoger entre las acciones específicas configuradas en el sistema. Este campo es requerido."
+    },
+    {
+        "element": "#help_table_formulation",
+        "intro": "Tabla de Distribución financiera: Muestra las cuentas, en ella puede ingresar los montos de la distribución financiera."
+    },
+    {
+        "element": "#help_table_search",
+        "intro": "Barra de búsqueda de cuentas: En ella puede ingresar parte parcial o completa del código de una cuenta o su denominación para buscarla. Luego haga clic en buscar. Si quiere volver a ver todas, haga clic en el botón Ver todas"
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "element" : "#helpPurchasePlans",
+        "intro" : "Formulario para ingresar un plan de compra."
+    },
+    {
+        "element" : "#helpPurchaseTypes",
+        "intro" : "Esta sección permite ingresar la modalidad de compra a usar en el plan de compra."
+    },
+    {
+        "element" : "#helpResponsable",
+        "intro" : "Esta sección permite ingresar la persona responsable de realizar el proceso de compra."
+    },
+    {
+        "element" : "#helpDate",
+        "intro" : "Esta sección permite ingresar la fecha de inicio del plan de compra."
+    },
+    {
+        "element" : "#helpEndDate",
+        "intro" : "Esta sección permite ingresar la fecha fin del plan de compra."
+    },
+    {
+        "element" : "#HelpPurchasePlanDocument",
+        "intro" : "Esta sección permite adjuntar el documento de plan de compra."
+    }
+]

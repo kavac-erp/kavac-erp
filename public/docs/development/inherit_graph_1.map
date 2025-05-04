@@ -1,0 +1,6 @@
+<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
+<area shape="rect" id="node1" href="$d4/d45/classApp_1_1Roles_1_1Exceptions_1_1AccessDeniedException.html" title="Excepciones para accesos denegados." alt="" coords="5,56,183,83"/>
+<area shape="rect" id="node2" href="$d0/da1/classApp_1_1Roles_1_1Exceptions_1_1LevelDeniedException.html" title="Excepciones para niveles de acceso denegados." alt="" coords="249,5,416,32"/>
+<area shape="rect" id="node3" href="$dd/db1/classApp_1_1Roles_1_1Exceptions_1_1PermissionDeniedException.html" title="Excepciones para los permisos de acceso denegados." alt="" coords="231,56,435,83"/>
+<area shape="rect" id="node4" href="$d4/d06/classApp_1_1Roles_1_1Exceptions_1_1RoleDeniedException.html" title="Excepciones para los roles de acceso denegados." alt="" coords="252,107,413,133"/>
+</map>

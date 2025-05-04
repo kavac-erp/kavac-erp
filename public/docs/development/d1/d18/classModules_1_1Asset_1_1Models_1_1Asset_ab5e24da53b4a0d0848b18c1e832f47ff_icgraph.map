@@ -1,0 +1,4 @@
+<map id="getCode" name="getCode">
+<area shape="rect" id="node1" title="Método que obtiene el serial de inventario de un bien." alt="" coords="171,5,247,32"/>
+<area shape="rect" id="node2" href="$d1/d18/classModules_1_1Asset_1_1Models_1_1Asset.html#a2e7bb35c71bf1824456ceb944cb7a845" title="Método que obtiene la descripción técnica de un bien institucional." alt="" coords="5,5,123,32"/>
+</map>

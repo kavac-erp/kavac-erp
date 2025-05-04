@@ -1,0 +1,6 @@
+<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
+<area shape="rect" id="node1" href="$d2/d9e/interfaceApp_1_1Repositories_1_1Contracts_1_1ReportInterface.html" title="Interfaz para la gestión de reportes." alt="" coords="5,56,128,83"/>
+<area shape="rect" id="node2" href="$db/d2b/classApp_1_1Repositories_1_1ReportRepository.html" title="Gestiona los reportes de la aplicación." alt="" coords="190,5,325,32"/>
+<area shape="rect" id="node3" href="$dc/d5e/classModules_1_1DigitalSignature_1_1Repositories_1_1ReportRepositorySign.html" title="Gestiona los reportes de la aplicación." alt="" coords="176,56,339,83"/>
+<area shape="rect" id="node4" href="$da/ddf/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1Base_1_1ReportRepository.html" title="Gestiona los reportes de la aplicación." alt="" coords="190,107,325,133"/>
+</map>

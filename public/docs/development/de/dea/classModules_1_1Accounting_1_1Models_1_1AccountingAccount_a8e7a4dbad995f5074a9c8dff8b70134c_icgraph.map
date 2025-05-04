@@ -1,0 +1,4 @@
+<map id="getParent" name="getParent">
+<area shape="rect" id="node1" title="Método que permite obtener la cuenta asociada de nivel superior." alt="" coords="275,20,359,47"/>
+<area shape="rect" id="node2" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#adb1b7b0256254b1d874030d21086272a" title="[fatherMaker crea las cuentas madres de una cuenta con los parametros recibidos]" alt="" coords="5,5,227,61"/>
+</map>

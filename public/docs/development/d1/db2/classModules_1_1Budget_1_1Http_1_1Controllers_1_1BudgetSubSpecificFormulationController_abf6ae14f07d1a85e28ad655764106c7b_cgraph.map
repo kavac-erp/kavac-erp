@@ -1,0 +1,4 @@
+<map id="printFormulated" name="printFormulated">
+<area shape="rect" id="node1" title="Genera el reporte de presupuesto formulado." alt="" coords="5,13,132,39"/>
+<area shape="rect" id="node2" href="$db/d2b/classApp_1_1Repositories_1_1ReportRepository.html#a94271e36f2ecdb7425672d371a74e630" title="Método que permite establecer la configuración general de los reportes." alt="" coords="180,5,429,47"/>
+</map>

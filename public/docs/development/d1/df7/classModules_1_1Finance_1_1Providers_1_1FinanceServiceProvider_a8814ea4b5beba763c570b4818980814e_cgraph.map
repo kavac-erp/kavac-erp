@@ -1,0 +1,7 @@
+<map id="boot" name="boot">
+<area shape="rect" id="node1" title="Boot the application events." alt="" coords="5,81,56,108"/>
+<area shape="rect" id="node2" href="$d1/df7/classModules_1_1Finance_1_1Providers_1_1FinanceServiceProvider.html#ae3b55e0b197cd07e04673b8ddded82e8" title="Register config." alt="" coords="122,5,237,32"/>
+<area shape="rect" id="node3" href="$d1/df7/classModules_1_1Finance_1_1Providers_1_1FinanceServiceProvider.html#a5fd4226764c7b498b81958b2ba9077ad" title="Register an additional directory of factories." alt="" coords="114,56,245,83"/>
+<area shape="rect" id="node4" href="$d1/df7/classModules_1_1Finance_1_1Providers_1_1FinanceServiceProvider.html#a09835f90ad36479b364740905741e627" title="Register translations." alt="" coords="104,107,255,133"/>
+<area shape="rect" id="node5" href="$d1/df7/classModules_1_1Finance_1_1Providers_1_1FinanceServiceProvider.html#ace230673c353d46a0058ca73134fbc2c" title="Register views." alt="" coords="124,157,235,184"/>
+</map>

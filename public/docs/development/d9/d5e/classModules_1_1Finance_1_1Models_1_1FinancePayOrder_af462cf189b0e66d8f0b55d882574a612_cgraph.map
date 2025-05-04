@@ -1,0 +1,4 @@
+<map id="getStatusAuxAttribute" name="getStatusAuxAttribute">
+<area shape="rect" id="node1" title="Obtiene el estatus de una orden de pago según varias caracteristicas." alt="" coords="5,5,172,32"/>
+<area shape="rect" id="node2" href="$d9/d5e/classModules_1_1Finance_1_1Models_1_1FinancePayOrder.html#a649e68c3356260846b3196094c945c9f" title="Get the documentStatus that owns the FinancePayOrder." alt="" coords="220,5,348,32"/>
+</map>

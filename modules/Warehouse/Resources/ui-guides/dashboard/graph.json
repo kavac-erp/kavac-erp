@@ -1,0 +1,21 @@
+[
+    {
+        "element" : "#cardWarehouseGraph",
+        "intro" : "Esta sección permite visualizar gráficos del inventario de productos en almacén"
+    },
+    {
+        "element" : "#helpWarehouseGraphExist",
+        "intro" : "Parámetro utilizado para filtrar los productos por su cantidad de existencia",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpWarehouseGraphMaxRequest",
+        "intro" : "Parámetro utilizado para filtrar los productos mas solicitados",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpWarehouseGraphMinRequest",
+        "intro" : "Parámetro utilizado para filtrar los productos menos solicitados",
+        "position" : "right"
+    }
+]

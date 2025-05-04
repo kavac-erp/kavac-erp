@@ -1,0 +1,5 @@
+<map id="ReportInterface" name="ReportInterface">
+<area shape="rect" id="node1" title="Interfaz para la gestión de reportes." alt="" coords="11,5,134,112"/>
+<area shape="rect" id="node2" href="$db/d2b/classApp_1_1Repositories_1_1ReportRepository.html" title="Gestiona los reportes de la aplicación." alt="" coords="5,175,140,443"/>
+<area shape="rect" id="node3" href="$dc/d5e/classModules_1_1DigitalSignature_1_1Repositories_1_1ReportRepositorySign.html" title="Gestiona los reportes de la aplicación." alt="" coords="165,160,327,457"/>
+</map>

@@ -1,0 +1,18 @@
+[
+    {
+        "element" : "#helpFormConvertion",
+        "intro" : "Formulario para registrar una conversión entre cuentas patrimoniales y presupuestarias."
+    },
+    {
+        "element": "#helpTotalToConvert",
+        "intro": "Establece el número de conversiones a realizar en un solo proceso."
+    },
+    {
+        "element" : "#helpSelectBudget",
+        "intro" : "Listado de cuentas presupuestarias disponibles."
+    },
+    {
+        "element" : "#helpSelectAccounting",
+        "intro" : "Listado de cuentas patrimoniales disponibles."
+    }
+]

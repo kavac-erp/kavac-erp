@@ -1,0 +1,4 @@
+<map id="store" name="store">
+<area shape="rect" id="node1" title="Guarda información para una formulación de presupuesto." alt="" coords="5,20,60,47"/>
+<area shape="rect" id="node2" href="$d5/dd0/classModules_1_1Budget_1_1Models_1_1BudgetSubSpecificFormulation.html#a5b9bcd6cb08df23d70c8ea7080b6c2b5" title="Método que permite validar si una formulación ya existe con los mismos datos a registrar,..." alt="" coords="108,5,333,61"/>
+</map>

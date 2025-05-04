@@ -1,0 +1,18 @@
+[
+    {
+        "element" : "#helpPurchaseQuotation",
+        "intro" : "Formulario para gestionar una cotización."
+    },
+    {
+        "element" : "#helpSuppliers",
+        "intro" : "Esta sección permite seleccionar el proveedor al cual se le va a cotizar el requerimiento."
+    },
+    {
+        "element" : "#helpCurrency",
+        "intro" : "Esta sección permite seleccionar el tipo de moneda a usar en la cotización."
+    },
+    {
+        "element" : "#helpListRequirements",
+        "intro" : "Esta sección muestra la lista de requerimiento de compras para ser cotizados."
+    }
+]

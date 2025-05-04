@@ -1,0 +1,4 @@
+<map id="update" name="update">
+<area shape="rect" id="node1" title="Actualiza la información de las desincorporaciones de bienes institucionales." alt="" coords="231,5,297,32"/>
+<area shape="rect" id="node2" href="$d5/dd6/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDisincorporationController.html#ad089db3dc334b6baa7ca381ecb90008e" title="Método que permite cambiar el estatus de la desincorporación (document_status)" alt="" coords="5,5,183,32"/>
+</map>

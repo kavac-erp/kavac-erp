@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Modules\Payroll\Http\Resources;
+
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class PaymentTypeResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     */
+    public function toArray($request)
+    {
+        return [
+            'id'                    => $this->resource->id,
+            'code'                  => $this->resource->code,
+            'name'                  => $this->resource->name,
+            'payment_periodicity'   => $this->resource->payment_periodicity,
+            'periods_number'        => '',
+            'order'                 => $this->resource->order,
+            'receipt'               => $this->resource->receipt,
+            'individual'            => $this->resource->individual,
+            'start_date'            => $this->resource->start_date,
+            'finance_bank_account_id' => $this->resource->finance_bank_account_id,
+            'finance_payment_method_id' => $this->resource->finance_payment_method_id,
+            'accounting_entry_category_id' => $this->resource->accounting_entry_category_id,
+            'finance_bank_account_id' => $this->resource->finance_bank_account_id,
+            'payroll_concepts'      => $this->resource->payrollConcepts->map(fn ($model) => [
+                'id' => $model->id,
+                'text' => $model->name
+            ]),
+            'payroll_payment_periods' => $this->resource->payrollPaymentPeriods()
+                ->orderBy('id')
+                ->get()
+                ->map(function ($model) {
+                    //verifica si tiene una nomina asociada con ese periodo
+                    $model['in_payroll'] = optional($model->payroll)->exists() ? true : false;
+                    return $model;
+                })
+        ];
+    }
+}

@@ -1,0 +1,22 @@
+[
+    {
+        "element" : "#cardWarehouseInventoryStatus",
+        "intro" : "Esta sección permite visualizar la disponibilidad de los productos inventariados en el almacén"
+    },
+    {
+        "element": "#helpWarehouseInventoryStatusLeyend",
+        "intro": "Identifica la disponibilidad de los productos"
+    },
+    {
+        "element": "#helpWarehouseInventoryStatusLeyendHigh",
+        "intro": "Identifica los productos con disponilibilidad alta"
+    },
+    {
+        "element": "#helpWarehouseInventoryStatusLeyendMedium",
+        "intro": "Identifica los productos con disponilibilidad media"
+    },
+    {
+        "element": "#helpWarehouseInventoryStatusLeyendLow",
+        "intro": "Identifica los productos con disponilibilidad baja"
+    }
+]

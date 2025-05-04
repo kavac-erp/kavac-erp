@@ -1,0 +1,4 @@
+<map id="budgetStages" name="budgetStages">
+<area shape="rect" id="node1" title="BudgetCompromise has many BudgetStages." alt="" coords="195,5,305,32"/>
+<area shape="rect" id="node2" href="$d3/dcc/classModules_1_1Budget_1_1Models_1_1BudgetCompromise.html#a1ad08077d6e1546e850db5f1e3ef1b2e" title="Método que permite obtener el estatus de un compromiso." alt="" coords="5,5,147,32"/>
+</map>

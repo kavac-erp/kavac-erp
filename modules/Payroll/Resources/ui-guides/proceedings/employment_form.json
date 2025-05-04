@@ -1,0 +1,81 @@
+[
+    {
+        "element" : "#cardPayrollEmploymentForm",
+        "intro" : "Formulario de datos laborales"
+    },
+    {
+        "element" : "#helpEmploymentStaff",
+        "intro" : "Parámetro que establece el personal a registrar",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentYears",
+        "intro" : "Parámetro que establece los años en otras instituciones públicas del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentPreviousJobs",
+        "intro" : "Parámetro que establece los trabajos anteriores del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentStartDate",
+        "intro" : "Parámetro que establece la fecha de inicio en la institución del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentEndDate",
+        "intro" : "Parámetro que establece la fecha de egreso de la institución del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentIsActive",
+        "intro" : "Parámetro que establece si el personal esta activo",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentEmail",
+        "intro" : "Parámetro que establece el correo institucional del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentFunction",
+        "intro" : "Parámetro que establece las funciones del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentPossitionType",
+        "intro" : "Parámetro que establece el tipo de cargo del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentPossition",
+        "intro" : "Parámetro que establece el cargo del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentStaffType",
+        "intro" : "Parámetro que establece el tipo de personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentContractType",
+        "intro" : "Parámetro que establece el tipo de contrato",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentInstitution",
+        "intro" : "Parámetro que establece la institución",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpEmploymentDepartment",
+        "intro" : "Parámetro que establece el departamento",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpParamButtons",
+        "intro" : "Botones para ejecutar las acciones de limpiar, cancelar o guardar los datos del formulario",
+        "position" : "left"
+    }
+]

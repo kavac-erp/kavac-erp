@@ -1,0 +1,131 @@
+[
+    {
+        "element" : "#cardPayrollStaffForm",
+        "intro" : "Formulario de datos personales"
+    },
+    {
+        "element" : "#helpStaffName",
+        "intro" : "Parámetro que establece los nombres del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffLastName",
+        "intro" : "Parámetro que establece los apellidos del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffNationality",
+        "intro" : "Parámetro que establece la nacionalidad del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffIdNumber",
+        "intro" : "Parámetro que establece la cédula de identidad del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffPassport",
+        "intro" : "Parámetro que establece el pasaporte del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffEmail",
+        "intro" : "Parámetro que establece el correo electrónico del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffBirthDate",
+        "intro" : "Parámetro que establece la fecha de nacimiento del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffGender",
+        "intro" : "Parámetro que establece el género del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffEmergencyContact",
+        "intro" : "Parámetro que establece los nombres y apellidos de la persona de contacto del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffEmergencyContactPhone",
+        "intro" : "Parámetro que establece el télefono de la persona de contacto del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffDisability",
+        "intro" : "Parámetro que indica si el personal tiene alguna discapacidad",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffDisabilityName",
+        "intro" : "Parámetro que establece el nombre de la discapacidad del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffBloodType",
+        "intro" : "Parámetro que establece el tipo de sangre del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffSocialSecurity",
+        "intro" : "Parámetro que establece el seguro social del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffDiverLicense",
+        "intro" : "Parámetro que indica si el personal posee licencia de conducir",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffLicenseDegree",
+        "intro" : "Parámetro que establece el grado de la licencia del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffCountry",
+        "intro" : "Parámetro que establece el país donde reside el personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffState",
+        "intro" : "Parámetro que establece el estado donde reside el personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffMunicipality",
+        "intro" : "Parámetro que establece el municipio donde reside el personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffParish",
+        "intro" : "Parámetro que establece la parroquía donde reside el personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffAddress",
+        "intro" : "Parámetro que establece la dirección donde reside el personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffUniformSize",
+        "intro" : "Parámetro que establece la talla de uniforme del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffMedicalHistory",
+        "intro" : "Parámetro que establece la historia médica del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpStaffPhone",
+        "intro" : "Parámetro que establece el télefono del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpParamButtons",
+        "intro" : "Botones para ejecutar las acciones de limpiar, cancelar o guardar los datos del formulario",
+        "position" : "left"
+    }
+]

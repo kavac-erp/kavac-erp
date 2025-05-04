@@ -1,0 +1,5 @@
+var classModules_1_1DigitalSignature_1_1Database_1_1Seeders_1_1DigitalSignatureRoleAndPermissionsTableSeeder =
+[
+    [ "run", "da/d5a/classModules_1_1DigitalSignature_1_1Database_1_1Seeders_1_1DigitalSignatureRoleAndPermissionsTableSeeder.html#afb0fafe7e02a3ae1993c01c19fad2bae", null ],
+    [ "run", "da/d5a/classModules_1_1DigitalSignature_1_1Database_1_1Seeders_1_1DigitalSignatureRoleAndPermissionsTableSeeder.html#afb0fafe7e02a3ae1993c01c19fad2bae", null ]
+];

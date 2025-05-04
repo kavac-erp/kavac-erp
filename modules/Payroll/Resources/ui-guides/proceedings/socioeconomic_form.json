@@ -1,0 +1,26 @@
+[
+    {
+        "element" : "#cardPayrollSocioeconomicForm",
+        "intro" : "Formulario de datos socioeconómicos"
+    },
+    {
+        "element" : "#helpSocioeconomicStaff",
+        "intro" : "Parámetro que establece el personal a registrar",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpSocioeconomicMaritalStatus",
+        "intro" : "Parámetro que establece estado civil del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpSocioeconomicChildren",
+        "intro" : "Parámetro que agrega los hijos del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpParamButtons",
+        "intro" : "Botones para ejecutar las acciones de limpiar, cancelar o guardar los datos del formulario",
+        "position" : "left"
+    }
+]

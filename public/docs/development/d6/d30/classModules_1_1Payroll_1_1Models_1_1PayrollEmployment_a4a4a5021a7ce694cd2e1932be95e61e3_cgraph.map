@@ -1,0 +1,4 @@
+<map id="getPayrollPositionAttribute" name="getPayrollPositionAttribute">
+<area shape="rect" id="node1" title="Método que obtiene el dato laboral del trabajador asociado a un cargo." alt="" coords="5,5,201,32"/>
+<area shape="rect" id="node2" href="$d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html#a3d35b14a9c12045e7b91958a984f44a1" title="Método que establece una relación de &quot;muchos a muchos&quot; (belongsToMany) entre el modelo actual y el mo..." alt="" coords="249,5,376,32"/>
+</map>

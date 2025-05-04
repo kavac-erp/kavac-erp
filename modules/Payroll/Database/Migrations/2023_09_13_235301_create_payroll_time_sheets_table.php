@@ -1,0 +1,56 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+/**
+ * @class CreatePayrollTimeSheetsTable
+ * @brief [descripción detallada]
+ *
+ * [descripción corta]
+ *
+ * @author [autor de la clase] [correo del autor]
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
+class CreatePayrollTimeSheetsTable extends Migration
+{
+    /**
+     * Ejecuta las migraciones.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('payroll_time_sheets', function (Blueprint $table) {
+            $table->id();
+            $table->date('from_date')->comment('Campo desde para el periodo de la hoja de tiempo');
+            $table->date('to_date')->comment('Campo hasta para el periodo de la hoja de tiempo');
+            $table
+                ->foreignId('payroll_time_sheet_parameter_id')
+                ->constrained('payroll_time_sheet_parameters')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+            $table
+                ->foreignId('payroll_supervised_group_id')
+                ->constrained()
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+            $table->json('time_sheet_data')->comment('Datos de la hoja de tiempo');
+            $table->timestamps();
+            $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');
+        });
+    }
+
+    /**
+     * Revierte las migraciones.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('payroll_time_sheets');
+    }
+}

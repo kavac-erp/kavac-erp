@@ -1,0 +1,66 @@
+[
+    {
+        "element" : "#helpFinanceInstitution",
+        "intro" : "Lista desplegable Institución: En esta se listan las instituciones configuradas en el sistema. Esta lista permite seleccionar una institución que estará asociada al movimiento bancario."
+    },
+    {
+        "element" : "#helpFinancePaymentDate",
+        "intro" : "En este campo se debe ingresar la fecha de pago solicitada para el movimiento bancario."
+    },
+    {
+        "element" : "#helpFinanceTransactionType",
+        "intro" : "Lista desplegable Tipos de transacción: En esta se listan los tipos de transacción registrados en el sistema. Esta lista permite seleccionar el tipo de transacción solicitado para el movimiento bancario."
+    },
+    {
+        "element" : "#helpFinanceBankAccount",
+        "intro" : "Lista desplegable Nro. de cuenta: En esta se listan los números de cuentas bancarias registrados en el sistema. Esta lista permite seleccionar el número de cuenta que estará asociado al movimiento bancario."
+    },
+    {
+        "element" : "#helpFinanceBankName",
+        "intro" : "Este campo muestra el banco asociado al número de cuenta. Este campo se llena automáticamente al seleccionar el número de cuenta."
+    },
+    {
+        "element" : "#helpFinanceTypeAccount",
+        "intro" : "Este campo muestra el tipo de cuenta asociado al número de cuenta del banco. Este campo se llena automáticamente al seleccionar el número de cuenta."
+    },
+    {
+        "element" : "#helpFinanceReference",
+        "intro" : "En este campo debe ingresar el documento de referencia que dispondrá el movimiento bancario."
+    },
+    {
+        "element" : "#helpFinanceConcept",
+        "intro" : "En este campo debe indicar cuál es el motivo o el asunto por el cuál se solicita el movimiento bancario."
+    },
+    {
+        "element" : "#helpFinanceAmount",
+        "intro" : "En este campo debe ingresar la cantidad monetaria con la cual se dispone para el movimiento bancario."
+    },
+    {
+        "element" : "#helpFinanceCurrency",
+        "intro" : "Lista desplegable Tipo de moneda: En esta se listan los tipos de moneda registrados en el sistema. Esta lista permite seleccionar el tipo de moneda del monto ingresado en el campo anterior."
+    },
+    {
+        "element" : "#helpEntriesCategory",
+        "intro" : "Lista desplegable Categoría del asiento: En esta se listan las categorías del asiento registradas en el sistema. Esta lista permite seleccionar la categoría del asiento contable que se solicite."
+    },
+    {
+        "element" : "#helpEntriesDescription",
+        "intro" : "En este campo debe indicar cuál es el motivo, asunto o la descripción del asiento contable."
+    },
+    {
+        "element" : "#helpEntriesAccountSelect",
+        "intro" : "Lista desplegable Código de cuenta: En esta se listan los código de cuentas registrados en el sistema. Esta lista permite seleccionar el código de cuenta a denominar."
+    },
+    {
+        "element" : "#helpEntriesTotDebit",
+        "intro" : "Esta sección muestra el monto total a decrementar."
+    },
+    {
+        "element" : "#helpEntriesTotAssets",
+        "intro" : "Esta sección muestra el monto total a incrementar."
+    },
+    {
+        "element" : "#helpParamButtons",
+        "intro" : "Este grupo de botones sirven para: Borrar el formulario ingresado, cancelar el ingreso de datos y regresar a la página interior; guardar el formulario ingresado."
+    }
+]

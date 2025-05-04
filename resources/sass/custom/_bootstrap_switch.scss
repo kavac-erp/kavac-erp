@@ -1,0 +1,12 @@
+.custom-control-input, .custom-switch .custom-control-label::before {
+    background-color: #FA7246 !important;
+    border-color: #FA7246 !important;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-color: #279F22 !important;
+    background-color: #279F22 !important;
+}
+.custom-switch .custom-control-label::before, .custom-switch .custom-control-label::after {
+    cursor:pointer !important;
+}

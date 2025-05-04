@@ -1,0 +1,82 @@
+[
+    {
+        "element" : "#payroll_common",
+        "intro" : "Esta sección permite gestionar la configuración de registros comunes del módulo de talento humano."
+    },
+    {
+        "element" : "#payroll_staff_type",
+        "intro" : "Gestiona la información relacionada con los distintos tipos de personal."
+    },
+    {
+        "element" : "#payroll_position_type",
+        "intro" : "Gestiona la información relativa a los diferentes tipos de cargos disponibles."
+    },
+    {
+        "element" : "#payroll_position",
+        "intro" : "Gestiona la información relacionada con los distintos cargos disponibles."
+    },
+    {
+        "element" : "#payroll_staff_classification",
+        "intro" : "Gestiona la información referente a la clasificación del personal."
+    },
+    {
+        "element" : "#payroll_instruction_degree",
+        "intro" : "Gestiona la información relacionada con los distintos niveles de instrucción o grados de educación."
+    },
+    {
+        "element" : "#payroll_study_type",
+        "intro" : "Gestiona la información acerca de los diversos tipos de estudio disponibles."
+    },
+    {
+        "element" : "#payroll_nationality",
+        "intro" : "Gestiona la información acerca de las diferentes nacionalidades disponibles."
+    },
+    {
+        "element" : "#payroll_language_level",
+        "intro" : "Gestiona la información acerca de los distintos niveles de idioma disponibles."
+    },
+    {
+        "element" : "#payroll_language",
+        "intro" : "Gestiona la información acerca de los diferentes idiomas disponibles."
+    },
+    {
+        "element" : "#payroll_gender",
+        "intro" : "Gestiona la información relacionada con los distintos géneros de las personas."
+    },
+    {
+        "element" : "#payroll_inactivity_type",
+        "intro" : "Gestiona la información acerca de los distintos tipos de inactividad disponibles."
+    },
+    {
+        "element" : "#payroll_contract_type",
+        "intro" : "Gestiona la información relacionada con los distintos tipos de contrato disponibles."
+    },
+    {
+        "element" : "#payroll_sector_type",
+        "intro" : "Gestiona la información acerca de los diferentes tipos de sector disponibles."
+    },
+    {
+        "element" : "#payroll_license_degree",
+        "intro" : "Gestiona la información sobre las licencias de conducir que poseen las personas."
+    },
+    {
+        "element" : "#payroll_blood_type",
+        "intro" : "Gestiona la información acerca de los diferentes tipos de sangre que tienen las personas."
+    },
+    {
+        "element" : "#payroll_relationship",
+        "intro" : "Gestiona la información referente a los parentescos."
+    },
+    {
+        "element" : "#payroll_disability",
+        "intro" : "Gestiona la información relativa a las discapacidades de las personas."
+    },
+    {
+        "element" : "#payroll_schooling_levels",
+        "intro" : "Gestiona la información acerca de los diferentes niveles de escolaridad disponibles."
+    },
+    {
+        "element" : "#payroll_holidays",
+        "intro" : "Gestiona la información relacionada con los días feriados disponibles."
+    }
+]

@@ -1,0 +1,87 @@
+<?php
+/** [descripción del namespace] */
+namespace $NAMESPACE$;
+
+use Illuminate\Console\Command;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
+
+/**
+ * @class $CLASS$
+ * @brief [descripción detallada]
+ *
+ * [descripción corta]
+ *
+ * @author [autor de la clase] [correo del autor]
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
+class $CLASS$ extends Command
+{
+    /**
+     * El nombre del comando.
+     *
+     * @var string
+     */
+    protected $name = '$COMMAND_NAME$';
+
+    /**
+     * La descripción del comando.
+     *
+     * @var string
+     */
+    protected $description = 'Command description.';
+
+    /**
+     * Crea una nueva instancia del comando.
+     *
+     * @method __construct
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Ejecuta la consola de comandos.
+     *
+     * @method handle
+     *
+     * @return mixed [descripción sobre los datos devueltos por el método]
+     */
+    public function handle()
+    {
+        //
+    }
+
+    /**
+     * Obtiene los argumentos del comando.
+     *
+     * @method getArguments
+     *
+     * @return array [descripción sobre los datos devueltos por el método]
+     */
+    protected function getArguments()
+    {
+        return [
+            ['example', InputArgument::REQUIRED, 'An example argument.'],
+        ];
+    }
+
+    /**
+     * Obtiene las opciones del comando.
+     *
+     * @method getOptions
+     *
+     * @return array [descripción sobre los datos devueltos por el método]
+     */
+    protected function getOptions()
+    {
+        return [
+            ['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
+        ];
+    }
+}

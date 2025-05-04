@@ -1,0 +1,59 @@
+@extends('accounting::layouts.master')
+
+@section('maproute-icon')
+	<i class="ion-arrow-graph-up-right"></i>
+@stop
+
+@section('maproute-icon-mini')
+	<i class="ion-arrow-graph-up-right"></i>
+@stop
+
+@section('maproute-actual')
+	Contabilidad
+@stop
+
+@section('maproute-title')
+	Convertidor
+@stop
+
+@section('content')
+	<div class="row">
+		<div class="col-12">
+			<div class="card" id="helpFormConvertion">
+				<div class="card-header">
+					<h6 class="card-title">
+						Editar conversión
+						@include('buttons.help', [
+							'helpId' => 'AccountingFormConvertion',
+							'helpSteps' => get_json_resource('ui-guides/account_converters/form_convertions.json', 'accounting')
+						])
+					</h6>
+					<div class="card-btns">
+						@include('buttons.previous', ['route' => route('accounting.converter.index')])
+						@include('buttons.minimize')
+					</div>
+				</div>
+				<div class="card-body">
+					@if(!$has_budget)
+						<br>
+						<div class="alert alert-danger">
+							<div class="container">
+								<div class="alert-icon">
+									<i class="now-ui-icons objects_support-17"></i>
+								</div>
+								<strong>Atención!</strong><br> La funcionalidad de conversión de cuentas presupuestarias con patrimoniales esta inhabilitada, para habilitarla debe instalar ó activar el modulo de
+								<a href="{{ route('module.list') }}" style="color: black;"><strong>Presupuesto</strong></a>
+							</div>
+						</div>
+					@else
+						<accounting-conversion-edit :accounting_list="{{ $accountingAccounts }}"
+													:budget_list="{{ $budgetAccounts }}"
+													:account_to_edit="{{ $account }}"
+													route_list="{{ route('accounting.converter.index') }}" />
+					@endif
+
+				</div>
+			</div>
+		</div>
+	</div>
+@stop

@@ -1,0 +1,3 @@
+<map id="RedirectIfAuthenticated" name="RedirectIfAuthenticated">
+<area shape="rect" id="node1" title="Gestiona los middleware para redireccionar al usuario si esta autenticado." alt="" coords="5,5,181,83"/>
+</map>

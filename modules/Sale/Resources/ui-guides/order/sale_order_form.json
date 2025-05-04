@@ -1,0 +1,72 @@
+[
+    {
+        "element" : "#cardSaleOrderForm",
+        "intro" : "Formulario de pedidos",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpTypePerson",
+        "intro" : "Parámetro que establece el tipo de persona",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpName",
+        "intro" : "Parámetro que establece el nombre de la empresa o el nombre y apellido, según el tipo de persona",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpIdentification",
+        "intro" : "Parámetro que establece el RIF o el número de identificación, según el tipo de persona",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpPhone",
+        "intro" : "Parámetro que establece el número de teléfono",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpMail",
+        "intro" : "Parámetro que establece el correo electrónico",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpProductType",
+        "intro" : "Parámetro que establece el producto a seleccionar",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpMeasurementUnit",
+        "intro" : "Parámetro que establece la unidad de medida",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpUnitPrice",
+        "intro" : "Parámetro que establece el precio unitario",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpQuantity",
+        "intro" : "Parámetro que establece la cantidad de productos",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpTotalPrice",
+        "intro" : "Parámetro que calcula el precio total",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpCurrency",
+        "intro" : "Parámetro que establece la moneda a utilizar",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpProductsTable",
+        "intro" : "Tabla donde se muestran los productos o servicios agregados",
+        "position" : "top"
+    },
+    {
+        "element" : "#HelpButtons",
+        "intro" : "Botones para ejecutar las acciones de limpiar, cancelar o guardar los datos del formulario",
+        "position" : "top"
+    }
+]

@@ -1,0 +1,5 @@
+<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
+<area shape="rect" id="node1" href="$d8/dd3/classApp_1_1Models_1_1Department.html" title="Datos de las Unidades, Departamentos o Dependencias." alt="" coords="5,31,105,57"/>
+<area shape="rect" id="node2" href="$de/db0/classModules_1_1Budget_1_1Models_1_1Department.html" title="Modelo que extiende las funcionalidades del modelo base Department." alt="" coords="153,5,253,32"/>
+<area shape="rect" id="node3" href="$dd/dfa/classModules_1_1Payroll_1_1Models_1_1Department.html" title="Datos de departamento." alt="" coords="153,56,253,83"/>
+</map>

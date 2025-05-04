@@ -1,0 +1,50 @@
+[
+    {
+        "element" : "#helpFinanceDate",
+        "intro" : "En este  campo se debe ingresar la fecha de solicitud para la emisión de pago."
+    },
+    {
+        "element" : "#helpFinanceIsPartialSwitch",
+        "intro" : "En este switch se debe indicar si es o no un pago parcial."
+    },
+    {
+        "element" : "#helpFinanceReceiver",
+        "intro" : "Seleccione un proveedor o beneficiario."
+    },
+    {
+        "element" : "#helpFinanceCurrency",
+        "intro" : "Lista desplegable Tipo de Moneda: En esta se listan los tipos de moneda registrados en el sistema. Esta lista permite seleccionar el tipo de moneda que se usará en la emisión de pago."
+    },
+    {
+        "element" : "#helpFinanceReferenceSelected",
+        "intro" : "Seleccione un número de referencia de la orden de pago."
+    },
+    {
+        "element" : "#helpFinanceSourceMount",
+        "intro" : "En este campo se visualiza el monto de la orden de pago."
+    },
+    {
+        "element" : "#helpFinanceSubAmount",
+        "intro" : "En este campo se visualiza el monto del pago (subtotal) de la orden de pago si no es un pago parcial, si es un pago parcial, permite ingresar un monto."
+    },
+    {
+        "element" : "#helpFinanceDeducationAmount",
+        "intro" : "En este campo se visualiza las retenciones."
+    },
+    {
+        "element" : "#helpFinancePaidAmount",
+        "intro" : "En este campo se visualiza el total a pagar."
+    },
+    {
+        "element" : "#helpFinanceSelDeduction",
+        "intro" : "Este campo te permite seleccionar un tipo de retención y al darle al botón de más te permite ingresar un monto objeto de retención o base imponible y a su vez te permite visualizar el monto calculado a partir de la base imponible."
+    },
+    {
+        "element" : "#helpFinanceObservation",
+        "intro" : "Este campo te permite ingresar una observación para la emisión de pago."
+    },
+    {
+        "element" : "#helpFinanceAccountingData",
+        "intro" : "En esta sección se solicitan los datos contables. Debe ingresar el código de cuenta y su denominacón a incrementar y/o a decrementar."
+    }
+]

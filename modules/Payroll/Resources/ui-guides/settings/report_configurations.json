@@ -1,0 +1,23 @@
+[
+    {
+        "element" : "#helpPayrollReportConfigurations",
+        "intro" : "Esta sección permite gestionar la configuración de los reportes de nómina."
+    },
+    {
+        "element" : "#helpNumberDecimals",
+        "intro" : "En este campo, se puede especificar la cantidad de decimales que se mostrarán en los reportes de nómina."
+    },
+    {
+        "element" : "#helpRound",
+        "intro" : "En este campo, se puede seleccionar si se desea redondear las cantidades que se mostrarán en los reportes de nómina."
+    },
+    {
+        "element" : "#helpZeroConcept",
+        "intro" : "Este campo permite indicar si se mostrara conceptos en ceros en los reportes de nominas."
+    },
+    {
+        "element" : "#helpParamReport",
+        "intro" : "Botones para ejecutar las acciones de limpiar, cancelar o guardar los datos del formulario",
+        "position" : "left"
+    }
+]

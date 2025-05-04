@@ -1,0 +1,22 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Rutas para Web
+|--------------------------------------------------------------------------
+|
+| Aquí es donde puede registrar las rutas web para su aplicación. Estas
+| rutas son cargadas por el RouteServiceProvider dentro de un grupo que
+| contiene el grupo "web" middleware. ¡Ahora crea algo grandioso!
+|
+*/
+
+/** Descripción corta del grupo de rutas */
+Route::group([
+    'middleware' => ['web', 'auth', 'verified'],
+    'prefix' => '$LOWER_NAME$',
+    'namespace' => '$MODULE_NAMESPACE$\Http\Controllers'
+], function () {
+    /** Descripción corta de la acción que ejecuta la ruta */
+    Route::get('/', '$STUDLY_NAME$Controller@index');
+});

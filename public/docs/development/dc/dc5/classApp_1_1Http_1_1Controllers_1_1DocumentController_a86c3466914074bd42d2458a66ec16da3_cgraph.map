@@ -1,0 +1,5 @@
+<map id="store" name="store">
+<area shape="rect" id="node1" title="Registra información de un nuevo documento." alt="" coords="5,46,60,73"/>
+<area shape="rect" id="node2" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#afb37afc470c73cd55965d9fa9b135b27" title="Obtiene el objeto del documento guardado." alt="" coords="108,5,315,47"/>
+<area shape="rect" id="node3" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#a722186532257dcbec79866616e82e115" title="Instrucciones para verificar y subir un documento a la ruta indicada en el servidor." alt="" coords="108,71,315,112"/>
+</map>

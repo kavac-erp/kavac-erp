@@ -1,0 +1,4 @@
+<map id="TaxController" name="TaxController">
+<area shape="rect" id="node1" title="Gestiona información de Impuestos." alt="" coords="5,131,173,296"/>
+<area shape="rect" id="node2" href="$d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="46,5,133,83"/>
+</map>

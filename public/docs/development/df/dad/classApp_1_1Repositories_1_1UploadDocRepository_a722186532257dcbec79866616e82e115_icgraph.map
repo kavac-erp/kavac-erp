@@ -1,0 +1,7 @@
+<map id="uploadDoc" name="uploadDoc">
+<area shape="rect" id="node1" title="Instrucciones para verificar y subir un documento a la ruta indicada en el servidor." alt="" coords="308,126,399,153"/>
+<area shape="rect" id="node2" href="$dc/dc5/classApp_1_1Http_1_1Controllers_1_1DocumentController.html#a86c3466914074bd42d2458a66ec16da3" title="Registra información de un nuevo documento." alt="" coords="35,5,230,47"/>
+<area shape="rect" id="node3" href="$d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController.html#a7cc085ea076f11a36db491ce2b3ce29c" title="[descripción del método]" alt="" coords="33,71,232,127"/>
+<area shape="rect" id="node4" href="$d5/dd6/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDisincorporationController.html#a5fb0bcc700ffb8694a96c31f3f5d0af8" title="Valida y registra una nueva desincorporación de bienes institucionales." alt="" coords="11,151,255,207"/>
+<area shape="rect" id="node5" href="$de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#affb03cc19897a1800a0f411264d6c7cc" title="Actualiza la información de las solicitudes de bienes institucionales." alt="" coords="5,231,260,287"/>
+</map>

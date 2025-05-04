@@ -1,0 +1,64 @@
+<?php
+
+namespace Modules\Payroll\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Auditable as AuditableTrait;
+use App\Traits\ModelsTrait;
+
+/**
+ * @class PayrollChildren
+ * @brief Datos de los hijos de los trabajadores
+ *
+ * Gestiona el modelo de los hijos de los trabajadores
+ *
+ * @author William Páez <wpaez@cenditel.gob.ve>
+ * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
+ *              LICENCIA DE SOFTWARE CENDITEL
+ *          </a>
+ */
+class PayrollChildren extends Model implements Auditable
+{
+    use SoftDeletes;
+    use AuditableTrait;
+    use ModelsTrait;
+
+    /**
+     * Lista de atributos para la gestión de fechas
+     * @var array $dates
+     */
+    protected $dates = ['deleted_at'];
+
+    /**
+     * Lista de atributos que pueden ser asignados masivamente
+     *
+     * @var array $fillable
+     */
+    protected $fillable = [
+        'first_name', 'last_name', 'id_number', 'birthdate', 'payroll_socioeconomic_id',
+        'payroll_schooling_level_id', 'study_center', 'payroll_disability_id', 'is_student', 'has_disability'
+    ];
+
+    /**
+     * Método que obtiene el hijo del trabajador asociado a una información socioeconómica del trabajador
+     *
+     * @author William Páez <wpaezs@cenditel.gob.ve>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function payrollSocioecomic()
+    {
+        return $this->belongsTo(PayrollSocioeconomic::class);
+    }
+
+    public function payrollSchoolingLevel()
+    {
+        return $this->belongsTo(PayrollSchoolingLevel::class);
+    }
+
+    public function payrollDisability()
+    {
+        return $this->belongsTo(PayrollDisability::class);
+    }
+}

@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>KAVAC: Fichero Fuente FinanceCheckBookController.php</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="../../logo-doc.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">KAVAC
+   &#160;<span id="projectnumber">v1.0.4</span>
+   </div>
+   <div id="projectbrief">Sistema de Gestión Organizacional</div>
+  </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Buscar','.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('d6/dc4/FinanceCheckBookController_8php_source.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">FinanceCheckBookController.php</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;&lt;?<a class="code" href="../../d2/d38/classAddFieldCodeToSaleOrdersTable_1_1php.html">php</a></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../df/d77/namespaceModules_1_1Finance_1_1Http_1_1Controllers.html">Modules\Finance\Http\Controllers</a>;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;use Illuminate\Http\Request;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;use Illuminate\Contracts\Support\Renderable;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;use Illuminate\Routing\Controller;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;use Illuminate\Foundation\Validation\ValidatesRequests;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;use <a class="code" href="../../d0/d59/classModules_1_1Finance_1_1Models_1_1FinanceBank.html">Modules\Finance\Models\FinanceBank</a>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;use <a class="code" href="../../d5/d8b/classModules_1_1Finance_1_1Models_1_1FinanceCheckBook.html">Modules\Finance\Models\FinanceCheckBook</a>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;use Modules\Finance\Models\FinanceBankAccount;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">/**</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * @class FinanceCheckBookController</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * @brief Controlador para las chequeras</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * Clase que gestiona las chequeras</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * @author Ing. Roldan Vargas &lt;rvargas@cenditel.gob.ve&gt; | &lt;roldandvg@gmail.com&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * @license&lt;a href=&#39;http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/&#39;&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> *              LICENCIA DE SOFTWARE CENDITEL</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> *          &lt;/a&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html">FinanceCheckBookController</a> <span class="keyword">extends</span> Controller</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    use ValidatesRequests;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">    /**</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">     * Display a listing of the resource.</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">     * @return \Illuminate\Http\JsonResponse</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a149eb92716c1084a935e04a8d95f7347">   32</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a149eb92716c1084a935e04a8d95f7347">index</a>()</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        $banks = FinanceBank::with([<span class="stringliteral">&#39;financeAgencies&#39;</span> =&gt; <span class="keyword">function</span> ($queryAgencies) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keywordflow">return</span> $queryAgencies-&gt;with([<span class="stringliteral">&#39;bankAccounts&#39;</span> =&gt; <span class="keyword">function</span> ($queryAccounts) {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                <span class="keywordflow">return</span> $queryAccounts-&gt;with(<span class="stringliteral">&#39;financeCheckBooks&#39;</span>);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            }]);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        }])-&gt;orderBy(<span class="stringliteral">&#39;name&#39;</span>)-&gt;get()-&gt;filter(<span class="keyword">function</span> ($bank) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">foreach</span> ($bank-&gt;financeAgencies as $agency) {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                foreach ($agency-&gt;bankAccounts as $account) {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                    foreach ($account-&gt;financeCheckBooks as $check_book) {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                        return $bank;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        });</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        $financeCheckBooks = [];</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">foreach</span> ($banks as $bank) {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">foreach</span> ($bank-&gt;financeAgencies as $agency) {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keywordflow">foreach</span> ($agency-&gt;bankAccounts as $account) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                    $checkBookCode = <span class="stringliteral">&#39;&#39;</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                    <span class="keywordflow">foreach</span> ($account-&gt;financeCheckBooks as $check_book) {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                        <span class="keywordflow">if</span> ($checkBookCode !== $check_book-&gt;code) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                            $numbers = [];</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                            <span class="keywordflow">foreach</span> ($account-&gt;financeCheckBooks as $check) {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                                array_push($numbers, $check-&gt;number);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                            }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                            $checkBookCode = $check_book-&gt;code;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                            array_push($financeCheckBooks, [</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                                <span class="stringliteral">&#39;finance_bank&#39;</span> =&gt; $bank-&gt;name, <span class="stringliteral">&#39;code&#39;</span> =&gt; $checkBookCode, <span class="stringliteral">&#39;id&#39;</span> =&gt; $checkBookCode,</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                                <span class="stringliteral">&#39;checks&#39;</span> =&gt; $account-&gt;financeCheckBooks-&gt;count(),</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                                <span class="stringliteral">&#39;finance_bank_id&#39;</span> =&gt; $bank-&gt;id, <span class="stringliteral">&#39;finance_bank_account_id&#39;</span> =&gt; $account-&gt;id,</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                                <span class="stringliteral">&#39;numbers&#39;</span> =&gt; $numbers,</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                                <span class="stringliteral">&#39;cant_checks&#39;</span> =&gt; $account-&gt;financeCheckBooks-&gt;first()-&gt;number .</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                                 <span class="stringliteral">&#39;...&#39;</span> . $account-&gt;financeCheckBooks-&gt;last()-&gt;number,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                            ]);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                        }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">return</span> response()-&gt;json([<span class="stringliteral">&#39;records&#39;</span> =&gt; $financeCheckBooks], 200);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">    /**</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">     * Show the form for creating a new resource.</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">     * @return Renderable</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a435e7d7525d4bcd0ed5e34a469f3adf6">   82</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a435e7d7525d4bcd0ed5e34a469f3adf6">create</a>()</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">return</span> view(<span class="stringliteral">&#39;finance::create&#39;</span>);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">    /**</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">     * Store a newly created resource in storage.</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">     * @param  Request $request</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">     * @return \Illuminate\Http\JsonResponse</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a9ef485163104597c12185b53cdacf638">   92</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a9ef485163104597c12185b53cdacf638">store</a>(Request $request)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        $this-&gt;validate($request, [</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="stringliteral">&#39;code&#39;</span> =&gt; [<span class="stringliteral">&#39;required&#39;</span>],</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="stringliteral">&#39;finance_bank_account_id&#39;</span> =&gt; [<span class="stringliteral">&#39;required&#39;</span>],</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="stringliteral">&#39;numbers&#39;</span> =&gt; [<span class="stringliteral">&#39;required&#39;</span>, <span class="stringliteral">&#39;array&#39;</span>, <span class="stringliteral">&#39;min:1&#39;</span>]</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        ], [</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="stringliteral">&#39;code.required&#39;</span> =&gt; (<span class="stringliteral">&#39;El campo serial / código es obligatorio.&#39;</span>),</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="stringliteral">&#39;finance_bank_account_id.required&#39;</span> =&gt; (<span class="stringliteral">&#39;El campo banco es obligatorio.&#39;</span>),</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <span class="stringliteral">&#39;numbers.required&#39;</span> =&gt; (<span class="stringliteral">&#39;El campo número de cheque es obligatorio. Se deben registrar los números de cheques, pulsando el icono +&#39;</span>),</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="stringliteral">&#39;numbers.min&#39;</span> =&gt; (<span class="stringliteral">&#39;Debe ingresar al menos 1 numero de cheque.&#39;</span>),</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        ]);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">foreach</span> ($request-&gt;numbers as $number) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">if</span> ($number == <span class="stringliteral">&quot;&quot;</span>) {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                $error[0] = <span class="stringliteral">&quot;El campo número de cheque es obligatorio. Se deben registrar los números de cheques, pulsando el icono +&quot;</span>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keywordflow">return</span> response()-&gt;json([<span class="stringliteral">&#39;result&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;errors&#39;</span> =&gt; [<span class="stringliteral">&quot;code&quot;</span> =&gt; $error]], 422);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="comment">//consulta que no exista el campo numero de cheque repetido con el codigo en la base de datos.</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            $checksnumber = FinanceCheckBook::where(<span class="stringliteral">&#39;number&#39;</span>, $number)-&gt;where(<span class="stringliteral">&#39;code&#39;</span>, $request-&gt;code)-&gt;first();</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="keywordflow">if</span> ($checksnumber) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                $error[0] = <span class="stringliteral">&quot;El campo Serial / Código o el Cheque # ya ha sido registrado en el sistema&quot;</span>;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                <span class="keywordflow">return</span> response()-&gt;json([<span class="stringliteral">&#39;result&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;errors&#39;</span> =&gt; [<span class="stringliteral">&quot;code&quot;</span> =&gt; $error]], 422);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <span class="comment">//consulta que no exista el campo numero de cheque esta repetido en el formulario</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <span class="keywordflow">if</span> (count($request-&gt;numbers) &gt; count(array_unique($request-&gt;numbers))) {</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                $error[0] = <span class="stringliteral">&quot;El campo numero de cheque esta repetido en el formulario&quot;</span>;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                <span class="keywordflow">return</span> response()-&gt;json([<span class="stringliteral">&#39;result&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;errors&#39;</span> =&gt; [<span class="stringliteral">&quot;code&quot;</span> =&gt; $error]], 422);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            }</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="comment">//consulta que no exista el campo codigo repetido en base de datos.</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        $checkscode = FinanceCheckBook::where(<span class="stringliteral">&#39;code&#39;</span>, $request-&gt;code)-&gt;first();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">if</span> ($checkscode) {</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            $error[0] = <span class="stringliteral">&quot;El campo código chequera ya ha sido registrado&quot;</span>;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="keywordflow">return</span> response()-&gt;json([<span class="stringliteral">&#39;result&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;errors&#39;</span> =&gt; [<span class="stringliteral">&quot;code&quot;</span> =&gt; $error]], 422);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <span class="keywordflow">foreach</span> ($request-&gt;numbers as $number) {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            FinanceCheckBook::create([</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                 <span class="stringliteral">&#39;code&#39;</span> =&gt; $request-&gt;code,</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <span class="stringliteral">&#39;finance_bank_account_id&#39;</span> =&gt; $request-&gt;finance_bank_account_id,</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;               <span class="stringliteral">&#39;number&#39;</span> =&gt; $number,</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;              ]);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        }</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        <span class="keywordflow">return</span> response()-&gt;json([<span class="stringliteral">&#39;result&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Success&#39;</span>], 200);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    }</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment">    /**</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment">     * Show the specified resource.</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment">     * @return Renderable</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a2b8e3779f5bd8c38f70307574859bd36">  148</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a2b8e3779f5bd8c38f70307574859bd36">show</a>()</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    {</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">return</span> view(<span class="stringliteral">&#39;finance::show&#39;</span>);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    }</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="comment">    /**</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="comment">     * Show the form for editing the specified resource.</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="comment">     * @return Renderable</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno"><a class="line" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a459ed16587e3a50b39b672c7e473abc5">  157</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a459ed16587e3a50b39b672c7e473abc5">edit</a>($id)</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    {</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        <span class="comment">//return view(&#39;finance::edit&#39;);</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        dd($id);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        $record = FinanceCheckBook::find($id);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="comment">//return view(&#39;finance::create&#39;, compact(&quot;checksUsed&quot;));</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="comment">//return response()-&gt;json([&#39;records&#39; =&gt; $record], 200);</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">return</span> view(<span class="stringliteral">&#39;finance::create&#39;</span>, [<span class="stringliteral">&#39;orderid&#39;</span> =&gt; $id, <span class="stringliteral">&#39;record&#39;</span> =&gt; $record]);</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    }</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="comment">    /**</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="comment">     * Update the specified resource in storage.</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="comment">     * @param  Request $request</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="comment">     * @return Renderable</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno"><a class="line" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#affb03cc19897a1800a0f411264d6c7cc">  177</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#affb03cc19897a1800a0f411264d6c7cc">update</a>(Request $request, $id)</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    {</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    }</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="comment">    /**</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="comment">     * Remove the specified resource from storage.</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="comment">     * @return \Illuminate\Http\JsonResponse</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a726fa8a4b4b187b9ca32ba427aac8137">  185</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a726fa8a4b4b187b9ca32ba427aac8137">destroy</a>($id)</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    {</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        $checksUsed = FinanceCheckBook::where([<span class="stringliteral">&#39;code&#39;</span> =&gt; $id, <span class="stringliteral">&#39;used&#39;</span> =&gt; <span class="keyword">true</span>])-&gt;get();</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="keywordflow">if</span> (!$checksUsed-&gt;isEmpty()) {</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            <span class="keywordflow">return</span> response()-&gt;json([</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;La chequera posee cheques emitidos y no puede ser eliminada&#39;</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            ], 200);</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        }</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        <span class="keywordflow">foreach</span> (FinanceCheckBook::where(<span class="stringliteral">&#39;code&#39;</span>, $id)-&gt;<span class="keyword">get</span>() as $check) {</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            $check-&gt;delete();</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        }</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        <span class="keywordflow">return</span> response()-&gt;json([<span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Success&#39;</span>], 200);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    }</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="comment">    /**</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="comment">     * Obtiene los datos de las cuenta bancarias</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="comment">     *</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="comment">     * @author Miguel Narvaez &lt;mnarvaezcenditel.gob.ve | &lt;miguelnarvaez31@gmail.com&gt;</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="comment">     *</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="comment">     * @return \Illuminate\Http\JsonResponse Devuelve un JSON con listado de las cuentas bancarias</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno"><a class="line" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#ad90734938a8c266e6cfcd738f443207b">  208</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#ad90734938a8c266e6cfcd738f443207b">getBanksAccounts</a>($bank_id)</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    {</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        $bank_account_id = ($bank_id)</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                    ? FinanceBankAccount::where(<span class="stringliteral">&#39;finance_banking_agency_id&#39;</span>, $bank_id)-&gt;get()</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                    : FinanceBankAccount::all();</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        $this-&gt;data = [[<span class="stringliteral">&#39;id&#39;</span> =&gt; <span class="stringliteral">&#39;&#39;</span>, <span class="stringliteral">&#39;text&#39;</span> =&gt; <span class="stringliteral">&#39;Seleccione...&#39;</span>]];</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <span class="keywordflow">foreach</span> ($bank_account_id as $account) {</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            $this-&gt;data[] = [</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                <span class="stringliteral">&#39;id&#39;</span> =&gt; $account-&gt;id,</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                <span class="stringliteral">&#39;text&#39;</span> =&gt; $account-&gt;ccc_number</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            ];</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        }</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keywordflow">return</span> response()-&gt;json($this-&gt;data);</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    }</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;}</div>
+<div class="ttc" id="aclassAddFieldCodeToSaleOrdersTable_1_1php_html"><div class="ttname"><a href="../../d2/d38/classAddFieldCodeToSaleOrdersTable_1_1php.html">php</a></div><div class="ttdoc">[descripción detallada]</div></div>
+<div class="ttc" id="aclassModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController_html"><div class="ttname"><a href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html">Modules\Finance\Http\Controllers\FinanceCheckBookController</a></div><div class="ttdoc">Controlador para las chequeras.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dc4/FinanceCheckBookController_8php_source.html#l00024">FinanceCheckBookController.php:25</a></div></div>
+<div class="ttc" id="aclassModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController_html_a149eb92716c1084a935e04a8d95f7347"><div class="ttname"><a href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a149eb92716c1084a935e04a8d95f7347">Modules\Finance\Http\Controllers\FinanceCheckBookController\index</a></div><div class="ttdeci">index()</div><div class="ttdoc">Display a listing of the resource.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dc4/FinanceCheckBookController_8php_source.html#l00032">FinanceCheckBookController.php:32</a></div></div>
+<div class="ttc" id="aclassModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController_html_a2b8e3779f5bd8c38f70307574859bd36"><div class="ttname"><a href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a2b8e3779f5bd8c38f70307574859bd36">Modules\Finance\Http\Controllers\FinanceCheckBookController\show</a></div><div class="ttdeci">show()</div><div class="ttdoc">Show the specified resource.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dc4/FinanceCheckBookController_8php_source.html#l00148">FinanceCheckBookController.php:148</a></div></div>
+<div class="ttc" id="aclassModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController_html_a435e7d7525d4bcd0ed5e34a469f3adf6"><div class="ttname"><a href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a435e7d7525d4bcd0ed5e34a469f3adf6">Modules\Finance\Http\Controllers\FinanceCheckBookController\create</a></div><div class="ttdeci">create()</div><div class="ttdoc">Show the form for creating a new resource.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dc4/FinanceCheckBookController_8php_source.html#l00082">FinanceCheckBookController.php:82</a></div></div>
+<div class="ttc" id="aclassModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController_html_a459ed16587e3a50b39b672c7e473abc5"><div class="ttname"><a href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a459ed16587e3a50b39b672c7e473abc5">Modules\Finance\Http\Controllers\FinanceCheckBookController\edit</a></div><div class="ttdeci">edit($id)</div><div class="ttdoc">Show the form for editing the specified resource.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dc4/FinanceCheckBookController_8php_source.html#l00157">FinanceCheckBookController.php:157</a></div></div>
+<div class="ttc" id="aclassModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController_html_a726fa8a4b4b187b9ca32ba427aac8137"><div class="ttname"><a href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a726fa8a4b4b187b9ca32ba427aac8137">Modules\Finance\Http\Controllers\FinanceCheckBookController\destroy</a></div><div class="ttdeci">destroy($id)</div><div class="ttdoc">Remove the specified resource from storage.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dc4/FinanceCheckBookController_8php_source.html#l00185">FinanceCheckBookController.php:185</a></div></div>
+<div class="ttc" id="aclassModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController_html_a9ef485163104597c12185b53cdacf638"><div class="ttname"><a href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#a9ef485163104597c12185b53cdacf638">Modules\Finance\Http\Controllers\FinanceCheckBookController\store</a></div><div class="ttdeci">store(Request $request)</div><div class="ttdoc">Store a newly created resource in storage.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dc4/FinanceCheckBookController_8php_source.html#l00092">FinanceCheckBookController.php:92</a></div></div>
+<div class="ttc" id="aclassModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController_html_ad90734938a8c266e6cfcd738f443207b"><div class="ttname"><a href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#ad90734938a8c266e6cfcd738f443207b">Modules\Finance\Http\Controllers\FinanceCheckBookController\getBanksAccounts</a></div><div class="ttdeci">getBanksAccounts($bank_id)</div><div class="ttdoc">Obtiene los datos de las cuenta bancarias.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dc4/FinanceCheckBookController_8php_source.html#l00208">FinanceCheckBookController.php:208</a></div></div>
+<div class="ttc" id="aclassModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController_html_affb03cc19897a1800a0f411264d6c7cc"><div class="ttname"><a href="../../df/d0e/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceCheckBookController.html#affb03cc19897a1800a0f411264d6c7cc">Modules\Finance\Http\Controllers\FinanceCheckBookController\update</a></div><div class="ttdeci">update(Request $request, $id)</div><div class="ttdoc">Update the specified resource in storage.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dc4/FinanceCheckBookController_8php_source.html#l00177">FinanceCheckBookController.php:177</a></div></div>
+<div class="ttc" id="aclassModules_1_1Finance_1_1Models_1_1FinanceBank_html"><div class="ttname"><a href="../../d0/d59/classModules_1_1Finance_1_1Models_1_1FinanceBank.html">Modules\Finance\Models\FinanceBank</a></div><div class="ttdoc">Datos de las entidades bancarias.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/ddf/FinanceBank_8php_source.html#l00022">FinanceBank.php:23</a></div></div>
+<div class="ttc" id="aclassModules_1_1Finance_1_1Models_1_1FinanceCheckBook_html"><div class="ttname"><a href="../../d5/d8b/classModules_1_1Finance_1_1Models_1_1FinanceCheckBook.html">Modules\Finance\Models\FinanceCheckBook</a></div><div class="ttdoc">Datos de las chequeras.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d2a/FinanceCheckBook_8php_source.html#l00022">FinanceCheckBook.php:23</a></div></div>
+<div class="ttc" id="anamespaceModules_1_1Finance_1_1Http_1_1Controllers_html"><div class="ttname"><a href="../../df/d77/namespaceModules_1_1Finance_1_1Http_1_1Controllers.html">Modules\Finance\Http\Controllers</a></div><div class="ttdoc">Controladores del módulo de finanzas.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d54/FinanceAccountTypeController_8php_source.html#l00003">FinanceAccountTypeController.php:3</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_e05d7e2b1ecd646af5bb94391405f3b5.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5e3b07f0ea5cdc06a94bce7a10f6ca49.html">Finance</a></li><li class="navelem"><a class="el" href="../../dir_90593523cddd941eec3d0035c5fbb485.html">Http</a></li><li class="navelem"><a class="el" href="../../dir_1d1adfd2dd3da353af44c38effbd5680.html">Controllers</a></li><li class="navelem"><b>FinanceCheckBookController.php</b></li>
+    <li class="footer">Generado el Sábado, 4 de Noviembre de 2023 16:16:37 para KAVAC por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+    "version": "1.0.4",
+    "name": "Budget",
+    "alias": "budget",
+    "name_es": "Presupuesto",
+    "description": "Gestión de recursos presupuestarios",
+    "long_description": "",
+    "authors": [
+        {
+            "name": "Ing. Roldan Vargas",
+            "email": ["rvargas@cenditel.gob.ve", "roldandvg@gmail.com"]
+        }
+    ],
+    "icon": {
+        "name": "ion-arrow-graph-up-right",
+        "color": "#0073b7"
+    },
+    "logo": "budget-logo.png",
+    "keywords": [],
+    "active": 1,
+    "order": 2,
+    "priority": 2,
+    "providers": [
+        "Modules\\Budget\\Providers\\BudgetServiceProvider"
+    ],
+    "aliases": [],
+    "files": [
+        "Helpers\/Helper.php"
+    ],
+    "requires": {
+        "Finanzas": "1.0.4",
+        "Contabilidad": "1.0.4"
+    }
+}

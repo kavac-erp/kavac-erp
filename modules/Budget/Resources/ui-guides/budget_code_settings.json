@@ -1,0 +1,34 @@
+[
+    {
+        "element": "#helpCodeSetting",
+        "intro": "Sección para configurar los códigos únicos de cada registro en el módulo de presupuesto. Estos código están compuestos por un prefijo, el cual debe contener 3 carácteres, seguidamente de una sección numérica en donde se indica la cantidad de digitos posibles que puede contener el código los cuales van de 4 a 8 caracteres y se llena con 0 para indicar la cantidad máxima de digitos que el código debe soportar, posteriormente se indica un sufijo el cual corresponde al año del registro, esto se llena con el caracter Y para indicar el formato de año a usar, YY para formato de año corto y YYYY para foirmato de año largo. Ejemplo: ABC-00000000-YYYY. El código de ejemplo indica que el prefijo es ABC, tiene una longitud máxima de 8 digitos y el sufijo tiene un formato de año largo."
+    },
+    {
+        "element": "#helpCodeFormulations",
+        "intro": "configuración del código a usar en los registros de formulaciones presupuestarias"
+    },
+    {
+        "element": "#helpCodeCompromises",
+        "intro": "Configuración del código a usar en los registros de compromisos presupuestarios"
+    },
+    {
+        "element": "#helpCodeCaused",
+        "intro": "Configuración del código a usar en los registros de causado presupuestario"
+    },
+    {
+        "element": "#helpCodePayed",
+        "intro": "Configuración del código a usar en los registros de pagado presupuestario"
+    },
+    {
+        "element": "#helpCodeTransfers",
+        "intro": "Configuración del código a usar en registros de transferencias entre partidas presupuestarias"
+    },
+    {
+        "element": "#helpCodeReductions",
+        "intro": "Configuración del código a usar en registros de reducciones presupuestarias"
+    },
+    {
+        "element": "#helpCodeCredits",
+        "intro": "Configuración del código a usar en registros de créditos adicionales"
+    }
+]

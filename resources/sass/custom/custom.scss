@@ -1,0 +1,118 @@
+// intro.js
+@import '~intro.js/introjs.css';
+@import '~intro.js/themes/introjs-modern.css';
+
+// MultiSelect
+@import '~vue-multiselect/dist/vue-multiselect.min.css';
+
+// Variables
+@import "variables";
+
+// Estilos generales reescritos o adecuados
+@import "base";
+
+// Estilos para secciones destinadas a elementos de desarrollo
+@import "development";
+
+// Navbar
+@import "navbar";
+
+// Nav-tabs personalizados
+@import "nav-tabs";
+
+// Buttons
+@import "buttons";
+
+// Panel Izquierdo
+@import "left-panel";
+
+// Panel de contenido
+@import "main-panel";
+
+// Cards
+@import "card";
+
+// Forms
+@import "form";
+
+// Images
+@import 'images';
+
+// Info Panels
+@import "info-panel";
+
+// Tab Panels
+@import "tab_panel";
+
+// Quick Buttons
+@import "quick-buttons";
+
+// Info Box
+@import "info-box";
+
+// Adecuación en estilos de plugins
+@import "override";
+
+// Dash Box
+@import "dash-box";
+
+// JQuery Menu
+@import "menu";
+
+// Timeline
+@import "timeline";
+
+// Messages Styles
+@import "messages";
+
+// Contacts Directory
+@import "contacts";
+
+// Modal Dialog
+@import "modal";
+
+// Mensaje de espera
+@import "loading-message";
+
+// Campos de archivos
+@import "input-files";
+
+// Tablas
+@import "table";
+
+//Switch
+@import "switch";
+
+//Animation
+@import "animation";
+
+//CKEditor
+@import "ckeditor";
+
+// Listas con funcionalidades
+@import "feature_lists";
+
+// Preload
+@import "preload";
+
+// Accordion
+@import "accordion";
+
+// List Groups
+@import "list_groups";
+
+
+//Lockscreen
+@import 'lockscreen';
+
+//Ribbons
+@import 'ribbons';
+
+//Tooltips
+@import 'tooltips';
+
+// Bootstrap switch
+@import "bootstrap_switch";
+
+// Custom Multiselect
+@import "multiselect";

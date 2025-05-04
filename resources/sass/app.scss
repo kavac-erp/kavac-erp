@@ -1,0 +1,23 @@
+
+// Fonts
+//@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+@import "variables";
+
+// Bootstrap 4
+@import "~bootstrap/scss/bootstrap.scss";
+
+// Fileinput
+@import "~bootstrap-fileinput/scss/fileinput.scss";
+
+// Select2
+@import "~select2/src/scss/core.scss";
+
+//Select2 bootstrap 4 theme
+@import "~select2-theme-bootstrap4/src/build.scss";
+
+//@import "~bootstrap-switch/src/sass/bootstrap4/bootstrap-switch.scss";
+
+// pretty vue checkbox and radio
+@import '~pretty-checkbox/src/pretty-checkbox.scss';

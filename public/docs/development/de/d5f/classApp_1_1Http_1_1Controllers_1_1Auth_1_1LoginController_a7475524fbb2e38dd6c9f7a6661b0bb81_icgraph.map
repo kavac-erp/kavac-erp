@@ -1,0 +1,8 @@
+<map id="username" name="username">
+<area shape="rect" id="node1" title="Obtiene el campo usado como nombre de usuario para el acceso a la aplicación, usado por el controlado..." alt="" coords="276,107,363,133"/>
+<area shape="rect" id="node2" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a926ec095edbc2f3e70493cd14198192b" title="Obtiene la instancia de peticiones de acceso fallidas." alt="" coords="22,5,211,32"/>
+<area shape="rect" id="node3" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a80ca8f38c89010fda0558e2f210704ba" title="Obtiene la instancia de la petición del usuario con sesión activa." alt="" coords="5,56,228,83"/>
+<area shape="rect" id="node4" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a08273dfbc1ff4990d1fd6446f805fa7f" title="Obtiene la instancia de la petición del usuario inactivo." alt="" coords="11,107,222,133"/>
+<area shape="rect" id="node5" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a5a8ed6520ebd7ecd55d21cc531f4db36" title="Obtiene la instancia de la petición del usuario bloqueado." alt="" coords="10,157,223,184"/>
+<area shape="rect" id="node6" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#ae32415576e8245b435be09d06e561c4c" title="Valida la petición de acceso del usuario." alt="" coords="61,208,172,235"/>
+</map>

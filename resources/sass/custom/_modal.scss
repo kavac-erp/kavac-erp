@@ -1,0 +1,74 @@
+.bootbox {
+	&.modal {
+		.modal-title {
+			margin-top: 0px !important;
+		}
+		.modal-footer {
+			button {
+				margin: 0 5px;
+			}
+		}
+		&.modal-credits {
+			.modal-dialog {
+				max-width: 800px !important;
+			}
+		}
+	}
+}
+.modal {
+	.modal-footer {
+		button {
+			margin: 0 5px;
+
+            &.btn-default {
+                background-color: #d2d5d8;
+            }
+		}
+	}
+}
+
+.modal-dialog {
+	&.vue-crud {
+		min-width:70% !important;
+
+		.is-required {
+			&:after {
+				bottom:6px;
+			}
+		}
+
+		.modal-header {
+			button {
+				top:20px;
+			}
+
+			h1, h2, h3, h4, h5, h6 {
+			    text-transform: uppercase;
+			    color: $color-info-dark;
+			}
+		}
+
+		.modal-body {
+			&.modal-table {
+				border-top: 1px solid $color-white-light !important;
+				max-height:400px;overflow:auto;
+				margin-bottom: 25px;
+
+				h1, h2, h3, h4, h5, h6 {
+				    text-transform: uppercase;
+				    text-align: center;
+				    color: $color-info-dark;
+				}
+			}
+		}
+
+		.modal-footer {
+			border-top: 1px solid $color-white-light !important;
+			padding-top:10px !important;
+
+			.btn {
+				margin: 0 5px;
+			}
+		}
+	}
+}

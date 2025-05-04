@@ -1,0 +1,4 @@
+<map id="changeDocumentStatus" name="changeDocumentStatus">
+<area shape="rect" id="node1" title="Método para cambiar el estado de una emisión de pago a Pagado &#39;PA&#39;." alt="" coords="5,5,183,32"/>
+<area shape="rect" id="node2" href="$dd/de1/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinancePaymentExecuteController.html#a7321db99c10c2cb49cde952cc6125106" title="Método que permite crear los movimientos bancarios a partir de una emisión de pago." alt="" coords="231,5,417,32"/>
+</map>

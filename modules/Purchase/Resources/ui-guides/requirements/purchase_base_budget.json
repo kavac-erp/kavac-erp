@@ -1,0 +1,46 @@
+[
+    {
+        "element" : "#helpPurchaseBaseBudget",
+        "intro" : "Formulario para gestión de presupuesto base."
+    },
+    {
+        "element" : "#helpRequirementsList",
+        "intro" : "Esta sección aparece el listado de requerimientos."
+    },
+    {
+        "element" : "#helpTypeCurrency",
+        "intro" : "Esta sección permite seleccionar el tipo de moneda del presupuesto base."
+    },
+    {
+        "element" : "#helpTaxes",
+        "intro" : "Esta sección permite seleccionar el impuesto del presupuesto base."
+    },
+    {
+        "element": "#helpEstimatedBudget",
+        "intro": "Esta sección se puede agregar el presupuesto base estimado para cada uno de los productos."
+    },
+    {
+        "element": "#helpAuthorizedSignatures",
+        "intro": "Esta sección se selecciona las firmas autorizadas."
+    },
+    {
+        "element": "#helpPreparedBy",
+        "intro": "Esta sección se selecciona la persona que la preparo."
+    },
+    {
+        "element": "#helpReviewedBy",
+        "intro": "Esta sección se selecciona la persona que la reviso."
+    },
+    {
+        "element": "#helpVerifiedBy",
+        "intro": "Esta sección se selecciona la persona que la verifico"
+    },
+    {
+        "element": "#helpFirstSignature",
+        "intro": "Esta sección se selecciona la primera persona que firma."
+    },
+    {
+        "element": "#helpSecondSignature",
+        "intro": "Esta sección se selecciona la segunda persona que firma."
+    }
+]

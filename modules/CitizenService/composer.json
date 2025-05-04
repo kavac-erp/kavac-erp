@@ -1,0 +1,23 @@
+{
+    "name": "kavac/citizenservice",
+    "description": "",
+    "authors": [
+        {
+            "name": "Ing. Roldan Vargas",
+            "email": "roldandvg@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\CitizenService\\": ""
+        }
+    }
+}

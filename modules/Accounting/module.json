@@ -1,0 +1,25 @@
+{
+    "version": "1.0.4",
+    "name": "Accounting",
+    "alias": "accounting",
+    "name_es": "Contabilidad",
+    "description": "Gestión de asientos contables",
+    "long_description": "",
+    "authors": [
+        {
+            "name": "Ing. Juan Rosas",
+            "email": ["juan.rosasr01@gmail.com"]
+        }
+    ],
+    "logo": "accounting-logo.png",
+    "keywords": [],
+    "active": 1,
+    "order": 5,
+    "priority": 5,
+    "providers": [
+        "Modules\\Accounting\\Providers\\AccountingServiceProvider"
+    ],
+    "aliases": [],
+    "files": [],
+    "requires": []
+}

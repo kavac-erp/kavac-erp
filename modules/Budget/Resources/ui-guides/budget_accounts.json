@@ -1,0 +1,22 @@
+[
+    {
+        "element" : "#help_account",
+        "intro" : "Esta sección permite agregar una nueva cuenta presupuestaria"
+    },
+    {
+        "element" : "#help_account_id",
+        "intro" : "Este campo permite ingresar la cuenta presupuestaria"
+    },
+    {
+        "element" : "#help_code_id",
+        "intro" : "Este campo permite ingresar el código asociado a la cuenta"
+    },
+    {
+        "element" : "#help_denomination_id",
+        "intro" : "Este campo permite ingresar la denominación asociada a la cuenta"
+    },
+    {
+        "element" : "#help_parameters_id",
+        "intro" : "Esta sección permite ingresar parámetros asociados a la cuenta"
+    }
+]

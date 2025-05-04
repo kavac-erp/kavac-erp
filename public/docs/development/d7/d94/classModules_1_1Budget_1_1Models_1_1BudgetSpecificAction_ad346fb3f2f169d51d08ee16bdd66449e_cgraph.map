@@ -1,0 +1,4 @@
+<map id="getInstitutionAttribute" name="getInstitutionAttribute">
+<area shape="rect" id="node1" title="Crea un campo para obtener el nombre de la institución." alt="" coords="5,5,172,32"/>
+<area shape="rect" id="node2" href="$d7/d94/classModules_1_1Budget_1_1Models_1_1BudgetSpecificAction.html#a7e6e71a53954d4256cd28f7e935fe045" title="Crea un campo para obtener información del código y nombre de la acción específica." alt="" coords="220,5,320,32"/>
+</map>

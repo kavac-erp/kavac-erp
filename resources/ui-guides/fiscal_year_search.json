@@ -1,0 +1,22 @@
+[
+    {
+        "element" : "#cardSearchCloseFiscalYearForm",
+        "intro" : "Formulario que permite consultar los cierres de ejercicio económico",
+        "position" : "top"
+    },
+    {
+        "element" : "#helpInstitution",
+        "intro" : "Parámetro utilizado para filtrar los cierres de ejercicio económico por la institución a la que se aplica",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpFiscalYear",
+        "intro" : "Parámetro utilizado para filtrar los cierres de ejercicio económico por el año fiscal al que pertenecen",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpSearchButton",
+        "intro" : "Boton para ejecutar la acciónes de buscar aplicando los datos del formulario",
+        "position" : "left"
+    }
+]

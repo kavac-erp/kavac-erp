@@ -1,0 +1,78 @@
+[
+    {
+        "element" : "#helpPurchaseRequirements",
+        "intro" : "Formulario para gestión de requerimientos."
+    },
+    {
+        "element" : "#HelpCode",
+        "intro" : "Esta sección indica el código del requerimiento."
+    },
+    {
+        "element" : "#helpFiscalYear",
+        "intro" : "Esta sección indica el el año de ejercicio económico."
+    },
+    {
+        "element" : "#helpDate",
+        "intro" : "Esta sección permite seleccionar la fecha de generación."
+    },
+    {
+        "element": "#helpInstitutions",
+        "intro": "Esta sección permite seleccionar la institución."
+    },
+    {
+        "element": "#helpDepartments1",
+        "intro": "Esta sección permite seleccionar la unidad contratante."
+    },
+    {
+        "element": "#helpDepartments2",
+        "intro": "Esta sección permite seleccionar el usuario de la unidad contratante."
+    },
+    {
+        "element": "#helpPurchaseSupplierObject",
+        "intro": "Esta sección permite seleccionar el tipo."
+    },
+    {
+        "element": "#helpDescription",
+        "intro": "Esta sección permite ingresar la descripción"
+    },
+    {
+        "element": "#helpPurchaseWareHouseProduct",
+        "intro": "Esta sección permite ingrear los productos a la solicitud."
+    },
+    {
+        "element": "#helpWarehouseProducts",
+        "intro": "Esta formulario permite registrar un insumo."
+    },
+    {
+        "element": "#helpProduct",
+        "intro": "Esta sección permite seleccionar el producto."
+    },
+    {
+        "element":"#helpProductList",
+        "intro": "Esta sección se puede agregar especificación tecnica y cantidad para cada uno de los productos."
+    },
+    {
+        "element": "#helpAuthorizedSignatures",
+        "intro": "Esta sección se selecciona las firmas autorizadas."
+    },
+    {
+        "element": "#helpPreparedBy",
+        "intro": "Esta sección se selecciona la persona que la preparo."
+    },
+    {
+        "element": "#helpReviewedBy",
+        "intro": "Esta sección se selecciona la persona que la reviso."
+    },
+    {
+        "element": "#helpVerifiedBy",
+        "intro": "Esta sección se selecciona la persona que la verifico"
+    },
+    {
+        "element": "#helpFirstSignature",
+        "intro": "Esta sección se selecciona la primera persona que firma."
+    },
+    {
+        "element": "#helpSecondSignature",
+        "intro": "Esta sección se selecciona la segunda persona que firma."
+    }
+]

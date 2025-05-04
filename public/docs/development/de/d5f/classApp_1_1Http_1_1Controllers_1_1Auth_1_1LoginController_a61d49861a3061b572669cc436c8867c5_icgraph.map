@@ -1,0 +1,4 @@
+<map id="getInactiveAccountMessage" name="getInactiveAccountMessage">
+<area shape="rect" id="node1" title="Obtiene el mensaje a mostrar de la cuenta inactiva." alt="" coords="264,5,469,32"/>
+<area shape="rect" id="node2" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a08273dfbc1ff4990d1fd6446f805fa7f" title="Obtiene la instancia de la petición del usuario inactivo." alt="" coords="5,5,216,32"/>
+</map>

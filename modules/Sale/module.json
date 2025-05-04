@@ -1,0 +1,24 @@
+{
+    "version": "1.0.4",
+    "name": "Sale",
+    "alias": "sale",
+    "name_es": "Comercialización",
+    "description": "Gestión de ventas",
+    "long_description": "",
+    "authors": [],
+    "icon": {
+        "name": "",
+        "color": "#0073b7"
+    },
+    "keywords": [],
+    "active": 1,
+    "order": 10,
+    "priority": 10,
+    "logo": "sale-logo.png",
+    "providers": [
+        "Modules\\Sale\\Providers\\SaleServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,38 @@
+.custom-multiselect .dropdown-toggle::after {
+    display: none;
+}
+.custom-multiselect .btn:hover,
+.custom-multiselect .dropdown-item:hover {
+    background-color: $color-gray-light;
+}
+.custom-multiselect .btn,
+.custom-multiselect .navbar .navbar-nav > a.btn {
+    margin: 0px;
+    padding: 0px;
+    box-shadow: none;
+}
+.custom-multiselect .badge {
+    display: inline-block;
+    margin-bottom: 0px;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.custom-multiselect .badge-light {
+    background-color: #f8f9fa !important;
+}
+.custom-multiselect-icon {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid;
+    color: darkgray;
+}

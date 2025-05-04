@@ -1,0 +1,21 @@
+[
+    {
+        "element" : "#cardAssetGraph",
+        "intro" : "Esta sección permite visualizar gráficos del inventario de bienes institucionales"
+    },
+    {
+        "element" : "#helpAssetGraphExist",
+        "intro" : "Parámetro utilizado para filtrar los bienes institucionales por su cantidad de existencia",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpAssetGraphMaxRequest",
+        "intro" : "Parámetro utilizado para filtrar los bienes institucionales mas solicitados",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpAssetGraphMinRequest",
+        "intro" : "Parámetro utilizado para filtrar los bienes institucionales menos solicitados",
+        "position" : "right"
+    }
+]

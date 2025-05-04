@@ -1,0 +1,4 @@
+<map id="getHasActiveSessionMessage" name="getHasActiveSessionMessage">
+<area shape="rect" id="node1" title="Obtiene el mensaje a mostrar de la sesión activa." alt="" coords="276,5,493,32"/>
+<area shape="rect" id="node2" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a80ca8f38c89010fda0558e2f210704ba" title="Obtiene la instancia de la petición del usuario con sesión activa." alt="" coords="5,5,228,32"/>
+</map>

@@ -1,0 +1,18 @@
+[
+    {
+        "element" : "#approved_at",
+        "intro" : "Aquí se debe ingresar la fecha requerida"
+    },
+    {
+        "element" : "#institution_id",
+        "intro" : "Esta sección permite ingresar el nombre de la institución con la cuál esta relacionada la modificación presupuestaria"
+    },
+    {
+        "element" : "#document",
+        "intro" : "Se debe ingresar el número del documento que avala la modificación presupuestaria"
+    },
+    {
+        "element" : "#description",
+        "intro" : "Debe llenar este campo con una descripción o detalle de la modificación presupuestaria"
+    }
+]

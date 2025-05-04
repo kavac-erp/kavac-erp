@@ -1,0 +1,119 @@
+<?php
+
+/** Modelos generales de base de datos */
+
+namespace App\Models;
+
+use App\Traits\ModelsTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Auditable as AuditableTrait;
+
+/**
+ * @class Currency
+ * @brief Datos de Monedas
+ *
+ * Gestiona el modelo de datos para las Monedas
+ *
+ * @property  string  $symbol
+ * @property  string  $name
+ * @property  integer $country_id
+ * @property  boolean $default
+ * @property  integer $decimal_places
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
+class Currency extends Model implements Auditable
+{
+    use SoftDeletes;
+    use AuditableTrait;
+    use ModelsTrait;
+
+    /**
+     * Lista de atributos para la gestión de fechas
+     *
+     * @var array $dates
+     */
+    protected $dates = ['deleted_at'];
+
+    /**
+     * Lista de atributos que pueden ser asignados masivamente
+     *
+     * @var array $fillable
+     */
+    protected $fillable = ['symbol', 'name', 'country_id', 'default', 'decimal_places'];
+
+    /**
+     * Oculta los campos de fechas de creación, actualización y eliminación
+     *
+     * @var    array $hidden
+     */
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * Obtiene una descripción para la moneda
+     *
+     * @method    getDescriptionAttribute
+     *
+     * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return    string                     Descripción de la moneda
+     */
+    public function getDescriptionAttribute()
+    {
+        return "{$this->symbol} - {$this->name}";
+    }
+
+    /**
+     * Currency belongs to Country.
+     *
+     * @method  country
+     *
+     * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    /**
+     * Currency has many ExchangeRate.
+     *
+     * @method  fromExchangeRates
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function fromExchangeRates()
+    {
+        return $this->hasMany(ExchangeRate::class, 'from_currency_id');
+    }
+
+    /**
+     * Currency has many ExchangeRate.
+     *
+     * @method  toExchangeRates
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function toExchangeRates()
+    {
+        return $this->hasMany(ExchangeRate::class, 'to_currency_id');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function ($model) {
+            if (has_data_in_foreign_key($model->id, 'currency_id')) {
+                return throw new \Exception('No se puede eliminar este registro debido a que tiene otros registros asociados');
+            };
+        });
+    }
+}

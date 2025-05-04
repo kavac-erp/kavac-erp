@@ -1,0 +1,46 @@
+[
+    {
+        "element" : "#helpInstitution",
+        "intro" : "Lista desplegable Institución: En esta lista se debe seleccionar el nombre de la institución responsable de la acción centralizada. Este campo es requerido."
+    },
+    {
+        "element" : "#helpDepartament",
+        "intro" : "Lista desplegable Dependencia: En esta lista se debe seleccionar la dependencia o departamento responsable de la acción centralizada. Este campo es requerido."
+    },
+    {
+        "element" : "#helpStaff",
+        "intro" : "Lista desplegable Responsable: En esta lista se debe seleccionar la persona responsable de la acción centralizada. Este campo es requerido."
+    },
+    {
+        "element" : "#helpPosition",
+        "intro" : "Lista desplegable Cargo de Responsable: Este campo no requiere ser llenado por el usuario. El sistema seleccionara de manera automatica el cargo del responsable de la acción centralizada. Este campo es requerido."
+    },
+    {
+        "element" : "#fecha",
+        "intro" : "Campo Fecha de creación: Aqui se indica la fecha de creación del registro, este campo es llenado automáticamente por el sistema y no es modificable. Este campo es requerido."
+    },
+    {
+        "element" : "#code",
+        "intro" : "Campo Código de la acción centralizada: En este campo se debe ingresar el código de la acción centralizada, este dato permitirá su identificación. Este campo es requerido."
+    },
+    {
+        "element" : "#name",
+        "intro" : "Campo Nombre de la acción centralizada: En este campo se debe ingresar el nombre de la acción centralizada, este dato permitirá su identificación. Este campo es requerido."
+    },
+    {
+        "element" : "#helpStatus",
+        "intro" : "Haga clic este botón para señalar si la acción específica está activo."
+    },
+    {
+        "element" : "#helpStartDate",
+        "intro" : "Campo Fecha de inicio: En este campo debe ingresar la fecha de inicio de la acción centralizada. Este campo es requerido."
+    },
+    {
+        "element" : "#helpEndDate",
+        "intro" : "Campo Fecha de finalización: En este campo debe ingresar la fecha de finalización de la acción centralizada. Este campo es requerido."
+    },
+    {
+        "element" : "#helpDescription",
+        "intro" : "Campo Descripción: En este campo debe ingresar una descripción de la acción centralizada. Este campo es requerido."
+    }
+]

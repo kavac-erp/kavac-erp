@@ -1,0 +1,38 @@
+[
+    {
+        "element" : "#project_sel_help",
+        "intro" : "Este botón permite activar el listado de proyectos"
+    },
+    {
+        "element" : "#project_id_help",
+        "intro" : "Permite seleccionar un proyecto para asociarlo con una acción especifica"
+    },
+    {
+        "element" : "#centralized_action_help",
+        "intro" : "Este botón permite activar el listado de acciones centralizadas"
+    },
+    {
+        "element" : "#centralized_action_id_help",
+        "intro" : "Permite seleccionar una acción centralizada para asociarla con una acción especifica"
+    },
+    {
+        "element" : "#from_date_help",
+        "intro" : "Aquí puede indicar la fecha de inicio de la acción especifica"
+    },
+    {
+        "element" : "#to_date_help",
+        "intro" : "Aquí puede indicar la fecha de finalización de la acción especifica"
+    },
+    {
+        "element" : "#code_help",
+        "intro" : "Aquí puede indicar el código de la acción especifica"
+    },
+    {
+        "element" : "#name_help",
+        "intro" : "En este campo puede indicar el nombre de la acción especifica"
+    },
+    {
+        "element" : "#description_help",
+        "intro" : "En este campo puede agregar una descripción de la acción especifica"
+    }
+]

@@ -1,0 +1,26 @@
+{
+    "version": "1.0.4",
+    "name": "Payroll",
+    "alias": "payroll",
+    "name_es": "Talento Humano",
+    "description": "Gestión de talento humano y nómina",
+    "long_description": "",
+    "authors": [],
+    "icon": {
+        "name": "",
+        "color": "#0073b7"
+    },
+    "keywords": [],
+    "active": 1,
+    "order": 1,
+    "priority": 1,
+    "logo": "payroll-logo.png",
+    "providers": [
+        "Modules\\Payroll\\Providers\\PayrollServiceProvider"
+    ],
+    "aliases": [],
+    "files": [
+        "Helpers\/Helper.php"
+    ],
+    "requires": []
+}

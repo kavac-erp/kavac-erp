@@ -1,0 +1,4 @@
+<map id="getAssetTypeIdAttribute" name="getAssetTypeIdAttribute">
+<area shape="rect" id="node1" title="Método que obtiene el valor asociado al campo asset_type_id." alt="" coords="5,5,184,32"/>
+<area shape="rect" id="node2" href="$d8/ddd/classModules_1_1Asset_1_1Models_1_1AssetSubcategory.html#ae3862aae2a3f1284fcb1da897053264b" title="Método que obtiene la categoria asociada a la subcategoria del bien." alt="" coords="232,5,348,32"/>
+</map>

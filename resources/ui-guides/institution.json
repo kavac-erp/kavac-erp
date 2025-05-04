@@ -1,0 +1,32 @@
+[
+    {
+        "element" : "#helpInstitutionImgs",
+        "intro" : "Corresponde a las imágenes de la organización (logotipo y banner o cintillo)",
+        "position": "top"
+    },
+    {
+        "element" : "#helpInstitutionBasicData",
+        "intro" : "Corresponde a los datos básicos que identifican a la organización. Tome en cuenta que aquellos campos con (*) son obligatorios",
+        "position": "top"
+    },
+    {
+        "element" : "#helpInstitutionRif",
+        "intro" : "Tener en cuenta que el registro de identificación fiscal (R.I.F) tiene un formato específico. Debe estar formado por 10 caracteres, el primer carácter debe ser una letra: J,V,E,G o P (en mayúscula); los otros nueve carácteres deben ser números.",
+        "position": "top"
+    },
+    {
+        "element" : "#helpInstitutionComplementaryData",
+        "intro" : "Corresponde a los datos con información complementaria de la organización, Esta información es opcional",
+        "position": "top"
+    },
+    {
+        "element" : "#helpInstitutionList",
+        "intro" : "Muestra un listado de organizaciones registradas. Este elemento solo será mostrado siempre y cuando la aplicación se encuentre configurada para la gestión de múltiples organizaciones",
+        "position": "top"
+    },
+    {
+        "element" : "#helpInstitutionButtons",
+        "intro" : "Botones para ejecutar las acciones de limpiar, cancelar o guardar los datos de la organización",
+        "position" : "left"
+    }
+]

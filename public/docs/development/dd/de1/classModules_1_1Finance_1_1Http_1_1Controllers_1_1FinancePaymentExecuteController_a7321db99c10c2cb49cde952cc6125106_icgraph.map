@@ -1,0 +1,4 @@
+<map id="createBankingMovement" name="createBankingMovement">
+<area shape="rect" id="node1" title="Método que permite crear los movimientos bancarios a partir de una emisión de pago." alt="" coords="231,5,417,32"/>
+<area shape="rect" id="node2" href="$dd/de1/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinancePaymentExecuteController.html#a5d85ff4d588cd7184f803dbe3fcb2cc3" title="Método para cambiar el estado de una emisión de pago a Pagado &#39;PA&#39;." alt="" coords="5,5,183,32"/>
+</map>

@@ -1,0 +1,74 @@
+[
+    {
+        "element" : "#helpFinanceInstitution",
+        "intro" : "Lista desplegable Institución: En esta se listan las instituciones configuradas en el sistema. Esta lista permite seleccionar una institución que estará asociada a la orden de pago."
+    },
+    {
+        "element" : "#helpFinanceOrderDate",
+        "intro" : "En este campo se debe ingresar la fecha de solicitud para la orden de pago."
+    },
+    {
+        "element" : "#helpFinanceOrderType",
+        "intro" : "Lista desplegable Tipo de Orden: En esta se listan los tipos de orden registrados en el sistema. Esta lista permite seleccionar el tipo de la orden de pago a solicitar."
+    },
+    {
+        "element" : "#helpFinanceDocumentType",
+        "intro" : "Lista desplegable Tipo de Documento: En esta se listan los tipos de documentos registrados en el sistema. Esta lista permite seleccionar el tipo de documento del que se va a tratar la orden de pago."
+    },
+    {
+        "element" : "#helpFinanceCurrencyType",
+        "intro" : "Lista desplegable Tipo de Moneda: En esta se listan los tipos de moneda registrados en el sistema. Esta lista permite seleccionar el tipo de moneda que se usará en la orden de pago. Este campo sólo saldrá si el tipo de documento es Manual."
+    },
+    {
+        "element" : "#helpFinanceDocumentOrigin",
+        "intro" : "Lista desplegable Nro. Documento de Origen: En esta se listan los números de documentos de origen registrados en el sistema. Esta lista permite seleccionar el número de documento de origen que estará asociado a la orden de pago."
+    },
+    {
+        "element" : "#helpFinanceBusinessName",
+        "intro" : "Lista desplegable Nombre o Razón Social: En esta se listan los proveedores y/o beneficiarios registrados en el sistema. Esta lista permite seleccionar a una persona ya sea un proveedor o un beneficiario quien estará asociada a la orden de pago solicitada."
+    },
+    {
+        "element" : "#helpFinanceDocumentNumber",
+        "intro" : "En este campo debe ingresar el número de documento que dispondrá la orden (Sólo para órdenes manuales)"
+    },
+    {
+        "element" : "#helpFinanceAmount",
+        "intro" : "En este campo debe ingresar la cantidad monetaria con la cual dispone el proovedor o beneficiario para esta orden de pago."
+    },
+    {
+        "element" : "#helpFinanceConcept",
+        "intro" : "En este campo debe indicar cuál es el motivo o el asunto por el cuál se solicita la orden de pago."
+    },
+    {
+        "element" : "#helpFinancePartialPay",
+        "intro" : "Este switch permite indicar si el pago de la orden será parcial o no."
+    },
+    {
+        "element" : "#helpFinanceAmountPayable",
+        "intro" : "En este campo se muestra el monto a pagar. Este campo solo se puede editar si has indicado previamente que el pago será parcial."
+    },
+    {
+        "element" : "#helpFinancePaymentMethod",
+        "intro" : "Lista desplegable Método de Pago: En esta se listan los métodos de pago registrados en el sistema. Esta lista permite seleccionar el método de pago que se usará para la orden de pago."
+    },
+    {
+        "element" : "#helpFinanceBank",
+        "intro" : "Lista desplegable Banco: En esta se listan los bancos registrados en el sistema. Esta lista permite seleccionar el banco que se usará para la orden de pago."
+    },
+    {
+        "element" : "#helpFinanceAccountNumber",
+        "intro" : "Lista desplegable Nro. de Cuenta: En esta se listan los números de cuentas bancarias registrados en el sistema. Esta lista permite seleccionar el número de cuenta que estará asociado a la orden de pago."
+    },
+    {
+        "element" : "#helpFinanceObservation",
+        "intro" : "En este campo debe indicar cuales son las observaciones o notas sobre la orden de pago a solicitar."
+    },
+    {
+        "element" : "#helpAccountingData",
+        "intro" : "En esta sección se solicitan los datos contables. Debe ingresar el código de cuenta y su denominacón a incrementar y/o a decrementar."
+    },
+    {
+        "element" : "#helpParamButtons",
+        "intro" : "Este grupo de botones sirven para: Borrar el formulario ingresado, cancelar el ingreso de datos y regresar a la página interior; guardar el formulario ingresado."
+    }
+]

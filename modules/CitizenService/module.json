@@ -1,0 +1,19 @@
+{
+    "version": "1.0.4",
+    "name": "CitizenService",
+    "alias": "citizenservice",
+    "name_es": "O.A.C.",
+    "description": "Oficina de Atención al Ciudadano",
+    "long_description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 8,
+    "priority": 8,
+    "logo": "citizen-service-logo.png",
+    "providers": [
+        "Modules\\CitizenService\\Providers\\CitizenServiceServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

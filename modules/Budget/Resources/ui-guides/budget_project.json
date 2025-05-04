@@ -1,0 +1,46 @@
+[
+    {
+        "element" : "#helpInstitution",
+        "intro" : "Lista desplegable Institución: En esta lista se debe seleccionar el nombre de la institución responsable del proyecto. Este campo es requerido."
+    },
+    {
+        "element" : "#helpDepartment",
+        "intro" : "Lista desplegable Dependencia: En esta lista se debe seleccionar la dependencia o departamento responsable del proyecto. Este campo es requerido."
+    },
+    {
+        "element" : "#helpResponsible",
+        "intro" : "Lista desplegable Responsable: En esta lista se debe seleccionar la persona responsable del proyecto. Este campo es requerido."
+    },
+    {
+        "element" : "#helpPosition",
+        "intro" : "Lista desplegable Cargo de Responsable: Este campo no requiere ser llenado por el usuario. El sistema seleccionara de manera automatica el cargo del responsable del proyecto. Este campo es requerido."
+    },
+    {
+        "element" : "#helpCode",
+        "intro" : "Campo Código: En este campo se debe ingresar el código del proyecto, este dato permitirá su identificación. Este campo es requerido."
+    },
+    {
+        "element" : "#helpOnapreCode",
+        "intro" : "Campo Código ONAPRE: En este campo se debe ingresar el código asignado al proyecto por la Oficina Nacional de Presupuesto (ONAPRE) para el proyecto. Este campo es requerido."
+    },
+    {
+        "element" : "#helpName",
+        "intro" : "Campo Nombre: En este campo se debe ingresar el nombre del proyecto, este dato permitirá su identificación. Este campo es requerido."
+    },
+    {
+        "element" : "#helpStartDate",
+        "intro" : "Campo Fecha de inicio: En este campo debe ingresar la fecha de inicio del proyecto. Este campo es requerido."
+    },
+    {
+        "element" : "#helpEndDate",
+        "intro" : "Campo Fecha de finalización: En este campo debe ingresar la fecha de finalización del proyecto. Este campo es requerido."
+    },
+    {
+        "element" : "#helpStatus",
+        "intro" : "Haga clic este botón para señalar si el proyecto está activo."
+    },
+    {
+        "element" : "#helpDescription",
+        "intro" : "Campo Descripción: En este campo debe ingresar una descripción del proyecto. Este campo es requerido."
+    }
+]

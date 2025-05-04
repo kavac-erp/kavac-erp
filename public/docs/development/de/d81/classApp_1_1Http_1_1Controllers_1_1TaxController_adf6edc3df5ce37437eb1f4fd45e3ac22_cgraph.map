@@ -1,0 +1,4 @@
+<map id="update" name="update">
+<area shape="rect" id="node1" title="Actualiza la información de un impuesto." alt="" coords="5,5,72,32"/>
+<area shape="rect" id="node2" href="$d6/db0/classApp_1_1Models_1_1Tax.html#a82aca0092d8225e9da311390c226aaa7" title="Método que obtiene los históricos de los impuestos." alt="" coords="120,5,304,32"/>
+</map>

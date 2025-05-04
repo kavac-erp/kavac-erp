@@ -1,0 +1,42 @@
+[
+    {
+        "element" : "#payroll_common_record",
+        "intro" : "Esta sección permite gestionar la configuración de registros comunes del módulo de compras."
+    },
+    {
+        "element" : "#purchase_supplier_branches",
+        "intro" : "Gestiona información acerca de ramas de proveedores."
+    },
+    {
+        "element" : "#purchase_supplier_objects",
+        "intro" : "Gestiona información acerca de objetos de proveedores."
+    },
+    {
+        "element" : "#purchase_supplier_specialties",
+        "intro" : "Gestiona información acerca de especialidad de proveedores."
+    },
+    {
+        "element" : "#purchase_supplier_types",
+        "intro" : "Gestiona información acerca de tipos de proveedores."
+    },
+    {
+        "element" : "#required_documents",
+        "intro" : "Gestiona información acerca los documentos requeridos de proveedor."
+    },
+    {
+        "element" : "#purchase_processes",
+        "intro" : "Gestiona información acerca de los procesos de compras."
+    },
+    {
+        "element" : "#purchase_type",
+        "intro" : "Gestiona información acerca de modalidades de compras."
+    },
+    {
+        "element" : "#purchase_type_operations",
+        "intro" : "Gestiona información acerca de tipos de operaciones."
+    },
+    {
+        "element" : "#purchase_type_hiring",
+        "intro" : "Gestiona información acerca de tipos de contratación."
+    }
+]

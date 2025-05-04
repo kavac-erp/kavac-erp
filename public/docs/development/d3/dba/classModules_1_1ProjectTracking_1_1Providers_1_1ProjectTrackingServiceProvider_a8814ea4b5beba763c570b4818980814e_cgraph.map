@@ -1,0 +1,8 @@
+<map id="boot" name="boot">
+<area shape="rect" id="node1" title="Inicia los eventos del módulo en la aplicación." alt="" coords="5,81,56,108"/>
+<area shape="rect" id="node2" href="$d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html#ae3b55e0b197cd07e04673b8ddded82e8" title="Registra la configuración del módulo." alt="" coords="123,5,236,32"/>
+<area shape="rect" id="node3" href="$d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html#a5fd4226764c7b498b81958b2ba9077ad" title="Registra directorios adicionales para los factories del módulo." alt="" coords="114,56,245,83"/>
+<area shape="rect" id="node4" href="$d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html#a09835f90ad36479b364740905741e627" title="Registra las traducciones del módulo." alt="" coords="104,107,255,133"/>
+<area shape="rect" id="node5" href="$d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html#ace230673c353d46a0058ca73134fbc2c" title="Registra las vistas del módulo." alt="" coords="124,157,235,184"/>
+<area shape="rect" id="node6" href="$d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html#adc56d9e43fa6bac8221c211d690efe97" title="Obtiene las rutas de los módulos." alt="" coords="303,157,488,184"/>
+</map>

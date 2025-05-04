@@ -1,0 +1,4 @@
+<map id="printFormulatedSign" name="printFormulatedSign">
+<area shape="rect" id="node1" title="Genera el reporte de presupuesto formulado." alt="" coords="5,20,160,47"/>
+<area shape="rect" id="node2" href="$dc/d5e/classModules_1_1DigitalSignature_1_1Repositories_1_1ReportRepositorySign.html#a94271e36f2ecdb7425672d371a74e630" title="Método que permite establecer la configuración general de los reportes." alt="" coords="208,5,432,61"/>
+</map>

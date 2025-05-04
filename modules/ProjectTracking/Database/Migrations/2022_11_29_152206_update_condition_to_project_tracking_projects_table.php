@@ -1,0 +1,61 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+use Nwidart\Modules\Facades\Module;
+
+/**
+ * @class UpdateConditionToProjectTrackingProjectsTable
+ * @brief [descripción detallada]
+ *
+ * [descripción corta]
+ *
+ * @author [autor de la clase] [correo del autor]
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
+class UpdateConditionToProjectTrackingProjectsTable extends Migration
+{
+    /**
+     * Ejecuta las migraciones.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        if (Schema::hasTable('project_tracking_projects')) {
+            Schema::table('project_tracking_projects', function (Blueprint $table) {
+                if (Schema::hasColumn('project_tracking_projects', 'responsable_id')) {
+                    $table->dropForeign('project_tracking_projects_responsable_id_foreign');
+                    $table->dropColumn('responsable_id');
+                }
+            });
+        }
+        if (Schema::hasTable('project_tracking_projects')) {
+            Schema::table('project_tracking_projects', function (Blueprint $table) {
+                if (!Schema::hasColumn('project_tracking_projects', 'responsable_id')) {
+                    if (Module::has('Payroll')) {
+                        $table->foreignId('responsable_id')->references('id')->on('payroll_staffs')->onDelete('restrict')
+                        ->onUpdate('cascade')->comment('Responsable del proyecto');
+                    } else {
+                        $table->foreignId('responsable_id')->references('id')->on('project_tracking_personal_registers')->onDelete('restrict')
+                        ->onUpdate('cascade')->comment('Responsable del proyecto');
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Revierte las migraciones.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('project_tracking_projects', function (Blueprint $table) {
+        });
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "version": "1.0.4",
+    "name": "ProjectTracking",
+    "alias": "Project Tracking",
+    "name_es": "Seguimiento de Proyectos",
+    "description": "Gestión en el Seguimiento de Proyectos",
+    "long_description": "",
+    "keywords": [
+        "CENDITEL",
+        "KAVAC"
+    ],
+    "active": 1,
+    "order": 12,
+    "priority": 12,
+    "logo": "project-tracking-logo.png",
+    "providers": [
+        "Modules\\ProjectTracking\\Providers\\ProjectTrackingServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

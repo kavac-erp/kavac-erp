@@ -1,0 +1,88 @@
+<?php
+/** [descripción del namespace] */
+namespace $NAMESPACE$;
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+
+/**
+ * @class $CLASS$
+ * @brief [descripción detallada]
+ *
+ * [descripción corta]
+ *
+ * @author [autor de la clase] [correo del autor]
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
+class $CLASS$ extends ServiceProvider
+{
+    /**
+     * El namespace del módulo que se debe asumir al generar las URL.
+     *
+     * @var string
+     */
+    protected $moduleNamespace = '';
+
+    /**
+     * Se invoca antes de que las rutas sean registradas.
+     *
+     * Registra cualquier enlace del modelo o filtros basados en patrones.
+     *
+     * @method boot
+     *
+     * @return void     [descripción de los datos devueltos]
+     */
+    public function boot()
+    {
+        parent::boot();
+    }
+
+    /**
+     * Define las rutas del módulo.
+     *
+     * @method map
+     *
+     * @return void     [descripción de los datos devueltos]
+     */
+    public function map()
+    {
+        $this->mapApiRoutes();
+
+        $this->mapWebRoutes();
+    }
+
+    /**
+     * Define las rutas "web" del módulo.
+     *
+     * Todas estas rutas reciben el estado de sesión, protección CSRF, etc.
+     *
+     * @method mapWebRoutes
+     *
+     * @return void     [descripción de los datos devueltos]
+     */
+    protected function mapWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('$MODULE$', '$WEB_ROUTES_PATH$'));
+    }
+
+    /**
+     * Define las rutas "api" del módulo.
+     *
+     * Estas rutas son típicamente sin estado.
+     *
+     * @method mapWebRoutes
+     *
+     * @return void     [descripción de los datos devueltos]
+     */
+    protected function mapApiRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('$MODULE$', '$API_ROUTES_PATH$'));
+    }
+}

@@ -1,0 +1,160 @@
+/** Info Box */
+.info-box {
+	display: block;
+	min-height: 90px;
+	background: $color-white;
+	width: 100%;
+	/*box-shadow: 0 1px 1px rgba(0,0,0,0.1);*/
+	box-shadow: 0 1px 3px $default-box-shadow-thin,0 1px 2px $default-box-shadow;
+	border-radius: 15px;
+	margin-bottom: 15px;
+
+	&.info-box-mini {
+		max-height: 60px;
+		.info-box-icon {
+		    max-height: 70px;
+		    font-size: 30px;
+		    line-height: 70px;
+		    max-width: 70px;
+		}
+		.info-box-content {
+			margin-left: 60px;
+		}
+	}
+
+	.info-box-footer {
+		&.buttons {
+			padding: 6px 10px;
+		}
+		.status {
+			-webkit-transform: translateY(-50%) translateX(-50%);
+			transform: translateY(-50%) translateX(-50%);
+			position: absolute;
+			left: 50%;
+			border: 1px solid $default-box-shadow;
+			bottom: -15px;
+			min-width: 80px;
+			max-width: 130px;
+			max-height: 30px;
+			text-align: center;
+			background: $color-white;
+			border-radius: 19px;
+			padding: 7px 16px;
+			text-transform: uppercase;
+			font-weight: 500;
+			font-size: 11px;
+			letter-spacing: 0.5px;
+			box-shadow: 0 3px 5px #d4d4d4;
+			cursor: pointer;
+
+			&.installed, &.uninstalled, &.enabled, &.disabled {
+				font-weight: bold;
+			}
+
+			&.installed {
+				color: $color-success;
+			}
+			&.uninstalled {
+				color: $color-danger;
+			}
+			&.enabled {
+				color: $color-info-enabled;
+			}
+			&.disabled {
+				color: $color-warning-light;
+			}
+		}
+	}
+
+	.progress {
+		background: $default-shadow;
+		/*margin: 5px -10px 5px -10px;*/
+		margin: 5px 0;
+		height: 2px;
+		border-radius: 0;
+
+		.progress-bar {
+			background: $color-white;
+			border-radius: 0;
+		}
+	}
+
+	.progress-description {
+		margin: 0;
+	}
+}
+.info-box-icon {
+	/*border-top-left-radius: 15px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 15px;*/
+	border-radius: 5px;
+	display: block;
+	float: left;
+	height: 90px;
+	width: 90px;
+	text-align: center;
+	font-size: 45px;
+	line-height: 90px;
+	background: $default-shadow;
+	box-shadow: 0 1px 3px $default-box-shadow-thin,0 1px 2px $default-box-shadow;
+	margin:10px;
+
+	&.bg-primary {
+		color:$color-white;
+	}
+}
+.info-box-content {
+	padding: 5px 10px;
+	margin-left: 90px;
+	height: 110px;
+	&.info-box-content-lg {
+		height:340px;
+		margin-left: 0;
+	}
+	.info-box-img {
+		margin:10px auto;
+		height: 100px;
+		width:100px;
+
+		img {
+			height: inherit;
+		}
+
+		i {
+			font-size: 4em;
+			box-shadow: 0px 10px 25px 0px $default-shadow-thin;
+			width: 100%;
+			height: 100%;
+			padding: 20px;
+		}
+	}
+	.info-box-title {
+		padding-top:10px;
+		padding-bottom: 10px;
+		text-align: center;
+	}
+	.info-box-description {
+		padding: 10px;
+		text-align: justify;
+		height: 120px;
+		overflow: auto;
+	}
+	.info-box-footer {
+		padding: 6px 40px 0;
+		border-top: 1px solid $default-box-shadow;
+	}
+}
+.progress-description, .info-box-text {
+	text-transform: uppercase;
+	display: block;
+	font-size: 14px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.info-box-number {
+	display: block;
+	font-weight: bold;
+	font-size: 18px;
+}

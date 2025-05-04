@@ -1,0 +1,4 @@
+<map id="uploadDoc" name="uploadDoc">
+<area shape="rect" id="node1" title="Instrucciones para verificar y subir un documento a la ruta indicada en el servidor." alt="" coords="248,13,339,39"/>
+<area shape="rect" id="node2" href="$dc/dc5/classApp_1_1Http_1_1Controllers_1_1DocumentController.html#a86c3466914074bd42d2458a66ec16da3" title="Registra información de un nuevo documento." alt="" coords="5,5,200,47"/>
+</map>

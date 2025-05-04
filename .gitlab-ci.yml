@@ -1,0 +1,146 @@
+# image: mallardduck/gitlab-ci-pipeline-php:8.1
+
+# services:
+#   - postgres:latest
+
+# variables:
+#   POSTGRES_DB: kavac_test
+#   POSTGRES_USER: postgres
+#   POSTGRES_PASSWORD: secret
+#   POSTGRES_HOST_AUTH_METHOD: trust
+#   DB_CONNECTION: pgsql
+#   DB_HOST: postgres
+#   DB_PORT: "5432"
+#   DB_DATABASE: "$POSTGRES_DB"
+#   DB_USERNAME: "$POSTGRES_USER"
+#   DB_PASSWORD: "$POSTGRES_PASSWORD"
+
+# stages:
+#   - notify
+#   - code
+#   - preparation
+#   - building
+#   - testing
+#   - security
+
+# standar:psr12:
+#   stage: code
+#   image: lorisleiva/laravel-docker
+#   script:
+#     - phpcs --standard=PSR12 --colors --extensions=php --ignore=*/vendor/*,*/node_modules/*,*/doc/*,*/docs/*,*/resources/*,*/Resources/*,*/public/*,*/storage/*,*/bootstrap/*,*/migrations/*,composer-setup.php --exclude=Generic.Files.LineLength ./
+
+# composer:
+#   stage: preparation
+#   only:
+#     - master
+#     - develop
+#     - tags
+#     - merge_requests
+#   script:
+#     - php -v
+#     - composer -V
+#     - composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-ansi
+#     - cp .env.example .env
+#     - php artisan key:generate
+#   cache:
+#     paths:
+#       - vendor/
+#   artifacts:
+#     paths:
+#       - vendor/
+#       - .env
+#     expire_in: 1 hours
+#     when: always
+
+# node:
+#   stage: preparation
+#   needs: ["composer"]
+#   only:
+#     - master
+#     - develop
+#     - pruebas
+#   dependencies:
+#     - composer
+#   script:
+#     - php -v
+#     - composer -V
+#     - npm -v
+#     - php artisan module:compile -s -i -x
+#   cache:
+#     paths:
+#       - node_modules/
+#     when: on_success
+#   artifacts:
+#     paths:
+#       - node_modules/
+#     expire_in: 1 hours
+#     when: always
+
+# database:
+#   stage: preparation
+#   needs: ["composer"]
+#   only:
+#     - master
+#     - develop
+#     - tags
+#     - merge_requests
+#   dependencies:
+#     - composer
+#   before_script:
+#     - sudo apt update && sudo apt install -y postgresql-client libpq-dev
+#     - psql -h "postgres" -U "$POSTGRES_USER" -c 'create database "$POSTGRES_DB";'
+#     - psql -h "postgres" -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT 'OK' AS status;"
+#   script:
+#     - php -v
+#     - php artisan migrate --force
+#     - php artisan db:seed --force
+
+# compile:dev:
+#   stage: building
+#   needs: ["node", "composer"]
+#   only:
+#     - develop
+#     - pruebas
+#   dependencies:
+#     - composer
+#     - node
+#   script:
+#     - php -v
+#     - composer -V
+#     - npm -v
+#     - php artisan module:compile -s
+#   artifacts:
+#     paths:
+#       - public/
+#     expire_in: 1 hours
+#     when: always
+
+# compile:prod:
+#   stage: building
+#   needs: ["node", "composer"]
+#   only:
+#     - master
+#   dependencies:
+#     - composer
+#     - node
+#   script:
+#     - php -v
+#     - composer -V
+#     - npm -v
+#     - php artisan module:compile -s -p
+#   artifacts:
+#     paths:
+#       - public/
+#     expire_in: 1 hours
+#     when: always
+
+# telegram_notification:
+#   stage: notify
+#   image: curlimages/curl:latest
+#   script:
+#     - export MESSAGE="$(echo $CI_COMMIT_AUTHOR | cut -d' ' -f1,2) pusheo a la rama $CI_COMMIT_REF_NAME | $CI_COMMIT_MESSAGE -> $CI_PROJECT_URL/-/commit/$CI_COMMIT_SHA"
+#     - curl -s -X POST https://api.telegram.org/bot$BotTELEGRAM_TOKEN/sendMessage -d chat_id=$CHAT_ID -d text="${MESSAGE}" >> /dev/null
+#   only:
+#     - master
+#     - develop
+#     - aosorio

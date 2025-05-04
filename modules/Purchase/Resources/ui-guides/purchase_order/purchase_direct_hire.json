@@ -1,0 +1,118 @@
+[
+    {
+        "element" : "#helpDirectHire",
+        "intro" : "Formulario para gestionar una orden de compra."
+    },
+    {
+        "element" : "#helpDate",
+        "intro" : "Esta sección permite seleccionar la fecha de generación de la orden de compra."
+    },
+    {
+        "element" : "#helpFiscalYear",
+        "intro" : "Esta sección indica el año de ejercicio económico."
+    },
+    {
+        "element" : "#helpCurrency",
+        "intro" : "Esta sección permite seleccionar el tipo de moneda a usar en la orden de compra."
+    },
+    {
+        "element" : "#helpInstitution",
+        "intro" : "Esta sección permite seleccionar una institución."
+    },
+    {
+        "element" : "#helpDepartament",
+        "intro" : "Esta sección permite seleccionar la unidad contratante para la orden de compra."
+    },
+    {
+        "element" : "#helpDepartament2",
+        "intro" : "Esta sección permite seleccionar la unidad usuaria para la orden de compra."
+    },
+    {
+        "element" : "#helpSupplier",
+        "intro" : "Esta sección permite seleccionar un proveedor para la orden de compra."
+    },
+    {
+        "element" : "#helpSupplierDirection",
+        "intro" : "Esta sección muestra la dirección fiscal del proveedor."
+    },
+    {
+        "element" : "#helpPurchaseSupplierObject",
+        "intro" : "Esta sección permite seleccionar una denominación del requerimiento para la orden de compra."
+    },
+    {
+        "element" : "#helpFundingSource",
+        "intro" : "Esta sección permite seleccionar el usuario de la unidad contratante para la orden de compra."
+    },
+    {
+        "element" : "#helpDescription",
+        "intro" : "Esta sección permite ingresar la descripción de la contratación."
+    },
+    {
+        "element" : "#helpSupplierCertificateNumber",
+        "intro" : "Esta sección muestra el número de certificado (RNC)."
+    },
+    {
+        "element" : "#helpPurchaseType",
+        "intro" : "Esta sección permite seleccionar una modalidad de compra."
+    },
+    {
+        "element" : "#helpDueDate",
+        "intro" : "Esta sección permite ingresar el plazo de entrega para la orden de compra."
+    },
+    {
+        "element" : "#helpHiringNumber",
+        "intro" : "Esta sección permite ingresar el número de contratación."
+    },
+    {
+        "element" : "#helpPaymentMethod",
+        "intro" : "Esta sección permite seleccionar una forma de pago para la orden de compra."
+    },
+    {
+        "element" : "#helpReceiverInvoiceTo",
+        "intro" : "Esta sección permite ingresar el nombre de la persona a la cual se le va a facturar."
+    },
+    {
+        "element" : "#helpReceiverSendTo",
+        "intro" : "Esta sección permite ingresar el nombre de la persona a la cual se le va a enviar la factura."
+    },
+    {
+        "element" : "#helpReceiverRif",
+        "intro" : "Esta sección permite ingresar un RIF."
+    },
+    {
+        "element" : "#helpFilterQuotation",
+        "intro" : "Esta sección permite seleccionar un presupuesto base con un impuesto asignado."
+    },
+    {
+        "element" : "#helpFilterItem",
+        "intro" : "Esta sección permite ver el producto al cual se le va a asignar un impuesto."
+    },
+    {
+        "element" : "#helpTotal",
+        "intro" : "Esta sección permite ver el  precio del producto sub-total, el procentaje del IVA y el total."
+    },
+    {
+        "element" : "#helpPreparedBy",
+        "intro" : "Esta sección permite seleccionar la persona la cual ha preparado la orden de compra."
+    },
+    {
+        "element" : "#helpReviewedBy",
+        "intro" : "Esta sección permite seleccionar la persona la cual ha revisado la orden de compra."
+    },
+    {
+        "element" : "#helpVerifiedBy",
+        "intro" : "Esta sección permite seleccionar la persona la cual ha verificado la orden de compra."
+    },
+    {
+        "element" : "#helpFirstSignature",
+        "intro" : "Esta sección permite seleccionar la persona la cual ha de firmar la orden de compra."
+    },
+    {
+        "element" : "#helpSecondAsignature",
+        "intro" : "Esta sección permite seleccionar la persona la cual ha de firmar la orden de compra."
+    },
+    {
+        "element" : "#helpRequirementDoc",
+        "intro" : "Esta sección permite cargar los documentos requeridos para la modalidad de compra."
+    }
+]

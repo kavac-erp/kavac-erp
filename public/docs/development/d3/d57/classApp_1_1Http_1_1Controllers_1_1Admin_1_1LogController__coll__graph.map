@@ -1,0 +1,4 @@
+<map id="LogController" name="LogController">
+<area shape="rect" id="node1" title="Controlador de Eventos Log." alt="" coords="5,131,115,208"/>
+<area shape="rect" id="node2" href="$d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="17,5,103,83"/>
+</map>

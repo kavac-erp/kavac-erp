@@ -1,0 +1,26 @@
+[
+    {
+        "element" : "#helpPayrollFinancial",
+        "intro" : "Formulario de datos financieros"
+    },
+    {
+        "element" : "#helpFinancialStaff",
+        "intro" : "Parámetro que establece el personal a registrar",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpFinancialBank",
+        "intro" : "Parámetro que establece el banco del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpFinancialTypeAccount",
+        "intro" : "Parámetro que establece el tipo de cuenta del personal",
+        "position" : "right"
+    },
+    {
+        "element" : "#helpFinancialAccountNumber",
+        "intro" : "Parámetro que establece el número de cuenta del personal",
+        "position" : "right"
+    }
+]

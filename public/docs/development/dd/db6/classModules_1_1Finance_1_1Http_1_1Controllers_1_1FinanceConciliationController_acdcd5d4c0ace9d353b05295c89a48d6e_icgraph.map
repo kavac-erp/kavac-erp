@@ -1,0 +1,5 @@
+<map id="guessDecimalSeparator" name="guessDecimalSeparator">
+<area shape="rect" id="node1" title="Método que obtiene el separador usado en el formato de monto." alt="" coords="489,5,667,32"/>
+<area shape="rect" id="node2" href="$dd/db6/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceConciliationController.html#a7fab98454118c21c15c0d92bb6ca9631" title="Método que valida la estructura del archivo usado para realizar la conciliación bancaria." alt="" coords="284,5,441,32"/>
+<area shape="rect" id="node3" href="$dd/db6/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceConciliationController.html#a3963f202bd516c06c018ca3e075f37f6" title="Método que encuentra y retorna los movimientos de una cuenta bancaria que cumplen con parámetros de b..." alt="" coords="5,5,236,32"/>
+</map>

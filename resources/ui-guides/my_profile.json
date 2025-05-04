@@ -1,0 +1,46 @@
+[
+	{
+		"element": "#helpProfile",
+		"intro": "Datos y registros asociados al usuario"
+	},
+	{
+		"element": "#helpProfilePicture",
+		"intro": "Imagen de perfil. Presione sobre ella para cargar una nueva."
+	},
+	{
+		"element": "#helpProfileName",
+		"intro": "Nombre del usuario autenticado"
+	},
+	{
+		"element": "#helpProfilePosition",
+		"intro": "Cargo del usuario autenticado"
+	},
+	{
+		"element": "#helpProfileLockScreen",
+		"intro": "Permite bloquear la pantalla del sistema"
+	},
+	{
+		"element": "#helpProfileContent",
+		"intro": "Datos e información del usuario"
+	},
+	{
+		"element": "#helpProfilePassword",
+		"intro": "En ésta sección prodrá cambiar la contraseña del usuario, sin embargo, debe cumplir con ciertos parámetros antes de ingresar una nueva contraseña. <br> Aclaraciones: </br> <br> • Como mínimo debe superar el 43% para considerarse una contraseña aceptable. </br> <br> • No se permite ingresar una secuencia de cuatro números o letras. Ejemplo: 1234, abcd. </br> <br> • No se permite ingresar el mismo dígito cuatro veces seguidas. Ejemplo : 1111, aaaa. </br> <br> • Si la barra de seguridad permanece en 0% usted está usando una secuencia de dígitos no permitida. </br>"
+	},
+	{
+		"element": "#helpProfileData",
+		"intro": "Datos básicos del perfil del usuario"
+	},
+	{
+		"element": "#helpProfileActivity",
+		"intro": "Actividad del usuario en los últimos 20 registros"
+	},
+	{
+		"element": "#helpProfileMessages",
+		"intro": "Listado de mensajes enviados por otros usuarios del sistema"
+	},
+	{
+		"element": "#helpProfileDirectory",
+		"intro": "Directorio con información de los usuarios del sistema"
+	}
+]

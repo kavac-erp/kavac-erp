@@ -1,0 +1,5 @@
+<map id="payrollPositions" name="payrollPositions">
+<area shape="rect" id="node1" title="Método que establece una relación de &quot;muchos a muchos&quot; (belongsToMany) entre el modelo actual y el mo..." alt="" coords="261,31,388,57"/>
+<area shape="rect" id="node2" href="$d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html#a4a4a5021a7ce694cd2e1932be95e61e3" title="Método que obtiene el dato laboral del trabajador asociado a un cargo." alt="" coords="11,5,207,32"/>
+<area shape="rect" id="node3" href="$d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html#a3c3c1726fd594d0e7e01f255a9b6587c" title="Método que obtiene el id del cargo asociado a un trabajador." alt="" coords="5,56,213,83"/>
+</map>

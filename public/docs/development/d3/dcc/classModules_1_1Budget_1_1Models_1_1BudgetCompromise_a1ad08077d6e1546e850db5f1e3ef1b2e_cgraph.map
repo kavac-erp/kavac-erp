@@ -1,0 +1,5 @@
+<map id="getStatusAttribute" name="getStatusAttribute">
+<area shape="rect" id="node1" title="Método que permite obtener el estatus de un compromiso." alt="" coords="5,31,147,57"/>
+<area shape="rect" id="node2" href="$d3/dcc/classModules_1_1Budget_1_1Models_1_1BudgetCompromise.html#aa9984fe5804969c784c74ed03d42eb4f" title="BudgetCompromise has many BudgetStages." alt="" coords="203,5,314,32"/>
+<area shape="rect" id="node3" href="$d3/dcc/classModules_1_1Budget_1_1Models_1_1BudgetCompromise.html#a649e68c3356260846b3196094c945c9f" title="BudgetCompromise belongs to DocumentStatus." alt="" coords="195,56,323,83"/>
+</map>

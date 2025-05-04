@@ -1,0 +1,27 @@
+{
+    "version": "1.0.4",
+    "name": "Purchase",
+    "alias": "purchase",
+    "name_es": "Compras",
+    "description": "Gestión de compras",
+    "long_description": "",
+    "authors": [
+        {
+            "name": "Ing. Juan Rosas",
+            "email": ["juan.rosasr01@gmail.com"]
+        }
+    ],
+    "keywords": [],
+    "active": 1,
+    "order": 3,
+    "priority": 3,
+    "logo": "purchase-logo.png",
+    "providers": [
+        "Modules\\Purchase\\Providers\\PurchaseServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "Helpers\/Helper.php"
+    ],
+    "requires": []
+}

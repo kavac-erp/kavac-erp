@@ -1,0 +1,27 @@
+[
+    {
+        "element" : "#institution",
+        "intro" : "Esta sección permite seleccionar la organización a la cual pertenece"
+
+    },
+    {
+        "element" : "#compromised_at",
+        "intro" : "Aquí puede indicar la fecha en la cual se esta realizando el compromiso"
+
+    },
+    {
+        "element" : "#document_number",
+        "intro" : "En este campo debe indicar el número de documento que genera el compromiso"
+
+    },
+    {
+        "element" : "#descriptionText",
+        "intro" : "En este campo debe indicar el compromiso que esta realizando"
+
+    },
+    {
+        "element" : "#add_account_info",
+        "intro" : "Este botón le permite agregar una cuenta presupuestaria para realizar un compromiso"
+
+    }
+]
