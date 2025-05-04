@@ -8,17 +8,14 @@ use Illuminate\Routing\Controller;
 use Modules\Sale\Models\Profile;
 use Modules\Sale\Models\Institution;
 use App\Repositories\ReportRepository;
-use Modules\DigitalSignature\Repositories\ReportRepositorySign;
 use Auth;
 use Modules\Sale\Models\SaleService;
 
 /**
  * @class SaleServiceRequestController
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
- * [descripción corta]
- *
- * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+ * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -26,13 +23,11 @@ use Modules\Sale\Models\SaleService;
 class SaleServiceRequestController extends Controller
 {
     /**
-     * [descripción del método]
+     * Muestra el listado de solicitudes de servicio
      *
-     * @method    index
+     * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
-     * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
@@ -40,13 +35,11 @@ class SaleServiceRequestController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para crear una nueva solicitud de servicio
      *
-     * @method    create
+     * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
-     * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -54,15 +47,13 @@ class SaleServiceRequestController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena la nueva solicitud de servicio
      *
-     * @method    store
+     * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
-     * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @param     Request    $request    Datos de la petición
      *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function store(Request $request)
     {
@@ -70,15 +61,13 @@ class SaleServiceRequestController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra información sobre una solicitud de servicio
      *
-     * @method    show
-     *
-     * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -86,11 +75,9 @@ class SaleServiceRequestController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para editar una solicitud de servicio
      *
-     * @method    edit
-     *
-     * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
@@ -102,16 +89,14 @@ class SaleServiceRequestController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza la información de una solicitud de servicio
      *
-     * @method    update
+     * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
-     * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function update(Request $request, $id)
     {
@@ -119,15 +104,13 @@ class SaleServiceRequestController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Elimina una solicitud de servicio
      *
-     * @method    destroy
-     *
-     * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function destroy($id)
     {
@@ -135,15 +118,13 @@ class SaleServiceRequestController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Filtra los registros de una solicitud de servicio
      *
-     * @method    filterRecords
+     * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
-     * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @param     Request    $request    Informacion de la consulta
      *
-     * @param     Requert    $request    Informacion de la consulta
-     *
-     * @return    Response
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function filterRecords(Request $request)
     {
@@ -172,9 +153,9 @@ class SaleServiceRequestController extends Controller
     /**
      * Genera Pdf
      *
-     * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
-     * @param     Array    $value    Listado de identificadores
+     * @param    array|string    $value    Listado de identificadores
      */
     public function pdf($value = [])
     {
@@ -182,7 +163,7 @@ class SaleServiceRequestController extends Controller
         // Validar acceso para el registro
         if (!auth()->user()->isAdmin()) {
             $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
-            if ($report && $report->queryAccess($user_profile['institution']['id'])) {
+            if (isset($report) && $report && $report->queryAccess($user_profile['institution']['id'])) {
                 return view('errors.403');
             }
         }
@@ -194,24 +175,15 @@ class SaleServiceRequestController extends Controller
             'payrollStaff'
         )->whereIn('id', $listIds)->get()->toArray();
 
-        /**
-         * [$pdf base para generar el pdf]
-         *
-         * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-         *
-         * @var [App\Repositories\ReportRepository]
-         */
+        /* base para generar el pdf */
         $pdf = new ReportRepository();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definición de las características generales de la página pdf */
         if (auth()->user()->isAdmin()) {
             $institution = Institution::first();
         } else {
             $institution = Institution::find($user_profile->institution->id);
         }
-        // dd($service_requests);
         $pdf->setConfig(['institution' => $institution, 'urlVerify' => url('/sale/reports/service-requests/pdf/' . $value)]);
         $pdf->setHeader('Reporte de comercialización', 'Reporte de solicitudes de servicios');
         $pdf->setFooter(true, $institution->rif . ' ' . $institution->legal_address);

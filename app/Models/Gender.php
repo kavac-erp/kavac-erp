@@ -15,7 +15,10 @@ use App\Traits\ModelsTrait;
  *
  * Gestiona el modelo de géneros
  *
- * @author     Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve | javirrupe19@gmail.com>
+ * @property  integer $id
+ * @property  string  $name
+ *
+ * @author     Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javirrupe19@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -29,12 +32,14 @@ class Gender extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [

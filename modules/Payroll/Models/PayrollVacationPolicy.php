@@ -28,12 +28,14 @@ class PayrollVacationPolicy extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -61,6 +63,7 @@ class PayrollVacationPolicy extends Model implements Auditable
 
     /**
      * Lista de atributos de relacion consultados automaticamente
+     *
      * @var    array    $with
      */
     protected $with = ['institution'];

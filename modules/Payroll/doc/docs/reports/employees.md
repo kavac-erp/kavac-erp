@@ -9,7 +9,7 @@ Esta sección permite generar un informe con información detallada sobre cada t
 
 Para acceder a este reporte, el usuario debe dirigirse al módulo de **Talento Humano**, ingresar en **Reportes** y seleccionar la opción **Reporte detallado de trabajadores**.
 
-![Screenshot](../img/detalle_trabajadores.png)<div style="text-align: center;font-weight: bold">Figura: Opción reporte detallado de trabajadores</div> 
+![Screenshot](../img/detalle_trabajadores.png)<div style="text-align: center;font-weight: bold">Figura 1: Opción Reporte detallado de trabajadores</div> 
 
 
 ## Generar reporte detallado de un trabajador 
@@ -19,14 +19,10 @@ Para acceder a este reporte, el usuario debe dirigirse al módulo de **Talento H
 -   Presione el botón **generar reporte** ![Screenshot](../img/download.png#imagen) ubicado en la columna titulada **Acción**, según el registro que se desea consultar. 
 
 
-![Screenshot](../img/image70.png)<div style="text-align: center;font-weight: bold">Figura: Estatus del Trabajador</div> 
+![Screenshot](../img/reporte-trabajador.png)<div style="text-align: center;font-weight: bold">Figura 2: Formulario de Reporte de Trabajadores</div> 
+<br>
 
+-   Para obtener información detallada del trabajador, pulse el botón **Ver registro** ![Screenshot](../img/see.png). 
+-   Para exportar la información del trabajador, pulse el botón **Generar reporte** ![Screenshot](../img/download.png)
 
-![Screenshot](../img/image72.png)<div style="text-align: center;font-weight: bold">Figura: Reporte Detallado del Trabajador</div> 
-
-!!! note "Nota"
-    De igual forma es posible consultar información sobre un empleado haciendo uso del botón **ver registro** ubicado en la columna titulada **Acción** de la tabla de registros.
-    
-    ![Screenshot](../img/see.png#imagen)
-
-![Screenshot](../img/image71.png)<div style="text-align: center;font-weight: bold">Figura: Ver Información Detallada del Trabajador</div> 
+![Screenshot](../img/ver-registro.png)<div style="text-align: center;font-weight: bold">Figura 3: Registro del trabajador</div> 

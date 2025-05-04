@@ -40,20 +40,31 @@ use Illuminate\Database\Eloquent\Model;
  * Gestiona la información por defecto a registrar inicialmente para la configuración de notificaciones
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class CoreNotificationSettingsTableSeeder extends Seeder
 {
+    /**
+     * Contador de notificaciones cargadas
+     *
+     * @var int $count
+     */
     protected $count;
 
+    /**
+     * Crea una nueva instancia de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->count = 0;
     }
 
     /**
-     * Run the database seeds.
+     * Ejecuta los seeers de base de datos
      *
      * @return void
      */

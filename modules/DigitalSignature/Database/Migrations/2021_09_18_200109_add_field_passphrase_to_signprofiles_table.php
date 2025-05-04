@@ -6,9 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldPassphraseToSignprofilesTable
- * @brief [descripción detallada]
- *
- * [descripción corta]
+ * @brief Agrega campo passphrase a la tabla signprofiles
  *
  * @author Pedro Buitrago pbuitrago@cenditel.gob.ve
  *

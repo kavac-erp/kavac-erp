@@ -45,7 +45,6 @@
                         </div>
                     @endif
                     <purchase-requirements
-                        :record_list="{{ $requirements }}"
                         route_edit="{{ url('purchase/requirements/{id}/edit') }}"
                     />
                 </div>

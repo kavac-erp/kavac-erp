@@ -3,12 +3,22 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\DocumentStatus;
 
+/**
+ * @class AddFieldDocumentStatusIdToAssetDisincorporationTable
+ * @brief Agrega un campo document_status_id a la tabla asset_disincorporations
+ *
+ * Agrega un campo document_status_id a la tabla asset_disincorporations
+ *
+ * @author Ing. Manuel Zambrano <mzambrano@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AddFieldDocumentStatusIdToAssetDisincorporationTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -27,7 +37,7 @@ class AddFieldDocumentStatusIdToAssetDisincorporationTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

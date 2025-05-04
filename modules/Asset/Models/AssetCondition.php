@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos de las condiciones fisicas de un bien
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetCondition extends Model implements Auditable
 {
@@ -36,7 +36,8 @@ class AssetCondition extends Model implements Auditable
      * Método que obtiene los bienes asociados a la condición física
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo Asset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assets()
     {

@@ -1,16 +1,16 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Purchase\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Illuminate\Support\Facades\DB;
 use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 use Modules\Purchase\Models\PurchaseType;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class PurchaseDirectHire
@@ -18,7 +18,7 @@ use Modules\Purchase\Models\PurchaseType;
  *
  * Modelo para la contratación directa
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -31,12 +31,14 @@ class PurchaseDirectHire extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -73,8 +75,18 @@ class PurchaseDirectHire extends Model implements Auditable
         'status'
     ];
 
+    /**
+     * Lista de atributos personalizados a cargar con el modelo
+     *
+     * @var array $appends
+     */
     protected $appends = ['receiver_json', 'status_pay_order'];
 
+    /**
+     * Obtiene los datos del receptor de la orden de compra
+     *
+     * @return mixed
+     */
     public function getReceiverJsonAttribute()
     {
         return json_decode($this->receiver);
@@ -82,6 +94,8 @@ class PurchaseDirectHire extends Model implements Auditable
 
     /**
      * Método para obtener el estatus de una orden de pago asciada a una orde de compra
+     *
+     * @return string
      */
     public function getStatusPayOrderAttribute()
     {
@@ -111,7 +125,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to FiscalYear.
+     * Establece la relación con el año fiscal
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -121,7 +135,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to Currency.
+     * Establece la relación con la moneda
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -129,8 +143,9 @@ class PurchaseDirectHire extends Model implements Auditable
     {
         return $this->belongsTo(Currency::class);
     }
+
     /**
-     * PurchaseDirectHire belongs to Institution.
+     * Establece la relación con la institución
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -138,10 +153,11 @@ class PurchaseDirectHire extends Model implements Auditable
     {
         return $this->belongsTo(Institution::class);
     }
+
     /**
-     * PurchaseDirectHire belongs to Purchase_quatations.
+     * Establece la relación con las cotizaciones
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function quatations()
     {
@@ -149,7 +165,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseBaseBudget morphs many PurchasePivotModelsToRequirementItem.
+     * Establece la relación con los elementos del requerimiento de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
@@ -169,7 +185,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to PurchaseSupplier.
+     * Establece la relación con el proveedor
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -179,7 +195,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to PurchaseSupplierObject.
+     * Establece la relación con el objeto del proveedor
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -189,7 +205,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to ContratingDepartment.
+     * Establece la relación con el departamento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -199,7 +215,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to UserDepartment.
+     * Establece la relacion con el usuario de un departamento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -209,7 +225,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire morphs many PurchaseBaseBudget.
+     * Establece la relación morfológica con los presupuestos base
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
@@ -219,7 +235,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el usuario que preparó la orden de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -233,7 +249,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el usuario que revisó la orden de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -247,7 +263,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el usuario que verificó la orden de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -261,7 +277,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el usuario que firmó, en primer lugar, la orden de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -275,7 +291,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el usuario que firmó, en segundo lugar, la orden de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -289,7 +305,7 @@ class PurchaseDirectHire extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to PurchaseType.
+     * Establece la relación con el tipo de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -306,5 +322,22 @@ class PurchaseDirectHire extends Model implements Auditable
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Scope para buscar y filtrar datos de ordenes de pago
+     *
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder Objeto con la consulta
+     * @param  string         $search    Cadena de texto a buscar
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $search)
+    {
+        return $query
+            ->where(DB::raw('upper(code)'), 'LIKE', '%' . strtoupper($search) . '%')
+            ->orWhereRaw("TO_CHAR(date, 'DD/MM/YYYY') LIKE '%" . strtoupper($search) . "%'");
     }
 }

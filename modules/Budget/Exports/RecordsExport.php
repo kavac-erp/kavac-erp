@@ -4,128 +4,72 @@ namespace Modules\Budget\Exports;
 
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
+/**
+ * @class RecordsExport
+ * @brief Exporta datos de presupuesto
+ *
+ * Gestiona la exportación de datos de presupuesto
+ *
+ * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class RecordsExport implements FromView
 {
+    /**
+     * Lista de datos a exportar
+     *
+     * @var array $data
+     */
     protected $data;
 
     /**
-     * Write code on Method
-     * @return response()
+     * Crea una nueva instancia de la clase
+     *
+     * @return array
      */
-
     public function __construct(array $view_data)
     {
-        // dd($view_data);
         $this->data = $view_data;
     }
 
+    /**
+     * Muestra el reporte del registro solicitado
+     *
+     * @throws \Exception
+     *
+     * @return \Illuminate\View\View
+     */
     public function view(): View
     {
-        return view('budget::pdf.budgetAnalyticMajor', [
-            'records' => $this->data['records'],
-            'institution' => $this->data['institution'],
-            'currencySymbol' => $this->data['currencySymbol'],
-            'fiscal_year' => $this->data['fiscal_year'],
-            'report_date' => $this->data['report_date'],
-            'initialDate' => $this->data['initialDate'],
-            'finalDate' => $this->data['finalDate'],
-        ]);
+        if ($this->data['report_type_id'] == "1") {
+            return view('budget::pdf.budgetAnalyticMajor', [
+                'records'        => $this->data['records'],
+                'institution'    => $this->data['institution'],
+                'currencySymbol' => $this->data['currencySymbol'],
+                'fiscal_year'    => $this->data['fiscal_year'],
+                'report_date'    => $this->data['report_date'],
+                'initialDate'    => $this->data['initialDate'],
+                'finalDate'      => $this->data['finalDate'],
+                'profile'        => $this->data['profile'],
+            ]);
+        }
+
+        if ($this->data['report_type_id'] == "2") {
+            return view('budget::pdf.budgetAnalyticMajorAccrued', [
+                'records'        => $this->data['records'],
+                'institution'    => $this->data['institution'],
+                'currencySymbol' => $this->data['currencySymbol'],
+                'fiscal_year'    => $this->data['fiscal_year'],
+                'report_date'    => $this->data['report_date'],
+                'initialDate'    => $this->data['initialDate'],
+                'finalDate'      => $this->data['finalDate'],
+                'profile'        => $this->data['profile'],
+            ]);
+        }
+
+        throw new \Exception('No se encontró una vista válida para retornar');
     }
 }
-
-// class RecordsExport implements FromView
-
-// {
-
-//     protected $data;
-
-//     /**
-//      * Write code on Method
-//      * @return response()
-//      */
-
-//     public function __construct($budgetAccounts)
-
-//     {
-
-//         $this->data = $budgetAccounts;
-//     }
-
-//     /**
-//      * Write code on Method
-//      *
-//      * @return response()
-//      */
-
-//     public function collection()
-
-//     {
-//         return collect($this->data);
-//     }
-
-//     /**
-//      * Write code on Method
-//      *
-//      * @return response()
-//      */
-
-//     public function headings(): array
-//     {
-//         return [
-//             'Fecha',
-//             'Código',
-//             'Denominación',
-//             'Asignado',
-//             'Aumento',
-//             'Disminución',
-//             'Actual',
-//             'Comprometido',
-//             'Causado',
-//             'Pagado',
-//             'Disponible',
-//         ];
-//     }
-
-//     public function map($budgetAccount): array
-//     {
-//         return [
-//             /* Fecha */
-//             date_format($budgetAccount['created_at'], 'd-m-Y') ?? '',
-
-//             /* Código */
-//             $budgetAccount['budgetAccount']['code'] ?? '',
-
-//             /* Denominación */
-//             $budgetAccount['budgetAccount']['denomination'] ?? '',
-
-//             /* Asignado */
-//             $budgetAccount['total_year_amount'] ?? '',
-
-//             /* Aumento */
-//             $budgetAccount['increment'] ?? '',
-
-//             /* Disminución */
-//             number_format($budgetAccount['decrement'], 2) ?? '',
-
-//             /* Actual */
-//             $budgetAccount['current'] ?? '',
-
-//             /* Comprometido */
-//             $budgetAccount['compromised'] ?? '',
-
-//             /* Causado */
-//             '0',
-
-//             /* Pagado */
-//             '0',
-
-//             /* Disponible */
-//             $budgetAccount['total_year_amount_m'] ?? ''
-//         ];
-//     }
-// }

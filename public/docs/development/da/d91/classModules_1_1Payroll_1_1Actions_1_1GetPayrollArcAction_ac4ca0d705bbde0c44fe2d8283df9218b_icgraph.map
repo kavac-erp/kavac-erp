@@ -1,0 +1,7 @@
+<map id="getFormated" name="getFormated">
+<area shape="rect" id="Node000001" title="Formatea los datos de la nómina para un año fiscal determinado." alt="" coords="396,20,501,45"/>
+<area shape="rect" id="Node000002" href="$da/d91/classModules_1_1Payroll_1_1Actions_1_1GetPayrollArcAction.html#a21396e593e552f69795cbf60550cae00" title="Genera un archivo PDF para el comprobante de retención de impuesto sobre la renta anual o de cese de ..." alt="" coords="284,20,348,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="383,35,348,35,348,30,383,30"/>
+<area shape="rect" id="Node000003" href="$d1/d4e/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollArcController.html#a86d233574f8c245ba21fbe1aa8e8ca7d" title="Descarga los registros de la planilla ARC." alt="" coords="5,5,236,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="270,35,236,35,236,30,270,30"/>
+</map>

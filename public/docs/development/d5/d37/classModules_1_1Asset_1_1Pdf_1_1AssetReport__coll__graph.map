@@ -1,0 +1,5 @@
+<map id="AssetReport" name="AssetReport">
+<area shape="rect" id="Node000001" title="Gestiona los reportes del módulo de bienes." alt="" coords="5,159,143,584"/>
+<area shape="rect" id="Node000002" href="$d2/d9e/interfaceApp_1_1Repositories_1_1Contracts_1_1ReportInterface.html" title="Interfaz para la gestión de reportes." alt="" coords="17,5,131,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,125,77,158,71,158,71,125"/>
+</map>

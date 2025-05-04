@@ -17,13 +17,13 @@
     </thead>
     <tbody>
         @foreach ($field as $record)
-        <tr>
-            <td>{{ $record->payrollStaff->first_name . ' ' . $record->payrollStaff->last_name }}</td>
-            <td>{{ $record->payrollStaff->payrollEmployment->start_date }}</td>
-            <td>{{ now()->diffInYears($record->payrollStaff->payrollEmployment->start_date) }}</td>
-            <td>{{ $record->start_date }}</td>
-            <td>{{ $record->end_date }}</td>
-        </tr>
+            <tr>
+                <td>{{ $record->payrollStaff->first_name . ' ' . $record->payrollStaff->last_name }}</td>
+                <td>{{ $record->payrollStaff->payrollEmployment->start_date }}</td>
+                <td>{{ now()->diffInYears($record->payrollStaff->payrollEmployment->start_date) }}</td>
+                <td>{{ $record->start_date }}</td>
+                <td>{{ $record->end_date }}</td>
+            </tr>
         @endforeach
     </tbody>
 </table>

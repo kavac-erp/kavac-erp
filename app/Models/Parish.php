@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use App\Traits\ModelsTrait;
@@ -17,6 +15,11 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * @brief Datos de Parroquias
  *
  * Gestiona el modelo de datos para las Parroquias
+ *
+ * @property string|integer $id
+ * @property string $name
+ * @property string $code
+ * @property int    $municipality_id
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -53,7 +56,7 @@ class Parish extends Model implements Auditable
     /**
      * Listado de relaciones a cargar por defecto
      *
-     * @var    array
+     * @var    array $with
      */
     protected $with = ['municipality'];
 
@@ -74,11 +77,9 @@ class Parish extends Model implements Auditable
     /**
      * Método que obtiene el Municipio de una Parroquia
      *
-     * @method  municipality
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con los registros relacionados al modelo Municipality
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function municipality()
     {
@@ -87,8 +88,6 @@ class Parish extends Model implements Auditable
 
     /**
      * Scope para buscar y filtrar datos de Parroquias
-     *
-     * @method    scopeSearch
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -113,8 +112,6 @@ class Parish extends Model implements Auditable
 
     /**
      * Ordena los resultados de la consulta de acuerdo a la columna establecida
-     *
-     * @method   scopeOrderByColumn
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

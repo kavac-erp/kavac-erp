@@ -73,7 +73,7 @@
                     </div>
                     <div class="col-md-3" id="helpFinanceReferenceSelected">
                         <div class="form-group is-required">
-                            <label>Nro. Referencia</label>
+                            <label>Nro. de Documento</label>
                             <v-multiselect
                                 :options="references"
                                 track_by="text"
@@ -172,8 +172,14 @@
                     </div>
                     <div class="col-md-3" id="Payment_number">
                         <div class="form-group" >
-                            <label for="">Nro Factura</label>
+                            <label for="">Nro. Factura</label>
                             <input type="text" class="form-control text-right" v-model="record.payment_number"  >
+                        </div>
+                    </div>
+                    <div class="col-md-3" id="general_bank_reference">
+                        <div class="form-group is-required">
+                            <label for="">Nro. de Referencia bancaria</label>
+                            <input type="number" min="0" class="form-control text-right" v-model="record.general_bank_reference"  >
                         </div>
                     </div>
                 </div>
@@ -218,6 +224,43 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-12 mt-4 mb-4">
+                        <h6>Datos Bancarios</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4" id="helpFinancePaymentMethod">
+                        <div class="form-group is-required">
+                            <label for="" class="control-label">Método de Pago</label>
+                            <span class="select2">
+                                <select2
+                                    :options="paymentMethods"
+                                    v-model="record.finance_payment_method_id" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="helpFinanceBank">
+                        <div class="form-group is-required">
+                            <label for="" class="control-label">Banco</label>
+                            <span class="select2">
+                                <select2 :options="banks"
+                                    @input="getBankAccounts()"
+                                    v-model="record.finance_bank_id" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="helpFinanceAccountNumber">
+                        <div class="form-group is-required">
+                            <label for="" class="control-label">Nro. de Cuenta</label>
+                            <span class="select2">
+                                <select2 :options="accounts"
+                                    v-model="record.finance_bank_account_id"
+                                    @input="getAccountingAccountId();"
+                                    >
+                                </select2>
+                            </span>
+                        </div>
+                    </div>
                     <div class="col-12" id="helpFinanceObservation">
                         <div class="form-group is-required">
                             <label  class="control-label">Observaciones</label>
@@ -247,6 +290,7 @@
                 </div>
                 <accounting-entry-generator
                     ref="accountingEntryGenerator"
+                    :defaultBankReference="record.general_bank_reference"
                     :recordToConverter="[]"
                     :showEdit="true"
                 />
@@ -368,6 +412,7 @@
                     deduction_amount: 0,
                     paid_amount: 0,
                     payment_number: 0,
+                    general_bank_reference: '',
                     deductions: [],
                     observations: '',
                     currency_id: null,
@@ -383,6 +428,9 @@
                 references: [],
                 receivers: [],
                 currencies: [],
+                paymentMethods: [],
+                banks: [],
+                accounts: [],
                 mor: 0,
                 deduction_amount: 0,
                 enableInput: true,
@@ -431,6 +479,7 @@
                     deduction_amount: 0,
                     paid_amount: 0,
                     payment_number: 0,
+                    general_bank_reference: '',
                     deductions: [],
                     observations: '',
                     AutoAccounting: [],
@@ -441,7 +490,7 @@
 
             /**
              * Listado de órdenes de pago pendientes por ejecutar
-             * 
+             *
              * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
              * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
              */
@@ -535,8 +584,8 @@
             deleteDeduction(index) {
                 let vm = this;
                 bootbox.confirm({
-                    title: "Eliminar retención?",
-                    message: `Esta seguro de eliminar esta retención?`,
+                    title: "¿Eliminar retención?",
+                    message: `¿Esta seguro de eliminar esta retención?`,
                     buttons: {
                         cancel: {
                             label: '<i class="fa fa-times"></i> Cancelar',
@@ -624,7 +673,7 @@
             /**
              * Agrega decimales al monto
              *
-             * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+             * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
              */
             addDecimals(value) {
                 return parseFloat(value).toFixed(this.accounting.currency.decimal_places);
@@ -632,26 +681,34 @@
 
             /**
              * Establece los datos de la orden de pago a generar
-             * 
+             *
              * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
              */
             async createRecord() {
                 const vm = this;
                 const url = vm.setUrl('finance/payment-execute');
+
                 if (vm.record.id) {
                     await vm.updateRecord(url);
                 }
                 else {
                     vm.loading = true;
                     var fields = {};
+
                     for (var index in vm.record) {
                         fields[index] = vm.record[index];
                     }
+
                     /** Datos de los ítems contables */
                     fields['accounting'] = vm.$refs.accountingEntryGenerator.data;
-                    fields['accountingItems'] = vm.$refs.accountingEntryGenerator.recordsAccounting;
+
+                    fields['accountingItems'] = vm.$refs.accountingEntryGenerator.recordsAccounting.map(item => {
+                        return {...item, bank_reference: this.record.general_bank_reference }
+                    });
+                    fields['general_bank_reference'] = this.record.general_bank_reference;
+
                     await axios.post(url, fields).then(response => {
-                        bootbox.confirm('Desea generar el comprobante?', function (result) {
+                        bootbox.confirm('¿Desea generar el comprobante?', function (result) {
                             if (result) {
                                 let link = document.createElement('a');
                                 link.target = '_blank';
@@ -744,33 +801,17 @@
             },
 
             /**
-             * Se verifica si la orden de pago es de una retención
-             */
-            // isDeduction() {
-            //     const vm = this;
-            //     if (vm.record.reference_selected.length > 0) {
-            //         let referenceD = vm.record.reference_selected.filter(
-            //             ref => ref.is_deduction == true
-            //         )[0];
-
-            //         vm.record.is_deduction = referenceD.is_deduction;
-            //         console.log(vm.record.is_deduction);
-            //         vm.record.is_partial = vm.record.is_deduction ? '' : true
-            //     }
-            // },
-
-            /**
              * Cambia el monto del pago total, por el sub total cuando es un pago parcial
              *
              * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
              */
             changeTotalAmount() {
                 const vm = this;
-                if (vm.record.is_partial) {
+                if (vm.record.is_partial == 'true') {
                     vm.record.paid_amount = vm.record.sub_amount - vm.record.deduction_amount;
                 } else {
                     vm.record.sub_amount = vm.record.source_amount;
-                    vm.record.paid_amount = vm.record.sub_amount;
+                    vm.record.paid_amount = vm.record.source_amount;
                 }
                 vm.sendEntryData();
             },
@@ -791,13 +832,18 @@
                 vm.record.currency_id = editData.currency_id;
                 vm.record.observations = editData.observations;
                 vm.record.reference_selected = editData.finance_pay_orders;
+                vm.record.finance_payment_method_id = editData.finance_payment_method_id;
+                vm.record.finance_bank_id = editData.finance_bank_account.finance_bank_id;
                 await vm.getPayOrders();
                 vm.record.source_amount = parseFloat(editData.source_amount).toFixed(editData.currency.decimal_places);
                 vm.record.deduction_amount = parseFloat(editData.deduction_amount).toFixed(editData.currency.decimal_places);
                 vm.record.paid_amount = parseFloat(editData.paid_amount).toFixed(editData.currency.decimal_places);
                 vm.record.sub_amount = (parseFloat(vm.record.deduction_amount) + parseFloat(vm.record.paid_amount)).toFixed(editData.currency.decimal_places);
                 vm.record.deductions = editData.finance_payment_deductions;
-                vm.record.payment_number = editData.payment_number;
+                if(vm.record.finance_bank_id) {
+                    vm.record.payment_number = editData.payment_number;
+                }
+                vm.record.general_bank_reference = editData.general_bank_reference;
                 const timeOpen = setTimeout(addAccounts, 1000);
                 function addAccounts () {
                     if (vm.registered_accounts) {
@@ -806,23 +852,12 @@
                         for (let account of registeredAccounts.accounting_entry.accounting_accounts) {
                             vm.$refs.accountingEntryGenerator.recordsAccounting.push({
                                 id: account.accounting_account_id,
-                                entryAccountId: account.accounting_entry_id,
+                                bank_reference: vm.record.general_bank_reference,
                                 debit: account.debit,
                                 assets: account.assets,
                             });
                         }
-                        // vm.$refs.accountingEntryGenerator.data.totAssets = parseFloat(
-                        //     registeredAccounts.accounting_entry.tot_assets
-                        // ).toFixed(
-                        //     this.accounting && this.accounting.currency ?
-                        //     this.accounting.currency.decimal_places : 2
-                        // );
-                        // vm.$refs.accountingEntryGenerator.data.totDebit = parseFloat(
-                        //     registeredAccounts.accounting_entry.tot_debit
-                        // ).toFixed(
-                        //     this.accounting && this.accounting.currency ?
-                        //     this.accounting.currency.decimal_places : 2
-                        // );
+
                         vm.$refs.accountingEntryGenerator.calculateTot();
 
                         vm.$refs.accountingEntryGenerator.data.totAssets = parseFloat(
@@ -876,21 +911,20 @@
                             }
                         }
                     }
-                    for (let ref of vm.record.reference_selected) {
-                        let account = vm.record.id ?
-                        typeof(ref.finance_bank_account) != 'integer' ?
-                        ref.finance_bank_account.accounting_account_id :
-                        ref.finance_bank_account :
-                        ref.financeBankAccount.accounting_account_id;
-                        let amount = vm.record.is_partial ? vm.record.sub_amount : ref.amount;
-                        data = {
-                            debit: false,
-                            assets: true,
-                            amount: amount,
-                            account: account,
-                            is_retention: false,
-                        };
-                        entryData.push(data);
+
+                    if (vm.record.bank_accounting_account_id) {
+                        for (let ref of vm.record.reference_selected) {
+                            let account = vm.record.bank_accounting_account_id;
+                            let amount = vm.record.is_partial ? vm.record.sub_amount : ref.amount;
+                            data = {
+                                debit: false,
+                                assets: true,
+                                amount: amount,
+                                account: account,
+                                is_retention: false,
+                            };
+                            entryData.push(data);
+                        }
                     }
 
                     for (let deduction of vm.record.deductions) {
@@ -912,6 +946,59 @@
                     }
                     vm.$refs.accountingEntryGenerator.chargeAccounts(entryData);
                     vm.$refs.accountingEntryGenerator.changeCurrency(currency_id);
+                }
+            },
+
+            /**
+             * Método que obtiene la cuenta contable asociada a la cuenta bancaria
+             *
+             * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+             */
+            getAccountingAccountId() {
+                const vm = this;
+
+                axios.get(`${window.app_url}/finance/payment-execute/bank/get-bank-accounting-account-id`, {
+                    params : {
+                        finance_bank_account_id : vm.record.finance_bank_account_id
+                    }
+                }).then(response => {
+                    vm.record.bank_accounting_account_id = response.data;
+                    vm.sendEntryData();
+                })
+            },
+
+            /**
+             * Método que obtiene la cuenta bancaria asociada a un registro al editarlo
+             *
+             * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+             */
+             setBankAccount() {
+                const vm = this;
+
+                if (vm.edit_object) {
+                    let editData = JSON.parse(vm.edit_object);
+                    vm.record.finance_bank_account_id = editData.finance_bank_account_id;
+                }
+            },
+            /**
+             * Obtiene los datos de las cuentas asociadas a una entidad bancaria
+             *
+             * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+             */
+            async getBankAccounts() {
+                const vm = this;
+                const bank_id = vm.record.finance_bank_id || '';
+
+                if (bank_id) {
+                    await axios.get(`${vm.app_url}/finance/get-accounts/${bank_id}`).then(response => {
+                        if (response.data.result) {
+                            vm.accounts = response.data.accounts;
+                        }
+                    }).catch(error => {
+                        vm.logs('Budget/Resources/assets/js/_all.js', 127, error, 'getBankAccounts');
+                    });
+
+                    await vm.setBankAccount();
                 }
             },
         },
@@ -940,6 +1027,10 @@
             await vm.getReceivers();
             await vm.getDeductions();
             await vm.getCurrencies();
+            await vm.getPaymentMethods();
+            await vm.getBanks();
+            // await vm.getBankAccounts();
+
             if (vm.edit_object) {
                 await vm.loadForm();
             }

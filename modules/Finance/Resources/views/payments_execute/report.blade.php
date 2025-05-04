@@ -17,13 +17,13 @@
             </td>
         </tr>
         <tr>
-            <td> 
+            <td>
                 <strong>Fecha de emisión de pago:</strong> {{ $financePaymentExecute->paid_at->format('d/m/Y') }}
             </td>
         </tr>
         <tr>
             <td>
-                <strong>Referencia Nº{{ $financePaymentExecute->code }}</strong> 
+                <strong>Referencia Nº{{ $financePaymentExecute->code }}</strong>
             </td>
         </tr>
         <tr>
@@ -31,11 +31,13 @@
                 <strong>Proveedor / Beneficiario:</strong> {{ $financePaymentExecute->receiver_name }}
             </td>
         </tr>
-        @if ($financePaymentExecute->receiver_type != $compromiseClass &&
-             $financePaymentExecute->receiver_type != 'App\Models\Institution')
+        @if (
+            $financePaymentExecute->receiver_type != $compromiseClass &&
+            $financePaymentExecute->receiver_type != 'App\Models\Institution'
+        )
         <tr>
             <td colspan="2">
-                <strong>R.I.F. / C.I.:</strong> 
+                <strong>R.I.F. / C.I.:</strong>
                 {{
                     $payOrder[0]->nameSourceable->rif ?? $payOrder[0]->nameSourceable->dni ??
                     $payOrder[0]->nameSourceable->payrollStaff->id_number ??
@@ -45,32 +47,66 @@
         </tr>
         @endif
         <tr>
-            <td colspan="2">&#160;</td>
+            <td colspan="2"></td>
         </tr>
         <tr>
             <td colspan="2" class="text-justify font-weight-bold" style="font-size: 1.2em;font-weight:bold">
-                {{ convertirNumeros(number_format($financePaymentExecute->paid_amount, $payOrder[0]->currency->decimal_places, ".", "")) }}
+                {{
+                    convertirNumeros(
+                        number_format(
+                            $financePaymentExecute->paid_amount,
+                            $payOrder[0]->currency->decimal_places,
+                            ".",
+                            ""
+                        ),
+                        strtoupper($payOrder[0]->currency->plural_name)
+                    )
+                }}
             </td>
             <td style="font-size: 1.3em">
-                <strong>*** {{ $payOrder[0]->currency->symbol }} {{ number_format($financePaymentExecute->paid_amount, $payOrder[0]->currency->decimal_places, ",", ".") }} ***</strong>
+                <strong>
+                    <span class="mr-2">***</span>
+                    <span class="mr-2">
+                        <span class="mr-2">{{ $payOrder[0]->currency->symbol }}</span>
+                        {{
+                            number_format(
+                                $financePaymentExecute->paid_amount,
+                                $payOrder[0]->currency->decimal_places,
+                                ",",
+                                "."
+                            )
+                        }}
+                    </span>
+                    <span>***</span>
+                </strong>
             </td>
         </tr>
         <tr>
-            <td colspan="2">&#160;</td>
+            <td colspan="2"></td>
         </tr>
         <tr>
             <td>
-                <b>Cod. Orden(s) de pago(s):</b><br>
-                @foreach($payOrder as $payOrd)
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ $payOrd->code }} <br>
-                @endforeach
+                <b>Cod. Orden(s) de pago(s):</b>
+                <span class="ml-2">
+                    @foreach($payOrder as $payOrd)
+                        {{ $payOrd->code }}
+                        @if ($loop->last === false)
+                            <span class="mr-1">,</span>
+                        @endif
+                    @endforeach
+                </span>
             </td>
         </tr>
         <tr>
             <td>
-               <b>Nro.Factura: {{ $financePaymentExecute->payment_number }}</b>
+               <b>Nro.Factura:</b><span class="ml-2">{{ $financePaymentExecute->payment_number }}</span>
             </td>
         </tr>
+
+    </tbody>
+</table>
+<table>
+    <tbody>
         <tr>
             <td>
                 <b>Concepto:</b> {{ $payOrder[0]->concept }}
@@ -93,10 +129,12 @@
     </thead>
     <tbody>
         <tr>
-            <td style="text-align: center;">{{ $payOrder[0]->financePaymentMethod->name }}</td>
-            <td style="text-align: center;">{{ $payOrder[0]->financeBankAccount->financeBankingAgency->financeBank->name }}</td>
-            <td style="text-align: center;">{{ $payOrder[0]->financeBankAccount->formatedCccNumber}}</td>
-            <td style="text-align: center;">{{ $payOrder[0]->currency->symbol }} {{ number_format($financePaymentExecute->paid_amount, $payOrder[0]->currency->decimal_places, ",", ".") }}</td>
+            <td style="text-align: center;">{{ $financePaymentExecute->financePaymentMethod->name }}</td>
+            <td style="text-align: center;">{{ $financePaymentExecute->financeBankAccount->financeBankingAgency->financeBank->name }}</td>
+            <td style="text-align: center;">{{ $financePaymentExecute->financeBankAccount->formatedCccNumber}}</td>
+            <td style="text-align: center;">
+                {{ $payOrder[0]->currency->symbol }} {{ number_format($financePaymentExecute->paid_amount, $payOrder[0]->currency->decimal_places, ",", ".") }}
+            </td>
         </tr>
         <tr>
             <td colspan="4">&#160;</td>
@@ -134,7 +172,7 @@
 @endif
 @if ($accountingEntry)
     <br>
-    <h5 style="text-align: center">ASIENTO CONTABLE CONTABILIDAD</h5>
+    <h5 style="text-align: center">ASIENTO CONTABLE</h5>
     <table style="border:solid 1px #000;font-size: 0.85em;background-color:#adbfd3; padding:10px;">
         <thead>
             <tr>
@@ -145,7 +183,7 @@
             </tr>
         </thead>
         <tbody>
-            
+
             @foreach ($accountingEntry->accountingAccounts as $accountEntry)
                 <tr>
                     <td style="text-align: center;">{{ $accountEntry->account ? $accountEntry->account->code : 'No definido' }}</td>

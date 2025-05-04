@@ -1,3 +1,3 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d8/d6f/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollStaffTypesTableSeeder.html" title="Inicializar los tipos de personal." alt="" coords="5,5,217,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d1/dc1/classModules_1_1DigitalSignature_1_1Database_1_1Seeders_1_1DigitalSignatureDatabaseSeeder.html" title="Gestiona la inserción de datos por defecto del módulo de firma electrónica." alt="" coords="5,5,195,45"/>
 </map>

@@ -81,9 +81,9 @@
                     <span> {{ props.row.start_date + ' - ' + props.row.end_date }} </span>
                 </div>
                 <div slot="id" slot-scope="props" class="text-center">
-                    <button @click="createReport(props.row.id, 'vacation-bonus-calculations', $event)" 
-                            class="btn btn-primary btn-xs btn-icon btn-action" 
-                            title="Generar reporte" data-toggle="tooltip" 
+                    <button @click="createReport(props.row.id, 'vacation-bonus-calculations', $event)"
+                            class="btn btn-primary btn-xs btn-icon btn-action"
+                            title="Generar reporte" data-toggle="tooltip"
                             type="button">
                         <i class="fa fa-file-pdf-o"></i>
                     </button>
@@ -143,12 +143,12 @@
                     if (typeof(error.response) != "undefined") {
                         if (error.response.status == 403) {
                             vm.showMessage(
-                                'custom', 
-                                'Acceso Denegado', 
-                                'danger', 
-                                'screen-error', 
+                                'custom',
+                                'Acceso Denegado',
+                                'danger',
+                                'screen-error',
                                 error.response.data.message
-                            ); 
+                            );
                         }
                         console.log("error");
                     }

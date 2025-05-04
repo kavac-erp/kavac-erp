@@ -26,29 +26,33 @@ class PayrollStaffPayroll extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
-    protected $fillable = ['concept_type', 'payroll_id', 'payroll_staff_id'];
+    protected $fillable = ['concept_type', 'payroll_id', 'payroll_staff_id', 'basic_payroll_staff_data'];
 
     /**
      * Lista de atributos de relacion consultados automaticamente
+     *
      * @var    array    $with
      */
     protected $with = ['payroll', 'payrollStaff'];
 
     /**
-     * The attributes that should be cast.
+     * Lista de atributos con el tipo de dato a retornar
      *
-     * @var array
+     * @var array $casts
      */
     protected $casts = [
         'concept_type' => 'array',
+        'basic_payroll_staff_data' => 'array',
     ];
 
     /**

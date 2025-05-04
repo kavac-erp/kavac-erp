@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Asset\Rules\Setting;
 
 use Illuminate\Contracts\Validation\Rule;
@@ -9,9 +7,7 @@ use Modules\Asset\Models\AssetSpecificCategory;
 
 /**
  * @class AssetSpecificCategoryUnique
- * @brief [descripción detallada]
- *
- * [descripción corta]
+ * @brief Regla para validar la unicidad de una categoría específica de bien
  *
  * @author  Yennifer Ramirez <yramirez@cenditel.gob.ve>
  *
@@ -22,12 +18,14 @@ class AssetSpecificCategoryUnique implements Rule
 {
     /**
      * Identificador unico de subcategoría
+     *
      * @var    string    $asset_subcategory_id
      */
     protected $asset_subcategory_id;
 
     /**
      * Código de la subcategoría
+     *
      * @var    string    $code
      */
     protected $code;
@@ -35,9 +33,7 @@ class AssetSpecificCategoryUnique implements Rule
     /**
      * Crea una nueva instancia de la regla
      *
-     * @method __construct
-     *
-     * @return void     [descripción de los datos devueltos]
+     * @return void
      */
     public function __construct($asset_subcategory_id, $code)
     {
@@ -47,8 +43,6 @@ class AssetSpecificCategoryUnique implements Rule
 
     /**
      * Determina si pasa la regla de validación.
-     *
-     * @method passes
      *
      * @param  string  $attribute   Nombre del atributo
      * @param  mixed   $value       Valor del atributo a evaluar
@@ -68,8 +62,6 @@ class AssetSpecificCategoryUnique implements Rule
 
     /**
      * Obtiene el mensaje de validación.
-     *
-     * @method message
      *
      * @return string    Devuelve una cadena de texto con el mensaje de error si la validación no es exitosa
      */

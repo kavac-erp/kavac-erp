@@ -10,7 +10,7 @@ var classModules_1_1Sale_1_1Models_1_1SaleTechnicalProposal =
     [ "saleProposalSpecification", "d1/dfc/classModules_1_1Sale_1_1Models_1_1SaleTechnicalProposal.html#ad5f1ee2a14c07cd4efc698935c7f4195", null ],
     [ "saleService", "d1/dfc/classModules_1_1Sale_1_1Models_1_1SaleTechnicalProposal.html#a2cd41947dcbe76824a0d669c66898a30", null ],
     [ "$appends", "d1/dfc/classModules_1_1Sale_1_1Models_1_1SaleTechnicalProposal.html#a2f891c3ddc371402c455a71fbe376e29", null ],
-    [ "$casts", "d1/dfc/classModules_1_1Sale_1_1Models_1_1SaleTechnicalProposal.html#a1649e00448c72a723c2c79fe5f915b97", null ],
+    [ "$casts", "d1/dfc/classModules_1_1Sale_1_1Models_1_1SaleTechnicalProposal.html#ae865304924c5cbe9d794fd26086a9904", null ],
     [ "$dates", "d1/dfc/classModules_1_1Sale_1_1Models_1_1SaleTechnicalProposal.html#a6ed295a3b7371b42773cab86fd367af8", null ],
     [ "$fillable", "d1/dfc/classModules_1_1Sale_1_1Models_1_1SaleTechnicalProposal.html#a13601d3af66d109458e268a3eb4afc49", null ]
 ];

@@ -1,12 +1,11 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class DepartmentController
@@ -15,12 +14,17 @@ use Illuminate\Validation\Rule;
  * Controlador para gestionar Departamentos
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class DepartmentController extends Controller
 {
-    /** @var array Lista de elementos a mostrar */
+    /**
+     * Lista de elementos a mostrar
+     *
+     * @var array $data
+     */
     protected $data = [];
 
     /**
@@ -39,8 +43,6 @@ class DepartmentController extends Controller
     /**
      * Listado con todos los departamentos registrados
      *
-     * @method    index
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return    JsonResponse     JSON con información de respuesta a la petición
@@ -53,9 +55,7 @@ class DepartmentController extends Controller
     /**
      * Registra un nuevo departamento
      *
-     * @method    store
-     *
-     * @author     Ing. Francisco Escaña <fjescala@cenditel.gob.ve> | <fjescala@gmail.com>
+     * @author     Ing. Francisco Escala <fjescala@cenditel.gob.ve> | <fjescala@gmail.com>
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Request    $request    Objeto con información de la petición
@@ -72,7 +72,7 @@ class DepartmentController extends Controller
         $mesg = [
             'name.required' => 'El campo nombre es obligatorio.',
             'name.unique' => 'El campo nombre ya ha sido registrado.',
-            'acronym.max' => 'El campo acrónimo no debe ser mayor que 4 caracteres.',
+            'acronym.max' => 'El campo acrónimo no debe ser mayor a 4 caracteres.',
             'acronym.unique' => 'El campo acrónimo ya ha sido registrado.',
             'institution_id.required' => 'El campo institución es obligatorio.',
 
@@ -102,18 +102,18 @@ class DepartmentController extends Controller
         }
         $this->validate($request, $rules, $mesg);
 
-        /** @var integer Establece la jerarquía del departamento */
+        // Establece la jerarquía del departamento
         $hierarchy = 0;
 
         if (!is_null($request->parent_id) || !empty($request->parent_id)) {
-            /** @var Department Departamento asociado */
+            // Departamento asociado
             $dto = Department::where('parent_id', $request->parent_id)->first();
             if ($dto) {
                 $hierarchy = (int) $dto->hierarchy + 1;
             }
         }
 
-        /** @var Department Objeto con información del departamento registrado */
+        // Objeto con información del departamento registrado
         $department = Department::create([
             'name' => $request->name,
             'acronym' => ($request->acronym) ? $request->acronym : null,
@@ -131,9 +131,7 @@ class DepartmentController extends Controller
     /**
      * Actualiza los datos de un departamento
      *
-     * @method    update
-     *
-     * @author     Ing. Francisco Escaña <fjescala@cenditel.gob.ve> | <fjescala@gmail.com>
+     * @author     Ing. Francisco Escala <fjescala@cenditel.gob.ve> | <fjescala@gmail.com>
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Request       $request       Objeto con datos de la petición
@@ -151,7 +149,7 @@ class DepartmentController extends Controller
         $mesg = [
             'name.required' => 'El campo nombre es obligatorio.',
             'name.unique' => 'El campo nombre ya ha sido registrado.',
-            'acronym.max' => 'El campo acrónimo no debe ser mayor que 4 caracteres.',
+            'acronym.max' => 'El campo acrónimo no debe ser mayor a 4 caracteres.',
             'acronym.unique' => 'El campo acrónimo ya ha sido registrado.',
             'institution_id.required' => 'El campo institución es obligatorio.',
 
@@ -210,8 +208,6 @@ class DepartmentController extends Controller
     /**
      * Elimina un departamento
      *
-     * @method    destroy
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Department    $department    Objeto con información del departamento a eliminar
@@ -226,8 +222,6 @@ class DepartmentController extends Controller
 
     /**
      * Obtiene un listado de departamentos
-     *
-     * @method getDepartments
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

@@ -11,16 +11,17 @@ use App\Models\Institution as BaseInstitution;
  * Modelo que extiende las funcionalidades del modelo base Institution
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class Institution extends BaseInstitution
 {
     /**
-     * Institution has many BudgetSubSpecificFormulations.
+     * Obtiene la relación con las formulaciones presupuestarias asociadas a una institución
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function budgetSubSpecificFormulations()
@@ -29,9 +30,10 @@ class Institution extends BaseInstitution
     }
 
     /**
-     * Institution has many BudgetModification.
+     * Obtiene la relación con las modificaciones presupuestarias asociadas a una institución
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function budgetModifications()

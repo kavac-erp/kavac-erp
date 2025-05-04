@@ -135,7 +135,7 @@
 						vm.reset();
 						vm.showMessage('update');
 					}
-				}).catch(error => { 
+				}).catch(error => {
 					vm.errors = [];
 
 					if (typeof(error.response) !="undefined") {

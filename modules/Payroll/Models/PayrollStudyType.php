@@ -27,6 +27,7 @@ class PayrollStudyType extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
@@ -44,6 +45,7 @@ class PayrollStudyType extends Model implements Auditable
      * Método que obtiene el tipo de estudio asociado a muchas informaciones profesionales
      *
      * @author William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollProfessionals()

@@ -1,0 +1,17 @@
+<map id="formatDataInArray" name="formatDataInArray">
+<area shape="rect" id="Node000001" title="Sintetiza la información de una cuenta en un array con sus respectivas subcuentas." alt="" coords="5,104,149,129"/>
+<area shape="poly" id="edge8_Node000001_Node000001" title=" " alt="" coords="43,106,35,96,39,86,54,80,77,77,107,81,118,90,115,94,105,86,77,83,55,85,43,89,41,95,47,102"/>
+<area shape="rect" id="Node000002" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#aaf408629462a34c9e16a85f68f74ee0a" title="Cálculo de saldo de la cuenta tomando en cuenta todos sus subcuentas, hasta llegar al ultimo nivel de..." alt="" coords="197,104,379,129"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,114,184,114,184,119,150,119"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="253,106,246,96,250,86,264,80,288,77,317,81,329,90,326,94,315,86,288,83,266,85,254,89,251,95,258,102"/>
+<area shape="rect" id="Node000003" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#ab0ddffde595d12d9c85da6f4c1eb2605" title="Encuentra los tipos de cambio." alt="" coords="427,5,608,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="308,102,360,71,426,40,447,32,449,37,428,44,362,76,310,106"/>
+<area shape="rect" id="Node000004" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a6f3d70e44a5afea25eb600c5e19f6a29" title="Realiza la conversion de saldo." alt="" coords="445,55,590,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="347,101,443,80,445,86,348,107"/>
+<area shape="rect" id="Node000005" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a4412028831ce993246eb29b08f2ebb03" title="Obtiene las conversiones de cuentas." alt="" coords="457,104,578,129"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="379,114,443,114,443,119,379,119"/>
+<area shape="rect" id="Node000006" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#aa4c79afa7ea1ba7a95b832f2b6ab8ec4" title="Obtiene el identificador de la moneda." alt="" coords="461,153,574,179"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="348,127,448,148,447,154,347,132"/>
+<area shape="rect" id="Node000007" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a678f5c49204c69d24b2b293794996ecd" title="Establece las conversiones de cuentas." alt="" coords="457,203,577,228"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="311,127,363,157,428,188,452,196,450,201,426,192,361,162,309,132"/>
+</map>

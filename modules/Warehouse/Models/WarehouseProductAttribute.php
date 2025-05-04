@@ -11,9 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * Gestiona el modelo de datos de los atributos personalizados de los productos
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseProductAttribute extends Model
 {
@@ -28,8 +27,8 @@ class WarehouseProductAttribute extends Model
      * Método que obtiene los productos almacenables
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouseProduct()
     {
@@ -40,8 +39,8 @@ class WarehouseProductAttribute extends Model
      * Método que obtiene los valores de los atributos del producto
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne Objeto con el registro relacionado al modelo
-     * WarehouseProductValue
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function warehouseProductValue()
     {

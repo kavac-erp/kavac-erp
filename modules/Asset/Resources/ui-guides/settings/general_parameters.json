@@ -22,5 +22,25 @@
     {
         "element" : "#helpAssetStorages",
         "intro" : "Gestiona información acerca de los depósitos de bienes institucionales"
+    },
+    {
+        "element" : "#helpAssetSupplierBranches",
+        "intro" : "Gestiona información acerca de ramas de proveedores."
+    },
+    {
+        "element" : "#helpAssetSupplierTypes",
+        "intro" : "Gestiona información acerca de objetos de proveedores."
+    },
+    {
+        "element" : "#helpAssetSupplierSpecialties",
+        "intro" : "Gestiona información acerca de especialidad de proveedores."
+    },
+    {
+        "element" : "#helpAssetSupplierObjects",
+        "intro" : "Gestiona información acerca de tipos de proveedores."
+    },
+    {
+        "element" : "#helprequiredDocuments",
+        "intro" : "Gestiona información acerca los documentos requeridos de proveedor."
     }
 ]

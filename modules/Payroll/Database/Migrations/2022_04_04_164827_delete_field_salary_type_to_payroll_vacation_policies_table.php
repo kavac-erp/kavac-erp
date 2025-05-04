@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class DeleteFieldSalaryTypeToPayrollVacationPoliciesTable
- * @brief [descripción detallada]
+ * @brief Migración para eliminar el campo salary_type de la tabla payroll_vacation_policies
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

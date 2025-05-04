@@ -8,6 +8,9 @@ var classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireControl
     [ "generateCodeAvailable", "d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController.html#a2af9196615a6dc74342d783b96e2041a", null ],
     [ "index", "d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController.html#a149eb92716c1084a935e04a8d95f7347", null ],
     [ "show", "d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController.html#ae4914d07a9bbe4aede7a5dea759f6287", null ],
+    [ "showDirectHireCurrency", "d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController.html#a6be4c0c85ecbba0c8fea007809d2817d", null ],
     [ "store", "d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController.html#a7cc085ea076f11a36db491ce2b3ce29c", null ],
-    [ "vueList", "d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController.html#aca78b35dd9df5b11e63e88796cf08c66", null ]
+    [ "update", "d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
+    [ "updatePurchaseOrder", "d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController.html#a37f9dbe1841843b2024ade15ef43245d", null ],
+    [ "vueList", "d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController.html#aeda203833835d6a44406bfdbd50b431b", null ]
 ];

@@ -1,19 +1,15 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @class $CLASS$
- * @brief [descripción detallada]
+ * @class ProjectTrackingDatabaseSeeder
+ * @brief Seeder de la base de datos para el modulo de Seguimiento de Proyectos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -23,9 +19,7 @@ class ProjectTrackingDatabaseSeeder extends Seeder
     /**
      * Ejecuta los seeds de la base de datos
      *
-     * @method run
-     *
-     * @return void     [descripción de los datos devueltos]
+     * @return void
      */
     public function run()
     {

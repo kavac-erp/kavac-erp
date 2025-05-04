@@ -12,7 +12,7 @@
                     <label>Existencia</label>
                     <div class="col-12">
                         <div class="custom-control custom-switch">
-                            <input type="radio" class="custom-control-input sel_graph_products" 
+                            <input type="radio" class="custom-control-input sel_graph_products"
                                    id="sel_product_exist" name="type_graph_products" value="exist" checked>
                             <label class="custom-control-label" for="sel_product_exist"></label>
                         </div>
@@ -24,7 +24,7 @@
                     <label>Más solicitados</label>
                     <div class="col-12">
                         <div class="custom-control custom-switch">
-                            <input type="radio" class="custom-control-input sel_graph_products" 
+                            <input type="radio" class="custom-control-input sel_graph_products"
                                    id="sel_product_max_request" name="type_graph_products" value="max_request">
                             <label class="custom-control-label" for="sel_product_max_request"></label>
                         </div>
@@ -37,7 +37,7 @@
                     <label>Menos solicitados</label>
                     <div class="col-12">
                         <div class="custom-control custom-switch">
-                            <input type="radio" class="custom-control-input sel_graph_products" 
+                            <input type="radio" class="custom-control-input sel_graph_products"
                                    id="sel_product_min_request" name="type_graph_products" value="min_request">
                             <label class="custom-control-label" for="sel_product_min_request"></label>
                         </div>
@@ -106,7 +106,7 @@
                     <li class="VuePagination__pagination-item page-item  VuePagination__pagination-item-prev-page" v-if="pag > 1">
                         <a class="page-link" @click="prevPag()">&lt;</a>
                     </li>
-                    <li :class="(pag ==number)?'VuePagination__pagination-item page-item active':'VuePagination__pagination-item page-item'" v-for="number in numbers" v-if="records.length >= number">
+                    <li :class="(pag ==number)?'VuePagination__pagination-item page-item active':'VuePagination__pagination-item page-item'" v-for="(number, index) in numbers" v-if="records.length >= number" :key="index">
                         <a class="page-link active" role="button" @click.prevent="pag = number">{{number}}</a>
                     </li>
                     <li class="VuePagination__pagination-item page-item  VuePagination__pagination-item-next-page" v-if="records.length > pag">

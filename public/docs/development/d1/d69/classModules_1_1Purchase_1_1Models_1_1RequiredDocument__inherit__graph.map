@@ -1,3 +1,5 @@
 <map id="RequiredDocument" name="RequiredDocument">
-<area shape="rect" id="node1" title="Modelo que extiende de la aplicacion base." alt="" coords="5,5,227,97"/>
+<area shape="rect" id="Node000001" title="Modelo que extiende de la aplicacion base." alt="" coords="5,139,219,219"/>
+<area shape="rect" id="Node000002" href="$d8/d8c/classApp_1_1Models_1_1RequiredDocument.html" title="Datos de Documentos requeridos." alt="" coords="43,5,181,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,105,115,139,109,139,109,105"/>
 </map>

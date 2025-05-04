@@ -25,6 +25,15 @@ use Modules\Payroll\Models\PayrollStaff;
 use Modules\Payroll\Models\PayrollStaffUniformSize;
 use Maatwebsite\Excel\Validators\Failure;
 
+/**
+ * @class StaffImport
+ * @brief Importa un archivo de datos de personal
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class StaffImport implements
     ToModel,
     WithValidation,
@@ -36,13 +45,23 @@ class StaffImport implements
     use SkipsErrors;
     use SkipsFailures;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @param string $fileErrosPath Ruta del archivo de errores
+     *
+     * @return void
+     */
     public function __construct(
         protected string $fileErrosPath,
     ) {
+        //
     }
 
     /**
-     * @param array $row
+     * Modelo para importar los datos
+     *
+     * @param array $row Arreglo de columnas a importar
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
@@ -53,7 +72,10 @@ class StaffImport implements
             $blood_type_id = PayrollBloodType::firstOrCreate([
                 'name' => $row['tipo_de_sangre'],
             ])->id;
+        } else {
+            $blood_type_id = null;
         }
+
         if (!empty($row['genero'])) {
             $gender_id = PayrollGender::firstOrCreate([
                 'name' => $row['genero'],
@@ -69,12 +91,13 @@ class StaffImport implements
                 'name' => $row['parroquia'],
             ])->id;
         }
-        /** @var array Datos del personal */
+        /* Datos del personal */
         $data = [
           'email' => $row['correo_electronico'],
+          'rif' => $row['rif'],
           'first_name' => $row['nombres'],
           'last_name' => $row['apellidos'],
-          'birthdate' => !empty($row['fecha_de_nacimiento']) ? $row['fecha_de_nacimiento'] : null,
+          'birthdate' => !empty($row['fecha_de_nacimiento']) ? Carbon::createFromFormat('d-m-Y', $row['fecha_de_nacimiento'])->format('Y-m-d') : null,
           'address' => $row['direccion'],
           'payroll_blood_type_id' => $blood_type_id,
           'parish_id' => $parish_id,
@@ -160,7 +183,7 @@ class StaffImport implements
         }
 
         $payrollStaff = PayrollStaff::updateOrCreate($whereCond, $data);
-        /// cargamos los uniformes
+        // cargamos los uniformes
         for ($iter = 1; $iter <= 3; $iter++) {
             if (isset($row['pieza_de_uniforme_' . $iter]) && !is_null($row['pieza_de_uniforme_' . $iter]) && isset($row['talla_' . $iter]) && !is_null($row['talla_' . $iter])) {
                 foreach ($payrollStaff->payrollStaffUniformSize as $uniformSize) {
@@ -180,11 +203,20 @@ class StaffImport implements
         }
     }
 
+    /**
+     * Preparar los datos para ser importados (validaciones)
+     *
+     * @param array $data Arreglo de datos a importar
+     * @param integer $index Índice de la fila
+     *
+     * @return array
+     */
     public function prepareForValidation($data, $index)
     {
         $Emailusuario = PayrollStaff::where(['id_number' => trim($data['cedula_de_identidad']) ?? null])->first();
         $data['id'] = false;
-        if (!is_null($data['cedula_de_identidad']) &&
+        if (
+            !is_null($data['cedula_de_identidad']) &&
             trim($data['cedula_de_identidad']) != '' &&
             $data['cedula_de_identidad'] != 'null' &&
             $data['cedula_de_identidad'] != null
@@ -220,9 +252,21 @@ class StaffImport implements
             }
         }
 
+        if (isset($data['rif']) && !is_null($data['rif']) && trim($data['rif']) != '') {
+            $data['rif'] = preg_replace('/[^a-zA-Z0-9]/', '', $data['rif']);
+            $usuario_rif = PayrollStaff::query()
+                ->where(['rif' => $data['rif'],])
+                ->where('id', '<>', $Emailusuario?->id ?? null)
+                ->first();
+            if ($usuario_rif && $data['id'] && $data['id'] != $usuario_rif->id) {
+                $usuarioFaultValues[] = 'Ya existe otro usuario con el rif ' . $usuario_email->rif . ' (id = ' . $usuario_email->id . ', id_number = ' . $usuario_email->id_number . ')';
+            }
+        }
+
         $data['data_usuario_exist_value'] = count($usuarioFaultValues) ? implode(', ', $usuarioFaultValues) : false;
         $data['data_code_value'] = false;
-        if (!isset($data['code']) ||
+        if (
+            !isset($data['code']) ||
             is_null($data['code']) ||
             trim($data['code']) == '' ||
             $data['code'] == 'null' ||
@@ -230,12 +274,14 @@ class StaffImport implements
         ) {
             $codeSetting = CodeSetting::where('table', 'payroll_staffs')->first();
             if ($codeSetting) {
+                $year = $codeSetting->format_year === '2' ? date('y') : date('Y');
+                if (isset($currentFiscalYear) && $currentFiscalYear instanceof FiscalYear) {
+                    $year = $codeSetting->format_year === '2' ? substr($currentFiscalYear->year, 2, 2) : $currentFiscalYear->year;
+                }
                 $data['code'] = generate_registration_code(
                     $codeSetting->format_prefix,
                     strlen($codeSetting->format_digits),
-                    (strlen($codeSetting->format_year) == 2) ? (isset($currentFiscalYear) ?
-                    substr($currentFiscalYear->year, 2, 2) : date('y')) : (isset($currentFiscalYear) ?
-                    $currentFiscalYear->year : date('Y')),
+                    $year,
                     PayrollStaff::class,
                     $codeSetting->field
                 );
@@ -245,7 +291,8 @@ class StaffImport implements
         }
 
         for ($iter = 1; $iter <= 3; $iter++) {
-            if (!isset($data['pieza_de_uniforme_' . $iter]) ||
+            if (
+                !isset($data['pieza_de_uniforme_' . $iter]) ||
                 is_null($data['pieza_de_uniforme_' . $iter]) ||
                 trim($data['pieza_de_uniforme_' . $iter]) == '' ||
                 $data['pieza_de_uniforme_' . $iter] == 'null' ||
@@ -260,7 +307,8 @@ class StaffImport implements
           'required_by' => 'payroll',
           'p_key' => 'work_age',
           ])->first();
-        if (isset($data['fecha_de_nacimiento']) &&
+        if (
+            isset($data['fecha_de_nacimiento']) &&
             !is_null($data['fecha_de_nacimiento']) &&
             $data['fecha_de_nacimiento'] != '' &&
             $data['fecha_de_nacimiento'] != 'null' &&
@@ -285,6 +333,13 @@ class StaffImport implements
         return $data;
     }
 
+    /**
+     * Callback de error de validación.
+     *
+     * @param mixed $failures Arreglo columnas que fallaron en la validación
+     *
+     * @return void
+     */
     public function onFailure(Failure ...$failures)
     {
         foreach ($failures as $failure) {
@@ -299,6 +354,11 @@ class StaffImport implements
         }
     }
 
+    /**
+     * Reglas de validación.
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -306,9 +366,10 @@ class StaffImport implements
             'nombres' => ['required'],
             'nacionalidad' => ['required'],
             'cedula_de_identidad' => ['required', 'regex:/^([\d]{7}|[\d]{8})$/u'],
-            'direccion' => ['required'],
+            'rif' => ['required', 'regex:/^[E, G, J, P, V, 0-9 ]+$/', 'size:10'],
+            'direccion' => ['nullable'],
             'pasaporte' => ['nullable', 'min:5', 'max:20'],
-            'correo_electronico' => ['required','email'],
+            'correo_electronico' => ['nullable', 'email'],
             'genero' => ['required'],
             'parroquia' => ['required'],
             'discapacidad' => ['required_if:posee_una_discapacidad,TRUE'],
@@ -318,7 +379,7 @@ class StaffImport implements
             'talla_3' => ['required_with:*.pieza_de_uniforme_3'],
             'pieza_de_uniforme_2' => ['required_with:*.talla_2'],
             'talla_2' => ['required_with:*.pieza_de_uniforme_2'],
-            'tipo_de_sangre' => ['required'],
+            'tipo_de_sangre' => ['nullable'],
             'grado_de_licencia' => ['required_if:posee_licencia_de_conducir,TRUE'],
             'data_usuario_exist_value' => function ($attribute, $value, $onFailure) {
                 if ($value) {

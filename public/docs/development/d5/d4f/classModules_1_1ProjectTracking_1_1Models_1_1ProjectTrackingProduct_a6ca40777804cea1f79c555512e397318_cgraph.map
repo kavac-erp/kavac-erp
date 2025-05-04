@@ -1,0 +1,5 @@
+<map id="getProductTypeIds" name="getProductTypeIds">
+<area shape="rect" id="Node000001" title="Retorna los identificadores de los tipos de productos asociados al producto actual." alt="" coords="5,5,147,31"/>
+<area shape="rect" id="Node000002" href="$d5/d4f/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingProduct.html#aa66f466517ee33c4007ac27620f6a1f7" title="Método que obtiene la información de los tipos de productos asociados a un tipo de producto." alt="" coords="195,5,303,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,15,181,15,181,21,147,21"/>
+</map>

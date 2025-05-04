@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -12,9 +10,7 @@ use Modules\ProjectTracking\Models\ProjectTrackingActivityStatus;
 
 /**
  * @class ProjectTrackingActivityStatusController
- * @brief [descripción detallada]
- *
- * [descripción corta]
+ * @brief Gestiona los procesos del controlador
  *
  * @author Pedro Buitrago pbuitrago@cenditel.gob.ve
  *
@@ -27,13 +23,15 @@ class ProjectTrackingActivityStatusController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -41,44 +39,42 @@ class ProjectTrackingActivityStatusController extends Controller
      * Define la configuración de la clase
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'color'               => ['required'],
             'name'                => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'color.required'      => 'El campo color es obligatorio.',
             'name.required'       => 'El campo nombre es obligatorio.',
         ];
     }
+
     /**
-     * [descripción del método]
-     *
-     * @method    index
+     * Obtiene la lista de estatus de actividades
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        //return view('projecttracking::index');
         return response()->json(['records' => ProjectTrackingActivityStatus::all()], 200);
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    create
+     * Muestra el formulario para crear un nuevo estatus de actividad
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -88,11 +84,9 @@ class ProjectTrackingActivityStatusController extends Controller
     /**
      * Retorna un json con todas las prioridades registradas para ser usado en un componente <select2>
      *
-     * @method    getActivityStatuses
-     *
      * @author    Oscar González <xxmaestroyixx@gmail.com/ojgonzalez@cenditel.gob.ve>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function getActivityStatuses()
     {
@@ -112,20 +106,18 @@ class ProjectTrackingActivityStatusController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    store
+     * Almacena un nuevo estatus de actividad
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
-     * @param     object    Request    $request    Objeto con información de la petición
+     * @param     Request    $request    Datos de la petición
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $this->validate($request, $this->validateRules, $this->messages);
-        //
+
         $activityStatus = ProjectTrackingActivityStatus::create([
             'color' => $request->input('color'),
             'name' => $request->input('name'),
@@ -136,15 +128,13 @@ class ProjectTrackingActivityStatusController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
+     * Muestra información de un estatus de actividad
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -152,15 +142,13 @@ class ProjectTrackingActivityStatusController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
+     * Muestra el formulario de edición de un estatus de actividad
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -168,16 +156,14 @@ class ProjectTrackingActivityStatusController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    update
+     * Actualiza un estatus de actividad
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -190,15 +176,13 @@ class ProjectTrackingActivityStatusController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
+     * Elimina un estatus de actividad
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

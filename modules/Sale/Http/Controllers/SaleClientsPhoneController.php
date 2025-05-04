@@ -8,39 +8,55 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleClientsPhone;
 
 /**
- * Eliminar
+ * @class SaleClientsPhoneController
+ * @brief Controlador que gestiona la información de los telefonos de los clientes
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleClientsPhoneController extends Controller
 {
     use ValidatesRequests;
 
     /**
-     * Define la configuración de la clase
+     * Método constructor de la clase
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         // $this->middleware('permission:sale.setting.phone');
     }
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Muestra el listado de teléfonos de los clientes
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         return response()->json(['records' => []], 200);
     }
 
+    /**
+     * Obtiene los teléfonos de un cliente
+     *
+     * @param integer $id Identificador del cliente
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function client($id)
     {
         return response()->json(['records' => SaleClientsPhone::where('sale_client_id', '=', $id)->get()], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena los teléfonos de un cliente
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -59,9 +75,12 @@ class SaleClientsPhoneController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza los teléfonos de un cliente
+     *
+     * @param  Request $request Datos de la petición
+     * @param SaleClientsPhone $phone Teléfono a actualizar
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, SaleClientsPhone $phone)
     {
@@ -80,8 +99,11 @@ class SaleClientsPhoneController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina un teléfono de un cliente
+     *
+     * @param SaleClientsPhone $phone Teléfono a eliminar
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(SaleClientsPhone $phone)
     {

@@ -10,38 +10,43 @@ use Modules\Payroll\Models\PayrollCoordination;
 use App\Models\Department;
 
 /**
- * @class PayrollCoordinationController
- *
+ * @class PayrollCoordinationController *
  * @brief Gestión de los datos registrados de las Coordinaciones.
  *
  * Clase que gestiona las Coordinaciones.
  *
  * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
  *
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollCoordinationController extends Controller
 {
     use ValidatesRequests;
 
     /**
+     * Lista de datos a mostrar en selectores
+     *
+     * @var array $data
+     */
+    protected $data = [];
+
+    /**
      * Define la configuración de la clase.
      *
      * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /**
-         * Primer registro para los selects.
-         */
+        /* Primer registro para los selects. */
         $this->data[0] = [
             'id' => '',
             'text' => 'Seleccione...'
         ];
 
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:payroll.coordinations.index', ['only' => 'index']);
         $this->middleware('permission:payroll.coordinations.store', ['only' => 'store']);
         $this->middleware('permission:payroll.coordinations.update', ['only' => 'update']);
@@ -65,8 +70,7 @@ class PayrollCoordinationController extends Controller
     /**
      * Muestra el formulario para crear un nuevo registro.
      *
-     * @return Renderable
-     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -119,6 +123,8 @@ class PayrollCoordinationController extends Controller
 
     /**
      * Muestra la vista para detallar un registro.
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -127,6 +133,8 @@ class PayrollCoordinationController extends Controller
 
     /**
      * Muestra el formulario para actualizar un registro.
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -139,7 +147,6 @@ class PayrollCoordinationController extends Controller
      * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
      *
      * @param  \Illuminate\Http\Request  $request Solicitud con los datos a actualizar.
-     *
      * @param  integer $id Identificador de la coordinación a actualizar.
      *
      * @return \Illuminate\Http\JsonResponse Json con mensaje de confirmación de la operación.

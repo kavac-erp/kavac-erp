@@ -4,13 +4,6 @@
 			<div class="card-header">
 				<h6 class="card-title">
 					{{ __('Formatos de Códigos') }}
-					{{--
-						// Issue #96: Solicitaron que no se muestre el botón de ayuda en esta sección
-						@include('buttons.help', [
-							'helpId' => 'WarehouseCodeSettingForm',
-							'helpSteps' => get_json_resource('ui-guides/settings/code_setting.json', 'warehouse')
-						])
-					--}}
 				</h6>
 				<div class="card-btns">
 					@include('buttons.previous', ['route' => url()->previous()])

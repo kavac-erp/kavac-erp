@@ -377,7 +377,7 @@ export default {
         generateReport: function () {
             this.errors = [];
             if (!this.consolidated) {
-                console.log('Here');
+
                 if (!this.initialDate) {
                     this.errors.push("El campo fecha Desde es obligatorio");
                 }

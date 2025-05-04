@@ -42,39 +42,6 @@ $(document).ready(function() {
     timeoutId = setInterval(function() {
         checkSession();
     }, checkSessionTimer);
-    console.log(timeoutId)
-});
-
-/**
- * Evento que detecta las pulsaciones del teclado
- *
- * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- *
- * @param   {String}    keydown   Evento al presionar una tecla
- * @param   {Callback}  $event    Callback de la función
- */
-document.addEventListener('keydown', function($event) {
-    clearInterval(timeoutId);
-
-    timeoutId = setInterval(function() {
-        checkSession();
-    }, checkSessionTimer);
-});
-
-/**
- * Evento que detecta los movimientos del ratón
- *
- * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- *
- * @param   {String}    keydown   Evento al mover el ratón
- * @param   {Callback}  $event    Callback de la función
- */
-document.addEventListener('mousemove', function($event) {
-    clearInterval(timeoutId);
-
-    timeoutId = setInterval(function() {
-        checkSession();
-    }, checkSessionTimer);
 });
 
 /**
@@ -93,12 +60,7 @@ var checkSession = async function() {
     });
     if (expired) {
         clearInterval(timeoutId);
-        document.removeEventListener('keydown', function($event) {});
-        document.removeEventListener('click', function($event) {});
         app.lockScreenNow();
-        /*bootbox.confirm("Su sesión ha expirado. Por favor, vuelva a iniciar sesión.", function(result) {
-            location.reload();
-        });*/
     }
 }
 

@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos de talento humano de base de datos */
-
 namespace Modules\Payroll\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -29,12 +27,14 @@ class PayrollDisability extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'description'];
@@ -49,10 +49,5 @@ class PayrollDisability extends Model implements Auditable
     public function payrollStaffs()
     {
         return $this->hasMany(PayrollStaff::class);
-    }
-
-    public function payrollChildrens()
-    {
-        return $this->hasMany(PayrollChildren::class);
     }
 }

@@ -4,16 +4,26 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class ResetAccountingReportHistoriesTable
+ * @brief Ejecuta la migración para resetear la tabla accounting_report_histories
+ *
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class ResetAccountingReportHistoriesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
     public function up()
     {
         if (Schema::hasTable('accounting_report_histories')) {
+            // TODO: Antes de eliminar la tabla se debe realizar el procedimiento de respaldo de los datos en caso de que existan registros
             Schema::dropIfExists('accounting_report_histories');
 
             Schema::create('accounting_report_histories', function (Blueprint $table) {
@@ -31,7 +41,7 @@ class ResetAccountingReportHistoriesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

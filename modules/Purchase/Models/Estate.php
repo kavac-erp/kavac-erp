@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Purchase\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +12,7 @@ use App\Models\Estate as BaseEstate;
  *
  * Extension de la clase Estate del modulo de presupuesto
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -22,7 +20,7 @@ use App\Models\Estate as BaseEstate;
 class Estate extends BaseEstate implements Auditable
 {
     /**
-     * Estate has many PurchaseSuppliers.
+     * Establece la relación con los proveedores ubicados en un estado
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

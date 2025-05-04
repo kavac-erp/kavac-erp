@@ -14,7 +14,7 @@
                     </span>
                 </button>
                 <ul>
-                    <li v-for="error in errors">{{ error }}</li>
+                    <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                 </ul>
             </div>
         </div>
@@ -33,20 +33,20 @@
                 <div class="col-md-3">
                     <div v-show="service.sale_client_id != 0" class="form-group">
                         <label for="sale_clients_email">Correo:</label>
-                        <p v-for="email in sale_client.sale_clients_email">
+                        <p v-for="(email, index) in sale_client.sale_clients_email" :key="index">
                             <input type="text" class="form-control input-sm" :disabled="true"
                                 data-toggle="tooltip" title="Dirección"
-                                id="email" v-model="email.email"></input>
+                                id="email" v-model="email.email"/>
                         </p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div v-show="service.sale_client_id != 0" class="form-group">
                         <label for="phones">Número telefónico:</label>
-                        <p v-for="phone in sale_client.sale_clients_phone">
+                        <p v-for="(phone, index) in sale_client.sale_clients_phone" :key="index">
                             <input type="text" class="form-control input-sm" :disabled="true"
                                 data-toggle="tooltip" title="Dirección"
-                                id="phone" v-model="phone.phone"></input>
+                                id="phone" v-model="phone.phone"/>
                         </p>
                     </div>
                 </div>
@@ -57,15 +57,15 @@
                     <div class="form-group">
                         <label for="applicant_organization">Organización:</label>
                         <input type="text" class="form-control input-sm"
-                            data-toggle="tooltip" title="Dirección" 
-                            v-model="service.organization" :disabled="true" id="applicant_organization"></input>
+                            data-toggle="tooltip" title="Dirección"
+                            v-model="service.organization" :disabled="true" id="applicant_organization"/>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="economic_activity">Descripción de la actividad económica:</label>
                         <textarea type="text" class="form-control input-sm"
-                            data-toggle="tooltip" title="Dirección fiscal" 
+                            data-toggle="tooltip" title="Dirección fiscal"
                             v-model="service.description" :disabled="true" id="economic_activity"></textarea>
                     </div>
                 </div>
@@ -78,33 +78,33 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Servicio:</label>
-                        <p v-for="good_to_be_traded in sale_goods_to_be_traded">
+                        <p v-for="(good_to_be_traded, index) in sale_goods_to_be_traded" :key="index">
                             <input type="text" class="form-control input-sm"
                                 data-toggle="tooltip" title="Servicio"
                                 :disabled="true"
-                                id="service_description" v-model="good_to_be_traded.name"></input>
+                                id="service_description" v-model="good_to_be_traded.name"/>
                         </p>
                     </div>
                 </div>
                 <div v-if="service.sale_goods_to_be_traded && service.sale_goods_to_be_traded.length > 0" class="col-md-3">
                     <div class="form-group">
                         <label for="applicant_name">Descripción:</label>
-                        <p v-for="good_to_be_traded in sale_goods_to_be_traded">
+                        <p v-for="(good_to_be_traded, index) in sale_goods_to_be_traded" :key="index">
                             <input type="text" class="form-control input-sm"
                                 data-toggle="tooltip" title="Descripción"
                                 :disabled="true"
-                                id="service_description" v-model="good_to_be_traded.description"></input>
+                                id="service_description" v-model="good_to_be_traded.description"/>
                         </p>
                     </div>
                 </div>
                 <div class="col-md-3" v-if="service.sale_goods_to_be_traded && service.sale_goods_to_be_traded.length > 0">
                     <div class="form-group">
                         <label for="applicant_name">Unidad o departamento:</label>
-                        <p v-for="good_to_be_traded in sale_goods_to_be_traded">
+                        <p v-for="(good_to_be_traded, index) in sale_goods_to_be_traded" :key="index">
                             <input type="text" class="form-control input-sm"
                                 data-toggle="tooltip" title="Unidad o departamento"
                                 :disabled="true"
-                                id="service_department" v-model="good_to_be_traded.department"></input>
+                                id="service_department" v-model="good_to_be_traded.department"/>
                         </p>
                         <br>
                     </div>
@@ -112,44 +112,44 @@
                 <div class="col-md-3" v-if="service.sale_goods_to_be_traded && service.sale_goods_to_be_traded.length > 0">
                     <div id="saleServiceName" class="form-group">
                         <label for="applicant_name">Nombre:</label>
-                        <p v-for="good_to_be_traded in sale_goods_to_be_traded">
+                        <p v-for="(good_to_be_traded, index) in sale_goods_to_be_traded" :key="index">
                             <input type="text" class="form-control input-sm"
                                 data-toggle="tooltip" title="Nombre"
                                 :disabled="true"
-                                id="staff_name" v-model="good_to_be_traded.staff_name"></input>
+                                id="staff_name" v-model="good_to_be_traded.staff_name"/>
                         </p>
                     </div>
                 </div>
                 <div class="col-md-3" v-if="service.sale_goods_to_be_traded && service.sale_goods_to_be_traded.length > 0">
                     <div id="saleServiceLastname" class="form-group">
                         <label for="applicant_name">Apellido:</label>
-                        <p v-for="good_to_be_traded in sale_goods_to_be_traded">
+                        <p v-for="(good_to_be_traded, index) in sale_goods_to_be_traded" :key="index">
                             <input type="text" class="form-control input-sm"
                                 data-toggle="tooltip" title="Apellido"
                                 :disabled="true"
-                                id="staff_last_name" v-model="good_to_be_traded.staff_last_name"></input>
+                                id="staff_last_name" v-model="good_to_be_traded.staff_last_name"/>
                         </p>
                     </div>
                 </div>
                 <div class="col-md-3" v-if="service.sale_goods_to_be_traded && service.sale_goods_to_be_traded.length > 0">
                     <div id="saleServicePhone" class="form-group">
                         <label for="applicant_name">Teléfono:</label>
-                        <p v-for="good_to_be_traded in sale_goods_to_be_traded">
+                        <p v-for="(good_to_be_traded, index) in sale_goods_to_be_traded" :key="index">
                             <input type="text" class="form-control input-sm"
                                 data-toggle="tooltip" title="Teléfono"
                                 :disabled="true"
-                                id="staff_phone" v-model="good_to_be_traded.staff_phone"></input>
+                                id="staff_phone" v-model="good_to_be_traded.staff_phone"/>
                         </p>
                     </div>
                 </div>
                 <div class="col-md-3" v-if="service.sale_goods_to_be_traded && service.sale_goods_to_be_traded.length > 0">
                     <div id="saleServiceEmail" class="form-group">
                         <label for="applicant_name">Correo electrónico:</label>
-                        <p v-for="good_to_be_traded in sale_goods_to_be_traded">
+                        <p v-for="(good_to_be_traded, index) in sale_goods_to_be_traded" :key="index">
                             <input type="text" class="form-control input-sm"
                                 data-toggle="tooltip" title="Correo electrónico"
                                 :disabled="true"
-                                id="staff_email" v-model="good_to_be_traded.staff_email"></input>
+                                id="staff_email" v-model="good_to_be_traded.staff_email"/>
                         </p>
                     </div>
                 </div>
@@ -179,7 +179,7 @@
                             id="duration" v-model="record.duration"
                             v-input-mask data-inputmask="
                                        'alias': 'numeric',
-                                       'allowMinus': 'false'"></input>
+                                       'allowMinus': 'false'"/>
                 </div>
             </div>
             <div class="col-md-3" id="HelpFrecuency">
@@ -192,7 +192,7 @@
             <div class="col-md-12" id="HelpTechnicalSpecifications">
                 <h6 class="card-title">Especificaciones técnicas <i class="fa fa-plus-circle cursor-pointer"
                     @click="addSpecification()"></i></h6>
-                <div class="row" v-for="(specification, index) in record.specifications">
+                <div class="row" v-for="(specification, index) in record.specifications" :key="index">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="specification">Especificaciones técnicas:</label>
@@ -213,7 +213,7 @@
             <div class="col-md-12" id="HelpClientRequirements">
                 <h6 class="card-title">Requerimientos que serán suministrados por el cliente <i class="fa fa-plus-circle cursor-pointer"
                     @click="addRequirement()"></i></h6>
-                <div class="row" v-for="(requirement, index) in record.requirements">
+                <div class="row" v-for="(requirement, index) in record.requirements" :key="index">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="requirement">Requerimiento:</label>
@@ -258,7 +258,7 @@
                 <div class="col-md-12" id="HelpStaffEquipments">
                     <v-client-table :columns="columns_assets" :data="records" :options="table_options" ref="tableResults">
                         <div slot="inventory_serial" slot-scope="props" class="text-center">
-                            <p v-for="assets in props.row.asset_asignation_assets">
+                            <p v-for="(assets, index) in props.row.asset_asignation_assets" :key="index">
                                 {{ props.row.asset_asignation_assets ? assets.asset.inventory_serial : '' }}
                             </p>
                         </div>
@@ -266,17 +266,17 @@
                             {{ props.row.payroll_staff ? props.row.payroll_staff.first_name + ' ' + props.row.payroll_staff.last_name + ' - ' + props.row.payroll_staff.id_number : '' }}
                         </div>
                         <div slot="serial" slot-scope="props" class="text-center">
-                            <p v-for="assets in props.row.asset_asignation_assets">
+                            <p v-for="(assets, index) in props.row.asset_asignation_assets" :key="index">
                                 {{ props.row.asset_asignation_assets ? assets.asset.serial : '' }}
                             </p>
                         </div>
                         <div slot="marca" slot-scope="props" class="text-center">
-                            <p v-for="assets in props.row.asset_asignation_assets">
+                            <p v-for="(assets, index) in props.row.asset_asignation_assets" :key="index">
                                 {{ props.row.asset_asignation_assets ? assets.asset.marca : '' }}
                             </p>
                         </div>
                         <div slot="model" slot-scope="props" class="text-center">
-                            <p v-for="assets in props.row.asset_asignation_assets">
+                            <p v-for="(assets, index) in props.row.asset_asignation_assets" :key="index">
                                 {{ props.row.asset_asignation_assets ? assets.asset.model : '' }}
                             </p>
                         </div>
@@ -300,7 +300,7 @@
                         <label for="gantt_stage">Etapa:</label>
                         <input type="text" class="form-control input-sm"
                             data-toggle="tooltip" title="Etapa"
-                            v-model="stage.stage" id="gantt_stage"></input>
+                            v-model="stage.stage" id="gantt_stage"/>
                     </div>
                 </div>
                 <div class="col-md-3" id="HelpStageDescription">
@@ -338,7 +338,7 @@
                         <label for="gantt_stage">Actividad:</label>
                         <input type="text" class="form-control input-sm"
                             data-toggle="tooltip" title="Actividad"
-                            v-model="activity.name" id="gantt_stage"></input>
+                            v-model="activity.name" id="gantt_stage"/>
                     </div>
                 </div>
                 <div class="col-md-3" id="HelpActivityDescription">
@@ -581,7 +581,7 @@ export default {
          * Agrega una nueva columna para las especificaciones
          *
          * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
-         */ 
+         */
         addSpecification() {
             const vm = this;
             vm.record.specifications.push({
@@ -593,7 +593,7 @@ export default {
          * Agrega una nueva columna para los requerimientos
          *
          * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
-         */ 
+         */
         addRequirement() {
             const vm = this;
             vm.record.requirements.push({
@@ -637,7 +637,7 @@ export default {
             const vm = this;
             vm.errors = [];
 
-            if (this.editIndex === null) {                  
+            if (this.editIndex === null) {
                 if (!vm.activity.stage_id) {
                     vm.errors.push('El campo etapas es obligatorio.');
                 }
@@ -826,7 +826,7 @@ export default {
                                 };
                             };
                         };
-                        
+
                         for (let gantt of response.data.record.sale_gantt_diagram){
                             let stage = '';
                             let staff = '';
@@ -844,13 +844,13 @@ export default {
 
                                 vm.stages.push(gantt_stage);
                             };
-                            
+
                             for (staff of vm.payroll_staffs){
                                 if (gantt.payroll_staff_id == staff.id) {
                                     staff = staff;
                                 }
                             }
-                            
+
                             let activity = {
                                 description: gantt.description,
                                 end_date: gantt.end_date,
@@ -862,7 +862,7 @@ export default {
                                 stage_id: stage.stage,
                                 start_date: gantt.start_date,
                             };
-                            
+
                             vm.record.activities.push(activity);
                         };
                     }

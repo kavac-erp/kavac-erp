@@ -12,15 +12,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'warehouse'], function () {
-    /*
-     * Ruta para acceder al home del Modulo de Almacen
-     */
+    /* Ruta para acceder al home del Modulo de Almacen */
 
     Route::get('/', 'WarehouseController@index');
 
-    /*
-     * Ruta para acceder a la configuración del Modulo de almacén
-     */
+    /* Ruta para acceder a la configuración del Modulo de almacén */
 
     Route::get('settings', 'WarehouseSettingController@index')->name('warehouse.setting.index');
     Route::post('settings', 'WarehouseSettingController@store')->name('warehouse.setting.store');
@@ -29,10 +25,10 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'warehous
         'WarehouseSettingController@storeParameter'
     )->name('warehouse.setting-parameter.store');
 
-    /**
-     * ------------------------------------------------------------
-     * Rutas para gestionar los Elementos select del Modulo de Almacén
-     * ------------------------------------------------------------
+    /*
+     | ------------------------------------------------------------
+     | Rutas para gestionar los Elementos select del Modulo de Almacén
+     | ------------------------------------------------------------
      */
 
     Route::get('get-warehouses/{institution?}', 'WarehouseController@getWarehouses');
@@ -41,15 +37,11 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'warehous
     Route::get('attributes/product/{product}', 'WarehouseProductController@getProductAttributes');
     Route::get('get-measurement-units', 'WarehouseProductController@getMeasurementUnits');
 
-    /*
-     * Rutas para los elementos requeridos del módulo de nomina
-     */
+    /* Rutas para los elementos requeridos del módulo de nomina */
     Route::get('get-payroll-staffs', 'WarehouseServiceController@getPayrollStaffs');
     Route::get('get-payroll-positions', 'WarehouseServiceController@getPayrollPositions');
 
-    /*
-     * Rutas para los elementos requeridos del módulo de presupuesto
-     */
+    /* Rutas para los elementos requeridos del módulo de presupuesto */
     Route::get('get-budget-projects/{project_id?}', 'WarehouseServiceController@getBudgetProjects');
     Route::get(
         'get-budget-centralized-actions/{centralized_action_id?}',
@@ -60,10 +52,10 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'warehous
         'WarehouseServiceController@getBudgetSpecificActions'
     );
 
-    /**
-     * ------------------------------------------------------------
-     * Rutas para gestionar los Ingresos de Almacén
-     * ------------------------------------------------------------
+    /*
+     | ------------------------------------------------------------
+     | Rutas para gestionar los Ingresos de Almacén
+     | ------------------------------------------------------------
      */
 
 
@@ -93,10 +85,10 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'warehous
     );
 
 
-    /**
-     * ------------------------------------------------------------
-     * Rutas para gestionar los Movimientos de Almacén
-     * ------------------------------------------------------------
+    /*
+     | ------------------------------------------------------------
+     | Rutas para gestionar los Movimientos de Almacén
+     | ------------------------------------------------------------
      */
 
 
@@ -112,10 +104,6 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'warehous
         'WarehouseMovementController@destroy'
     )->name('warehouse.movement.destroy');
     Route::get('movements/vue-list', 'WarehouseMovementController@vueList');
-    /*Route::get(
-        'movements/vue-list-products/{warehouse}/{institution}',
-        'WarehouseMovementController@vueListProducts'
-    );*/
     Route::get(
         'movements/vue-list-products/{warehouse}/{institution}/{movementid}',
         'WarehouseMovementController@vueListProducts'
@@ -132,10 +120,10 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'warehous
 
     Route::put('movements/movement-complete/{movement}', 'WarehouseMovementController@confirmMovement');
 
-    /**
-     * ------------------------------------------------------------
-     * Rutas para gestionar las Solicitudes de Almacén
-     * ------------------------------------------------------------
+    /*
+     | ------------------------------------------------------------
+     | Rutas para gestionar las Solicitudes de Almacén
+     | ------------------------------------------------------------
      */
 
     Route::resource('requests', 'WarehouseRequestController', ['as' => 'warehouse', 'only' => 'store']);
@@ -173,10 +161,10 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'warehous
     Route::put('requests/request-rejected/{request}', 'WarehouseRequestController@rejectedRequest');
     Route::put('requests/request-approved/{request}', 'WarehouseRequestController@approvedRequest');
 
-    /**
-     * ------------------------------------------------------------
-     * Rutas para gestionar la generación de solicitudes en formato pdf
-     * ------------------------------------------------------------
+    /*
+     | ------------------------------------------------------------
+     | Rutas para gestionar la generación de solicitudes en formato pdf
+     | ------------------------------------------------------------
      */
 
     Route::get('pdf/products/{type}/{product_ware?}', 'WarehousePDFController@createForType');
@@ -186,10 +174,10 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'warehous
     Route::get('pdf/warehouse/{warehouse}', 'WarehousePDFController@createForWarehouse');
 
 
-    /**
-     * ------------------------------------------------------------
-     * Rutas para gestionar la generación de reportes en el Modulo de Almacén
-     * ------------------------------------------------------------
+    /*
+     | ------------------------------------------------------------
+     | Rutas para gestionar la generación de reportes en el Modulo de Almacén
+     | ------------------------------------------------------------
      */
 
     Route::get('reports/inventory-products', 'WarehouseReportController@inventoryProducts')
@@ -205,29 +193,27 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'warehous
 
     Route::get('reports/consult', 'WarehouseReportController@getConsultRequest')->name('warehouse.report.consult');
 
-    /**
-     * ------------------------------------------------------------
-     * Rutas para gestionar Observadores en el Modulo de Almacén
-     * ------------------------------------------------------------
+    /*
+     | ------------------------------------------------------------
+     | Rutas para gestionar Observadores en el Modulo de Almacén
+     | ------------------------------------------------------------
      */
 
-    /*
-     * Ruta para consultar si esta activa la gestión de multiples instituciones en almacen
-     */
+    /* Ruta para consultar si esta activa la gestión de multiples instituciones en almacen */
 
     Route::get('vue-setting', 'WarehouseSettingController@vueSetting');
 
     /*
-     * Ruta para consultar si esta activa la administración de almacenes
-     * (para multiples instituciones)
+     | Ruta para consultar si esta activa la administración de almacenes
+     | (para multiples instituciones)
      */
 
     Route::get('manage/{warehouse?}', 'WarehouseController@manage');
 
-    /**
-     * ------------------------------------------------------------
-     * Rutas para gestionar el panel de control del Modulo de Almacén
-     * ------------------------------------------------------------
+    /*
+     | ------------------------------------------------------------
+     | Rutas para gestionar el panel de control del Modulo de Almacén
+     | ------------------------------------------------------------
      */
     Route::get(
         'get-warehouse-inventory-products/{type}/{order?}',
@@ -239,34 +225,26 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'warehous
     Route::get('dashboard/vue-list-min-products', 'WarehouseDashboardController@vueListMinProducts');
     Route::get('dashboard/operations/info/{operation}/{created_at}', 'WarehouseDashboardController@vueInfo');
 
-    /**
-     * ------------------------------------------------------------
-     * Rutas para gestionar los Elementos vue del Modulo de Almacén
-     * ------------------------------------------------------------
+    /*
+     | ------------------------------------------------------------
+     | Rutas para gestionar los Elementos vue del Modulo de Almacén
+     | ------------------------------------------------------------
      */
 
-    /**
-     * Rutas para gestionar los Almacenes
-     */
+    /* Rutas para gestionar los Almacenes */
     Route::resource('warehouses', 'WarehouseController', ['except' => 'show']);
     Route::get('institution/{institution?}', 'WarehouseController@index');
 
-    /**
-     * Rutas para gestionar los Cierres de Almacenes
-     */
+    /* Rutas para gestionar los Cierres de Almacenes */
     Route::resource('closes', 'WarehouseCloseController', ['except' => ['show']]);
 
-    /**
-     * Rutas para gestionar los productos de almacén
-     */
+    /* Rutas para gestionar los productos de almacén */
     Route::resource('products', 'WarehouseProductController', ['except' => ['show']]);
     Route::post('products/get-rules', 'WarehouseProductController@getRules');
     Route::get('products/export/all', 'WarehouseProductController@export');
     Route::post('products/import/all', 'WarehouseProductController@import');
 
-    /**
-     * Rutas para gestionar las Reglas de Productos de Almacén
-     */
+    /* Rutas para gestionar las Reglas de Productos de Almacén */
     Route::resource('rules', 'WarehouseInventoryRuleController', ['except' => ['show']]);
 
     Route::get('rules/vue-list-products/{warehouse?}/{institution?}', 'WarehouseInventoryRuleController@vueList');
@@ -274,8 +252,6 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'warehous
 
 
 Route::group(['middleware' => 'web'], function () {
-    /*
-     * Ruta para finalizar un cierre de almacén dado
-     */
+    /* Ruta para finalizar un cierre de almacén dado */
     Route::put('warehouse/closes/finish/{close}', 'WarehouseCloseController@closeWarehouse');
 });

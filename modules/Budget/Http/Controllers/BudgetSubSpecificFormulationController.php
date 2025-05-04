@@ -2,22 +2,25 @@
 
 namespace Modules\Budget\Http\Controllers;
 
+use App\Models\Profile;
+use App\Models\FiscalYear;
+use App\Imports\DataImport;
+use App\Models\CodeSetting;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use App\Models\CodeSetting;
-use App\Models\Profile;
-use Modules\Budget\Models\DocumentStatus;
-use Modules\Budget\Models\BudgetSubSpecificFormulation;
-use Modules\Budget\Models\BudgetAccountOpen;
+use Illuminate\Support\Facades\Log;
+use Nwidart\Modules\Facades\Module;
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\HeadingRowImport;
-use App\Imports\DataImport;
-use App\Models\FiscalYear;
 use App\Repositories\ReportRepository;
-use Modules\DigitalSignature\Repositories\ReportRepositorySign;
+use Maatwebsite\Excel\HeadingRowImport;
+use Modules\Budget\Models\DocumentStatus;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Budget\Models\BudgetAccountOpen;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Modules\Budget\Models\BudgetSubSpecificFormulation;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Modules\Budget\Exports\BudgetSubSpecificFormulationExport;
 
 /**
  * @class BudgetSubSpecificFormulationController
@@ -26,9 +29,9 @@ use Modules\DigitalSignature\Repositories\ReportRepositorySign;
  * Clase que gestiona las formulaciones de presupuesto por sub específicas
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetSubSpecificFormulationController extends Controller
 {
@@ -38,10 +41,12 @@ class BudgetSubSpecificFormulationController extends Controller
      * Define la configuración de la clase
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:budget.formulation.list', ['only' => 'index', 'vueList', 'show']);
         $this->middleware('permission:budget.formulation.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:budget.formulation.edit', ['only' => ['edit', 'update']]);
@@ -52,6 +57,7 @@ class BudgetSubSpecificFormulationController extends Controller
      * Muestra un listado de formulaciones de presupuesto registradas
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return Renderable
      */
     public function index()
@@ -64,6 +70,7 @@ class BudgetSubSpecificFormulationController extends Controller
      * Muestra el formulario para el registro de datos de la formulación de presupuesto
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return Renderable
      */
     public function create()
@@ -71,8 +78,8 @@ class BudgetSubSpecificFormulationController extends Controller
         $is_admin = auth()->user()->isAdmin();
         $user_profile = Profile::where('user_id', auth()->user()->id)->first();
         $institution_id = isset($user_profile->institution_id)
-        ? $user_profile->institution_id
-        : null;
+            ? $user_profile->institution_id
+            : null;
         if ($institution_id && !$is_admin) {
             $institutions = template_choices('App\Models\Institution', 'name', ['id' => $institution_id], true);
         } else {
@@ -86,7 +93,9 @@ class BudgetSubSpecificFormulationController extends Controller
      * Guarda información para una formulación de presupuesto
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @param  Request $request
+     *
+     * @param  Request $request Datos de la petición
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -94,24 +103,24 @@ class BudgetSubSpecificFormulationController extends Controller
         $this->validate(
             $request,
             [
-            'institution_id' => ['required'],
-            'specific_action_id' => ['required'],
-            'currency_id' => ['required'],
-            'formulated_accounts' => ['required_without:id'],
-            'financement_type_id' => ['required'],
-            'financement_source_id' => ['required'],
-            'financement_amount' => ['required'],
-            'date' => ['required'],
+                'institution_id' => ['required'],
+                'specific_action_id' => ['required'],
+                'currency_id' => ['required'],
+                'formulated_accounts' => ['required_without:id'],
+                'financement_type_id' => ['required'],
+                'financement_source_id' => ['nullable'],
+                'financement_amount' => ['required'],
+                'date' => ['required'],
             ],
             [
-            'institution_id.required' => 'El campo institución es obligatorio.',
-            'specific_action_id.required' => 'El campo acción específica es obligatorio.',
-            'currency_id.required' => 'El campo moneda es obligatorio.',
-            'formulated_accounts.required_without' => 'Se deben ingresar los montos en la tabla de distribución financiera.',
-            'financement_type_id.required' => 'El campo Fuente de Financiamiento: es obligatorio.',
-            'financement_source_id.required' => 'El campo Tipo de financiamiento es obligatorio.',
-            'financement_amount.required' => 'El campo monto es obligatorio.',
-            'date.required' => 'La fecha de generación es obligatoria.',
+                'institution_id.required' => 'El campo institución es obligatorio.',
+                'specific_action_id.required' => 'El campo acción específica es obligatorio.',
+                'currency_id.required' => 'El campo moneda es obligatorio.',
+                'formulated_accounts.required_without' => 'Se deben ingresar los montos en la tabla de distribución financiera.',
+                'financement_type_id.required' => 'El campo Fuente de Financiamiento: es obligatorio.',
+                'financement_source_id.required' => 'El campo Tipo de financiamiento es obligatorio.',
+                'financement_amount.required' => 'El campo monto es obligatorio.',
+                'date.required' => 'La fecha de generación es obligatoria.',
             ]
         );
 
@@ -119,26 +128,6 @@ class BudgetSubSpecificFormulationController extends Controller
 
         $documentStatus = DocumentStatus::where('action', 'EL')->first();
         $codeSetting = CodeSetting::where("model", BudgetSubSpecificFormulation::class)->first();
-
-        /*
-        foreach ($request->formulated_accounts as $account) {
-            if ((float)$account['total_year_amount'] == 0 || 0.0) {
-                return response()->json(['result' => false, 'message' => [
-                    'type' => 'custom', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'danger',
-                    'text' => 'El total anual de la cuenta ' . $account['code'] . ' debe ser mayor que cero'
-                ]], 200);
-            }
-        }
-        */
-
-        /*
-        if ((float)$request->formulated_accounts[0]['total_year_amount'] == 0 || 0.0) {
-            return response()->json(['result' => false, 'message' => [
-                'type' => 'custom', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'danger',
-                'text' => 'El total anual de la formulación debe ser mayor que cero'
-            ]], 200);
-        }
-        */
 
         if ((float)$request->formulated_accounts[0]['total_year_amount'] != (float)$request->financement_amount) {
             return response()->json(['result' => false, 'message' => [
@@ -215,6 +204,9 @@ class BudgetSubSpecificFormulationController extends Controller
      * Muestra información de una formulación de presupuesto
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  integer $id Identificador de la formulación
+     *
      * @return Renderable
      */
     public function show($id)
@@ -239,6 +231,9 @@ class BudgetSubSpecificFormulationController extends Controller
      * Muestra el formulario de modificación para una formulación de presupuesto
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  integer $id Identificador de la formulación
+     *
      * @return Renderable
      */
     public function edit($id)
@@ -260,9 +255,11 @@ class BudgetSubSpecificFormulationController extends Controller
      * Actualiza la información de una formulación presupuestaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @param  Request $request
+     *
+     * @param  Request $request Datos de la petición
      * @param  integer $id Identificador del registro a actualizar
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -283,7 +280,7 @@ class BudgetSubSpecificFormulationController extends Controller
                 'type' => 'other', 'icon' => 'screen-ok',
                 'text' => __(
                     'La formulación de presupuesto fue asignada para el ejercicio fiscal ' .
-                    ':year y no puede ser modificada',
+                        ':year y no puede ser modificada',
                     ['year' => $formulation->year]
                 )
             ]);
@@ -350,6 +347,9 @@ class BudgetSubSpecificFormulationController extends Controller
      * Elimina un registro en particular
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param integer $id Identificador de la formulación
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
@@ -364,10 +364,11 @@ class BudgetSubSpecificFormulationController extends Controller
     }
 
     /**
-     * Obtiene los registros a mostrar en listados de componente Vue
+     * Obtiene los registros de formulaciones a mostrar en listados de componente Vue
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @return \Illuminate\Http\JsonResponse Devuelve un JSON con la información de las formulaciones
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueList()
     {
@@ -382,17 +383,19 @@ class BudgetSubSpecificFormulationController extends Controller
      * Obtiene los registros de presupuestos formulados
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $id Identificador de la formulación a consultar
-     * @return \Illuminate\Http\JsonResponse        Devuelve un JSON con la información consultada
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getFormulation($id)
     {
         $formulation = BudgetSubSpecificFormulation::where('id', $id)
-        ->with(['currency', 'accountOpens', 'specificAction' => function ($specifiAction) {
-            return $specifiAction->with(['specificable' => function ($specificable) {
-                return $specificable->with('department');
-            }]);
-        }])->first();
+            ->with(['currency', 'accountOpens', 'specificAction' => function ($specifiAction) {
+                return $specifiAction->with(['specificable' => function ($specificable) {
+                    return $specificable->with('department');
+                }]);
+            }])->first();
 
         return response()->json(['result' => true, 'formulation' => $formulation], 200);
     }
@@ -401,30 +404,32 @@ class BudgetSubSpecificFormulationController extends Controller
      * Obtiene la disponibilidad de las cuentas aperturadas
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $specific_action_id      Identificador de la acción específica
      * @param  integer $account_id              Identificador de la cuenta presupuestaria
-     * @return \Illuminate\Http\JsonResponse    Devuelve un JSON con la disponibilidad de la cuenta consultada
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getAvailabilityOpenedAccounts($specific_action_id, $account_id)
     {
         $account_data = ['account_id' => $account_id, 'available' => 'Sin apertura'];
 
         $formulation = BudgetSubSpecificFormulation::currentFormulation($specific_action_id)
-        ->with(['account_opens' => function ($account) use ($account_id) {
-            /** Devuelve, si existe, la cuenta formulada */
-            return $account->where('budget_account_id', $account_id) ->first();
-        }, 'modificationAccounts' => function ($account) use ($account_id) {
-            /**
-            * Devuelve, si existen, las cuentas agregadas o modificadas
-            * mediante la asignación de créditos adicionales, reducciones
-            * o traspasos
-            */
-            return $account->where('budget_account_id', $account_id)->get();
-        }])->first();
+            ->with(['account_opens' => function ($account) use ($account_id) {
+                /* Devuelve, si existe, la cuenta formulada */
+                return $account->where('budget_account_id', $account_id)->first();
+            }, 'modificationAccounts' => function ($account) use ($account_id) {
+                /*
+                 * Devuelve, si existen, las cuentas agregadas o modificadas
+                 * mediante la asignación de créditos adicionales, reducciones
+                 * o traspasos
+                 */
+                return $account->where('budget_account_id', $account_id)->get();
+            }])->first();
 
         $available = 0;
         foreach ($formulation->modificationAccounts as $modified_account) {
-            # calculo de saldo para cada una de las cuentas
+            // cálculo de saldo para cada una de las cuentas
         }
 
         if ($available > 0) {
@@ -438,12 +443,14 @@ class BudgetSubSpecificFormulationController extends Controller
      * Importa datos de una formulación a partir de un archivo de hoja de cálculo
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @return \Illuminate\Http\JsonResponse Devuelve los registros a importar
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function importFormulation()
     {
         $headings = (new HeadingRowImport())->toArray(request()->file('file'));
         $records = Excel::toArray(new DataImport(), request()->file('file'))[0];
+
         $msg = '';
 
         if (count($headings) < 1 || $headings[0] < 1) {
@@ -466,19 +473,21 @@ class BudgetSubSpecificFormulationController extends Controller
             return response()->json(['result' => false, 'message' => $msg], 200);
         }
 
+        foreach ($records as $key => $record) {
+            $records[$key] = array_map('trim', $record);
+        }
+
         return response()->json(['result' => true, 'records' => $records], 200);
     }
 
     /**
      * Genera el reporte de presupuesto formulado
      *
-     * @method    printFormulated
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     integer            $id    Identificador del presupuesto formulado a imprimir
      *
-     * @return    Response           Respuesta de la solicitud para descargar el reporte
+     * @return    BinaryFileResponse           Respuesta de la solicitud para descargar el reporte
      */
     public function printFormulated($id)
     {
@@ -487,7 +496,7 @@ class BudgetSubSpecificFormulationController extends Controller
             'currency',
             'institution'
         ])
-        ->where('id', $id)->first();
+            ->where('id', $id)->first();
         $filename = 'formulated-' . $formulation->id . '.pdf';
         $pdf->setConfig(
             [
@@ -505,24 +514,59 @@ class BudgetSubSpecificFormulationController extends Controller
     }
 
     /**
-     * Genera el reporte de presupuesto formulado
+     * Genera el reporte de presupuesto formulado como archivo .xlsx
      *
-     * @method    printFormulatedSign
+     * @method    export
+     *
+     * @author     Pedro Contreras <pmcontreras@cenditel.gob.ve>
+     *
+     * @param     integer            $id    Identificador del presupuesto formulado a imprimir
+     *
+     * @return    BinaryFileResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function export($id)
+    {
+        try {
+            $formulation = BudgetSubSpecificFormulation::query()->with([
+                'currency',
+                'institution'
+            ])->where('id', $id)->first();
+            $export = new BudgetSubSpecificFormulationExport(BudgetSubSpecificFormulation::class);
+            $export->setBudgetFormulationId($formulation->id);
+            return Excel::download($export, 'budget_formulation' . $formulation->created_at . '.xlsx');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            request()->session()->flash('message', [
+                'type' => 'other', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'growl-danger',
+                'text' => 'No se puede generar el archivo porque se ha presentando un error al momento de su generación.',
+            ]);
+            return redirect()->route('budget.subspecific-formulations.index');
+        }
+    }
+
+    /**
+     * Genera el reporte de presupuesto formulado
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     integer            $id    Identificador del presupuesto formulado a imprimir
      *
-     * @return    Response           Respuesta de la solicitud para descargar el reporte
+     * @return    BinaryFileResponse|\Illuminate\Http\JsonResponse
      */
     public function printFormulatedSign($id)
     {
-        $pdf = new ReportRepositorySign();
+        if (!Module::has('DigitalSignature') || !Module::isEnabled('DigitalSignature')) {
+            return response()->json([
+                'result' => false,
+                'message' => 'No se encuentra habilitado el modulo de Firma Digital. Por favor contacte al administrador.'
+            ], 200);
+        }
+        $pdf = new \Modules\DigitalSignature\Repositories\ReportRepositorySign();
         $formulation = BudgetSubSpecificFormulation::with([
             'currency',
             'institution'
         ])
-        ->where('id', $id)->first();
+            ->where('id', $id)->first();
         $filename = 'formulated-' . $formulation->id . '.pdf';
         $pdf->setConfig(
             [
@@ -548,13 +592,11 @@ class BudgetSubSpecificFormulationController extends Controller
     /**
      * Instrucción que permite descargar un archivo
      *
-     * @method    download
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     string      $filename    Nombre del archivo a descargar
      *
-     * @return    Response    Objeto con datos de respuesta a la petición
+     * @return    BinaryFileResponse
      */
     public function download($filename)
     {

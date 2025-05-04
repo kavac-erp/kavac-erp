@@ -1,7 +1,5 @@
 <?php
 
-/** Notificaciones de la aplicación */
-
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -24,25 +22,33 @@ class UserBlocked extends Notification
 {
     use Queueable;
 
-    /** @var User Objeto con información del usuario bloqueado */
+    /**
+     * Objeto con información del usuario bloqueado
+     *
+     * @var User $user
+     */
     public $user;
 
     /**
-     * Create a new notification instance.
+     * IP desde donde se produjo el bloqueo
      *
-     * @method  __construct
+     * @var string $ip
+     */
+    public $ip;
+
+    /**
+     * Crea una nueva instancia de la notificación.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(User $user, $ip = '')
     {
         $this->user = $user;
+        $this->ip = $ip;
     }
 
     /**
-     * Get the notification's delivery channels.
-     *
-     * @method  via
+     * Gestiona el mecanismo de notificación
      *
      * @param  mixed  $notifiable
      *
@@ -54,9 +60,7 @@ class UserBlocked extends Notification
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
-     * @method  toMail
+     * Obtiene la representación por correo electrónico de la notificación.
      *
      * @param  mixed  $notifiable
      *
@@ -76,21 +80,5 @@ class UserBlocked extends Notification
                         'Este correo es enviado de manera automática por la aplicación y no esta siendo monitoreado. ' .
                         'Por favor no responda a este correo!'
                     ));
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @method  toArray
-     *
-     * @param  mixed  $notifiable
-     *
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
     }
 }

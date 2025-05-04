@@ -10,12 +10,15 @@
         <audit-records
             id="helpAudit"
             help-file="{{ json_encode(get_json_resource('ui-guides/audit_list.json')) }}"
-            :modules='{!! json_encode(info_modules(true)) !!}'>
+            :modules='{!! json_encode(info_modules(true)) !!}'
+        >
         </audit-records>
         <restore-records
-            id="helpRestore" help-file="{{ json_encode(get_json_resource('ui-guides/restore_list.json')) }}"
+            id="helpRestore"
+            help-file="{{ json_encode(get_json_resource('ui-guides/restore_list.json')) }}"
             :modules='{!! json_encode(info_modules(true)) !!}'
-            route_previous="{{ url()->previous() }}">
+            route_previous="{{ url()->previous() }}"
+        >
         </restore-records>
     @endrole
     @yield('dashboard')
@@ -28,8 +31,6 @@
                     if (!$perm) {
                         continue;
                     }
-                    //dd(auth()->user()->hasPermission($perm->slug));
-                    //dd(auth()->user()->getPermissions()->toArray());
                 @endphp
                 @if (auth()->user()->hasPermission($perm->slug))
                     @includeIf(strtolower($module) . '::index')

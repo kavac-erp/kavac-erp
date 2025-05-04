@@ -6,6 +6,17 @@ namespace Modules\Asset\Enums\Traits;
 
 use Illuminate\Support\Str;
 
+/**
+ * @trait   Trait para verificar atributos
+ * @brief Trait para verificar atributos
+ *
+ * Trait para verificar atributos
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 trait HasAttributes
 {
     /** get attribute value */

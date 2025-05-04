@@ -15,9 +15,8 @@ use Modules\Payroll\Models\PayrollPositionType;
  * Clase que gestiona los tipos de cargo
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollPositionTypeController extends Controller
 {
@@ -27,10 +26,12 @@ class PayrollPositionTypeController extends Controller
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         //$this->middleware('permission:payroll.position.types.list', ['only' => 'index']);
         $this->middleware('permission:payroll.position.types.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.position.types.edit', ['only' => ['edit', 'update']]);
@@ -41,6 +42,7 @@ class PayrollPositionTypeController extends Controller
      * Muestra todos los registros de tipos de cargo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de los tipos de cargo
      */
     public function index()
@@ -49,8 +51,9 @@ class PayrollPositionTypeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar un nuevo tipo de cargo
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -61,7 +64,9 @@ class PayrollPositionTypeController extends Controller
      * Valida y registra un nuevo tipo de cargo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
+     *
      * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
@@ -77,8 +82,9 @@ class PayrollPositionTypeController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información del tipo de cargo
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -86,8 +92,9 @@ class PayrollPositionTypeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para actualizar la información del tipo de cargo
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -98,8 +105,10 @@ class PayrollPositionTypeController extends Controller
      * Actualiza la información del tipo de cargo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
      * @param  integer $id                          Identificador del tipo de cargo a actualizar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
@@ -119,7 +128,9 @@ class PayrollPositionTypeController extends Controller
      * Elimina el tipo de cargo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador del tipo de cargo a eliminar
+     *
      * @return \Illuminate\Http\JsonResponse    Json: objeto eliminado y mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -133,10 +144,13 @@ class PayrollPositionTypeController extends Controller
      * Obtiene los tipos de cargo registrados
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de los tipos de cargo
      */
     public function getPayrollPositionTypes()
     {
-        return response()->json(template_choices('Modules\Payroll\Models\PayrollPositionType', 'name', '', true));
+        return response()->json(
+            template_choices('Modules\Payroll\Models\PayrollPositionType', 'name', '', true)
+        );
     }
 }

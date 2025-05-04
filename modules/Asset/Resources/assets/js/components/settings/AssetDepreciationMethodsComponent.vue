@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                             <!-- activa -->
-                            
+
                             <div class="col-md-2">
                                 <div class=" form-group">
                                     <label>¿Activo?</label>
@@ -82,22 +82,22 @@
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('asset/depreciation-methods')" 
+							<button type="button" @click="createRecord('asset/depreciation-methods')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
                         </div>
                     </div>
                     <div class="modal-body modal-table">
-                        
+
                         <v-client-table :columns="columns" :data="records" :options="table_options">
                             <div slot="id" slot-scope="props">
                                 <button @click="initUpdate(props.row.id, $event)"
@@ -111,7 +111,7 @@
                                         type="button">
                                     <i class="fa fa-trash-o"></i>
                                 </button>
-                               
+
                             </div>
                             <div slot="active" slot-scope="props" class="text-center">
                                     <span v-if="props.row.active" class="text-success font-weight-bold">Si</span>
@@ -200,7 +200,7 @@
                                     if (error.response.status == 403) {
                                         vm.showMessage(
                                             'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
-                                        ); 
+                                        );
                                     }
                                 }
                                 vm.logs('mixins.js', 498, error, 'deleteRecord');

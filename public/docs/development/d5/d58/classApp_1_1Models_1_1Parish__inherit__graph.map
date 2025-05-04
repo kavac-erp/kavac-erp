@@ -1,0 +1,9 @@
+<map id="Parish" name="Parish">
+<area shape="rect" id="Node000001" title="Datos de Parroquias." alt="" coords="190,5,370,191"/>
+<area shape="rect" id="Node000002" href="$d8/d9b/classModules_1_1CitizenService_1_1Models_1_1Parish.html" title="Extiende del modelo Parish de la aplicación base." alt="" coords="5,239,195,304"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,196,135,240,131,237,178,193"/>
+<area shape="rect" id="Node000003" href="$d3/d6c/classModules_1_1Payroll_1_1Models_1_1Parish.html" title="Modelo que extiende las funcionalidades del modelo base Parish." alt="" coords="219,239,341,304"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="283,205,283,239,277,239,277,205"/>
+<area shape="rect" id="Node000004" href="$d2/d72/classModules_1_1Sale_1_1Models_1_1Parish.html" title="Extiende de la clase Parish de la aplicación base." alt="" coords="365,239,469,304"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="365,200,394,237,390,240,360,204"/>
+</map>

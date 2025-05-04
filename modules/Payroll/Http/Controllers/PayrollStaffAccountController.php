@@ -1,9 +1,5 @@
 <?php
 
-/**
- * [descripción del namespace]
- * */
-
 namespace Modules\Payroll\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -17,48 +13,54 @@ use Illuminate\Support\Facades\Storage;
 use Modules\Payroll\Jobs\PayrollExportNotification;
 
 /**
- * Clase controlador del expediente de datos contables
- *
  * @class PayrollStaffAccountController
- * @brief [descripción detallada]
+ * @brief Clase controlador del expediente de datos contables *
  *
- * @author [autor de la clase] <username@example.com>
- *
- * @license [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollStaffAccountController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
     protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
     /**
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /**
-         * Establece permisos de acceso para cada método del controlador
-         * */
-        $this->middleware('permission:payroll.staff_account.index', ['only' => 'index']);
-        $this->middleware('permission:payroll.staff_account.create', ['only' => ['store']]);
-        $this->middleware('permission:payroll.staff_account.edit', ['only' => ['update']]);
-        $this->middleware('permission:payroll.staff_account.delete', ['only' => 'destroy']);
+        /* Establece permisos de acceso para cada método del controlador */
+        $this->middleware('permission:payroll.staffaccount.index', ['only' => 'index']);
+        $this->middleware('permission:payroll.staffaccount.create', ['only' => ['store']]);
+        $this->middleware('permission:payroll.staffaccount.edit', ['only' => ['update']]);
+        $this->middleware('permission:payroll.staffaccount.delete', ['only' => 'destroy']);
+        $this->middleware('permission:payroll.staffaccount.import', ['only' => 'import']);
+        $this->middleware('permission:payroll.staffaccount.export', ['only' => 'export']);
 
-        /**
-         * Define las reglas de validación para el formulario
-         * */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'accounting_registers.*.accounting_account_id' => ['required'],
             'accounting_registers.*.payroll_staff_id' => ['required'],
         ];
 
-        /**
-         * Define los mensajes de validación para las reglas del formulario
-         * */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'accounting_registers.*.payroll_staff_id.required'        => 'El campo trabajador es obligatorio.',
             'accounting_registers.*.accounting_account_id.required'        => 'El campo cuenta contable es obligatorio.',
@@ -66,13 +68,9 @@ class PayrollStaffAccountController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra todos los registros de expediente de datos contables
      *
-     * @method index
-     *
-     * @author [nombre del autor] [correo del autor]
-     *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -80,13 +78,9 @@ class PayrollStaffAccountController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para crear un nuevo registro de expediente de datos contables
      *
-     * @method create
-     *
-     * @author [nombre del autor] [correo del autor]
-     *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -94,15 +88,11 @@ class PayrollStaffAccountController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Agrega un nuevo registro de expediente de datos contables
      *
-     * @param object Request $request Objeto con información de la petición
+     * @param Request $request Datos de la petición
      *
-     * @method store
-     *
-     * @author [nombre del autor] [correo del autor]
-     *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -118,7 +108,6 @@ class PayrollStaffAccountController extends Controller
             if ($hasAccountSavedForStaff) {
                 $errors['error'][0] = $account['payroll_staff'] . ' ya existe con esta cuenta contable: ' . $account['accounting_account'];
                 return response()->json(['message' => 'The given data was invalid.', 'errors' => $errors], 422);
-
             }
         }
         DB::transaction(
@@ -126,8 +115,8 @@ class PayrollStaffAccountController extends Controller
                 foreach ($request->accounting_registers as $account) {
                     $payrollStaff = PayrollStaffAccount::create(
                         [
-                        'payroll_staff_id' => $account['payroll_staff_id'],
-                        'accounting_account_id' => $account['accounting_account_id'],
+                            'payroll_staff_id' => $account['payroll_staff_id'],
+                            'accounting_account_id' => $account['accounting_account_id'],
                         ]
                     );
                 }
@@ -137,15 +126,11 @@ class PayrollStaffAccountController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra información de un expediente de datos contables
      *
      * @param integer $id Identificador del registro
      *
-     * @method show
-     *
-     * @author [nombre del autor] [correo del autor]
-     *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -154,15 +139,11 @@ class PayrollStaffAccountController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario de actualización de expediente de datos contables
      *
      * @param integer $id Identificador del registro
      *
-     * @method edit
-     *
-     * @author [nombre del autor] [correo del autor]
-     *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -170,16 +151,12 @@ class PayrollStaffAccountController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza el expediente de datos contables
      *
-     * @param object    Request $request Objeto con datos de la petición
+     * @param object    Request $request Datos de la petición
      * @param integer           $id      Identificador del registro
      *
-     * @method update
-     *
-     * @author [nombre del autor] [correo del autor]
-     *
-     * @return Renderable [descripción de los datos devueltos]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -198,7 +175,6 @@ class PayrollStaffAccountController extends Controller
             if ($hasAccountSavedForStaff) {
                 $errors['error'][0] = $account['payroll_staff'] . ' ya existe con esta cuenta contable: ' . $account['accounting_account'];
                 return response()->json(['message' => 'The given data was invalid.', 'errors' => $errors], 422);
-
             }
         }
 
@@ -210,8 +186,8 @@ class PayrollStaffAccountController extends Controller
             } else {
                 $payrollStaff = PayrollStaffAccount::create(
                     [
-                    'payroll_staff_id' => $account['payroll_staff_id'],
-                    'accounting_account_id' => $account['accounting_account_id'],
+                        'payroll_staff_id' => $account['payroll_staff_id'],
+                        'accounting_account_id' => $account['accounting_account_id'],
                     ]
                 );
             }
@@ -222,13 +198,9 @@ class PayrollStaffAccountController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Elimina el expediente de datos contables
      *
      * @param integer $id Identificador del registro
-     *
-     * @method destroy
-     *
-     * @author [nombre del autor] [correo del autor]
      *
      * @return Renderable [descripción de los datos devueltos]
      */
@@ -243,26 +215,27 @@ class PayrollStaffAccountController extends Controller
     /**
      * Muestra los datos contables registrados
      *
-     * @method vueList
-     *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return Renderable    Json con los datos laborales del trabajador
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function vueList()
+    public function vueList(Request $request)
     {
-        return response()->json(
-            ['records' => PayrollStaffAccount::query()
-                ->with('payrollStaff', 'accountingAccount')
-                ->get()],
-            200
-        );
+        $records = PayrollStaffAccount::query()
+            ->with('payrollStaff', 'accountingAccount')
+            ->search($request->get('query'))
+            ->paginate($request->get('limit'));
+
+        return response()->json([
+            'data' => $records->items(),
+            'count' => $records->total(),
+        ]);
     }
 
     /**
      * Exportar registros
      *
-     * @return mixed
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function export()
     {
@@ -272,9 +245,10 @@ class PayrollStaffAccountController extends Controller
             'Datos Contables',
         );
 
-        request()->session()->flash('message', ['type' => 'other', 'title' => '¡Éxito!',
+        request()->session()->flash('message', [
+            'type' => 'other', 'title' => '¡Éxito!',
             'text' => 'Su solicitud esta en proceso, esto puede tardar unos ' .
-            'minutos. Se le notificara al terminar la operación',
+                'minutos. Se le notificara al terminar la operación',
             'icon' => 'screen-ok',
             'class' => 'growl-primary'
         ]);
@@ -285,19 +259,16 @@ class PayrollStaffAccountController extends Controller
     /**
      * Realiza la acción necesaria para importar los datos contables
      *
-     * @param Request $request Objeto con datos de la petición
+     * @param Request $request Datos de la petición
      *
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function import(Request $request)
     {
-
-
-        $user = auth()->user();
         $filePath = $request->file('file')->store('', 'temporary');
         $fileErrorsPath = 'import' . uniqid() . '.errors';
         Storage::disk('temporary')->put($fileErrorsPath, '');
-        $import = new RegisterStaffImport($filePath, 'temporary', $user, $fileErrorsPath);
+        $import = new RegisterStaffImport($filePath, 'temporary', auth()->user()->id, $fileErrorsPath);
 
         $import->import();
 

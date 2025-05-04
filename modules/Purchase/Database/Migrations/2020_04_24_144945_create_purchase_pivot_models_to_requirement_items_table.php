@@ -4,10 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class CreatePurchasePivotModelsToRequirementItemsTable
+ * @brief Migración encargada de crear la tabla pivote de items de requerimientos de compras
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CreatePurchasePivotModelsToRequirementItemsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -19,8 +26,6 @@ class CreatePurchasePivotModelsToRequirementItemsTable extends Migration
 
                 $table->morphs('relatable', 'purchase_pivot_models_to_requirement_items_index');
 
-                /*$table->foreignId('purchase_requirement_item_id')->constrained()
-                      ->onDelete('restrict')->onUpdate('cascade');*/
                 $table->unsignedBigInteger('purchase_requirement_item_id');
 
                 $table->float('unit_price', 10, 10)->nullable()
@@ -33,7 +38,7 @@ class CreatePurchasePivotModelsToRequirementItemsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

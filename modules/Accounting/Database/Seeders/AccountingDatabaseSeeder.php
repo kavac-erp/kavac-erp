@@ -11,14 +11,15 @@ use Illuminate\Database\Eloquent\Model;
  *
  * Gestiona la información por defecto a registrar inicialmente para los datos iniciales del módulo Accounting
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AccountingDatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Ejecuta los seeders del módulo de contabilidad
      *
      * @return void
      */
@@ -27,9 +28,9 @@ class AccountingDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(AccountingRoleAndPermissionsTableSeeder::class);
-        /** Seeder para registrar cuentas patrimoniales */
+        /* Seeder para registrar cuentas patrimoniales */
         $this->call(AccountingAccountsTableSeeder::class);
-        /** Seeder para registrar categorias */
+        /* Seeder para registrar categorias */
         $this->call(AccountingEntryCategoriesTableSeeder::class);
     }
 }

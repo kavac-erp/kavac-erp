@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos de los almacenes gestionados por cada institución
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleWarehouseInstitutionWarehouse extends Model implements Auditable
 {
@@ -43,7 +43,8 @@ class SaleWarehouseInstitutionWarehouse extends Model implements Auditable
      * Método que obtiene la institution que gestionan el almacén
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Intitution
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function institution()
     {
@@ -54,7 +55,8 @@ class SaleWarehouseInstitutionWarehouse extends Model implements Auditable
      * Método que obtiene el almacén gestionado por la institucion
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo SaleWarehouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleWarehouse()
     {
@@ -65,8 +67,8 @@ class SaleWarehouseInstitutionWarehouse extends Model implements Auditable
      * Método que obtiene el inventario de los productos que gestiona la institución en un almacén
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * WarehouseInventoryProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleWarehouseInventoryProducts()
     {

@@ -2,22 +2,23 @@
 
 namespace Modules\Asset\Models;
 
-use App\Models\Country;
 use App\Models\Estate;
-use App\Models\Gender;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-//use Venturecraft\Revisionable\RevisionableTrait;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
-use App\Models\Institution;
-use App\Models\MeasurementUnit;
-use App\Models\Municipality;
 use App\Models\Parish;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Country;
+use App\Models\Currency;
+use App\Models\Institution;
+use App\Traits\ModelsTrait;
 use Illuminate\Support\Arr;
+use App\Models\Municipality;
+use App\Models\MeasurementUnit;
+use Illuminate\Database\Eloquent\Model;
+use Modules\Asset\Models\AssetSupplier;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Asset\Repositories\AssetParametersRepository;
-use Modules\Purchase\Models\PurchaseSupplier;
 
 /**
  * @class Asset
@@ -26,14 +27,15 @@ use Modules\Purchase\Models\PurchaseSupplier;
  * Gestiona el modelo de datos de los bienes institucionales
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class Asset extends Model implements Auditable
 {
     use SoftDeletes;
     use AuditableTrait;
+    use ModelsTrait;
 
     /**
      * Lista de atributos para la gestión de fechas
@@ -70,10 +72,20 @@ class Asset extends Model implements Auditable
         'asset_institution_storages_id'
     ];
 
+    /**
+     * Lista de atributos con tipo de dato
+     *
+     * @var array $casts
+     */
     protected $casts = [
         'asset_details' => 'array',
     ];
 
+    /**
+     * Lista de atributos personalizados agregados a las consultas
+     *
+     * @var array $appends
+     */
     protected $appends = [
         'color',
         'country',
@@ -95,6 +107,7 @@ class Asset extends Model implements Auditable
      * Método que obtiene el serial de inventario de un bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return string Retorna el serial de inventario de un bien
      */
     public function getCode()
@@ -110,6 +123,7 @@ class Asset extends Model implements Auditable
      * Método que obtiene la descripción técnica de un bien institucional
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return string Retorna la descripción técnica de un bien
      */
     public function getDescription()
@@ -123,12 +137,17 @@ class Asset extends Model implements Auditable
         return $description;
     }
 
+    /**
+     * Metodo que obtiene el color del bien
+     *
+     * @return string
+     */
     public function getColorAttribute()
     {
         $params = new AssetParametersRepository();
         $color = [];
 
-        if (array_key_exists('color_id', $this->asset_details)) {
+        if (array_key_exists('color_id', $this->asset_details ?? [])) {
             $color = Arr::first($params->loadColorsData() ?? [], function ($item) {
                 return strtolower($item['id']) == $this->asset_details['color_id'];
             });
@@ -141,14 +160,16 @@ class Asset extends Model implements Auditable
      * Método que obtiene los nombres de los países
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
-     *@author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+     * @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+     *
+     * @return string
      */
     public function getCountryAttribute()
     {
-        if (array_key_exists('country_id', $this->asset_details)) {
+        if (array_key_exists('country_id', $this->asset_details ?? [])) {
             return $this->asset_details['country_id']
-            ? Country::find($this->asset_details['country_id'])['name']
-            : '';
+                ? Country::find($this->asset_details['country_id'])['name']
+                : '';
         }
         return '';
     }
@@ -157,14 +178,16 @@ class Asset extends Model implements Auditable
      * Método que obtiene los nombres de los estados
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
-     * *@author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+     * @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+     *
+     * @return string
      */
     public function getEstateAttribute()
     {
-        if (array_key_exists('estate_id', $this->asset_details)) {
+        if (array_key_exists('estate_id', $this->asset_details ?? [])) {
             return $this->asset_details['estate_id']
-            ? Estate::find($this->asset_details['estate_id'])['name']
-            : '';
+                ? Estate::find($this->asset_details['estate_id'])['name']
+                : '';
         }
         return '';
     }
@@ -173,13 +196,15 @@ class Asset extends Model implements Auditable
      * Método que obtiene los nombres de los municipios
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
+     *
+     * @return string
      */
     public function getMunicipalityAttribute()
     {
-        if (array_key_exists('municipality_id', $this->asset_details)) {
+        if (array_key_exists('municipality_id', $this->asset_details ?? [])) {
             return $this->asset_details['municipality_id']
-            ? Municipality::find($this->asset_details['municipality_id'])['name']
-            : '';
+                ? Municipality::find($this->asset_details['municipality_id'])['name']
+                : '';
         }
         return '';
     }
@@ -188,14 +213,16 @@ class Asset extends Model implements Auditable
      * Método que obtiene los nombres de las parroquias
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
-     * *@author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+     * @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+     *
+     * @return string
      */
     public function getParishAttribute()
     {
-        if (array_key_exists('parish_id', $this->asset_details)) {
+        if (array_key_exists('parish_id', $this->asset_details ?? [])) {
             return $this->asset_details['parish_id']
-            ? Parish::find($this->asset_details['parish_id'])['name']
-            : '';
+                ? Parish::find($this->asset_details['parish_id'])['name']
+                : '';
         }
         return '';
     }
@@ -204,15 +231,17 @@ class Asset extends Model implements Auditable
      * Método que obtiene los nombres de los estados de ocupación
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
+     *
+     * @return string
      */
     public function getOccupancyStatusAttribute()
     {
         $params = new AssetParametersRepository();
         $occupancyStatus = [];
 
-        if (array_key_exists('occupancy_status_id', $this->asset_details)) {
+        if (array_key_exists('occupancy_status_id', $this->asset_details ?? [])) {
             $occupancyStatus = Arr::first($params->loadOccupancyStatusData() ?? [], function ($item) {
-                return strtolower($item['id']) === $this->asset_details['occupancy_status_id'];
+                return strtolower($item['id']) == $this->asset_details['occupancy_status_id'];
             });
         }
 
@@ -224,13 +253,15 @@ class Asset extends Model implements Auditable
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      * @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+     *
+     * @return string
      */
     public function getConstructionMeasurementUnitAttribute()
     {
-        if (array_key_exists('construction_measurement_unit_id', $this->asset_details)) {
+        if (array_key_exists('construction_measurement_unit_id', $this->asset_details ?? [])) {
             return $this->asset_details['construction_measurement_unit_id']
-            ? MeasurementUnit::find($this->asset_details['construction_measurement_unit_id'])['name']
-            : '';
+                ? MeasurementUnit::find($this->asset_details['construction_measurement_unit_id'])['name']
+                : '';
         }
         return '';
     }
@@ -240,29 +271,33 @@ class Asset extends Model implements Auditable
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      * @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+     *
+     * @return string
      */
     public function getConstructionMeasurementUnitAcronymAttribute()
     {
-        if (array_key_exists('construction_measurement_unit_id', $this->asset_details)) {
+        if (array_key_exists('construction_measurement_unit_id', $this->asset_details ?? [])) {
             return $this->asset_details['construction_measurement_unit_id']
-            ? MeasurementUnit::find($this->asset_details['construction_measurement_unit_id'])['acronym']
-            : '';
+                ? MeasurementUnit::find($this->asset_details['construction_measurement_unit_id'])['acronym']
+                : '';
         }
         return '';
     }
 
     /**
      * Método que obtiene los nombres de las unidades de medida en términos de terreno
-     * @return string
+     *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      * @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+     *
+     * @return string
      */
     public function getLandMeasurementUnitAttribute()
     {
-        if (array_key_exists('land_measurement_unit_id', $this->asset_details)) {
+        if (array_key_exists('land_measurement_unit_id', $this->asset_details ?? [])) {
             return $this->asset_details['land_measurement_unit_id']
-            ? MeasurementUnit::find($this->asset_details['land_measurement_unit_id'])['name']
-            : '';
+                ? MeasurementUnit::find($this->asset_details['land_measurement_unit_id'])['name']
+                : '';
         }
         return '';
     }
@@ -272,13 +307,15 @@ class Asset extends Model implements Auditable
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      * @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+     *
+     * @return string
      */
     public function getAssetUseFunctionAttribute()
     {
-        if (array_key_exists('asset_use_function_id', $this->asset_details)) {
+        if (array_key_exists('asset_use_function_id', $this->asset_details ?? [])) {
             return $this->asset_details['asset_use_function_id']
-            ? AssetUseFunction::find($this->asset_details['asset_use_function_id'])['name']
-            : '';
+                ? AssetUseFunction::find($this->asset_details['asset_use_function_id'])['name']
+                : '';
         }
         return '';
     }
@@ -287,15 +324,17 @@ class Asset extends Model implements Auditable
      * Método que obtiene los nombres de los tipos de semovientes
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
+     *
+     * @return string
      */
     public function getTypeAttribute()
     {
         $params = new AssetParametersRepository();
         $cattleType = [];
 
-        if (array_key_exists('type', $this->asset_details)) {
+        if (array_key_exists('type', $this->asset_details ?? [])) {
             $cattleType = Arr::first($params->loadCattleTypesData() ?? [], function ($item) {
-                return strtolower($item['id']) === $this->asset_details['type'];
+                return strtolower($item['id']) == $this->asset_details['type'];
             });
         }
 
@@ -306,15 +345,17 @@ class Asset extends Model implements Auditable
      * Método que obtiene los nombres de los propósitos
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
+     *
+     * @return string
      */
     public function getPurposeAttribute()
     {
         $params = new AssetParametersRepository();
         $purpose = [];
 
-        if (array_key_exists('purpose', $this->asset_details)) {
+        if (array_key_exists('purpose', $this->asset_details ?? [])) {
             $purpose = Arr::first($params->loadPurposesData() ?? [], function ($item) {
-                return strtolower($item['id']) === $this->asset_details['purpose'];
+                return strtolower($item['id']) == $this->asset_details['purpose'];
             });
         }
 
@@ -326,13 +367,15 @@ class Asset extends Model implements Auditable
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      * @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+     *
+     * @return string
      */
     public function getMeasurementUnitAttribute()
     {
-        if (array_key_exists('measurement_unit_id', $this->asset_details)) {
+        if (array_key_exists('measurement_unit_id', $this->asset_details ?? [])) {
             return $this->asset_details['measurement_unit_id']
-            ? MeasurementUnit::find($this->asset_details['measurement_unit_id'])['name']
-            : '';
+                ? MeasurementUnit::find($this->asset_details['measurement_unit_id'])['name']
+                : '';
         }
         return '';
     }
@@ -341,15 +384,17 @@ class Asset extends Model implements Auditable
      * Método que obtiene los nombres de los géneros para los semovientes
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
+     *
+     * @return string
      */
     public function getGenderAttribute()
     {
         $params = new AssetParametersRepository();
         $assetGender = [];
 
-        if (array_key_exists('gender', $this->asset_details)) {
+        if (array_key_exists('gender', $this->asset_details ?? [])) {
             $assetGender = Arr::first($params->loadGendersData() ?? [], function ($item) {
-                return strtolower($item['id']) === $this->asset_details['gender'];
+                return strtolower($item['id']) == $this->asset_details['gender'];
             });
         }
 
@@ -360,17 +405,29 @@ class Asset extends Model implements Auditable
      * Método que obtiene el tipo al que pertenece el bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo AssetType
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetType()
     {
         return $this->belongsTo(AssetType::class);
     }
 
+    /**
+     * Método que obtiene la relación con la sede
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function headquarter()
     {
         return $this->belongsTo(\App\Models\Headquarter::class);
     }
+
+    /**
+     * Método que obtiene la relación con el departamento
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function department()
     {
         return $this->belongsTo(\App\Models\Department::class);
@@ -380,8 +437,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene la categoria a la que pertenece el bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetCategory()
     {
@@ -392,8 +449,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene la subcategoria a la que pertenece el bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetSubcategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetSubcategory()
     {
@@ -404,8 +461,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene la categoria específica a la que pertenece el bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetSpecificCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
 
     public function assetSpecificCategory()
@@ -417,8 +474,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene el tipo de adquisicion del bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetAcquisitionType
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetAcquisitionType()
     {
@@ -429,8 +486,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene la condición física del bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetCondition
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetCondition()
     {
@@ -441,8 +498,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene el estatus de uso del bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetStatus
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetStatus()
     {
@@ -453,8 +510,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene la función de uso del bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetUseFunction
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetUseFunction()
     {
@@ -462,23 +519,22 @@ class Asset extends Model implements Auditable
     }
 
     /**
-     * Get the purchaseSupplier that owns the Asset
+     * Método que obtiene la relación con el proveedor del bien
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function purchaseSupplier(): BelongsTo
+    public function assetSupplier(): BelongsTo
     {
-        return $this->belongsTo(PurchaseSupplier::class);
+        return $this->belongsTo(AssetSupplier::class);
     }
 
     /**
      * Método que obtiene los bienes asignados
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne Objeto con el registro relacionado al modelo
-     * AssetAsignationAsset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-
     public function assetAsignationAsset()
     {
         return $this->hasOne(AssetAsignationAsset::class);
@@ -488,8 +544,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene los bienes desincorporados
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne Objeto con el registro relacionado al modelo
-     * AssetDisincorporationAsset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function assetDisincorporationAsset()
     {
@@ -500,8 +556,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene los bienes desincorporados
      *
      * @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * AssetDepreciationAsset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assetDepreciationAsset()
     {
@@ -511,8 +567,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene el valor en libro de un bien
      *
      * @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * AssetDepreciationAsset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assetBook()
     {
@@ -522,8 +578,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene los bienes solicitados
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne Objeto con el registro relacionado al modelo
-     * AssetRequestAsset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function assetRequestAsset()
     {
@@ -534,8 +590,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene los bienes inventariados
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * AssetInventoryAsset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assetInventoryAssets()
     {
@@ -546,30 +602,32 @@ class Asset extends Model implements Auditable
      * Método que obtiene la parroquia donde esta ubicado el bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Parish
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parish()
     {
-        return $this->belongsTo(\App\Models\Parish::class);
+        return $this->belongsTo(Parish::class);
     }
 
     /**
      * Método que obtiene la moneda en que se expresa el valor del bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Currency
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency()
     {
-        return $this->belongsTo(\App\Models\Currency::class);
+        return $this->belongsTo(Currency::class);
     }
 
     /**
      * Método que obtiene la institución a la que pertenece el bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     *                                                           Institution
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function institution()
     {
@@ -580,8 +638,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene los ajustes relacionados al bien
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     *                                                          AssetAdjustmentAsset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assetAdjustmentAssets()
     {
@@ -592,8 +650,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene los valores según libro relacionados al bien
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     *                                                         AssetBook
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assetBooks()
     {
@@ -604,8 +662,8 @@ class Asset extends Model implements Auditable
      * Método que obtiene los valores de las depreciaciones asociadas a un bien
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     *                                                         AssetDepreciationAsset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assetDepreciationAssets()
     {
@@ -616,11 +674,14 @@ class Asset extends Model implements Auditable
      * Método que obtiene los bienes registrados filtrados por su clasificación
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  [string] $type           Tipo del bien
-     * @param  [string] $category       Categoria general del bien
-     * @param  [string] $subcategory    Subcategoria del bien
-     * @param  [string] $specific       Categoria específica del bien
-     * @return [Object]             Objeto con los bienes registrados
+     *
+     * @param Builder $query Objeto con la consulta
+     * @param  string $type           Tipo del bien
+     * @param  string $category       Categoria general del bien
+     * @param  string $subcategory    Subcategoria del bien
+     * @param  string $specific       Categoria específica del bien
+     *
+     * @return object             Objeto con los bienes registrados
      */
     public function scopeCodeClasification($query, $type, $category, $subcategory, $specific, $is_dis, $ids)
     {
@@ -697,11 +758,14 @@ class Asset extends Model implements Auditable
      * Método que obtiene los bienes registrados filtrados por la fecha de registro
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  [timestamp] $start   Fecha de inicio de busqueda
-     * @param  [timestamp] $end     Fecha de fin de busqueda
-     * @param  [string] $mes        Mes de busqueda
-     * @param  [year] $year         Año de busqueda
-     * @return [Object]             Objeto con los bienes registrados
+     *
+     * @param Builder $query Objeto con la consulta
+     * @param  string $start   Fecha de inicio de busqueda
+     * @param  string $end     Fecha de fin de busqueda
+     * @param  string $mes     Mes de busqueda
+     * @param  string $year    Año de busqueda
+     *
+     * @return object|void     Objeto con los bienes registrados
      */
     public function scopeDateClasification($query, $start, $end, $mes, $year)
     {
@@ -727,15 +791,17 @@ class Asset extends Model implements Auditable
      * Método que obtiene los bienes registrados filtrados por la ubicación dentro de la institución
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  [Integer] $institution   Identificador único de la institución
-     * @param  [Integer] $department    Identificador único del departamento o dependencia
-     * @return [Object]                 Objeto con los bienes registrados
+     *
+     * @param Builder $query Objeto con la consulta
+     * @param  integer $institution   Identificador único de la institución
+     * @param  integer $department    Identificador único del departamento o dependencia
+     * @return object|void            Objeto con los bienes registrados
      */
     public function scopeDependenceClasification($query, $institution, $department)
     {
-        /**
-         * Falta asociar con la institución
-         * Ojo: Debe ser los equipos que ya han sido asignados
+        /*
+         * TODO: Falta asociar con la institución
+         * NOTA: Debe ser los equipos que ya han sido asignados
          */
     }
 
@@ -743,8 +809,11 @@ class Asset extends Model implements Auditable
      * Método que obtiene los bienes registrados filtrados por la ubicación dentro de la institución
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  [String] $search   Cadena de texto con el que se va filtrar la data
-     * @return [Object]           Objeto con los bienes registrados
+     *
+     * @param Builder $query Objeto con la consulta
+     * @param  string $search   Cadena de texto con el que se va filtrar la data
+     *
+     * @return object           Objeto con los bienes registrados
      */
     public function scopeSearchAsignation($query, $search)
     {
@@ -762,6 +831,14 @@ class Asset extends Model implements Auditable
         });
     }
 
+    /**
+     * Método que obtiene los bienes registrados
+     *
+     * @param Builder $query Objeto con la consulta
+     * @param string  $search
+     *
+     * @return Builder
+     */
     public function scopeSearchRegisters($query, $search)
     {
         return $query->when('' != $search, function ($query) use ($search) {

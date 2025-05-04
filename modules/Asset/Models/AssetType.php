@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos de los tipos de bienes
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetType extends Model implements Auditable
 {
@@ -43,8 +43,8 @@ class AssetType extends Model implements Auditable
      * Método que obtiene la categoria general asociada a un tipo de bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con los registros relacionados al modelo
-     * AssetCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assetCategories()
     {
@@ -55,7 +55,8 @@ class AssetType extends Model implements Auditable
      * Método que obtiene los bienes asociados al tipo de bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo Asset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assets()
     {

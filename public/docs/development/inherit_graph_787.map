@@ -1,3 +1,5 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$df/d0d/classModules_1_1Payroll_1_1Jobs_1_1PayrollUpdatePaymentRelationship.html" title="[descripción detallada]" alt="" coords="5,5,256,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d8/ded/classApp_1_1Models_1_1ExchangeRate.html" title="Datos de Estados." alt="" coords="5,5,120,31"/>
+<area shape="rect" id="Node000001" href="$d6/daf/classModules_1_1Accounting_1_1Models_1_1ExchangeRate.html" title="Clase que extiende la clase ExchangeRate de la aplicación base." alt="" coords="168,5,283,31"/>
+<area shape="poly" id="edge85_Node000000_Node000001" title=" " alt="" coords="134,15,168,15,168,21,134,21"/>
 </map>

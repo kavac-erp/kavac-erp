@@ -1,0 +1,7 @@
+<map id="getTotalResults" name="getTotalResults">
+<area shape="rect" id="Node000001" title="Realiza el cálculo de las cuentas de acuerdo a como suman." alt="" coords="208,5,331,31"/>
+<area shape="rect" id="Node000002" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#a5c0379fc68799a3f32447bd6760dcd02" title="Genera el reporte en pdf de balance general." alt="" coords="117,5,160,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,21,160,21,160,15,194,15"/>
+<area shape="rect" id="Node000003" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#a23d7453ab9e51eca5ab50a38ce4a84c0" title="Genera el reporte en hojade calculo de balance general." alt="" coords="5,5,69,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="103,21,70,21,70,15,103,15"/>
+</map>

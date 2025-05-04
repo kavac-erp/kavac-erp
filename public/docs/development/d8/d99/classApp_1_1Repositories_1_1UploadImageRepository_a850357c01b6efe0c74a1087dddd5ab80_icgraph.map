@@ -1,0 +1,7 @@
+<map id="getImageStored" name="getImageStored">
+<area shape="rect" id="Node000001" title="Obtiene el objeto de la imagen guardada." alt="" coords="280,49,407,74"/>
+<area shape="rect" id="Node000002" href="$d4/d5c/classApp_1_1Http_1_1Controllers_1_1ImageController.html#a2a4286cb11044f2e7d139ff2dafb4b08" title="Registra una nueva imagen." alt="" coords="35,5,203,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="266,52,202,41,203,36,267,46"/>
+<area shape="rect" id="Node000003" href="$d3/d18/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceRequestCloseController.html#a5fb0bcc700ffb8694a96c31f3f5d0af8" title="Almacena los datos de una nuevo cierre de solicitud." alt="" coords="5,70,232,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="267,76,232,82,232,77,266,71"/>
+</map>

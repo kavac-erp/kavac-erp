@@ -1,7 +1,5 @@
 <?php
 
-/** Repositorios del sistema */
-
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\Storage;
@@ -22,25 +20,57 @@ use App\Models\Image;
  */
 class UploadImageRepository
 {
-    /** @var string Nombre del archivo de imagen a guardar */
+    /**
+     * Nombre del archivo de imagen a guardar
+     *
+     * @var string $image_name
+     */
     private $image_name;
-    /** @var string Extensión del archivo que define el tipo de imagen */
+
+    /**
+     * Extensión del archivo que define el tipo de imagen
+     *
+     * @var string $image_extension
+     */
     private $image_extension;
-    /** @var string Ruta en donde se guarda el archivo */
+
+    /**
+     * Ruta en donde se guarda el archivo
+     *
+     * @var string $image_stored
+     */
     private $image_stored;
-    /** @var array Listado de archivos permitidos de acuerdo a su extensión */
+
+    /**
+     * Listado de archivos permitidos de acuerdo a su extensión
+     *
+     * @var array $allowed_upload
+     */
     private $allowed_upload = [];
-    /** @var array Define las dimensiones mínimas, por defecto, de la imagen */
+
+    /**
+     * Define las dimensiones mínimas, por defecto, de la imagen
+     *
+     * @var array $min_sizes
+     */
     private $min_sizes = ['width' => '480', 'height' => '480'];
-    /** @var array Define las dimensiones máximas, por defecto, de la imagen */
+
+    /**
+     * Define las dimensiones máximas, por defecto, de la imagen
+     *
+     * @var array $max_sizes
+     */
     private $max_sizes = ['width' => '1280', 'height' => '900'];
-    /** @var string Establece el mensaje de error que se haya generado en alguno de los procesos */
+
+    /**
+     * Establece el mensaje de error que se haya generado en alguno de los procesos
+     *
+     * @var string $error_msg
+     */
     private $error_msg = '';
 
     /**
      * Instrucciones para verificar y subir una imagen a la ruta indicada en el servidor
-     *
-     * @method  uploadImage
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -80,7 +110,7 @@ class UploadImageRepository
                         ]
                     );
                 } else {
-                    /** @var object Objeto con información del archivo guardado */
+                    /* Objeto con información del archivo guardado */
                     $upload = Storage::disk($store)->put($this->image_name, File::get($file));
                     if ($upload) {
                         $this->image_stored = Image::create([
@@ -117,8 +147,6 @@ class UploadImageRepository
     /**
      * Obtiene el nombre de la image
      *
-     * @method  getImageName
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return string Retorna el nombra de la imagen
@@ -130,8 +158,6 @@ class UploadImageRepository
 
     /**
      * Obtiene la extensión de la imagen
-     *
-     * @method  getImageExtension
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -145,8 +171,6 @@ class UploadImageRepository
     /**
      * Obtiene el mensaje de error a mostrar al usuario
      *
-     * @method  getErrorMessage
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return string Devuelve un mensaje con el error si existe, en caso contrario retorna una cadena vacia
@@ -159,11 +183,9 @@ class UploadImageRepository
     /**
      * Obtiene el objeto de la imagen guardada
      *
-     * @method  getImageStored
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Devuelve el objeto de la imagen guardada
+     * @return Image Devuelve el objeto de la imagen guardada
      */
     public function getImageStored()
     {
@@ -173,12 +195,12 @@ class UploadImageRepository
     /**
      * Verifica la existencia de una imagen y la elimina del disco
      *
-     * @method  deleteImage
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  string $img   Contiene el nombre de la imagen a eliminar
      * @param  string $store Contiene la ruta en la que se encuentra almacenada la imagen
+     *
+     * @return void
      */
     public function deleteImage($img, $store)
     {
@@ -189,8 +211,6 @@ class UploadImageRepository
 
     /**
      * Verifica que el tamaño de la imagen corresponda con el mínimo y máximo permitido
-     *
-     * @method  verifySize
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

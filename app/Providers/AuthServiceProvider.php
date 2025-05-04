@@ -1,10 +1,7 @@
 <?php
 
-/** Proveedores de servicios generales del sistema */
-
 namespace App\Providers;
 
-//use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 /**
@@ -18,16 +15,14 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Las asignaciones de políticas para la aplicación.
      *
-     * @var array
+     * @var array $policies
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        //'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**
-     * Registre cualquier servicio de autenticación/autorización.
-     *
-     * @method  boot
+     * Registra cualquier servicio de autenticación/autorización.
      *
      * @return void
      */

@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +13,7 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  *
  * Gestiona el modelo de datos para las configuraciones de códigos
  *
+ * @property  string|integer  $id
  * @property  string  $module
  * @property  string  $model
  * @property  string  $table
@@ -55,8 +54,6 @@ class CodeSetting extends Model implements Auditable
 
     /**
      * Método que permite obtener el formato configurado para el código
-     *
-     * @method  getFormatCodeAttribute
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -112,8 +109,6 @@ class CodeSetting extends Model implements Auditable
     /**
      * Método que permite dividir el formato del código
      *
-     * @method  divideCode
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  string $code Formato del código a configurar
@@ -128,8 +123,6 @@ class CodeSetting extends Model implements Auditable
     /**
      * Método que permite obtener el próximo valor a registrar del código
      *
-     * @method  codeNextValue
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  string $table  Nombre de la tabla
@@ -142,12 +135,12 @@ class CodeSetting extends Model implements Auditable
     public static function codeNextValue($table, $field, $model, $formulation_year, $module = null)
     {
         $configCode = self::where('model', $model)->where('table', $table)->where('active', true)->first();
-        $model = app($model);
+        $model = (new $model());
 
         $code = $nextCode = 1;
 
         if ($configCode && $model->whereNotNull($field)->get()) {
-            // Agregar validación para el año de ejecución presupuestaria
+            // Agrega validación para el año de ejecución presupuestaria
             $lastCode = $model->whereYear('created_at', date('Y'))->orderBy('created_at', 'desc')->first();
 
             if ($lastCode) {
@@ -163,15 +156,13 @@ class CodeSetting extends Model implements Auditable
     /**
      * Método Scope para obtener configuraciones de un modelo
      *
-     * @method  scopeGetSetting
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  object $query Objeto con la collección de la consulta realizada
      * @param  string $model Nombre del modelo del cual obtener la configuración
      * @param  string $type  Tipo de configuración a obtener
      *
-     * @return object        Objeto con la consulta requerida
+     * @return CodeSetting   Objeto con la consulta requerida
      */
     public function scopeGetSetting($query, $model, $type)
     {

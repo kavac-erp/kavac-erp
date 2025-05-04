@@ -9,6 +9,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Modules\Asset\Models\Asset;
 
+/**
+ * @class AssetCreateAssets
+ * @brief Gestiona los trabajos en la creación de bienes
+ *
+ * @author Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AssetCreateAssets implements ShouldQueue
 {
     use Dispatchable;
@@ -19,7 +28,7 @@ class AssetCreateAssets implements ShouldQueue
     /**
      * Objeto que contiene la información asociada a la solicitud
      *
-     * @var Object $asset
+     * @var object $asset
      */
     protected $data;
 
@@ -27,7 +36,7 @@ class AssetCreateAssets implements ShouldQueue
      * Variable que contiene el tiempo de espera para la ejecución del trabajo,
      * si no se quiere limite de tiempo, se define en 0
      *
-     * @var Integer $timeout
+     * @var integer $timeout
      */
     public $timeout = 0;
 

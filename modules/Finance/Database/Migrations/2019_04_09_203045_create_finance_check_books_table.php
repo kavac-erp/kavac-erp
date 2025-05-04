@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreateFinanceCheckBooksTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -29,7 +29,7 @@ class CreateFinanceCheckBooksTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

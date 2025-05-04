@@ -1,0 +1,5 @@
+<map id="destroy" name="destroy">
+<area shape="rect" id="Node000001" title="Elimina el proveedor de bienes." alt="" coords="5,13,76,38"/>
+<area shape="rect" id="Node000002" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#a4b3320ceb60a02e13785c929ae5ede8a" title="Verifica la existencia de un documento y lo elimina del disco." alt="" coords="124,5,331,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,23,110,23,110,28,76,28"/>
+</map>

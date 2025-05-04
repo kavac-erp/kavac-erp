@@ -1,4 +1,5 @@
 <map id="LoginController" name="LoginController">
-<area shape="rect" id="node1" title="Gestiona información de autenticación." alt="" coords="5,131,252,428"/>
-<area shape="rect" id="node2" href="$d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="85,5,172,83"/>
+<area shape="rect" id="Node000001" title="Gestiona información de autenticación." alt="" coords="5,119,244,524"/>
+<area shape="rect" id="Node000002" href="$d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="85,5,164,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,84,127,118,122,118,122,84"/>
 </map>

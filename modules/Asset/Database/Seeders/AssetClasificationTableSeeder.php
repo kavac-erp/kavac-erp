@@ -14,11 +14,10 @@ use Modules\Asset\Models\AssetSpecificCategory;
  * @class AssetClasificationTableSeeder
  * @brief Inicializar el clasificador de bienes
  *
- *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetClasificationTableSeeder extends Seeder
 {
@@ -26,6 +25,7 @@ class AssetClasificationTableSeeder extends Seeder
      * Método que registra los valores iniciales de tipos de bien
      *
      * @author  Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function run()

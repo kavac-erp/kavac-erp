@@ -1,0 +1,7 @@
+<map id="pdf" name="pdf">
+<area shape="rect" id="Node000001" title="Vista en la que se genera el reporte en pdf." alt="" coords="5,31,48,56"/>
+<area shape="rect" id="Node000002" href="$dd/dc1/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAuxiliaryBookController.html#ab0ddffde595d12d9c85da6f4c1eb2605" title="Encuentra los tipos de cambio." alt="" coords="96,5,277,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="48,37,93,30,94,35,49,43"/>
+<area shape="rect" id="Node000003" href="$dd/dc1/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAuxiliaryBookController.html#a6f3d70e44a5afea25eb600c5e19f6a29" title="Realiza la conversión de saldo." alt="" coords="114,55,259,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="49,44,101,52,100,57,48,49"/>
+</map>

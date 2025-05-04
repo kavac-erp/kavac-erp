@@ -1,11 +1,11 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Parameter;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 /**
  * @class ParameterController
@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar configuración de parámetros
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -22,13 +23,11 @@ class ParameterController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso del controlador */
+        // Establece permisos de acceso del controlador
         $this->middleware('permission:system.param.setting');
         $this->middleware('permission:payroll.parameters.create', ['only' => 'store']);
     }
@@ -36,9 +35,7 @@ class ParameterController extends Controller
     /**
      * Registra un nuevo parámetro general del sistema
      *
-     * @method    store
-     *
-     *@author     Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <roldandvg@gmail.com>
+     * @author     Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <roldandvg@gmail.com>
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      * @author     William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
@@ -48,7 +45,7 @@ class ParameterController extends Controller
      */
     public function store(Request $request)
     {
-        //Gestiona el formulario de Configuración de la Edad Laboral Permitida
+        // Gestiona el formulario de Configuración de la Edad Laboral Permitida
         if ($request->p_key == 'work_age') {
             $work_age = Parameter::where([
                 'required_by' => 'payroll', 'p_key' => $request->p_key
@@ -78,8 +75,8 @@ class ParameterController extends Controller
                     ]
                 );
             }
-        } else { //Gestiona el formulario de Configuración de parametros para reporte de nómina
-            //parametros del formularios
+        } else { // Gestiona el formulario de Configuración de parametros para reporte de nómina
+            // parámetros del formularios
             $parameters = ['number_decimals', 'round', 'zero_concept'];
 
             foreach ($parameters as $parameter) {
@@ -115,11 +112,9 @@ class ParameterController extends Controller
     /**
      * Obtiene la lista de parametros activo asociado al modelo payroll
      *
-     * @method    getParameters
-     *
      * @author     Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return    {array}    Listado de los registros a mostrar
+     * @return    JsonResponse    Listado de los registros a mostrar
      */
     public function getParameters()
     {

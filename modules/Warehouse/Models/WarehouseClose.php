@@ -16,9 +16,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos para los cierres de almacén registrados
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseClose extends Model implements Auditable
 {
@@ -46,7 +46,8 @@ class WarehouseClose extends Model implements Auditable
     * Método que obtiene el usuario que inicio el cierre del almacén
     *
     * @author Henry Paredes <hparedes@cenditel.gob.ve>
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo User
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
     */
     public function initialUser()
     {
@@ -57,7 +58,8 @@ class WarehouseClose extends Model implements Auditable
      * Método que obtiene el usuario que finalizó el cierre del almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function endUser()
     {
@@ -68,7 +70,8 @@ class WarehouseClose extends Model implements Auditable
      * Método que obtiene el almacén involucrado el en cierre de funciones
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Warehouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouse()
     {

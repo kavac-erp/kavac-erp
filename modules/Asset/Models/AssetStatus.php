@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos de los estados de uso de los bienes
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetStatus extends Model implements Auditable
 {
@@ -43,20 +43,26 @@ class AssetStatus extends Model implements Auditable
      * Método que obtiene los bienes asociados a un estatus de uso
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo Asset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assets()
     {
         return $this->hasMany(Asset::class);
     }
 
+    /**
+     * Método que se ejecuta al instanciar el modelo
+     *
+     * @return void
+     */
     public static function boot()
     {
         parent::boot();
 
         self::deleting(function ($model) {
             if (has_data_in_foreign_key($model->id, 'asset_status_id')) {
-                return throw new \Exception('No se puede eliminar este registro debido a que tiene bienes asociados');
+                throw new \Exception('No se puede eliminar este registro debido a que tiene bienes asociados');
             };
         });
     }

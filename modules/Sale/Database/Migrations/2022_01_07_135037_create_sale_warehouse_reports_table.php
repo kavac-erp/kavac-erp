@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 /**
- * @class CreateSaleReportsTable
+ * @class CreateSaleWarehouseReportsTable
  * @brief Crea los campos de la tabla de reportes de inventario de productos
  * de comercialización
  *
@@ -13,9 +13,9 @@ use Illuminate\Database\Migrations\Migration;
  * de productos
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class CreateSaleWarehouseReportsTable extends Migration
 {

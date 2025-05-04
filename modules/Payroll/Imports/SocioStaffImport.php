@@ -24,6 +24,15 @@ use Modules\Payroll\Models\PayrollRelationship;
 use App\Models\Gender;
 use Carbon\Carbon;
 
+/**
+ * @class SocioStaffImport
+ * @brief Importa un archivo de datos socioeconómicos del personal
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SocioStaffImport implements
     ToModel,
     WithValidation,
@@ -34,25 +43,34 @@ class SocioStaffImport implements
     use Importable;
     use SkipsErrors;
     use SkipsFailures;
+
+    /**
+     * Método constructor de la clase
+     *
+     * @param string $fileErrosPath Ruta donde se guardan los archivos de errores
+     *
+     * @return void
+     */
     public function __construct(
         protected string $fileErrosPath,
-    ){
-
+    ) {
+        //
     }
 
     /**
-     * @param array $row
+     * Modelo para importar datos
+     *
+     * @param array $row Arreglo de columnas a importar
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-
     public function model(array $row)
     {
         $data = [
             'first_name' => $row['nombres_del_pariente'],
             'last_name' => $row['apellidos_del_pariente'],
             'id_number' => $row['cedula_del_pariente'],
-            'birthdate' => $row['fecha_de_nacimiento'],
+            'birthdate' => !empty($row['fecha_de_nacimiento']) ? Carbon::createFromFormat('d-m-Y', $row['fecha_de_nacimiento'])->format('Y-m-d') : null,
             'age' => Carbon::parse($row['fecha_de_nacimiento'])->age,
             'address' => $row['direccion'],
             'payroll_gender_id' => $row['genero'],
@@ -92,11 +110,24 @@ class SocioStaffImport implements
         });
     }
 
+    /**
+     * Fila del encabezado
+     *
+     * @return integer
+     */
     public function headingRow(): int
     {
         return 1;
     }
 
+    /**
+     * Preparar los datos para ser importados (validaciones)
+     *
+     * @param array $data Arreglo con los datos
+     * @param integer $index Indice de la fila
+     *
+     * @return array
+     */
     public function prepareForValidation($data, $index)
     {
         if (
@@ -173,7 +204,7 @@ class SocioStaffImport implements
                 if ($parsedDate->isValid()) {
                     $data['fecha_de_nacimiento_value'] = false;
                     $diffInYears = Carbon::today()->diffInYears($parsedDate);
-                    $data['tiene_cedula'] = ($diffInYears > 8);
+                    $data['tiene_cedula'] = ($diffInYears > 11);
                 } else {
                     $data['tiene_cedula'] = false;
                     $data['fecha_de_nacimiento_value'] = 'la fecha de nacimiento "' . $data['fecha_de_nacimiento'] . '" no tiene un formato valido';
@@ -202,13 +233,11 @@ class SocioStaffImport implements
             && !empty($data['genero'])
             && !empty(trim($data['genero']))
         ) {
-
             $gender = Gender::where(['name' => $data['genero']])->first();
             $data['genero_value'] = 'el genero ' . $data['genero'] . ' no existe';
             if ($gender) {
                 $data['genero_value'] = false;
                 $data['genero'] = $gender->id;
-
             }
         }
 
@@ -293,12 +322,16 @@ class SocioStaffImport implements
                 $data['tipo_de_discapacidad'] = $Disability->id;
                 $data['tipo_de_discapacidad_existe'] = false;
             }
-
         }
 
         return $data;
     }
 
+    /**
+     * Reglas de validación
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -388,6 +421,12 @@ class SocioStaffImport implements
             },
         ];
     }
+
+    /**
+     * Callback de error de validación
+     *
+     * @param object $failures Arreglo columnas que fallaron en la validación
+     */
     public function onFailure(Failure ...$failures)
     {
         foreach ($failures as $failure) {
@@ -402,6 +441,11 @@ class SocioStaffImport implements
         }
     }
 
+    /**
+     * Mensajes personalizados de validación
+     *
+     * @return array
+     */
     public function customValidationMessages()
     {
         return [
@@ -414,7 +458,7 @@ class SocioStaffImport implements
             '*parentesco.required_if' => 'El campo :attribute es obligatorio cuando se registra un pariente.',
             '*nombres_del_pariente.required_if' => 'El campo :attribute es obligatorio cuando se registra un pariente.',
             '*apellidos_del_pariente.required_if' => 'El campo :attribute es obligatorio cuando se registra un pariente.',
-            '*cedula_del_pariente.required_if' => 'El campo :attribute es obligatorio si la edad del pariente es igual o mayor a 8 años',
+            '*cedula_del_pariente.required_if' => 'El campo :attribute es obligatorio si la edad del pariente es igual o mayor a 11 años',
             '*fecha_de_nacimiento.required_if' => 'El :attribute es obligatorio cuando se registra un pariente.',
             '*fecha_de_nacimiento.date' => 'El formato del campo :attribute es incorrecto.',
             '*nivel_de_escolaridad.required_if' => 'El campo :attribute es obligatorio cuando se registra un pariente que es estudiante.',

@@ -1,15 +1,14 @@
 <?php
 
-/** Controladores para la gestión de servicios generales del sistema */
-
 namespace App\Http\Controllers\Services;
 
-use App\Http\Controllers\Controller;
-use App\Models\Country;
-use App\Models\Estate;
-use App\Models\Municipality;
-use App\Models\Parish;
 use App\Models\City;
+use App\Models\Estate;
+use App\Models\Parish;
+use App\Models\Country;
+use App\Models\Municipality;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 
 /**
  * @class LocatesController
@@ -24,13 +23,15 @@ use App\Models\City;
  */
 class LocatesController extends Controller
 {
-    /** @var array Lista de elementos a mostrar */
+    /**
+     * Lista de elementos a mostrar
+     *
+     * @var array $data
+     */
     protected $data = [];
 
     /**
      * Método constructor de la clase
-     *
-     * @method  __construct
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
@@ -44,8 +45,6 @@ class LocatesController extends Controller
 
     /**
      * Obtiene todos los Países registrados
-     *
-     * @method  getCountries
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -65,8 +64,6 @@ class LocatesController extends Controller
 
     /**
      * Obtiene los Estados asociados al País indicado
-     *
-     * @method  getEstates
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -89,8 +86,6 @@ class LocatesController extends Controller
     /**
      * Obtiene los Municipios de un Estado
      *
-     * @method  getMunicipalities
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  integer $estate_id Identificador del Estado
@@ -112,8 +107,6 @@ class LocatesController extends Controller
     /**
      * Obtiene las Ciudades asociadas a un Estado
      *
-     * @method  getCities
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  integer $estate_id Identificador del Estado
@@ -134,8 +127,6 @@ class LocatesController extends Controller
 
     /**
      * Obtiene las Parroquias de un Municipio
-     *
-     * @method  getParishes
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

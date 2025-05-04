@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos para los almacenes
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class Warehouse extends Model implements Auditable
 {
@@ -43,7 +43,8 @@ class Warehouse extends Model implements Auditable
      * Método que obtiene la parroquia donde esta ubicado el almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Parish
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parish()
     {
@@ -54,8 +55,8 @@ class Warehouse extends Model implements Auditable
      * Método que obtiene las instituciones que gestionan el almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * WarehouseInstitutionWarehouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function warehouseInstitutionWarehouses()
     {

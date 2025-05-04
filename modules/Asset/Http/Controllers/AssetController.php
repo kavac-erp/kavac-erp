@@ -2,30 +2,32 @@
 
 namespace Modules\Asset\Http\Controllers;
 
-use App\Models\Institution;
 use App\Models\Profile;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Models\Institution;
 use Illuminate\Http\Request;
+use Modules\Asset\Models\Asset;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
+use Modules\Asset\Models\AssetBook;
+use Modules\Asset\Models\AssetType;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Asset\Exports\AssetExport;
-use Modules\Asset\Imports\AssetImport;
-use Modules\Asset\Models\Asset;
-use Modules\Asset\Models\AssetAsignation;
-use Modules\Asset\Models\AssetAsignationAsset;
-use Modules\Asset\Models\AssetCategory;
-use Modules\Asset\Models\AssetDisincorporation;
-use Modules\Asset\Models\AssetDisincorporationAsset;
 use Modules\Asset\Models\AssetRequest;
-use Modules\Asset\Models\AssetType;
-use Modules\Asset\Repositories\AssetParametersRepository;
+use Illuminate\Support\Facades\Storage;
+use Modules\Asset\Models\AssetCategory;
 use Modules\Asset\Rules\AcquisitionYear;
+use Modules\Asset\Models\AssetAsignation;
+use Modules\Asset\Rules\ContractStartDate;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Asset\Models\AssetAsignationAsset;
 use Modules\Asset\Http\Resources\AssetResource;
+use Modules\Asset\Models\AssetDisincorporation;
+use Modules\Asset\Imports\AssetImportMultiSheet;
+use Modules\Asset\Models\AssetDisincorporationAsset;
+use Modules\Asset\Http\Resources\AssetReportResource;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Asset\Http\Resources\AssetAsignationResource;
-use Modules\Asset\Models\AssetBook;
-use PhpCsFixer\Fixer\Alias\ArrayPushFixer;
+use Modules\Asset\Repositories\AssetParametersRepository;
 
 /**
  * @class      AssetController
@@ -34,6 +36,7 @@ use PhpCsFixer\Fixer\Alias\ArrayPushFixer;
  * Clase que gestiona los bienes institucionales
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -43,41 +46,70 @@ class AssetController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
     /**
      * Arreglo con los atributos para las reglas de validación
-     * @var Array $attributes;
+     *
+     * @var array $attributes
      */
     protected $attributes;
+
     /**
      * Define la configuración de la clase
+     *
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->validateRules = [
             '*.asset_type_id' => ['required'],
             '*.asset_category_id' => ['required'],
             '*.asset_subcategory_id' => ['required'],
             '*.asset_specific_category_id' => ['required'],
             '*.asset_acquisition_type_id' => ['required'],
-            '*.acquisition_date' => ['required',new AcquisitionYear(Date("Y"))],
+            '*.acquisition_date' => ['required', 'before:today', new AcquisitionYear(Date("Y"))],
             '*.asset_details.*.asset_status_id' => ['required'],
             '*.asset_details.*.asset_condition_id' => ['required'],
             '*.institution_id' => ['required'],
             '*.document_num' => ['required', 'regex:/^([0-9]{1,10}|[nN]\/[pP])$/', 'max:10'],
             '*.asset_details.*.code' => ['required', 'unique:assets,asset_institutional_code'],
+            '*.asset_details.*.contract_start_date' => [
+                'sometimes',
+                function ($attribute, $value, $fail) {
+                    preg_match_all('/\d+/', $attribute, $matches);
+                    $assetIndex = $matches[0][0];
+                    $detailsIndex = $matches[0][1];
+                    $end_date = request()->input("{$assetIndex}.asset_details.{$detailsIndex}.contract_end_date");
+                    $acquisition_date = request()->input("{$assetIndex}.acquisition_date");
+
+                    $rule_end_date = new ContractStartDate('contract_end_date', $end_date);
+                    if (!$rule_end_date->passes($attribute, $value)) {
+                        $fail($rule_end_date->message());
+                    }
+
+                    $rule_acquisition_date = new ContractStartDate('acquisition_date', $acquisition_date);
+                    if (!$rule_acquisition_date->passes($attribute, $value)) {
+                        $fail($rule_acquisition_date->message());
+                    }
+                }
+            ],
+            '*.asset_details.*.contract_end_date' => ['sometimes', 'after_or_equal:*.asset_details.*.contract_start_date'],
+            '*.asset_details.*.registration_date' => ['required_if:*.asset_type_id,2', 'after:*.acquisition_date'],
         ];
 
         /** Define los mensajes de validación para las reglas del formulario */
@@ -89,6 +121,7 @@ class AssetController extends Controller
             '*.asset_specific_category_id.required' => 'El campo Categoria especifica es obligatorio.',
             '*.asset_acquisition_type_id.required' => 'El campo Forma de adquisición es obligatorio.',
             '*.acquisition_date.required' => 'El campo Fecha de adquisición es obligatorio.',
+            '*.acquisition_date.before' => 'La fecha de adquisición no puede ser posterior a la fecha actual.',
             '*.asset_details.*.asset_status_id.required' => 'El campo Estatus de uso es obligatorio.',
             '*.asset_details.*.serial.required' => 'El campo Serial es obligatorio.',
             '*.asset_details.*.serial.unique' => 'El campo Serial ya existe',
@@ -106,6 +139,9 @@ class AssetController extends Controller
             '*.asset_details.*.acquisition_value.required' => 'El campo Valor de adquisición es obligatorio.',
             '*.asset_details.*.residual_value.required' => 'El campo Valor residual es obligatorio.',
             '*.asset_details.*.depresciation_years.required' => 'El campo Años de depreciación es obligatorio.',
+            '*.asset_details.*.contract_end_date.after_or_equal' => 'La fecha de fin de contrato no puede ser anterior a la fecha de inicio de contrato.',
+            '*.asset_details.*.registration_date.required' => 'El campo Fecha de registro del inmueble es obligatorio.',
+            '*.asset_details.*.registration_date.after' => 'La fecha de registro del inmueble no puede ser menor o igual a la fecha de adquisición.',
         ];
 
         $this->attributes = [
@@ -114,7 +150,7 @@ class AssetController extends Controller
             'asset_use_function_id' => 'función de uso',
             'model' => 'modelo',
         ];
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:asset.request.register', ['only' => 'index']);
         $this->middleware('permission:asset.create', ['only' => 'create']);
         $this->middleware('permission:asset.edit', ['only' => 'edit']);
@@ -125,6 +161,7 @@ class AssetController extends Controller
      * Muestra un listado de los bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    Renderable
      */
     public function index()
@@ -136,6 +173,7 @@ class AssetController extends Controller
      * Muestra el formulario para registrar un nuevo bien institucional
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    Renderable
      */
     public function create()
@@ -159,8 +197,10 @@ class AssetController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     Request         $request    Datos de la petición
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function store(Request $request)
     {
@@ -173,74 +213,6 @@ class AssetController extends Controller
 
             return response()->json(['message' => 'The given data was invalid.', 'errors' => $errors], 422);
         }
-
-        /**$item_required = AssetRequiredItem::where('asset_specific_category_id', $request->asset_specific_category_id)
-        ->first();
-
-        $validateRules  = $this->validateRules;
-        if($request->value){
-        $validateRules  = array_merge(
-        $validateRules,
-        [
-        'value' => ['regex:/^\d+(\.\d+)?$/u']
-        ]
-        );
-        }
-        if (!is_null($item_required)){
-        if ($request->asset_type_id == 1) {
-        $validateRules  = array_merge(
-        $validateRules,
-        [
-        'serial' => [new RequiredItem($item_required->serial), 'unique:assets,serial'],
-        'marca'  => new RequiredItem($item_required->marca),
-        'model' => new RequiredItem($item_required->model),
-        'asset_institutional_code' => ['required', 'unique:assets,asset_institutional_code']
-
-        ]
-        );
-        $this->validate($request, $validateRules, $this->messages, $this->attributes);
-        } elseif ($request->asset_type_id == 2) {
-        $validateRules  = array_merge(
-        $validateRules,
-        [
-        'asset_use_function_id' => new RequiredItem($item_required->use_function),
-        'parish_id' => new RequiredItem($item_required->address),
-        'address' => new RequiredItem($item_required->address),
-
-        ]
-        );
-        $this->validate($request, $validateRules, $this->messages, $this->attributes);
-        }
-        } else {
-        $this->validate($request, $this->validateRules, $this->messages, $this->attributes);
-        }
-
-        $asset = Asset::create([
-        'asset_type_id'              => $request->asset_type_id,
-        'asset_category_id'          => $request->asset_category_id,
-        'asset_subcategory_id'       => $request->asset_subcategory_id,
-        'asset_specific_category_id' => $request->asset_specific_category_id,
-        'specifications'             => $request->specifications,
-        'asset_condition_id'         => $request->asset_condition_id,
-        'asset_acquisition_type_id'  => $request->asset_acquisition_type_id,
-        'acquisition_date'           => $request->acquisition_date,
-        'asset_status_id'            => $request->asset_status_id,
-        'serial'                     => $request->serial,
-        'marca'                      => $request->marca,
-        'model'                      => $request->model,
-        'value'                      => $request->value,
-        'currency_id'                => $request->currency_id,
-        'institution_id'             => $request->institution_id,
-        'asset_use_function_id'      => $request->asset_use_function_id,
-        'parish_id'                  => $request->parish_id,
-        'address'                    => $request->address,
-        'purchase_supplier_id'       => $request->purchase_supplier_id,
-        'color'                      => $request->color,
-        'asset_institutional_code'   => $request->asset_institutional_code
-
-        ]);
-        $asset->inventory_serial = $asset->getCode();
-        $asset->save();*/
 
         $this->validate($request, $this->validateRules, $this->messages, $this->attributes);
 
@@ -256,6 +228,11 @@ class AssetController extends Controller
         $records = $request->input();
         foreach ($records as $record) {
             foreach ($record['asset_details'] as $details) {
+                isset($details['residual_value'])
+                ? $details['residual_value'] = $this->inverseFormatNumber($details['residual_value'])
+                : null;
+                $details['acquisition_value'] = $this->inverseFormatNumber($details['acquisition_value']);
+
                 $asset = Asset::create([
                     'asset_type_id' => $record['asset_type_id'],
                     'asset_category_id' => $record['asset_category_id'],
@@ -265,7 +242,7 @@ class AssetController extends Controller
                     'asset_acquisition_type_id' => $record['asset_acquisition_type_id'],
                     'acquisition_date' => $record['acquisition_date'],
                     'asset_status_id' => $details['asset_status_id'],
-                    'asset_institution_storages_id'=> $details['asset_institution_storages_id'],
+                    'asset_institution_storages_id' => $details['asset_institution_storages_id'] ?? null,
                     'acquisition_value' => $details['acquisition_value'],
                     'description' => $details['description'],
                     'institution_id' => $record['institution_id'] ?? $institution->id,
@@ -283,16 +260,8 @@ class AssetController extends Controller
                     'asset_id' => $asset->id,
                     'amount' => $details['acquisition_value'],
                 ]);
-            }
-            ;
+            };
         }
-
-        /**AssetCreateAssets::dispatch(
-        $request->all(),
-        ($request->institution_id) ?
-        $request->institution_id :
-        $institution->id,
-        );*/
 
         $request->session()->flash('message', ['type' => 'store']);
         return response()->json(['result' => true, 'redirect' => route('asset.register.index')], 200);
@@ -303,7 +272,9 @@ class AssetController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * @param     \Modules\Asset\Models\Asset    $asset    Datos del Bien
+     *
+     * @param     integer    $id    Identificador del Bien
+     *
      * @return    Renderable
      */
     public function edit($id)
@@ -321,9 +292,11 @@ class AssetController extends Controller
      * Actualiza la información de los bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @param     Integer                          $id         Identificador único del bien
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     Request         $request    Datos de la petición
+     * @param     integer         $id         Identificador único del bien
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function update(Request $request, $id)
     {
@@ -346,7 +319,9 @@ class AssetController extends Controller
                     'serial' => ['required', 'unique:assets,serial' . $asset->id, 'max:50'],
                     'marca' => ['required', 'max:50'],
                     'model' => ['required', 'max:50'],
-                    'asset_institutional_code' => ['required', 'unique:assets,asset_institutional_code,' . $asset->id],
+                    'asset_institutional_code' => [
+                        'required', 'unique:assets,asset_institutional_code,' . $asset->id
+                    ],
 
                 ]
             );
@@ -358,7 +333,9 @@ class AssetController extends Controller
                     'asset_use_function_id' => ['required'],
                     'parish_id' => ['required'],
                     'address' => ['required'],
-
+                    'asset_institutional_code' => [
+                        'required', 'unique:assets,asset_institutional_code,' . $asset->id
+                    ],
                 ]
             );
         }
@@ -366,6 +343,11 @@ class AssetController extends Controller
         $records = $request->input();
         foreach ($records as $record) {
             foreach ($record['asset_details'] as $details) {
+                isset($details['residual_value'])
+                ? $details['residual_value'] = $this->inverseFormatNumber($details['residual_value'])
+                : null;
+                $details['acquisition_value'] = $this->inverseFormatNumber($details['acquisition_value']);
+
                 $asset->update([
                     'asset_type_id' => $record['asset_type_id'],
                     'asset_category_id' => $record['asset_category_id'],
@@ -375,7 +357,7 @@ class AssetController extends Controller
                     'asset_acquisition_type_id' => $record['asset_acquisition_type_id'],
                     'acquisition_date' => $record['acquisition_date'],
                     'asset_status_id' => $details['asset_status_id'],
-                    'asset_institution_storages_id'=> $details['asset_institution_storages_id'],
+                    'asset_institution_storages_id' => $details['asset_institution_storages_id'],
                     'acquisition_value' => $details['acquisition_value'],
                     'description' => $details['description'],
                     'institution_id' => $record['institution_id'],
@@ -394,8 +376,7 @@ class AssetController extends Controller
                         'amount' => $details['acquisition_value'],
                     ]);
                 }
-            }
-            ;
+            };
         }
 
         $request->session()->flash('message', ['type' => 'update']);
@@ -406,8 +387,10 @@ class AssetController extends Controller
      * Elimina un bien institucional
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     \Modules\Asset\Models\Asset      $asset    Datos del Bien
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     Asset      $asset    Datos del Bien
+     *
+     * @return    JsonResponse         Objeto con los registros a mostrar
      */
     public function destroy(Asset $asset)
     {
@@ -419,8 +402,10 @@ class AssetController extends Controller
      * Obtiene la información del bien institucional registrado
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     \Modules\Asset\Models\Asset      $asset    Datos del bien institucional
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     Asset      $asset     Datos del bien institucional
+     *
+     * @return    JsonResponse          Objeto con los registros a mostrar
      */
     public function vueInfo($id)
     {
@@ -465,9 +450,12 @@ class AssetController extends Controller
      * Otiene un listado de los bienes registradas
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     String                           $operation       Tipo de operación realizada
-     * @param     Integer                          $operation_id    Identificador único de la operación
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     \Illuminate\Http\Request  $request         Datos de la petición
+     * @param     string|null               $operation       Tipo de operación realizada
+     * @param     integer|null              $operation_id    Identificador único de la operación
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function vueList(Request $request, $operation = null, $operation_id = null)
     {
@@ -478,7 +466,7 @@ class AssetController extends Controller
                 ? $user_profile->institution_id
                 : null);
         if ($operation == null) {
-            if (Auth()->user()->isAdmin()) {
+            if (auth()->user()->isAdmin()) {
                 $assets = Asset::query()
                     ->searchRegisters($request->query('query'))
                     ->with([
@@ -487,7 +475,7 @@ class AssetController extends Controller
                         'assetStatus',
                         'AssetSpecificCategory',
                         'assetAdjustmentAssets',
-                        'purchaseSupplier',
+                        'assetSupplier',
                         'assetAsignationAsset' => function ($query) {
                             $query->with('assetAsignation');
                         },
@@ -510,7 +498,7 @@ class AssetController extends Controller
                         'institution',
                         'assetCondition',
                         'assetStatus',
-                        'purchaseSupplier',
+                        'assetSupplier',
                         'assetAsignationAsset' => function ($query) {
                             $query->with('assetAsignation');
                         },
@@ -529,7 +517,7 @@ class AssetController extends Controller
             }
         } elseif ($operation_id == null) {
             if ($operation == 'asignations' || $operation == 'requests') {
-                if (Auth()->user()->isAdmin()) {
+                if (auth()->user()->isAdmin()) {
                     $assets = Asset::query()
                         ->searchAsignation($request->query('query') ?? '')
                         ->codeClasification(
@@ -590,36 +578,36 @@ class AssetController extends Controller
                 return response()->json(
                     [
                         'data' => !is_null($assets)
-                        ? AssetAsignationResource::collection($assets->items())
-                        : null,
+                            ? AssetAsignationResource::collection($assets->items())
+                            : null,
                         'count' => $assets->total()
                     ],
                     200
                 );
             } elseif ($operation == 'disincorporations') {
-                if (Auth()->user()->isAdmin()) {
+                if (auth()->user()->isAdmin()) {
                     $assets = Asset::query()
-                    ->searchAsignation($request->query('query') ?? '')
-                    ->codeClasification(
-                        $request->asset_type,
-                        $request->asset_category,
-                        $request->asset_subcategory,
-                        $request->asset_specific_category,
-                        true,
-                        []
-                    )
-                    ->with([
-                        'institution',
-                        'assetCondition',
-                        'assetSpecificCategory',
-                        'assetAsignationAsset.assetAsignation.payrollStaff',
-                        'department',
-                        'assetStatus',
-                        'assetDisincorporationAsset',
-                        'assetRequestAsset' => function ($query) {
-                            $query->with('assetRequest');
-                        },
-                    ])->where('asset_status_id', '!=', 1)
+                        ->searchAsignation($request->query('query') ?? '')
+                        ->codeClasification(
+                            $request->asset_type,
+                            $request->asset_category,
+                            $request->asset_subcategory,
+                            $request->asset_specific_category,
+                            true,
+                            []
+                        )
+                        ->with([
+                            'institution',
+                            'assetCondition',
+                            'assetSpecificCategory',
+                            'assetAsignationAsset.assetAsignation.payrollStaff',
+                            'department',
+                            'assetStatus',
+                            'assetDisincorporationAsset',
+                            'assetRequestAsset' => function ($query) {
+                                $query->with('assetRequest');
+                            },
+                        ])->where('asset_status_id', '!=', 1)
                         ->where('asset_status_id', '!=', 3)
                         ->where('asset_status_id', '!=', 6)
                         ->where('asset_status_id', '!=', 11)
@@ -648,8 +636,8 @@ class AssetController extends Controller
             return response()->json(
                 [
                     'data' => !is_null($assets)
-                    ? AssetAsignationResource::collection($assets->items())
-                    : null,
+                        ? AssetAsignationResource::collection($assets->items())
+                        : null,
                     'count' => $assets->total()
                 ],
                 200
@@ -663,7 +651,7 @@ class AssetController extends Controller
                     ->pluck('asset_id')
                     ->toArray();
 
-                if (Auth()->user()->isAdmin()) {
+                if (auth()->user()->isAdmin()) {
                     $assets = Asset::query()
                         ->with('institution', 'assetCondition', 'assetStatus')
                         ->orderBy('id')
@@ -678,32 +666,32 @@ class AssetController extends Controller
                         )
                         ->where(function ($query) {
                             $query->where('asset_status_id', 10)
-                            ->where('asset_condition_id', 1);
+                                ->where('asset_condition_id', 1);
                         })
                         ->orWhere(function ($query) use ($selected) {
                             $query->whereIn('id', $selected);
                         });
                 } else {
                     $assets = Asset::query()
-                    ->with('institution', 'assetCondition', 'assetStatus')
-                    ->orderBy('id')
-                    ->searchAsignation($request->query('query') ?? '')
-                    ->codeClasification(
-                        $request->asset_type,
-                        $request->asset_category,
-                        $request->asset_subcategory,
-                        $request->asset_specific_category,
-                        $request->is_dis ?? false,
-                        []
-                    )
-                    ->where('institution_id', $institution_id)
-                    ->where(function ($query) {
-                        $query->where('asset_status_id', 10)
-                        ->where('asset_condition_id', 1);
-                    })
-                    ->orWhere(function ($query) use ($selected) {
-                        $query->whereIn('id', $selected);
-                    });
+                        ->with('institution', 'assetCondition', 'assetStatus')
+                        ->orderBy('id')
+                        ->searchAsignation($request->query('query') ?? '')
+                        ->codeClasification(
+                            $request->asset_type,
+                            $request->asset_category,
+                            $request->asset_subcategory,
+                            $request->asset_specific_category,
+                            $request->is_dis ?? false,
+                            []
+                        )
+                        ->where('institution_id', $institution_id)
+                        ->where(function ($query) {
+                            $query->where('asset_status_id', 10)
+                                ->where('asset_condition_id', 1);
+                        })
+                        ->orWhere(function ($query) use ($selected) {
+                            $query->whereIn('id', $selected);
+                        });
                 }
             } elseif ($operation == 'disincorporations') {
                 $selected = AssetDisincorporation::find($operation_id)
@@ -713,7 +701,7 @@ class AssetController extends Controller
                     ->pluck('asset_id')
                     ->toArray();
 
-                if (Auth()->user()->isAdmin()) {
+                if (auth()->user()->isAdmin()) {
                     $assets = Asset::query()
                         ->with(
                             'institution',
@@ -735,43 +723,43 @@ class AssetController extends Controller
                         )
                         ->where(function ($query) {
                             $query->orWhere('asset_status_id', '!=', 1)
-                            ->orWhere('asset_status_id', '!=', 3)
-                            ->where('asset_status_id', '!=', 6)
-                            ->where('asset_status_id', '!=', 11);
+                                ->orWhere('asset_status_id', '!=', 3)
+                                ->where('asset_status_id', '!=', 6)
+                                ->where('asset_status_id', '!=', 11);
                         })
                         ->orWhere(function ($query) use ($selected) {
                             $query->whereIn('id', $selected);
                         });
                 } else {
                     $assets = Asset::query()
-                    ->with(
-                        'institution',
-                        'assetCondition',
-                        'assetSpecificCategory',
-                        'department',
-                        'assetStatus',
-                        'assetDisincorporationAsset'
-                    )
-                    ->orderBy('id')
-                    ->searchAsignation($request->query('query') ?? '')
-                    ->codeClasification(
-                        $request->asset_type,
-                        $request->asset_category,
-                        $request->asset_subcategory,
-                        $request->asset_specific_category,
-                        true,
-                        []
-                    )
-                    ->where('institution_id', $institution_id)
-                    ->where(function ($query) {
-                        $query->orWhere('asset_status_id', '!=', 1)
-                        ->orWhere('asset_status_id', '!=', 3)
-                        ->where('asset_status_id', '!=', 6)
-                        ->where('asset_status_id', '!=', 11);
-                    })
-                    ->orWhere(function ($query) use ($selected) {
-                        $query->whereIn('id', $selected);
-                    });
+                        ->with(
+                            'institution',
+                            'assetCondition',
+                            'assetSpecificCategory',
+                            'department',
+                            'assetStatus',
+                            'assetDisincorporationAsset'
+                        )
+                        ->orderBy('id')
+                        ->searchAsignation($request->query('query') ?? '')
+                        ->codeClasification(
+                            $request->asset_type,
+                            $request->asset_category,
+                            $request->asset_subcategory,
+                            $request->asset_specific_category,
+                            true,
+                            []
+                        )
+                        ->where('institution_id', $institution_id)
+                        ->where(function ($query) {
+                            $query->orWhere('asset_status_id', '!=', 1)
+                                ->orWhere('asset_status_id', '!=', 3)
+                                ->where('asset_status_id', '!=', 6)
+                                ->where('asset_status_id', '!=', 11);
+                        })
+                        ->orWhere(function ($query) use ($selected) {
+                            $query->whereIn('id', $selected);
+                        });
                 }
             } elseif ($operation == 'requests') {
                 $selected = [];
@@ -779,7 +767,7 @@ class AssetController extends Controller
                 foreach ($assetRequestAssets as $assetRequestAsset) {
                     array_push($selected, $assetRequestAsset->asset_id);
                 }
-                if (Auth()->user()->isAdmin()) {
+                if (auth()->user()->isAdmin()) {
                     $assets = Asset::with(
                         'institution',
                         'assetCondition',
@@ -808,8 +796,8 @@ class AssetController extends Controller
         return response()->json(
             [
                 'data' => !is_null($assets)
-                ? AssetResource::collection($assets->items())
-                : null,
+                    ? AssetResource::collection($assets->items())
+                    : null,
                 'count' => $assets->total()
             ],
             200
@@ -820,8 +808,11 @@ class AssetController extends Controller
      * Filtra por su código de clasificación los bienes registradas
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     Request         $request    Datos de la petición
+     * @param     string|null     $operation  Operación a realizar
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function searchClasification(Request $request, $operation = null)
     {
@@ -863,23 +854,23 @@ class AssetController extends Controller
             $is_dis,
             $ids
         )->with([
-                    'institution',
-                    'assetCondition',
-                    'assetType',
-                    'assetCategory',
-                    'assetSubcategory',
-                    'assetSpecificCategory',
-                    'assetAsignationAsset.assetAsignation.payrollStaff',
-                    'department',
-                    'assetStatus',
-                    'assetDisincorporationAsset' => function ($query) {
-                        $query->with([
-                            'assetDisincorporation' => function ($query) {
-                                $query->with('assetDisincorporationMotive');
-                            }
-                        ]);
+            'institution',
+            'assetCondition',
+            'assetType',
+            'assetCategory',
+            'assetSubcategory',
+            'assetSpecificCategory',
+            'assetAsignationAsset.assetAsignation.payrollStaff',
+            'department',
+            'assetStatus',
+            'assetDisincorporationAsset' => function ($query) {
+                $query->with([
+                    'assetDisincorporation' => function ($query) {
+                        $query->with('assetDisincorporationMotive');
                     }
-                ])->where('assets.institution_id', $institution);
+                ]);
+            }
+        ])->where('assets.institution_id', $institution);
 
         if ($request->asset_status > 0) {
             $assets = $assets->where('asset_status_id', $request->asset_status);
@@ -896,18 +887,18 @@ class AssetController extends Controller
         //se realiza el filtrado de los registros por el texto introducido en el buscador de la tabla
         if ($request->search != "" and $request->search != null and $request->search != " ") {
             $assets = $assets->Where('asset_institutional_code', 'like', '%' . $request->search . '%')
-            ->orWhere('code_sigecof', 'like', '%' . $request->search . '%')
-            ->orWhereHas('assetStatus', function ($query) use ($request) {
-                $query->whereRaw('LOWER(name) LIKE ?', [strtolower("%$request->search%")]);
-            })->orWhereHas('department', function ($query) use ($request) {
-                $query->whereRaw('LOWER(name) LIKE ?', [strtolower("%$request->search%")]);
-            })->orWhereHas('assetSpecificCategory', function ($query) use ($request) {
-                $query->whereRaw('LOWER(name) LIKE ?', [strtolower("%$request->search%")]);
-            })->orWhereHas('assetAsignationAsset', function ($query) use ($request) {
-                $query->whereHas('assetAsignation', function ($query) use ($request) {
-                    $query->whereRaw('LOWER(location_place) LIKE ?', [strtolower("%$request->search%")]);
+                ->orWhere('code_sigecof', 'like', '%' . $request->search . '%')
+                ->orWhereHas('assetStatus', function ($query) use ($request) {
+                    $query->whereRaw('LOWER(name) LIKE ?', [strtolower("%$request->search%")]);
+                })->orWhereHas('department', function ($query) use ($request) {
+                    $query->whereRaw('LOWER(name) LIKE ?', [strtolower("%$request->search%")]);
+                })->orWhereHas('assetSpecificCategory', function ($query) use ($request) {
+                    $query->whereRaw('LOWER(name) LIKE ?', [strtolower("%$request->search%")]);
+                })->orWhereHas('assetAsignationAsset', function ($query) use ($request) {
+                    $query->whereHas('assetAsignation', function ($query) use ($request) {
+                        $query->whereRaw('LOWER(location_place) LIKE ?', [strtolower("%$request->search%")]);
+                    });
                 });
-            });
         }
 
         if ($operation == 'clasification') {
@@ -926,15 +917,13 @@ class AssetController extends Controller
                 if ($request->mes_id != '' && !is_null($request->mes_id)) {
                     if ($request->year != '' && !is_null($request->year)) {
                         $assets = $assets->whereMonth('created_at', $request->mes_id)
-                        ->whereYear('created_at', $request->year);
+                            ->whereYear('created_at', $request->year);
                     } else {
                         $assets = $assets->whereMonth('created_at', $request->mes_id);
                     }
                 }
                 if ($request->year != '' && !is_null($request->year) && $request->mes_id == '') {
                     $assets = $assets->whereYear('created_at', $request->year);
-                } else {
-                    $assets = $assets;
                 }
             }
 
@@ -945,13 +934,13 @@ class AssetController extends Controller
                         $query->where('name', 'Mueble');
                     });
                     break;
-            
+
                 case 'property_active':
                     $assets->whereHas('assetType', function ($query) {
                         $query->where('name', 'Inmueble');
                     });
                     break;
-            
+
                 case 'vehicle_active':
                     $assets->whereHas('assetType', function ($query) {
                         $query->where('name', 'Mueble');
@@ -959,7 +948,7 @@ class AssetController extends Controller
                         $query->where('name', 'like', '%transporte%');
                     });
                     break;
-            
+
                 case 'livestock_active':
                     $assets->whereHas('assetType', function ($query) {
                         $query->where('name', 'Mueble');
@@ -968,22 +957,20 @@ class AssetController extends Controller
                     });
                     break;
             }
-            
+
             if ($request->code != '') {
                 $assets->where('asset_institutional_code', $request->code)->first();
-                if($assets->count() == 0){
+                if ($assets->count() == 0) {
                     $errors = [
                         'error' => [
                             0 => 'El código interno no existe o no coincide con el Tipo de bien previamente seleccionado.'
-                            ]
-                        ];
-        
-                        return response()->json([
-                            'message' => 'The given data was invalid.', 'errors' => $errors
-                        ], 422);
+                        ]
+                    ];
 
+                    return response()->json([
+                        'message' => 'The given data was invalid.', 'errors' => $errors
+                    ], 422);
                 }
-                
             }
 
             if ($request->orderBy) {
@@ -991,7 +978,7 @@ class AssetController extends Controller
                 $ascending = ($request->ascending) ? 'asc' : 'desc';
                 $assets = match ($order) {
                     'code_sigecof' => $assets->orderBy('code_sigecof', $ascending),
-    
+
                     'asset_specific_category.name' => $assets
                         ->join(
                             'asset_specific_categories',
@@ -999,9 +986,9 @@ class AssetController extends Controller
                             '=',
                             'assets.asset_specific_category_id'
                         )
-                    ->orderBy('asset_specific_categories.name', $ascending)
-                    ->select('assets.*'),
-    
+                        ->orderBy('asset_specific_categories.name', $ascending)
+                        ->select('assets.*'),
+
                     'asset_status.name' => $assets
                         ->join(
                             'asset_status',
@@ -1009,9 +996,9 @@ class AssetController extends Controller
                             '=',
                             'assets.asset_status_id'
                         )
-                    ->orderBy('asset_status.name', $ascending)
-                    ->select('assets.*'),
-    
+                        ->orderBy('asset_status.name', $ascending)
+                        ->select('assets.*'),
+
                     'department.name' => $assets
                         ->join(
                             'departments',
@@ -1019,9 +1006,9 @@ class AssetController extends Controller
                             '=',
                             'assets.department_id'
                         )
-                    ->orderBy('departments.name', $ascending)
-                    ->select('assets.*'),
-    
+                        ->orderBy('departments.name', $ascending)
+                        ->select('assets.*'),
+
                     default => $assets
                 };
             }
@@ -1052,8 +1039,10 @@ class AssetController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     Request         $request    Datos de la petición
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function searchGeneral(Request $request)
     {
@@ -1097,8 +1086,6 @@ class AssetController extends Controller
 
             if ($request->year != '' && !is_null($request->year) && $request->mes_id == '') {
                 $assets = $assets->whereYear('created_at', $request->year);
-            } else {
-                $assets = $assets;
             }
 
             if ($request->asset_status > 0) {
@@ -1145,18 +1132,18 @@ class AssetController extends Controller
         //se realiza el filtrado de los registros por el texto introducido en el buscador de la tabla
         if ($request->search != "" and $request->search != null and $request->search != " ") {
             $assets = $assets->Where('asset_institutional_code', 'like', '%' . $request->search . '%')
-            ->orWhere('code_sigecof', 'like', '%' . $request->search . '%')
-            ->orWhereHas('assetStatus', function ($query) use ($request) {
-                $query->whereRaw('LOWER(name) LIKE ?', [strtolower("%$request->search%")]);
-            })->orWhereHas('department', function ($query) use ($request) {
-                $query->whereRaw('LOWER(name) LIKE ?', [strtolower("%$request->search%")]);
-            })->orWhereHas('assetSpecificCategory', function ($query) use ($request) {
-                $query->whereRaw('LOWER(name) LIKE ?', [strtolower("%$request->search%")]);
-            })->orWhereHas('assetAsignationAsset', function ($query) use ($request) {
-                $query->whereHas('assetAsignation', function ($query) use ($request) {
-                    $query->whereRaw('LOWER(location_place) LIKE ?', [strtolower("%$request->search%")]);
+                ->orWhere('code_sigecof', 'like', '%' . $request->search . '%')
+                ->orWhereHas('assetStatus', function ($query) use ($request) {
+                    $query->whereRaw('LOWER(name) LIKE ?', [strtolower("%$request->search%")]);
+                })->orWhereHas('department', function ($query) use ($request) {
+                    $query->whereRaw('LOWER(name) LIKE ?', [strtolower("%$request->search%")]);
+                })->orWhereHas('assetSpecificCategory', function ($query) use ($request) {
+                    $query->whereRaw('LOWER(name) LIKE ?', [strtolower("%$request->search%")]);
+                })->orWhereHas('assetAsignationAsset', function ($query) use ($request) {
+                    $query->whereHas('assetAsignation', function ($query) use ($request) {
+                        $query->whereRaw('LOWER(location_place) LIKE ?', [strtolower("%$request->search%")]);
+                    });
                 });
-            });
         }
         //Condicion y logica para ordenar por columna de manera ascendente o descendente.
         // en caso de ordenar por una columna con nombre diferente al del modelo
@@ -1174,8 +1161,8 @@ class AssetController extends Controller
                         '=',
                         'assets.asset_specific_category_id'
                     )
-                ->orderBy('asset_specific_categories.name', $ascending)
-                ->select('assets.*'),
+                    ->orderBy('asset_specific_categories.name', $ascending)
+                    ->select('assets.*'),
 
                 'asset_status.name' => $assets
                     ->join(
@@ -1184,8 +1171,8 @@ class AssetController extends Controller
                         '=',
                         'assets.asset_status_id'
                     )
-                ->orderBy('asset_status.name', $ascending)
-                ->select('assets.*'),
+                    ->orderBy('asset_status.name', $ascending)
+                    ->select('assets.*'),
 
                 'department.name' => $assets
                     ->join(
@@ -1194,13 +1181,13 @@ class AssetController extends Controller
                         '=',
                         'assets.department_id'
                     )
-                ->orderBy('departments.name', $ascending)
-                ->select('assets.*'),
+                    ->orderBy('departments.name', $ascending)
+                    ->select('assets.*'),
 
                 default => $assets
             };
         }
-        //psginando la respuesta para la tabla servidor
+        //paginando la respuesta para la tabla servidor
         $assets = $assets->paginate((int)$request->limit);
 
         return response()->json(
@@ -1216,23 +1203,44 @@ class AssetController extends Controller
      * Filtra por su ubicación en la institución los bienes registradas
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     Request         $request    Datos de la petición
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function searchDependence(Request $request)
     {
         /*
          *  Falta filtrar por dependencia solicitante
-         *  Validar tambien para múltiples instituciones
-         *
+         *  Validar tambien para múltiples instituciones         *
          */
         return response()->json(['records' => []], 200);
+    }
+
+    /**
+     * Busca un bien por su código interno
+     *
+     * @author    Natanael Rojo <ndrojo@cenditel.gob.ve> \ <rojonatanael99@gmail.com>
+     *
+     * @param     Request                $request    Datos de la petición
+     *
+     * @return    AssetReportResource    Objeto con los registros a mostrar
+     */
+    public function searchCode(Request $request)
+    {
+        $found_assets = Asset::where('asset_institutional_code', $request->code)->with([
+            'assetSubcategory',
+            'assetSpecificCategory',
+            'assetDepreciationAsset',
+        ])->get();
+        return new AssetReportResource($found_assets);
     }
 
     /**
      * Realiza la acción necesaria para exportar los datos del modelo Asset
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    object    Objeto que permite descargar el archivo con la información a ser exportada
      */
     public function export(Request $request)
@@ -1244,18 +1252,28 @@ class AssetController extends Controller
      * Realiza la acción necesaria para importar los datos suministrados en un archivo para el modelo Asset
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return    object    Objeto que permite descargar el archivo con la información a ser exportada
+     *
+     * @return    JsonResponse    Objeto que permite descargar el archivo con la información a ser exportada
      */
     public function import(Request $request)
     {
-        $user = $request->user();
-        Excel::import(
-            new AssetImport('Mueble', $user->id),
-            request()->file('file')
-        );
+        $filePath = $request->file('file')->store('', 'temporary');
+        $fileErrorsPath = 'import' . uniqid() . '.errors';
+        Storage::disk('temporary')->put($fileErrorsPath, '');
+        $import = new AssetImportMultiSheet($request->type, $filePath, 'temporary', auth()->user()->id, $fileErrorsPath);
+
+        $import->import();
+
         return response()->json(['result' => true], 200);
     }
 
+    /**
+     * Obtiene los campos requeridos para la creación de un nuevo bien
+     *
+     * @param Request $request  Datos de la petición
+     *
+     * @return JsonResponse
+     */
     public function getFields(Request $request)
     {
         $params = new AssetParametersRepository();
@@ -1276,7 +1294,7 @@ class AssetController extends Controller
                         $options = [
                             'types' => $params->loadCattleTypesData(),
                             'purposes' => $params->loadPurposesData(),
-                            'gender' => template_choices('App\Models\Gender', ['name'], '', true),
+                            'gender' => $params->loadGendersData(),
                             'measurement_units' => template_choices(
                                 'App\Models\MeasurementUnit',
                                 ['acronym', '-', 'name'],
@@ -1314,5 +1332,23 @@ class AssetController extends Controller
             }
         }
         return response()->json(['records' => $parameters ?? [], 'options' => $options ?? []], 200);
+    }
+
+    /**
+     * Inverse the formatting of a number and convert it back to a numeric value.
+     *
+     * @param string $formattedNumber The number to be inverse formatted.
+     *
+     * @return float The inverse formatted number as a float value.
+     */
+    private function inverseFormatNumber($formattedNumber)
+    {
+        // Remove the points and keep the decimals
+        $number = str_replace(['.', ','], ['', '.'], $formattedNumber);
+
+        // Convert the string to a number with decimals
+        $num = floatval($number);
+
+        return is_numeric($num) ? $num : 0.00;
     }
 }

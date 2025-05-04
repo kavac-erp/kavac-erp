@@ -4,10 +4,21 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class CreateSignprofilesTable
+ * @brief Crear tabla de para gestionar firmas de usuarios
+ *
+ * Gestiona la creación o eliminación de la tabla para gestionar firmas de usuarios
+ *
+ * @author Ing. Pedro Buitrago <pbuitrago@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CreateSignprofilesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -24,7 +35,7 @@ class CreateSignprofilesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

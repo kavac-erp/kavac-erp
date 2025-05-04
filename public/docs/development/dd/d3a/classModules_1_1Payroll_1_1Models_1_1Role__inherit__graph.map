@@ -1,3 +1,7 @@
 <map id="Role" name="Role">
-<area shape="rect" id="node1" title="Datos de roles." alt="" coords="5,5,244,83"/>
+<area shape="rect" id="Node000001" title="Datos de roles." alt="" coords="5,332,235,397"/>
+<area shape="rect" id="Node000002" href="$d3/d23/classApp_1_1Roles_1_1Models_1_1Role.html" title="Modelo para la gestión de roles." alt="" coords="63,219,177,284"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,298,123,332,117,332,117,298"/>
+<area shape="rect" id="Node000003" href="$d7/db0/interfaceApp_1_1Roles_1_1Contracts_1_1RoleHasRelations.html" title="Interface para la gestión de roles y sus relaciones." alt="" coords="31,5,209,171"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="123,184,123,219,117,219,117,184"/>
 </map>

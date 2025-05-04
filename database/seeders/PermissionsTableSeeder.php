@@ -44,20 +44,33 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Gestiona la información por defecto a registrar inicialmente para los Permisos de usuarios
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PermissionsTableSeeder extends Seeder
 {
+    /**
+     * Contador de permisos cargados
+     *
+     * @var int $count
+     */
     protected $count;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->count = 0;
     }
 
     /**
-     * Run the database seeds.
+     * Ejecuta los seeers de base de datos
      *
      * @return void
      */
@@ -67,7 +80,7 @@ class PermissionsTableSeeder extends Seeder
 
         $adminRole = Role::where('slug', 'admin')->first();
 
-        /** @var array Permisos generales de la aplicación */
+        /* Permisos generales de la aplicación */
         $permissions = [
             [
                 'name' => 'Ver Logs del sistema', 'slug' => 'log.list',
@@ -114,7 +127,7 @@ class PermissionsTableSeeder extends Seeder
             ]
         ];
 
-        /** @var array Permisos para la gestión de códigos de registro */
+        /* Permisos para la gestión de códigos de registro */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear Código de Registro', 'slug' => 'code.settings.create',
@@ -150,7 +163,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la configuración de parámetros generales */
+        /* Permisos para la configuración de parámetros generales */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Configurar parámetros generales', 'slug' => 'system.param.setting',
@@ -168,7 +181,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de organizaciones */
+        /* Permisos para la gestión de organizaciones */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Configurar organizaciones', 'slug' => 'institution.setting',
@@ -187,7 +200,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de usuarios */
+        /* Permisos para la gestión de usuarios */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Configurar cuenta de usuario', 'slug' => 'user.setting',
@@ -225,7 +238,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de impuestos */
+        /* Permisos para la gestión de impuestos */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear Impuestos', 'slug' => 'tax.create',
@@ -261,7 +274,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de Unidades Tributarias */
+        /* Permisos para la gestión de Unidades Tributarias */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear Unidades Tributarias', 'slug' => 'tax.unit.create',
@@ -297,7 +310,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de documentos requeridos */
+        /* Permisos para la gestión de documentos requeridos */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear Documento Requerido', 'slug' => 'document.required.create',
@@ -332,7 +345,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de monedas */
+        /* Permisos para la gestión de monedas */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear moneda', 'slug' => 'currency.create',
@@ -368,7 +381,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de tipos de cambio de monedas */
+        /* Permisos para la gestión de tipos de cambio de monedas */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear tipo de cambio', 'slug' => 'exchange.rate.create',
@@ -402,7 +415,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de deducciones / retenciones */
+        /* Permisos para la gestión de deducciones / retenciones */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear deducción / retención', 'slug' => 'deduction.create',
@@ -438,7 +451,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de departamentos */
+        /* Permisos para la gestión de departamentos */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear departamento', 'slug' => 'department.create',
@@ -474,7 +487,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de documentos */
+        /* Permisos para la gestión de documentos */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear documento', 'slug' => 'document.create',
@@ -510,7 +523,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de estados de documentos */
+        /* Permisos para la gestión de estados de documentos */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear estado de documento', 'slug' => 'document.status.create',
@@ -546,7 +559,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de profesiones */
+        /* Permisos para la gestión de profesiones */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear profesión', 'slug' => 'profession.create',
@@ -582,7 +595,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de ciudades */
+        /* Permisos para la gestión de ciudades */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear Ciudades', 'slug' => 'city.create',
@@ -618,7 +631,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de países */
+        /* Permisos para la gestión de países */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear Países', 'slug' => 'country.create',
@@ -654,7 +667,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de Estados */
+        /* Permisos para la gestión de Estados */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear Estados', 'slug' => 'estate.create',
@@ -690,7 +703,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de Municipios */
+        /* Permisos para la gestión de Municipios */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear Municipios', 'slug' => 'municipality.create',
@@ -726,7 +739,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de Parroquias */
+        /* Permisos para la gestión de Parroquias */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear Parroquias', 'slug' => 'parish.create',
@@ -762,7 +775,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de géneros */
+        /* Permisos para la gestión de géneros */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear Géneros', 'slug' => 'gender.create',
@@ -798,7 +811,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de histórico de impuestos */
+        /* Permisos para la gestión de histórico de impuestos */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear histórico de impuestos', 'slug' => 'history.tax.create',
@@ -834,7 +847,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de sectores de organizaciones */
+        /* Permisos para la gestión de sectores de organizaciones */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear sectores de organizaciones', 'slug' => 'institution.sector.create',
@@ -870,7 +883,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de tipos de organizaciones */
+        /* Permisos para la gestión de tipos de organizaciones */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear tipos de organizaciones', 'slug' => 'institution.type.create',
@@ -906,7 +919,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de estados civiles */
+        /* Permisos para la gestión de estados civiles */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear estado civil', 'slug' => 'marital.status.create',
@@ -942,7 +955,7 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de sedes */
+        /* Permisos para la gestión de sedes */
         $permissions = array_merge($permissions, [
             [
                 'name' => 'Crear sedes', 'slug' => 'headquarter.create',
@@ -970,42 +983,42 @@ class PermissionsTableSeeder extends Seeder
             ],
         ]);
 
-        /** @var array Permisos para la gestión de cierre de ejecricicio */
+        /* Permisos para la gestión de cierre de ejecricicio */
         $permissions = array_merge($permissions, [
             [
-                'name' => 'Registrar cierre de ejercicio', 'slug' => 'close_fiscal_year.create',
+                'name' => 'Registrar cierre de ejercicio', 'slug' => 'closefiscalyear.create',
                 'description' => 'Acceso al registro de cierre de ejercicio',
                 'model' => FiscalYear::class, 'model_prefix' => '0general',
-                'slug_alt' => 'close_fiscal_year.crear', 'short_description' => 'agregar cierre de ejercicio'
+                'slug_alt' => 'closefiscalyear.crear', 'short_description' => 'agregar cierre de ejercicio'
             ],
             [
-                'name' => 'Visualizar cierre de ejercicio', 'slug' => 'close_fiscal_year.list',
+                'name' => 'Visualizar cierre de ejercicio', 'slug' => 'closefiscalyear.list',
                 'description' => 'Acceso para visualizar cierre de ejercicio',
                 'model' => FiscalYear::class, 'model_prefix' => '0general',
-                'slug_alt' => 'close_fiscal_year.ver', 'short_description' => 'ver cierre de ejercicio'
+                'slug_alt' => 'closefiscalyear.ver', 'short_description' => 'ver cierre de ejercicio'
             ],
             [
-                'name' => 'Eliminar cierre de ejercicio', 'slug' => 'close_fiscal_year.delete',
+                'name' => 'Eliminar cierre de ejercicio', 'slug' => 'closefiscalyear.delete',
                 'description' => 'Acceso para eliminar cierre de ejercicio',
                 'model' => FiscalYear::class, 'model_prefix' => '0general',
-                'slug_alt' => 'close_fiscal_year.eliminar', 'short_description' => 'eliminar cierre de ejercicio'
+                'slug_alt' => 'closefiscalyear.eliminar', 'short_description' => 'eliminar cierre de ejercicio'
             ],
             [
                 'name' => 'Acceso a la configuración de cierre de ejercicio',
-                'slug' => 'close_fiscal_year.setting',
+                'slug' => 'closefiscalyear.setting',
                 'description' => 'Acceso para configurar cierre de ejercicio',
                 'model' => FiscalYear::class,
                 'model_prefix' => '0general',
-                'slug_alt' => 'close_fiscal_year.configuracion',
+                'slug_alt' => 'closefiscalyear.configuracion',
                 'short_description' => 'configurar cierre de ejercicio'
             ],
             [
                 'name' => 'Registrar asientos de ajustes de cierre de ejercicio',
-                'slug' => 'close_fiscal_year.entries',
+                'slug' => 'closefiscalyear.entries',
                 'description' => 'Acceso para registrar asientos de ajustes de cierre de ejercicio',
                 'model' => FiscalYear::class,
                 'model_prefix' => '0general',
-                'slug_alt' => 'close_fiscal_year.ajustes',
+                'slug_alt' => 'closefiscalyear.ajustes',
                 'short_description' => 'registrar asientos de ajustes de cierre de ejercicio'
             ]
         ]);

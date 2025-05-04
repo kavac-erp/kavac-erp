@@ -7,10 +7,21 @@ use App\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
+/**
+ * @class FinanceRoleAndPermissionsTableSeeder
+ * @brief Carga de datos de roles y permisos del módulo de finanzas
+ *
+ * Clase seeder para cargar datos de roles y permisos del módulo de finanzas
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class FinanceRoleAndPermissionsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */
@@ -215,9 +226,7 @@ class FinanceRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'chequera.ver',
                 'short_description' => 'Ver chequera',
             ],
-            /**
-             * Orden de pagos.
-             */
+            /* Orden de pagos. */
             [
                 'name' => 'Crear orden de pago',
                 'slug' => 'finance.payorder.create',
@@ -308,10 +317,26 @@ class FinanceRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'movimiento_bancario.eliminar',
                 'short_description' => 'Eliminar un movimiento bancario',
             ],
+            [
+                'name' => 'Aprobar movimientos bancarios',
+                'slug' => 'finance.movements.approve',
+                'description' => 'Acceso para aprobar movimientos bancarios',
+                'model' => 'Modules\Finance\Models\FinanceBankingMovement',
+                'model_prefix' => 'finanzas',
+                'slug_alt' => 'movimiento_bancario.aprobar',
+                'short_description' => 'Aprobar movimientos bancarios',
+            ],
+            [
+                'name' => 'Anular movimientos bancarios',
+                'slug' => 'finance.movements.cancel',
+                'description' => 'Acceso para anular un movimiento bancario',
+                'model' => 'Modules\Finance\Models\FinanceBankingMovement',
+                'model_prefix' => 'finanzas',
+                'slug_alt' => 'movimiento_bancario.anular',
+                'short_description' => 'Anular movimientos bancarios',
+            ],
 
-            /**
-             * Configuraciones de los archivos de conciliación bancaria.
-             */
+            /* Configuraciones de los archivos de conciliación bancaria. */
             [
                 'name' => 'Obtener listado de configuraciones de archivos de conciliación bancaria',
                 'slug' => 'finance.settingbankreconciliationfiles.index',
@@ -348,9 +373,7 @@ class FinanceRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'config_archivos_conciliacion_bancaria.eliminar',
                 'short_description' => 'Eliminar una configuración de archivo de conciliación bancaria',
             ],
-            /**
-             * Emisión de pagos.
-             */
+            /* Emisión de pagos. */
             [
                 'name' => 'Obtener listado de emisión de pagos',
                 'slug' => 'finance.paymentexecute.index',
@@ -405,9 +428,7 @@ class FinanceRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'emision_pago.anular',
                 'short_description' => 'Anular emisiones de pagos',
             ],
-            /**
-            * Dashboard
-            */
+            /* Dashboard */
             [
                 'name'              => 'Vista principal del dashboard del módulo de finanzas',
                 'slug'              => 'finance.dashboard',

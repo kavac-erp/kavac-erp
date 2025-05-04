@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,13 +22,13 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'digitals
     Route::post('signprofilestore', 'DigitalSignatureController@store')->name('signprofilestore');
 
 
-    /**
-    * ------------------------------------------------------------------
-    * Rutas del crud que gestiona los certificados firmantes del usuario
-    * ------------------------------------------------------------------
+    /*
+    | ------------------------------------------------------------------
+    | Rutas del crud que gestiona los certificados firmantes del usuario
+    | ------------------------------------------------------------------
     */
 
-   /* Ruta Visualizar detalles del certificado firmante del usuario */
+    /* Ruta Visualizar detalles del certificado firmante del usuario */
     Route::get('certificateDetails', 'DigitalSignatureController@getCertificate')->name('certificateDetails');
 
     /* Ruta Actualizar el certificado firmante del usuario */
@@ -41,10 +43,10 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'digitals
     })->name('fileprofile');
 
 
-    /**
-    * -------------------------------------------------
-    * Rutas para realizar firma electrónica del usuario
-    * -------------------------------------------------
+    /*
+    | -------------------------------------------------
+    | Rutas para realizar firma electrónica del usuario
+    | -------------------------------------------------
     */
 
     /* Ruta para realizar la firma de documento PDF firmados */
@@ -56,10 +58,10 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'digitals
     })->name('digitalsignature.viewSignfile');
 
 
-    /**
-    * --------------------------------------------------------------------
-    * Rutas para realizar la verificación de firma electrónica del usuario
-    * --------------------------------------------------------------------
+    /*
+    | --------------------------------------------------------------------
+    | Rutas para realizar la verificación de firma electrónica del usuario
+    | --------------------------------------------------------------------
     */
 
     /* Ruta para realizar la verificación de la firma de documento PDF firmados */
@@ -77,10 +79,10 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'digitals
     Route::get('getFile/{filename}', 'DigitalSignatureController@getFile')->name('getFile');
 
 
-    /**
-    * ---------------------------------------------
-    * Rutas para los componentes firmar y verificar
-    * ---------------------------------------------
+    /*
+    | ---------------------------------------------
+    | Rutas para los componentes firmar y verificar
+    | ---------------------------------------------
     */
 
     /* Ruta para realizar la firma de documento PDF firmados */
@@ -92,10 +94,10 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'digitals
     /* Ruta para descargar documento PDF firmado */
     Route::get('apiGetFile/{filename}', 'DigitalSignatureController@getFile')->name('apiGetFile');
 
-    /**
-    * ---------------------------------------------
-    * Rutas para validar la autenticación
-    * ---------------------------------------------
+    /*
+    | ---------------------------------------------
+    | Rutas para validar la autenticación
+    | ---------------------------------------------
     */
 
     /* Ruta para validar la autenticación */

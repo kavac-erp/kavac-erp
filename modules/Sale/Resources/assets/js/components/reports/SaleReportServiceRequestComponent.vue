@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="alert alert-danger" v-if="errors.length > 0">
                 <ul>
-                    <li v-for="error in errors">{{ error }}</li>
+                    <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                 </ul>
             </div>
             <div class="row">
@@ -193,7 +193,7 @@ export default {
         /**
         * Crea un array con los años desde el dado hasta el actual
         *
-        * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+        * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
         * @param  {integer} year_old fecha del año de inicio
         * @param  {boolean} optionExtra bandera para determinar si agregar un registro extra al pricipio del array de los años
         */
@@ -218,7 +218,7 @@ export default {
         /**
         * Consulta y filtra los registros de solicitud de servicios
         *
-        * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+        * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
         */
         searchRecords(){
             const vm = this;
@@ -231,7 +231,7 @@ export default {
         /**
          * Método que carga los clientes registrados para los select
          *
-         * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         getSaleClientsRif() {
             const vm = this;
@@ -245,7 +245,7 @@ export default {
          * Método que almacena y elimina los registros que se agregaran al reporte
          * Mantiene la lista ordenada
          *
-         * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          * @param  {integer} id Identificador del registro
          */
         addToReport(id){
@@ -262,7 +262,7 @@ export default {
         /**
         * Abre una nueva ventana en el navegador
         *
-        * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+        * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
         * @param  {string} url para la nueva ventana
         * @param  {string} type tipo de ventana que se desea abrir
         * @return {boolean} Devuelve falso si no se ha indicado alguna información requerida

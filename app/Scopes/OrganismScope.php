@@ -1,7 +1,5 @@
 <?php
 
-/** Scopes globales */
-
 namespace App\Scopes;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -9,9 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 
 /**
- * OrganismScope
- *
- * Scope general para filtrar datos por organismos
+ * @class OrganismScope
+ * @brief Scope general para filtrar datos por organismos
  *
  * Filtra los datos a consultar por el organismo al cual pertenece el usuario
  *
@@ -27,6 +24,7 @@ class OrganismScope implements Scope
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @param  \Illuminate\Database\Eloquent\Model  $model
+     *
      * @return void
      */
     public function apply(Builder $builder, Model $model)

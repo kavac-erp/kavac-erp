@@ -1,8 +1,10 @@
-     _  __    ___     ___    ____ 
+\verbatim
+     _  __    ___     ___    ____
     | |/ /   / \ \   / / \  / ___|
-    | ' /   / _ \ \ / / _ \| |    
-    | . \  / ___ \ V / ___ \ |___ 
+    | ' /   / _ \ \ / / _ \| |
+    | . \  / ___ \ V / ___ \ |___
     |_|\_\/_/   \_\_/_/   \_\____|
+\endverbatim
 
 # KAVAC | Sistema de Gestión Organizacional
 
@@ -28,7 +30,7 @@ Como antecedentes de esta aplicación se considera como precursor a [SAID - Sist
 
 Se requiere de un Sistema Operativo de 64 bits y la instalación de algunos paquetes para el correcto funcionamiento de la aplicación:
 
-    php >= 8.1.x
+    php >= 8.2.x
     php-gd
     php-mbstring
     php-xml
@@ -37,6 +39,7 @@ Se requiere de un Sistema Operativo de 64 bits y la instalación de algunos paqu
     php-pgsql
     php-cli
     php-curl
+    php-redis
     curl
     composer
     zip
@@ -54,6 +57,8 @@ Por otro lado, se requiere contar con los paquetes NodeJS y NPM para gestionar l
 
     -Versión de nodejs requerida: v14.18.2
     -Versión de npm requerida: v8.11.0
+
+En versiones posteriores a node 14.18.2 la compilación de la aplicación falla por tanto es requerida explícitamente la versión indicada tanto de node como de npm
 
 Se recomienda seguir la documentación disponible desde: https://linuxconfig.org/how-to-install-node-js-on-ubuntu-16-04-xenial-xerus-linux-server pero para este manual recomendamos los siguientes pasos:
 
@@ -128,7 +133,7 @@ Luego, en el archivo .env, localizado en la raíz del sistema, se deben establec
     APP_DEMO
     APP_TESTING
     APP_TESTING_URL
-    #Plantilla blade en donde se encuentra el formulario de autenticación de usuario, 
+    #Plantilla blade en donde se encuentra el formulario de autenticación de usuario,
     #modificar si se crea un nuevo método de autenticación que requiera un procedimiento distinto
     AUTH_VIEW="auth.login"
 
@@ -153,6 +158,7 @@ Luego, en el archivo .env, localizado en la raíz del sistema, se deben establec
     BROADCAST_DRIVER
     CACHE_DRIVER
     SESSION_DRIVER
+    SESSION_CONNECTION
     SESSION_LIFETIME=120
     SESSION_SECURE_COOKIE=true
     SESSION_HTTP_ONLY=true
@@ -244,6 +250,8 @@ ACTIVE_DIRECTORY_BASE_DN | Establece los datos del Nombre Distinguido Base del D
 
 BACKUP_ENABLED=true | Habilita / Deshabilita los respaldos de base de datos desde la interfaz de la aplicación
 
+SESSION_CONNECTION=null | Valores permitidos **null** o **default**. Indica el tipo de conexión a utilizar para la gestión de sesiones, el valor por defecto es **null** cuando el valor de la variable **SESSION_DRIVER** es **database**, si el valor de la variable **SESSION_DRIVER** es **redis**, se debe modificar el valor de la variable **SESSION_CONNECTION** a **default**.
+
 ## Notificaciones por correo
 
 Para el correcto funcionamiento de las notificaciones del sistema mediante la gestión de correo electrónico, se deben establecer los valores necesarios del servidor de correo a utilizar por la aplicación. Estas variables son:
@@ -318,10 +326,7 @@ La aplicación cuenta con una cantidad de módulos independientes que permiten e
 
 Esto revisará que módulos del sistema estan habilitados y procederá a registrar la información requerida, inicialmente, por cada uno de ellos.
 
-Una vez que hayan sido registrado los datos iniciales del sistema, se puede autenticar en el mismo con los siguientes datos de acceso como administrador (es recomendable modificar la contraseña en el primer acceso al sistema):
-
-    usuario: admin
-    clave: 123456
+Una vez que hayan sido registrado los datos iniciales del sistema, se puede autenticar en el mismo con los datos de acceso establecidos para el usuario administrador.
 
 El primer paso, para el correcto funcionamiento del sistema, es registrar información básica de la organización que llevará a cabo la gestión de información dentro de la aplicación, para ello se debe ingresar al menú
 

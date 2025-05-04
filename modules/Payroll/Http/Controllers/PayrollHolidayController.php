@@ -12,11 +12,9 @@ use Modules\Payroll\Models\PayrollHoliday;
 
 /**
  * @class PayrollHolidayController
- * @brief [descripción detallada]
+ * @brief Gestiona los datos de los días feriados
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -25,17 +23,30 @@ class PayrollHolidayController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
     protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
     /**
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         //$this->middleware('permission:payroll.disabilities.list', ['only' => ['index', 'vueList']]);
         $this->middleware('permission:payroll.disabilities.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.disabilities.edit', ['only' => ['edit', 'update']]);
@@ -46,7 +57,7 @@ class PayrollHolidayController extends Controller
             'description' => ['required']
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'date.required'        => 'El campo día feriado es obligatorio.',
             'date.unique'          => 'El campo día feriado ya ha sido registrado.',
@@ -55,13 +66,11 @@ class PayrollHolidayController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Listado de los días feriados
      *
-     * @method    index
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -69,13 +78,11 @@ class PayrollHolidayController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para registrar un nuevo día feriado
      *
-     * @method    create
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -83,15 +90,13 @@ class PayrollHolidayController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    store
+     * Almacena los datos de un nuevo día feriado
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param     object    Request    $request    Objeto con información de la petición
+     * @param     Request    $request    Datos de la petición
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -105,15 +110,13 @@ class PayrollHolidayController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra información de un día feriado
      *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -121,15 +124,13 @@ class PayrollHolidayController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para editar un día feriado
      *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -137,16 +138,14 @@ class PayrollHolidayController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    update
+     * Actualiza los datos de un día feriado
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -161,15 +160,13 @@ class PayrollHolidayController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
+     * Elimina un día feriado
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -178,6 +175,11 @@ class PayrollHolidayController extends Controller
         return response()->json(['record' => $payrollHoliday, 'message' => 'Success'], 200);
     }
 
+    /**
+     * Obtiene los registros de días feriados
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getHolidays()
     {
         $records = [];
@@ -190,11 +192,11 @@ class PayrollHolidayController extends Controller
                 $date = substr($date, 5, 11);
                 $currentFiscalYear = FiscalYear::select('year')
                     ->where(['active' => true, 'closed' => false])->orderBy('year', 'desc')->first();
-                $payrollHoliday->date = $currentFiscalYear->year . '-' . $date;
+                $payrollHolidayDate = $currentFiscalYear->year . '-' . $date;
 
                 array_push($records, [
                     'id' => $payrollHoliday->id,
-                    'text' => $payrollHoliday->date,
+                    'text' => $payrollHolidayDate,
                 ]);
             } else {
                 array_push($records, [

@@ -1,24 +1,4 @@
 var searchData=
 [
-  ['admin_3192',['Admin',['../d5/d9b/namespaceApp_1_1Http_1_1Controllers_1_1Admin.html',1,'App::Http::Controllers']]],
-  ['auth_3193',['Auth',['../de/d21/namespaceApp_1_1Http_1_1Controllers_1_1Auth.html',1,'App::Http::Controllers']]],
-  ['commands_3194',['Commands',['../d2/d2b/namespaceApp_1_1Console_1_1Commands.html',1,'App::Console']]],
-  ['contracts_3195',['Contracts',['../df/d4b/namespaceApp_1_1Repositories_1_1Contracts.html',1,'App::Repositories']]],
-  ['dev_3196',['Dev',['../d5/d2e/namespaceApp_1_1Http_1_1Controllers_1_1Dev.html',1,'App::Http::Controllers']]],
-  ['events_3197',['Events',['../d7/d8c/namespaceApp_1_1Events.html',1,'App']]],
-  ['exceptions_3198',['Exceptions',['../df/d90/namespaceApp_1_1Exceptions.html',1,'App']]],
-  ['exports_3199',['Exports',['../d9/d16/namespaceApp_1_1Exports.html',1,'App']]],
-  ['imports_3200',['Imports',['../da/d1e/namespaceApp_1_1Imports.html',1,'App']]],
-  ['listeners_3201',['Listeners',['../da/d17/namespaceApp_1_1Listeners.html',1,'App']]],
-  ['mail_3202',['Mail',['../d4/d8a/namespaceApp_1_1Mail.html',1,'App']]],
-  ['middleware_3203',['Middleware',['../d8/d29/namespaceApp_1_1Http_1_1Middleware.html',1,'App::Http']]],
-  ['models_3204',['Models',['../d4/de2/namespaceApp_1_1Models.html',1,'App']]],
-  ['notifications_3205',['Notifications',['../d0/da9/namespaceApp_1_1Notifications.html',1,'App']]],
-  ['observers_3206',['Observers',['../d8/d73/namespaceApp_1_1Observers.html',1,'App']]],
-  ['providers_3207',['Providers',['../d2/dd0/namespaceApp_1_1Providers.html',1,'App']]],
-  ['repositories_3208',['Repositories',['../d5/d76/namespaceApp_1_1Repositories.html',1,'App']]],
-  ['rules_3209',['Rules',['../d1/dcc/namespaceApp_1_1Rules.html',1,'App']]],
-  ['scopes_3210',['Scopes',['../de/d35/namespaceApp_1_1Scopes.html',1,'App']]],
-  ['services_3211',['Services',['../dd/d7c/namespaceApp_1_1Http_1_1Controllers_1_1Services.html',1,'App::Http::Controllers']]],
-  ['traits_3212',['Traits',['../d8/d50/namespaceApp_1_1Traits.html',1,'App']]]
+  ['database_3a_3afactories_0',['Factories',['../d8/dde/namespaceDatabase_1_1Factories.html',1,'Database']]]
 ];

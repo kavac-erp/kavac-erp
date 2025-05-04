@@ -16,6 +16,7 @@ use Modules\Payroll\Models\PayrollConcept;
  * Clase que gestiona los tipos de concepto
  *
  * @author     William Páez <wpaez at cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -26,14 +27,14 @@ class PayrollConceptTypeController extends Controller
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
      *
-     * @var Array $validateRules
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
      *
-     * @var Array $messages
+     * @var array $messages
      */
     protected $messages;
 
@@ -41,23 +42,25 @@ class PayrollConceptTypeController extends Controller
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         /*$this->middleware('permission:payroll.concept.types.list', ['only' => 'index']);*/
         $this->middleware('permission:payroll.concept.types.create', ['only' => ['store']]);
         $this->middleware('permission:payroll.concept.types.edit', ['only' => ['update']]);
         $this->middleware('permission:payroll.concept.types.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'        => ['required', 'max:100', 'unique:payroll_concept_types,name'],
             'description' => ['nullable', 'max:200'],
             'sign'        => ['required', 'max:2']
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'sign.required' => 'El campo signo es obligatorio.',
             'sign.max:2'    => 'El campo signo no cumple el formato adecuado.',
@@ -65,8 +68,9 @@ class PayrollConceptTypeController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Listado de tipos de conceptos de nómina
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -74,19 +78,17 @@ class PayrollConceptTypeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena un nuevo tipo de concepto
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $this->validate($request, $this->validateRules, $this->messages);
 
-        /**
-         * Objeto asociado al modelo PayrollConceptType
-         *
-         * @var Object $payrollConceptType
-         */
+        /* Objeto asociado al modelo PayrollConceptType */
         $payrollConceptType = PayrollConceptType::create([
             'name'        => $request->name,
             'description' => $request->description,
@@ -96,17 +98,16 @@ class PayrollConceptTypeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza los datos de un tipo de concepto
+     *
+     * @param  Request $request Datos de la petición
+     * @param  integer $id     ID del tipo de concepto
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        /**
-         * Objeto con la información del tipo de pago a editar asociado al modelo PayrollConceptType
-         *
-         * @var Object $payrollConceptType
-         */
+        /* Objeto con la información del tipo de pago a editar asociado al modelo PayrollConceptType */
         $payrollConceptType = PayrollConceptType::find($id);
         $validateRules  = $this->validateRules;
         $validateRules  = array_replace(
@@ -124,16 +125,15 @@ class PayrollConceptTypeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina un tipo de concepto
+     *
+     * @param  integer $id ID del tipo de concepto
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /**
-         * Objeto con la información del tipo de pago a eliminar asociado al modelo PayrollConceptType
-         *
-         * @var Object $payrollConceptType
-         */
+        /* Objeto con la información del tipo de pago a eliminar asociado al modelo PayrollConceptType */
         $payrollConceptType = PayrollConceptType::find($id);
         if ($payrollConceptType) {
             $payrollConcept = PayrollConcept::where('payroll_concept_type_id', $id)->first();
@@ -155,11 +155,11 @@ class PayrollConceptTypeController extends Controller
     /**
      * Obtiene los tipos de conceptos registrados
      *
-     * @return Array Listado de los registros a mostrar
+     * @return array Listado de los registros a mostrar
      */
     public function getPayrollConceptTypes()
     {
-        $payrollConceptTypes = PayrollConceptType::query()->select('id', 'name as text', 'sign')->get()->toArray();
+        $payrollConceptTypes = PayrollConceptType::query()->select('id', 'name as text', 'sign')->get()->toarray();
         return array_merge(array(['id' => '', 'text' => 'Seleccione...']), $payrollConceptTypes);
     }
 }

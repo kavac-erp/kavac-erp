@@ -18,32 +18,36 @@ use Modules\Budget\Models\BudgetFinancementSources;
  *
  * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
  *
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetFinancementSourcesController extends Controller
 {
     use ValidatesRequests;
 
     /**
+     * Listado de fuentes de financiamiento
+     *
+     * @var array $data
+     */
+    protected $data = [];
+
+    /**
      * Define la configuración inicial de la clase.
      *
      * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /**
-         * Primer registro para los selects.
-         */
+        /* Primer registro para los selects. */
         $this->data[0] = [
             'id' => '',
             'text' => 'Seleccione...'
         ];
 
-        /**
-         * Establece permisos de acceso para cada método del controlador
-         */
+        /* Establece permisos de acceso para cada método del controlador */
         $this->middleware('permission:budget.financementsources.index', ['only' => 'index']);
         $this->middleware('permission:budget.financementsources.store', ['only' => 'store']);
         $this->middleware('permission:budget.financementsources.update', ['only' => 'update']);
@@ -53,12 +57,9 @@ class BudgetFinancementSourcesController extends Controller
     /**
      * Obtiene un listado de los registros almacenados.
      *
-     * @method index
-     *
      * @author Argenis Osorio <aosorio@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -68,11 +69,10 @@ class BudgetFinancementSourcesController extends Controller
     /**
      * Almacena un registro recién creado en la base de datos.
      *
-     * @method store
-     *
      * @author Argenis Osorio <aosorio@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request $request Datos de la petición
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -80,13 +80,13 @@ class BudgetFinancementSourcesController extends Controller
         $this->validate(
             $request,
             [
-            'name' => ['required','unique:budget_financement_sources'],
-            'budget_financement_type_id' => ['required'],
+                'name' => ['required','unique:budget_financement_sources'],
+                'budget_financement_type_id' => ['required'],
             ],
             [
-            'name.required' => 'El nombre del tipo de financiamiento es obligatorio.',
-            'name.unique' => 'El nombre del tipo de financiamiento ya ha sido registrado.',
-            'budget_financement_type_id.required' => 'La fuente de financiamiento es obligatoria.',
+                'name.required' => 'El nombre del tipo de financiamiento es obligatorio.',
+                'name.unique' => 'El nombre del tipo de financiamiento ya ha sido registrado.',
+                'budget_financement_type_id.required' => 'La fuente de financiamiento es obligatoria.',
             ]
         );
 
@@ -101,22 +101,23 @@ class BudgetFinancementSourcesController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra los detalles de una fuente de financiamiento
+     *
+     * @return void
      */
     public function show()
     {
+        //
     }
 
     /**
      * Actualiza un registro específico de la base de datos.
      *
-     * @method update
-     *
      * @author Argenis Osorio <aosorio@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request Datos de la petición
+     * @param  integer $id         ID de la fuente de financiamiento
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -130,12 +131,11 @@ class BudgetFinancementSourcesController extends Controller
     /**
      * Elimina un registro específico de la base de datos.
      *
-     * @method destroy
-     *
      * @author Argenis Osorio <aosorio@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  integer $id ID de la fuente de financiamiento
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -148,8 +148,8 @@ class BudgetFinancementSourcesController extends Controller
      * Obtiene los datos de las fuentes de financiamiento
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @return \Illuminate\Http\JsonResponse Devuelve un JSON con listado de los
-     * tipos de financiamiento
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getFinancementSources($financement_type_id = null)
     {

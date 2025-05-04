@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class CreatePayrollSalaryAdjustmentsTable
- * @brief [descripción detallada]
+ * @brief Migración para crear tabla de ajustes salariales
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -32,7 +30,7 @@ class CreatePayrollSalaryAdjustmentsTable extends Migration
             $table->decimal('value')->nullable()->comment('Valor');
             $table->foreignId('payroll_salary_tabulator_id')->nullable()->constrained()
                       ->onDelete('restrict')->onUpdate('cascade')->comment('Tabulador asociado al registro');
-            
+
             $table->timestamps();
             $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');
         });

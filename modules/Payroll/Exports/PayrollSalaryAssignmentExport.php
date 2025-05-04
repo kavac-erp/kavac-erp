@@ -6,21 +6,18 @@ use Maatwebsite\Excel\Concerns\WithHeadings;        # Agregar Cabecera
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;      # AutoEspaciar Columnas
 use Maatwebsite\Excel\Concerns\WithEvents;          # Registrar Evento
 use Maatwebsite\Excel\Events\AfterSheet;            # Modificar Fuentes y Tamaño
-use Maatwebsite\Excel\Concerns\WithCustomStartCell; # Indicar la celda en la que debe comenzar (solo FromCollection)
-use Illuminate\Database\Eloquent\Collection;
-use App\User;
+use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 
-//use Modules\Payroll\Models\PayrollSalaryAssignment;
+# Indicar la celda en la que debe comenzar (solo FromCollection)
 
 /**
  * @class PayrollSalaryAssignmentExport
- *
- * Clase que gestiona los objetos exportados del modelo de asignaciones salariales
+ * @brief Clase que gestiona los objetos exportados del modelo de asignaciones salariales
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollSalaryAssignmentExport extends \App\Exports\DataExport implements
     WithHeadings,
@@ -31,14 +28,14 @@ class PayrollSalaryAssignmentExport extends \App\Exports\DataExport implements
     /**
      * Identificador único de la asignación que se desea exportar
      *
-     * @var Integer $salary_assignment_id
+     * @var integer $salary_assignment_id
      */
     private $salary_assignment_id;
 
     /**
      * Establece el identificador de la asignación salarial
      *
-     * @param Integer $salary_assignment_id Identificador único de la asignación que se desea exportar
+     * @param integer $salary_assignment_id Identificador único de la asignación que se desea exportar
      */
     public function setSalaryAssignmentId(int $id)
     {
@@ -60,7 +57,10 @@ class PayrollSalaryAssignmentExport extends \App\Exports\DataExport implements
     */
     public function collection()
     {
-        return PayrollSalaryAssignment::all();
+        // @todo Verificar la exisencia del modelo PayrollSalaryAssignment
+        //return PayrollSalaryAssignment::all();
+
+        return collect([]);
     }
 
     /**
@@ -70,10 +70,14 @@ class PayrollSalaryAssignmentExport extends \App\Exports\DataExport implements
      */
     public function headings(): array
     {
-        dd($this->model);
         return ['#','Name','Email'];
     }
 
+    /**
+     * Registra los eventos de la clase
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
         return [

@@ -1,11 +1,8 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use App\Traits\ModelsTrait;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,6 +14,7 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  *
  * Gestiona el modelo de datos para los estados de documentos
  *
+ * @property  int    $id
  * @property  string $name
  * @property  string $description
  * @property  string $color
@@ -78,22 +76,17 @@ class DocumentStatus extends Model implements Auditable
     /**
      * Obtiene el estatus del documento según los filtros indicados
      *
-     * @method  scopeGetStatus
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param  object $query    Objeto que contiene la consulta del modelo
-     * @param  string $status   Estatus por el cual filtrar la información
-     * @param  string $operator Operador por el cual se va a filtrar los datos, el valor por defecto es '='
+     * @param  object       $query    Objeto que contiene la consulta del modelo
+     * @param  string       $status   Estatus por el cual filtrar la información
+     * @param  string|null  $operator Operador por el cual se va a filtrar los datos, el valor por defecto es '='
      *
-     * @return object           Consulta filtrada
+     * @return DocumentStatus         Consulta filtrada
      */
     public function scopeGetStatus($query, $status, $operator = null)
     {
-        /**
-         * @var string Define el operador por el cual filtrar la consulta, si no se indica el valor
-         *             por defecto es '='
-         */
+        // Define el operador por el cual filtrar la consulta, si no se indica el valor por defecto es '='
         $operator = (!is_null($operator)) ? $operator : "=";
 
         return $query->where('action', $operator, $status)->first();

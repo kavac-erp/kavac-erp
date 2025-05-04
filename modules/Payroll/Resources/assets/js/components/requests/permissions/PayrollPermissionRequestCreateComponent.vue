@@ -42,15 +42,11 @@
                 <div class="col-md-4">
                     <div class="form-group is-required">
                         <label for="payrollStaff">Trabajador</label>
-                        <select2 :options="payroll_staffs" 
+                        <select2 :options="payroll_staffs"
                             :disabled="(is_admin) ? null : 'disabled'"
                             @input="getPayrollStaff();"
                             v-model="record.payroll_staff_id">
                         </select2>
-                        <!--<select2 :options="payroll_staffs" disabled 
-                            @input="getPayrollStaff()"
-                            v-model="record.payroll_staff_id">
-                        </select2>-->
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -72,7 +68,7 @@
                                     <span class="input-group-addon">
                                         <i class="now-ui-icons ui-1_calendar-60"></i>
                                     </span>
-                                    <input type="date" id="start_date" :disabled="(record.payroll_permission_policy_id == '')" 
+                                    <input type="date" id="start_date" :disabled="(record.payroll_permission_policy_id == '')"
                                            @input="getcalculate()" data-toggle="tooltip" title="Indique la fecha de inicio del permiso"
                                            class="form-control no-restrict" :min="addBusinessDaysToDate(payrollPermissionPolicy.anticipation_day + 1)"
                                            v-model="record.start_date">
@@ -85,7 +81,7 @@
                                     <span class="input-group-addon">
                                         <i class="now-ui-icons ui-1_calendar-60"></i>
                                     </span>
-                                    <input type="time" id="start_time" :disabled="(record.payroll_permission_policy_id == '')" 
+                                    <input type="time" id="start_time" :disabled="(record.payroll_permission_policy_id == '')"
                                            @input="setMinTime();" data-toggle="tooltip" title="Indique la hora de inicio del permiso"
                                            class="form-control no-restrict" v-model="record.start_time">
                                 </div>
@@ -116,7 +112,7 @@
                                     <span class="input-group-addon">
                                         <i class="now-ui-icons ui-1_calendar-60"></i>
                                     </span>
-                                    <input type="time" id="end_time" :disabled="(record.payroll_permission_policy_id == '')" 
+                                    <input type="time" id="end_time" :disabled="(record.payroll_permission_policy_id == '')"
                                            @input="setMaxTime();" data-toggle="tooltip" title="Indique la hora final del permiso" required=""
                                            class="form-control no-restrict" :min="getMinTime()" v-model="record.end_time">
                                 </div>
@@ -280,7 +276,7 @@
                         date = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0];
                     }
                 }
-                
+
                 const sumarNoLaborables = (f, n) => {
                     for(var i=0; i<n; i++) {
                         /** Se identifica si existen sabados o domingos en el periodo establecido */
@@ -476,7 +472,7 @@
                     }
 
                     const prefijo = (num) => {
-                        return num < 10 ? ("0" + num) : num; 
+                        return num < 10 ? ("0" + num) : num;
                     }
 
                     var dateDesde = newDate(vm.record.start_time.split(":"));

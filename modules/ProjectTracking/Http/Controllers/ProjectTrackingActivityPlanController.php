@@ -9,6 +9,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\DB;
 use App\Models\CodeSetting;
 use App\Models\FiscalYear;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 use Modules\ProjectTracking\Models\ProjectTrackingActivityPlan;
 use Modules\ProjectTracking\Models\ProjectTrackingPersonalRegister;
 use Modules\ProjectTracking\Models\ProjectTrackingStaffClassification;
@@ -23,14 +25,14 @@ use Nwidart\Modules\Facades\Module;
 
 /**
  * @class ProjectTrackingActivityPlanController
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
  * Clase controlador del plan de actividades
  *
  * @author Pedro Contreras <pdrocont@gmail.com>
  *
- * @license LICENCIA DE SOFTWARE CENDITEL
- * @link    http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class ProjectTrackingActivityPlanController extends Controller
 {
@@ -39,11 +41,9 @@ class ProjectTrackingActivityPlanController extends Controller
     /**
      * Vista del plan de actividades
      *
-     * @method index
-     *
      * @author Pedro Contreras <pdrocont@gmail.com>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -53,15 +53,13 @@ class ProjectTrackingActivityPlanController extends Controller
     /**
      * Crear formulario de plan de actividades
      *
-     * @method create
-     *
      * @author Pedro Contreras <pdrocont@gmail.com>
      *
-     * @return Renderable [descripción de los datos devueltos]
+     * @return \Illuminate\View\View
      */
     public function create()
     {
-        if (Module::has('Payroll')) {
+        if (Module::has('Payroll') && Module::isEnabled('Payroll')) {
             $payrollStaff = 1;
         } else {
             $payrollStaff = 0;
@@ -72,13 +70,11 @@ class ProjectTrackingActivityPlanController extends Controller
     /**
      * Método para crear y registrar el plan de actividades
      *
-     * @param object Request $request Objeto con información de la petición
-     *
-     * @method store
-     *
      * @author Pedro Contreras <pdrocont@gmail.com>
      *
-     * @return Renderable [descripción de los datos devueltos]
+     * @param Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -112,60 +108,6 @@ class ProjectTrackingActivityPlanController extends Controller
 
         DB::transaction(
             function () use ($request, $code) {
-                /*$this->validate(
-                    $request,
-                    [
-                        'project_name' => isset($request->project_name) ? [
-                            'required',
-                            'unique:project_tracking_activity_plans,project_name'
-                        ] : ['nullable'],
-                        'subproject_name' => isset($request->subproject_name) ? [
-                            'required',
-                            'unique:project_tracking_activity_plans,subproject_name'
-                        ] : ['nullable'],
-                        'product_name' => isset($request->product_name) ? [
-                            'required',
-                            'unique:project_tracking_activity_plans,product_name'
-                        ] : ['nullable'],
-                        'institution_id' => ['required'],
-                        'name' => ['required'],
-                        'responsable' => ['required'],
-                        'dependency' => [],
-                        'execution_year' => ['required'],
-                        'start_date' => ['required'],
-                        'end_date' => ['required'],
-                        'team_members.*.employers' => ['required'],
-                        'team_members.*.staff_classifications' => ['required'],
-                        'activity_plans.*.activity' => ['required'],
-                        'activity_plans.*.start_date_activity' => [
-                            'required',
-                            'before_or_equal:activity_plans.*.end_date_activity'
-                        ],
-                        'activity_plans.*.end_date_activity' => [
-                            'required',
-                            'after_or_equal:activity_plans.*.start_date_activity'
-                        ],
-                    ],
-                    [],
-                    [
-                        'project_name' => 'Proyecto',
-                        'subproject_name' => 'Subproyecto',
-                        'product_name' => 'Producto',
-                        'institution_id' => 'Nombre de la institución',
-                        'name_id' => 'Nombre',
-                        'responsable' => 'Responsable',
-                        'dependency' => 'Dependencia',
-                        'execution_year' => 'Año de ejecución',
-                        'start_date' => 'Fecha de inicio',
-                        'end_date' => 'Fecha fin',
-                        'team_members.*.employers' => 'Trabajador',
-                        'team_members.*.staff_classifications' => 'Rol',
-                        'activity_plans.*.activity' => 'Actividad',
-                        'activity_plans.*.start_date_activity' => 'Fecha de inicio',
-                        'activity_plans.*.end_date_activity' => 'Fecha fin',
-                    ]
-                );*/
-
                 $project = ProjectTrackingActivityPlan::create(
                     [
                         'code' => $code,
@@ -188,24 +130,6 @@ class ProjectTrackingActivityPlanController extends Controller
                 }
 
                 foreach ($request->activity_plans as $activity) {
-                    /*$this->validate(
-                        $request,
-                        [
-                            'start_date' => ['before_or_equal:' . $activity['start_date_activity']],
-                            'end_date' => ['after_or_equal:' . $activity['end_date_activity']],
-                        ],
-                        [
-                            'start_date.before_or_equal' => 'El campo fecha inicio' .
-                                ' de la actividad tiene que mayor o igual de la fecha de fin del plan de actividades',
-                            'end_date.after_or_equal' => 'El campo fecha fin de' .
-                            'la actividad tiene que ser menor o igual de la fecha de inicio del plan de actividades',
-                        ],
-                        [
-                            'start_date' => 'Fecha de inicio del plan de actividad',
-                            'end_date' => 'Fecha de fin del plan de actividad',
-                        ]
-                    );*/
-
                     $created_team = ProjectTrackingActivityPlanTeam::where(
                         'employers_id',
                         $activity['responsable_activity_id']
@@ -246,15 +170,13 @@ class ProjectTrackingActivityPlanController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @param integer $id Identificador del registro
-     *
-     * @method show
+     * Obtiene información de un plan de actividad
      *
      * @author Pedro Contreras <pdrocont@gmail.com>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function recordInfo($id)
     {
@@ -267,20 +189,18 @@ class ProjectTrackingActivityPlanController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Obtiene información del equipo
+     *
+     * @author Pedro Contreras <pdrocont@gmail.com>
      *
      * @param integer $employer            Identificador del registro del empleado
      * @param integer $staffClassification Identificador de la clasificación del equipo
      *
-     * @method show
-     *
-     * @author Pedro Contreras <pdrocont@gmail.com>
-     *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function recordTeamInfo($employer, $staffClassification)
     {
-        if (Module::has('Payroll')) {
+        if (Module::has('Payroll') && Module::isEnabled('Payroll')) {
             $employerRecord = payrollStaff::find($employer);
         } else {
             $employerRecord = ProjectTrackingPersonalRegister::with('Position')->find($employer);
@@ -290,15 +210,13 @@ class ProjectTrackingActivityPlanController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @param integer $activity Identificador del registro de actividad
-     *
-     * @method show
+     * Obtiene información de la actividad
      *
      * @author Pedro Contreras <pdrocont@gmail.com>
      *
-     * @return Renderable [descripción de los datos devueltos]
+     * @param integer $activity Identificador del registro de actividad
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function recordActivityInfo($activity)
     {
@@ -310,15 +228,13 @@ class ProjectTrackingActivityPlanController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @param integer $id Identificador del registro
-     *
-     * @method show
+     * Muestra información de un plan de actividad
      *
      * @author Pedro Contreras <pdrocont@gmail.com>
      *
-     * @return Renderable [descripción de los datos devueltos]
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
@@ -326,15 +242,13 @@ class ProjectTrackingActivityPlanController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @param integer $id Identificador del registro
-     *
-     * @method edit
+     * Muestra el formulario de edición de un plan de actividad
      *
      * @author Pedro Contreras <pdrocont@gmail.com>
      *
-     * @return Renderable [descripción de los datos devueltos]
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -351,16 +265,14 @@ class ProjectTrackingActivityPlanController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @param object Request $request Objeto con datos de la petición
-     * @param integer        $id      Identificador del registro
-     *
-     * @method update
+     * Actualiza la información de un plan de actividad
      *
      * @author Pedro Contreras <pdrocont@gmail.com>
      *
-     * @return Renderable [descripción de los datos devueltos]
+     * @param Request $request Datos de la petición
+     * @param integer        $id      Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -442,35 +354,33 @@ class ProjectTrackingActivityPlanController extends Controller
             $this->validate(
                 $request,
                 [
-                    'start_date' => ['before_or_equal:' . $activity['start_date_activity']],
-                    'end_date' => ['after_or_equal:' . $activity['end_date_activity']],
+                    'start_date' => ['before_or_equal:' . $activity['end_date_activity']],
+                    'end_date' => ['after_or_equal:' . $activity['start_date_activity']],
                 ],
                 [
                     'start_date.before_or_equal' => 'El campo fecha inicio de la ' .
-                    'actividad tiene que mayor o igual de la fecha de fin del plan de actividades',
+                        'actividad tiene que mayor o igual de la fecha de fin del plan de actividades',
                     'end_date.after_or_equal' => 'El campo fecha fin de la actividad ' .
-                    'tiene que ser menor o igual de la fecha de inicio del plan de actividades',
+                        'tiene que ser menor o igual de la fecha de inicio del plan de actividades',
                 ],
                 [
                     'start_date' => 'Fecha de inicio del plan de actividad',
                     'end_date' => 'Fecha de fin del plan de actividad',
                 ]
             );
-
-            $created_team = ProjectTrackingActivityPlanTeam::where('employers_id', $activity['responsable_activity_id'])
+            $created_team = ProjectTrackingActivityPlanTeam::query()
                 ->where('activity_plan_id', $activityplans->id)
+                ->where('employers_id', $activity['responsable_activity_id'])
                 ->first();
 
-            $addactivity = ProjectTrackingActivityPlanActivity::create(
-                [
-                    'activity_id' => $activity['activity_id'],
-                    'responsable_activity_id' => $created_team->id,
-                    'start_date' => $activity['start_date_activity'],
-                    'end_date' => $activity['end_date_activity'],
-                    'activity_plan_id' => $activityplans->id,
-                    'percentage' => $activity['percentage']
-                ]
-            );
+            $addactivity = ProjectTrackingActivityPlanActivity::query()->create([
+                'activity_id' => $activity['activity_id'],
+                'responsable_activity_id' => $created_team->id,
+                'start_date' => $activity['start_date_activity'],
+                'end_date' => $activity['end_date_activity'],
+                'activity_plan_id' => $activityplans->id,
+                'percentage' => $activity['percentage']
+            ]);
         }
 
         $request->session()->flash('message', ['type' => 'update']);
@@ -478,15 +388,13 @@ class ProjectTrackingActivityPlanController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @param integer $activityplan_id Identificador del registro
-     *
-     * @method destroy
+     * Elimina un plan de actividad
      *
      * @author Pedro Contreras <pdrocont@gmail.com>
      *
-     * @return Renderable [descripción de los datos devueltos]
+     * @param integer $activityplan_id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($activityplan_id)
     {
@@ -499,11 +407,9 @@ class ProjectTrackingActivityPlanController extends Controller
     /**
      * Muestra los planes de actividades registrados
      *
-     * @method VueList
-     *
      * @author Pedro Contreras <pdrocont@gmail.com>
      *
-     * @return Renderable
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueList()
     {
@@ -523,7 +429,7 @@ class ProjectTrackingActivityPlanController extends Controller
                         'teams.projectTrackingStaffClassification'
                     ]
                 )
-                ->get()
+                    ->get()
             ],
             200
         );
@@ -532,13 +438,11 @@ class ProjectTrackingActivityPlanController extends Controller
     /**
      * Muestra la información de los planes de actividades registrados
      *
-     * @param integer $id Identificador del registro
-     *
-     * @method VueList
-     *
      * @author Pedro Contreras <pdrocont@gmail.com>
      *
-     * @return Renderable
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueInfo($id)
     {
@@ -556,11 +460,9 @@ class ProjectTrackingActivityPlanController extends Controller
     /**
      * Retorna un json con todos los Proyectos que tengan un Plan de Actividad
      *
-     * @method getProjectsByActivityPlan
-     *
      * @author Oscar González <xxmaestroyixx@gmail.com/ojgonzalez@cenditel.gob.ve>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getProjectsByActivityPlan()
     {
@@ -598,15 +500,13 @@ class ProjectTrackingActivityPlanController extends Controller
     /**
      * Retorna un json con todas las actividades macro asociadas a un Proyecto para ser usado en un componente <select2>
      *
-     * @param integer $id Identificador del registro
-     *
-     * @method getActivityByProject
-     *
      * @author Oscar González <xxmaestroyixx@gmail.com>
      *
-     * @return Renderable [descripción de los datos devueltos]
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function getActivitiesByProject($id)
+    public function getActivitiesByProject($id): JsonResponse
     {
         $ActivityByProject = ProjectTrackingProject::with('ActivityPlan')->where('id', $id)->first();
         $array = $ActivityByProject->toArray();
@@ -632,70 +532,55 @@ class ProjectTrackingActivityPlanController extends Controller
                 ]
             );
         }
-        return response()->json(['activities_by_project' => $ActivitiesByProject]);
+        return response()->json(['activities_by_project' => $ActivitiesByProject], 200);
     }
 
     /**
      * Retorna un json con todo el personal asociado a un plan de actividad de
      * un proyecto para ser usado en un componente <select2>
      *
-     * @param integer $id Identificador del registro
-     *
-     * @method getActivityBySubProject
-     *
      * @author Oscar González <xxmaestroyixx@gmail.com>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function getPersonalByProject($id)
+    public function getPersonalByProject($id): JsonResponse
     {
-        $PersonByProject = ProjectTrackingProject::with('ActivityPlan')->where('id', $id)->first();
-        $array = $PersonByProject->toArray();
-        $TeamByActivityPlanId = ProjectTrackingActivityPlanTeam::where(
-            'activity_plan_id',
-            $array["activity_plan"]["id"]
-        )->get();
-        $array2 = $TeamByActivityPlanId->toArray();
-        $EmployersId = array_column($array2, 'employers_id');
-        $Employers = ProjectTrackingPersonalRegister::whereIn('id', $EmployersId)->get()->toArray();
-        $PersonalByProject = [];
-        array_push(
-            $PersonalByProject,
-            [
-                'id' => '',
-                'text' => 'Seleccione...'
-            ]
-        );
+        $project = ProjectTrackingProject::with('ActivityPlan')
+            ->where('id', $id)
+            ->first();
 
-        foreach ($Employers as $Employer) {
-            array_push(
-                $PersonalByProject,
-                [
-                    'id' => $Employer['id'],
-                    'text' => $Employer['name'] . ' ' . $Employer['last_name']
-                ]
-            );
+        $personalByProject = [];
+        $personalByProject[] = [
+            'id' => '',
+            'text' => 'Seleccione...',
+        ];
+        foreach ($project->activityPlan->teams as $member) {
+            $personalByProject[] = [
+                'id' => $member->id,
+                'text' => $member->projectTrackingPersonalRegister->fullName,
+            ];
         }
-        return response()->json(['personal_by_project' => $PersonalByProject]);
+        return response()->json(['personal_by_project' => $personalByProject], 200);
     }
 
     /**
      * Retorna un json con todas los subproyectos asociados a un Proyecto
      * para ser usado en un componente <select2>
      *
-     * @param integer $id Identificador del registro
-     *
-     * @method getSubProyectsByProject
-     *
      * @author Fabian Palmera <fapalmera@cenditel.gob.ve>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function getSubProjectsByProject($id)
+    public function getSubProjectsByProject($id): JsonResponse
     {
-        $SubProjectsByProject = ProjectTrackingSubProject::where('project_id', $id)->get();
+        $SubProjectsByProject = ProjectTrackingSubProject::where('project_id', $id)
+            ->get();
         $subProjects = [];
-        // dd($SubProjectsByProject);
+
         array_push(
             $subProjects,
             [
@@ -709,6 +594,7 @@ class ProjectTrackingActivityPlanController extends Controller
                 [
                     'id' => $subProject->id,
                     'text' => $subProject->name,
+                    'product_types_ids' => $subProject->getProductTypeIds(),
                     'name' => $subProject->name,
                     'responsable_id' => $subProject->responsable,
                     'start_date' => $subProject->start_date,
@@ -717,19 +603,17 @@ class ProjectTrackingActivityPlanController extends Controller
             );
         }
 
-        return response()->json($subProjects);
+        return response()->json($subProjects, 200);
     }
 
     /**
      * Retorna un json con todos los Proyectos que tengan un Plan de Actividad
      *
-     * @method getSubProjectsByActivityPlan
-     *
      * @author Oscar González <xxmaestroyixx@gmail.com/ojgonzalez@cenditel.gob.ve>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function getSubProjectsByActivityPlan()
+    public function getSubProjectsByActivityPlan(): JsonResponse
     {
         $activityPlansSubProjectsId = ProjectTrackingActivityPlan::select('subproject_name')
             ->whereNotNull('subproject_name')
@@ -759,24 +643,24 @@ class ProjectTrackingActivityPlanController extends Controller
                 ]
             );
         }
-        return response()->json($subProjects);
+        return response()->json($subProjects, 200);
     }
 
     /**
      * Retorna un json con todas las actividades macro asociadas a un Subproyecto
      * para ser usado en un componente <select2>
      *
-     * @param integer $id Identificador del registro
-     *
-     * @method getActivityBySubProject
-     *
      * @author Oscar González <xxmaestroyixx@gmail.com>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function getActivitiesBySubProject($id)
+    public function getActivitiesBySubProject($id): JsonResponse
     {
-        $ActivityBySubProject = ProjectTrackingSubProject::with('ActivityPlan')->where('id', $id)->first();
+        $ActivityBySubProject = ProjectTrackingSubProject::with('ActivityPlan')
+            ->where('id', $id)
+            ->first();
         $array = $ActivityBySubProject->toArray();
         $ActivitiesByActivityPlans = ProjectTrackingActivityPlanActivity::with('projectTrackingActivities')
             ->where('activity_plan_id', $array["activity_plan"]["id"])
@@ -800,63 +684,44 @@ class ProjectTrackingActivityPlanController extends Controller
                 ]
             );
         }
-        return response()->json(['activities_by_subproject' => $ActivitiesBySubProject]);
+        return response()->json(['activities_by_subproject' => $ActivitiesBySubProject], 200);
     }
 
     /**
      * Retorna un json con todo el personal asociado a un plan de actividad de
      * un subproyecto para ser usado en un componente <select2>
      *
-     * @param integer $id Identificador del registro
-     *
-     * @method getActivityByProject
-     *
      * @author Oscar González <xxmaestroyixx@gmail.com>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @param integer $id Identificador del registro
+     *
+     * @return JsonResponse    Arreglo con el personal por subproyecto
      */
-    public function getPersonalBySubProject($id)
+    public function getPersonalBySubProject($id): JsonResponse
     {
-        $PersonBySubProject = ProjectTrackingSubProject::with('ActivityPlan')->where('id', $id)->first();
-        $array = $PersonBySubProject->toArray();
-        $TeamByActivityPlanId = ProjectTrackingActivityPlanTeam::where(
-            'activity_plan_id',
-            $array["activity_plan"]["id"]
-        )->get();
-        $array2 = $TeamByActivityPlanId->toArray();
-        $EmployersId = array_column($array2, 'employers_id');
-        $Employers = ProjectTrackingPersonalRegister::whereIn('id', $EmployersId)->get()->toArray();
-        $PersonalBySubProject = [];
-        array_push(
-            $PersonalBySubProject,
-            [
-                'id' => '',
-                'text' => 'Seleccione...'
-            ]
-        );
-
-        foreach ($Employers as $Employer) {
-            array_push(
-                $PersonalBySubProject,
-                [
-                    'id' => $Employer['id'],
-                    'text' => $Employer['name'] . ' ' . $Employer['last_name']
-                ]
-            );
+        $subproject = ProjectTrackingSubProject::find($id);
+        $personalBySubproject = [];
+        $personalBySubproject[] = [
+            'id' => '',
+            'text' => 'Seleccione...',
+        ];
+        foreach ($subproject->activityPlan->teams as $member) {
+            $personalBySubproject[] = [
+                'id' => $member->id,
+                'text' => $member->projectTrackingPersonalRegister->fullName,
+            ];
         }
-        return response()->json(['personal_by_subproject' => $PersonalBySubProject]);
+        return response()->json(['personal_by_subproject' => $personalBySubproject], 200);
     }
 
     /**
      * Retorna un json con todos los Proyectos que tengan un Plan de Actividad
      *
-     * @method getProjectsByActivityPlan
-     *
      * @author Oscar González <xxmaestroyixx@gmail.com/ojgonzalez@cenditel.gob.ve>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function getProductsByActivityPlan()
+    public function getProductsByActivityPlan(): JsonResponse
     {
         $activityPlansProductsId = ProjectTrackingActivityPlan::select('product_name')
             ->whereNotNull('product_name')
@@ -886,23 +751,23 @@ class ProjectTrackingActivityPlanController extends Controller
                 ]
             );
         }
-        return response()->json($products);
+        return response()->json($products, 200);
     }
 
     /**
      * Retorna un json con todas las actividades macro asociadas a un Producto para ser usado en un componente <select2>
      *
-     * @param integer $id Identificador del registro
-     *
-     * @method getActivityByProduct
-     *
      * @author Oscar González <xxmaestroyixx@gmail.com>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function getActivitiesByProduct($id)
+    public function getActivitiesByProduct($id): JsonResponse
     {
-        $ActivityByProduct = ProjectTrackingProduct::with('ActivityPlan')->where('id', $id)->first();
+        $ActivityByProduct = ProjectTrackingProduct::with('ActivityPlan')
+            ->where('id', $id)
+            ->first();
         $array = $ActivityByProduct->toArray();
         $ActivitiesByActivityPlans = ProjectTrackingActivityPlanActivity::with('projectTrackingActivities')
             ->where('activity_plan_id', $array["activity_plan"]["id"])->get();
@@ -925,50 +790,34 @@ class ProjectTrackingActivityPlanController extends Controller
                 ]
             );
         }
-        return response()->json(['activities_by_product' => $ActivitiesByProduct]);
+        return response()->json(['activities_by_product' => $ActivitiesByProduct], 200);
     }
 
     /**
      * Retorna un json con todo el personal asociado a un plan de actividad de un
      * proyecto para ser usado en un componente <select2>
      *
-     * @param integer $id Identificador del registro
-     *
-     * @method getActivityByProduct
-     *
+     * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
      * @author Oscar González <xxmaestroyixx@gmail.com>
      *
-     * @return Renderable [descripción de los datos devueltos]
+     * @param integer $id Identificador del registro
+     *
+     * @return JsonResponse    Arreglo con el personal por producto
      */
-    public function getPersonalByProduct($id)
+    public function getPersonalByProduct($id): JsonResponse
     {
-        $PersonByProduct = ProjectTrackingProduct::with('ActivityPlan')->where('id', $id)->first();
-        $array = $PersonByProduct->toArray();
-        $TeamByActivityPlanId = ProjectTrackingActivityPlanTeam::where(
-            'activity_plan_id',
-            $array["activity_plan"]["id"]
-        )->get();
-        $array2 = $TeamByActivityPlanId->toArray();
-        $EmployersId = array_column($array2, 'employers_id');
-        $Employers = ProjectTrackingPersonalRegister::whereIn('id', $EmployersId)->get()->toArray();
-        $PersonalByProduct = [];
-        array_push(
-            $PersonalByProduct,
-            [
-                'id' => '',
-                'text' => 'Seleccione...'
-            ]
-        );
-
-        foreach ($Employers as $Employer) {
-            array_push(
-                $PersonalByProduct,
-                [
-                    'id' => $Employer['id'],
-                    'text' => $Employer['name'] . ' ' . $Employer['last_name']
-                ]
-            );
+        $product = ProjectTrackingProduct::find($id);
+        $personalByProduct = [];
+        $personalByProduct[] = [
+            'id' => '',
+            'text' => 'Seleccione...',
+        ];
+        foreach ($product->activityPlan->teams as $member) {
+            $personalByProduct[] = [
+                'id' => $member->id,
+                'text' => $member->projectTrackingPersonalRegister->fullName,
+            ];
         }
-        return response()->json(['personal_by_product' => $PersonalByProduct]);
+        return response()->json(['personal_by_product' => $personalByProduct], 200);
     }
 }

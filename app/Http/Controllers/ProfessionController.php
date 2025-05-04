@@ -1,11 +1,10 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Profession;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class ProfessionController
@@ -14,6 +13,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar Profesiones
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -22,13 +22,11 @@ class ProfessionController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:profession.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:profession.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:profession.delete', ['only' => 'destroy']);
@@ -37,8 +35,6 @@ class ProfessionController extends Controller
 
     /**
      * Listado de todos los registros de profesiones
-     *
-     * @method  index
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -51,8 +47,6 @@ class ProfessionController extends Controller
 
     /**
      * Registra una nueva profesión
-     *
-     * @method  store
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -73,7 +67,7 @@ class ProfessionController extends Controller
             ]);
         }
 
-        /** @var Profession Objeto con información de la profesión registrada */
+        // Objeto con información de la profesión registrada
         $profession = Profession::updateOrCreate([
             'name' => $request->name
         ], [
@@ -86,12 +80,11 @@ class ProfessionController extends Controller
     /**
      * Actualiza la información de una profesión
      *
-     * @method  update
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  Request  $request        Objeto con información de la petición
      * @param  Profession  $profession  Objeto con información de la profesión a actualizar
+     *
      * @return JsonResponse             JSON con el resultado de la actualización
      */
     public function update(Request $request, Profession $profession)
@@ -111,11 +104,10 @@ class ProfessionController extends Controller
     /**
      * Elimina una profesión
      *
-     * @method  destroy
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  Profession  $profession  Objeto con información de la profesión a eliminar
+     *
      * @return JsonResponse             JSON con el resultado de la eliminación
      */
     public function destroy(Profession $profession)

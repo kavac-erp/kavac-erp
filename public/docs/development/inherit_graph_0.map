@@ -1,3 +1,9 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$dc/d05/class_0bCLASS.html" title="[descripción detallada]" alt="" coords="5,5,77,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d4/d45/classApp_1_1Roles_1_1Exceptions_1_1AccessDeniedException.html" title="Excepciones para accesos denegados." alt="" coords="5,55,183,80"/>
+<area shape="rect" id="Node000001" href="$d0/da1/classApp_1_1Roles_1_1Exceptions_1_1LevelDeniedException.html" title="Excepciones para niveles de acceso denegados." alt="" coords="249,5,416,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="169,49,270,28,271,33,170,54"/>
+<area shape="rect" id="Node000002" href="$dd/db1/classApp_1_1Roles_1_1Exceptions_1_1PermissionDeniedException.html" title="Excepciones para los permisos de acceso denegados." alt="" coords="231,55,435,80"/>
+<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="196,65,230,65,230,70,196,70"/>
+<area shape="rect" id="Node000003" href="$d4/d06/classApp_1_1Roles_1_1Exceptions_1_1RoleDeniedException.html" title="Excepciones para los roles de acceso denegados." alt="" coords="252,104,413,129"/>
+<area shape="poly" id="edge3_Node000000_Node000003" title=" " alt="" coords="170,80,271,101,270,107,169,85"/>
 </map>

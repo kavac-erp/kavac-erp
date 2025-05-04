@@ -8,6 +8,13 @@ use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleDiscount;
 
+/**
+ * @class SaleClientsEmailController
+ * @brief Controlador que gestiona los descuentos
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleDiscountController extends Controller
 {
     use ValidatesRequests;
@@ -16,17 +23,20 @@ class SaleDiscountController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
 
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting.discount', ['only' => 'index']);
     }
 
     /**
-     * Display a listing of the resource.
-     * @return Response
+     * Listado de descuentos
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -34,18 +44,21 @@ class SaleDiscountController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Response
+     * Muestra el formulario para crear un descuento
+     *
+     * @return void
      */
     public function create()
     {
-    //    return view('sale::create');
+        //
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
+     * Almacena un descuento
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -55,13 +68,15 @@ class SaleDiscountController extends Controller
         return response()->json(['record' => $SaleDiscount, 'message' => 'Success'], 200);
     }
 
-   /**
-    * Validacion de los datos
-    *
-    * @method    saleDiscountValidate
-    * @author Ing. Jose Puentes <jpuentes@cenditel.gob.ve>
-    * @param     object    Request    $request
-    */
+    /**
+     * Validacion de los datos
+     *
+     * @author Ing. Jose Puentes <jpuentes@cenditel.gob.ve>
+     *
+     * @param     Request    $request Datos de la petición
+     *
+     * @return    void
+     */
     public function saleDiscountValidate(Request $request)
     {
         $attributes = [
@@ -77,27 +92,32 @@ class SaleDiscountController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Response
+     * Muestra información de un descuento
+     *
+     * @return void
      */
     public function show()
     {
-     //   return view('sale::show');
+        //
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Response
+     * Muestra el formulario para editar un descuento
+     *
+     * @return void
      */
     public function edit()
     {
-     //   return view('sale::edit');
+        //
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
+     * Actualiza los datoss de un descuento
+     *
+     * @param  Request $request Datos de la petición
+     * @param integer $id Identificador del descuento a actualizar
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -113,8 +133,9 @@ class SaleDiscountController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Response
+     * Elimina un descuento
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -127,7 +148,8 @@ class SaleDiscountController extends Controller
      * Obtiene los descuento registrados
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse    Json con los datos de los descuentos
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSaleDiscount()
     {

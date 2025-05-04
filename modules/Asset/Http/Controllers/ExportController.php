@@ -1,35 +1,33 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Asset\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Asset\Actions\Registers\ExportAssetAction;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @class ExportController
  *
- * @brief [descripción detallada]
+ * @brief Controlador de exportación de bienes
  *
- * [descripción corta]
+ * Gestiona los procesos para la exportación de bienes
  *
- * @author [autor de la clase] [correo del autor]
+ * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class ExportController extends Controller
 {
     /**
-     * [descripción del método]
+     * Muestra el formulario para la exportación de datos de bienes
      *
-     * @method    index
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    BinaryFileResponse
      */
     public function index(Request $request, ExportAssetAction $export)
     {
@@ -37,14 +35,12 @@ class ExportController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra información del bien a exportar
      *
-     * @method    show
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param  int  $id    Identificador del registro
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @param  integer  $id    Identificador del registro
+     * @return    Renderable
      */
     public function show($id)
     {

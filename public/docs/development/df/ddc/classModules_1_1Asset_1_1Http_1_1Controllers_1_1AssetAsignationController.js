@@ -10,6 +10,10 @@ var classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController =
     [ "index", "df/ddc/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController.html#a149eb92716c1084a935e04a8d95f7347", null ],
     [ "loadInfo", "df/ddc/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController.html#a54dd9a71b5db6eb302e8178410d2e774", null ],
     [ "managePdf", "df/ddc/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController.html#ab0f5698612ee38ecece74135bc774836", null ],
+    [ "store", "df/ddc/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController.html#a9ef485163104597c12185b53cdacf638", null ],
+    [ "update", "df/ddc/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
     [ "vueInfo", "df/ddc/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController.html#a33c93a58e2d349e7e235a94a1691a76d", null ],
-    [ "vueList", "df/ddc/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController.html#aeda203833835d6a44406bfdbd50b431b", null ]
+    [ "vueList", "df/ddc/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController.html#aeda203833835d6a44406bfdbd50b431b", null ],
+    [ "$messages", "df/ddc/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f", null ],
+    [ "$validateRules", "df/ddc/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController.html#a19db8a4aa08742d71b20bee403d09b5d", null ]
 ];

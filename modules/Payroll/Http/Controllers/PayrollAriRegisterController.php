@@ -7,38 +7,49 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Payroll\Models\PayrollStaff;
-use Illuminate\Contracts\Support\Renderable;
 use Modules\Payroll\Models\PayrollAriRegister;
 use Modules\Payroll\Exports\PayrollAriRegisterExport;
 use Modules\Payroll\Jobs\PayrollAriRegisterImportJob;
 
 /**
  * @class PayrollAriRegisterController
- * @brief [descripción detallada]
+ * @brief Controlador para gestionar la información de los registros de la planilla ARI
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollAriRegisterController extends Controller
 {
+    /**
+     * Reglas de validación
+     *
+     * @var array $rules
+     */
     protected $rules;
 
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
-
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:payroll.ari_register.list', ['only' => ['index', 'getAriRegisters']]);
-        $this->middleware('permission:payroll.ari_register.create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:payroll.ari_register.edit', ['only' => ['edit']]);
-        $this->middleware('permission:payroll.ari_register.delete', ['only' => ['destroy']]);
-        $this->middleware('permission:payroll.ari_register.import', ['only' => 'import']);
-        $this->middleware('permission:payroll.ari_register.export', ['only' => 'export']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:payroll.ariregister.list', ['only' => ['index', 'getAriRegisters']]);
+        $this->middleware('permission:payroll.ariregister.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:payroll.ariregister.edit', ['only' => ['edit']]);
+        $this->middleware('permission:payroll.ariregister.delete', ['only' => ['destroy']]);
+        $this->middleware('permission:payroll.ariregister.import', ['only' => 'import']);
+        $this->middleware('permission:payroll.ariregister.export', ['only' => 'export']);
 
         $this->rules = [
             "id"                            => 'nullable',
@@ -56,14 +67,11 @@ class PayrollAriRegisterController extends Controller
             "payroll_staff_id.unique"       => 'El registro ya existe para este trabajador'
         ];
     }
+
     /**
-     * [descripción del método]
+     * Muestra la lista de registros de la planilla ARI
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
@@ -71,13 +79,9 @@ class PayrollAriRegisterController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para crear un nuevo registro de la planilla ARI
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -85,22 +89,18 @@ class PayrollAriRegisterController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena un nuevo registro de la planilla ARI
      *
-     * @method    store
+     * @param     Request    $request    Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function store(Request $request)
     {
         if ($request->endDate) {
             array_push($this->rules["startDate"], "before:endDate");
         }
-    
+
         $request->validate($this->rules, $this->messages);
 
         $allAriRegisterForPayrollStaff =
@@ -114,12 +114,12 @@ class PayrollAriRegisterController extends Controller
         $from_date = null;
         $to_date = null;
 
-        /** Fechas del formulario ARI*/
+        /* Fechas del formulario ARI*/
         $startDate = new DateTime($request->startDate);
 
         if (count($allAriRegisterForPayrollStaff) > 0) {
             $lastestAriRegisterForPayrollStaff = $allAriRegisterForPayrollStaff->last();
-            /** Fechas del ultimo registro ARI */
+            /* Fechas del ultimo registro ARI */
             $from_date = new DateTime($lastestAriRegisterForPayrollStaff?->from_date);
             $to_date = $lastestAriRegisterForPayrollStaff->to_date ? new DateTime($lastestAriRegisterForPayrollStaff->to_date) : null;
 
@@ -159,19 +159,19 @@ class PayrollAriRegisterController extends Controller
             $register->save();
         }
 
+        if ($request->id) {
+            $request->session()->flash('message', ['type' => 'update']);
+        } else {
+            $request->session()->flash('message', ['type' => 'store']);
+        }
+
         return response()->json(['success' => true, 'redirect_back' => 'payroll/ari-register'], 200);
     }
 
     /**
-     * undocumented function summary
+     * Obtiene la lista de registros de la planilla ARI
      *
-     * Undocumented function long description
-     *
-     * @param Type $var Description
-     *
-     * @return type
-     *
-     * @throws conditon
+     * @return \Illuminate\Http\JsonResponse
      **/
     public function getAriRegisters()
     {
@@ -184,15 +184,11 @@ class PayrollAriRegisterController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario para editar el registro de la planilla ARI
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -202,26 +198,30 @@ class PayrollAriRegisterController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina el registro de la planilla ARI
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        $payrollAriRegister = PayrollAriRegister::where('payroll_staff_id', $id)->get();
+        $payrollAriRegisters = PayrollAriRegister::where('payroll_staff_id', $id)->get();
 
-        foreach ($payrollAriRegister as $payrollAriRegister) {
+        foreach ($payrollAriRegisters as $payrollAriRegister) {
             $payrollAriRegister->delete();
         }
 
         return response()->json(['message' => 'Success'], 200);
     }
+
+    /**
+     * Importar registros de la planilla ARI
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return void
+     */
     public function import(Request $request)
     {
         request()->validate([
@@ -233,6 +233,11 @@ class PayrollAriRegisterController extends Controller
         dispatch(new PayrollAriRegisterImportJob($data));
     }
 
+    /**
+     * Descarga los registros de la planilla ARI
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function export()
     {
         return Excel::download(new PayrollAriRegisterExport(), 'registros_ari.xlsx');

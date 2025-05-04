@@ -6,5 +6,5 @@ var classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollResponsibilityContr
     [ "index", "d1/dea/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollResponsibilityController.html#a149eb92716c1084a935e04a8d95f7347", null ],
     [ "store", "d1/dea/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollResponsibilityController.html#a9ef485163104597c12185b53cdacf638", null ],
     [ "update", "d1/dea/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollResponsibilityController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
-    [ "$data", "d1/dea/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollResponsibilityController.html#a6efc15b5a2314dd4b5aaa556a375c6d6", null ]
+    [ "$data", "d1/dea/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollResponsibilityController.html#a165bc765ae7568c8712902a65b77bf12", null ]
 ];

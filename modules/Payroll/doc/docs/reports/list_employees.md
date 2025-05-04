@@ -7,7 +7,7 @@ El reporte detallado de trabajadores permite consultar la lista de trabajadores 
 
 Para acceder a este reporte, el usuario debe dirigirse al módulo de **Talento Humano**, ingresar en **Reportes** y seleccionar la opción **Reporte de trabajadores**.
 
-![Screenshot](../img/reporte_trabajadores.png)<div style="text-align: center;font-weight: bold">Figura: Opción Reporte de Trabajadores</div> 
+![Screenshot](../img/reporte_trabajadores.png)<div style="text-align: center;font-weight: bold">Figura 1: Opción Reporte de Trabajadores</div> 
 
 ## Para generar el reporte de trabajadores
  
@@ -16,8 +16,8 @@ Para acceder a este reporte, el usuario debe dirigirse al módulo de **Talento H
 -   Presione el botón **generar reporte** para generar un archivo PDF. 
 
 
-![Screenshot](../img/image70.png)<div style="text-align: center;font-weight: bold">Figura: Interfaz Reporte de Trabajadores</div> 
+![Screenshot](../img/image70.png)<div style="text-align: center;font-weight: bold">Figura 2: Formulario Reporte de Trabajadores</div> 
 
 
-![Screenshot](../img/image72.png)<div style="text-align: center;font-weight: bold">Figura: Reporte PDF</div> 
+![Screenshot](../img/image72.png)<div style="text-align: center;font-weight: bold">Figura 3: Reporte de Trabajadores</div> 
 

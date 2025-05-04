@@ -1,9 +1,10 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -30,8 +31,6 @@ class $CLASS$ extends ServiceProvider
      *
      * Registra cualquier enlace del modelo o filtros basados en patrones.
      *
-     * @method boot
-     *
      * @return void     [descripción de los datos devueltos]
      */
     public function boot()
@@ -41,8 +40,6 @@ class $CLASS$ extends ServiceProvider
 
     /**
      * Define las rutas del módulo.
-     *
-     * @method map
      *
      * @return void     [descripción de los datos devueltos]
      */
@@ -58,8 +55,6 @@ class $CLASS$ extends ServiceProvider
      *
      * Todas estas rutas reciben el estado de sesión, protección CSRF, etc.
      *
-     * @method mapWebRoutes
-     *
      * @return void     [descripción de los datos devueltos]
      */
     protected function mapWebRoutes()
@@ -73,8 +68,6 @@ class $CLASS$ extends ServiceProvider
      * Define las rutas "api" del módulo.
      *
      * Estas rutas son típicamente sin estado.
-     *
-     * @method mapWebRoutes
      *
      * @return void     [descripción de los datos devueltos]
      */

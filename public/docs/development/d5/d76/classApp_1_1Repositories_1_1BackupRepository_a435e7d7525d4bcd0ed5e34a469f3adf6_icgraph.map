@@ -1,0 +1,5 @@
+<map id="create" name="create">
+<area shape="rect" id="Node000001" title="Gestiona la creación de respaldos de la base de datos." alt="" coords="236,20,299,45"/>
+<area shape="rect" id="Node000002" href="$d4/d83/classApp_1_1Http_1_1Controllers_1_1Admin_1_1BackupController.html#a77c70046576124d7b9e94ca1d4645ba8" title="Crea un nuevo respaldo." alt="" coords="5,5,188,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,35,188,35,188,30,222,30"/>
+</map>

@@ -6,7 +6,7 @@ var classModules_1_1Warehouse_1_1Models_1_1WarehouseInventoryProduct =
     [ "warehouseInventoryRule", "d6/dda/classModules_1_1Warehouse_1_1Models_1_1WarehouseInventoryProduct.html#ad00f62109b6cd0dfe580ce5afa2775fa", null ],
     [ "warehouseProduct", "d6/dda/classModules_1_1Warehouse_1_1Models_1_1WarehouseInventoryProduct.html#ab63eeb05fda487c780fcbda270be4297", null ],
     [ "warehouseProductValues", "d6/dda/classModules_1_1Warehouse_1_1Models_1_1WarehouseInventoryProduct.html#a5d80cc00c9b7aa7b08bb4b78d3822145", null ],
-    [ "$appends", "d6/dda/classModules_1_1Warehouse_1_1Models_1_1WarehouseInventoryProduct.html#a29ec873a375ecb374d2e2ec92490cd41", null ],
+    [ "$appends", "d6/dda/classModules_1_1Warehouse_1_1Models_1_1WarehouseInventoryProduct.html#a2f891c3ddc371402c455a71fbe376e29", null ],
     [ "$dates", "d6/dda/classModules_1_1Warehouse_1_1Models_1_1WarehouseInventoryProduct.html#a6ed295a3b7371b42773cab86fd367af8", null ],
     [ "$fillable", "d6/dda/classModules_1_1Warehouse_1_1Models_1_1WarehouseInventoryProduct.html#a13601d3af66d109458e268a3eb4afc49", null ]
 ];

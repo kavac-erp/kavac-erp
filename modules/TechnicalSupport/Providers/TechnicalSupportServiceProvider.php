@@ -17,7 +17,7 @@ class TechnicalSupportServiceProvider extends ServiceProvider
     protected $moduleNameLower = 'technicalsupport';
 
     /**
-     * Boot the application events.
+     * Carga los eventos del módulo.
      *
      * @return void
      */
@@ -31,7 +31,7 @@ class TechnicalSupportServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the service provider.
+     * Registra los proveedores de servicios
      *
      * @return void
      */
@@ -41,7 +41,7 @@ class TechnicalSupportServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register config.
+     * Registra la configuración
      *
      * @return void
      */
@@ -57,7 +57,7 @@ class TechnicalSupportServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register views.
+     * Registra las vistas.
      *
      * @return void
      */
@@ -75,7 +75,7 @@ class TechnicalSupportServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register translations.
+     * Registra las traducciones.
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class TechnicalSupportServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register an additional directory of factories.
+     * Registra un directorio adicional para los factories
      * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
      */
     public function registerFactories()
@@ -102,7 +102,7 @@ class TechnicalSupportServiceProvider extends ServiceProvider
     }
 
     /**
-     * Get the services provided by the provider.
+     * Obtiene los proveedores de servicios por proveedor
      *
      * @return array
      */

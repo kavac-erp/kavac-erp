@@ -13,12 +13,14 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  *
  * Gestiona el modelo de datos para los receptores de procesos dentro del sistema
  *
+ * @property  string|integer $id
  * @property  string $group
  * @property  string $description
  * @property  string $receiverable_type
  * @property  string $receiverable_id
  * @property  string $associateable_type
  * @property  string $associateable_id
+ * @property  string $text
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -31,9 +33,9 @@ class Receiver extends Model implements Auditable
     use AuditableTrait;
 
     /**
-     * Fields that can be mass assigned.
+     * Lista de atributos que pueden ser asignados masivamente
      *
-     * @var array
+     * @var array $fillable
      */
     protected $fillable = [
         'group', 'description', 'receiverable_type', 'receiverable_id', 'associateable_type', 'associateable_id'
@@ -84,7 +86,7 @@ class Receiver extends Model implements Auditable
      * o beneficiario por ejemplo, un beneficiario registrado
      * desde un compromiso en el módulo de presupuesto.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function sources()
     {

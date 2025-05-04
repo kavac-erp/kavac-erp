@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-client-table :columns="columns" :data="records" :options="table_options" ref="tableResults">
-            <div slot="id" slot-scope="props"class="text-center">
+            <div slot="id" slot-scope="props" class="text-center">
                 <button @click.prevent="setDetails('vue-info', props.row.id, 'CitizenServiceRegisterInfo')"
                         class="btn btn-info btn-xs btn-icon btn-action btn-tooltip"
                         title="Ver registro" data-toggle="tooltip" data-placement="bottom" type="button">
@@ -31,9 +31,7 @@
 			</div>
 
         </v-client-table>
-        <citizenservice-register-info
-			ref="vue-info">
-		</citizenservice-register-info>
+        <citizenservice-register-info ref="vue-info"></citizenservice-register-info>
     </div>
 </template>
 
@@ -118,7 +116,7 @@
                         }
                     }
                 });
-                
+
             }
 		}
 	};

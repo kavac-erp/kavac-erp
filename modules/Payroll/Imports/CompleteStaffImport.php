@@ -7,41 +7,64 @@ use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\SkipsUnknownSheets;
 
+/**
+ * @class CompleteStaffImport
+ * @brief Importa un archivo de expediente digital del personal completo
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CompleteStaffImport implements WithMultipleSheets, SkipsUnknownSheets
 {
     use Importable;
     use SkipsFailures;
 
+    /**
+     * Array de hojas a importar
+     *
+     * @var array
+     */
     private $sheets;
 
     /**
-     * @param array $row
+     * Método para obtener las hojas a importar
      *
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return array
      */
-
-
     public function sheets(): array
     {
         $this->sheets = [
-            'Datos Personales' => new StaffImport(),
-            'Datos Profesionales' => new ProfessionalStaffImport(),
-            'Datos Socioeconomicos' => new SocioStaffImport(),
-            'Datos Laborales' => new EmploymentStaffImport(),
-            'Datos Financieros' => new FinancialStaffImport(),
-            'Datos Contables' => new StaffAccountImport(),
+            'Datos Personales' => new StaffImport(''),
+            'Datos Profesionales' => new ProfessionalStaffImport(''),
+            'Datos Socioeconomicos' => new SocioStaffImport(''),
+            'Datos Laborales' => new EmploymentStaffImport(''),
+            'Datos Financieros' => new FinancialStaffImport(''),
+            'Datos Contables' => new StaffAccountImport(''),
         ];
 
         return $this->sheets;
     }
 
+    /**
+     * Callback de error de hoja desconocida
+     *
+     * @param string $sheetName Nombre de la hoja
+     *
+     * @return void
+     */
     public function onUnknownSheet($sheetName)
     {
         // E.g. you can log that a sheet was not found.
         info("Sheet {$sheetName} was skipped");
     }
 
-
+    /**
+     * Método para obtener las hojas fallidas
+     *
+     * @return array
+     */
     public function failures()
     {
         $array = [];

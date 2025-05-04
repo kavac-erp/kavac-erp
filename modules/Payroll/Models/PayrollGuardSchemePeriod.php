@@ -14,12 +14,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @class PayrollGuardScheme
- *
  * @brief Datos de esquema de guardias
  *
  * Gestiona el modelo de esquema de guardias
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -31,20 +31,22 @@ final class PayrollGuardSchemePeriod extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
-     * @var array
+     *
+     * @var array $fillable
      */
     protected $fillable = [
         'from_date', 'to_date', 'observations', 'payroll_guard_scheme_id', 'document_status_id',
     ];
 
     /**
-     * Get the DocumentStatus that owns the PayrollGuardSchemePeriod
+     * Obtiene la relación con el estatus del documento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -54,7 +56,7 @@ final class PayrollGuardSchemePeriod extends Model implements Auditable
     }
 
     /**
-     * Get the payrollGuardScheme that owns the PayrollGuardSchemePeriod
+     * Obtiene la relación con el esquema de guardias
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -63,6 +65,11 @@ final class PayrollGuardSchemePeriod extends Model implements Auditable
         return $this->belongsTo(PayrollGuardScheme::class);
     }
 
+    /**
+     * Obtiene los datos del esquema de guardias
+     *
+     * @return array
+     */
     public function getData(): array
     {
         $months = [
@@ -84,24 +91,24 @@ final class PayrollGuardSchemePeriod extends Model implements Auditable
         return collect($this->payrollGuardScheme->data_source)->reduce(function ($carry, $field, $index) use ($months, $fromYear, $toYear) {
             list($staffId, $month, $day) = explode('-', $index);
             foreach ($field as $value) {
-                $fromDate = $fromYear.'-'.$months[$month].'-'.str_pad($day, 2, '0', STR_PAD_LEFT);
-                $toDate = $toYear.'-'.$months[$month].'-'.str_pad($day, 2, '0', STR_PAD_LEFT);
+                $fromDate = $fromYear . '-' . $months[$month] . '-' . str_pad($day, 2, '0', STR_PAD_LEFT);
+                $toDate = $toYear . '-' . $months[$month] . '-' . str_pad($day, 2, '0', STR_PAD_LEFT);
 
                 if ($fromYear != $toYear) {
                     if ($fromDate >= $this->from_date && $toDate <= $this->to_date) {
-                        $carry[$fromDate][$value['text'].'-'.$staffId] = [
+                        $carry[$fromDate][$value['text'] . '-' . $staffId] = [
                             'count' => $value['count'],
                             'confirmed' => "Confirmación total" == $this->observations ? true : false,
                         ];
-                    } else if ($toDate >= $this->from_date && $toDate <= $this->to_date) {
-                        $carry[$toDate][$value['text'].'-'.$staffId] = [
+                    } elseif ($toDate >= $this->from_date && $toDate <= $this->to_date) {
+                        $carry[$toDate][$value['text'] . '-' . $staffId] = [
                             'count' => $value['count'],
                             'confirmed' => "Confirmación total" == $this->observations ? true : false,
                         ];
                     }
                 } else {
                     if ($fromDate >= $this->from_date && $toDate <= $this->to_date) {
-                        $carry[$fromDate][$value['text'].'-'.$staffId] = [
+                        $carry[$fromDate][$value['text'] . '-' . $staffId] = [
                             'count' => $value['count'],
                             'confirmed' => "Confirmación total" == $this->observations ? true : false,
                         ];

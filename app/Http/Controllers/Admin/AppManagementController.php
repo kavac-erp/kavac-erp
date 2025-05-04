@@ -1,7 +1,5 @@
 <?php
 
-/** Gestiona algunos procesos de acceso administrativo de la aplicación */
-
 namespace App\Http\Controllers\Admin;
 
 use Exception;
@@ -9,7 +7,9 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Traits\ModelsTrait;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use OwenIt\Auditing\Models\Audit;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 
@@ -31,20 +31,16 @@ class AppManagementController extends Controller
     /**
      * Método constructor de la clase
      *
-     * @method    __construct()
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Restringe el acceso solo a usuarios con el rol admin */
+        // Restringe el acceso solo a usuarios con el rol admin
         $this->middleware('role:admin');
     }
 
     /**
      * Método para ordenar por fecha de borrado
-     *
-     * @method    cmp()
      *
      * @author     Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      */
@@ -58,17 +54,15 @@ class AppManagementController extends Controller
     /**
      * Obtiene un listado de los últimos 20 registros eliminados
      *
-     * @method    getDeletedRecords(Request $request)
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param     Request              $request    Objeto con información de la petición
+     * @param     Request $request  Objeto con información de la petición
      *
-     * @return    JsonResponse       Objeto Json con datos de respuesta a la petición
+     * @return    JsonResponse      Objeto Json con datos de respuesta a la petición
      */
     public function getDeletedRecords(Request $request)
     {
-        /** @var array Arreglo con los registros eliminados */
+        // Arreglo con los registros eliminados
         $trashed = [];
 
         if (Cache::has('deleted_records')) {
@@ -90,15 +84,15 @@ class AppManagementController extends Controller
             }
             if (!$deletedRecords->isEmpty()) {
                 $trashed = $this->setDeletedRecords($trashed, $deletedRecords);
-                /** Si ya dispone de un listado de 20 registros, se detiene y se retorna la consulta */
+                // Si ya dispone de un listado de 20 registros, se detiene y se retorna la consulta
                 if ($deletedRecords->count() >= 20) {
                     return response()->json(['result' => true, 'records' => $trashed]);
                 }
             }
         } else {
             foreach ($this->getModels() as $model_name) {
-                /** @var object|string Nombre del modelo del cual se va a buscar registros eliminados */
-                $model = app($model_name);
+                // Nombre del modelo del cual se va a buscar registros eliminados
+                $model = (new $model_name());
                 try {
                     if ($this->isModelSoftDelete($model)) {
                         if ($request->start_delete_at) {
@@ -110,9 +104,9 @@ class AppManagementController extends Controller
                         if ($request->module_delete_at && strpos($model_name, $request->module_delete_at) === false) {
                             continue;
                         }
-                        /** @var object Objeto con información de registros eliminados */
+                        // Objeto con información de registros eliminados
                         $filtered = $model->onlyTrashed()->orderBy('deleted_at', 'desc');
-                        /** @var object Objeto con información de los registros eliminados */
+                        // Objeto con información de los registros eliminados
                         $deleted = $filtered->toBase()->get();
                         if (!$deleted->isEmpty()) {
                             /** Si ya dispone de un listado de 20 registros, se detiene y se retorna la consulta */
@@ -124,6 +118,7 @@ class AppManagementController extends Controller
                         }
                     }
                 } catch (Exception $e) {
+                    Log::error($e->getMessage());
                     continue;
                 }
             }
@@ -137,20 +132,18 @@ class AppManagementController extends Controller
     /**
      * Establece un listado de registros eliminados
      *
-     * @method   setDeletedRecords(array $trashed, array $deleted, string $model_name)
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
+     * @param  array          $trashed    Arreglo en el cual agregar los registros eliminados
+     * @param  array|object   $deleted    Arreglo de registros eliminados
+     * @param  string         $model_name Nombre del modelo
      *
-     * @param  array   $trashed    Arreglo en el cual agregar los registros eliminados
-     * @param  array   $deleted    Arreglo de registros eliminados
-     * @param  string  $model_name Nombre del modelo
-     *
-     * @return void
+     * @return array  Arreglo con el listado de registros eliminados
      */
     public function setDeletedRecords($trashed, $deleted, $model_name = null)
     {
         foreach ($deleted as $del) {
-            /** @var string Texto con las etiquetas html que contiene los registros eliminados */
+            // Texto con las etiquetas html que contiene los registros eliminados
             $regs = '<div class="row">';
 
             foreach ($del as $attr => $value) {
@@ -178,13 +171,11 @@ class AppManagementController extends Controller
     /**
      * Restaura un archivo eliminado
      *
-     * @method    restoreRecord(Request $request)
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param     Request          $request    Objeto con datos de la petición
+     * @param     Request $request  Objeto con datos de la petición
      *
-     * @return    JsonResponse       Objeto Json con datos de respuesta a la petición
+     * @return    JsonResponse      Objeto Json con datos de respuesta a la petición
      */
     public function restoreRecord(Request $request)
     {
@@ -193,9 +184,9 @@ class AppManagementController extends Controller
             'id' => ['required']
         ]);
 
-        /** @var string Nombre del modelo del cual se van a restaurar los registros */
+        // Nombre del modelo del cual se van a restaurar los registros
         $model = $request->module;
-        /** @var string Hash con el identificador del registro a restaurar */
+        // Hash con el identificador del registro a restaurar
         $id = secure_record($request->id, true);
 
         ($model == "Modules\Payroll\Models\PayrollStaff") ?
@@ -208,17 +199,15 @@ class AppManagementController extends Controller
     /**
      * Obtiene un listado de registros a auditar
      *
-     * @method    getAuditRecords(Request $request)
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param     Request            $request    Objeto con información de la petición
+     * @param     Request $request  Objeto con información de la petición
      *
-     * @return    JsonResponse       Objeto Json con datos de respuesta a la petición
+     * @return    JsonResponse      Objeto Json con datos de respuesta a la petición
      */
     public function getAuditRecords(Request $request)
     {
-        /** @var Audit Instancia la clase para buscar datos de auditoria */
+        // Instancia la clase para buscar datos de auditoria
         $auditables = new Audit();
         $start_date = $request->input('query')['start_date'] ?? '';
         $end_date = $request->input('query')['end_date'] ?? '';
@@ -232,7 +221,7 @@ class AppManagementController extends Controller
             $auditables = $auditables->whereDate('created_at', '<=', $end_date);
         }
         if ($user) {
-            /** @var User Objeto con información del usuario a consultar */
+            // Objeto con información del usuario a consultar
             $users = User::where('name', 'like', "{$user}%")
                 ->orWhere('name', 'like', "%{$user}%")
                 ->orWhere('name', 'like', "%{$user}")
@@ -252,7 +241,7 @@ class AppManagementController extends Controller
                 ->orWhere('auditable_type', 'like', "%{$module_restore}");
         }
 
-        /** @var array Arreglo con registros a auditar según la acción ejecutada */
+        // Arreglo con registros a auditar según la acción ejecutada
         $records = [];
         if ($request->orderBy) {
             switch ($request->orderBy) {
@@ -278,37 +267,37 @@ class AppManagementController extends Controller
             if ($audit->user_id !== null) {
                 switch ($audit->event) {
                     case 'created':
-                        /** @var string texto con la clase text-success */
+                        // texto con la clase text-success
                         $registerClass = 'text-success';
                         break;
                     case 'deleted':
-                        /** @var string texto con la clase text-danger */
+                        // texto con la clase text-danger
                         $registerClass = 'text-danger';
                         break;
                     case 'restored':
-                        /** @var string texto con la clase text-info */
+                        // texto con la clase text-info
                         $registerClass = 'text-info';
                         break;
                     case 'updated':
-                        /** @var string texto con la clase text-warning */
+                        // texto con la clase text-warning
                         $registerClass = 'text-warning';
                         break;
                     default:
-                        /** @var string texto con la clase text-default */
+                        // texto con la clase text-default
                         $registerClass = 'text-default';
                         break;
                 }
 
-                /** @var string Texto con la clase badge a usar */
+                // Texto con la clase badge a usar
                 $badgeClass = str_replace('text', 'badge', $registerClass);
-                /** @var string Texto con el modelo de usuario a utilizar */
+                // Texto con el modelo de usuario a utilizar
                 $model_user = ($audit->user_type === "App\User") ? User::class : $audit->user_type;
-                /** @var User Objeto con información del usuario */
+                // Objeto con información del usuario
                 $user = $model_user::find($audit->user_id);
 
-                /** @var string Nombre completo del usuario */
+                // Nombre completo del usuario
                 $name = ($user) ? $user->name : '';
-                /** @var string Nombre de usuario con el cual accede a la aplicación */
+                // Nombre de usuario con el cual accede a la aplicación
                 $username = ($user) ? $user->username : '';
 
                 array_push($records, [
@@ -334,23 +323,23 @@ class AppManagementController extends Controller
     /**
      * Obtiene detalles de un registro seleccionado
      *
-     * @method    getAuditDetails(Request $request)
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param     Request            $request    Objeto con datos de la petición
+     * @param     Request $request  Objeto con datos de la petición
      *
-     * @return    JsonResponse       Objeto Json con detalles del registro
+     * @return    JsonResponse      Objeto Json con detalles del registro
      */
     public function getAuditDetails(Request $request)
     {
         $this->validate($request, [
             'id' => ['required']
         ]);
-        /** @var string Hash con el identificador del registro */
+        // Hash con el identificador del registro
         $id = secure_record($request->id, true);
-        /** @var Audit Objeto con información de auditoria */
+
+        // Objeto con información de auditoria
         $audit = Audit::find($id);
+
         return response()->json(['result' => true, 'audit' => $audit], 200);
     }
 }

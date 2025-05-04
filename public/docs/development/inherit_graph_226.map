@@ -1,3 +1,3 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$de/d01/classModules_1_1Asset_1_1Repositories_1_1AssetParametersRepository.html" title="Gestiona los parámetros requeridos para el registro de biene LICENCIA DE SOFTWARE CENDITEL" alt="" coords="5,5,208,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d7/d1e/classAddPurchaseSupplierObjectIdToPurchaseRequirementsTable.html" title="Migración encargada de agregar el campo purchase_supplier_object_id a la tabla purchase_requirements." alt="" coords="5,5,237,45"/>
 </map>

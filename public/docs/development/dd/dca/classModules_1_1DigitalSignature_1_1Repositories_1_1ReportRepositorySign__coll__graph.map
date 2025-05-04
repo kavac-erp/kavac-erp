@@ -1,4 +1,5 @@
 <map id="ReportRepositorySign" name="ReportRepositorySign">
-<area shape="rect" id="node1" title="Gestiona los reportes de la aplicación." alt="" coords="5,160,168,457"/>
-<area shape="rect" id="node2" href="$d2/d9e/interfaceApp_1_1Repositories_1_1Contracts_1_1ReportInterface.html" title="Interfaz para la gestión de reportes." alt="" coords="25,5,148,112"/>
+<area shape="rect" id="Node000001" title="Gestiona los reportes de la aplicación." alt="" coords="5,159,160,564"/>
+<area shape="rect" id="Node000002" href="$d2/d9e/interfaceApp_1_1Repositories_1_1Contracts_1_1ReportInterface.html" title="Interfaz para la gestión de reportes." alt="" coords="25,5,140,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,124,85,158,80,158,80,124"/>
 </map>

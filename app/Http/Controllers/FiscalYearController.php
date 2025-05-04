@@ -1,12 +1,11 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\FiscalYear;
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class FiscalYearController
@@ -15,6 +14,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar información de los años fiscales
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -23,9 +23,9 @@ class FiscalYearController extends Controller
     /**
      * Listado de años fiscales registrados
      *
-     * @method    index
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function index()
     {
@@ -35,9 +35,9 @@ class FiscalYearController extends Controller
     /**
      * Muestra el formulario para el registro de un nuevo año fiscal
      *
-     * @method    create
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function create()
     {
@@ -47,11 +47,11 @@ class FiscalYearController extends Controller
     /**
      * Registra un nuevo año fiscal
      *
-     * @method    store
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Request    $request    Objeto con información de la petición
+     *
+     * @return void
      */
     public function store(Request $request)
     {
@@ -61,11 +61,11 @@ class FiscalYearController extends Controller
     /**
      * Muestra información de un año fiscal
      *
-     * @method    show
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     FiscalYear    $fiscalYear    Objeto con información de la petición
+     *
+     * @return void
      */
     public function show(FiscalYear $fiscalYear)
     {
@@ -75,11 +75,11 @@ class FiscalYearController extends Controller
     /**
      * Muestra el formulario con información del año fiscal a actualizar
      *
-     * @method    edit
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     FiscalYear    $fiscalYear    Objeto con información del año fiscal a actualizar
+     *
+     * @return void
      */
     public function edit(FiscalYear $fiscalYear)
     {
@@ -89,12 +89,12 @@ class FiscalYearController extends Controller
     /**
      * Actualiza los datos de un año fiscal
      *
-     * @method    update
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Request       $request       Objeto con información de la petición
      * @param     FiscalYear    $fiscalYear    Objeto con información del año fiscal a actualizar
+     *
+     * @return void
      */
     public function update(Request $request, FiscalYear $fiscalYear)
     {
@@ -104,11 +104,11 @@ class FiscalYearController extends Controller
     /**
      * Elimina un año fiscal
      *
-     * @method    destroy
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     FiscalYear    $fiscalYear    Objeto con información del año fiscal a eliminar
+     *
+     * @return void
      */
     public function destroy(FiscalYear $fiscalYear)
     {
@@ -117,8 +117,6 @@ class FiscalYearController extends Controller
 
     /**
      * Listado de los años de ejercicio fiscal que aún no han sido cerrados
-     *
-     * @method    getOpened
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -133,8 +131,6 @@ class FiscalYearController extends Controller
     /**
      * Listado de los años de ejercicio fiscal cerrados
      *
-     * @method    getClosed
-     *
      * @author     Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @return    JsonResponse       Objeto con el listado de años de ejercicio fiscal
@@ -146,10 +142,23 @@ class FiscalYearController extends Controller
     }
 
     /**
+     * Listado de todos los años de ejercicio fiscal abiertos / cerrados
+     *
+     * @method    getAll
+     *
+     * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return    JsonResponse       Objeto con el listado de años de ejercicio fiscal
+     */
+    public function getAll()
+    {
+        $fiscalYears = $this->getList(null, true);
+        return response()->json(['records' => $fiscalYears], 200);
+    }
+
+    /**
      * Consulta y lista el último año de ejercicio fiscal cerrado o en pre-cierre
      * (abierto con entradas), o el mayor de ambos
-     *
-     * @method    getLast
      *
      * @author    Angelo Osorio <adosorio@cenditel.gob.ve> | <danielking.321@gmail.com>
      *
@@ -212,34 +221,33 @@ class FiscalYearController extends Controller
     /**
      * Listado de los años de ejercicio fiscal
      *
-     * @method    getList
-     *
      * @author     Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    JsonResponse       Objeto con el listado de años de ejercicio fiscal
+     * @return    array       Listado de años de ejercicio fiscal
      */
-    public function getList($active = true)
+    public function getList($active = true, $all = false)
     {
-        $currentFiscalYear = FiscalYear::select('year')
-                                        ->where(['active' => $active, 'closed' => !$active])
-                                        ->orderBy('year', 'desc')
-                                        ->first();
+        $currentFiscalYear = FiscalYear::query()
+            ->select('year')
+            ->where(['active' => $active, 'closed' => !$active])
+            ->orderBy('year', 'desc')
+            ->first();
         $currentYear = date("Y");
-        /** @var profileUser Perfil del usuario autenticado */
-        $profileUser = Auth()->user()->profile;
+        // Perfil del usuario autenticado
+        $profileUser = auth()->user()->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
-            /** @var institution Institución asociada al usuario autenticado */
+            // Institución asociada al usuario autenticado
             $institution = Institution::with(['fiscalYears'])->find($profileUser->institution_id);
         } else {
-            /** @var institution Institución por defecto */
+            // Institución por defecto
             $institution = Institution::with(['fiscalYears'])->where('active', true)->where('default', true)->first();
         }
-        /** @var FiscalYear|array Años fiscales abiertos */
+        // Años fiscales abiertos
         $fiscalYears = $institution->fiscalYears()
-                                   ->select('year as id', 'year as text', 'created_at')
-                                   ->where(['active' => $active, 'closed' => !$active])
-                                   ->get()
-                                   ->toArray();
+            ->select('year as id', 'year as text', 'created_at')
+            ->when(!$all, fn ($query) => $query->where(['active' => $active, 'closed' => !$active]))
+            ->get()
+            ->toArray();
         if (
             $active &&
             !in_array(['id' => $currentYear, 'text' => $currentYear], $fiscalYears) &&

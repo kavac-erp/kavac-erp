@@ -1,0 +1,7 @@
+<map id="store" name="store">
+<area shape="rect" id="Node000001" title="Registra un nuevo tipo de cambio de moneda." alt="" coords="5,31,60,56"/>
+<area shape="rect" id="Node000002" href="$dc/d3c/classApp_1_1Http_1_1Controllers_1_1ExchangeRateController.html#a5a3fc7f56c180fa447470e671fcdeb61" title="Determina si el tipo de cambio con la moneda de origen y destino ya existe, en caso de que exista des..." alt="" coords="108,5,281,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,37,100,30,101,35,61,42"/>
+<area shape="rect" id="Node000003" href="$dc/d3c/classApp_1_1Http_1_1Controllers_1_1ExchangeRateController.html#a77c76e2295ac82fe35f15cd6fc051643" title="Verifica si existe un tipo de cambio en el mismo período." alt="" coords="115,55,275,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="61,45,102,51,101,56,60,50"/>
+</map>

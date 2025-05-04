@@ -1,25 +1,38 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
+use Illuminate\Support\Facades\Date;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Notifications\ResetPasswordNotification;
-use App\Notifications\VerifyEmailNotification;
-use App\Roles\Traits\HasRoleAndPermission;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Roles\Traits\HasRoleAndPermission;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Notifications\VerifyEmailNotification;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\ResetPasswordNotification;
 use OwenIt\Auditing\Auditable as AuditableTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * @class User
  * @brief Datos de Usuarios
  *
  * Gestiona el modelo de datos para las Usuarios
+ *
+ * @property string  $id
+ * @property string  $name
+ * @property string  $email
+ * @property string  $password
+ * @property string  $username
+ * @property boolean $lock_screen
+ * @property int     $time_lock
+ * @property Date    $blocked_at
+ * @property Date    $last_login
+ * @property string  $remember_token
+ * @property object  $profile
+ * @property boolean $active
+ * @property Date|null $email_verified_at
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -35,43 +48,41 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     use AuditableTrait;
 
     /**
-     * The attributes that are mass assignable.
+     * Lista de atributos que pueden ser asignados masivamente
      *
-     * @var array
+     * @var array $fillable
      */
     protected $fillable = [
         'name', 'email', 'password', 'username', 'lock_screen', 'time_lock', 'blocked_at'
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Oculta los campos de contraseña y token de recordar autenticación de usuario
      *
-     * @var array
+     * @var array $hidden
      */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * Establece el tipo de dato para la columna "email_verified_at"
      *
-     * @var array
+     * @var array $casts
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista de atributos para la gestión de fechas
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at', 'last_login', 'blocked_at'];
 
     /**
-     * User has many FailedLoginAttempts.
-     *
-     * @method failedLoginAttempts
+     * Metodo que obtiene los intentos fallidos de inicio de sesión
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -83,8 +94,6 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     /**
      * Método que obtiene el perfil de un usuario
      *
-     * @method  profile
-     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function profile()
@@ -93,9 +102,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     }
 
     /**
-     * User belongs to Many NotificationSetting.
-     *
-     * @method  notificationSettings
+     * Método que obtiene la configuración de notificaciones de un usuario
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -107,9 +114,9 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     /**
      * Envía la notificación por correo para el reestablecimiento de la contraseña
      *
-     * @method    sendPasswordResetNotification
-     *
      * @param     string    $token    Token de la URL para el acceso al formulario de reestablecimiento de contraseña
+     *
+     * @return void
      */
     public function sendPasswordResetNotification($token)
     {
@@ -121,7 +128,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     /**
      * Envía la notificación de verificación de usuario para poder acceder a la aplicación
      *
-     * @method    sendEmailVerificationNotification
+     * @return void
      */
     public function sendEmailVerificationNotification()
     {
@@ -132,8 +139,6 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 
     /**
      * Obtiene el identificador del usuario
-     *
-     * @method    getIdentifier
      *
      * @return    string|integer           Identificador del usuario
      */

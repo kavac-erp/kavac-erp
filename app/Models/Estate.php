@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +14,7 @@ use App\Traits\ModelsTrait;
  *
  * Gestiona el modelo de datos para los Estados
  *
+ * @property  string|integer  $id
  * @property  string  $name
  * @property  string  $code
  * @property  integer $country_id
@@ -55,18 +54,16 @@ class Estate extends Model implements Auditable
     /**
      * Arreglo con las relaciones a cargar por defecto
      *
-     * @var    array
+     * @var    array $with
      */
     protected $with = ['country'];
 
     /**
      * Método que obtiene el Pais de un Estado
      *
-     * @method  country
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con el registro relacionado al modelo Country
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function country()
     {
@@ -76,11 +73,9 @@ class Estate extends Model implements Auditable
     /**
      * Método que obtiene los Municipios de un Estado
      *
-     * @method  municipalities
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con los registros relacionados al modelo Minicipality
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function municipalities()
     {
@@ -90,11 +85,9 @@ class Estate extends Model implements Auditable
     /**
      * Método que obtiene las Ciudades de un Pais
      *
-     * @method  cities
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con los registros relacionados al modelo City
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function cities()
     {

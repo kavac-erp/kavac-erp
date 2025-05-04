@@ -1,4 +1,7 @@
 <map id="getLockedAccountMessage" name="getLockedAccountMessage">
-<area shape="rect" id="node1" title="Obtiene el mensaje a mostrar para la cuenta bloqueada." alt="" coords="267,5,465,32"/>
-<area shape="rect" id="node2" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a5a8ed6520ebd7ecd55d21cc531f4db36" title="Obtiene la instancia de la petición del usuario bloqueado." alt="" coords="5,5,219,32"/>
+<area shape="rect" id="Node000001" title="Obtiene el mensaje a mostrar para la cuenta bloqueada." alt="" coords="369,5,568,31"/>
+<area shape="rect" id="Node000002" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a5a8ed6520ebd7ecd55d21cc531f4db36" title="Obtiene la instancia de la petición del usuario bloqueado." alt="" coords="108,5,321,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="355,21,322,21,322,15,355,15"/>
+<area shape="rect" id="Node000003" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#ab27bea29a2b42a9c42a388032eee21ac" title="Gestiona una petición de acceso a la aplicación." alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="95,21,60,21,60,15,95,15"/>
 </map>

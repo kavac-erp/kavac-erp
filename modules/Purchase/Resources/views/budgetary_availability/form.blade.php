@@ -48,6 +48,7 @@
                     :budget_items="{{ $budget_items }}"
                     :specific_actions="{{ $specific_actions }}"
                     :has_budget="{{ isset($has_budget)?'true':'false' }}"
+                    :document_file="{{ $document_file }}"
                 />
             </div>
         </div>

@@ -4,10 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * @class AddFieldSaleClientIdToSaleClientsPhonesTable
+ * @brief Migración encargada de agregar el campo sale_client_id a la tabla de telefonos de clientes
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AddFieldSaleClientIdToSaleClientsPhonesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -19,7 +26,7 @@ class AddFieldSaleClientIdToSaleClientsPhonesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

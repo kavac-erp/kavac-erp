@@ -14,7 +14,8 @@ use App\Traits\ModelsTrait;
  *
  * Gestiona la relacion N-M entre cuentas patrimoniales y otros registros
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -26,12 +27,14 @@ class AccountingEntryable extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -40,27 +43,24 @@ class AccountingEntryable extends Model implements Auditable
         'accounting_entryable_id',
     ];
 
-
     /**
-     * AccountingEntryable morphs to models in accounting_entryable_type.
+     * Establece el tipo de relación con la cuenta contable
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function accountingEntryable()
     {
-        // morphTo($name = accounting_entryable, $type = accounting_entryable_type, $id = accounting_entryable_id)
-        // requires accounting_entryable_type and accounting_entryable_id fields on $this->table
         return $this->morphTo();
     }
 
     /**
-     * AccountingEntryable belongs to AccountingEntry.
+     * Establece la relación con el asiento contable
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function accountingEntry()
     {
         // belongsTo(RelatedModel, foreignKey = accountingEntry_id, keyOnRelatedModel = id)
-        return $this->belongsTo(AccountingEntry::class);
+        return $this->hasOne(AccountingEntry::class, 'id', 'accounting_entry_id');
     }
 }

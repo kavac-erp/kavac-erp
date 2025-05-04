@@ -1,18 +1,15 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 /**
  * @class ProjectTrackingServiceProvider
- * @brief [descripción detallada]
+ * @brief Proveedor de servicios para el módulo de seguimiento de proyectos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -22,21 +19,19 @@ class ProjectTrackingServiceProvider extends ServiceProvider
     /**
      * Indica el nombre del modulo
      *
-     * @var string $moduleName Nombre del módulo
+     * @var string $moduleName
      */
     protected $moduleName = 'ProjectTracking';
 
     /**
      * Indica el nombre del módulo en minúsculas
      *
-     * @var string $moduleNameLower Nombre del módulo en minúsculas
+     * @var string $moduleNameLower
      */
     protected $moduleNameLower = 'projecttracking';
 
     /**
      * Inicia los eventos del módulo en la aplicación.
-     *
-     * @method boot
      *
      * @return void
      */
@@ -52,8 +47,6 @@ class ProjectTrackingServiceProvider extends ServiceProvider
     /**
      * Registra el proveedor de servicios del módulo.
      *
-     * @method register
-     *
      * @return void
      */
     public function register()
@@ -63,8 +56,6 @@ class ProjectTrackingServiceProvider extends ServiceProvider
 
     /**
      * Registra la configuración del módulo.
-     *
-     * @method registerConfig
      *
      * @return void
      */
@@ -81,8 +72,6 @@ class ProjectTrackingServiceProvider extends ServiceProvider
 
     /**
      * Registra las vistas del módulo.
-     *
-     * @method registerViews
      *
      * @return void
      */
@@ -102,8 +91,6 @@ class ProjectTrackingServiceProvider extends ServiceProvider
     /**
      * Registra las traducciones del módulo.
      *
-     * @method registerTranslations
-     *
      * @return void
      */
     public function registerTranslations()
@@ -120,8 +107,6 @@ class ProjectTrackingServiceProvider extends ServiceProvider
     /**
      * Registra directorios adicionales para los factories del módulo.
      *
-     * @method registerFactories
-     *
      * @return void
      */
     public function registerFactories()
@@ -134,8 +119,6 @@ class ProjectTrackingServiceProvider extends ServiceProvider
     /**
      * Obtiene los servicios proporcionados por el proveedor.
      *
-     * @method provides
-     *
      * @return array
      */
     public function provides()
@@ -146,16 +129,12 @@ class ProjectTrackingServiceProvider extends ServiceProvider
     /**
      * Obtiene las rutas de los módulos
      *
-     * @method    getPublishableViewPaths
-     *
-     * @author    [Nombre del autor] [correo del autor]
-     *
-     * @return    {[type]}                   [Descripción de los valores devueltos]
+     * @return    array
      */
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (\Config::get('view.paths') as $path) {
+        foreach (Config::get('view.paths') as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }

@@ -274,10 +274,10 @@
                 'currency',
             ];
         },
-        methods: {            
+        methods: {
             /**
              * Método que borra todos los datos del formulario
-             * 
+             *
              * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
              */
             reset() {

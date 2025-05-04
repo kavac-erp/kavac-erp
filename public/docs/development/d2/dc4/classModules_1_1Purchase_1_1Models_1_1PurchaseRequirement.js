@@ -11,10 +11,12 @@ var classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement =
     [ "purchaseRequirementItems", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#a4dffbdee5b49d15089598ee70d8b606d", null ],
     [ "purchaseSupplierObject", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#aa22dee6d9f8da64d66a64faf66bd1291", null ],
     [ "reviewedBy", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#a7ec988e9b77275779545d6618df63d22", null ],
+    [ "scopeSearch", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#aae975febe752d19fb08a1835a07cb673", null ],
     [ "secondSignature", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#a9bc5e679895678c4e8b661e0309f9bfa", null ],
+    [ "translateStatus", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#ab89918dcd77ed9e1ad7275cd74b30d0f", null ],
     [ "userDepartment", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#aafc44a5d85a00cd27cd60536d426bce9", null ],
     [ "verifiedBy", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#a21088c82d36a2af65591774aa1136f33", null ],
-    [ "$dates", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#aab581066837d6296ba35c72937b6fc1c", null ],
-    [ "$fillable", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#a6a90e74ccdf5efd70d51d10c906f8e32", null ],
-    [ "$with", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#a575ec3cd45566351149a2d4f1d4bbd58", null ]
+    [ "$dates", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#a6ed295a3b7371b42773cab86fd367af8", null ],
+    [ "$fillable", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#a13601d3af66d109458e268a3eb4afc49", null ],
+    [ "$with", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html#a3b8033ad34a94c5e640232d8091bd02a", null ]
 ];

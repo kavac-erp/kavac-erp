@@ -16,6 +16,6 @@ var classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleBillController =
     [ "vueInfo", "d7/db7/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleBillController.html#a33c93a58e2d349e7e235a94a1691a76d", null ],
     [ "vueList", "d7/db7/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleBillController.html#aca78b35dd9df5b11e63e88796cf08c66", null ],
     [ "vueRejectedList", "d7/db7/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleBillController.html#a48ea90805a6e4ca1835d31eabeca1a29", null ],
-    [ "$messages", "d7/db7/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleBillController.html#ae7715468b3957bb3cc52320a1da96b7e", null ],
-    [ "$validateRules", "d7/db7/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleBillController.html#a08fdb9625ef4d58fe9846c962a0b0dd6", null ]
+    [ "$messages", "d7/db7/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleBillController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f", null ],
+    [ "$validateRules", "d7/db7/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleBillController.html#a19db8a4aa08742d71b20bee403d09b5d", null ]
 ];

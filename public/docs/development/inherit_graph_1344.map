@@ -1,0 +1,5 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d7/d5c/classApp_1_1Models_1_1TaxUnit.html" title="Datos de Unidades Tributarias (U.T.)" alt="" coords="5,5,76,31"/>
+<area shape="rect" id="Node000001" href="$d4/d11/classModules_1_1Purchase_1_1Models_1_1TaxUnit.html" title="Extiende del modelo de unidad tributaria de la aplicación base." alt="" coords="124,5,195,31"/>
+<area shape="poly" id="edge118_Node000000_Node000001" title=" " alt="" coords="90,15,124,15,124,21,90,21"/>
+</map>

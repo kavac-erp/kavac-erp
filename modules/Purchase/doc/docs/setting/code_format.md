@@ -3,10 +3,10 @@
 
 ![Screenshot](../img/logokavac.png#imagen)
 
-El usuario selecciona el módulo de Compras en el menú lateral de los módulos del sistema, ahí visualizara las opciones **Configuración**, **Proveedores**,  **Plan de compras**, **Requerimientos**, **Cotización**, **Disponibilidad Presupuestaria** y **Orden de compras**, debiendo pulsar **Configuración** 
+El usuario selecciona el módulo de Compras en el menú lateral de los módulos del sistema, ahí visualizará las opciones **Configuración**, **Proveedores**,  **Planes de compras**, **Requerimientos**, **Cotizaciones** y **Órdenes de compras/Servicios**, debiendo pulsar **Configuración** 
 
 ![Screenshot](../img/configurar_compras.png)<div style="text-align: center;font-weight: bold">Figura 1: Menú del Módulo de Compras</div>
-
+<br>
 
 ## Formatos de códigos
 
@@ -21,8 +21,9 @@ Cada código debe establecerse de acuerdo a un formato específico el cual se di
 Ejemplos de códigos:
 
 ![Screenshot](../img/formato_codigo.png)<div style="text-align: center;font-weight: bold">Figura 2: Formato de código del módulo de Compras</div>
+<br>
 
-Una vez se establezca el formato de códigos deseado se puede ejecutar cualquier cambio haciendo uso de los **Botones de Acciones de Formulario**: 
+Una vez se establezca el formato de código deseado se puede ejecutar cualquier cambio haciendo uso de los botones de acción del formulario: 
 
 -   Presione el botón **Guardar**  ![Screenshot](../img/save_1.png) para registrar los cambios efectuados.
 -   Presione el botón **Cancelar**  ![Screenshot](../img/cancel.png) para cancelar registro y regresar a la ruta anterior.

@@ -2,52 +2,144 @@
 
 namespace Modules\CitizenService\Pdf;
 
-use App\Repositories\Contracts\ReportInterface;
-use App\Models\Parameter;
 use Carbon\Carbon;
+use App\Models\Parameter;
+use App\Models\Institution;
+use Illuminate\Http\Response;
 use Elibyy\TCPDF\TCPDF as PDF;
+use Illuminate\Support\Facades\View;
+use App\Repositories\Contracts\ReportInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
+/**
+ * @class CitizenServiceReport
+ * @brief Gestiona los reportes de la oficina de atención al ciudadano
+ *
+ * @author Ing. Yenifer Ramírez <yramirez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CitizenServiceReport implements ReportInterface
 {
-    /** @var string Establece la orientación de la página, los posibles valores son P o L */
+    /**
+     * Establece la orientación de la página, los posibles valores son P o L
+     *
+     * @var string $orientation
+     */
     private $orientation;
-    /** @var string Establece la unidad de medida a implementar en el reporte */
+
+    /**
+     * Establece la unidad de medida a implementar en el reporte
+     *
+     * @var string $units
+     */
     private $units;
-    /** @var string Establece el formato de la página (A4, Letter, ...) */
+
+    /**
+     * Establece el formato de la página (A4, Letter, ...)
+     *
+     * @var string $format
+     */
     private $format;
-    /** @var string Establece el tipo de fuente a usar en el reporte */
+
+    /**
+     * Establece el tipo de fuente a usar en el reporte
+     *
+     * @var string $fontFamily
+     */
     private $fontFamily;
-    /** @var array Estilos a implementar en códigos QR a generar */
+
+    /**
+     * Estilos a implementar en códigos QR a generar
+     *
+     * @var array $qrCodeStyle
+     */
     private $qrCodeStyle;
-    /** @var array Estilos a implementar en códigos de barras a generar */
+
+    /**
+     * Estilos a implementar en códigos de barras a generar
+     *
+     * @var array $barCodeStyle
+     */
     private $barCodeStyle;
-    /** @var string Estilos para líneas de separación entre encabezado cuerpo y pie de página */
+
+    /**
+     * Estilos para líneas de separación entre encabezado cuerpo y pie de página
+     *
+     * @var string $lineStyle
+     */
     private $lineStyle;
-    /** @var string URL de verificación del reporte */
+
+    /**
+     * URL de verificación del reporte
+     *
+     * @var string $urlVerify
+     */
     private $urlVerify;
-    /** @var string Fecha en la que se genera el reporte */
+
+    /**
+     * Fecha en la que se genera el reporte
+     *
+     * @var string $reportDate
+     */
     private $reportDate;
-    /** @var integer Identificador de la institución que genera el reporte */
+
+    /**
+     * Identificador de la institución que genera el reporte
+     *
+     * @var Institution $institution
+     */
     private $institution;
-    /** @var string Nombre del archivo a generar con el reporte */
+
+    /**
+     * Nombre del archivo a generar con el reporte
+     *
+     * @var string $filename
+     */
     private $filename;
-    /** @var string Título del reporte */
+
+    /**
+     * Título del reporte
+     *
+     * @var string $title
+     */
     private $title;
-    /** @var string Asunto del reporte */
+
+    /**
+     * Asunto del reporte
+     *
+     * @var string $subject
+     */
     private $subject;
-    /** @var integer Establece el eje de las Y en donde comienza a mostrarse el encabezado del reporte */
+
+    /**
+     * Establece el eje de las Y en donde comienza a mostrarse el encabezado del reporte
+     *
+     * @var integer $headerY
+     */
     private $headerY;
-    /** @var integer Establece el eje de las Y para el texto de subtítulo y fecha del reporte */
+
+    /**
+     * Establece el eje de las Y para el texto de subtítulo y fecha del reporte
+     *
+     * @var integer $headerTextY
+     */
     private $headerTextY;
-    /** @var object Crea y gestiona el objeto PDF */
+
+    /**
+     * Crea y gestiona el objeto PDF
+     *
+     * @var object $pdf
+     */
     protected $pdf;
 
     /**
      * Método constructor de la clase
      *
-     * @method     __construct
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return     void
      */
     public function __construct()
     {
@@ -57,15 +149,15 @@ class CitizenServiceReport implements ReportInterface
     /**
      * Método que permite establecer la configuración general de los reportes
      *
-     * @method     setConfig
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param      array    $params    Parámetros de configuración
+     *
+     * @return     void
      */
     public function setConfig($params = [])
     {
-        $this->reportDate = \Carbon\Carbon::now();
+        $this->reportDate = Carbon::now();
         $this->orientation = $params['orientation'] ?? 'P';
         $this->units = $params['units'] ?? 'mm';
         $this->format = $params['format'] ?? 'LETTER';
@@ -103,8 +195,6 @@ class CitizenServiceReport implements ReportInterface
     /**
      * Método que establece los datos a mostrar en el encabezado del reporte
      *
-     * @method     setHeader
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param      string           $title         Título del reporte
@@ -134,7 +224,7 @@ class CitizenServiceReport implements ReportInterface
             $parameter = Parameter::where(['p_key' => 'report_banner', 'p_value' => 'true'])->first();
 
             if (!is_null($params->institution->banner)) {
-                /** Imagen del banner institucional a implementar en el reporte */
+                /* Imagen del banner institucional a implementar en el reporte */
                 $pdf->Image(
                     storage_path('pictures') . '/' . $params->institution->banner->file,
                     7,
@@ -156,7 +246,7 @@ class CitizenServiceReport implements ReportInterface
                 );
             }
             if (!is_null($params->institution->logo)) {
-                /** Imagen del logotipo institucional a implementar en el reporte */
+                /* Imagen del logotipo institucional a implementar en el reporte */
                 $pdf->Image(
                     storage_path('pictures') . '/' . $params->institution->logo->file,
                     10,
@@ -178,7 +268,7 @@ class CitizenServiceReport implements ReportInterface
                 );
             }
             if ($params->hasQR && !is_null($params->urlVerify)) {
-                /** Código QR con enlace de verificación del reporte */
+                /* Código QR con enlace de verificación del reporte */
                 $pdf->write2DBarcode(
                     $params->urlVerify,
                     'QRCODE,H',
@@ -190,9 +280,9 @@ class CitizenServiceReport implements ReportInterface
                     'T'
                 );
             }
-            /** Configuración de la fuente para el título del reporte */
+            /* Configuración de la fuente para el título del reporte */
             $pdf->SetFont($params->fontFamily, 'B', 15);
-            /** Título del reporte */
+            /* Título del reporte */
             $pdf->MultiCell(
                 ($this->orientation == 'P') ? 145 : 215,
                 7,
@@ -211,9 +301,9 @@ class CitizenServiceReport implements ReportInterface
                 'T',
                 true
             );
-            /** Configuración de la fuente para la breve descripción del reporte */
+            /* Configuración de la fuente para la breve descripción del reporte */
             $pdf->SetFont($params->fontFamily, 'B', 12);
-            /** Descripción breve del reporte */
+            /* Descripción breve del reporte */
             $pdf->MultiCell(
                 ($this->orientation == 'P') ? 72 : 140,
                 4,
@@ -232,7 +322,7 @@ class CitizenServiceReport implements ReportInterface
                 'T',
                 true
             );
-            /** Fecha de emisión del reporte */
+            /* Fecha de emisión del reporte */
             $pdf->MultiCell(
                 ($this->orientation == 'P') ? 72 : 140,
                 4,
@@ -251,7 +341,7 @@ class CitizenServiceReport implements ReportInterface
                 'T',
                 true
             );
-            /** Línea de separación entre el encabezado del reporte y el cuerpo */
+            /* Línea de separación entre el encabezado del reporte y el cuerpo */
             $pdf->Line(
                 7,
                 $params->headerY + 15,
@@ -259,27 +349,11 @@ class CitizenServiceReport implements ReportInterface
                 $params->headerY + 15,
                 $params->lineStyle
             );
-
-            /*$pdf->write1DBarcode(
-                '123', 'C128', 80, 90, 60, 10, '', $barCodeStyle, 'N'
-            );*/
-            /*$pdf->write1DBarcode('1234567890', 'UPCA', 80, 90, 60, 10, '', $barCodeStyle, 'N');*/
-            /*$pdf->write1DBarcode('1234567890', 'CODABAR', 80, 90, 60, 10, '', $barCodeStyle, 'N');*/
-            /*$pdf->write1DBarcode('1234567890', 'CODE11', 80, 90, 60, 10, '', $barCodeStyle, 'N');*/
-            //$pdf->Text(80, 85, 'PDF417 (ISO/IEC 15438:2006)');
-            //
-            //ESTE DE ACA ABAJO
-            /*$pdf->write2DBarcode(
-                'www.tcpdf.org', 'PDF417,4,6,1,99998,,filename.txt', 80, 90, 60, 15, $barCodeStyle, 'N'
-            );
-            $pdf->Text(80, 85, 'PDF417 (ISO/IEC 15438:2006)');*/
         });
     }
 
     /**
      * Método que permite agregar el contenido del reporte a generar
-     *
-     * @method     setBody
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -288,40 +362,42 @@ class CitizenServiceReport implements ReportInterface
      *                                         del reporte
      * @param      boolean        $isHTML      Establece si el cuerpo del reporte es una plantilla de blade a renderizar
      * @param      array          $htmlParams  Conjunto de parámetros requeridos por la plantilla de blade
+     *
+     * @return     void
      */
     public function setBody($body, $isHTML = true, $htmlParams = [])
     {
-        /** @var string Contenido del reporte */
+        /* Contenido del reporte */
         $htmlContent = $body;
-        /** Configuración sobre el autor del reporte */
+        /* Configuración sobre el autor del reporte */
         $this->pdf->SetAuthor('Sistema de Gestión de Recursos - ' . config('app.name'));
-        /** Configuración del título de reporte */
+        /* Configuración del título de reporte */
         $this->pdf->SetTitle($this->title);
-        /** Configuración sobre el asunto del reporte */
+        /* Configuración sobre el asunto del reporte */
         $this->pdf->SetSubject($this->subject);
-        /** Configuración de los márgenes del cuerpo del reporte */
+        /* Configuración de los márgenes del cuerpo del reporte */
         $this->pdf->SetMargins(7, 45, 7);
-        /** Establece si se configura o no las fuentes para sub configuraciones */
+        /* Establece si se configura o no las fuentes para sub configuraciones */
         $this->pdf->SetFontSubsetting(false);
-        /** Configuración de la fuente por defecto del cuerpo del reporte */
+        /* Configuración de la fuente por defecto del cuerpo del reporte */
         $this->pdf->SetFontSize('10px');
-        /**
+        /*
          * Configuración que permite realizar un salto de página automático al alcanzar el límite inferior del cuerpo
          * del reporte
          */
         $this->pdf->SetAutoPageBreak(true, 15); //PDF_MARGIN_BOTTOM
-        /** Agrega las respectivas páginas del reporte */
+        /* Agrega las respectivas páginas del reporte */
         $this->pdf->AddPage($this->orientation, $this->format);
 
         if ($isHTML) {
-            $view = \View::make($body, $htmlParams);
+            $view = View::make($body, $htmlParams);
             $htmlContent = $view->render();
         }
-        /** Escribre el contenido del reporte */
+        /* Escribre el contenido del reporte */
         $this->pdf->writeHTML($htmlContent, true, false, true, false, '');
-        /** Establece el apuntador del reporte a la última página generada */
+        /* Establece el apuntador del reporte a la última página generada */
         $this->pdf->lastPage();
-        /**
+        /*
          * Genera el reporte. Las opciones disponibles son:
          *
          * I: Genera el archivo directamente para ser visualizado en el navegador
@@ -335,6 +411,14 @@ class CitizenServiceReport implements ReportInterface
         $this->pdf->Output(storage_path() . '/reports/' . $this->filename, 'F');
     }
 
+    /**
+     * Establece los datos del pie de página del reporte
+     *
+     * @param boolean $pages Indica si se muestra o no el número de páginas del reporte
+     * @param string $footerText Texto a mostrar en el pie de página
+     *
+     * @return void
+     */
     public function setFooter($pages = true, $footerText = '')
     {
         $fontFamily = $this->fontFamily;
@@ -344,14 +428,14 @@ class CitizenServiceReport implements ReportInterface
         }
 
         $this->pdf->setFooterCallback(function ($pdf) use ($pages, $fontFamily, $footerText, $lineStyle) {
-            /** Posición a 14 mm del borde inferior de la página*/
+            /* Posición a 14 mm del borde inferior de la página*/
             $pdf->SetY(-14);
-            /** Configuración de la fuenta a utilizar */
+            /* Configuración de la fuenta a utilizar */
             $pdf->SetFont($fontFamily, 'I', 8);
             if ($pages) {
-                /** @var Número de página del reporte [description] */
+                /* Número de página del reporte */
                 $pageNumber = "Pág. " . $pdf->getAliasNumPage() . "/" . $pdf->getAliasNbPages();
-                /** Texto a mostrar para el número de página */
+                /* Texto a mostrar para el número de página */
                 $pdf->MultiCell(
                     30,
                     4,
@@ -371,7 +455,7 @@ class CitizenServiceReport implements ReportInterface
                     true
                 );
             }
-            /** Texto a mostrar en el pie de página del reporte */
+            /* Texto a mostrar en el pie de página del reporte */
             $pdf->MultiCell(
                 ($this->orientation == 'P') ? 198 : 242.5,
                 8,
@@ -390,7 +474,7 @@ class CitizenServiceReport implements ReportInterface
                 'T',
                 true
             );
-            /** Línea de separación entre el cuerpo del reporte y el pie de página */
+            /* Línea de separación entre el cuerpo del reporte y el pie de página */
             $pdf->Line(
                 7,
                 ($this->orientation == 'P') ? 265 : 203,
@@ -401,6 +485,14 @@ class CitizenServiceReport implements ReportInterface
         });
     }
 
+    /**
+     * Muestra el reporte generado
+     *
+     * @param string $file Nombre del archivo
+     * @param string $dest Tipo de acción a ejecutar
+     *
+     * @return BinaryFileResponse|void
+     */
     public function show($file = null, $dest = 'I')
     {
         $filename = storage_path() . '/reports/' . $file ?? 'citizenservice-report-' . Carbon::now() . '.pdf';
@@ -410,11 +502,21 @@ class CitizenServiceReport implements ReportInterface
         };
     }
 
+    /**
+     * Verifica el reporte para el salto de página
+     *
+     * @return float
+     */
     public function getCheckBreak()
     {
         return $this->pdf->getPageHeight() - $this->pdf->getBreakMargin();
     }
 
+    /**
+     * Obtiene la altura de la página actual
+     *
+     * @return float
+     */
     public function getPositionY()
     {
         return $this->pdf->GetY();

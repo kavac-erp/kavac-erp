@@ -241,17 +241,5 @@
         mounted() {
 
         },
-
-        // watch: {
-        //     record: {
-        //         deep: true,
-        //         handler: function(event) {
-        //             const vm = this;                                                                               
-        //             for(const i in vm.record.payroll_childrens){
-        //                 console.log(vm.record.payroll_childrens[i].is_student);
-        //             }
-        //         }
-        //     }
-        // }
     };
 </script>

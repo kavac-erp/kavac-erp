@@ -38,17 +38,13 @@
                 <li class="{!! set_active_menu('finance.movements.index') !!}">
                     <a href="{{ route('finance.movements.index') }}">Movimientos</a>
                 </li>
-                {{-- <li class="{!! set_active_menu('finance.conciliation.index') !!}">
+                <li class="{!! set_active_menu('finance.conciliation.index') !!}">
                     <a href="{{ route('finance.conciliation.index') }}">Conciliación</a>
-                </li> --}}
+                </li>
             </ul>
         </li>
-        <!--<li>
-            <a href="#">Reportes</a
-            <ul class="submenu">
-                <li><a href="#">Vouchers</a></li>
-                <li><a href="#"></a></li>
-            </ul>
-        </li>-->
+        <li>
+            <a href="{{ route('finance.payment-reports.create') }}">Reportes</a>    
+        </li>
     </ul>
 </li>

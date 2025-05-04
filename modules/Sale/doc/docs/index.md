@@ -3,17 +3,17 @@
 
 ![Screenshot](img/logokavac.png#imagen)
 
-El Manual de Documentación del sistema KAVAC a nivel de usuario tiene como objetivo facilitar la tarea de conocimiento, uso y aprendizaje del sistema desarrollado. Presenta información acerca de todas las operaciones básicas que el sistema ofrece, así como capturas de pantallas útiles para el seguimiento de la explicación. A continuación, se realiza una descripción de las funcionalidades del módulo de comercialización, dicho módulo esta orientado a la gestión de ventas de la organización usuaria.  A través del módulo de comercialización se lleva a cabo la gestión de solicitud de servicios, facturas, recepciones de almacén, pagos, pedidos y la generación de reportes en tiempo real para tener un seguimiento de las actividades que se llevan a cabo sobre el módulo. Los requerimientos de cada organización usuaria para la gestión de ventas, pueden ser ajustados a través de la configuración del módulo de comercialización incluyendo el registro de formatos de códigos y registros comunes. En este manual se presenta una descripción de las funcionalidades de este módulo, como usarlo y como ajustarlo a una organización.  
+El Manual de Documentación del sistema KAVAC a nivel de usuario tiene como objetivo facilitar la tarea de conocimiento, uso y aprendizaje del sistema desarrollado. Presenta información acerca de todas las operaciones básicas que el sistema ofrece, así como capturas de pantallas útiles para el seguimiento de la explicación. A continuación, se realiza una descripción de las funcionalidades del módulo de comercialización, dicho módulo esta orientado a la gestión de ventas de la organización usuaria.  A través del módulo de comercialización se lleva a cabo la gestión de solicitud de servicios, facturas, recepciones de almacén, pagos, pedidos y la generación de reportes en tiempo real para tener un seguimiento de las actividades que se llevan a cabo sobre el módulo. Los requerimientos de cada organización usuaria para la gestión de ventas, pueden ser ajustados a través de la configuración del módulo de comercialización incluyendo el registro de formatos de códigos y registros comunes. En este manual se presenta una descripción de las funcionalidades de este módulo, como usarlo y como ajustarlo a una organización.
 
 ## Módulo de comercialización
 
-El sistema KAVAC incluye el módulo de comercialización como parte de la administración que se encarga de la gestión eficiente de todo lo que está relacionado con la venta y distribución de productos y servicios que una organización usuaria tiene a disposición para otras organizaciones. El módulo de comercialización se encuentra enmarcado en la gestión de relaciones con el cliente, conocida como CRM (en inglés Customer Relationship Management), integrando los recursos y funcionalidades necesarias en el sistema para llevar a cabo una optima estrategia en la administración de ventas.   
+El sistema KAVAC incluye el módulo de comercialización como parte de la administración que se encarga de la gestión eficiente de todo lo que está relacionado con la venta y distribución de productos y servicios que una organización usuaria tiene a disposición para otras organizaciones. El módulo de comercialización se encuentra enmarcado en la gestión de relaciones con el cliente, conocida como CRM (en inglés Customer Relationship Management), integrando los recursos y funcionalidades necesarias en el sistema para llevar a cabo una optima estrategia en la administración de ventas.
 
 A través de la **Configuración** del módulo de comercialización es posible adaptar los requerimientos de la organización usuaria al sistema, desde esta sección se lleva a acabo la gestión de **Formatos de Códigos** y **Registros Comunes**, siendo estos los datos iniciales a usar en las demás secciones del módulo.
 
-Desde la sección **Solicitud de Servicios** se lleva a cabo la gestión en general de las solicitudes formuladas por productos o servicios ofrecidos por la organización.  Este apartado permite realizar un seguimiento sobre las solicitudes formuladas, pendientes y rechazadas, además incluiye la elaboración de propuestas técnicas para ejecución sobre solicitudes.  
+Desde la sección **Solicitud de Servicios** se lleva a cabo la gestión en general de las solicitudes formuladas por productos o servicios ofrecidos por la organización.  Este apartado permite realizar un seguimiento sobre las solicitudes formuladas, pendientes y rechazadas, además incluiye la elaboración de propuestas técnicas para ejecución sobre solicitudes.
 
-A través de la sección **Facturas** se lleva a acabo la gestión en general de facturación, incluye el registro y gestión de facturas, así como el seguimiento a facturas emitidas, pendientes de revisión y rechazadas. 
+A través de la sección **Facturas** se lleva a acabo la gestión en general de facturación, incluye el registro y gestión de facturas, así como el seguimiento a facturas emitidas, pendientes de revisión y rechazadas.
 
 La gestión del inventario de productos sobre los diferentes almacenes gestionados en el módulo de comercialización se lleva a cabo desde la sección **Recepciones de Almacén**.  A través de este apartado se realiza un seguimiento sobre los registros de inventario de productos que han sido generados y que se encuentran pendientes por revisión.
 
@@ -35,8 +35,8 @@ Nombre del producto: KAVAC ‘Sistema de Gestión de Recursos’
 
    Nombre del licenciante y año: Licencia Combinada de Software y Contenidos de la Fundación CENDITEL. Versión 1.2 (Año: 2015).
 
-   **Créditos**: 
-   
+   **Créditos**:
+
    **Líder de proyecto / Diseño / Desarrollo / Autor / Director de Desarrollo (2021)**
 
 - Roldan Vargas (rvargas@cenditel.gob.ve | roldandvg@gmail.com)
@@ -60,7 +60,7 @@ Nombre del producto: KAVAC ‘Sistema de Gestión de Recursos’
    **Desarrolladores**
 
 - William Paéz (wpaez@cenditel.gob.ve)
-- Henry Paredes (henryp2804@gmail.com)
+- Henry Paredes <henryp2804@gmail.com>
 - Juan Rosas (jrosas@cenditel.gob.ve)
 - Yennifer Ramírez (yramirez@cenditel.gob.ve)
 - Pedro Buitrago (pbuitrago@cenditel.gob.ve)
@@ -72,9 +72,9 @@ Nombre del producto: KAVAC ‘Sistema de Gestión de Recursos’
    **Director de Desarrollo (2018-2019)**
 
 - Argenis Osorio (aosorio@cenditel.gob.ve)
-   
+
    **Director de Desarrollo (2020)**
-   
+
 - Laura Colina (lcolina@cenditel.gob.ve)
 
    **Colaborador**
@@ -82,13 +82,13 @@ Nombre del producto: KAVAC ‘Sistema de Gestión de Recursos’
 - Santiago Roca (sroca@cenditel.gob.ve)
 
 
-Licencia Combinada de Software y Contenidos de la Fundación CENDITEL (2015)  
+Licencia Combinada de Software y Contenidos de la Fundación CENDITEL (2015)
 
 
 La Fundación Centro Nacional de Desarrollo e Investigación en Tecnologías Libres (CENDITEL), ente adscrito al Ministerio del Poder Popular para  Ciencia y Tecnología (Mincyt), concede permiso, para usar, copiar, modificar y distribuir libremente y sin fines comerciales el Software KAVAC ‘Sistema de Gestión de Recursos’ (sin garantía alguna) asimismo permite, copiar, adaptar, publicar y comunicar los contenidos, preservando en ambos casos los derechos morales de los autores y manteniendo los mismos principios para las obras derivadas, de conformidad con los términos y condiciones de las licencias de software y contenidos de la Fundación CENDITEL.
 
 
-Cada vez que copie y distribuya este producto debe acompañarlo de una copia de las licencias. Para más información sobre los términos y condiciones de las licencias visite las siguientes direcciones electrónicas:  
+Cada vez que copie y distribuya este producto debe acompañarlo de una copia de las licencias. Para más información sobre los términos y condiciones de las licencias visite las siguientes direcciones electrónicas:
 
 
 [Licencia de Software](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

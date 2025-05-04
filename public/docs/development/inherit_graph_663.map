@@ -1,3 +1,3 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d7/d1c/classModules_1_1Payroll_1_1Repositories_1_1PayrollAssociatedParametersRepository.html" title="Gestiona los parámetros asociados a la generación de nómina." alt="" coords="5,5,216,47"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$dc/d5f/classModules_1_1Accounting_1_1Console_1_1Command_1_1CreateReverceAccountingAccountforPayOrders.html" title="Crea el reverso de los asientos contables de las ordenes de pago pertenecientes al compromiso." alt="" coords="5,5,265,45"/>
 </map>

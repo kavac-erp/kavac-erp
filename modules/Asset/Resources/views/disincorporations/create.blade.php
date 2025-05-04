@@ -17,31 +17,31 @@
 @stop
 
 @section('content')
-<div class="row">
-	<div class="col-12">
-		<div class="card" id="cardAssetDisincorporationForm">
-			<div class="card-header">
-				<h6 class="card-title text-uppercase">Desincorporación de Bienes
-					@include('buttons.help', [
-					    'helpId' => 'AssetDisincorporationForm',
-					    'helpSteps' => get_json_resource('ui-guides/disincorporations/disincorporation_form.json', 'asset')
-				    ])
-				</h6>
-				</h6>
-				<div class="card-btns">
-					@include('buttons.previous', ['route' => url()->previous()])
-					@include('buttons.minimize')
+	<div class="row">
+		<div class="col-12">
+			<div class="card" id="cardAssetDisincorporationForm">
+				<div class="card-header">
+					<h6 class="card-title text-uppercase">Desincorporación de Bienes
+						@include('buttons.help', [
+							'helpId' => 'AssetDisincorporationForm',
+							'helpSteps' => get_json_resource('ui-guides/disincorporations/disincorporation_form.json', 'asset')
+						])
+					</h6>
+					</h6>
+					<div class="card-btns">
+						@include('buttons.previous', ['route' => url()->previous()])
+						@include('buttons.minimize')
+					</div>
 				</div>
+				<asset-disincorporation-create
+					route_asset="{{ url('asset/registers/vue-list/disincorporations') }}"
+					route_list="{{ url('asset/disincorporations') }}"
+					:disincorporationid ="{!! (isset($disincorporation)) ? $disincorporation->id : 'null' !!}"
+					:assetid ="{!! (isset($asset)) ? $asset->id : 'null' !!}">
+				</asset-disincorporation-create>
 			</div>
-			<asset-disincorporation-create
-				route_asset="{{ url('asset/registers/vue-list/disincorporations') }}"
-				route_list="{{ url('asset/disincorporations') }}"
-				:disincorporationid ="{!! (isset($disincorporation)) ? $disincorporation->id : 'null' !!}"
-				:assetid ="{!! (isset($asset)) ? $asset->id : 'null' !!}">
-			</asset-disincorporation-create>
 		</div>
 	</div>
-</div>
 @stop
 
 @section('extra-js')

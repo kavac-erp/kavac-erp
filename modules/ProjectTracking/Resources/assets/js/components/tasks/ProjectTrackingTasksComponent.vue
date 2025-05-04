@@ -27,7 +27,7 @@
                             <div class="custom-control custom-switch" data-toggle="tooltip"
                                 title="Indique si es un proyecto">
                                 <input type="radio" class="custom-control-input" id="active_project" name="active"
-                                    v-model="record.active" value="project">
+                                    @click="reset" v-model="record.active" value="project">
                                 <label class="custom-control-label" for="active_project"></label>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                             <div class="custom-control custom-switch" data-toggle="tooltip"
                                 title="Indique si es un subproyecto">
                                 <input type="radio" class="custom-control-input" id="active_subproject" name="active"
-                                    v-model="record.active" value="subproject">
+                                    @click="reset" v-model="record.active" value="subproject">
                                 <label class="custom-control-label" for="active_subproject"></label>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                             <div class="custom-control custom-switch" data-toggle="tooltip"
                                 title="Indique si es un producto">
                                 <input type="radio" class="custom-control-input" id="active_product" name="active"
-                                    v-model="record.active" value="product">
+                                    @click="reset" v-model="record.active" value="product">
                                 <label class="custom-control-label" for="active_product"></label>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                         </select2>
                     </div>
                 </div>
-                <div v-if="(activity_plans_list.length>0)" class="col-md-4">
+                <div v-if="activity_plans_list.length > 0" class="col-md-4">
                     <div class="form-group is-required" name="category">
                         <label>Actividad:</label>
                         <select2 :options="activity_plans_list" id="activity" data-toggle="tooltip"
@@ -100,14 +100,14 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="form-group">
+                    <div class="form-group is-required">
                         <label>Descripción:</label>
                         <input type="text" id="description" placeholder="Descripción" data-toggle="tooltip"
                             title="Ingrese la descripción de la tarea" class="form-control input-sm"
                             v-model="record.description" />
                     </div>
                 </div>
-                <div v-if="(activity_employers_list.length>0)" class="col-md-4">
+                <div v-if="(activity_employers_list.length > 0)" class="col-md-4">
                     <div class="form-group is-required" name="category">
                         <label>Responsable de la tarea:</label>
                         <select2 :options="activity_employers_list" id="responsable" data-toggle="tooltip"
@@ -157,19 +157,81 @@
                             v-model="record.activity_status_id">
                         </select2>
                     </div>
+                    <div class="d-flex justify-content-end mt-2" v-if="!isEditMode && !isUpdateMode">
+                        <button class="btn btn-xs btn-icon btn-primary btn-custom btn-new" style="width: 10%;"
+                            data-toggle="tooltip" title="Agregar tarea" aria-label="Agregar tarea"
+                            @click.prevent="addTask">
+                            <i class="fa fa-plus-circle"></i>
+                        </button>
+                    </div>
+                    <div class="d-flex justify-content-end mt-2" v-else-if="isEditMode && !isUpdateMode">
+                        <button class="btn btn-xs btn-icon btn-primary btn-custom btn-new" style="width: 10%;"
+                            data-toggle="tooltip" title="Guardar tarea" aria-label="Guardar tarea"
+                            @click.prevent="saveTask(record.id)">
+                            <i class="fa fa-plus-circle"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body modal-table text-center">
+                    <div v-if="tasks.length > 0">
+                        <v-client-table :columns="columns" :data="tasks" :options="table_options"
+                            v-if="tasks.length > 0">
+                            <div slot="number" slot-scope="props" class="text-center">
+                                {{ getTaskNumber(props.row.id) }}
+                            </div>
+                            <div slot="associate_to" slot-scope="props" class="text-center">
+                                <div v-if="props.row.project_name">
+                                    {{ 'Proyecto: ' + getEntityName(props.row.project_name, projects_list) }}
+                                </div>
+                                <div v-else-if="props.row.product_name">
+                                    {{ 'Producto: ' + getEntityName(props.row.product_name, products_list) }}
+                                </div>
+                                <div v-else>
+                                    {{ 'Subproyecto: ' + getEntityName(props.row.subproject_name, subprojects_list) }}
+                                </div>
+                            </div>
+                            <!-- <div slot="employers_name" slot-scope="props" class="text-center">
+                            {{ getEntityName(props.row.employers_id, activity_employers_list) }}
+                        </div> -->
+                            <div slot="activity_status" slot-scope="props" class="text-center">
+                                {{ getEntityName(props.row.activity_status_id, activity_statuses_list) }}
+                            </div>
+                            <div slot="priority" slot-scope="props" class="text-center">
+                                {{ getEntityName(props.row.priority_id, priorities_list) }}
+                            </div>
+                            <div slot="id" slot-scope="props" class="text-center">
+                                <div class="d-inline-flex">
+                                    <button @click="editTask(props.row.id)"
+                                        class="btn btn-warning btn-xs btn-icon btn-action btn-tooltip"
+                                        title="Modificar registro" aria-label="Modificar registro" data-toggle="tooltip"
+                                        data-placement="bottom" type="button">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button @click="deleteTask(props.row.id)"
+                                        class="btn btn-danger btn-xs btn-icon btn-action btn-tooltip"
+                                        title="Eliminar registro" aria-label="Eliminar registro" data-toggle="tooltip"
+                                        data-placement="bottom" type="button">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </v-client-table>
+                    </div>
+
                 </div>
             </div>
         </div>
         <div class="card-footer pull-right" id="helpParamButtons">
             <button class="btn btn-default btn-icon btn-round" data-toggle="tooltip" type="button"
-                title="Borrar datos del formulario" @click="reset"><i class="fa fa-eraser"></i>
+                title="Borrar datos del formulario" @click="reset">
+                <i class="fa fa-eraser"></i>
             </button>
             <button type="button" class="btn btn-warning btn-icon btn-round" data-toggle="tooltip"
                 title="Cancelar y regresar" @click="redirect_back(route_list)">
                 <i class="fa fa-ban"></i>
             </button>
-            <button type="button" @click="createRecord('projecttracking/tasks')" data-toggle="tooltip"
-                title="Guardar registro" class="btn btn-success btn-icon btn-round">
+            <button type="button" @click="saveRecords()" data-toggle="tooltip" title="Guardar registro"
+                class="btn btn-success btn-icon btn-round">
                 <i class="fa fa-save"></i>
             </button>
         </div>
@@ -199,8 +261,12 @@ export default {
                 weight: '',
                 activity_status_id: '',
                 active: '',
-                tasks: []
+                tasks: [],
             },
+            isEditMode: false,
+            isUpdateMode: false,
+            tasks_added: 0,
+            tasks: [],
             errors: [],
             projects_list: [],
             subprojects_list: [],
@@ -210,12 +276,185 @@ export default {
             priorities_list: [],
             activity_statuses_list: [],
             records: [],
+            columns: [
+                'number',
+                'name',
+                'associate_to',
+                'employer_name',
+                'end_date',
+                'activity_status',
+                'priority',
+                'weight',
+                'id'
+            ],
         }
     },
-
     methods: {
+        saveRecords() {
+            const vm = this;
+            if (vm.isEditMode) {
+                vm.errors.push('Debes culminar la ediciòn del registro para guardar.');
+                return;
+            }
+            vm.createRecord('projecttracking/tasks');
+        },
+        validateForm() {
+            const vm = this;
+            vm.errors = [];
+            let isValid = true;
+            if (vm.isEditMode) {
+                isValid = false;
+                vm.push('Debe guardar loscambios de la tarea actual antes de guardar.')
+            }
+            if (!vm.record.active) {
+                isValid = false;
+                vm.errors.push('Debe elegir una opción entre proyecto, subproyecto o producto.');;
+            }
+            if (!vm.record.project_name && vm.record.active == 'project') {
+                isValid = false;
+                vm.errors.push('El campo Proyecto es obligatorio.');
+            }
+            if (!vm.record.subproject_name && vm.record.active == 'subproject') {
+                isValid = false;
+                vm.errors.push('El campo Subproyecto es obligatorio.');
+            }
+            if (!vm.record.product_name && vm.record.active == 'product') {
+                isValid = false;
+                vm.errors.push('El campo Producto es obligatorio.');
+            }
+            if (!vm.record.employers_id) {
+                isValid = false;
+                vm.errors.push('El campo responsable de la tarea es obligatorio.');
+            }
+            if (!vm.record.name) {
+                isValid = false;
+                vm.errors.push('El campo Nombre de la tarea es obligatorio.');
+            }
+            if (!vm.record.description) {
+                isValid = false;
+                vm.errors.push('El campo Descripción de la tarea es obligatorio.');
+            }
+            if (!vm.record.priority_id) {
+                isValid = false;
+                vm.errors.push('El campo Prioridad es obligatorio.');
+            }
+            if (!vm.record.start_date) {
+                isValid = false;
+                vm.errors.push('El campo Fecha de inicio es obligatorio.');
+            }
+            if (!vm.record.end_date) {
+                isValid = false;
+                vm.errors.push('El campo Fecha de finalización es obligatorio.');
+            }
+            if (!vm.record.activity_status_id) {
+                isValid = false;
+                vm.errors.push('El campo estatus de la actividad es obligatorio.');
+            }
+            if (!vm.record.weight) {
+                isValid = false;
+                vm.errors.push('El campo Peso es obligatorio.');
+            }
+            if (vm.record.weight && vm.record.weight < 1) {
+                isValid = false;
+                vm.errors.push('El campo Peso de importancia debe ser mayor a cero.');
+            }
+            return isValid;
+        },
+        getEntityName(entityId, entitiesList) {
+            const entity = entitiesList.find(entity => entity.id == entityId);
+            return entity ? entity.text : '';
+        },
+        saveTask(taskId) {
+            const vm = this;
+            const editedTask = {
+                id: taskId,
+                project_name: vm.record.project_name,
+                subproject_name: vm.record.subproject_name,
+                product_name: vm.record.product_name,
+                activity_plan_id: vm.record.activity_plan_id,
+                name: vm.record.name,
+                description: vm.record.description,
+                employers_id: vm.record.employers_id,
+                employer_name: vm.getEntityName(vm.record.employers_id, vm.activity_employers_list),
+                priority_id: vm.record.priority_id,
+                start_date: vm.record.start_date,
+                end_date: vm.record.end_date,
+                activity_status_id: vm.record.activity_status_id,
+                weight: vm.record.weight
+            };
+            vm.tasks = vm.tasks.map(task => task.id == taskId ? editedTask : task);
+            vm.reset();
+            vm.record.tasks = vm.tasks;
+            vm.isEditMode = false;
+        },
+        editTask(taskId) {
+            const vm = this;
+            vm.isEditMode = true;
+            const task = vm.tasks.find(task => task.id == taskId);
+            vm.record = {
+                id: task.id,
+                project_name: task.project_name,
+                subproject_name: task.subproject_name,
+                product_name: task.product_name,
+                activity_plan_id: task.activity_plan_id,
+                name: task.name,
+                description: task.description,
+                employers_id: task.employers_id,
+                priority_id: task.priority_id,
+                start_date: task.start_date,
+                end_date: task.end_date,
+                active: task.selector,
+                activity_status_id: task.activity_status_id,
+                weight: task.weight,
+                tasks: vm.tasks
+            };
+            if (task.project_name) {
+                vm.getActivitiesByProject();
+            } else if (task.subproject_name) {
+                vm.getActivitiesBySubProject();
+            } else {
+                vm.getActivitiesByProduct();
+            }
+        },
+        deleteTask(taskId) {
+            const vm = this;
+            vm.tasks = vm.tasks.filter(task => task.id != taskId);
+            vm.record.tasks = vm.tasks;
+        },
+        addTask() {
+            const vm = this;
+            if (!vm.validateForm()) {
+                return;
+            }
+            vm.tasks.push({
+                id: vm.tasks_added,
+                selector: vm.record.active,
+                project_name: vm.record.project_name,
+                subproject_name: vm.record.subproject_name,
+                product_name: vm.record.product_name,
+                activity_plan_id: vm.record.activity_plan_id,
+                name: vm.record.name,
+                description: vm.record.description,
+                employers_id: vm.record.employers_id,
+                employer_name: vm.getEntityName(vm.record.employers_id, vm.activity_employers_list),
+                priority_id: vm.record.priority_id,
+                start_date: vm.record.start_date,
+                end_date: vm.record.end_date,
+                activity_status_id: vm.record.activity_status_id,
+                weight: vm.record.weight,
+            });
+            vm.tasks_added++;
+            vm.reset();
+            vm.record.tasks = vm.tasks;
+        },
+        getTaskNumber(param) {
+            const vm = this
+            let index = vm.tasks.findIndex(task => task.id == param);
+            return index + 1
+        },
         reset() {
-            this.record = {
+            const vm = this;
+            vm.record = {
                 id: '',
                 project_name: '',
                 subproject_name: '',
@@ -227,21 +466,51 @@ export default {
                 priority_id: '',
                 start_date: '',
                 end_date: '',
+                active: '',
                 weight: '',
                 activity_status_id: '',
-                active: ''
             };
+            vm.isEditMode = false;
+            vm.errors = [];
+            vm.activity_plans_list = [];
+            vm.activity_employers_list = [];
+            vm.records = [];
         },
-
+        resetForm() {
+            const vm = this;
+            vm.record = {
+                id: '',
+                project_name: '',
+                subproject_name: '',
+                product_name: '',
+                activity_plan_id: '',
+                name: '',
+                description: '',
+                employers_id: '',
+                priority_id: '',
+                start_date: '',
+                end_date: '',
+                active: '',
+                weight: '',
+                activity_status_id: '',
+            };
+            vm.isEditMode = false;
+            vm.errors = [];
+            vm.activity_plans_list = [];
+            vm.activity_employers_list = [];
+            vm.records = [];
+        },
         getActivitiesByProject() {
             const vm = this;
-            vm.activity_plans_list = [],
-                axios.get(`${window.app_url}/projecttracking/get-activities-by-project/${vm.record.project_name}`).then(response => {
-                    vm.activity_plans_list = response.data.activities_by_project;
-                });
+            if (!vm.record.project_name) {
+                return;
+            }
+            vm.activity_plans_list = [];
+            axios.get(`${window.app_url}/projecttracking/get-activities-by-project/${vm.record.project_name}`).then(response => {
+                vm.activity_plans_list = response.data.activities_by_project;
+            });
             vm.getPersonalByProject();
         },
-
         getPersonalByProject() {
             const vm = this;
             vm.activity_employers_list = [],
@@ -252,6 +521,9 @@ export default {
 
         getActivitiesBySubProject() {
             const vm = this;
+            if (!vm.record.subproject_name) {
+                return;
+            }
             vm.activity_plans_list = [],
                 axios.get(`${window.app_url}/projecttracking/get-activities-by-subproject/${vm.record.subproject_name}`).then(response => {
                     vm.activity_plans_list = response.data.activities_by_subproject;
@@ -269,6 +541,9 @@ export default {
 
         getActivitiesByProduct() {
             const vm = this;
+            if (!vm.record.product_name) {
+                return;
+            }
             vm.activity_plans_list = [],
                 axios.get(`${window.app_url}/projecttracking/get-activities-by-product/${vm.record.product_name}`).then(response => {
                     vm.activity_plans_list = response.data.activities_by_product;
@@ -317,6 +592,8 @@ export default {
         async loadForm(id) {
             const vm = this;
             vm.loading = true;
+            vm.isUpdateMode = true;
+            vm.record.id = id;
             await axios.get(`${window.app_url}/projecttracking/task/vue-info/${id}`).then(response => {
                 if (typeof (response.data.records != "undefined")) {
 
@@ -357,10 +634,36 @@ export default {
         if (vm.task_id) {
             vm.loadForm(vm.task_id);
         }
+        vm.table_options.headings = {
+            'number': 'N°',
+            'name': 'Nombre de la Tarea',
+            'associate_to': 'Asociada a',
+            'employer_name': 'Responsable de la Tarea',
+            'end_date': 'Fecha de Entrega',
+            'activity_status': 'Estatus',
+            'priority': 'Prioridad',
+            'weight': 'Peso',
+            'id': 'Acción'
+        };
+        vm.table_options.sortable = ['number', 'name', 'associate_to', 'employers_name', 'end_date', 'activity_status', 'priority', 'weight'];
+        vm.table_options.filterable = ['number', 'name', 'associate_to', 'employers_name', 'end_date', 'activity_status', 'priority', 'weight'];
+        vm.table_options.columnsClasses = {
+            'number': 'text-center',
+            'name': 'text-center',
+            'associate_to': 'text-center',
+            'employers_name': 'text-center',
+            'end_date': 'text-center',
+            'activity_status': 'text-center',
+            'priority': 'text-center',
+            'weight': 'text-center',
+            'id': 'text-center'
+        };
     },
     mounted() {
         const vm = this;
-        vm.reset();
+        if (!vm.isUpdateMode) {
+            vm.reset();
+        }
     }
 };
 </script>

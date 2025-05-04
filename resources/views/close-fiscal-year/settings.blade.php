@@ -18,7 +18,7 @@
 
 @section('content')
     <!-- Formatos de códigos -->
-    @permission('close_fiscal_year.setting')
+    @permission('closefiscalyear.setting')
         <div class="row">
             <div class="col-12">
                 <div class="card">

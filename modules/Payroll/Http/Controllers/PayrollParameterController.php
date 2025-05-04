@@ -10,7 +10,7 @@ use Modules\Payroll\Models\PayrollConcept;
 use Modules\Payroll\Models\PayrollExceptionType;
 
 /**
- * FALTA:
+ * @TODO
  *
  * 1-. Mover las variables parameterTypes y associatedRecords a base de datos (Crear Seeders)
  * 2-. Ajustar el comportamiento de los siguientes métodos para busquedas desde el modelo parameter
@@ -23,6 +23,7 @@ use Modules\Payroll\Models\PayrollExceptionType;
  * Clase que gestiona los parámetros de nómina
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -32,37 +33,43 @@ class PayrollParameterController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
     /**
      * Arreglo con los tipos de parámetros de nómina
-     * @var Array $parameterTypes
+     *
+     * @var array $parameterTypes
      */
     protected $parameterTypes;
 
     /**
      * Arreglo con los registros asociados al expediente del trabajador
-     * @var Array $associatedRecords
+     *
+     * @var array $associatedRecords
      */
     protected $associatedRecords;
 
     /**
      * Arreglo con los registros asociados a la configuración de vacaciones
-     * @var Array $associatedVacation
+     *
+     * @var array $associatedVacation
      */
     protected $associatedVacation;
 
     /**
      * Arreglo con los registros asociados a la configuración de prestaciones sociales
-     * @var Array $associatedBenefit
+     *
+     * @var array $associatedBenefit
      */
     protected $associatedBenefit;
 
@@ -70,32 +77,34 @@ class PayrollParameterController extends Controller
      * Define la configuración de la clase
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:payroll.parameters.create', ['only' => 'store']);
         $this->middleware('permission:payroll.parameters.edit', ['only' => 'update']);
         $this->middleware('permission:payroll.parameters.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'parameter_type' => ['required'],
             'name'           => ['required', 'regex:/^[a-zA-Z\s]+$/'],
 
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'parameter_type.required' => 'El campo tipo de parámetro es obligatorio.',
             'value.required'          => 'El campo valor es obligatorio.',
             'formula.required'        => 'El campo fórmula es obligatorio.',
             'code.required'           => 'El campo código es obligatorio.',
             'acronym.required'        => 'El campo acrónimo es obligatorio.',
-            'exception_type.required' => 'El campo tipo de excepción es obligatorio.'
+            'exception_type.required' => 'El campo categorías de hoja de tiempo es obligatorio.'
         ];
 
-        /** Define los tipos de parámetros de nómina a emplear en el formulario */
+        /* Define los tipos de parámetros de nómina a emplear en el formulario */
         $this->parameterTypes = [
             ['id' => 'global_value', 'name' => 'Valor global'],
             ['id' => 'resettable_variable', 'name' => 'Variable reiniciable a cero por período de nómina'],
@@ -103,7 +112,7 @@ class PayrollParameterController extends Controller
             ['id' => 'time_parameter', 'name' => 'Parámetro de tiempo'],
         ];
 
-        /** Define los campos del expediente del trabajador a emplear en el formulario */
+        /* Define los campos del expediente del trabajador a emplear en el formulario */
         $this->associatedRecords = [
             [
                 'id'       => 'STAFF',
@@ -268,7 +277,7 @@ class PayrollParameterController extends Controller
             ]
         ];
 
-        /** Define los campos de la configuración de vacaciones a emplear en el formulario */
+        /* Define los campos de la configuración de vacaciones a emplear en el formulario */
         $this->associatedVacation = [
             [
                 'id'       => 'VACATION_DAYS',
@@ -290,7 +299,7 @@ class PayrollParameterController extends Controller
             ]*/
         ];
 
-        /** Define los campos de la configuración de prestaciones sociales a emplear en el formulario */
+        /* Define los campos de la configuración de prestaciones sociales a emplear en el formulario */
         $this->associatedBenefit = [
             [
                 'id'       => 'BENEFIT_DAYS',
@@ -322,8 +331,6 @@ class PayrollParameterController extends Controller
     /**
      * Muestra un listado de los parámetros globales de nómina registrados
      *
-     * @method    index
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
@@ -331,10 +338,7 @@ class PayrollParameterController extends Controller
     public function index()
     {
         $listGlobalParameters = [];
-        /**
-         * Objeto asociado al modelo Parameter
-         * @var Object $parameters
-         */
+        /* Objeto asociado al modelo Parameter */
         $parameters = Parameter::where(
             [
                 'required_by' => 'payroll',
@@ -362,6 +366,7 @@ class PayrollParameterController extends Controller
                     'exception_type' => $param->exception_type ?? '',
                     'active'         => $param->active ?? false,
                     'value_max'      => $param->value_max ?? '',
+                    'list_in_schema' => $param->list_in_schema ?? false,
                     'description'    => $param->description ?? '',
                     'parameter_type' => $param->parameter_type,
                     'parameter_type_value' => $paramTypes[$param->parameter_type],
@@ -377,8 +382,6 @@ class PayrollParameterController extends Controller
 
     /**
      * Valida y registra un nuevo parámetro global de nómina
-     *
-     * @method    store
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
@@ -408,10 +411,7 @@ class PayrollParameterController extends Controller
         $errors = [];
         $listGlobalParameters = [];
 
-        /**
-         * Objeto asociado al modelo Parameter
-         * @var Object $parameters
-         */
+        /* Objeto asociado al modelo Parameter */
         $parameters = Parameter::where(
             [
                 'required_by' => 'payroll',
@@ -422,7 +422,7 @@ class PayrollParameterController extends Controller
         if (!is_null($parameters)) {
             foreach ($parameters as $parameter) {
                 $param = json_decode($parameter->p_value);
-                /** Cambiar por regla de validación, ej: Rule::notIn */
+                /* Cambiar por regla de validación, ej: Rule::notIn */
                 if ($request->name == $param->name) {
                     $errors = array_merge($errors, ["name" => ["El campo nombre contiene un valor duplicado."]]);
                 }
@@ -444,6 +444,7 @@ class PayrollParameterController extends Controller
                     'exception_type' => $param->exception_type ?? '',
                     'active'         => $param->active ?? false,
                     'value_max'      => $param->value_max ?? '',
+                    'list_in_schema' => $param->list_in_schema ?? false,
                     'description'    => $param->description,
                     'parameter_type' => $param->parameter_type,
                     'percentage'     => $param->percentage,
@@ -460,6 +461,7 @@ class PayrollParameterController extends Controller
             'exception_type' => $request->exception_type ?? '',
             'active'         => $request->active ?? false,
             'value_max'      => $request->value_max ?? '',
+            'list_in_schema' => $request->list_in_schema ?? false,
             'description'    => $request->description ?? '',
             'parameter_type' => $request->parameter_type,
             'percentage'     => !empty($request->input('percentage'))
@@ -470,10 +472,7 @@ class PayrollParameterController extends Controller
         ];
         array_push($listGlobalParameters, $payrollParameter);
 
-        /**
-         * Objeto asociado al modelo Parameter
-         * @var Object $parameter
-         */
+        /* Objeto asociado al modelo Parameter */
         $parameter = Parameter::create([
             'p_key'       => 'global_parameter_' . $payrollParameter['id'],
             'p_value'     => json_encode($payrollParameter),
@@ -486,11 +485,9 @@ class PayrollParameterController extends Controller
     /**
      * Actualiza la información de un parámetro global de nómina
      *
-     * @method    update
-     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
      *
-     * @param     Integer                          $id         Identificador único del parámetro a editar
+     * @param     integer                          $id         Identificador único del parámetro a editar
      *
      * @return    \Illuminate\Http\JsonResponse                Objeto con los registros a mostrar
      */
@@ -507,10 +504,7 @@ class PayrollParameterController extends Controller
         $errors = [];
         $listGlobalParameters = [];
 
-        /**
-         * Objeto asociado al modelo Parameter
-         * @var Object $parameter
-         */
+        /* Objeto asociado al modelo Parameter */
         $parameters = Parameter::where(
             [
                 'required_by' => 'payroll',
@@ -521,7 +515,7 @@ class PayrollParameterController extends Controller
         if (!is_null($parameters)) {
             foreach ($parameters as $parameter) {
                 $param = json_decode($parameter->p_value);
-                /** Cambiar por regla de validación, ej: Rule::notIn */
+                /* Cambiar por regla de validación, ej: Rule::notIn */
                 if ($request->id != $param->id) {
                     if ($request->name == $param->name) {
                         $errors = array_merge($errors, ["name" => ["El campo nombre contiene un valor duplicado."]]);
@@ -546,6 +540,7 @@ class PayrollParameterController extends Controller
                         'exception_type' => $param->exception_type ?? '',
                         'active'         => $param->active ?? false,
                         'value_max'      => $param->value_max ?? '',
+                        'list_in_schema' => $param->list_in_schema ?? false,
                         'description'    => $param->description ?? '',
                         'parameter_type' => $param->parameter_type,
                         'percentage'     => $param->percentage ?? '',
@@ -561,6 +556,7 @@ class PayrollParameterController extends Controller
                         'exception_type' => $request->exception_type ?? '',
                         'active'         => $request->active ?? false,
                         'value_max'      => $request->value_max ?? '',
+                        'list_in_schema' => $request->list_in_schema ?? false,
                         'description'    => $request->description ?? '',
                         'parameter_type' => $request->parameter_type,
                         'percentage'     => !empty($request->input('percentage'))
@@ -574,10 +570,7 @@ class PayrollParameterController extends Controller
             }
         }
 
-        /**
-         * Objeto asociado al modelo Parameter
-         * @var Object $parameter
-         */
+        /* Objeto asociado al modelo Parameter */
         $parameter = Parameter::updateOrCreate(
             [
                 'p_key'       => 'global_parameter_' . $payrollParameter['id'],
@@ -594,20 +587,15 @@ class PayrollParameterController extends Controller
     /**
      * Elimina un parámetro global de nómina
      *
-     * @method    destroy
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer                          $id    Identificador único del parámetro a eliminar
+     * @param     integer                          $id    Identificador único del parámetro a eliminar
      *
-     * @return    \Illuminate\Http\JsonResponse           Objeto con los registros a mostrar
+     * @return    \Illuminate\Http\JsonResponse|void           Objeto con los registros a mostrar
      */
     public function destroy($id)
     {
-        /**
-         * Objeto asociado al modelo Parameter
-         * @var Object $parameter
-         */
+        /* Objeto asociado al modelo Parameter */
         $parameter = Parameter::where(
             [
                 'p_key'       => 'global_parameter_' . $id,
@@ -664,11 +652,9 @@ class PayrollParameterController extends Controller
     /**
      * Obtiene los grupos de tabuladores salariales registrados
      *
-     * @method    getSalaryTabulatorsGroups
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Array    Listado de los registros a mostrar
+     * @return    array    Listado de los registros a mostrar
      */
     public function getSalaryTabulatorsGroups()
     {
@@ -704,22 +690,17 @@ class PayrollParameterController extends Controller
     /**
      * Obtiene los parámetros globales de nómina registrados
      *
-     * @method    getPayrollParameters
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @param     \Illuminate\Http\Request     $request    Datos de la petición
      *
-     * @return    Array                                    Listado de los registros a mostrar
+     * @return    array                                    Listado de los registros a mostrar
      */
     public function getPayrollParameters(Request $request)
     {
         if (is_null($request->payroll_concepts)) {
             $listGlobalParameters = [['id' => '', 'text' => 'Seleccione...']];
-            /**
-             * Objeto asociado al modelo Parameter
-             * @var Object $parameter
-             */
+            /* Objeto asociado al modelo Parameter */
             $parameters = Parameter::where(
                 [
                     'required_by' => 'payroll',
@@ -753,10 +734,7 @@ class PayrollParameterController extends Controller
                         $payrollConcept->translate_formula
                     );
                     foreach ($exploded as $explod) {
-                        /**
-                         * Objeto asociado al modelo Parameter
-                         * @var Object $parameters
-                         */
+                        /* Objeto asociado al modelo Parameter */
                         $parameters = Parameter::where(
                             [
                                 'required_by' => 'payroll',
@@ -769,21 +747,21 @@ class PayrollParameterController extends Controller
                                 if (isset($jsonValue->name)) {
                                     if ($jsonValue->name == $explod) {
                                         if ($jsonValue->parameter_type == 'global_value') {
-                                            /** Si el parámetro es de valor global */
+                                            /* Si el parámetro es de valor global */
                                             array_push($payrollParameters, [
                                                 'id'    => $jsonValue->id,
                                                 'name'  => $jsonValue->name,
                                                 'value' => $jsonValue->value
                                             ]);
                                         } elseif ($jsonValue->parameter_type == 'resettable_variable') {
-                                            /** Si el parámetro es reiniciable a cero por período de nómina */
+                                            /* Si el parámetro es reiniciable a cero por período de nómina */
                                             array_push($payrollParameters, [
                                                 'id'    => $jsonValue->id,
                                                 'name'  => $jsonValue->name,
                                                 'value' => ''
                                             ]);
                                         } elseif ($jsonValue->parameter_type == 'processed_variable') {
-                                            /** Si el parámetro es una variable procesada */
+                                            /* Si el parámetro es una variable procesada */
                                             array_push($payrollParameters, [
                                                 'id'    => $jsonValue->id,
                                                 'name'  => $jsonValue->name,
@@ -804,11 +782,9 @@ class PayrollParameterController extends Controller
     /**
      * Obtiene los tipos de parámetros globales de nómina
      *
-     * @method    getPayrollParametersTypes
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Array    Listado de los registros a mostrar
+     * @return    array    Listado de los registros a mostrar
      */
     public function getPayrollParameterTypes()
     {
@@ -831,9 +807,9 @@ class PayrollParameterController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer    $code    Código del parámetro seleccionado
+     * @param     integer    $code    Código del parámetro seleccionado
      *
-     * @return    Array               Listado de los registros a mostrar
+     * @return    array|void          Listado de los registros a mostrar
      */
     public function getPayrollParameterOptions($code)
     {
@@ -853,11 +829,9 @@ class PayrollParameterController extends Controller
     /**
      * Obtiene los registros asociados a los campos del expediente del trabajador
      *
-     * @method    getAssociatedRecords
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Array    Listado de los registros a mostrar
+     * @return    array    Listado de los registros a mostrar
      */
     public function getAssociatedRecords()
     {
@@ -892,11 +866,9 @@ class PayrollParameterController extends Controller
     /**
      * Obtiene los registros asociados a los campos de la configuración de vacaciones
      *
-     * @method    getVacationAssociatedRecords
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Array    Listado de los registros a mostrar
+     * @return    array    Listado de los registros a mostrar
      */
     public function getVacationAssociatedRecords()
     {
@@ -915,11 +887,9 @@ class PayrollParameterController extends Controller
     /**
      * Obtiene los registros asociados a los campos de la configuración de prestaciones sociales
      *
-     * @method    getBenefitAssociatedRecords
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Array    Listado de los registros a mostrar
+     * @return    array    Listado de los registros a mostrar
      */
     public function getBenefitAssociatedRecords()
     {
@@ -941,9 +911,9 @@ class PayrollParameterController extends Controller
      * @method    UpdateReportParameters
      *
      *
-     * @param     Request    $request    Objeto con información de la petición
+     * @param     Request    $request    Datos de la petición
      *
-     * @return    RedirectResponse     Redirecciona al usuario a la URL previa
+     * @return    \Illuminate\Http\RedirectResponse     Redirecciona al usuario a la URL previa
      */
     public function updateReportParameters(Request $request)
     {
@@ -957,10 +927,10 @@ class PayrollParameterController extends Controller
                 $this->validate(
                     $request,
                     [
-                        'p_value' => ['required', 'integer', 'min:16']
+                        'p_value' => ['required', 'integer', 'min:14']
                     ],
                     [
-                        'p_value.min' => 'La edad laboral mínima permitida es 16 años.'
+                        'p_value.min' => 'La edad laboral mínima permitida es 14 años.'
                     ],
                     [
                         'p_value' => 'edad laboral permitida'
@@ -983,6 +953,16 @@ class PayrollParameterController extends Controller
 
             foreach ($parameters as $parameter) {
                 if ($parameter == 'number_decimals') {
+                    $this->validate(
+                        $request,
+                        [
+                            'number_decimals' => ['required', 'integer']
+                        ],
+                        [],
+                        [
+                            'number_decimals' => 'Número de decimales'
+                        ]
+                    );
                     Parameter::updateOrCreate(
                         [
                             'p_key' => $parameter,
@@ -1014,11 +994,9 @@ class PayrollParameterController extends Controller
     /**
      * Obtiene la lista de parametros activo asociado al modelo payroll
      *
-     * @method    getReportParameters
+     * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pbuitrago@gmail.com>
      *
-     * @author     Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pbuitrago@gmail.com>
-     *
-     * @return    {array}    Listado de los registros a mostrar
+     * @return    array    Listado de los registros a mostrar
      */
     public function getReportParameters()
     {
@@ -1033,11 +1011,9 @@ class PayrollParameterController extends Controller
     /**
      * Obtiene lista de los parámetros globales de tipo reiniciable de nómina registrados
      *
-     * @method    getPayrollParametersResettable
-     *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
-     * @return    Array                                    Listado de los registros a mostrar
+     * @return    array                                    Listado de los registros a mostrar
      */
     public function getPayrollParametersResettable()
     {
@@ -1065,11 +1041,9 @@ class PayrollParameterController extends Controller
     /**
      * Obtiene lista de los parámetros globales de tipo parámetros de tiempo registrados
      *
-     * @method    getTimeParameters
-     *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return    Array Listado de los registros a mostrar
+     * @return    \Illuminate\Http\JsonResponse    Listado de los registros a mostrar
      */
     public function getTimeParameters(Request $request)
     {
@@ -1082,6 +1056,7 @@ class PayrollParameterController extends Controller
             )
             ->where('p_key', 'like', 'global_parameter_%')
             ->where('p_value', 'like', '%time_parameter%')
+            ->when(empty($request->setting), fn ($query) => $query->where('p_value', 'like', '%"list_in_schema":true%'))
             ->toBase()
             ->get()
             ->map(function ($parameter) {
@@ -1092,6 +1067,7 @@ class PayrollParameterController extends Controller
                     'id' => $parameter->id,
                     'text' =>  $pValue->acronym . ' - ' . $pValue->name,
                     'max' => (int) $pValue->value_max,
+                    'list' => $pValue->list_in_schema ?? '',
                     'acronym' => $pValue->acronym,
                     'exception' => $exceptionType->name,
                     'active' => $pValue->active

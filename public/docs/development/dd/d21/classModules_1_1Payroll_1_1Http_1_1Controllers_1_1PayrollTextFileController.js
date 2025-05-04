@@ -13,8 +13,8 @@ var classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController 
     [ "getTextFileRecords", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController.html#a9ed599f1fb08cc9444c67ed17c9b60ba", null ],
     [ "index", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController.html#a149eb92716c1084a935e04a8d95f7347", null ],
     [ "validateTxtData", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController.html#a0d85632cc0969275fd3de543f8d11e5c", null ],
-    [ "$messages", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController.html#a21a183f927a6d243fe6b4ba3a6c4d4c8", null ],
-    [ "$number_decimals", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController.html#a0938def6e2d64ccd002cd759504cdb0d", null ],
-    [ "$round", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController.html#aace24355f1c20592dcdcc0675a50c2f7", null ],
-    [ "$rules", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController.html#a811d22ac55b4592f7f2a202529629419", null ]
+    [ "$messages", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f", null ],
+    [ "$number_decimals", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController.html#a14f2246b943e9b5d8ca4e9e4f5e73560", null ],
+    [ "$round", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController.html#a55fe5b6f7a110a1482cbf72bf413cd91", null ],
+    [ "$rules", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController.html#af5e2b4555e07aa76a2081ed2ac1d042a", null ]
 ];

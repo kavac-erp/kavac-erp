@@ -21,6 +21,7 @@ class Department extends BaseDepartment
      * Método que obtiene el departamento asociado a muchos datos laborales del trabajador
      *
      * @author    William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollEmployments()
@@ -32,6 +33,7 @@ class Department extends BaseDepartment
      * Obtiene información de las opciones asignadas asociadas a un departamento
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function payrollConceptAssignOptions()

@@ -1,3 +1,7 @@
 <map id="Image" name="Image">
-<area shape="rect" id="node1" title="Datos de Imágenes." alt="" coords="5,5,172,141"/>
+<area shape="rect" id="Node000001" title="Datos de Imágenes." alt="" coords="89,5,247,151"/>
+<area shape="rect" id="Node000002" href="$d3/dcb/classModules_1_1Finance_1_1Models_1_1Image.html" title="Estiende de la clase Image de la aplicación base." alt="" coords="5,209,131,274"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,164,90,210,85,207,114,161"/>
+<area shape="rect" id="Node000003" href="$dd/d56/classModules_1_1Payroll_1_1Models_1_1Image.html" title="Modelo que extiende las funcionalidades del modelo base Image." alt="" coords="155,199,381,284"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="222,161,244,197,240,200,217,164"/>
 </map>

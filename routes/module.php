@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\Response;
 */
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
-    /**
-     * -----------------------------------------------------------------------
-     * Ruta para obtener archivos de módulos
-     * -----------------------------------------------------------------------
-     *
-     * Permite mostrar archivos almacenados en los módulos de la aplicación
+    /*
+     | -----------------------------------------------------------------------
+     | Ruta para obtener archivos de módulos
+     | -----------------------------------------------------------------------
+     |
+     | Permite mostrar archivos almacenados en los módulos de la aplicación
      */
     Route::get('assets/{module}/{type}/{file}', function ($module, $type, $file) {
         $module = ucfirst($module);
@@ -41,13 +41,13 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         return $response;
     });
 
-    /**
-     * -----------------------------------------------------------------------
-     * Rutas para gestionar los módulos del sistema a través de la aplicación
-     * -----------------------------------------------------------------------
-     *
-     * Permite gestionar los módulos del sistema a través de la configuración
-     * de cada uno de los módulos
+    /*
+     | -----------------------------------------------------------------------
+     | Rutas para gestionar los módulos del sistema a través de la aplicación
+     | -----------------------------------------------------------------------
+     |
+     | Permite gestionar los módulos del sistema a través de la configuración
+     | de cada uno de los módulos
      */
     Route::group(['prefix' => 'modules'], function () {
         Route::get('check/installed/{module}', [ModuleController::class, 'checkInstalled']);

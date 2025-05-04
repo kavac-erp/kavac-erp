@@ -9,13 +9,21 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Purchase\Models\PurchaseSupplierObject;
 use Modules\Purchase\Models\PurchaseSupplier;
 
+/**
+ * @class PurchaseSupplierObjectController
+ * @brief Gestiona los procesos de los objetos de proveedores
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseSupplierObjectController extends Controller
 {
     use ValidatesRequests;
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Muestra el listado de objetos de proveedores
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -23,8 +31,9 @@ class PurchaseSupplierObjectController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear un nuevo objeto de proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -32,9 +41,11 @@ class PurchaseSupplierObjectController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena un nuevo objeto de proveedor
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -57,8 +68,9 @@ class PurchaseSupplierObjectController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un objeto de proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -66,8 +78,9 @@ class PurchaseSupplierObjectController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar un objeto de proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -75,13 +88,15 @@ class PurchaseSupplierObjectController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza un objeto de proveedor
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        /** @var object Datos del objeto de proveedores */
+        /* Datos del objeto de proveedores */
         $supplierObject = PurchaseSupplierObject::find($id);
 
         $this->validate(
@@ -102,22 +117,26 @@ class PurchaseSupplierObjectController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina un objeto de proveedor
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /** @var object Datos del objeto de proveedores */
+        /* Datos del objeto de proveedores */
         $supplierObject = PurchaseSupplierObject::find($id);
         $supplierObject->delete();
         return response()->json(['record' => $supplierObject, 'message' => 'Success'], 200);
     }
 
     /**
-     * [getPurchaseSupplierObject retorna el obeto del proveedor]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * Retorna el obeto del proveedor
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @param  integer $id ID del proveedor
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getPurchaseSupplierObject($id)
     {

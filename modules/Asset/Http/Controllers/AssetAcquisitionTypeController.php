@@ -3,10 +3,11 @@
 namespace Modules\Asset\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Modules\Asset\Models\AssetAcquisitionType;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
+use Modules\Asset\Models\AssetAcquisitionType;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
  * @class      AssetAcquisitionTypeController
@@ -15,6 +16,7 @@ use Illuminate\Validation\Rule;
  * Clase que gestiona los tipos de adquisición de bienes institucionales
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -23,16 +25,32 @@ class AssetAcquisitionTypeController extends Controller
     use ValidatesRequests;
 
     /**
+     * Define las reglas de validación para los registros
+     *
+     * @var array $validateRules
+     */
+    protected $validateRules;
+
+    /**
+     * Define los mensajes de validación para las reglas definidas
+     *
+     * @var array $messages
+     */
+    protected $messages;
+
+    /**
      * Define la configuración de la clase
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         //$this->middleware('permission:asset.setting.acquisition-type');
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'     => ['required', 'regex:/^[a-zA-ZÁ-ÿ\s]*$/u', 'max:100',
                             Rule::unique('asset_acquisition_types')]
@@ -40,7 +58,7 @@ class AssetAcquisitionTypeController extends Controller
 
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required'     => 'El campo tipo de adquisición es obligatorio.',
             'name.max'          => 'El campo tipo de adquisición no debe contener más de 100 caracteres.',
@@ -50,10 +68,11 @@ class AssetAcquisitionTypeController extends Controller
     }
 
     /**
-     * Muestra un listado de los tipos de adquisición bienes institucionales
+     * Muestra un listado de los tipos de adquisición de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function index()
     {
@@ -64,18 +83,17 @@ class AssetAcquisitionTypeController extends Controller
      * Valida y registra un nuevo tipo adquisición de bien institucional
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @author    yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @param     Request         $request    Datos de la petición
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function store(Request $request)
     {
         $this->validate($request, $this->validateRules, $this->messages);
-        /**
-         * Objeto asociado al modelo AssetAcquisitionType
-         *
-         * @var Object $acquisition_type
-         */
+
+        /* Objeto asociado al modelo AssetAcquisitionType */
         $acquisition_type = AssetAcquisitionType::create([
             'name' => $request->input('name')
         ]);
@@ -88,10 +106,11 @@ class AssetAcquisitionTypeController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * @param     \Illuminate\Http\Request                      $request             Datos de la petición
-     * @param     \Modules\Asset\Models\AssetAcquisitionType    $acquisition_type    Datos del tipo de adquisición
-     *                                                                               de un bien
-     * @return    \Illuminate\Http\JsonResponse                 Objeto con los registros a mostrar
+     *
+     * @param     Request                 $request             Datos de la petición
+     * @param     AssetAcquisitionType    $acquisition_type    Datos del tipo de adquisición de un bien
+     *
+     * @return    JsonResponse                 Objeto con los registros a mostrar
      */
 
     public function update(Request $request, AssetAcquisitionType $acquisition_type)
@@ -115,9 +134,10 @@ class AssetAcquisitionTypeController extends Controller
      * Elimina el tipo de adquisición de un bien institucional
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     \Modules\Asset\Models\AssetAcquisitionType    $acquisition_type    Datos del tipo de adquisición de
-     *                                                                               un bien
-     * @return    \Illuminate\Http\JsonResponse                 Objeto con los registros a mostrar
+     *
+     * @param     AssetAcquisitionType    $acquisition_type    Datos del tipo de adquisición de un bien
+     *
+     * @return    JsonResponse                 Objeto con los registros a mostrar
      */
     public function destroy(AssetAcquisitionType $acquisition_type)
     {
@@ -129,7 +149,8 @@ class AssetAcquisitionTypeController extends Controller
      * Obtiene el listado de tipos de adquisición de los bienes institucionales a implementar en elementos select
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return    Array Arreglo con los registros a mostrar
+     *
+     * @return    array Arreglo con los registros a mostrar
      */
     public function getAcquisitionTypes()
     {

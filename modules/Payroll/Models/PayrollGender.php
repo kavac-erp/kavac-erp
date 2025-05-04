@@ -17,11 +17,18 @@ use App\Models\Gender as BaseGender;
  *
  * @author     William Páez <wpaez@cenditel.gob.ve>
  *
+ * @property integer $id ID del registro
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollGender extends BaseGender
 {
+    /**
+     * Nombre de la tabla en la base de datos
+     *
+     * @var string $table
+     */
     protected $table = "genders";
 
     /**

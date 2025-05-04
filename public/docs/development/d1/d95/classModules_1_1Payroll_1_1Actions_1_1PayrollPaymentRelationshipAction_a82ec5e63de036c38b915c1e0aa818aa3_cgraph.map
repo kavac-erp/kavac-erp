@@ -1,0 +1,5 @@
+<map id="getPayrollParameters" name="getPayrollParameters">
+<area shape="rect" id="Node000001" title="Obtiene los parámetros de nómina para un período de pago específico." alt="" coords="5,5,167,31"/>
+<area shape="rect" id="Node000002" href="$d1/d95/classModules_1_1Payroll_1_1Actions_1_1PayrollPaymentRelationshipAction.html#abc536e974c9aebd4e586657650104665" title="Agrega un parámetro a la variable de carry en función de los datos de la hoja de tiempo." alt="" coords="215,5,377,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,15,201,15,201,21,167,21"/>
+</map>

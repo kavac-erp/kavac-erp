@@ -13,19 +13,18 @@
                     </span>
                 </button>
                 <ul>
-                    <li v-for="error in errors">{{ error }}</li>
+                    <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                 </ul>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <b>Datos del solicitante</b>
-                    <a class="btn btn-info btn-xs btn-icon btn-action display-inline" 
-                        href="#" title="Ver información del registro" data-toggle="tooltip" 
+                    <a class="btn btn-info btn-xs btn-icon btn-action display-inline"
+                        href="#" title="Ver información del registro" data-toggle="tooltip"
                         @click.prevent="showModal('view_sale_bill_clients')">
                         <i class="icofont icofont-business-man ico-2x"></i>
                     </a>
                 </div>
-                </h6>
                 <div class="client-list">
                     <div class="modal fade text-left" tabindex="-1" role="dialog" id="view_sale_bill_clients" ref="clients-modal">
                         <div class="modal-dialog modal-lg">
@@ -176,7 +175,7 @@
                 <div class="col-md-3" id="HelpTotalPrice">
                     <div class="form-group is-required">
                         <label>Precio total:</label>
-                        <input type="text" disabled placeholder="Total" id="total" title="Cantidad total" v-model="bill_product.value * bill_product.quantity"class="form-control input-sm" required>
+                        <input type="text" disabled placeholder="Total" id="total" title="Cantidad total" v-model="bill_product.value * bill_product.quantity" class="form-control input-sm" required>
                     </div>
                 </div>
                 <div class="col-md-3" id="HelpCurrency">
@@ -189,7 +188,7 @@
             <div class="row">
                 <div class="col-md-12 text-right">
                     <div class="d-inline-flex mt-4">
-                        <button type="button" @click="addProduct($event)" class="btn btn-sm btn-primary btn-custom" 
+                        <button type="button" @click="addProduct($event)" class="btn btn-sm btn-primary btn-custom"
                             title="Agregar producto a la lista" data-toggle="tooltip">
                             <i class="fa fa-plus-circle"></i>
                             Agregar
@@ -227,14 +226,14 @@
                     </div>
                     <div slot="id" slot-scope="props" class="text-center">
                         <div class="d-inline-flex">
-                            <button @click="editProduct(props.index, $event)" 
-                                class="btn btn-warning btn-xs btn-icon btn-action" 
+                            <button @click="editProduct(props.index, $event)"
+                                class="btn btn-warning btn-xs btn-icon btn-action"
                                 title="Modificar registro" data-toggle="tooltip" type="button">
                                 <i class="fa fa-edit"></i>
                             </button>
-                            <button @click="removeProduct(props.index, $event)" 
-                                class="btn btn-danger btn-xs btn-icon btn-action" 
-                                title="Eliminar registro" data-toggle="tooltip" 
+                            <button @click="removeProduct(props.index, $event)"
+                                class="btn btn-danger btn-xs btn-icon btn-action"
+                                title="Eliminar registro" data-toggle="tooltip"
                                 type="button">
                                 <i class="fa fa-trash-o"></i>
                             </button>
@@ -546,7 +545,7 @@
                             vm.bill_product.measurement_unit_id = product.measurement_unit_id ? product.measurement_unit_id : vm.bill_product.measurement_unit_id;
                             vm.bill_product.currency_id = product.currency_id ? product.currency_id : vm.bill_product.currency_id;
                             vm.bill_product.history_tax_id = product.history_tax_id ? product.history_tax_id : vm.bill_product.history_tax_id;
-                            //vm.bill_product.history_tax_value = vm.quote_taxes[product_value] ? parseFloat(quote_taxes[product_value].text) : vm.bill_product.history_tax_value;
+
                             vm.updateTotalProduct();
                         }
 
@@ -555,7 +554,7 @@
                             vm.bill_product.measurement_unit_id = product.measurement_unit_id ? product.measurement_unit_id : vm.bill_product.measurement_unit_id;
                             vm.bill_product.currency_id = product.currency_id ? product.currency_id : vm.bill_product.currency_id;
                             vm.bill_product.history_tax_id = product.history_tax_id ? product.history_tax_id : vm.bill_product.history_tax_id;
-                            //vm.bill_product.history_tax_value = product.history_tax_id ? parseFloat(product.history_tax.percentage) : vm.bill_product.history_tax_value;
+
                             vm.updateTotalProduct();
                         }
                     });
@@ -802,8 +801,8 @@
             createBill(url) {
                 const vm = this;
                 if (vm.record.id) {
-                    vm.updateRecord(url);  
-                } 
+                    vm.updateRecord(url);
+                }
                 else{
                     vm.createRecord(url);
                 }
@@ -997,19 +996,5 @@
             }
         },
     };
-    //$(document).ready(function() {
-    //    let today = new Date();
-    //    let dd = today.getDate();
-    //    let mm = today.getMonth() + 1;
-    //    let yyyy = today.getFullYear();
-    //    if(dd < 10) {
-    //        dd = '0' + dd;
-    //    }
-    //    if(mm < 10) {
-    //        mm = '0' + mm;
-    //    }
-    //    let now = `${yyyy}-${mm}-${dd}`;
-    //    $('#deadline_date').attr('min', now);
-    //});
 </script>
 

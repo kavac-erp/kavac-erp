@@ -1,0 +1,11 @@
+<map id="calculateOperation" name="calculateOperation">
+<area shape="rect" id="Node000001" title="Realiza la conversion de saldo." alt="" coords="545,29,691,55"/>
+<area shape="rect" id="Node000002" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#aaf408629462a34c9e16a85f68f74ee0a" title="Cálculo de saldo de la cuenta tomando en cuenta todos sus subcuentas, hasta llegar al ultimo nivel de..." alt="" coords="316,29,497,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="531,45,498,45,498,39,531,39"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="444,20,434,11,407,8,384,10,372,15,370,20,376,28,372,31,365,21,369,11,383,5,407,3,436,6,448,15"/>
+<area shape="rect" id="Node000003" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#aa825cb7aedbc4c92b3fcc708263200bc" title="Sintetiza la información de una cuenta en un array con sus respectivas subcuentas." alt="" coords="124,29,268,55"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="302,45,268,45,268,39,302,39"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="223,19,215,11,196,8,180,10,172,15,170,20,174,28,170,31,164,21,167,11,178,5,196,3,217,6,226,15"/>
+<area shape="rect" id="Node000004" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a23c281813aa2f3d73fe2c7089b2b7f03" title="Genera el reporte en pdf de estado de resultados." alt="" coords="5,29,76,55"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="110,45,76,45,76,39,110,39"/>
+</map>

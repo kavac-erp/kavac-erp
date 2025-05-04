@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TechnicalSupportDatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */

@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<div id="CitizenServiceRegisterInfo"class="modal fade" tabindex="-1" role="dialog"
+		<div id="CitizenServiceRegisterInfo" class="modal fade" tabindex="-1" role="dialog"
 				aria-labelledby="CitizenServiceRegisterInfoModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document" style="max-width:60rem">
 				<div class="modal-content">
@@ -15,7 +15,7 @@
 					</div>
 
 				<div class="modal-body">
-					<div class="tab-content">						
+					<div class="tab-content">
 						<div class="tab-pane active" id="info_general" role="tabpanel">
 		                    <div class="row">
 		                    	<div class="col-md-4">
@@ -122,7 +122,7 @@
 						</div>
 					</div>
 	            </div>
-	                
+
 				<div class="modal-footer">
 
 	                <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" data-dismiss="modal">
@@ -167,8 +167,6 @@
              */
             reset() {
             },
-
-            
 		},
 	};
 </script>

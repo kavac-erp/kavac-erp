@@ -56,10 +56,10 @@
 									<div class="form-group">
 										<div class="row">
 											<div class="col-md-4 mb-2">
-												<div class="custom-control custom-switch" data-toggle="tooltip" 
+												<div class="custom-control custom-switch" data-toggle="tooltip"
 													 title="Indica si el estatus del documento aprueba procesos">
 													<input type="radio" class="custom-control-input"
-															name="action" id="docStatusAP" 
+															name="action" id="docStatusAP"
 															v-model="record.action" value="AP" disabled>
 													<label class="custom-control-label" for="docStatusAP">
 														Aprueba procesos
@@ -67,7 +67,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 mb-2">
-												<div class="custom-control custom-switch" data-toggle="tooltip" 
+												<div class="custom-control custom-switch" data-toggle="tooltip"
 													 title="Indica si el estatus del documento rechaza procesos">
 													<input type="radio" class="custom-control-input"
 															name="action" id="docStatusRE" v-model="record.action" value="RE" disabled>
@@ -77,7 +77,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 mb-2">
-												<div class="custom-control custom-switch" data-toggle="tooltip" 
+												<div class="custom-control custom-switch" data-toggle="tooltip"
 													 title="Indica si el estatus del documento elimina procesos">
 													<input type="radio" class="custom-control-input"
 															name="action" id="docStatusEL" v-model="record.action" value="EL" disabled>
@@ -87,7 +87,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 mb-2">
-												<div class="custom-control custom-switch" data-toggle="tooltip" 
+												<div class="custom-control custom-switch" data-toggle="tooltip"
 													 title="Indica si el estatus del documento inicia procesos">
 													<input type="radio" class="custom-control-input"
 															name="action" id="docStatusPR" v-model="record.action" value="PR" disabled>
@@ -97,7 +97,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 mb-2">
-												<div class="custom-control custom-switch" data-toggle="tooltip" 
+												<div class="custom-control custom-switch" data-toggle="tooltip"
 													 title="Indica si el estatus del documento anula procesos">
 													<input type="radio" class="custom-control-input"
 															name="action" id="docStatusAN" v-model="record.action" value="AN" disabled>
@@ -107,7 +107,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 mb-2">
-												<div class="custom-control custom-switch" data-toggle="tooltip" 
+												<div class="custom-control custom-switch" data-toggle="tooltip"
 													 title="Indica si el estatus del documento cierra procesos">
 													<input type="radio" class="custom-control-input"
 															name="action" id="docStatusCE" v-model="record.action" value="CE" disabled>
@@ -123,15 +123,15 @@
 						</div>
 						<div class="modal-footer">
 							<div class="form-group">
-								<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+								<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 										@click="clearFilters" data-dismiss="modal">
 									Cerrar
 								</button>
-								<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+								<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 										@click="reset()">
 									Cancelar
 								</button>
-								<button type="button" @click="createRecord('document-status')" 
+								<button type="button" @click="createRecord('document-status')"
 										class="btn btn-primary btn-sm btn-round btn-modal-save">
 									Guardar
 								</button>

@@ -8,7 +8,11 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleTypeGoodAttribute;
 
 /**
- * Eliminar
+ * @class SaleTypeGoodAttributeController
+ * @brief Gestiona los datos de los atributos de tipos de bienes
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleTypeGoodAttributeController extends Controller
 {
@@ -18,31 +22,43 @@ class SaleTypeGoodAttributeController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         // $this->middleware('permission:sale.setting.attribute');
     }
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Muestra un listado de los atributos de tipo de bienes
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         return response()->json(['records' => []], 200);
     }
 
+    /**
+     * Listado de atributos por tipo de bien
+     *
+     * @param integer $id Identificador del tipo de bien
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function product($id)
     {
         return response()->json(['records' => SaleTypeGoodAttribute::where('sale_type_good_id', '=', $id)->get()], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena los datos de un atributo de tipo de bien
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -62,9 +78,11 @@ class SaleTypeGoodAttributeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza la información de un atributo de tipo de bien
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, SaleTypeGoodAttribute $attribute)
     {
@@ -83,8 +101,9 @@ class SaleTypeGoodAttributeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina los datos de un atributo de tipo de bien
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(SaleTypeGoodAttribute $attribute)
     {

@@ -49,34 +49,7 @@
                                         Definir política de prestaciones sociales
                                     </a>
                                 </li>
-                                <!--<li class="nav-item">
-                                    <a :href="isDisableNext()?'#':'#w-benefitsPaymentForm'" data-toggle="tab"
-                                       class="nav-link text-center" id="benefitsPaymentForm"
-                                       @click="changePanel('benefitsPaymentForm')">
-                                        <span class="badge">2</span>
-                                        Definir pago de prestaciones sociales
-                                    </a>
-                                </li>-->
                             </ul>
-                            <!--<ul class="nav wizard-steps"
-                                v-else>
-                                <li class="nav-item">
-                                    <a href="#w-benefitsPolicyForm" data-toggle="tab"
-                                       class="nav-link text-center" id="benefitsPolicyForm"
-                                       @click="changePanel('benefitsPolicyForm')">
-                                        <span class="badge">1</span>
-                                        Definir política de prestaciones sociales
-                                    </a>
-                                </li>
-                                <li class="nav-item active">
-                                    <a href="#w-benefitsPaymentForm" data-toggle="tab"
-                                       class="nav-link text-center" id="benefitsPaymentForm"
-                                       @click="changePanel('benefitsPaymentForm')">
-                                        <span class="badge">2</span>
-                                        Definir pago de prestaciones sociales
-                                    </a>
-                                </li>
-                            </ul>-->
                         </div>
                         <form class="form-horizontal">
                             <div class="tab-content">
@@ -120,9 +93,9 @@
                                             <div class="form-group">
                                                 <label>¿Activo?</label>
                                                 <div class="col-12">
-                                                    <div class="custom-control custom-switch" data-toggle="tooltip" 
+                                                    <div class="custom-control custom-switch" data-toggle="tooltip"
                                                          title="¿La política de prestaciones se encuentra activa actualmente?">
-                                                        <input type="checkbox" class="custom-control-input" id="benefitActive" 
+                                                        <input type="checkbox" class="custom-control-input" id="benefitActive"
                                                                v-model="record.active" :value="true">
                                                         <label class="custom-control-label" for="benefitActive"></label>
                                                     </div>
@@ -250,10 +223,10 @@
                                             <div class="form-group">
                                                 <label>¿Permitir anticipo de prestaciones?</label>
                                                 <div class="col-12">
-                                                    <div class="custom-control custom-switch" data-toggle="tooltip" 
+                                                    <div class="custom-control custom-switch" data-toggle="tooltip"
                                                          title="Indique si se habilita la solicitud de anticipo de prestaciones">
-                                                        <input type="checkbox" class="custom-control-input" 
-                                                               id="benefitAdvancePayment" v-model="record.benefits_advance_payment" 
+                                                        <input type="checkbox" class="custom-control-input"
+                                                               id="benefitAdvancePayment" v-model="record.benefits_advance_payment"
                                                                :value="true">
                                                         <label class="custom-control-label" for="benefitAdvancePayment"></label>
                                                     </div>
@@ -296,59 +269,23 @@
 
                                 <div id="w-benefitsPaymentForm" class="tab-pane p-3">
                                     <div class="row">
-                                        <!-- salario a emplear -->
-                                        <!-- <div class="col-md-6">
-                                            <div class="form-group is-required">
-                                                <label> Salario a emplear para el cálculo de prestaciones sociales:</label>
-                                                <select2 :options="salary_types"
-                                                         v-model="record.salary_type"></select2>
-                                            </div>
-                                        </div> -->
-                                        <!-- ./salario a emplear -->
-                                        <!-- tipo de pago de nómina -->
-                                        <!--<div class="col-md-6">
-                                            <div class="form-group is-required">
-                                                <label>Tipo de pago de nómina:</label>
-                                                <select2 :options="payroll_payment_types"
-                                                         v-model="record.payroll_payment_type_id"></select2>
-                                            </div>
-                                        </div>-->
                                         <!-- ./tipo de pago de nómina -->
                                     </div>
                                 </div>
                             </div>
-                            <!--<div class="wizard-footer">
-                                <div class="pull-right"
-                                     v-if="panel == 'benefitsPolicyForm'">
-                                    <button type="button" @click="changePanel('benefitsPaymentForm')"
-                                            class="btn btn-primary btn-wd btn-sm"
-                                            :disabled="isDisableNext()"
-                                            data-toggle="tooltip" title="">
-                                        Siguiente
-                                    </button>
-                                </div>
-                                <div class="pull-left"
-                                     v-else>
-                                    <button type="button" @click="changePanel('benefitsPolicyForm')"
-                                            class="btn btn-default btn-wd btn-sm"
-                                            data-toggle="tooltip" title="">
-                                        Regresar
-                                    </button>
-                                </div>
-                            </div>-->
                         </form>
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('payroll/benefits-policies')" 
+							<button type="button" @click="createRecord('payroll/benefits-policies')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -417,13 +354,6 @@
                 columns:               ['name', 'application_date', 'active', 'id'],
                 institutions:          [],
                 payroll_payment_types: [],
-                // salary_types:          [
-                //     {"id": "",                     "text": "Seleccione..."},
-                //     {"id": "base_salary",          "text": "Salario Base"},
-                //     {"id": "comprehensive_salary", "text": "Salario Integral"},
-                //     {"id": "normal_salary",        "text": "Salario Normal"},
-                //     {"id": "dialy_salary",         "text": "Salario Diario"}
-                // ],
                 panel:                 'benefitsPolicyForm',
             }
         },

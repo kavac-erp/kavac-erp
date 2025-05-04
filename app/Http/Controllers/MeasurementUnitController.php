@@ -1,11 +1,10 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
-use App\Models\MeasurementUnit;
 use Illuminate\Http\Request;
+use App\Models\MeasurementUnit;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class MeasurementUnitController
@@ -14,6 +13,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar unidades de medida
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -22,13 +22,11 @@ class MeasurementUnitController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:measurement.units.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:measurement.units.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:measurement.units.delete', ['only' => 'destroy']);
@@ -37,8 +35,6 @@ class MeasurementUnitController extends Controller
 
     /**
      * Listado de todas las unidades de medida registradas
-     *
-     * @method    index
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -51,8 +47,6 @@ class MeasurementUnitController extends Controller
 
     /**
      * Registra una nueva unidad de medida
-     *
-     * @method    store
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -75,7 +69,7 @@ class MeasurementUnitController extends Controller
             'acronym.unique' => 'El campo acrónimo ya ha sido registrado.',
         ]);
 
-        /** @var MeasurementUnit Objeto con información de la unidad de medida registrada */
+        // Objeto con información de la unidad de medida registrada
         $measurementUnit = MeasurementUnit::create([
             'name' => $request->name,
             'description' => $request->description,
@@ -87,8 +81,6 @@ class MeasurementUnitController extends Controller
 
     /**
      * Actualiza la información de una unidad de medida
-     *
-     * @method    update
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -115,8 +107,6 @@ class MeasurementUnitController extends Controller
 
     /**
      * Elimina una unidad de medida
-     *
-     * @method    destroy
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

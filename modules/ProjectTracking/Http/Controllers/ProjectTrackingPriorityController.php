@@ -12,37 +12,51 @@ use Modules\ProjectTracking\Models\ProjectTrackingPriority;
  * @class PositionController
  * @brief Controlador de prioridad
  *
- * Clase que gestiona los cargos
+ * Clase que gestiona las prioridades en el seguimiento de proyectos
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class ProjectTrackingPriorityController extends Controller
 {
     use ValidatesRequests;
 
     /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
+    protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
+    protected $messages;
+
+    /**
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        {
-            /** Define las reglas de validación para el formulario */
-            $this->validateRules = [
-                'name'                                  => ['required'],
-                'description'                           => ['nullable', 'max:250'],
-            ];
+        /* Define las reglas de validación para el formulario */
+        $this->validateRules = [
+            'name'                                  => ['required'],
+            'description'                           => ['nullable', 'max:250'],
+        ];
 
-            /** Define los mensajes de validación para las reglas del formulario */
-            $this->messages = [
-                'name.required'                                  => 'El campo nombre es obligatorio.',
-            ];
-            }
-        /** Establece permisos de acceso para cada método del controlador
+        /* Define los mensajes de validación para las reglas del formulario */
+        $this->messages = [
+            'name.required'                                  => 'El campo nombre es obligatorio.',
+        ];
+        /* Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:projecttracking.positions.list', ['only' => 'index']);
         $this->middleware('permission:projecttracking.positions.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:projecttracking.positions.edit', ['only' => ['edit', 'update']]);
@@ -51,10 +65,11 @@ class ProjectTrackingPriorityController extends Controller
     }
 
     /**
-     * Muestra todos los registros de cargos
+     * Muestra todos los registros de prioridades
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse    Json con los datos de cargos
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -62,8 +77,9 @@ class ProjectTrackingPriorityController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para un nuevo registro de prioridad
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -73,11 +89,9 @@ class ProjectTrackingPriorityController extends Controller
     /**
      * Retorna un json con todas las prioridades registradas para ser usado en un componente <select2>
      *
-     * @method    getPriorities
-     *
      * @author    Oscar González <xxmaestroyixx@gmail.com/ojgonzalez@cenditel.gob.ve>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function getPriorities()
     {
@@ -97,10 +111,12 @@ class ProjectTrackingPriorityController extends Controller
     }
 
     /**
-     * Valida y registra un nuevo cargo
+     * Valida y registra una nueva prioridad
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
+     *
      * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
@@ -113,8 +129,9 @@ class ProjectTrackingPriorityController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de una prioridad
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -122,8 +139,9 @@ class ProjectTrackingPriorityController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para la actualización de la prioridad
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -131,11 +149,13 @@ class ProjectTrackingPriorityController extends Controller
     }
 
     /**
-     * Actualiza la información del cargo
+     * Actualiza la información de la prioridad
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
-     * @param  integer $id                          Identificador del cargo a actualizar
+     * @param  integer $id                          Identificador de la prioridad a actualizar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
@@ -152,10 +172,12 @@ class ProjectTrackingPriorityController extends Controller
     }
 
     /**
-     * Elimina el cargo
+     * Elimina la prioridad
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
-     * @param  integer $id                      Identificador del cargo a eliminar
+     *
+     * @param  integer $id                      Identificador de la prioridad a eliminar
+     *
      * @return \Illuminate\Http\JsonResponse    Json: objeto eliminado y mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -166,10 +188,11 @@ class ProjectTrackingPriorityController extends Controller
     }
 
     /**
-     * Obtiene los cargo registrados
+     * Obtiene las prioridades registradas
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse    Json con los datos de cargos
+     *
+     * @return \Illuminate\Http\JsonResponse    Json con los datos de prioridades
      */
     public function getProjectTrackingPriorities()
     {

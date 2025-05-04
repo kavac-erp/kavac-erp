@@ -20,7 +20,7 @@
                 </span>
             </div>
             <div slot="department" slot-scope="props">
-                <span v-for="sale_good in props.row.sale_goods">
+                <span v-for="(sale_good, index) in props.row.sale_goods" :key="index">
                     <span>
                         {{ (sale_good) ? sale_good.department.name : '' }}
                     </span>

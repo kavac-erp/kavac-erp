@@ -8,9 +8,10 @@ var classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementControl
     [ "edit", "d5/d59/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementController.html#a459ed16587e3a50b39b672c7e473abc5", null ],
     [ "index", "d5/d59/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementController.html#a149eb92716c1084a935e04a8d95f7347", null ],
     [ "rejectedMovement", "d5/d59/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementController.html#adba13606e0ffce41d05f49568d0417a2", null ],
+    [ "store", "d5/d59/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementController.html#a9ef485163104597c12185b53cdacf638", null ],
     [ "vueInfo", "d5/d59/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementController.html#a33c93a58e2d349e7e235a94a1691a76d", null ],
     [ "vueList", "d5/d59/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementController.html#aca78b35dd9df5b11e63e88796cf08c66", null ],
     [ "vueListProducts", "d5/d59/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementController.html#a9f2eef9b3bc600cfe31c6d4e147d0926", null ],
-    [ "$messages", "d5/d59/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementController.html#a21a183f927a6d243fe6b4ba3a6c4d4c8", null ],
-    [ "$validateRules", "d5/d59/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementController.html#a15ad824a86b12cbf9a2bca2423720a7d", null ]
+    [ "$messages", "d5/d59/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f", null ],
+    [ "$validateRules", "d5/d59/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementController.html#a19db8a4aa08742d71b20bee403d09b5d", null ]
 ];

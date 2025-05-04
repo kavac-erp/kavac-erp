@@ -1,0 +1,7 @@
+<map id="calculateOperation" name="calculateOperation">
+<area shape="rect" id="Node000001" title="Realiza la conversión de saldo." alt="" coords="124,31,269,56"/>
+<area shape="rect" id="Node000002" href="$dd/dc1/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAuxiliaryBookController.html#a91ed4fd2bc1a7519ff73f502a32d7de7" title="Vista en la que se genera el reporte en pdf." alt="" coords="19,5,62,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,32,62,24,63,19,111,27"/>
+<area shape="rect" id="Node000003" href="$dd/dc1/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAuxiliaryBookController.html#a23c281813aa2f3d73fe2c7089b2b7f03" title="Vista en la que se genera el reporte en pdf y se realiza la firma electrónica del mismo." alt="" coords="5,55,76,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="111,59,77,65,76,59,110,54"/>
+</map>

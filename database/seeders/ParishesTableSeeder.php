@@ -17,15 +17,16 @@ use Carbon\Carbon;
  * Gestiona la información por defecto a registrar inicialmente para las Parroquias
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class ParishesTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Ejecuta los seeers de base de datos
      *
-     * @return void
+     * @return boolean|void
      */
     public function run()
     {
@@ -39,7 +40,7 @@ class ParishesTableSeeder extends Seeder
 
         $adminRole = Role::where('slug', 'admin')->first();
 
-        /**
+        /*
          * Permisos disponibles para la gestión de parroquias
          */
 

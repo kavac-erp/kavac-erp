@@ -17,6 +17,8 @@ public/js/app.js.LICENSE.txt
 /storage/pictures
 /storage/documents
 /storage/temporary
+/modules/**/node_modules
+/modules/**/vendor
 /vendor
 .env
 .phpunit.result.cache

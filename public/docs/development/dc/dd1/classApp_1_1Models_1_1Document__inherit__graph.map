@@ -1,3 +1,9 @@
 <map id="Document" name="Document">
-<area shape="rect" id="node1" title="Datos de los documentos." alt="" coords="5,5,145,97"/>
+<area shape="rect" id="Node000001" title="Datos de los documentos." alt="" coords="269,5,401,91"/>
+<area shape="rect" id="Node000002" href="$d4/d1c/classModules_1_1Asset_1_1Models_1_1Document.html" title="Extiende del modelo de documento de la aplicación base." alt="" coords="5,156,271,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="267,101,185,158,182,153,264,96"/>
+<area shape="rect" id="Node000003" href="$d4/d86/classModules_1_1Payroll_1_1Models_1_1Document.html" title="Datos de documentos." alt="" coords="295,156,376,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="338,104,338,156,333,156,333,104"/>
+<area shape="rect" id="Node000004" href="$d0/d9c/classModules_1_1Purchase_1_1Models_1_1Document.html" title="Extension de la clase Document de la aplicación base." alt="" coords="401,139,614,239"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="399,97,448,136,444,140,396,101"/>
 </map>

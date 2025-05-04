@@ -1,0 +1,11 @@
+<map id="getQueryBase" name="getQueryBase">
+<area shape="rect" id="Node000001" title="Obtiene la consulta base para obtener los datos de los empleados de nómina." alt="" coords="549,31,664,56"/>
+<area shape="rect" id="Node000002" href="$da/d91/classModules_1_1Payroll_1_1Actions_1_1GetPayrollArcAction.html#afa22c4cfa4013aa45ee9d65f4e36b7c0" title="Obtiene la lista de ARC para el año fiscal seleccionado." alt="" coords="429,5,468,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="536,35,468,24,469,18,536,29"/>
+<area shape="rect" id="Node000003" href="$da/d91/classModules_1_1Payroll_1_1Actions_1_1GetPayrollArcAction.html#ac4ca0d705bbde0c44fe2d8283df9218b" title="Formatea los datos de la nómina para un año fiscal determinado." alt="" coords="396,55,501,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="536,57,502,62,501,57,535,51"/>
+<area shape="rect" id="Node000004" href="$da/d91/classModules_1_1Payroll_1_1Actions_1_1GetPayrollArcAction.html#a21396e593e552f69795cbf60550cae00" title="Genera un archivo PDF para el comprobante de retención de impuesto sobre la renta anual o de cese de ..." alt="" coords="284,55,348,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="383,70,348,70,348,65,383,65"/>
+<area shape="rect" id="Node000005" href="$d1/d4e/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollArcController.html#a86d233574f8c245ba21fbe1aa8e8ca7d" title="Descarga los registros de la planilla ARC." alt="" coords="5,40,236,95"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="270,70,236,70,236,65,270,65"/>
+</map>

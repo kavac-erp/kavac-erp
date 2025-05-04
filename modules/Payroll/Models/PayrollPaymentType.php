@@ -16,6 +16,7 @@ use Nwidart\Modules\Facades\Module;
  * Gestiona el modelo de tipos de pago
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -27,20 +28,27 @@ class PayrollPaymentType extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
         'code', 'name', 'payment_periodicity', 'correlative', 'start_date',
         'payment_relationship', 'associated_records', 'finance_bank_account_id', 'accounting_account_id',
-        'order', 'individual', 'accounting_entry_category_id', 'finance_payment_method_id', 'receipt'
+        'order', 'individual', 'accounting_entry_category_id', 'finance_payment_method_id', 'receipt', 'skip_moments'
     ];
 
+    /**
+     * Lista de relaciones a cargar con el modelo
+     *
+     * @var array $with
+     */
     protected $with = ['financeBankAccount'];
 
     /**
@@ -117,7 +125,9 @@ class PayrollPaymentType extends Model implements Auditable
      */
     public function accountingAccount()
     {
-        return $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class);
+        return (
+            Module::has('Accounting') && Module::isEnabled('Accounting')
+        ) ? $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class) : null;
     }
 
     /**
@@ -129,7 +139,9 @@ class PayrollPaymentType extends Model implements Auditable
      */
     public function financeBankAccount()
     {
-        return $this->belongsTo(\Modules\Finance\Models\FinanceBankAccount::class);
+        return (
+            Module::has('Finance') && Module::isEnabled('Finance')
+        ) ? $this->belongsTo(\Modules\Finance\Models\FinanceBankAccount::class) : null;
     }
 
     /**
@@ -141,7 +153,9 @@ class PayrollPaymentType extends Model implements Auditable
      */
     public function accountingEntryCategory()
     {
-        return $this->belongsTo(\Modules\Accounting\Models\AccountingEntryCategory::class);
+        return (
+            Module::has('Accounting') && Module::isEnabled('Accounting')
+        ) ? $this->belongsTo(\Modules\Accounting\Models\AccountingEntryCategory::class) : null;
     }
 
     /**
@@ -153,6 +167,8 @@ class PayrollPaymentType extends Model implements Auditable
      */
     public function financePaymentMethod()
     {
-        return $this->belongsTo(\Modules\Finance\Models\FinancePaymentMethod::class, 'finance_payment_method_id');
+        return (
+            Module::has('Finance') && Module::isEnabled('Finance')
+        ) ? $this->belongsTo(\Modules\Finance\Models\FinancePaymentMethods::class, 'finance_payment_method_id') : null;
     }
 }

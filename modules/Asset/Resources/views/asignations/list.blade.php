@@ -40,23 +40,23 @@
 	</div>
 
 	@permission('asset.asignation.list')
-	<div class="row">
-		<div class="col-12">
-			<div class="card">
-				<div class="card-header">
-					<h6 class="card-title">Entrega de Bienes Pendientes</h6>
-					<div class="card-btns">
-						@include('buttons.previous', ['route' => url()->previous()])
-						@include('buttons.minimize')
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<h6 class="card-title">Entrega de Bienes Pendientes</h6>
+						<div class="card-btns">
+							@include('buttons.previous', ['route' => url()->previous()])
+							@include('buttons.minimize')
+						</div>
 					</div>
-				</div>
-				<div class="card-body">
-					<asset-asignation-delivery-list
-							route_list="{{ url('asset/asignations/deliver') }}">
-					</asset-asignation-delivery-list>
+					<div class="card-body">
+						<asset-asignation-delivery-list
+								route_list="{{ url('asset/asignations/deliver') }}">
+						</asset-asignation-delivery-list>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	@endpermission
 @stop

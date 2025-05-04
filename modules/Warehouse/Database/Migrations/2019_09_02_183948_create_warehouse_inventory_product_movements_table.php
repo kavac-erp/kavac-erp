@@ -10,10 +10,10 @@ use Illuminate\Database\Migrations\Migration;
  *
  * Gestiona la creación y eliminación de la tabla de productos asociados a un movimiento de almacén
  *
- * @author Henry Paredes (henryp2804@gmail.com)
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @author Henry Paredes <henryp2804@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class CreateWarehouseInventoryProductMovementsTable extends Migration
 {
@@ -21,6 +21,7 @@ class CreateWarehouseInventoryProductMovementsTable extends Migration
      * Método que ejecuta las migraciones
      *
      * @author  Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function up()
@@ -64,6 +65,7 @@ class CreateWarehouseInventoryProductMovementsTable extends Migration
      * Método que elimina las migraciones
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function down()

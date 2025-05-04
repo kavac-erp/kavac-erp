@@ -1,11 +1,10 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Finance\Models;
 
 use App\Models\Deduction;
 use App\Traits\ModelsTrait;
+use App\Models\DocumentStatus;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,11 +12,11 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class FinancePaymentDeduction
- * @brief [descripción detallada]
+ * @brief Modelo para el pago de deducciones
  *
- * [descripción corta]
+ * Gestiona el modelo de datos para el pago de deducciones
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -30,12 +29,14 @@ class FinancePaymentDeduction extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -51,7 +52,7 @@ class FinancePaymentDeduction extends Model implements Auditable
     ];
 
     /**
-     * Get the financePaymentExecute that owns the FinancePaymentDeduction
+     * Obtiene la relación con la ejecución de pago
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -61,7 +62,7 @@ class FinancePaymentDeduction extends Model implements Auditable
     }
 
     /**
-     * Get the deduction that owns the FinancePaymentDeduction
+     * Obtiene la relación con la deducción
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -71,7 +72,7 @@ class FinancePaymentDeduction extends Model implements Auditable
     }
 
     /**
-     * FinancePaymentDeduction morphs to models in deductions.
+     * Obtiene la relación morfológica con la deducción
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
@@ -81,7 +82,7 @@ class FinancePaymentDeduction extends Model implements Auditable
     }
 
     /**
-     * Get the documentStatus that owns the FinancePaymentDeduction
+     * Obtiene la relación con el estatus del documento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

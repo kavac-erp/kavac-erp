@@ -1,0 +1,5 @@
+<map id="getWeekdayCount" name="getWeekdayCount">
+<area shape="rect" id="Node000001" title="Obtiene el numero de dias entre la fecha de inicio y la fecha de fin." alt="" coords="120,5,261,31"/>
+<area shape="rect" id="Node000002" href="$df/db2/classModules_1_1Payroll_1_1Rules_1_1DaysRequested.html#addadffc8ab62516548d19df77c41dc29" title="Determina si pasa la regla de validación." alt="" coords="5,5,72,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,21,72,21,72,15,106,15"/>
+</map>

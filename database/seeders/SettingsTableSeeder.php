@@ -14,13 +14,14 @@ use Illuminate\Database\Eloquent\Model;
  * Gestiona la información por defecto a registrar inicialmente para las Configuraciones
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SettingsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Ejecuta los seeers de base de datos
      *
      * @return void
      */

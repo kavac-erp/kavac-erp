@@ -20,7 +20,7 @@ mix.mergeManifest();
 
 /** Procesa el archivo javascript principal app.js */
 mix.js([
-	'resources/js/app.js','resources/js/digital-sign.js',
+    'resources/js/app.js',
     'resources/js/now-ui-kit/plugins/nouislider.min.js',
 	'resources/js/now-ui-kit/now-ui-kit.js',
 	'resources/js/now-ui-kit/plugins/bootstrap-switch.js',

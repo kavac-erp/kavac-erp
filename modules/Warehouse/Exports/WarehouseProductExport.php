@@ -9,7 +9,6 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
@@ -22,8 +21,10 @@ class WarehouseProductExport extends \App\Exports\DataExport implements
     WithCustomStartCell
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * Metodo para obtener la colección de datos a exportar
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return WarehouseProduct::all();
@@ -42,10 +43,9 @@ class WarehouseProductExport extends \App\Exports\DataExport implements
     /**
      * Establece las cabeceras de los datos en el archivo a exportar
      *
-     * @method    headings
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
      * @return    array    Arreglo con las cabeceras de los datos a exportar
      */
     public function headings(): array
@@ -60,8 +60,6 @@ class WarehouseProductExport extends \App\Exports\DataExport implements
 
     /**
      * Establece las columnas que van a ser exportadas
-     *
-     * @method    map
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
@@ -80,6 +78,11 @@ class WarehouseProductExport extends \App\Exports\DataExport implements
         ];
     }
 
+    /**
+     * Registro de eventos al exportar datos
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
         $events = [
@@ -100,26 +103,22 @@ class WarehouseProductExport extends \App\Exports\DataExport implements
                 $validation->setPrompt('Seleccione un elemento de la lista');
                 $records = $this->getArraysSelect();
 
-                /** Identificador de la unidad de medida */
+                /* Identificador de la unidad de medida */
                 $validation->setPromptTitle('Identificador de la unidad de medida');
                 $validation->setFormula1(json_encode($records['measurementUnit'], JSON_UNESCAPED_UNICODE));
                 $sheet->setDataValidation('C2:C100000', clone $validation);
 
-                /** Porcentaje del impuesto aplicado al insumo */
+                /* Porcentaje del impuesto aplicado al insumo */
                 $validation->setPromptTitle('Porcentaje del impuesto aplicado al insumo');
                 $validation->setFormula1(json_encode($records['tax'], JSON_UNESCAPED_UNICODE));
                 $sheet->setDataValidation('D2:D100000', clone $validation);
 
 
-                /** Definicion de estilos de la cabecera */
+                /* Definicion de estilos de la cabecera */
                 $styleArray = [
                     'font' => [
                         'bold' => true,
                     ],
-                    /**'fill' => [
-                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                        'color' => ['rgb' => '67A1CF'],
-                    ],*/
                     'alignment' => [
                         'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
                     ],
@@ -131,6 +130,11 @@ class WarehouseProductExport extends \App\Exports\DataExport implements
         return $events;
     }
 
+    /**
+     * Obtiene los valores de los selectores
+     *
+     * @return array
+     */
     public function getArraysSelect(): array
     {
         $measurementUnit = template_choices(MeasurementUnit::class, ['name'], '', false);

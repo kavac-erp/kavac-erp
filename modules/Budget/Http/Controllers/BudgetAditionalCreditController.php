@@ -2,17 +2,19 @@
 
 namespace Modules\Budget\Http\Controllers;
 
+use App\Models\Document;
+use App\Models\CodeSetting;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use Modules\Budget\Models\Institution;
+use Modules\Budget\Models\DocumentStatus;
+use Illuminate\Contracts\Support\Renderable;
 use Modules\Budget\Models\BudgetModification;
 use Modules\Budget\Models\BudgetModificationAccount;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Budget\Models\BudgetSubSpecificFormulation;
-use Modules\Budget\Models\DocumentStatus;
-use Modules\Budget\Models\Institution;
-use App\Models\CodeSetting;
 
 /**
  * @class BudgetAditionalCreditController
@@ -21,33 +23,44 @@ use App\Models\CodeSetting;
  * Clase que gestiona las Créditos Adicionales
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetAditionalCreditController extends Controller
 {
     use ValidatesRequests;
 
-    /** @var array Arreglo con los datos a implementar en los atributos del formulario */
+    /**
+     * Arreglo con los datos a implementar en los atributos del formulario
+     *
+     * @var array $header
+     */
     public $header;
-    /** @var array Arreglo con información de las instituciones registradas */
+
+    /**
+     * Arreglo con información de las instituciones registradas
+     *
+     * @var array $institutions
+     */
     public $institutions;
 
     /**
      * Define la configuración de la clase
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:budget.aditionalcredit.list', ['only' => 'index', 'vueList']);
         $this->middleware('permission:budget.aditionalcredit.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:budget.aditionalcredit.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:budget.aditionalcredit.delete', ['only' => 'destroy']);
 
-        /** @var array Arreglo de opciones a implementar en el formulario */
+        /* Arreglo de opciones a implementar en el formulario */
         $this->header = [
             'route' => 'budget.aditional-credits.store',
             'method' => 'POST',
@@ -62,11 +75,12 @@ class BudgetAditionalCreditController extends Controller
      * Muestra el listado de créditos adicionales
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return Renderable
      */
     public function index()
     {
-        /** @var object Objeto con información de las modificaciones presupuestarias del tipo Crédito Adicional */
+        /* Objeto con información de las modificaciones presupuestarias del tipo Crédito Adicional */
         $records = BudgetModification::where('type', 'C')->get();
         return view('budget::aditional_credits.list', compact('records'));
     }
@@ -75,14 +89,15 @@ class BudgetAditionalCreditController extends Controller
      * Muestra el formulario para crear un crédito adicional
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return Renderable
      */
     public function create()
     {
-        /** @var array Arreglo de opciones a implementar en el formulario */
+        /* Arreglo de opciones a implementar en el formulario */
         $header = $this->header;
 
-        /** @var array Arreglo de opciones a representar en la plantilla para su selección */
+        /* Arreglo de opciones a representar en la plantilla para su selección */
         $institutions = $this->institutions;
 
         return view('budget::aditional_credits.create-edit-form', compact('header', 'institutions'));
@@ -92,12 +107,14 @@ class BudgetAditionalCreditController extends Controller
      * Registra información del crédito adicional
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
+     *
+     * @param  Request $request Datos de la petición realizada
+     *
      * @return Renderable
      */
     public function store(Request $request)
     {
-        /** @var array Arreglo con las reglas de validación para el registro */
+        /* Arreglo con las reglas de validación para el registro */
         $rules = [
             'approved_at' => ['required', 'date'],
             'description' => ['required'],
@@ -106,12 +123,12 @@ class BudgetAditionalCreditController extends Controller
             'budget_account_id' => ['required', 'array', 'min:1']
         ];
 
-        /** @var array Arreglo con los mensajes para las reglas de validación */
+        /* Arreglo con los mensajes para las reglas de validación */
         $messages = [
             'budget_account_id.required' => 'Las cuentas presupestarias son obligatorias.',
         ];
 
-        /** @var object Contiene la configuración del código establecido para el registro */
+        /* Contiene la configuración del código establecido para el registro */
         $codeSetting = CodeSetting::getSetting(BudgetModification::class, 'budget.aditional-credits');
 
         if (!$codeSetting) {
@@ -121,11 +138,11 @@ class BudgetAditionalCreditController extends Controller
 
         $this->validate($request, $rules, $messages);
 
-        /** @var object Obtiene el registro del documento con estatus aprobado */
+        /* Obtiene el registro del documento con estatus aprobado */
         $documentStatus = DocumentStatus::getStatus('AP');
         $year = $request->fiscal_year ?? date("Y");
 
-        /** @var string Contiene el código generado para el registro a crear */
+        /* Contiene el código generado para el registro a crear */
         $code = generate_registration_code(
             $codeSetting->format_prefix,
             strlen($codeSetting->format_digits),
@@ -135,7 +152,7 @@ class BudgetAditionalCreditController extends Controller
         );
 
         DB::transaction(function () use ($request, $code, $documentStatus) {
-            /** @var object Objeto que contiene los datos de la modificación presupuestaria creada */
+            /* Objeto que contiene los datos de la modificación presupuestaria creada */
             $budgetModification = BudgetModification::create([
                 'type' => 'C',
                 'code' => $code,
@@ -146,13 +163,13 @@ class BudgetAditionalCreditController extends Controller
                 'document_status_id' => $documentStatus->id
             ]);
 
-            /** @var integer Gestiona el índice del elemento budget_account_id */
+            /* Gestiona el índice del elemento budget_account_id */
             $index = 0;
 
             foreach ($request->budget_account_id as $account) {
                 list($budget_specific_action_id, $budget_account_id) = explode("|", $account);
 
-                /** @var object Obtiene la formulación correspondiente a la acción específica seleccionada */
+                /* Obtiene la formulación correspondiente a la acción específica seleccionada */
                 $formulation = BudgetSubSpecificFormulation::currentFormulation($budget_specific_action_id);
 
                 if ($formulation) {
@@ -167,6 +184,16 @@ class BudgetAditionalCreditController extends Controller
 
                 $index++;
             }
+
+            if ($request->documentFiles) {
+                //Verifica si tiene documentos para establecer la relación
+                foreach ($request->documentFiles as $file) {
+                    $doc = Document::find($file);
+                    $doc->documentable_id = $budgetModification->id;
+                    $doc->documentable_type = BudgetModification::class;
+                    $doc->save();
+                }
+            }
         });
 
         $request->session()->flash('message', ['type' => 'store']);
@@ -177,7 +204,9 @@ class BudgetAditionalCreditController extends Controller
      * Muestra información del crédito adicional
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $id Identificador del crédito adicional a mostrar
+     *
      * @return Renderable
      */
     public function show($id)
@@ -189,35 +218,42 @@ class BudgetAditionalCreditController extends Controller
      * Muestra el formulario para editar datos del crédito adicional
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $id Identificador del crédito adicional a editar
+     *
      * @return Renderable
      */
     public function edit($id)
     {
-        /** @var object Objeto con información de la modificación presupuestaria a actualizar */
+        /* Objeto con información de la modificación presupuestaria a actualizar */
         $budgetModification = BudgetModification::find($id);
 
         $this->header['route'] = ['budget.aditional-credits.update', $budgetModification->id];
         $this->header['method'] = 'PUT';
 
-        /** @var array Arreglo de opciones a implementar en el formulario */
+        /* Arreglo de opciones a implementar en el formulario */
         $header = $this->header;
 
-        /** @var array Arreglo de opciones a representar en la plantilla para su selección */
+        /* Arreglo de opciones a representar en la plantilla para su selección */
         $institutions = $this->institutions;
 
-        /** @var object Objeto con datos del modelo a modificar */
+        /* Objeto con datos del modelo a modificar */
         $model = $budgetModification;
 
-        return view('budget::aditional_credits.create-edit-form', compact('header', 'model', 'institutions'));
+        return view(
+            'budget::aditional_credits.create-edit-form',
+            compact('header', 'model', 'institutions')
+        );
     }
 
     /**
      * Actualiza información del crédito adicional
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
-     * @return Renderable
+     *
+     * @param  Request $request Datos de la petición realizada
+     *
+     * @return void
      */
     public function update(Request $request)
     {
@@ -227,12 +263,14 @@ class BudgetAditionalCreditController extends Controller
      * Elimina un crédito adicional específico
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $id Identificador del crédito adicional a elimina
+     *
      * @return Renderable
      */
     public function destroy($id)
     {
-        /** @var object Objeto con información de la modificación presupuestaria a eliminar */
+        /* Objeto con información de la modificación presupuestaria a eliminar */
         $BudgetAditionalCredit = BudgetModification::find($id);
 
         if ($BudgetAditionalCredit) {
@@ -246,7 +284,8 @@ class BudgetAditionalCreditController extends Controller
      * Obtiene los registros a mostrar en listados de componente Vue
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @return json Json con datos de la perición realizada
+     *
+     * @return JsonResponse
      */
     public function vueList()
     {

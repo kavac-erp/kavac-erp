@@ -18,6 +18,7 @@ use Modules\Payroll\Models\Institution;
  * Clase que gestiona las políticas de prestaciones sociales
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -27,13 +28,15 @@ class PayrollBenefitsPolicyController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -41,15 +44,17 @@ class PayrollBenefitsPolicyController extends Controller
      * Define la configuración de la clase
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:payroll.benefits-policies.create', ['only' => 'store']);
-        $this->middleware('permission:payroll.benefits-policies.edit', ['only' => 'update']);
-        $this->middleware('permission:payroll.benefits-policies.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:payroll.benefits.policies.create', ['only' => 'store']);
+        $this->middleware('permission:payroll.benefits.policies.edit', ['only' => 'update']);
+        $this->middleware('permission:payroll.benefits.policies.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'                                  => ['required', 'unique:payroll_benefits_policies,name'],
             'start_date'                            => ['required'],
@@ -62,7 +67,7 @@ class PayrollBenefitsPolicyController extends Controller
             'month_worked_days'                     => ['required']
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required'                             => 'El campo nombre es obligatorio.',
             'start_date.required'                       => 'El campo desde (fecha de aplicación) es obligatorio.',
@@ -94,15 +99,13 @@ class PayrollBenefitsPolicyController extends Controller
     /**
      * Muestra un listado de las políticas de prestaciones registradas
      *
-     * @method    index
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function index()
     {
-        $profileUser = Auth()->user()->profile;
+        $profileUser = auth()->user()->profile;
         if ($profileUser && $profileUser->institution_id !== null) {
             $institution = Institution::find($profileUser->institution_id);
         } else {
@@ -117,8 +120,6 @@ class PayrollBenefitsPolicyController extends Controller
 
     /**
      * Valida y registra una nueva política de prestaciones
-     *
-     * @method    store
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
@@ -150,22 +151,20 @@ class PayrollBenefitsPolicyController extends Controller
         }
         $this->validate($request, $validateRules, $this->messages);
 
-        $profileUser = Auth()->user()->profile;
+        $profileUser = auth()->user()->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
         } else {
             $institution = Institution::where('active', true)->where('default', true)->first();
         }
-        /** Validar el rol del usuario
-         *  Si es el administrador asigne la intitución seleccionada en el formulario,
-         *  en caso contrario, asignar institución asociada al usuario
+
+        /*
+         | Validar el rol del usuario
+         |  Si es el administrador asigne la intitución seleccionada en el formulario,
+         |  en caso contrario, asignar institución asociada al usuario
          */
 
-        /**
-         * Objeto asociado al modelo PayrollBenefitsPolicy
-         *
-         * @var Object $payrollBenefitsPolicy
-         */
+        /* Objeto asociado al modelo PayrollBenefitsPolicy */
         $payrollBenefitsPolicy = PayrollBenefitsPolicy::create([
             'name'                             => $request->input('name'),
             'active'                           => !empty($request->active)
@@ -195,11 +194,9 @@ class PayrollBenefitsPolicyController extends Controller
     /**
      * Muestra los datos de la información de la política de prestaciones seleccionada
      *
-     * @method    show
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer    $id                   Identificador único de la política de prestaciones
+     * @param     integer    $id                   Identificador único de la política de prestaciones
      *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
@@ -212,20 +209,14 @@ class PayrollBenefitsPolicyController extends Controller
     /**
      * Actualiza la información de una política de prestaciones
      *
-     * @method    update
-     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @param     Integer                          $id         Identificador único de la política de prestaciones
+     * @param     integer                          $id         Identificador único de la política de prestaciones
      *
      * @return    \Illuminate\Http\JsonResponse                Objeto con los registros a mostrar
      */
     public function update(Request $request, $id)
     {
-        /**
-         * Objeto asociado al modelo PayrollBenefitsPolicy
-         *
-         * @var Object $payrollBenefitsPolicy
-         */
+        /* Objeto asociado al modelo PayrollBenefitsPolicy */
         $payrollBenefitsPolicy = PayrollBenefitsPolicy::find($id);
 
         $validateRules  = $this->validateRules;
@@ -259,15 +250,16 @@ class PayrollBenefitsPolicyController extends Controller
         }
         $this->validate($request, $validateRules, $this->messages);
 
-        $profileUser = Auth()->user()->profile;
+        $profileUser = auth()->user()->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
         } else {
             $institution = Institution::where('active', true)->where('default', true)->first();
         }
-        /** Validar el rol del usuario
-         *  Si es el administrador asigne la intitución seleccionada en el formulario,
-         *  en caso contrario, asignar institución asociada al usuario
+        /*
+         | Validar el rol del usuario
+         |  Si es el administrador asigne la intitución seleccionada en el formulario,
+         |  en caso contrario, asignar institución asociada al usuario
          */
 
         $payrollBenefitsPolicy->update([
@@ -300,21 +292,15 @@ class PayrollBenefitsPolicyController extends Controller
     /**
      * Elimina una política de prestaciones
      *
-     * @method    destroy
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer       $id    Identificador único de la política de prestaciones a eliminar
+     * @param     integer       $id    Identificador único de la política de prestaciones a eliminar
      *
-     * @return    Renderable
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /**
-         * Objeto asociado al modelo PayrollBenefitsPolicy
-         *
-         * @var Object $payrollBenefitsPolicy
-         */
+        /* Objeto asociado al modelo PayrollBenefitsPolicy */
         $payrollBenefitsPolicy = PayrollBenefitsPolicy::find($id);
         $payrollBenefitsPolicy->delete();
         return response()->json(['record' => $payrollBenefitsPolicy, 'message' => 'Success'], 200);
@@ -324,15 +310,13 @@ class PayrollBenefitsPolicyController extends Controller
      * Muestra los datos de la información de la política de prestaciones según la institución asociada
      * al trabajador autenticado
      *
-     * @method    getBenefitsPolicy
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function getBenefitsPolicy()
     {
-        $profileUser = Auth()->user()->profile;
+        $profileUser = auth()->user()->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
         } else {

@@ -1,0 +1,5 @@
+<map id="financeStatements" name="financeStatements">
+<area shape="rect" id="Node000001" title="Vista en la que se genera el reporte de estados financieros." alt="" coords="5,5,149,31"/>
+<area shape="rect" id="Node000002" href="$d3/d7f/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingReportsController.html#afd6c44ec3bc40d3e96a01381302cafdd" title="Obtiene el año mas antiguo del reporte." alt="" coords="197,5,328,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,15,184,15,184,21,150,21"/>
+</map>

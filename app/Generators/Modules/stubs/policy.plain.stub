@@ -1,8 +1,9 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -21,8 +22,6 @@ class $CLASS$
 
     /**
      * Crea una nueva instancia de política.
-     *
-     * @method __construct
      *
      * @return void
      */

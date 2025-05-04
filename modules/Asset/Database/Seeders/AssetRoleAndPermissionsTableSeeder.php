@@ -6,16 +6,16 @@ use App\Roles\Models\Permission;
 use App\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Nwidart\Modules\Facades\Module;
 
 /**
  * @class AssetRoleAndPermissionsTableSeeder
  * @brief Inicializa los roles y permisos del módulo de bienes
  *
- *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetRoleAndPermissionsTableSeeder extends Seeder
 {
@@ -23,6 +23,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
      * Método que registra los valores iniciales de los roles y permisos del módulo
      *
      * @author  Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function run()
@@ -38,9 +39,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
         );
 
         $permissions = [
-            /**
-             * Panel de Control
-             */
+            /* Panel de Control */
             [
                 'name' => 'Acceso al panel de control de bienes',
                 'slug' => 'asset.dashboard',
@@ -48,9 +47,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
                 'model' => '', 'model_prefix' => 'bienes',
                 'slug_alt' => 'panel.control.ver', 'short_description' => 'panel de control de bienes',
             ],
-            /**
-             * Configuración General de Bienes
-             */
+            /* Configuración General de Bienes */
             [
                 'name' => 'Configuración General del módulo de bienes',
                 'slug' => 'asset.setting',
@@ -58,9 +55,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
                 'model' => '', 'model_prefix' => 'bienes',
                 'slug_alt' => 'configuracion.ver', 'short_description' => 'configuración general de bienes',
             ],
-            /**
-             * Configuración de Tipos de Bienes
-             */
+            /* Configuración de Tipos de Bienes */
             [
                 'name' => 'Configuración de los tipos de bienes',
                 'slug' => 'asset.setting.type',
@@ -68,9 +63,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Asset\Models\AssetType', 'model_prefix' => 'bienes',
                 'slug_alt' => 'configuracion.bienes.tipo', 'short_description' => 'configuración de los tipos de bienes',
             ],
-            /**
-             * Configuración de las Categorías Generales de Bienes
-             */
+            /* Configuración de las Categorías Generales de Bienes */
             [
                 'name' => 'Configuración de las Categorías Generales de bienes',
                 'slug' => 'asset.setting.category',
@@ -79,9 +72,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.bienes.categoria',
                 'short_description' => 'configuración de las categorías de bienes',
             ],
-            /**
-             * Configuración de las Subcategorías de Bienes
-             */
+            /* Configuración de las Subcategorías de Bienes */
             [
                 'name' => 'Configuración de las Subcategorías de bienes',
                 'slug' => 'asset.setting.subcategory',
@@ -90,9 +81,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.bienes.subcategoria',
                 'short_description' => 'configuración de las subcategorías de bienes',
             ],
-            /**
-             * Configuración de las Categorías Específicas de Bienes
-             */
+            /* Configuración de las Categorías Específicas de Bienes */
             [
                 'name' => 'Configuración de las categorías específicas de bienes',
                 'slug' => 'asset.setting.specific',
@@ -101,9 +90,34 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.bienes.categoria.especifica',
                 'short_description' => 'configuración de las categorías específicas de bienes',
             ],
-            /**
-             * Ingreso de Bienes
-             */
+            /* Configuración de las Edificaciones */
+            [
+                'name' => 'Configuración de las edificaciones',
+                'slug' => 'asset.setting.building',
+                'description' => 'Acceso a la configuración de las edificaciones',
+                'model' => 'Modules\Asset\Models\AssetBuilding', 'model_prefix' => 'bienes',
+                'slug_alt' => 'configuracion.bienes.edificacion',
+                'short_description' => 'configuración de las edificaciones',
+            ],
+            /* Configuración de los niveles */
+            [
+                'name' => 'Configuración de los niveles',
+                'slug' => 'asset.setting.floor',
+                'description' => 'Acceso a la configuración de los niveles',
+                'model' => 'Modules\Asset\Models\AssetFloor', 'model_prefix' => 'bienes',
+                'slug_alt' => 'configuracion.bienes.nivel',
+                'short_description' => 'configuración de los niveles',
+            ],
+            /* Configuración de las secciones */
+            [
+                'name' => 'Configuración de las secciones',
+                'slug' => 'asset.setting.section',
+                'description' => 'Acceso a la configuración de las secciones',
+                'model' => 'Modules\Asset\Models\AssetSection', 'model_prefix' => 'bienes',
+                'slug_alt' => 'configuracion.bienes.seccion',
+                'short_description' => 'configuración de las secciones',
+            ],
+            /* Ingreso de Bienes */
             [
                 'name' => 'Ver bienes',
                 'slug' => 'asset.list',
@@ -146,9 +160,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Asset\Models\Asset', 'model_prefix' => 'bienes',
                 'slug_alt' => 'bienes.exportar', 'short_description' => 'exportar registro',
             ],
-            /**
-             * Asignación de Bienes
-             */
+            /* Asignación de Bienes */
             [
                 'name' => 'Ver asignación de bienes',
                 'slug' => 'asset.asignation.list',
@@ -186,14 +198,12 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Aprobar y rechazar asignación de bienes',
-                'slug' => 'asset.asignation.approve_reject',
+                'slug' => 'asset.asignation.approvereject',
                 'description' => 'Acceso para aprobar y rechazar asignación de bienes',
                 'model' => 'Modules\Asset\Models\AssetAsignationDelivery', 'model_prefix' => 'bienes',
                 'slug_alt' => 'bienes.asignacion.aprobar_rechazar', 'short_description' => 'aprobar y rechazar asignación de bienes',
             ],
-            /**
-             * Desincorporación de Bienes
-             */
+            /* Desincorporación de Bienes */
             [
                 'name' => 'Ver desincorporación de bienes',
                 'slug' => 'asset.disincorporation.list',
@@ -232,9 +242,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Asset\Models\AssetDisincorporation', 'model_prefix' => 'bienes',
                 'slug_alt' => 'bienes.desincorporacion.actas', 'short_description' => 'Imprimir acta de desincorporación de bienes',
             ],
-            /**
-             * Registro de Bienes
-             */
+            /* Registro de Bienes */
             [
                 'name' => 'Ver listado de bienes',
                 'slug' => 'asset.request.register',
@@ -242,9 +250,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Asset\Models\AssetRequest', 'model_prefix' => 'bienes',
                 'slug_alt' => 'bienes.registro.ver', 'short_description' => 'ver registro de bienes',
             ],
-            /**
-             * Solicitudes de Bienes
-             */
+            /* Solicitudes de Bienes */
             [
                 'name' => 'Ver solicitud de bienes',
                 'slug' => 'asset.request.list',
@@ -317,7 +323,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Aprobar y rechazar entrega de equipos prestados',
-                'slug' => 'asset.request.delivery.approve_reject',
+                'slug' => 'asset.request.delivery.approvereject',
                 'description' => 'Acceso para aprobar y rechazar entrega de equipos prestados',
                 'model' => 'Modules\Asset\Models\AssetRequestDelivery', 'model_prefix' => 'bienes',
                 'slug_alt' => 'bienes.solicitud.entrega.aprobar_rechazar', 'short_description' => 'aprobar y rechazar entrega de equipos prestados',
@@ -345,14 +351,12 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Vista inventario de bienes',
-                'slug' => 'asset.inventory-history.index',
+                'slug' => 'asset.inventory.history.index',
                 'description' => 'Acceso a la vista de inventario de bienes',
                 'model' => '', 'model_prefix' => 'bienes',
                 'slug_alt' => 'bienes.inventory-history.view', 'short_description' => 'vista inventario de bienes',
             ],
-            /**
-             * disincorporations
-             */
+            /* disincorporations */
             [
                 'name' => 'Vista de desincorporación de Bienes',
                 'slug' => 'asset.disincorporation.index',
@@ -367,9 +371,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
                 'model' => '', 'model_prefix' => 'bienes',
                 'slug_alt' => 'bienes.disincorporation.create', 'short_description' => 'crear una Desincorporación de Bienes',
             ],
-            /**
-             * Reportes de Bienes
-             */
+            /* Reportes de Bienes */
             [
                 'name' => 'Vista de reporte de bienes',
                 'slug' => 'asset.report.view',
@@ -398,9 +400,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
                 'model' => '', 'model_prefix' => 'bienes',
                 'slug_alt' => 'bienes.reporte.descargar', 'short_description' => 'descargar reporte de bienes',
             ],
-            /**
-             * Entrega de bienes
-             */
+            /* Entrega de bienes */
             [
                 'name' => 'Vista de equipos asignados',
                 'slug' => 'asset.asignations.view',
@@ -422,9 +422,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Asset\Models\AssetAsignation', 'model_prefix' => 'bienes',
                 'slug_alt' => 'bienes.entregar.equipos', 'short_description' => 'Entregar equipos asignados',
             ],
-            /**
-             * Depósito de bienes
-             */
+            /* Depósito de bienes */
             [
                 'name' => 'Crear depósitos de bienes',
                 'slug' => 'asset.setting.storage.create',
@@ -449,9 +447,7 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
         ];
 
         $depreciationPermissions = [
-            /**
-            * Depreciación
-            */
+            /* Depreciación */
             [
                 'name'              => 'Ver depreciación de bienes',
                 'slug'              => 'asset.depreciation.list',
@@ -490,6 +486,106 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
             ]
         ];
 
+        $suppliersPermissions = [
+            /* Proveedores */
+            [
+                'name' => 'Crear especialidad de proveedor',
+                'slug' => 'asset.supplierspecialty.create',
+                'description' => 'Acceso para crear especialidad de proveedor',
+                'model' => 'Modules\Asset\Models\AssetSupplierSpecialty', 'model_prefix' => 'Bienes',
+                'slug_alt' => 'especialidad.proveedor.crear',
+                'short_description' => 'agregar especialidad de proveedor'
+            ],
+            [
+                'name' => 'Editar especialidad de proveedor',
+                'slug' => 'asset.supplierspecialty.edit',
+                'description' => 'Acceso para editar especialidad de proveedor',
+                'model' => 'Modules\Asset\Models\AssetSupplierSpecialty', 'model_prefix' => 'Bienes',
+                'slug_alt' => 'especialidad.proveedor.editar',
+                'short_description' => 'editar especialidad de proveedor'
+            ],
+            [
+                'name' => 'Eliminar especialidad de proveedor',
+                'slug' => 'asset.supplierspecialty.delete',
+                'description' => 'Acceso para eliminar especialidad de proveedor',
+                'model' => 'Modules\Asset\Models\AssetSupplierSpecialty', 'model_prefix' => 'Bienes',
+                'slug_alt' => 'especialidad.proveedor.eliminar',
+                'short_description' => 'eliminar especialidad de proveedor'
+            ],
+            [
+                'name' => 'Ver especialidades de proveedores',
+                'slug' => 'asset.supplierspecialty.list',
+                'description' => 'Acceso para ver especialidades de proveedores',
+                'model' => 'Modules\Asset\Models\AssetSupplierSpecialty', 'model_prefix' => 'Bienes',
+                'slug_alt' => 'especialidad.proveedor.ver',
+                'short_description' => 'ver especialidad de proveedor'
+            ],
+            [
+                'name' => 'Crear tipo de proveedor',
+                'slug' => 'asset.suppliertype.create',
+                'description' => 'Acceso para crear tipo de proveedor',
+                'model' => 'Modules\Asset\Models\AssetSupplierType', 'model_prefix' => 'Bienes',
+                'slug_alt' => 'tipo.proveedor.crear',
+                'short_description' => 'Agregar tipo de proveedor'
+            ],
+            [
+                'name' => 'Editar tipo de proveedor',
+                'slug' => 'asset.suppliertype.edit',
+                'description' => 'Acceso para editar tipo de proveedor',
+                'model' => 'Modules\Asset\Models\AssetSupplierType', 'model_prefix' => 'Bienes',
+                'slug_alt' => 'tipo.proveedor.editar',
+                'short_description' => 'Editar tipo de proveedor'
+            ],
+            [
+                'name' => 'Eliminar tipo de proveedor',
+                'slug' => 'asset.suppliertype.delete',
+                'description' => 'Acceso para eliminar tipo de proveedor',
+                'model' => 'Modules\Asset\Models\AssetSupplierType', 'model_prefix' => 'Bienes',
+                'slug_alt' => 'tipo.proveedor.eliminar',
+                'short_description' => 'Eliminar tipo de proveedor'
+            ],
+            [
+                'name' => 'Ver tipos de proveedores',
+                'slug' => 'asset.suppliertype.list',
+                'description' => 'Acceso para ver tipos de proveedores',
+                'model' => 'Modules\Asset\Models\AssetSupplierType', 'model_prefix' => 'Bienes',
+                'slug_alt' => 'tipo.proveedor.ver',
+                'short_description' => 'Ver tipo de proveedor'
+            ],
+            [
+                'name' => 'Crear proveedor',
+                'slug' => 'asset.supplier.create',
+                'description' => 'Acceso para crear proveedor',
+                'model' => 'Modules\Asset\Models\AssetSupplier', 'model_prefix' => 'Bienes',
+                'slug_alt' => 'proveedor.crear',
+                'short_description' => 'Agregar proveedor'
+            ],
+            [
+                'name' => 'Editar proveedor',
+                'slug' => 'asset.supplier.edit',
+                'description' => 'Acceso para editar proveedor',
+                'model' => 'Modules\Asset\Models\AssetSupplier', 'model_prefix' => 'Bienes',
+                'slug_alt' => 'proveedor.editar',
+                'short_description' => 'Editar proveedor'
+            ],
+            [
+                'name' => 'Eliminar proveedor',
+                'slug' => 'asset.supplier.delete',
+                'description' => 'Acceso para eliminar proveedor',
+                'model' => 'Modules\Asset\Models\AssetSupplier', 'model_prefix' => 'Bienes',
+                'slug_alt' => 'proveedor.eliminar',
+                'short_description' => 'Eliminar proveedor'
+            ],
+            [
+                'name' => 'Ver tipos de proveedores',
+                'slug' => 'asset.supplier.list',
+                'description' => 'Acceso para ver tipos de proveedores',
+                'model' => 'Modules\Asset\Models\AssetSupplier', 'model_prefix' => 'Bienes',
+                'slug_alt' => 'proveedor.ver',
+                'short_description' => 'Ver proveedor'
+            ],
+        ];
+
         $assetRole->detachAllPermissions();
 
         foreach ($permissions as $permission) {
@@ -521,6 +617,25 @@ class AssetRoleAndPermissionsTableSeeder extends Seeder
 
             if ($accountingRole) {
                 $accountingRole->attachPermission($per);
+            }
+        }
+
+        if (!Module::has('Purchase') && !Module::isEnabled('Purchase')) {
+            foreach ($suppliersPermissions as $suppliersPermission) {
+                $per = Permission::updateOrCreate(
+                    ['slug' => $permission['slug']],
+                    [
+                        'name' => $suppliersPermission['name'], 'description' => $suppliersPermission['description'],
+                        'model' => $suppliersPermission['model'], 'model_prefix' => $suppliersPermission['model_prefix'],
+                        'slug_alt' => $suppliersPermission['slug_alt'], 'short_description' => $suppliersPermission['short_description'],
+                    ]
+                );
+
+                $assetRole->attachPermission($per);
+
+                if ($adminRole) {
+                    $adminRole->attachPermission($per);
+                }
             }
         }
     }

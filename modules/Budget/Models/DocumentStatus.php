@@ -11,16 +11,17 @@ use App\Models\DocumentStatus as BaseDocumentStatus;
  * Modelo que extiende las funcionalidades del modelo base DocumentStatus
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class DocumentStatus extends BaseDocumentStatus
 {
     /**
-     * DocumentStatus has many BudgetSubSpecificFormulations.
+     * Establece la relación con formulaciones presupuestarias asociadas a estatus de documentos
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function budgetSubSpecificFormulations()
@@ -29,9 +30,10 @@ class DocumentStatus extends BaseDocumentStatus
     }
 
     /**
-     * DocumentStatus has many BudgetModifications.
+     * Establece la relación con modificaciones presupuestarias asociadas a estatus de documentos
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function budgetModifications()
@@ -40,7 +42,7 @@ class DocumentStatus extends BaseDocumentStatus
     }
 
     /**
-     * DocumentStatus has many BudgetCompromise.
+     * Obtiene la relación con los compromisos presupuestarios asociados a estatus de documentos
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

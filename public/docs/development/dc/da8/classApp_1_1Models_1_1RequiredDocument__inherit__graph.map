@@ -1,3 +1,7 @@
 <map id="RequiredDocument" name="RequiredDocument">
-<area shape="rect" id="node1" title="Datos de Documentos requeridos." alt="" coords="5,5,152,97"/>
+<area shape="rect" id="Node000001" title="Datos de Documentos requeridos." alt="" coords="201,5,339,91"/>
+<area shape="rect" id="Node000002" href="$dc/d34/classModules_1_1Asset_1_1Models_1_1RequiredDocument.html" title="Modelo que extiende de la aplicacion base." alt="" coords="5,146,271,211"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,102,172,148,169,144,216,98"/>
+<area shape="rect" id="Node000003" href="$dd/d8c/classModules_1_1Purchase_1_1Models_1_1RequiredDocument.html" title="Modelo que extiende de la aplicacion base." alt="" coords="295,139,509,219"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="325,99,364,137,360,141,321,102"/>
 </map>

@@ -72,7 +72,7 @@ class CreateSaleQuoteTable extends Migration
                 ->decimal('total_without_tax', 13, 2)
                 ->nullable()
                 ->comment('Valor total sin impuesto');
-            
+
             $table->timestamps();
             $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');
         });

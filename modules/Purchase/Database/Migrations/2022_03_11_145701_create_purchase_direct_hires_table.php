@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class CreatePurchaseDirectHiresTable
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -26,13 +24,13 @@ class CreatePurchaseDirectHiresTable extends Migration
     {
         Schema::create('purchase_direct_hires', function (Blueprint $table) {
             $table->id();
-            
+
             /*
-            * -----------------------------------------------------------------------
-            * Clave foránea a la relación del año fiscal
-            * -----------------------------------------------------------------------
-            *
-            * Define la estructura de relación al año fiscal
+            | -----------------------------------------------------------------------
+            | Clave foránea a la relación del año fiscal
+            | -----------------------------------------------------------------------
+            |
+            | Define la estructura de relación al año fiscal
             */
             $table->bigInteger('fiscal_year_id')->unsigned()
                       ->comment('Identificador del año fiscal');
@@ -40,12 +38,12 @@ class CreatePurchaseDirectHiresTable extends Migration
                       ->on('fiscal_years')->onDelete('restrict')
                       ->onUpdate('cascade');
             /*
-            * -----------------------------------------------------------------------
-            * Clave foránea a la relación de la unidad contratante
-            * -----------------------------------------------------------------------
-            *
-            * Define la estructura de relación a la unidad o departamento contratante del
-            * requerimiento a registrar
+            | -----------------------------------------------------------------------
+            | Clave foránea a la relación de la unidad contratante
+            | -----------------------------------------------------------------------
+            |
+            | Define la estructura de relación a la unidad o departamento contratante del
+            | requerimiento a registrar
             */
             $table->bigInteger('contracting_department_id')->unsigned()->nullable()
                       ->comment('Identificador de la unidad o departamento contratante. Opcional');
@@ -54,12 +52,12 @@ class CreatePurchaseDirectHiresTable extends Migration
                       ->onUpdate('cascade');
 
             /*
-            * -----------------------------------------------------------------------
-            * Clave foránea a la relación de la unidad usuaria
-            * -----------------------------------------------------------------------
-            *
-            * Define la estructura de relación a la unidad o departamento usuaria del
-            * requerimiento a registrar
+            | -----------------------------------------------------------------------
+            | Clave foránea a la relación de la unidad usuaria
+            | -----------------------------------------------------------------------
+            |
+            | Define la estructura de relación a la unidad o departamento usuaria del
+            | requerimiento a registrar
             */
             $table->bigInteger('user_department_id')->unsigned()
                       ->comment('Identificador de la unidad o departamento usuaria del requerimiento');
@@ -68,16 +66,16 @@ class CreatePurchaseDirectHiresTable extends Migration
                       ->onUpdate('cascade');
 
             /*
-            * -----------------------------------------------------------------------
-            * Clave foránea a la relación con proveedor
-            * -----------------------------------------------------------------------
+            | -----------------------------------------------------------------------
+            | Clave foránea a la relación con proveedor
+            | -----------------------------------------------------------------------
             */
             $table->foreignId('purchase_supplier_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
 
             /*
-            * -----------------------------------------------------------------------
-            * Clave foránea a la relación al tipo de moneda
-            * -----------------------------------------------------------------------
+            | -----------------------------------------------------------------------
+            | Clave foránea a la relación al tipo de moneda
+            | -----------------------------------------------------------------------
             */
             $table->foreignId('currency_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
 

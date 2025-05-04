@@ -1,14 +1,13 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Purchase\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class PurchaseCompromise
@@ -18,9 +17,9 @@ use App\Traits\ModelsTrait;
  * Este modelo es usado en caso de que no se encuentre instalado el modulo de Presupuesto
  *
  * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PurchaseCompromise extends Model implements Auditable
 {
@@ -29,18 +28,24 @@ class PurchaseCompromise extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista de atributos de tipo fecha
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at', 'compromised_at'];
 
+    /**
+     * Lista de campos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = ['compromised_at', 'description', 'code', 'document_status_id'];
 
     /**
-     * Compromise morphs to models in compromiseable_type.
+     * Establece la relación morfológica con el compromiso
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function compromiseable()
@@ -49,11 +54,11 @@ class PurchaseCompromise extends Model implements Auditable
     }
 
     /**
-     * Compromise morphs to models in sourceable_type.
-     *
+     * Establece la relación morfológica con la fuente del compromiso
      * Este método requiere que la fuente asociada contenga un campo llamado code con el código del documento
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function sourceable()
@@ -62,7 +67,7 @@ class PurchaseCompromise extends Model implements Auditable
     }
 
     /**
-     * BudgetCompromise has many BudgetCompromiseDetail.
+     * Establece la relación con los detalles del compromiso
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -72,17 +77,21 @@ class PurchaseCompromise extends Model implements Auditable
     }
 
     /**
-     * BudgetCompromise has many BudgetStages.
+     * Establece la relación con los estados de una ejecución presupuestaria
+     *
      * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function budgetStages()
     {
-        return (Module::has('Budget') && Module::isEnabled('Budget')) ? $this->hasMany(BudgetStage::class) : null;
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->hasMany(BudgetStage::class) : [];
     }
 
     /**
-     * BudgetCompromise belongs to DocumentStatus.
+     * Establece la relación con el estatus del documento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -27,13 +27,21 @@ class PayrollProfessional extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * Lista de relaciones a cargar con el modelo
+     *
+     * @var array $with
+     */
     protected $with = ['payrollStudies', 'payrollInstructionDegree'];
+
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -45,6 +53,7 @@ class PayrollProfessional extends Model implements Auditable
      * Método que obtiene la información profesional del trabajador asociado a una información personal del mismo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollStaff()
@@ -56,6 +65,7 @@ class PayrollProfessional extends Model implements Auditable
      * Método que obtiene la información profesional del trabajador asociado a un grado de instrucción
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollInstructionDegree()
@@ -67,6 +77,7 @@ class PayrollProfessional extends Model implements Auditable
      * Método que obtiene la información profesional del trabajador asociado a un tipo de estudio
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollStudyType()
@@ -78,6 +89,7 @@ class PayrollProfessional extends Model implements Auditable
      * Método que obtiene las informacines profesionales del trabajador asociadas a muchas profesiones
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function professions()
@@ -106,6 +118,7 @@ class PayrollProfessional extends Model implements Auditable
      * Método que obtiene el horario de clase asociado a un dato profesional del trabajador
      *
      * @author William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function payrollClassSchedule()
@@ -117,6 +130,7 @@ class PayrollProfessional extends Model implements Auditable
      * Método que obtiene el curso asociado a un dato profesional del trabajador
      *
      * @author William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function payrollCourse()
@@ -128,6 +142,7 @@ class PayrollProfessional extends Model implements Auditable
      * Método que obtiene el reconocimiento asociado a un dato profesional del trabajador
      *
      * @author William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function payrollAcknowledgment()
@@ -139,10 +154,30 @@ class PayrollProfessional extends Model implements Auditable
      * Método que obtiene el estudio asociados a muchos datos profesionales del trabajador
      *
      * @author William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollStudies()
     {
         return $this->hasMany(PayrollStudy::class);
+    }
+
+    /**
+     * Scope que aplica el filtro de búsqueda
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query Objeto con la consulta
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query)
+    {
+        return $query->when(request()->has('query'), function ($query) {
+            $search = request('query');
+            $query->whereHas('payrollStaff', function ($query) use ($search) {
+                $query->where('first_name', 'ilike', '%' . $search . '%')
+                    ->orWhere('last_name', 'ilike', '%' . $search . '%')
+                    ->orWhere('id_number', 'ilike', '%' . $search . '%');
+            })->orWhere('instruction_degree_name', 'ilike', '%' . $search . '%');
+        });
     }
 }

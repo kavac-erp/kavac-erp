@@ -6,17 +6,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-/**
- * @class AddFieldDocumentStatusIdToFinanceBankingMovementsTable
- * @brief [descripción detallada]
- *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
- *
- * @license
- *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
- */
 class AddFieldDocumentStatusIdToFinanceBankingMovementsTable extends Migration
 {
     /**

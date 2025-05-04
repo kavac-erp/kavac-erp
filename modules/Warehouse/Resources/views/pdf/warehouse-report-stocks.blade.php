@@ -39,25 +39,25 @@
                 <span>
                     @if ($field->minimum == $field->warehouseInventoryProduct->real)
                             El artículo llegó al mínimo de existencia
-                    
-                    
+
+
                     @elseif ($field->warehouseInventoryProduct->real == 0)
-                            
+
                             No hay existencia en inventario
-                        
-                       
-                    @elseif ($field->minimum > $field->warehouseInventoryProduct->exist)                
+
+
+                    @elseif ($field->minimum > $field->warehouseInventoryProduct->exist)
                             El artículo sobrepasa el mínimo de existencia
-                            
+
 
                     @elseif ($field->minimum < $field->warehouseInventoryProduct->real)
                             Hay existencia del artículo en inventario
-                    @endif     
+                    @endif
 
                 </span>
 
-            </td>    
-                        
+            </td>
+
         </tr>
     @endforeach
 </table>

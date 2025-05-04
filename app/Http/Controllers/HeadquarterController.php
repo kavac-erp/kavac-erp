@@ -1,11 +1,10 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Headquarter;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class HeadquarterController
@@ -14,6 +13,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar las sedes
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -22,13 +22,13 @@ class HeadquarterController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method __construct
-     *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:headquarter.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:headquarter.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:headquarter.delete', ['only' => 'destroy']);
@@ -37,8 +37,6 @@ class HeadquarterController extends Controller
 
     /**
      * Muesta todos los registros de los sectores de organizaciones
-     *
-     * @method  index
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
      *
@@ -52,8 +50,6 @@ class HeadquarterController extends Controller
     /**
      * Registra un nuevo sector de organización
      *
-     * @method  store
-     *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
      *
      * @param  Request  $request    Objeto con información de la petición
@@ -66,7 +62,7 @@ class HeadquarterController extends Controller
             'name' => ['required'],
         ]);
 
-        /** @var headquarter Objeto con información de la sede */
+        // Objeto con información de la sede
         $headquarter = Headquarter::create([
             'name' => $request->name
         ]);
@@ -76,8 +72,6 @@ class HeadquarterController extends Controller
 
     /**
      * Actualiza la información del sector de organización
-     *
-     * @method  update
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
      *
@@ -105,8 +99,6 @@ class HeadquarterController extends Controller
     /**
      * Elimina un sector de organización
      *
-     * @method  destroy
-     *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
      *
      * @param  Headquarter  $headquarter    Objeto con información de la sede a eliminar
@@ -123,14 +115,12 @@ class HeadquarterController extends Controller
     /**
      * Muesta todos los registros de los sectores de organizaciones
      *
-     * @method  index
-     *
      * @author  Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return JsonResponse     JSON con el listado de sectores de organismos
+     * @return array     JSON con el listado de sectores de organismos
      */
     public function getHeadquarters()
     {
-        return template_choices('App\Models\Headquarter', 'name', '', true, null, '');
+        return template_choices('App\Models\Headquarter', 'name', '', true, null);
     }
 }

@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>KAVAC: Archivo de código fuente PayrollSendRequestedReceiptsJob.php</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="../../logo-doc.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">KAVAC<span id="projectnumber">&#160;v1.0.5</span>
+   </div>
+   <div id="projectbrief">Sistema de Gestión Organizacional</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('de/d45/PayrollSendRequestedReceiptsJob_8php_source.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">PayrollSendRequestedReceiptsJob.php</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;?<a class="code hl_class" href="../../d2/d38/classAddFieldCodeToSaleOrdersTable_1_1php.html">php</a></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"></span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/** Trabajos en segundo plano del módulo de Talento Humano */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../d5/d88/namespaceModules_1_1Payroll_1_1Jobs.html">Modules\Payroll\Jobs</a>;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>use ZipArchive;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>use Carbon\Carbon;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>use <a class="code hl_class" href="../../d7/df8/classApp_1_1Models_1_1Currency.html">App\Models\Currency</a>;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>use <a class="code hl_class" href="../../db/d71/classApp_1_1Models_1_1Parameter.html">App\Models\Parameter</a>;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>use App\Models\Institution;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>use Illuminate\Support\Str;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>use Illuminate\Bus\Queueable;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>use <a class="code hl_class" href="../../db/d2b/classApp_1_1Repositories_1_1ReportRepository.html">App\Repositories\ReportRepository</a>;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>use Illuminate\Queue\SerializesModels;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>use Illuminate\Support\Facades\Storage;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>use Illuminate\Queue\InteractsWithQueue;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>use Illuminate\Contracts\Queue\ShouldQueue;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>use Illuminate\Foundation\Bus\Dispatchable;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>use <a class="code hl_class" href="../../d2/d03/classModules_1_1Payroll_1_1Models_1_1PayrollStaffPayroll.html">Modules\Payroll\Models\PayrollStaffPayroll</a>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>use <a class="code hl_class" href="../../d5/da2/classModules_1_1Payroll_1_1Emails_1_1SendRequestedReceipts.html">Modules\Payroll\Emails\SendRequestedReceipts</a>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>use <a class="code hl_class" href="../../d7/d6c/classModules_1_1Payroll_1_1Actions_1_1GetPayrollConceptParameters.html">Modules\Payroll\Actions\GetPayrollConceptParameters</a>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>use <a class="code hl_class" href="../../d1/d95/classModules_1_1Payroll_1_1Actions_1_1PayrollPaymentRelationshipAction.html">Modules\Payroll\Actions\PayrollPaymentRelationshipAction</a>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment"></span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment"> * @class PayrollSendRequestedReceiptsJob</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment"> * @brief Instrucciones para enviar recibos de pago de nómina a través de una tarea en segundo plano</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment"> * Enviar recibos de pago de nómina</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment"> * @author Ing. Roldan Vargas &lt;rvargas@cenditel.gob.ve&gt; | &lt;roldandvg at gmail dot com&gt;</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment"> * @license</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment"> *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment"> */</span></div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="};">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html">   36</a></span><span class="keyword">class </span><a class="code hl_class" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html">PayrollSendRequestedReceiptsJob</a> <span class="keyword">implements</span> ShouldQueue</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>{</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    use Dispatchable;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    use InteractsWithQueue;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    use Queueable;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    use SerializesModels;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment"></span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="comment">     * Variable que contiene el tiempo de espera para la ejecución del trabajo.</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="comment">     * @var integer $timeout</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a9867dbae12786c1f6934645c9a684ef9">   48</a></span>    <span class="keyword">public</span> <a class="code hl_variable" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a9867dbae12786c1f6934645c9a684ef9">$timeout</a> = 0;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment"></span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">     * Mes de la nómina</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="comment">     * @var string $month</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#af34fce54ca98bae657bec0dcb17eac60">   55</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#af34fce54ca98bae657bec0dcb17eac60">$month</a>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="comment"></span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">     * Año de la nómina</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="comment">     * @var string $year</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a7e74723ffa758165f367cac6a1076bcf">   62</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a7e74723ffa758165f367cac6a1076bcf">$year</a>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="comment"></span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="comment">     * Monto total del recibo de pago</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="comment">     * @var float $total</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a5a43b7cb0c32c955000c8305da9f384c">   69</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a5a43b7cb0c32c955000c8305da9f384c">$total</a>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="comment"></span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="comment">     * Monto total de asignaciones</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="comment">     * @var float $assignations_total</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a8b5011a9491cd26c5c5aef4acc5d908a">   76</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a8b5011a9491cd26c5c5aef4acc5d908a">$assignations_total</a>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="comment"></span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="comment">     * Monto total de deducciones</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="comment">     * @var float $deductions_total</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#ae18cd9959885ade9d53a3c07b1e3729f">   83</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#ae18cd9959885ade9d53a3c07b1e3729f">$deductions_total</a>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="comment"></span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="comment">     * Monto total actual</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="comment">     * @var float $current_total</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a66da32c942859db847f44c3836ed53f9">   90</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a66da32c942859db847f44c3836ed53f9">$current_total</a>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="comment"></span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="comment">     * Establece si la nómina tiene parámetros</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="comment">     * @var boolean $has_params</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#aa37a6bcd72a339fba15a75da78b38960">   97</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#aa37a6bcd72a339fba15a75da78b38960">$has_params</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="comment"></span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="comment">     * Crea una nueva instancia de trabajo.</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="comment">     * @return void</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="comment">     */</span></div>
+<div class="foldopen" id="foldopen00104" data-start="{" data-end="}">
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#ad23fe020981444d473b367f23bb14916">  104</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#ad23fe020981444d473b367f23bb14916">__construct</a>(</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keyword">protected</span> $payrollStaffPayroll,</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keyword">protected</span> Institution $institution,</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keyword">protected</span> <a class="code hl_class" href="../../d7/df8/classApp_1_1Models_1_1Currency.html">Currency</a> $currency,</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <span class="keyword">protected</span> <span class="keywordtype">string</span> $email,</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keyword">protected</span> ?<a class="code hl_class" href="../../db/d71/classApp_1_1Models_1_1Parameter.html">Parameter</a> $number_decimals = <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <span class="keyword">protected</span> ?<a class="code hl_class" href="../../db/d71/classApp_1_1Models_1_1Parameter.html">Parameter</a> $round = <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    ) {</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        $this-&gt;number_decimals = Parameter::query()-&gt;where([</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>            <span class="stringliteral">&#39;p_key&#39;</span> =&gt; <span class="stringliteral">&#39;number_decimals&#39;</span>,</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <span class="stringliteral">&#39;required_by&#39;</span> =&gt; <span class="stringliteral">&#39;payroll&#39;</span>,</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        ])-&gt;first();</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        $this-&gt;round = Parameter::query()-&gt;where([</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            <span class="stringliteral">&#39;p_key&#39;</span> =&gt; <span class="stringliteral">&#39;round&#39;</span>,</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            <span class="stringliteral">&#39;required_by&#39;</span> =&gt; <span class="stringliteral">&#39;payroll&#39;</span>,</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        ])-&gt;first();</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        $this-&gt;payrollStaffPayroll = $this-&gt;payrollStaffPayroll-&gt;with([</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            <span class="stringliteral">&quot;payroll&quot;</span> =&gt; <span class="keyword">function</span> ($query) {</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                $query-&gt;with([</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>                    <span class="stringliteral">&quot;payrollPaymentPeriod&quot;</span> =&gt; <span class="keyword">function</span> ($query) {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                        $query-&gt;select(<span class="stringliteral">&#39;id&#39;</span>, <span class="stringliteral">&#39;start_date&#39;</span>, <span class="stringliteral">&#39;end_date&#39;</span>);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                    }</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                ]);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            }</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        ])-&gt;with([</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            <span class="stringliteral">&quot;payrollStaff&quot;</span> =&gt; <span class="keyword">function</span> ($query) {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>                $query-&gt;without([</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                    <span class="stringliteral">&#39;payrollNationality&#39;</span>,</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                    <span class="stringliteral">&#39;payrollFinancial&#39;</span>,</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                    <span class="stringliteral">&#39;payrollGender&#39;</span>,</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                    <span class="stringliteral">&#39;payrollBloodType&#39;</span>,</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                    <span class="stringliteral">&#39;payrollDisability&#39;</span>,</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>                    <span class="stringliteral">&#39;payrollLicenseDegree&#39;</span>,</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                    <span class="stringliteral">&#39;payrollStaffUniformSize&#39;</span>,</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                    <span class="stringliteral">&#39;payrollSocioeconomic&#39;</span>,</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>                    <span class="stringliteral">&#39;payrollProfessional&#39;</span>,</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>                    <span class="stringliteral">&#39;payrollResponsibility&#39;</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>                ]);</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>            }</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        ])-&gt;<span class="keyword">get</span>()-&gt;toArray();</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    }</div>
+</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="comment"></span> </div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="comment">     * Ejecuta el trabajo.</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="comment">     * @return void</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="comment">     */</span></div>
+<div class="foldopen" id="foldopen00152" data-start="{" data-end="}">
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a66eb7514ea7f7f8a5738a180b14e9b48">  152</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a66eb7514ea7f7f8a5738a180b14e9b48">handle</a>()</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    {</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        $nameDecimalFunction = $this-&gt;round-&gt;p_value == <span class="stringliteral">&#39;false&#39;</span> ? <span class="stringliteral">&#39;currency_format&#39;</span> : <span class="stringliteral">&#39;round&#39;</span>;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        $payrollPaymentRelationshipAction = <span class="keyword">new</span> <a class="code hl_class" href="../../d1/d95/classModules_1_1Payroll_1_1Actions_1_1PayrollPaymentRelationshipAction.html">PayrollPaymentRelationshipAction</a>();</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        $startDate = $this-&gt;payrollStaffPayroll[0][<span class="stringliteral">&#39;payroll&#39;</span>][<span class="stringliteral">&#39;payroll_payment_period&#39;</span>][<span class="stringliteral">&#39;start_date&#39;</span>];</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        $endDate = $this-&gt;payrollStaffPayroll[0][<span class="stringliteral">&#39;payroll&#39;</span>][<span class="stringliteral">&#39;payroll_payment_period&#39;</span>][<span class="stringliteral">&#39;end_date&#39;</span>];</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        $this-&gt;month = Carbon::createFromFormat(<span class="stringliteral">&#39;Y-m-d&#39;</span>, $startDate)-&gt;format(<span class="charliteral">&#39;F&#39;</span>);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        $this-&gt;month = months_dictionary()[<a class="code hl_variable" href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#af34fce54ca98bae657bec0dcb17eac60">$this-&gt;month</a>];</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        $this-&gt;year = Carbon::createFromFormat(<span class="stringliteral">&#39;Y-m-d&#39;</span>, $startDate)-&gt;format(<span class="charliteral">&#39;Y&#39;</span>);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        $params = (<span class="keyword">new</span> <a class="code hl_class" href="../../d7/d6c/classModules_1_1Payroll_1_1Actions_1_1GetPayrollConceptParameters.html">GetPayrollConceptParameters</a>());</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        $payrollPersonalConceptAssign = [];</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        $filesToZip = [];</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        $zipPath = <span class="stringliteral">&#39;&#39;</span>;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordflow">foreach</span> ($this-&gt;payrollStaffPayroll as &amp;$payrollStaff) {</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>            $timeParameters = [];</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>            array_map(<span class="keyword">function</span> ($payrollParameter) use (&amp;$timeParameters) {</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>                $timeParameters[$payrollParameter[<span class="stringliteral">&#39;staff_id&#39;</span>]][] = $payrollParameter;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>            }, $payrollPaymentRelationshipAction-&gt;getPayrollParameters($payrollStaff[<span class="stringliteral">&#39;payroll_id&#39;</span>], <span class="keyword">false</span>));</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            $this-&gt;has_params = count($timeParameters[$payrollStaff[<span class="stringliteral">&#39;payroll_staff_id&#39;</span>]] ?? []) &gt; 0;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>            $this-&gt;total = 0.0;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>            $this-&gt;assignations_total = 0.0;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>            $this-&gt;deductions_total = 0.0;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            <span class="keywordflow">foreach</span> ($payrollStaff[<span class="stringliteral">&#39;concept_type&#39;</span>] as $concept_name =&gt; &amp;$concept_type_arr) {</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                $this-&gt;current_total = 0.0;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>                <span class="keywordflow">foreach</span> ($concept_type_arr as $index =&gt; &amp;$concept_type) {</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>                    <span class="keywordflow">if</span> (doubleval($concept_type[<span class="stringliteral">&#39;value&#39;</span>]) &gt; 0) {</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>                        <span class="keywordflow">if</span> ($concept_type[<span class="stringliteral">&quot;sign&quot;</span>] == <span class="charliteral">&#39;+&#39;</span>) {</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>                            <span class="comment">/* Listado de trabajadores a los que aplica un concepto */</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                            <span class="keywordflow">if</span> (!isset($payrollPersonalConceptAssign[$concept_type[<span class="stringliteral">&quot;id&quot;</span>]])) {</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                                $payrollPersonalConceptAssign[$concept_type[<span class="stringliteral">&quot;id&quot;</span>]] =</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                                    $params-&gt;getPayrollPersonalConceptAssign(</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>                                        $concept_type[<span class="stringliteral">&quot;id&quot;</span>],</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>                                        $payrollStaff[<span class="stringliteral">&quot;payroll_id&quot;</span>],</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>                                        <span class="keyword">true</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>                                    );</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                            }</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                            <span class="keywordflow">if</span> (count($timeParameters)) {</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>                                $concept_type[<span class="stringliteral">&quot;parameters&quot;</span>] = array_map(<span class="keyword">function</span> ($parameter) use ($timeParameters, $payrollStaff, $concept_type) {</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>                                    $filter = array_filter($timeParameters[$payrollStaff[<span class="stringliteral">&#39;payroll_staff_id&#39;</span>]], <span class="keyword">function</span> ($timeParameter) use ($parameter, $concept_type) {</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>                                        <span class="keywordflow">return</span> ($timeParameter[<span class="stringliteral">&quot;id&quot;</span>] == $parameter[<span class="stringliteral">&quot;id&quot;</span>]) &amp;&amp; ($timeParameter[<span class="stringliteral">&quot;time_sheet&quot;</span>] == $concept_type[<span class="stringliteral">&quot;time_sheet&quot;</span>]);</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>                                    });</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>                                    <span class="keywordflow">return</span> (count($filter) &gt; 0) ? array(reset($filter)) : [];</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>                                }, isset($payrollPersonalConceptAssign[$concept_type[<span class="stringliteral">&quot;id&quot;</span>]]) ? $payrollPersonalConceptAssign[$concept_type[<span class="stringliteral">&quot;id&quot;</span>]][<span class="stringliteral">&quot;record&quot;</span>][<span class="stringliteral">&quot;parameters&quot;</span>] : []);</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>                            }</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                        }</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>                        <span class="keywordflow">if</span> ($concept_type[<span class="stringliteral">&quot;sign&quot;</span>] == <span class="charliteral">&#39;+&#39;</span>) {</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>                            $this-&gt;assignations_total +=</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>                                $nameDecimalFunction($concept_type[<span class="stringliteral">&quot;value&quot;</span>], $this-&gt;number_decimals-&gt;p_value);</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>                        } elseif ($concept_type[<span class="stringliteral">&quot;sign&quot;</span>] == <span class="charliteral">&#39;-&#39;</span>) {</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>                            $this-&gt;deductions_total +=</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>                                $nameDecimalFunction($concept_type[<span class="stringliteral">&quot;value&quot;</span>], $this-&gt;number_decimals-&gt;p_value);</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>                        }</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>                        $this-&gt;current_total +=</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>                            $nameDecimalFunction($concept_type[<span class="stringliteral">&quot;value&quot;</span>], $this-&gt;number_decimals-&gt;p_value);</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>                        $this-&gt;total =</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>                            $nameDecimalFunction(</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>                                $this-&gt;assignations_total - $this-&gt;deductions_total,</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>                                $this-&gt;number_decimals-&gt;p_value</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>                            );</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>                        unset($concept_type_arr[$index]);</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>                    }</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                }</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>            }</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span> </div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>            $pdf = <span class="keyword">new</span> <a class="code hl_class" href="../../db/d2b/classApp_1_1Repositories_1_1ReportRepository.html">ReportRepository</a>();</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            $staffIdNumber = $payrollStaff[<span class="stringliteral">&#39;payroll_staff&#39;</span>][<span class="stringliteral">&#39;id_number&#39;</span>];</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            $staffFullName = $payrollStaff[<span class="stringliteral">&#39;payroll_staff&#39;</span>][<span class="stringliteral">&#39;first_name&#39;</span>] . <span class="charliteral">&#39; &#39;</span> . $payrollStaff[<span class="stringliteral">&#39;payroll_staff&#39;</span>][<span class="stringliteral">&#39;last_name&#39;</span>];</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            $pdfPath = sys_get_temp_dir() . <span class="stringliteral">&quot;/{$staffIdNumber}_&quot;</span> . Str::slug($staffFullName, <span class="charliteral">&#39;_&#39;</span>) . <span class="stringliteral">&quot;.pdf&quot;</span>;</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>            $pdf-&gt;setConfig([</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                <span class="stringliteral">&#39;institution&#39;</span> =&gt; $this-&gt;institution,</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>                <span class="stringliteral">&#39;orientation&#39;</span> =&gt; <span class="charliteral">&#39;L&#39;</span>,</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                <span class="stringliteral">&#39;format&#39;</span> =&gt;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                <span class="stringliteral">&#39;A2 LANDSCAPE&#39;</span>,</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>                <span class="stringliteral">&#39;filename&#39;</span> =&gt; $pdfPath,</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                <span class="stringliteral">&#39;urlVerify&#39;</span> =&gt; url(<span class="charliteral">&#39;/&#39;</span>)</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>            ]);</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>            $pdf-&gt;setHeader(</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>                <span class="stringliteral">&#39;Recibo de pago&#39;</span>,</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>                <span class="stringliteral">&#39;Periodo &#39;</span> . date(<span class="stringliteral">&#39;d-m-Y&#39;</span>, strtotime($startDate)) . <span class="stringliteral">&#39; / &#39;</span> . date(</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>                    <span class="stringliteral">&#39;d-m-Y&#39;</span>,</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>                    strtotime($endDate)</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>                ),</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>                <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>                <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>                <span class="stringliteral">&#39;&#39;</span>,</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>                <span class="charliteral">&#39;C&#39;</span>,</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>                <span class="charliteral">&#39;C&#39;</span></div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>            );</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>            $pdf-&gt;setFooter();</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>            $pdf-&gt;setBody(<span class="stringliteral">&#39;payroll::pdf.receipt&#39;</span>, <span class="keyword">true</span>, [</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                <span class="stringliteral">&#39;pdf&#39;</span> =&gt; $pdf,</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>                <span class="stringliteral">&#39;institution&#39;</span> =&gt; $this-&gt;institution,</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>                <span class="stringliteral">&#39;currency&#39;</span> =&gt; $this-&gt;currency,</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>                <span class="stringliteral">&#39;data&#39;</span> =&gt; $payrollStaff,</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>                <span class="stringliteral">&#39;has_params&#39;</span> =&gt; $this-&gt;has_params,</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>                <span class="stringliteral">&#39;function&#39;</span> =&gt; $nameDecimalFunction,</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>                <span class="stringliteral">&#39;decimals&#39;</span> =&gt; $this-&gt;number_decimals-&gt;p_value,</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>                <span class="stringliteral">&#39;month&#39;</span> =&gt; $this-&gt;month,</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>                <span class="stringliteral">&#39;year&#39;</span> =&gt; $this-&gt;year,</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>                <span class="stringliteral">&#39;total_&#39;</span> =&gt; $this-&gt;total,</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>                <span class="stringliteral">&#39;period&#39;</span> =&gt; date(<span class="stringliteral">&#39;d-m-Y&#39;</span>, strtotime($startDate)) . <span class="stringliteral">&#39; / &#39;</span> . date(<span class="stringliteral">&#39;d-m-Y&#39;</span>, strtotime($endDate))</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>            ], <span class="charliteral">&#39;F&#39;</span>);</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>            $filesToZip[] = $pdfPath;</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>        }</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span> </div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        $zip = <span class="keyword">new</span> ZipArchive();</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>        $zipName = <span class="stringliteral">&#39;recibos_de_pago.zip&#39;</span>;</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        $zipPath = Storage::disk(<span class="stringliteral">&#39;temporary&#39;</span>)-&gt;path($zipName);</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        <span class="keywordflow">if</span> ($zip-&gt;open($zipPath, ZipArchive::CREATE) === <span class="keyword">true</span>) {</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>            <span class="keywordflow">foreach</span> ($filesToZip as $file) {</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>                $zip-&gt;addFile($file, basename($file));</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            }</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>            $zip-&gt;close();</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        }</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span> </div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>        PayrollSendReceiptsEmailJob::dispatch(</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>            $this-&gt;email,</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>            <span class="keyword">new</span> <a class="code hl_class" href="../../d5/da2/classModules_1_1Payroll_1_1Emails_1_1SendRequestedReceipts.html">SendRequestedReceipts</a>(</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>                $zipPath,</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>                $this-&gt;month,</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>                $this-&gt;year,</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>                date(<span class="stringliteral">&#39;d-m-Y&#39;</span>, strtotime($startDate)) . <span class="stringliteral">&#39; / &#39;</span> . date(<span class="stringliteral">&#39;d-m-Y&#39;</span>, strtotime($endDate))</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>            ),</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>            $zipPath</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>        );</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    }</div>
+</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>}</div>
+</div>
+<div class="ttc" id="aclassAddFieldCodeToSaleOrdersTable_1_1php_html"><div class="ttname"><a href="../../d2/d38/classAddFieldCodeToSaleOrdersTable_1_1php.html">php</a></div><div class="ttdoc">Ejecuta el proceso de migración de la estructura de tablas en base de datos.</div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Currency_html"><div class="ttname"><a href="../../d7/df8/classApp_1_1Models_1_1Currency.html">App\Models\Currency</a></div><div class="ttdoc">Datos de Monedas.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/df4/app_2Models_2Currency_8php_source.html#l00030">app/Models/Currency.php:31</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Parameter_html"><div class="ttname"><a href="../../db/d71/classApp_1_1Models_1_1Parameter.html">App\Models\Parameter</a></div><div class="ttdoc">Datos de configuración de parámetros de la aplicación.</div><div class="ttdef"><b>Definition</b> <a href="../../de/daf/app_2Models_2Parameter_8php_source.html#l00027">app/Models/Parameter.php:28</a></div></div>
+<div class="ttc" id="aclassApp_1_1Repositories_1_1ReportRepository_html"><div class="ttname"><a href="../../db/d2b/classApp_1_1Repositories_1_1ReportRepository.html">App\Repositories\ReportRepository</a></div><div class="ttdoc">Gestiona los reportes de la aplicación.</div><div class="ttdef"><b>Definition</b> <a href="../../d1/dad/app_2Repositories_2ReportRepository_8php_source.html#l00023">app/Repositories/ReportRepository.php:24</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Actions_1_1GetPayrollConceptParameters_html"><div class="ttname"><a href="../../d7/d6c/classModules_1_1Payroll_1_1Actions_1_1GetPayrollConceptParameters.html">Modules\Payroll\Actions\GetPayrollConceptParameters</a></div><div class="ttdoc">Acciones para obtener los parámetros de conceptos.</div><div class="ttdef"><b>Definition</b> <a href="../../da/d4c/GetPayrollConceptParameters_8php_source.html#l00023">GetPayrollConceptParameters.php:24</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Actions_1_1PayrollPaymentRelationshipAction_html"><div class="ttname"><a href="../../d1/d95/classModules_1_1Payroll_1_1Actions_1_1PayrollPaymentRelationshipAction.html">Modules\Payroll\Actions\PayrollPaymentRelationshipAction</a></div><div class="ttdoc">Acciones para los pagos de relaciones.</div><div class="ttdef"><b>Definition</b> <a href="../../dc/dc1/PayrollPaymentRelationshipAction_8php_source.html#l00019">PayrollPaymentRelationshipAction.php:20</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Emails_1_1SendRequestedReceipts_html"><div class="ttname"><a href="../../d5/da2/classModules_1_1Payroll_1_1Emails_1_1SendRequestedReceipts.html">Modules\Payroll\Emails\SendRequestedReceipts</a></div><div class="ttdoc">Notificación por correo de recibos de pago.</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d14/SendRequestedReceipts_8php_source.html#l00019">SendRequestedReceipts.php:20</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob_html"><div class="ttname"><a href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html">Modules\Payroll\Jobs\PayrollSendRequestedReceiptsJob</a></div><div class="ttdoc">Instrucciones para enviar recibos de pago de nómina a través de una tarea en segundo plano.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d45/PayrollSendRequestedReceiptsJob_8php_source.html#l00036">PayrollSendRequestedReceiptsJob.php:37</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob_html_a5a43b7cb0c32c955000c8305da9f384c"><div class="ttname"><a href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a5a43b7cb0c32c955000c8305da9f384c">Modules\Payroll\Jobs\PayrollSendRequestedReceiptsJob\$total</a></div><div class="ttdeci">$total</div><div class="ttdoc">Monto total del recibo de pago.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d45/PayrollSendRequestedReceiptsJob_8php_source.html#l00069">PayrollSendRequestedReceiptsJob.php:69</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob_html_a66da32c942859db847f44c3836ed53f9"><div class="ttname"><a href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a66da32c942859db847f44c3836ed53f9">Modules\Payroll\Jobs\PayrollSendRequestedReceiptsJob\$current_total</a></div><div class="ttdeci">$current_total</div><div class="ttdoc">Monto total actual.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d45/PayrollSendRequestedReceiptsJob_8php_source.html#l00090">PayrollSendRequestedReceiptsJob.php:90</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob_html_a66eb7514ea7f7f8a5738a180b14e9b48"><div class="ttname"><a href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a66eb7514ea7f7f8a5738a180b14e9b48">Modules\Payroll\Jobs\PayrollSendRequestedReceiptsJob\handle</a></div><div class="ttdeci">handle()</div><div class="ttdoc">Ejecuta el trabajo.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d45/PayrollSendRequestedReceiptsJob_8php_source.html#l00152">PayrollSendRequestedReceiptsJob.php:152</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob_html_a7e74723ffa758165f367cac6a1076bcf"><div class="ttname"><a href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a7e74723ffa758165f367cac6a1076bcf">Modules\Payroll\Jobs\PayrollSendRequestedReceiptsJob\$year</a></div><div class="ttdeci">$year</div><div class="ttdoc">Año de la nómina.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d45/PayrollSendRequestedReceiptsJob_8php_source.html#l00062">PayrollSendRequestedReceiptsJob.php:62</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob_html_a8b5011a9491cd26c5c5aef4acc5d908a"><div class="ttname"><a href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a8b5011a9491cd26c5c5aef4acc5d908a">Modules\Payroll\Jobs\PayrollSendRequestedReceiptsJob\$assignations_total</a></div><div class="ttdeci">$assignations_total</div><div class="ttdoc">Monto total de asignaciones.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d45/PayrollSendRequestedReceiptsJob_8php_source.html#l00076">PayrollSendRequestedReceiptsJob.php:76</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob_html_a9867dbae12786c1f6934645c9a684ef9"><div class="ttname"><a href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#a9867dbae12786c1f6934645c9a684ef9">Modules\Payroll\Jobs\PayrollSendRequestedReceiptsJob\$timeout</a></div><div class="ttdeci">$timeout</div><div class="ttdoc">Variable que contiene el tiempo de espera para la ejecución del trabajo.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d45/PayrollSendRequestedReceiptsJob_8php_source.html#l00048">PayrollSendRequestedReceiptsJob.php:48</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob_html_aa37a6bcd72a339fba15a75da78b38960"><div class="ttname"><a href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#aa37a6bcd72a339fba15a75da78b38960">Modules\Payroll\Jobs\PayrollSendRequestedReceiptsJob\$has_params</a></div><div class="ttdeci">$has_params</div><div class="ttdoc">Establece si la nómina tiene parámetros.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d45/PayrollSendRequestedReceiptsJob_8php_source.html#l00097">PayrollSendRequestedReceiptsJob.php:97</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob_html_ad23fe020981444d473b367f23bb14916"><div class="ttname"><a href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#ad23fe020981444d473b367f23bb14916">Modules\Payroll\Jobs\PayrollSendRequestedReceiptsJob\__construct</a></div><div class="ttdeci">__construct(protected $payrollStaffPayroll, protected Institution $institution, protected Currency $currency, protected string $email, protected ?Parameter $number_decimals=null, protected ?Parameter $round=null,)</div><div class="ttdoc">Crea una nueva instancia de trabajo.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d45/PayrollSendRequestedReceiptsJob_8php_source.html#l00104">PayrollSendRequestedReceiptsJob.php:104</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob_html_ae18cd9959885ade9d53a3c07b1e3729f"><div class="ttname"><a href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#ae18cd9959885ade9d53a3c07b1e3729f">Modules\Payroll\Jobs\PayrollSendRequestedReceiptsJob\$deductions_total</a></div><div class="ttdeci">$deductions_total</div><div class="ttdoc">Monto total de deducciones.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d45/PayrollSendRequestedReceiptsJob_8php_source.html#l00083">PayrollSendRequestedReceiptsJob.php:83</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob_html_af34fce54ca98bae657bec0dcb17eac60"><div class="ttname"><a href="../../d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html#af34fce54ca98bae657bec0dcb17eac60">Modules\Payroll\Jobs\PayrollSendRequestedReceiptsJob\$month</a></div><div class="ttdeci">$month</div><div class="ttdoc">Mes de la nómina.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d45/PayrollSendRequestedReceiptsJob_8php_source.html#l00055">PayrollSendRequestedReceiptsJob.php:55</a></div></div>
+<div class="ttc" id="aclassModules_1_1Payroll_1_1Models_1_1PayrollStaffPayroll_html"><div class="ttname"><a href="../../d2/d03/classModules_1_1Payroll_1_1Models_1_1PayrollStaffPayroll.html">Modules\Payroll\Models\PayrollStaffPayroll</a></div><div class="ttdoc">Datos de la información entre los registros de nómina y del personal.</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d50/PayrollStaffPayroll_8php_source.html#l00021">PayrollStaffPayroll.php:22</a></div></div>
+<div class="ttc" id="anamespaceModules_1_1Payroll_1_1Jobs_html"><div class="ttname"><a href="../../d5/d88/namespaceModules_1_1Payroll_1_1Jobs.html">Modules\Payroll\Jobs</a></div><div class="ttdoc">Trabajos en segundo plano del módulo de Talento Humano.</div><div class="ttdef"><b>Definition</b> <a href="../../de/db5/PayrollAriRegisterImportJob_8php_source.html#l00003">PayrollAriRegisterImportJob.php:3</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_e05d7e2b1ecd646af5bb94391405f3b5.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5d2bef04a6d76a5c763302bfa2fa021f.html">Payroll</a></li><li class="navelem"><a class="el" href="../../dir_b0fcc1b063a6761e1c97f40d7e503902.html">Jobs</a></li><li class="navelem"><b>PayrollSendRequestedReceiptsJob.php</b></li>
+    <li class="footer">Generado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

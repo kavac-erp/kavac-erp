@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldToAssetAsignationsTable
- * @brief [descripción detallada]
+ * @brief Agrega campo institution_id a la tabla de asignación de bienes
  *
- * [descripción corta]
+ * Agrega campo institution_id a la tabla de asignación de bienes
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. José Briceño <jbricenyo@acenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

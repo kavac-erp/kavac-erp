@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Http\Controllers;
 
 use App\Models\CodeSetting;
@@ -10,16 +8,17 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
+use Modules\ProjectTracking\Models\ProjectTrackingProject;
 use Modules\ProjectTracking\Models\ProjectTrackingSubProject;
 use Nwidart\Modules\Facades\Module;
 
 /**
  * @class ProjectTrackingSubProject
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
- * [descripción corta]
- *
- * @author [Pedro Contreras] [pdrocont@gmail.com]
+ * @author Pedro Contreras <pdrocont@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -28,33 +27,70 @@ class ProjectTrackingSubProjectController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Arreglo con las reglas de validación sobre los datos de un formulario
+     *
+     * @var array $validateRules
+     */
+    protected $validateRules;
+
+    /**
+     * Arreglo con los mensajes para las reglas de validación
+     *
+     * @var array $messages
+     */
+    protected $messages;
+
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
-        {
-            /** Define las reglas de validación para el formulario */
-            $this->validateRules = [
-                'project_id'                            => ['required'],
-                'name'                                  => ['required'],
-                'description'                           => ['nullable', 'max:500'],
-                'code'                                  => ['nullable', 'max:20'],
-                'responsable_id'                        => ['required'],
-                'team'                                  => ['required'],
-                'start_date'                            => ['required'],
-                'end_date'                              => ['required'],
-                'financement_amount'                    => ['required'],
-                'currency_id'                           => ['required']
-            ];
-            }
-        /**
-         * [descripción del método]
-         *
-         * @method    index
-         *
-         * @author    [nombre del autor] [correo del autor]
-         *
-         * @return    Renderable    [descripción de los datos devueltos]
-         */
+        /* Define las reglas de validación para el formulario */
+        $this->validateRules = [
+            'project_id'         => ['required'],
+            'name'               => [
+                'required',
+                'unique:Modules\ProjectTracking\Models\ProjectTrackingSubProject,name',
+                'max:100',
+            ],
+            'description'        => ['nullable', 'max:500'],
+            'code'               => ['nullable', 'max:20'],
+            'responsable_id'     => ['required', 'max:50'],
+            'product_types'      => ['required', 'array', 'min:1'],
+            'start_date'         => ['required'],
+            'end_date'           => ['required'],
+            'financement_amount' => ['required', 'max:500'],
+            'currency_id'        => ['required'],
+        ];
+
+        /* Define los mensajes para las reglas de validación */
+        $this->messages = [
+            'project_id.required'         => 'El campo Proyecto es obligatorio.',
+            'name.required'               => 'El campo Nombre es obligatorio.',
+            'name.unique'                 => 'El campo Nombre ya ha sido registrado.',
+            'name.max'                    => 'El campo Nombre no debe contener mas de 100 caracteres',
+            'description.max'             => 'El campo Descripción no debe contener mas de 500 caracteres.',
+            'code.max'                    => 'El campo Código no debe contener mas de 20 caracteres.',
+            'responsable_id.required'     => 'El campo Responsable del proyecto es obligatorio.',
+            'start_date.required'         => 'El campo Fecha de Inicio es obligatorio.',
+            'start_date.before_or_equal'  => 'La fecha de inicio no puede ser posterior a la fecha Fin.',
+            'end_date.required'           => 'El campo Fecha Fin es obligatorio.',
+            'end_date.after_or_equal'     => 'La fecha Fin no puede ser anterior a la fecha de inicio.',
+            'currency_id.required'        => 'El campo Moneda es obligatorio.',
+            'financement_amount.required' => 'El campo Monto de Financiamiento es obligatorio.',
+            'product_types.required'      => 'El campo Tipos de producto es obligatorio.',
+            'product_types.min'           => 'Debe elegir al menos un tipo de producto.',
+        ];
     }
+
+    /**
+     * Muestra un listado de los sub proyectos registrados
+     *
+     * @return    \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         $SubprojectsList = ProjectTrackingSubProject::with('Responsable', 'Project')->get()->all();
@@ -62,7 +98,7 @@ class ProjectTrackingSubProjectController extends Controller
             $subproject['responsable_name'] = $subproject->Responsable->name;
             $subproject['project_name'] = $subproject->Project->name;
         }
-        /** @var condition Condicional que oculta el registro común si existe el módulo de Talento Humano */
+        /* Condicional que oculta el registro común si existe el módulo de Talento Humano */
         if (Module::has('Payroll')) {
             $payroll = true;
         } else {
@@ -71,6 +107,11 @@ class ProjectTrackingSubProjectController extends Controller
         return response()->json(['records' => $SubprojectsList, 'payroll' => $payroll], 200);
     }
 
+    /**
+     * Obtiene los sub proyectos registrados
+     *
+     * @return JsonResponse
+     */
     public function getSubprojects()
     {
         $subprojectsList = ProjectTrackingSubProject::all();
@@ -84,6 +125,8 @@ class ProjectTrackingSubProjectController extends Controller
                 'id' => $subproject->id,
                 'text' => $subproject->name,
                 'name' => $subproject->name,
+                'product_type_ids' => $subproject->getProductTypeIds(),
+                // 'product_type_id' => $subproject->project->type_product_id,
                 'responsable_id' => $subproject->responsable,
                 'start_date' => $subproject->start_date,
                 'end_date' => $subproject->end_date
@@ -93,13 +136,9 @@ class ProjectTrackingSubProjectController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para un nuevo registro de subproyectos
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -107,43 +146,37 @@ class ProjectTrackingSubProjectController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Guarda un nuevo registro de subproyectos
      *
-     * @method    store
+     * @param     Request    $request    Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        $this->validate(
-            $request,
-            [
-                'project_id'     => ['required', 'max:100'],
-                'name'           => ['required', 'max:100', 'unique:project_tracking_sub_projects,name'],
-                'code'           => ['nullable', 'max:20'],
-                'responsable_id' => ['required', 'max:50'],
-                'start_date'     => ['required', 'max:50'],
-                'end_date'       => ['required', 'max:50'],
-                'financement_amount' => ['required', 'max:500'],
-                'currency_id' => ['required']
+        $validateRules = array_replace($this->validateRules, [
+            'start_date' => [
+                'required',
+                'before_or_equal:end_date',
+                function ($attribute, $value, $fail) use ($request) {
+                    $project = ProjectTrackingProject::find($request->project_id);
+                    if ($value < $project->start_date || $value > $project->end_date) {
+                        $fail('La fecha de inicio del subproyecto debe estar entre la fecha de inicio y la fecha de culminación del proyecto asociado.');
+                    }
+                },
             ],
-            [],
-            [
-                'project_id'                            => 'Proyecto',
-                'name'                                  => 'Nombre',
-                'description'                           => 'Descripción',
-                'code'                                  => 'Código',
-                'responsable_id'                        => 'Responsable del Proyecto',
-                'start_date'                            => 'Fecha de Inicio',
-                'end_date'                              => 'Fecha Fin',
-                'financement_amount'                    => 'Monto de Financiamiento',
-                'currency_id'                           => 'Moneda'
+            'end_date' => [
+                'required',
+                'after_or_equal:start_date',
+                function ($attribute, $value, $fail) use ($request) {
+                    $project = ProjectTrackingProject::find($request->project_id);
+                    if ($value < $project->start_date || $value > $project->end_date) {
+                        $fail('La fecha Fin del subproyecto debe estar entre la fecha de inicio y la fecha de culminación del proyecto asociado.');
+                    }
+                },
             ],
-        );
+        ]);
+        $this->validate($request, $validateRules, $this->messages);
 
         $codeSetting = CodeSetting::where('table', 'project_tracking_sub_projects')->first();
         if (is_null($codeSetting)) {
@@ -178,35 +211,54 @@ class ProjectTrackingSubProjectController extends Controller
             'financement_amount' => $request->financement_amount,
             'currency_id' => $request->currency_id
         ]);
+        foreach ($request->product_types as $product_type) {
+            $projecttrackingSubProject->productTypes()->attach($product_type['id']);
+        }
         return response()->json(['record' => $projecttrackingSubProject, 'message' => 'Success'], 200);
     }
 
     /**
-     * [descripción del método]
+     * Retorna un objeto con la informacion del proyecto correspondiente al id junto a sus tipos de productos asociados
      *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author    Oscar González <xxmaestroyixx@gmail.com/ojgonzalez@cenditel.gob.ve>
+     * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    JsonResponse
      */
-    public function show($id)
+    public function show($id): JsonResponse
     {
-        return view('projecttracking::show');
+        $subProject = ProjectTrackingSubProject::query()
+            ->where('id', $id)
+            ->with([
+                'Responsable',
+                'Project',
+                'productTypes',
+            ])->first();
+        $selectedProductTypes = [];
+        array_push($selectedProductTypes, [
+            'id' => '',
+            'text' => 'Seleccione...'
+        ]);
+        foreach ($subProject->productTypes as $productType) {
+            array_push($selectedProductTypes, [
+                'id' => $productType->id,
+                'text' => $productType->name
+            ]);
+        }
+        return response()->json([
+            'record' => $subProject,
+            'selected_product_types' => $selectedProductTypes,
+        ], 200);
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario de edición de un subproyecto
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -214,47 +266,26 @@ class ProjectTrackingSubProjectController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza los datos de un subproyecto
      *
-     * @method    update
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request)
     {
         $projecttrackingSubProject = ProjectTrackingSubProject::find($request->input('id'));
-        $this->validate(
-            $request,
-            [
-                'project_id'  => ['required', 'max:100'],
-                'name'        => ['required', 'max:100', 'unique:project_tracking_sub_projects,name,' . $projecttrackingSubProject->id],
-                'description' => ['nullable', 'max:500'],
-                'code'        => ['required', 'max:20'],
-                'responsable_id' => ['required', 'max:50'],
-                'start_date'  => ['required', 'max:50'],
-                'end_date'    => ['required', 'max:50'],
-                'financement_amount' => ['required', 'max:500'],
-                'currency_id' => ['required']
+        $validateRules = array_replace($this->validateRules, [
+            'name'        => [
+                'required',
+                Rule::unique('project_tracking_sub_projects')->ignore($projecttrackingSubProject->id),
+                'max:100',
             ],
-            [],
-            [
-                'project_id'                            => 'Proyecto',
-                'name'                                  => 'Nombre',
-                'description'                           => 'Descripción',
-                'code'                                  => 'Código',
-                'responsable_id'                        => 'Responsable del Proyecto',
-                'start_date'                            => 'Fecha de Inicio',
-                'end_date'                              => 'Fecha Fin',
-                'financement_amount'                    => 'Monto de Financiamiento',
-                'currency_id'                           => 'Moneda'
-            ]
-        );
+        ]);
+        $this->validate($request, $validateRules, $this->messages);
 
+        $productTypeIds = [];
         $projecttrackingSubProject->project_id  = $request->project_id;
         $projecttrackingSubProject->name  = $request->name;
         $projecttrackingSubProject->description = $request->description;
@@ -264,19 +295,20 @@ class ProjectTrackingSubProjectController extends Controller
         $projecttrackingSubProject->end_date  = $request->end_date;
         $projecttrackingSubProject->financement_amount  = $request->financement_amount;
         $projecttrackingSubProject->currency_id = $request->currency_id;
+        foreach ($request->product_types as $product_type) {
+            $productTypeIds[] = $product_type['id'];
+        }
+        $projecttrackingSubProject->productTypes()->sync($productTypeIds);
         $projecttrackingSubProject->save();
         return response()->json(['message' => 'Success'], 200);
     }
+
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina un subproyecto
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -284,14 +316,41 @@ class ProjectTrackingSubProjectController extends Controller
         $projecttrackingSubProject->delete();
         return response()->json(['record' => $projecttrackingSubProject, 'message' => 'Success'], 200);
     }
-    public function getProjectTrackingSubProject()
+
+    /**
+     * Listado de subproyectos
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getProjectTrackingSubProject(): JsonResponse
     {
         return response()->json(template_choices('Modules\ProjectTracking\Models\ProjectTrackingSubProject', 'name', '', true));
     }
 
-    public function getDetailSubProject($id)
+    /**
+     * Obtiene los detalles de un subproyecto
+     *
+     * @param integer $id Identificador del subproyecto
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getDetailSubProject($id): JsonResponse
     {
-        $SubProject = ProjectTrackingSubProject::with(['Responsable', 'Project'])->find($id);
-        return response()->json(['result' => true, 'records' => $SubProject], 200);
+        $subProject = ProjectTrackingSubProject::with([
+            'Responsable',
+            'Project',
+        ])->find($id);
+        $selectedProductTypes = [];
+        foreach ($subProject->productTypes as $productType) {
+            array_push($selectedProductTypes, [
+                'id' => $productType->id,
+                'text' => $productType->name
+            ]);
+        }
+        return response()->json([
+            'result' => true,
+            'records' => $subProject,
+            'selected_product_types' => $selectedProductTypes,
+        ], 200);
     }
 }

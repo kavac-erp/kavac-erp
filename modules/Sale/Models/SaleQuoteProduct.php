@@ -2,13 +2,14 @@
 
 namespace Modules\Sale\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
-use App\Traits\ModelsTrait;
 use App\Models\Currency;
 use App\Models\HistoryTax;
+use App\Traits\ModelsTrait;
+use App\Models\MeasurementUnit;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class SaleQuoteProduct
@@ -29,35 +30,37 @@ class SaleQuoteProduct extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
-      'value',
-      'product_type',
-      'sale_quote_id',
-      'currency_id',
-      'measurement_unit_id',
-      'quantity',
-      'total',
-      'total_without_tax',
-      'sale_warehouse_inventory_product_id',
-      'sale_type_good_id',
-      'history_tax_id',
-      'sale_list_subservices_id',
+        'value',
+        'product_type',
+        'sale_quote_id',
+        'currency_id',
+        'measurement_unit_id',
+        'quantity',
+        'total',
+        'total_without_tax',
+        'sale_warehouse_inventory_product_id',
+        'sale_type_good_id',
+        'history_tax_id',
+        'sale_list_subservices_id',
     ];
 
     /**
      * Método que establece las unidades monetarias almacenadas en el sistema
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * Currency
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency()
     {
@@ -68,20 +71,20 @@ class SaleQuoteProduct extends Model implements Auditable
      * Método que obtiene la unidad de medida
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * MeasurementUnit
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function measurementUnit()
     {
-        return $this->belongsTo(\App\Models\MeasurementUnit::class);
+        return $this->belongsTo(MeasurementUnit::class);
     }
 
     /**
      * Método que obtiene los tipos de bien
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne Objeto con el registro relacionado al modelo
-     * saleTypeGood
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleTypeGood()
     {
@@ -92,8 +95,8 @@ class SaleQuoteProduct extends Model implements Auditable
      * Método que obtiene el producto de almacen (warehouse) en la cotizacion
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * saleWarehouseInventoryProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleWarehouseInventoryProduct()
     {
@@ -104,8 +107,8 @@ class SaleQuoteProduct extends Model implements Auditable
      * Método que obtiene los impuestos del producto
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * historyTax
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function historyTax()
     {
@@ -116,8 +119,8 @@ class SaleQuoteProduct extends Model implements Auditable
      * Método que obtiene lista de Subservicios del producto
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * SaleListSubservices
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleListSubservices()
     {

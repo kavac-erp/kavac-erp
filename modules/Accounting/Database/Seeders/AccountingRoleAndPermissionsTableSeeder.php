@@ -13,14 +13,15 @@ use App\Roles\Models\Permission;
  *
  * Gestiona la información por defecto a registrar inicialmente para los Roles y Permisos del módulo de contabilidad
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @copyright <a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *            LICENCIA DE SOFTWARE CENDITEL</a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AccountingRoleAndPermissionsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Ejecuta los seeders de roles y permisos del módulo de contabilidad
      *
      * @return void
      */
@@ -37,7 +38,7 @@ class AccountingRoleAndPermissionsTableSeeder extends Seeder
 
         $permissions = [
 
-            /**
+            /*
             * cuentas patrimoniales
             */
             [
@@ -77,7 +78,7 @@ class AccountingRoleAndPermissionsTableSeeder extends Seeder
                 'short_description' => 'eliminar cuentas patrimoniales'
             ],
 
-            /**
+            /*
             * Convertidor de cuentas
             */
             [
@@ -117,7 +118,7 @@ class AccountingRoleAndPermissionsTableSeeder extends Seeder
                 'short_description' => 'eliminar conversion'
             ],
 
-            /**
+            /*
             * Asientos Contables
             */
             [
@@ -184,7 +185,7 @@ class AccountingRoleAndPermissionsTableSeeder extends Seeder
                 'short_description' => 'reporte pdf de asiento contable'
             ],
 
-            /**
+            /*
             * Configuración del modulo
             */
             [
@@ -224,7 +225,7 @@ class AccountingRoleAndPermissionsTableSeeder extends Seeder
                 'short_description' => 'eliminar categoria'
             ],
 
-            /**
+            /*
             * Reportes Generales
             */
             [
@@ -300,8 +301,17 @@ class AccountingRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt'          => 'reporte_estados_de_resultados.pdf',
                 'short_description' => 'reporte pdf de Estado de Resultados'
             ],
+            [
+                'name'              => 'Reporte pdf de Movimiento de Patrimonio',
+                'slug'              => 'accounting.report.patrimonialmovement',
+                'description'       => 'Acceso para generar reporte pdf de Movimiento de Patrimonio',
+                'model'             => '',
+                'model_prefix'      => 'contabilidad',
+                'slug_alt'          => 'reporte_movimiento_de_patrimonio.pdf',
+                'short_description' => 'reporte pdf de Movimiento de Patrimonio'
+            ],
 
-            /**
+            /*
             * Dashboard
             */
             [

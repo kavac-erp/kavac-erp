@@ -18,13 +18,14 @@ use App\Notifications\UserRegistered;
  * Gestiona la información por defecto a registrar inicialmente para los Usuarios
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class UsersTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Ejecuta los seeers de base de datos
      *
      * @return void
      */
@@ -39,10 +40,16 @@ class UsersTableSeeder extends Seeder
 
             if ($usrAdmin === 's') {
                 $adminEmail = $this->command->ask('Escriba el correo del usuario administrador', 'admin@mail.com');
+                if (!filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
+                    do {
+                        print("\nEl correo electrónico indicado no es válido.\n\n");
+                        $adminEmail = $this->command->ask('Escriba un correo válido para el usuario administrador', '');
+                    } while (!filter_var($adminEmail, FILTER_VALIDATE_EMAIL));
+                }
                 $adminUser = $this->command->ask('Escriba el nombre de usuario del administrador', 'admin');
-                $adminName = $this->command->ask("Escriba el nombre del usuario ${adminUser}");
-                $adminPass = $this->command->secret("Escriba la contraseña del usuario ${adminUser}");
-                /** @var object Crea el usuario por defecto de la aplicación */
+                $adminName = $this->command->ask("Escriba el nombre del usuario {$adminUser}");
+                $adminPass = $this->command->secret("Escriba la contraseña del usuario {$adminUser}");
+                /* Crea el usuario por defecto de la aplicación */
                 $user_admin = User::withTrashed()->updateOrCreate(
                     ['username' => $adminUser],
                     [
@@ -64,11 +71,11 @@ class UsersTableSeeder extends Seeder
                     throw new Exception('Error creando el usuario administrador por defecto');
                 }
 
-                /** @var object Busca el rol de administrador del sistema */
+                /* Busca el rol de administrador del sistema */
                 $adminRole = Role::where('slug', 'admin')->first();
 
                 if ($adminRole) {
-                    /** Asigna el rol de administrador */
+                    /* Asigna el rol de administrador */
                     $user_admin->attachRole($adminRole);
                 }
             }
@@ -81,7 +88,7 @@ class UsersTableSeeder extends Seeder
                 );
 
                 if ($usrTest === 's') {
-                    /** Crea un usuario de prueba para entornos de desarrollo, sin roles ni permisos */
+                    /* Crea un usuario de prueba para entornos de desarrollo, sin roles ni permisos */
                     User::withTrashed()->updateOrCreate(
                         ['username' => 'user', 'email' => 'user@kavac-testing.com'],
                         [
@@ -127,9 +134,9 @@ class UsersTableSeeder extends Seeder
 
                     $usrEmail = $this->command->ask('Indique el correo del usuario', null);
                     $usrUser = $this->command->ask('Indique el usuario', null);
-                    $usrName = $this->command->ask("Indique el nombre del usuario ${usrUser}");
+                    $usrName = $this->command->ask("Indique el nombre del usuario {$usrUser}");
                     $password = generate_hash();
-                    /** @var object Crea el usuario por defecto de la aplicación */
+                    /* Crea el usuario por defecto de la aplicación */
                     $user = User::withTrashed()->updateOrCreate(
                         ['username' => $usrUser, 'email' => $usrEmail],
                         [
@@ -147,18 +154,18 @@ class UsersTableSeeder extends Seeder
                         ]
                     );
                     if (!$user) {
-                        throw new Exception("Error creando el usuario ${usrUser}");
+                        throw new Exception("Error creando el usuario {$usrUser}");
                     }
 
                     $roleAsk = $this->command->askWithCompletion(
-                        "Indique el rol del usuario ${usrUser}",
+                        "Indique el rol del usuario {$usrUser}",
                         $roles,
                         str_replace(['[', ']'], ['', ''], json_encode($roles))
                     );
 
                     if ($roleAsk) {
                         $rol = Role::where('slug', $roleAsk)->first();
-                        /** Asigna el rol de administrador */
+                        /* Asigna el rol de administrador */
                         $user->attachRole($rol);
                     }
 

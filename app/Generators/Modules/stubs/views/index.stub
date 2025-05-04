@@ -1,5 +1,5 @@
 @extends('$LOWER_NAME$::layouts.master')
 
 @section('content')
-    
+    {{-- COLOCAR EL CONTENIDO DE LA PAGINA PRINCIPAL DEL MODULO ACA SI APLICA --}}
 @endsection

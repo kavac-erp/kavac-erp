@@ -4,5 +4,5 @@ var classModules_1_1Payroll_1_1Models_1_1PayrollGender =
     [ "payrollStaffs", "d6/d20/classModules_1_1Payroll_1_1Models_1_1PayrollGender.html#a2510368041a5f8301a9655e6cab77ae1", null ],
     [ "$dates", "d6/d20/classModules_1_1Payroll_1_1Models_1_1PayrollGender.html#a6ed295a3b7371b42773cab86fd367af8", null ],
     [ "$fillable", "d6/d20/classModules_1_1Payroll_1_1Models_1_1PayrollGender.html#a13601d3af66d109458e268a3eb4afc49", null ],
-    [ "$table", "d6/d20/classModules_1_1Payroll_1_1Models_1_1PayrollGender.html#ae8876a14058f368335baccf35af4a22b", null ]
+    [ "$table", "d6/d20/classModules_1_1Payroll_1_1Models_1_1PayrollGender.html#adab5438224e48204d162e89b273b36b3", null ]
 ];

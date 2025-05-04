@@ -7,15 +7,39 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 
+/**
+ * @class FinancialStaffExport
+ * @brief Clase que exporta la información financiera de los trabajadores
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class FinancialStaffExport implements FromArray, WithHeadings, ShouldAutoSize, WithTitle
 {
+    /**
+     * Lista de errores
+     *
+     * @var array $errors
+     */
     protected $errors;
 
+    /**
+     * Método constructor de la clase.
+     *
+     * @param array $errors
+     */
     public function __construct(array $errors)
     {
         $this->errors = $errors;
     }
 
+    /**
+     * Encabezados de las columnas de la hoja a exportar
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return [
@@ -27,32 +51,24 @@ class FinancialStaffExport implements FromArray, WithHeadings, ShouldAutoSize, W
             'banco_value',
         ];
     }
-    // public function map($errors): array
-    // {
-    //     return [
-    //         $errors->row,
-    //         $errors->attribute,
-    //         $errors->errors[0],
 
-    //     ];
-    // }
-
+    /**
+     * Título de la hoja
+     *
+     * @return string
+     */
     public function title(): string
     {
         return 'Datos Financieros';
     }
 
+    /**
+     * Retorna los errores de la hoja
+     *
+     * @return array
+     */
     public function array(): array
     {
-
-        // 'Columna' => $failure->row(),
-        //                 'Atributo' => $failure->attribute(),
-        //                'Error' => $var[0],
-        // return [
-        //     [$this->errors["Columna"], $this->errors["Atributo"],  2],
-        //     [4, 5, 6],
-        // ];
-
         return $this->errors;
     }
 }

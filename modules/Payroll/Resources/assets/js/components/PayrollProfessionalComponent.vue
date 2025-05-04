@@ -54,29 +54,7 @@
                         </select2>
                     </div>
                 </div>
-                <!-- <div class="col-md-4" id="helpProfessionalInstruction" v-show="record.payroll_instruction_degree_id == 4 || record.payroll_instruction_degree_id == 5">
-                    <div class="form-group is-required">
-                        <label>Profesiones:</label>
-                        <v-multiselect :options="json_professions" v-if="payroll_professional_id" track_by="name"
-                            :hide_selected="false" :selected="record.professions" v-model="record.professions">
-                        </v-multiselect>
-                        <v-multiselect :options="professions" v-else track_by="text"
-                            :hide_selected="false" :selected="record.professions" v-model="record.professions">
-                        </v-multiselect>
-                    </div>
-                </div> -->
             </div>
-
-            <!-- <div class="row">
-                <div class="col-md-4" id="helpProfessionalDegree" v-show="record.payroll_instruction_degree_id == 6 || record.payroll_instruction_degree_id == 7 ||
-                    record.payroll_instruction_degree_id == 8">
-                    <div class="form-group is-required">
-                        <label>Nombre de Especialización, Maestría o Doctorado:</label>
-                        <input type="text" class="form-control input-sm"
-                            v-model="record.instruction_degree_name"/>
-                    </div>
-                </div>
-            </div> -->
 
             <hr>
             <h6 class="card-title" id="helpProfessionalUniversityStudy">
@@ -211,9 +189,7 @@
                         <label for="class_schedules">
                             Horario de Clase:
                         </label>
-                        <div v-for="
-                            (document, index) in payroll_class_schedule.documents"
-                        >
+                        <div v-for="(document, index) in payroll_class_schedule.documents" :key="index">
                             <a
                                 :href="`/${document.url}`"
                                 target="_blank"
@@ -259,6 +235,7 @@
             <div
                 class="row"
                 v-for="(payroll_language, index) in record.payroll_languages"
+                :key="index"
             >
                 <div
                     class="col-3"
@@ -450,7 +427,6 @@
                     payroll_studies:[],
                 },
                 errors: [],
-                //payroll_staffs: [],
                 payroll_professional: [],
                 payroll_instruction_degrees: [],
                 professions: [],

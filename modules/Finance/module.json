@@ -1,15 +1,25 @@
 {
-    "version": "1.0.4",
+    "version": "1.0.5",
     "name": "Finance",
     "alias": "finance",
     "name_es": "Finanzas",
     "description": "Gestión de finanzas",
     "long_description": "",
+    "authors": [
+        {
+            "name": "Ing. Roldan Vargas",
+            "email": ["rvargas@cenditel.gob.ve", "roldandvg@gmail.com"]
+        }
+    ],
+    "icon": {
+        "name": "ion-document-text",
+        "color": "#0073b7"
+    },
+    "logo": "finance-logo.png",
     "keywords": [],
     "active": 1,
     "order": 4,
     "priority": 4,
-    "logo": "finance-logo.png",
     "providers": [
         "Modules\\Finance\\Providers\\FinanceServiceProvider"
     ],

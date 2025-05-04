@@ -2,12 +2,16 @@
 
 namespace Modules\CitizenService\Models;
 
+use App\Models\Gender;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
+use Modules\Payroll\Models\PayrollNationality;
+use Modules\Payroll\Models\PayrollStaff;
 
 /**
  * @class CitizenService
@@ -16,9 +20,9 @@ use Illuminate\Support\Arr;
  * Gestiona el modelo de ingresar solicitud
  *
  * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class CitizenServiceRequest extends Model implements Auditable
 {
@@ -26,31 +30,40 @@ class CitizenServiceRequest extends Model implements Auditable
     use AuditableTrait;
     use ModelsTrait;
 
+    /**
+     * Lista de relaciones a cargar por defecto
+     *
+     * @var array $with
+     */
     protected $with = ['city', 'parish'];
+
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
-        'code','first_name','last_name','id_number','email', 'date', 'birth_date', 'age',
+        'code', 'gender_id', 'gender', 'nationality_id', 'nationality', 'community',
+        'location', 'commune', 'communal_council', 'population_size', 'director_id',
+        'first_name','last_name','id_number','email', 'date', 'birth_date', 'age',
         'city_id', 'parish_id','address', 'motive_request', 'attribute', 'state',
         'institution_name','institution_address', 'rif', 'web',
-        'citizen_service_request_type_id', 'type_institution', 'citizen_service_department_id', 'file_counter', 'date_verification',
-
+        'citizen_service_request_type_id', 'type_institution',
+        'citizen_service_department_id', 'file_counter', 'date_verification',
         'type_team', 'brand', 'model', 'serial', 'color', 'transfer',
         'inventory_code','entryhour', 'exithour', 'informationteam', 'other',
 
     ];
 
     /**
-     * Obtiene todos los número telefónicos asociados a la solicitud
-     *
+     * Obtiene todos los número telefónicos asociados a la solicitud     *
 
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
@@ -60,7 +73,7 @@ class CitizenServiceRequest extends Model implements Auditable
     }
 
     /**
-     * Obtiene todos los número telefónicos asociados a la solicitud
+     * Obtiene todos los documentos asociados a la solicitud
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
@@ -70,7 +83,7 @@ class CitizenServiceRequest extends Model implements Auditable
     }
 
     /**
-     * Obtiene todos los número telefónicos asociados a la solicitud
+     * Obtiene todas las imágenes asociadas a la solicitud
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
@@ -83,6 +96,7 @@ class CitizenServiceRequest extends Model implements Auditable
      * Método que obtiene la solicitud asociado a un departamento
      *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function citizenServiceDepartment()
@@ -94,6 +108,7 @@ class CitizenServiceRequest extends Model implements Auditable
      * Método que obtiene la solicitud asociado a un tipo de solicitud
      *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function citizenServiceRequestType()
@@ -104,17 +119,20 @@ class CitizenServiceRequest extends Model implements Auditable
     /**
      * Método que obtiene la solicitud asociado a una ciudad
      *
-     * @author
+     * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function city()
     {
         return $this->belongsTo(City::class);
     }
+
     /**
      * Método que obtiene la solicitud asociado a una parroquia
      *
-     * @author
+     * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parish()
@@ -122,11 +140,60 @@ class CitizenServiceRequest extends Model implements Auditable
         return $this->belongsTo(Parish::class);
     }
 
+    /**
+     * Establece la relación con los indicadores de la solicitud
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function citizenServiceIndicator()
     {
         return $this->hasMany(CitizenServiceAddIndicator::class, 'request_id', 'id');
     }
 
+    /**
+     * Método que obtiene la solicitud asociado a un género
+     *
+     * @author Oscar González <ojgonzalez@cenditel.gob.ve | xxmaestroyixx@gmail.com>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function requestGender()
+    {
+        return $this->belongsTo(Gender::class, 'gender_id', 'id');
+    }
+
+    /**
+     * Método que obtiene la solicitud asociado a una nacionalidad
+     *
+     * @author Oscar González <ojgonzalez@cenditel.gob.ve | xxmaestroyixx@gmail.com>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function requestNationality()
+    {
+        return $this->belongsTo(PayrollNationality::class, 'nationality_id', 'id');
+    }
+
+    /**
+     * Método que obtiene la solicitud asociado a un género
+     *
+     * @author Oscar González <ojgonzalez@cenditel.gob.ve | xxmaestroyixx@gmail.com>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function requestDirector()
+    {
+        return $this->belongsTo(PayrollStaff::class, 'director_id', 'id');
+    }
+
+    /**
+     * Scope de búsqueda de solicitudes
+     *
+     * @param Builder $query Objeto con la consulta
+     * @param mixed $request Datos de la petición
+     *
+     * @return Builder
+     */
     public function scopeSearch(
         $query,
         $request
@@ -171,18 +238,13 @@ class CitizenServiceRequest extends Model implements Auditable
         return $query;
     }
 
+    /**
+     * Establece la relación con el código de registro de la solicitud
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function codeCitizenServiceRegister()
     {
         return $this->belongsTo(CitizenServiceRegister::class);
     }
-
-    /**
-     * Obtiene la fecha del registro para usar en el bloqueo del cierre de ejercicio
-     *
-     * @return Date
-     */
-    // public function getDate()
-    // {
-    //     return $this->date;
-    // }
 }

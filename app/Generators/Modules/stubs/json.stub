@@ -1,10 +1,17 @@
 {
-    "version": "1.0.0",
+    "version": "x.x.x",
     "name": "$STUDLY_NAME$",
     "alias": "$LOWER_NAME$",
     "name_es": "$LOWER_NAME$",
     "description": "",
     "long_description": "",
+    "authors: [
+        {
+            "name": [Author del módulo],
+            "email": [Email del autor del módulo]
+        }
+    ],
+    "logo": [imagen png del logotipo del módulo la cual debe ubicarse en la carpeta Resources/assets/images/. Ejemplo: $LOWER_NAME$-logo.png],
     "keywords": [
         "CENDITEL",
         "KAVAC"
@@ -12,11 +19,12 @@
     "active": 1,
     "order": 1000,
     "priority": 1000,
-    "logo": "",
     "providers": [
         "$MODULE_NAMESPACE$\\$STUDLY_NAME$\\$PROVIDER_NAMESPACE$\\$STUDLY_NAME$ServiceProvider"
     ],
     "aliases": {},
     "files": [],
-    "requires": []
+    "requires": [
+        Lista de módulos requeridos para el funcionamiento de este módulo
+    ]
 }

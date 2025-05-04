@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos de talento humano de base de datos */
-
 namespace Modules\Payroll\Models;
 
 use App\Models\Document as BaseDocument;

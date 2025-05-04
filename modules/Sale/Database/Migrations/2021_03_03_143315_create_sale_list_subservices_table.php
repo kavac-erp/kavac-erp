@@ -7,11 +7,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class CreateSaleListSubservicesTable
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -27,11 +25,10 @@ class CreateSaleListSubservicesTable extends Migration
     {
         Schema::create('sale_list_subservices', function (Blueprint $table) {
             $table->id();
-            
+
             $table->timestamps();
             $table->string('name', 150)->comment('Nombre');
             $table->string('description', 500)->comment('descripción');
-            //$table->string('custom_attribute', 500)->comment('Atributo Personalizado');
             $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');
         });
     }

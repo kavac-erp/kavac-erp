@@ -11,25 +11,37 @@ use Modules\Purchase\Models\PurchasePivotModelsToRequirementItem;
 use Modules\Purchase\Models\HistoryTax;
 use Modules\Purchase\Models\TaxUnit;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use App\Repositories\UploadDocRepository;
 use App\Models\ExchangeRate;
 
+/**
+ * @class PurchaseOrderController
+ * @brief Controlador para la gestión de las órdenes de compra
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseOrderController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:purchase.directHire.list', ['only' => 'index', 'vueList']);
-        $this->middleware('permission:purchase.directHire.create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:purchase.directHire.edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:purchase.directHire.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:purchase.directhire.list', ['only' => 'index', 'vueList']);
+        $this->middleware('permission:purchase.directhire.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:purchase.directhire.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:purchase.directhire.delete', ['only' => 'destroy']);
     }
 
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Muestra una lista de órdenes de compra o servicios
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -39,14 +51,13 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear una orden de compra o servicio
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
         $suppliers  = template_choices('Modules\Purchase\Models\PurchaseSupplier', ['rif','-', 'name'], [], true);
-
-        // $currencies = template_choices('Modules\Purchase\Models\Currency', ['name'], [], true);
 
         $historyTax = HistoryTax::with('tax')->whereHas('tax', function ($query) {
             $query->where('active', true);
@@ -71,31 +82,23 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena la orden de compra o servicio
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $this->validate($request, [
-            // 'file'                 => 'required|mimes:pdf',
             'purchase_supplier_id' => 'required|integer',
             'currency_id'          => 'required|integer',
         ], [
-            // 'file.required'                 => 'El archivo de proforma / cotización es obligatorio.',
-            // 'file.mimes'                    => 'El archivo de proforma / cotización debe estar en formato pdf.',
             'purchase_supplier_id.required' => 'El campo proveedor es obligatorio.',
             'purchase_supplier_id.integer'  => 'El campo proveedor debe ser numerico.',
             'currency_id.required'          => 'El campo de tipo de moneda es obligatorio.',
             'currency_id.integer'           => 'El campo de tipo de moneda debe ser numerico.',
         ]);
-
-        // // Se guarda el archivo
-        // $file = new UploadDocRepository();
-        // $file->uploadDoc(
-        //     $request->file('file'),
-        //     'documents'
-        // );
 
         $purchase_order = PurchaseOrder::create([
             'purchase_supplier_id' => $request->purchase_supplier_id,
@@ -122,8 +125,9 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de una orden de compra o servicio
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -131,8 +135,9 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar una orden de compra o servicio
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -147,8 +152,6 @@ class PurchaseOrderController extends Controller
         )->find($id);
 
         $suppliers  = template_choices('Modules\Purchase\Models\PurchaseSupplier', ['rif','-', 'name'], [], true);
-
-        // $currencies = template_choices('Modules\Purchase\Models\Currency', ['name'], [], true);
 
         $historyTax = HistoryTax::with('tax')->whereHas('tax', function ($query) {
             $query->where('active', true);
@@ -176,33 +179,26 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * [updatePurchaseOrder the specified resource in storage]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  Request $request  Objeto con información de la petición
+     * Actualiza la orden de compra o servicio
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param  Request $request  Datos de la petición
      * @param  integer  $id      Identificador de la orden de compra
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updatePurchaseOrder(Request $request, $id)
     {
         $this->validate($request, [
-            // 'file'                 => 'required|mimes:pdf',
             'purchase_supplier_id' => 'required|integer',
             'currency_id'          => 'required|integer',
         ], [
-            // 'file.required'                 => 'El archivo de proforma / cotización es obligatorio.',
-            // 'file.mimes'                    => 'El archivo de proforma / cotización debe estar en formato pdf.',
             'purchase_supplier_id.required' => 'El campo proveedor es obligatorio.',
             'purchase_supplier_id.integer'  => 'El campo proveedor debe ser numerico.',
             'currency_id.required'          => 'El campo de tipo de moneda es obligatorio.',
             'currency_id.integer'           => 'El campo de tipo de moneda debe ser numerico.',
         ]);
-
-        // // Se guarda el archivo
-        // $file = new UploadDocRepository();
-        // $file->uploadDoc(
-        //     $request->file('file'),
-        //     'documents'
-        // );
 
         $purchase_order = PurchaseOrder::find($id);
 
@@ -253,8 +249,9 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina una orden de compra o servicio
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -278,6 +275,14 @@ class PurchaseOrderController extends Controller
         ], 200);
     }
 
+    /**
+     * Obtiene la conversión entre monedas
+     *
+     * @param integer $currency_id Identificador de la moneda a convertir
+     * @param integer $base_budget_currency_id Identificador de la moneda base
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getConvertion($currency_id, $base_budget_currency_id)
     {
         $record = ExchangeRate::where('active', true)

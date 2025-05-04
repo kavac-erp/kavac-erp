@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group is-required" style="z-index: unset">
-                        <label>Tipo de pagos</label>
+                        <label>Tipo de nómina</label>
                         <v-multiselect
                             track_by="text"
                             :options="payroll_payment_types"
@@ -57,6 +57,12 @@
         </div>
 
         <div class="card-footer text-right">
+            <button @click.prevent="exportReport()"
+                class="btn btn-primary btn-sm" data-toggle="tooltip" title="Generar archivo .xlsx"
+                type="button">
+                <span>Generar archivo .xlsx</span>
+                <i class="fa fa-file-pdf-o"></i>
+            </button>
             <button @click.prevent="createReport('concepts')"
                 class="btn btn-primary btn-sm" data-toggle="tooltip" title="Generar Reporte"
                 type="button">
@@ -130,6 +136,30 @@
                     vm.loading = false;
                 });
 
+            },
+
+            async exportReport() {
+                const vm = this;
+                let postData = {
+                    payroll_concepts: vm.record.payroll_concepts,
+                    payroll_concept_types: vm.record.payroll_concept_types,
+                    payroll_payment_types: vm.record.payroll_payment_types
+                };
+
+                await axios.get(`${window.app_url}/payroll/report-concepts/export`, {params: postData}).then(response => {
+                    window.location.reload();
+                }).catch(error => {
+                    vm.errors = [];
+
+                    if (typeof(error.response) !="undefined") {
+                        for (var index in error.response.data.errors) {
+                            if (error.response.data.errors[index]) {
+                                vm.errors.push(error.response.data.errors[index][0]);
+                            }
+                        }
+                    }
+                    vm.loading = false;
+                });
             },
 
             addAllToOptions() {

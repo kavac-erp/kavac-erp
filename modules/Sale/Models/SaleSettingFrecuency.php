@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -29,13 +27,21 @@ class SaleSettingFrecuency extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
+
+    /**
+     * Nombre de la tabla en base de datos
+     *
+     * @var string $table
+     */
     protected $table = 'frecuencies';
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'days'];

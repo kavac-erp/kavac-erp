@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,10 +18,6 @@ Route::group([
     'prefix' => 'citizenservice',
 ], function () {
     Route::get('/', 'CitizenServiceController@index');
-    /*Route::get('/settings', function () {
-        return view('citizenservice::settings');
-    })->name('citizenservice.setting');
-    */
     Route::get('settings', 'CitizenServiceSettingController@index')->name('citizenservice.settings.index');
     Route::post('settings', 'CitizenServiceSettingController@store')->name('citizenservice.settings.store');
 
@@ -71,9 +69,7 @@ Route::group([
     Route::get('/get-documents/show/{code}', 'CitizenServiceRequestCloseController@show');
     Route::get('/get-documents/{id}/{all?}', 'CitizenServiceRequestCloseController@getCitizenServiceRequestDocuments');
 
-    /**
-     * Rutas para generar reporte
-     */
+    /* Rutas para generar reporte */
     Route::get('reports', 'CitizenServiceReportController@index')->name('citizenservice.report.index');
 
     Route::post('reports', 'CitizenServiceReportController@store');
@@ -85,9 +81,7 @@ Route::group([
     Route::get('report/show/{code}', 'CitizenServiceReportController@show');
     Route::get('reports/search', 'CitizenServiceReportController@search');
 
-    /**
-     * Rutas para generar registro de actividades
-     */
+    /* Rutas para generar registro de actividades */
 
     Route::resource('registers', 'CitizenServiceRegisterController', ['as' => 'citizenservice', 'only' => ['update']]);
 
@@ -118,7 +112,7 @@ Route::group([
         ['as' => 'citizenservice', 'except' => ['create','edit','show']]
     );
 
-    /** Ruta para obtener el listado de los tipos de impacto*/
+    /* Ruta para obtener el listado de los tipos de impacto*/
     Route::get('get-effect-types', 'CitizenServiceEffectTypeController@getEffectType')->name('citizenservice.effect-types.get');
 
     /* Ruta para los indicadores */

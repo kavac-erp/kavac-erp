@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldsApprovedByIdAndReceivedByIdToAssetAsignationDeliveriesTable
- * @brief [descripción detallada]
+ * @brief Agrega campos adicionales a la tabla asset_asignation_deliveries
  *
- * [descripción corta]
+ * Agrega campos adicionales a la tabla asset_asignation_deliveries
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -47,7 +47,7 @@ class AddFieldsApprovedByIdAndReceivedByIdToAssetAsignationDeliveriesTable exten
 
             $table->dropForeign(['received_by_id']);
             $table->dropColumn('received_by_id');
-            
+
             $table->dropColumn('ids_assets');
         });
     }

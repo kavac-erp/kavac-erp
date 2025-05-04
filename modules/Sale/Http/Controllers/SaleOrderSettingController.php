@@ -1,24 +1,21 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Http\Controllers;
 
-use App\Models\CodeSetting;
 use App\Models\FiscalYear;
-use Illuminate\Contracts\Support\Renderable;
+use App\Models\CodeSetting;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleOrder;
+use Modules\Sale\Models\SaleQuote;
 use Modules\Sale\Models\SaleSettingProduct;
+use Illuminate\Contracts\Support\Renderable;
 use Modules\Sale\Models\SaleWarehouseInventoryProduct;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
  * @class SaleOrderSettingController
- * @brief [descripción detallada]
- *
- * [descripción corta]
+ * @brief Gestiona los datos de la configuración de las ordenes
  *
  * @author jose puentes jpuentes@cenditel.gob.ve
  *
@@ -29,35 +26,44 @@ class SaleOrderSettingController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Listado de estatus de las ordenes
+     *
+     * @var array $status_list
+     */
     protected $status_list = ['rechazado' => 'Cancelado', 'pending' => 'Creado', 'aprobado' => 'Aprobado'];
 
-  /**
-   * Define la configuración de la clase
-   *
-   * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-   */
-
+    /**
+     * Define la configuración de la clase
+     *
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
+     */
     public function __construct()
     {
-      /** Establece permisos de acceso para cada método del controlador */
+      // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.order.list', ['only' => 'index']);
         $this->middleware('permission:sale.order.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:sale.order.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:sale.order.delete', ['only' => 'destroy']);
     }
 
-  /**
-   * @method    index
-   */
+    /**
+     * Muestra el listado de las ordenes
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('sale::order.list');
-      //return response()->json(['records' => SaleOrder::all()], 200);
     }
 
-  /**
-   * Obtiene un listado de las ordenes
-   */
+    /**
+     * Obtiene un listado de las ordenes
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getListOrder()
     {
         $data = [];
@@ -80,9 +86,11 @@ class SaleOrderSettingController extends Controller
         return response()->json(['records' => $records], 200);
     }
 
-  /**
-   * Obtiene un listado de las ordenes solicitadas con estado pendiente
-   */
+    /**
+     * Obtiene un listado de las ordenes solicitadas con estado pendiente
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getListPending()
     {
         $data = [];
@@ -101,9 +109,11 @@ class SaleOrderSettingController extends Controller
         return response()->json(['records' => $records], 200);
     }
 
-  /**
-   * Obtiene un listado de las ordenes solicitadas con estado rechazadas
-   */
+    /**
+     * Obtiene un listado de las ordenes solicitadas con estado rechazadas
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getListRejected()
     {
         $records = SaleOrder::where('status', '=', 'rechazado')->get();
@@ -120,9 +130,11 @@ class SaleOrderSettingController extends Controller
         return response()->json(['records' => $records], 200);
     }
 
-  /**
-   * Obtiene un listado de las ordenes solicitadas con estado aprobadas
-   */
+    /**
+     * Obtiene un listado de las ordenes solicitadas con estado aprobadas
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getListApproved()
     {
         $records = SaleOrder::where('status', '=', 'aprobado')->get();
@@ -139,45 +151,41 @@ class SaleOrderSettingController extends Controller
         return response()->json(['records' => $records], 200);
     }
 
+    /**
+     * Listado de órdenes
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function options()
     {
-      //return view('sale::order.list');
         return response()->json(['records' => SaleOrder::all()], 200);
     }
 
-  /**
-   * [descripción del método]
-   *
-   * @method    create
-   *
-   * @author    [nombre del autor] [correo del autor]
-   *
-   * @return    Renderable    [description de los datos devueltos]
-   */
+    /**
+     * Muestra el formulario para crear una nueva configuración de ordenes
+     *
+     * @return    \Illuminate\View\View
+     */
     public function create()
     {
         return view('sale::order.create');
     }
 
-  /**
-   * [descripción del método]
-   *
-   * @method    store
-   *
-   * @author    [nombre del autor] [correo del autor]
-   *
-   * @param     object    Request    $request    Objeto con información de la petición
-   *
-   * @return    Renderable    [description de los datos devueltos]
-   */
+    /**
+     * Crea una nueva configuración de ordenes
+     *
+     * @param     Request    $request    Datos de la petición
+     *
+     * @return    \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
 
         $codeSetting = CodeSetting::where('table', 'sale_orders')->first();
         if (is_null($codeSetting)) {
             $request->session()->flash('message', [
-            'type' => 'other', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'growl-danger',
-            'text' => 'Debe configurar previamente el formato para el código a generar'
+                'type' => 'other', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'growl-danger',
+                'text' => 'Debe configurar previamente el formato para el código a generar'
             ]);
             return response()->json(['result' => false, 'redirect' => route('sale.settings.index')], 200);
         }
@@ -213,35 +221,36 @@ class SaleOrderSettingController extends Controller
         }
 
         $order = SaleOrder::create([
-        'name'        => $request->name,
-        'id_number'   => $request->id_number,
-        'email'       => $request->email,
-        'type_person' => $request->type_person,
-        'phone'       => $request->phone,
-        'code'        => $code,
-        'products'    => json_encode($products, JSON_FORCE_OBJECT),
-        'status' => 'pending'
+            'name'        => $request->name,
+            'id_number'   => $request->id_number,
+            'email'       => $request->email,
+            'type_person' => $request->type_person,
+            'phone'       => $request->phone,
+            'code'        => $code,
+            'products'    => json_encode($products, JSON_FORCE_OBJECT),
+            'status' => 'pending'
         ]);
 
         return response()->json(['record' => $order, 'message' => 'Success', 'redirect' => route('sale.order.index')], 200);
     }
 
-  /**
-   * Realiza la validación de un pedido
-   *
-   * @method    saleOrderValidate
-   * @author Ing. Jose Puentes <jpuentes@cenditel.gob.ve>
-   * @param     object    Request    $request
-   */
+    /**
+     * Realiza la validación de un pedido
+     *
+     * @author Ing. Jose Puentes <jpuentes@cenditel.gob.ve>
+     *
+     * @param     Request    $request Datos de la petición
+     *
+     * @return void
+     **/
     public function saleOrderValidate(Request $request)
     {
         $attributes = [
-        'type_person' => 'Tipo de persona',
-        'name' => 'Nombre',
-        'id_number' => 'Identificación',
-        'phone' => 'Teléfono de contacto',
-        'email' => 'Correo Electrónico',
-
+            'type_person' => 'Tipo de persona',
+            'name' => 'Nombre',
+            'id_number' => 'Identificación',
+            'phone' => 'Teléfono de contacto',
+            'email' => 'Correo Electrónico',
         ];
 
         $validation = [];
@@ -253,17 +262,23 @@ class SaleOrderSettingController extends Controller
         $this->validate($request, $validation, [], $attributes);
     }
 
-  /**
-   * @method    show
-   */
+    /**
+     * Muestra información sobre una orden de pedido
+     *
+     * @return    \Illuminate\View\View
+     */
     public function show($id)
     {
         return view('sale::show');
     }
 
-  /**
-   * Muestra el formulario para editar una orden de pedido
-   */
+    /**
+     * Muestra el formulario para editar una orden de pedido
+     *
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\View\View
+     */
     public function edit($id)
     {
         $total = 0;
@@ -273,17 +288,17 @@ class SaleOrderSettingController extends Controller
         $products = json_decode($record->products, true);
         foreach ($products as $id => $row) {
             $productos[] = [
-            'id' => $id,
-            'sale_warehouse_inventory_product_id' => $row['inventory_product']['id'],
-            'quantity' => $row['quantity'],
-            'value' => $row["value"],
-            'iva' => $row["product_tax_value"],
-            'total' => $row['total'],
-            'measurement_unit_id' => $row['measurement_unit_id'],
-            'measurement_unit' => $row['measurement_unit'],
-            'history_tax_id' => $row['history_tax_id'],
-            'total_without_tax' => $row['total_without_tax'],
-            'currency_id' => $row['currency']['name']
+                'id' => $id,
+                'sale_warehouse_inventory_product_id' => $row['inventory_product']['id'],
+                'quantity' => $row['quantity'],
+                'value' => $row["value"],
+                'iva' => $row["product_tax_value"],
+                'total' => $row['total'],
+                'measurement_unit_id' => $row['measurement_unit_id'],
+                'measurement_unit' => $row['measurement_unit'],
+                'history_tax_id' => $row['history_tax_id'],
+                'total_without_tax' => $row['total_without_tax'],
+                'currency_id' => $row['currency']['name']
             ];
             $total += $row['total'];
             $total_without_tax += $row['total_without_tax'];
@@ -296,10 +311,14 @@ class SaleOrderSettingController extends Controller
         return view('sale::order.create', ['orderid' => $id, 'order' => $record]);
     }
 
-  /**
-   * @param     object    Request    $request         Objeto con datos de la petición
-   * @param     integer   $id        Identificador del registro
-   */
+    /**
+     * Actualiza la información de una orden de pedido
+     *
+     * @param     Request    $request         Datos de la petición
+     * @param     integer   $id        Identificador del registro
+     *
+     * @return    \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $id)
     {
         $order = SaleOrder::find($id);
@@ -331,17 +350,13 @@ class SaleOrderSettingController extends Controller
         return response()->json(['message' => 'Success', 'redirect' => route('sale.order.index')], 200);
     }
 
-  /**
-   * [descripción del método]
-   *
-   * @method    destroy
-   *
-   * @author    [nombre del autor] [correo del autor]
-   *
-   * @param     integer    $id    Identificador del registro
-   *
-   * @return    Renderable    [description de los datos devueltos]
-   */
+    /**
+     * Elimina una orden de pedido
+     *
+     * @param     integer    $id    Identificador del registro
+     *
+     * @return    \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
         $order = SaleOrder::find($id);
@@ -349,19 +364,27 @@ class SaleOrderSettingController extends Controller
         return response()->json(['record' => $order, 'message' => 'Success', 'redirect' => route('sale.order.index')], 200);
     }
 
-  /**
-   * @param     Integer    $type_id    Identificador único del tipo de bien
-   * @return    Array      Arreglo con los registros a mostrar
-   */
+    /**
+     * Obtiene el precio del producto
+     *
+     * @param     integer|null    $id    Identificador del registro
+     *
+     * @return    \Illuminate\Http\JsonResponse
+     */
     public function getPriceProduct($id = null)
     {
         $product = SaleSettingProduct::find($id);
         return response()->json(['record' => $product, 'message' => 'Success'], 200);
     }
 
-  /**
-   * Rechaza la solicitud de la orden
-   */
+    /**
+     * Rechaza la solicitud de la orden
+     *
+     * @param Request $request Datos de la petición
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function rejectedOrder(Request $request, $id)
     {
         $sale_order = SaleOrder::find($id);
@@ -381,9 +404,14 @@ class SaleOrderSettingController extends Controller
         return response()->json(['result' => true, 'redirect' => route('sale.order.index')], 200);
     }
 
-  /**
-   * Aprueba la solicitud de la orden
-   */
+    /**
+     * Aprueba la solicitud de la orden
+     *
+     * @param Request $request Datos de la petición
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function approvedOrder(Request $request, $id)
     {
         $sale_order = SaleOrder::find($id);
@@ -406,9 +434,13 @@ class SaleOrderSettingController extends Controller
         return response()->json(['result' => true, 'redirect' => route('sale.order.index')], 200);
     }
 
-  /**
-   * Obtiene la información de la orden
-   */
+    /**
+     * Obtiene la información de la orden
+     *
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getOrderInfo($id)
     {
         $data = [];
@@ -418,14 +450,14 @@ class SaleOrderSettingController extends Controller
         $products = json_decode($record->products, true);
         foreach ($products as $id => $row) {
             $productos[] = [
-            'id' => $id,
-            'name' => $row['inventory_product']['name'],
-            'quantity' => $row['quantity'],
-            'history_tax_id' => $row['history_tax_id'],
-            'price_product' => $row["total_without_tax"],
-            'iva' => $row["product_tax_value"],
-            'total' => $row['total'],
-            'moneda' => $row['currency']['name']
+                'id' => $id,
+                'name' => $row['inventory_product']['name'],
+                'quantity' => $row['quantity'],
+                'history_tax_id' => $row['history_tax_id'],
+                'price_product' => $row["total_without_tax"],
+                'iva' => $row["product_tax_value"],
+                'total' => $row['total'],
+                'moneda' => $row['currency']['name']
             ];
             $total += $row['total'];
             $total_without_tax += $row['total_without_tax'];
@@ -433,103 +465,105 @@ class SaleOrderSettingController extends Controller
 
         if (!empty($record->id)) {
             $data = [
-            'id' => $record->id,
-            'name' => $record->name,
-            'id_number' => $record->id_number,
-            'email' => $record->email,
-            'type_person' => $record->type_person,
-            'phone' => $record->phone,
-            'status' => $record->status,
-            'created_at' => $record->created_at,
-            'updated_at' => $record->updated_at,
-            'list_products' => $productos,
-            'total_without_tax' => $total_without_tax,
-            'total' => $total,
+                'id' => $record->id,
+                'name' => $record->name,
+                'id_number' => $record->id_number,
+                'email' => $record->email,
+                'type_person' => $record->type_person,
+                'phone' => $record->phone,
+                'status' => $record->status,
+                'created_at' => $record->created_at,
+                'updated_at' => $record->updated_at,
+                'list_products' => $productos,
+                'total_without_tax' => $total_without_tax,
+                'total' => $total,
             ];
         }
         return response()->json(['record' => $data], 200);
     }
 
-  /**
-   * Muestra una lista de los distintos estados que puede tener un pedido
-   *
-   * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-   * @return JsonResponse
-   */
-
+    /**
+     * Muestra una lista de los distintos estados que puede tener un pedido
+     *
+     * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getSaleOrderStatus()
     {
-
         $status = [];
         $status[] = [
-        'id' => '',
-        'text' => 'Seleccione...',
+            'id' => '',
+            'text' => 'Seleccione...',
         ];
         foreach ($this->status_list as $id => $name) {
             $status[] = [
-            'id' => $id,
-            'text' => $name,
+                'id' => $id,
+                'text' => $name,
             ];
         }
 
         return response()->json($status, 200);
     }
 
-  /**
-   * Obtiene una lista con de los clientes con pedidos
-   *
-   * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-   * @return \Illuminate\Http\JsonResponse Json con los datos de los productos
-   */
+    /**
+     * Obtiene una lista con de los clientes con pedidos
+     *
+     * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getSaleOrderClients()
     {
         $Orderclients = SaleOrder::select('id_number', 'name')->distinct('id_number')->get();
         $clients = [];
         $clients[] = [
-        'id' => '',
-        'text' => 'Todos',
+            'id' => '',
+            'text' => 'Todos',
         ];
         foreach ($Orderclients as $client) {
             $clients[] = [
-            'id' => $client->id_number,
-            'text' => $client->name,
+                'id' => $client->id_number,
+                'text' => $client->name,
             ];
         }
         return response()->json($clients, 200);
     }
 
-  /**
-   * Obtiene una lista con la fecha minima de cotizaciones
-   *
-   * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-   * @return \Illuminate\Http\JsonResponse Json con los datos de fecha
-   */
+    /**
+     * Obtiene una lista con la fecha minima de cotizaciones
+     *
+     * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getSaleOrdersYear()
     {
         $Orderdate = SaleOrder::all('created_at')->min('created_at')->toArray();
         $years = [];
         $years[] = [
-        'id' => '',
-        'text' => 'Todos',
+            'id' => '',
+            'text' => 'Todos',
         ];
         if (isset($Orderdate['year'])) {
             $current = date("Y");
             for ($i = $Orderdate['year']; $i <= $current; $i++) {
                 $years[] = [
-                'id' => $i,
-                'text' => $i,
+                    'id' => $i,
+                    'text' => $i,
                 ];
             }
         }
         return response()->json($years, 200);
     }
 
-  /**
-   * Obtiene una lista con la fecha de creacion min y max de cotizaciones
-   *
-   * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-   * @return \Illuminate\Http\JsonResponse Json con los datos de fechas
-   */
+    /**
+     * Obtiene una lista con la fecha de creacion min y max de cotizaciones
+     *
+     * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getSaleOrderRangeDates()
     {
         $Orderdate = SaleQuote::all('created_at')->min('created_at')->toArray();

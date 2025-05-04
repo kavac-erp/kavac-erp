@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>KAVAC: Archivo de código fuente AssetBuildingController.php</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../customdoxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="../../logo-doc.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">KAVAC<span id="projectnumber">&#160;v1.0.5</span>
+   </div>
+   <div id="projectbrief">Sistema de Gestión Organizacional</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('dd/da0/AssetBuildingController_8php_source.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AssetBuildingController.php</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;?<a class="code hl_class" href="../../d2/d38/classAddFieldCodeToSaleOrdersTable_1_1php.html">php</a></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">namespace </span>Modules\Asset\Http\Controllers;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>use Illuminate\Http\Request;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>use Illuminate\Http\JsonResponse;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>use Illuminate\Routing\Controller;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>use <a class="code hl_class" href="../../db/d81/classModules_1_1Asset_1_1Models_1_1AssetBuilding.html">Modules\Asset\Models\AssetBuilding</a>;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>use Illuminate\Foundation\Validation\ValidatesRequests;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"></span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> * @class AssetBuildingController</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> * @brief Clase que maneja los datos asociados a una edificación</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> * Clase que maneja los datos de una edificación</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * @author Natanael Rojo &lt;ndrojo@cenditel.gob.ve&gt; | &lt;rojonatanael99@gmail.com&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> * @license</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> */</span></div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="};">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html">   22</a></span><span class="keyword">class </span><a class="code hl_class" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html">AssetBuildingController</a> <span class="keyword">extends</span> Controller</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>{</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    use ValidatesRequests;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment"></span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment">     * Arreglo con las reglas de validación sobre los datos de un formulario</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment">     * @var array $validateRules</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a19db8a4aa08742d71b20bee403d09b5d">   31</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a19db8a4aa08742d71b20bee403d09b5d">$validateRules</a>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment"></span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment">     * Arreglo con los mensajes para las reglas de validación</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment">     * @var array $messages</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f">   38</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f">$messages</a>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="comment"></span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="comment">     * Define la configuración de la clase</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">     * @author    Natanael Rojo &lt;ndrojo@cenditel.gob.ve&gt; | &lt;rojonatanael99@gmail.com&gt;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">     * @return    void</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="comment">     */</span></div>
+<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a095c5d389db211932136b53f25f39685">   47</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a095c5d389db211932136b53f25f39685">__construct</a>()</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="comment">/* Establece permisos de acceso para cada método del controlador */</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        $this-&gt;middleware(<span class="stringliteral">&#39;permission:asset.setting.building&#39;</span>);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="comment">/* Define las reglas de validación para el formulario */</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        $this-&gt;validateRules = [</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            <span class="stringliteral">&#39;name&#39;</span> =&gt; [<span class="stringliteral">&#39;required&#39;</span>, <span class="stringliteral">&#39;regex:/^[a-zA-ZÁ-ÿ0-9\s]*$/u&#39;</span>, <span class="stringliteral">&#39;max:100&#39;</span>],</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            <span class="stringliteral">&#39;description&#39;</span> =&gt; [<span class="stringliteral">&#39;nullable&#39;</span>, <span class="stringliteral">&#39;regex:/^[a-zA-ZÁ-ÿ0-9\s]*$/u&#39;</span>, <span class="stringliteral">&#39;max:200&#39;</span>],</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            <span class="stringliteral">&#39;institution_id&#39;</span> =&gt; [<span class="stringliteral">&#39;required&#39;</span>],</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        ];</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="comment">/* Define los mensajes de validación para las reglas del formulario */</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        $this-&gt;messages = [</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            <span class="stringliteral">&#39;name.required&#39;</span> =&gt; <span class="stringliteral">&#39;El campo nombre de la edificación es obligatorio.&#39;</span>,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="stringliteral">&#39;name.max&#39;</span> =&gt; <span class="stringliteral">&#39;El campo nombre de la edificación no debe contener mas de 100 caracteres.&#39;</span>,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="stringliteral">&#39;name.regex&#39;</span> =&gt; <span class="stringliteral">&#39;El campo nombre de la edificación no debe contener números ni símbolos.&#39;</span>,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            <span class="stringliteral">&#39;description.max&#39;</span> =&gt; <span class="stringliteral">&#39;El campo descripción de la edificación no debe contener mas de 200 caracteres.&#39;</span>,</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            <span class="stringliteral">&#39;description.regex&#39;</span> =&gt; <span class="stringliteral">&#39;El campo descripción de la edificación no debe contener números ni símbolos.&#39;</span>,</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            <span class="stringliteral">&#39;institution_id.required&#39;</span> =&gt; <span class="stringliteral">&#39;El campo organización es obligatorio&#39;</span>,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        ];</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    }</div>
+</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment"></span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="comment">     * Muestra un listado de las edificaciones registradas</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="comment">     * @author    Natanael Rojo &lt;ndrojo@cenditel.gob.ve&gt; | &lt;rojonatanael99@gmail.com&gt;</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="comment">     * @return    JsonResponse    Objeto con los registros a mostrar</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="comment">     */</span></div>
+<div class="foldopen" id="foldopen00076" data-start="{" data-end="}">
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a149eb92716c1084a935e04a8d95f7347">   76</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a149eb92716c1084a935e04a8d95f7347">index</a>()</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> response()-&gt;json([<span class="stringliteral">&#39;records&#39;</span> =&gt; AssetBuilding::all()], 200);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="comment"></span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="comment">     * Muestra un listado de las edificaciones registradas de la forma {id, text}</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="comment">     * @author    Natanael Rojo &lt;ndrojo@cenditel.gob.ve&gt; | &lt;rojonatanael99@gmail.com&gt;</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="comment">     * @return    JsonResponse    Objeto con los registros a mostrar</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="comment">     */</span></div>
+<div class="foldopen" id="foldopen00088" data-start="{" data-end="}">
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#ab786b81f66e4ab26a569355a9beea4c6">   88</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#ab786b81f66e4ab26a569355a9beea4c6">getBuildings</a>()</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        $buildings = [];</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">foreach</span> (AssetBuilding::all() as $building) {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            $buildings[] = [</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                <span class="stringliteral">&#39;id&#39;</span> =&gt; $building-&gt;id,</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                <span class="stringliteral">&#39;text&#39;</span> =&gt; $building-&gt;name,</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            ];</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        }</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        array_unshift($buildings, [</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            <span class="stringliteral">&#39;id&#39;</span> =&gt; <span class="stringliteral">&#39;&#39;</span>,</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="stringliteral">&#39;text&#39;</span> =&gt; <span class="stringliteral">&#39;Seleccione...&#39;</span>,</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        ]);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keywordflow">return</span> response()-&gt;json($buildings);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    }</div>
+</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="comment"></span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="comment">     * Valida y registra una nueva edificacion en la tabla asset_buildings</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="comment">     * @author    Natanael Rojo &lt;ndrojo@cenditel.gob.ve&gt; | &lt;rojonatanael99@gmail.com&gt;</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="comment">     * @param     Request         $request    Datos de la petición</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="comment">     * @return    JsonResponse    Objeto con los registros a mostrar</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="comment">     */</span></div>
+<div class="foldopen" id="foldopen00113" data-start="{" data-end="}">
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a9ef485163104597c12185b53cdacf638">  113</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a9ef485163104597c12185b53cdacf638">store</a>(Request $request)</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        $this-&gt;validate($request, $this-&gt;validateRules, $this-&gt;messages);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <span class="comment">/* Objeto asociado al modelo AssetBuilding */</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        $building = AssetBuilding::create([</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            <span class="stringliteral">&#39;name&#39;</span> =&gt; $request-&gt;input(<span class="stringliteral">&#39;name&#39;</span>),</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            <span class="stringliteral">&#39;description&#39;</span> =&gt; $request-&gt;input(<span class="stringliteral">&#39;description&#39;</span>),</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            <span class="stringliteral">&#39;institution_id&#39;</span> =&gt; $request-&gt;institution_id,</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        ]);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <span class="keywordflow">return</span> response()-&gt;json([<span class="stringliteral">&#39;record&#39;</span> =&gt; $building, <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Succes&#39;</span>], 200);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    }</div>
+</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="comment"></span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="comment">     * Actualiza la informacion asociada a una edificación</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="comment">     * @author    Natanael Rojo &lt;ndrojo@cenditel.gob.ve&gt; | &lt;rojonatanael99@gmail.com&gt;</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="comment">     * @param     Request       $request  Datos de la petición</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="comment">     * @param     AssetBuilding $building Datos de la edificación que se va a editar</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="comment">     * @return    JsonResponse Objeto con la información modificada</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="comment">     */</span></div>
+<div class="foldopen" id="foldopen00135" data-start="{" data-end="}">
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a3d2ae978e451070ad775533614c5806a">  135</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a3d2ae978e451070ad775533614c5806a">update</a>(Request $request, <a class="code hl_class" href="../../db/d81/classModules_1_1Asset_1_1Models_1_1AssetBuilding.html">AssetBuilding</a> $building)</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    {</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        $this-&gt;validate($request, $this-&gt;validateRules, $this-&gt;messages);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        $building-&gt;update([</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            <span class="stringliteral">&#39;name&#39;</span> =&gt; $request-&gt;input(<span class="stringliteral">&#39;name&#39;</span>),</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>            <span class="stringliteral">&#39;description&#39;</span> =&gt; $request-&gt;input(<span class="stringliteral">&#39;description&#39;</span>),</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            <span class="stringliteral">&#39;institution_id&#39;</span> =&gt; $request-&gt;institution_id,</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        ]);</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        <span class="keywordflow">return</span> response()-&gt;json([<span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Succes&#39;</span>], 200);</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    }</div>
+</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="comment"></span> </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="comment">     * Elimina una edificacion registrada</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="comment">     * @author    Natanael Rojo &lt;ndrojo@cenditel.gob.ve&gt; | &lt;rojonatanael99@gmail.com&gt;</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="comment">     * @param     AssetBuilding $building Datos de una edificacion</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="comment">     * @return    JsonResponse Objeto con la información eliminada</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="comment">     */</span></div>
+<div class="foldopen" id="foldopen00155" data-start="{" data-end="}">
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a8494fa2d9a4012f7e47a027f03b1423b">  155</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a8494fa2d9a4012f7e47a027f03b1423b">destroy</a>(<a class="code hl_class" href="../../db/d81/classModules_1_1Asset_1_1Models_1_1AssetBuilding.html">AssetBuilding</a> $building)</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    {</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        $building-&gt;delete();</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <span class="keywordflow">return</span> response()-&gt;json([<span class="stringliteral">&#39;record&#39;</span> =&gt; $building, <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Succes&#39;</span>], 200);</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    }</div>
+</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>}</div>
+</div>
+<div class="ttc" id="aclassAddFieldCodeToSaleOrdersTable_1_1php_html"><div class="ttname"><a href="../../d2/d38/classAddFieldCodeToSaleOrdersTable_1_1php.html">php</a></div><div class="ttdoc">Ejecuta el proceso de migración de la estructura de tablas en base de datos.</div></div>
+<div class="ttc" id="aclassModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController_html"><div class="ttname"><a href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html">Modules\Asset\Http\Controllers\AssetBuildingController</a></div><div class="ttdoc">Clase que maneja los datos asociados a una edificación.</div><div class="ttdef"><b>Definition</b> <a href="../../dd/da0/AssetBuildingController_8php_source.html#l00022">AssetBuildingController.php:23</a></div></div>
+<div class="ttc" id="aclassModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController_html_a095c5d389db211932136b53f25f39685"><div class="ttname"><a href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a095c5d389db211932136b53f25f39685">Modules\Asset\Http\Controllers\AssetBuildingController\__construct</a></div><div class="ttdeci">__construct()</div><div class="ttdoc">Define la configuración de la clase.</div><div class="ttdef"><b>Definition</b> <a href="../../dd/da0/AssetBuildingController_8php_source.html#l00047">AssetBuildingController.php:47</a></div></div>
+<div class="ttc" id="aclassModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController_html_a149eb92716c1084a935e04a8d95f7347"><div class="ttname"><a href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a149eb92716c1084a935e04a8d95f7347">Modules\Asset\Http\Controllers\AssetBuildingController\index</a></div><div class="ttdeci">index()</div><div class="ttdoc">Muestra un listado de las edificaciones registradas.</div><div class="ttdef"><b>Definition</b> <a href="../../dd/da0/AssetBuildingController_8php_source.html#l00076">AssetBuildingController.php:76</a></div></div>
+<div class="ttc" id="aclassModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController_html_a19db8a4aa08742d71b20bee403d09b5d"><div class="ttname"><a href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a19db8a4aa08742d71b20bee403d09b5d">Modules\Asset\Http\Controllers\AssetBuildingController\$validateRules</a></div><div class="ttdeci">$validateRules</div><div class="ttdoc">Arreglo con las reglas de validación sobre los datos de un formulario.</div><div class="ttdef"><b>Definition</b> <a href="../../dd/da0/AssetBuildingController_8php_source.html#l00031">AssetBuildingController.php:31</a></div></div>
+<div class="ttc" id="aclassModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController_html_a3d2ae978e451070ad775533614c5806a"><div class="ttname"><a href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a3d2ae978e451070ad775533614c5806a">Modules\Asset\Http\Controllers\AssetBuildingController\update</a></div><div class="ttdeci">update(Request $request, AssetBuilding $building)</div><div class="ttdoc">Actualiza la informacion asociada a una edificación.</div><div class="ttdef"><b>Definition</b> <a href="../../dd/da0/AssetBuildingController_8php_source.html#l00135">AssetBuildingController.php:135</a></div></div>
+<div class="ttc" id="aclassModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController_html_a8494fa2d9a4012f7e47a027f03b1423b"><div class="ttname"><a href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a8494fa2d9a4012f7e47a027f03b1423b">Modules\Asset\Http\Controllers\AssetBuildingController\destroy</a></div><div class="ttdeci">destroy(AssetBuilding $building)</div><div class="ttdoc">Elimina una edificacion registrada.</div><div class="ttdef"><b>Definition</b> <a href="../../dd/da0/AssetBuildingController_8php_source.html#l00155">AssetBuildingController.php:155</a></div></div>
+<div class="ttc" id="aclassModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController_html_a9ef485163104597c12185b53cdacf638"><div class="ttname"><a href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#a9ef485163104597c12185b53cdacf638">Modules\Asset\Http\Controllers\AssetBuildingController\store</a></div><div class="ttdeci">store(Request $request)</div><div class="ttdoc">Valida y registra una nueva edificacion en la tabla asset_buildings.</div><div class="ttdef"><b>Definition</b> <a href="../../dd/da0/AssetBuildingController_8php_source.html#l00113">AssetBuildingController.php:113</a></div></div>
+<div class="ttc" id="aclassModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController_html_aaf8d38bd4e7d07a3d97cc2f497f6d13f"><div class="ttname"><a href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f">Modules\Asset\Http\Controllers\AssetBuildingController\$messages</a></div><div class="ttdeci">$messages</div><div class="ttdoc">Arreglo con los mensajes para las reglas de validación.</div><div class="ttdef"><b>Definition</b> <a href="../../dd/da0/AssetBuildingController_8php_source.html#l00038">AssetBuildingController.php:38</a></div></div>
+<div class="ttc" id="aclassModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController_html_ab786b81f66e4ab26a569355a9beea4c6"><div class="ttname"><a href="../../dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html#ab786b81f66e4ab26a569355a9beea4c6">Modules\Asset\Http\Controllers\AssetBuildingController\getBuildings</a></div><div class="ttdeci">getBuildings()</div><div class="ttdoc">Muestra un listado de las edificaciones registradas de la forma {id, text}.</div><div class="ttdef"><b>Definition</b> <a href="../../dd/da0/AssetBuildingController_8php_source.html#l00088">AssetBuildingController.php:88</a></div></div>
+<div class="ttc" id="aclassModules_1_1Asset_1_1Models_1_1AssetBuilding_html"><div class="ttname"><a href="../../db/d81/classModules_1_1Asset_1_1Models_1_1AssetBuilding.html">Modules\Asset\Models\AssetBuilding</a></div><div class="ttdoc">Clase que maneja la tabla asset_buildings de la base de datos.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d03/AssetBuilding_8php_source.html#l00025">AssetBuilding.php:26</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_e05d7e2b1ecd646af5bb94391405f3b5.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_7b3fcb102f79a4d8ecbf49ec4c3cc818.html">Asset</a></li><li class="navelem"><a class="el" href="../../dir_02d4d95d0d1836aca8a50ad7f31be718.html">Http</a></li><li class="navelem"><a class="el" href="../../dir_64758ee9a8c48bd91da73bb84ee3153d.html">Controllers</a></li><li class="navelem"><b>AssetBuildingController.php</b></li>
+    <li class="footer">Generado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

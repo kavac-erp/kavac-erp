@@ -2,8 +2,10 @@
 
 namespace Modules\Asset\Models;
 
+use App\Traits\ModelsTrait;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
@@ -13,13 +15,15 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * Gestiona el modelo de datos de los bienes registrados en inventario
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetInventoryAsset extends Model implements Auditable
 {
     use AuditableTrait;
+    use ModelsTrait;
+    use SoftDeletes;
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
@@ -32,8 +36,8 @@ class AssetInventoryAsset extends Model implements Auditable
      * Método que obtiene registro de inventario asociada al registro
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetInventory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetInventory()
     {
@@ -44,7 +48,8 @@ class AssetInventoryAsset extends Model implements Auditable
      * Método que obtiene el bien asociado al registro de inventario
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Asset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function asset()
     {

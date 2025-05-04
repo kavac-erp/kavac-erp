@@ -11,20 +11,28 @@ use Illuminate\Contracts\Validation\Rule;
  * Gestiona las reglas de validación de las fechas de prorroga de entrega de equipos
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class DateExtension implements Rule
 {
-    /** Integer Define el numero de dias adicionales permitidos para la entrega */
+    /**
+     * Define el numero de dias adicionales permitidos para la entrega
+     *
+     * @var integer $days
+     */
     protected $days;
 
-    /** Date Define la fecha de entrega original */
+    /**
+     * Define la fecha de entrega original
+     *
+     * @var string $date
+     */
     protected $date;
 
     /**
-     * Create a new rule instance.
+     * Crea una nueva instancia de la clase
      *
      * @return void
      */
@@ -35,10 +43,11 @@ class DateExtension implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Determina si la regla de validación se cumple
      *
      * @param  string  $attribute
      * @param  mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
@@ -49,7 +58,7 @@ class DateExtension implements Rule
     }
 
     /**
-     * Get the validation error message.
+     * Obtiene el mensaje de validación.
      *
      * @return string
      */

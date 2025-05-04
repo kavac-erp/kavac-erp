@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Http\Controllers;
 
 use App\Models\Profile;
@@ -12,25 +10,23 @@ use App\Models\Institution;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Payroll\Models\Payroll;
+use Nwidart\Modules\Facades\Module;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Repositories\ReportRepository;
 use Illuminate\Support\Facades\Validator;
 use Modules\Payroll\Models\PayrollTextFile;
-use Illuminate\Contracts\Support\Renderable;
 use Modules\Payroll\Exports\PayrollPdfExport;
-use Modules\Finance\Models\FinanceBankAccount;
 use Modules\Payroll\Models\PayrollPaymentType;
 use Modules\Payroll\Models\PayrollStaffPayroll;
 use Modules\Payroll\Exports\PayrollTextFileExport;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @class PayrollTextFileController
- * @brief [descripción detallada]
+ * @brief Controlador para los archivos de texto de nomina
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -39,18 +35,43 @@ class PayrollTextFileController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $rules
+     */
     protected $rules;
 
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
+    /**
+     * Números decimales a mostrar
+     *
+     * @var Parameter $number_decimals
+     */
     protected $number_decimals;
 
+    /**
+     * Función de redondeo a utilizar
+     *
+     * @var Parameter $round
+     */
     protected $round;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
-        $this->middleware('permission:payroll.txt-file.create', ['only' => ['index', 'create']]);
-        $this->middleware('permission:payroll.budget-report.getBudgetAccountingReport', ['only' => 'getBudgetAccountingReport']);
+        $this->middleware('permission:payroll.txt.file.create', ['only' => ['index', 'create']]);
+        $this->middleware('permission:payroll.budget.report.getbudgetaccountingreport', ['only' => 'getBudgetAccountingReport']);
 
 
         $this->rules = [
@@ -58,8 +79,6 @@ class PayrollTextFileController extends Controller
             'fileNumber'        => ['required', 'numeric'],
             'payrollId'         => ['required', 'array', 'min:1'],
             'payrollId.*'       => ['required'],
-            // 'paymentTypeId'     => ['required'],
-            // 'bankAccountId'     => ['required'],
             'date'              => ['required', 'date'],
         ];
 
@@ -70,21 +89,15 @@ class PayrollTextFileController extends Controller
             'payrollId.required'            => '
                 El campo nómina es obligatorio y debe contener al menos un elemento seleccionado
             ',
-            // 'paymentTypeId.required'        => 'El tipo de pago es obligatorio',
-            // 'bankAccountId.required'        => 'La cuenta bancaria es obligatoria',
             'date.required'                 => 'La fecha de pago es obligatoria',
             'date.date'                     => 'La fecha de pago tiene un formato inválido',
         ];
     }
 
     /**
-     * [descripción del método]
+     * Muestra el listado de archivos de texto de nómina
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
@@ -92,7 +105,9 @@ class PayrollTextFileController extends Controller
     }
 
     /**
+     * Muestra el formulario de creación de archivos de texto de nómina
      *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -100,7 +115,11 @@ class PayrollTextFileController extends Controller
     }
 
     /**
+     * Muestra el formulario de edición de archivos de texto de nómina
      *
+     * @param integer $id id del archivo de texto de nómina
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -110,7 +129,9 @@ class PayrollTextFileController extends Controller
     }
 
     /**
+     * Valida los datos del archivo de texto de nómina
      *
+     * @param \Illuminate\Http\JsonResponse
      */
     public function validateTxtData(Request $request)
     {
@@ -118,13 +139,17 @@ class PayrollTextFileController extends Controller
 
         if (!$validator->fails()) {
             return response()->json(['message' => 'Success'], 200);
-        } else {
-            return response()->json(['errors' => $validator->errors()], 422);
         }
+
+        return response()->json(['errors' => $validator->errors()], 422);
     }
 
     /**
+     * Elimina un archivo de texto de nómina
      *
+     * @param integer $id id del archivo de texto de nómina
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function deleteTextFileRecord($id)
     {
@@ -134,7 +159,11 @@ class PayrollTextFileController extends Controller
     }
 
     /**
+     * Obtiene un archivo de texto de nómina
      *
+     * @param integer $id id del archivo de texto de nómina
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function editTextFileRecord($id)
     {
@@ -142,7 +171,9 @@ class PayrollTextFileController extends Controller
     }
 
     /**
+     * Obtiene los archivos de texto de nómina
      *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getTextFileRecords()
     {
@@ -150,12 +181,14 @@ class PayrollTextFileController extends Controller
     }
 
     /**
+     * Descarga un archivo de texto de nómina
      *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return BinaryFileResponse
      */
-    // public function downloadFile($paymentTypId, $bankAccount, $fileNumber, $date, $fileName, $payrollId)
     public function downloadFile(Request $request)
     {
-        // dd($request->toArray());
         $this->validate($request, $this->rules, $this->messages);
 
         $request['payrollId'] = array_map(function ($payrollId) {
@@ -170,7 +203,7 @@ class PayrollTextFileController extends Controller
 
         $request['bankAccount'] = $request["payrollId"][0]['bank_account'];
 
-        $export = new PayrollTextFileExport(Payroll::class);
+        $export = new PayrollTextFileExport();
 
         $export->setPayrollId($payroll_ids, $request['bankAccount'], $request['fileNumber'], $request['date']);
 
@@ -178,7 +211,9 @@ class PayrollTextFileController extends Controller
     }
 
     /**
+     * Obtiene la lista de archivos de texto de nómina
      *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getPayrollList()
     {
@@ -233,7 +268,9 @@ class PayrollTextFileController extends Controller
     }
 
     /**
+     * Obtiene la lista de tipos de pagos
      *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getPayrollPaymentTypes()
     {
@@ -260,13 +297,17 @@ class PayrollTextFileController extends Controller
     }
 
     /**
+     * Obtiene la lista de cuentas bancarias del módulo de finanzas si esta presente
      *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getBankAccounts()
     {
         $records = [];
 
-        $accounts = FinanceBankAccount::query()->all();
+        $accounts = (
+            Module::has('Finance') && Module::isEnabled('Finance')
+        ) ? \Modules\Finance\Models\FinanceBankAccount::query()->all() : [];
 
         array_push($records, [
             'id' => '',
@@ -283,6 +324,13 @@ class PayrollTextFileController extends Controller
         return response()->json(['bank_accounts' => $records], 200);
     }
 
+    /**
+     * Obtiene el reporte de cuentas presupuestarias del módulo de presupuesto si esta presente
+     *
+     * @param integer $payroll_id
+     *
+     * @return BinaryFileResponse
+     */
     public function getBudgetAccountingReport($payroll_id)
     {
         $payrollStaffs = PayrollStaffPayroll::where('payroll_id', $payroll_id)->get()->toArray();
@@ -349,9 +397,21 @@ class PayrollTextFileController extends Controller
         $profile = Profile::where('user_id', auth()->user()->id)->first();
 
         $pdf->setConfig(['institution' => $institution, 'orientation' => 'P', 'urlVerify' => url('/login')]);
-        $pdf->setHeader('Reporte Presupuestario', 'Periodo '
-            . date('d-m-Y', strtotime($payment_period[0])) . ' / '
-            . date('d-m-Y', strtotime($payment_period[1])), true, '', '', 'C', 'C');
+        $pdf->setHeader(
+            'Reporte Presupuestario',
+            'Periodo ' . date(
+                'd-m-Y',
+                strtotime($payment_period[0])
+            ) . ' / ' . date(
+                'd-m-Y',
+                strtotime($payment_period[1])
+            ),
+            true,
+            false,
+            '',
+            'C',
+            'C'
+        );
         $pdf->setFooter();
         $pdf->setBody('payroll::pdf.payroll-budget-accounting-report', true, [
             'pdf' => $pdf,

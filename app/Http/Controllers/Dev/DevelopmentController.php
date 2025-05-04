@@ -1,7 +1,5 @@
 <?php
 
-/** Controladores para la visualización de herramientas para desarrolladores */
-
 namespace App\Http\Controllers\Dev;
 
 use App\Http\Controllers\Controller;
@@ -23,15 +21,13 @@ class DevelopmentController extends Controller
     /**
      * Muestra un elemento
      *
-     * @method  getElement
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return \Illuminate\Contracts\View\View Vista solicitada
      */
     public function getElement($el)
     {
-        /** @var array Vista a retornar */
+        // Vista a retornar
         $view = [
             'icons' => [
                 'view' => 'pack-icons',
@@ -53,7 +49,7 @@ class DevelopmentController extends Controller
 
 
         if ($el === "icons") {
-            /** @var array Arreglo de clases del paquete de íconos ICOFONTS */
+            // Arreglo de clases del paquete de íconos ICOFONTS
             $icofonts = Cache::rememberForever('icofonts', function () {
                 return [
                     __('General') => [
@@ -722,7 +718,7 @@ class DevelopmentController extends Controller
                 ];
             });
 
-            /** @var array Arreglo de clases del paquete de íconos FONTAWESOME */
+            // Arreglo de clases del paquete de íconos FONTAWESOME
             $fontawesomes = Cache::rememberForever('fontawesomes', function () {
                 return [
                     'fa-glass', 'fa-music', 'fa-search', 'fa-envelope-o', 'fa-heart', 'fa-star',
@@ -875,7 +871,7 @@ class DevelopmentController extends Controller
                 ];
             });
 
-            /** @var array Arreglo de clases del paquete de íconos IONICONS */
+            // Arreglo de clases del paquete de íconos IONICONS
             $ionicons = Cache::rememberForever('ionicons', function () {
                 return [
                     'ion-alert', 'ion-alert-circled', 'ion-android-add', 'ion-android-add-circle',
@@ -1093,7 +1089,7 @@ class DevelopmentController extends Controller
                 ];
             });
 
-            /** @var array Arreglo de clases del paquete de íconos NUCLEO */
+            // Arreglo de clases del paquete de íconos NUCLEO
             $nucleos = Cache::rememberForever('nucleos', function () {
                 return [
                     __('Flechas') => [
@@ -1175,7 +1171,7 @@ class DevelopmentController extends Controller
                 ];
             });
 
-            /** @var array Arreglo de clases del paquete de íconos MATERIAL DESIGN */
+            // Arreglo de clases del paquete de íconos MATERIAL DESIGN
             $materialDesigns = Cache::rememberForever('materialDesigns', function () {
                 return [
                     __('General') => [

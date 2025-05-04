@@ -14,7 +14,7 @@
                     </span>
                 </button>
                 <ul>
-                    <li v-for="error in errors">{{ error }}</li>
+                    <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                 </ul>
             </div>
         </div>
@@ -41,41 +41,41 @@
             <div class="form-group">
                 <label for="applicant_name">Rif:</label>
                   <span class="col-md-12" id="Rif">{{ sale_service.rif }}</span>
-            </div>  
+            </div>
             <div class="form-group">
                 <label for="applicant_name">Identificación:</label>
                   <span class="col-md-12" id="identification">{{ sale_service.idntifiaction }} {{ sale_service.identification_number }}</span>
-            </div>  
+            </div>
                                             <div class="form-group">
                 <label for="applicant_name">Nombre:</label>
                   <span class="col-md-12" id="name">{{ sale_service.name }}</span>
-            </div>  
+            </div>
             <div class="form-group">
                 <label for="applicant_name">Email:</label>
                   <span class="col-md-12" id="email">{{ sale_service.email }}</span>
-            </div>  
+            </div>
                                             <div class="form-group">
                 <label for="applicant_name">Teléfono:</label>
                   <span class="col-md-12" id="phone">{{ sale_service.phone_extension }} {{ sale_service.phone_area_code }} {{ sale_service.phone_number }}</span>
-            </div>   
+            </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group is-required">
                     <label>Código de la solicitud:</label>
-                    <input type="text" class="form-control input-sm" 
-                        data-toggle="tooltip" title="Código de Solicitud" 
-                        v-model="sale_service.code" id="code" :disabled="true"></input>
+                    <input type="text" class="form-control input-sm"
+                        data-toggle="tooltip" title="Código de Solicitud"
+                        v-model="sale_service.code" id="code" :disabled="true"/>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group is-required">
                     <label>Monto Total del pedido o servicio:</label>
-                    <input type="text" class="form-control input-sm" 
-                        data-toggle="tooltip" title="Total" 
-                        v-model="sale_service.total" id="total" :disabled="true" ></input>
+                    <input type="text" class="form-control input-sm"
+                        data-toggle="tooltip" title="Total"
+                        v-model="sale_service.total" id="total" :disabled="true" />
                 </div>
-            </div>    
+            </div>
             <div class="col-md-3">
                 <div class="form-group is-required">
                     <label>Forma de pago:</label>
@@ -93,9 +93,9 @@
             <div class="col-md-3">
                 <div class="form-group is-required">
                     <label for="number_reference">Número de referencia de la operación:</label>
-                    <input type="text" class="form-control input-sm" 
-                        data-toggle="tooltip" title="Número de referencia" 
-                        v-model="record.number_reference" id="number_reference"></input>
+                    <input type="text" class="form-control input-sm"
+                        data-toggle="tooltip" title="Número de referencia"
+                        v-model="record.number_reference" id="number_reference"/>
                 </div>
             </div>
             <div class="col-md-3">
@@ -169,7 +169,7 @@ export default {
                 reference_number: '',
                 payment_date: '',
                 advance_define_attributes: false,
-            },            
+            },
             show_service: true,
             show_order: true,
             sale_order_list: [],
@@ -202,8 +202,6 @@ export default {
     methods: {
         /**
          * Método que carga la información del formulario al editar
-         *
-         *
          */
         async loadForm(id){
             const vm = this;
@@ -225,8 +223,6 @@ export default {
         },
         /**
          * Método que borra todos los datos del formulario
-         *
-         *
          */
         reset() {
             this.record = {
@@ -270,9 +266,7 @@ export default {
 
         /**
          * Método que oculta el campo servicio o pedido no seleccionado.
-         *
-         *
-         */        
+         */
         show() {
             const vm = this;
             if (vm.record.sale_service_id > 0) {
@@ -376,7 +370,7 @@ export default {
             vm.record.date = moment(String(new Date())).format('YYYY-MM-DD');
         }
 
-        
+
     },
     props: {
         paymentid: {

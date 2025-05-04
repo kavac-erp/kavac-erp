@@ -1,0 +1,6 @@
+<map id="calculateOperation" name="calculateOperation">
+<area shape="rect" id="Node000001" title="Realiza la conversion de saldo." alt="" coords="235,29,380,55"/>
+<area shape="rect" id="Node000002" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#a6e29f82d56bc92e45daa978c31e35cd6" title="Realiza el cálculo de saldo de la cuenta tomando en cuenta todos sus subcuentas, hasta llegar al últi..." alt="" coords="5,29,187,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,45,187,45,187,39,221,39"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="134,20,123,11,96,8,74,10,62,15,59,20,66,28,61,31,54,21,58,11,72,5,96,3,125,6,137,15"/>
+</map>

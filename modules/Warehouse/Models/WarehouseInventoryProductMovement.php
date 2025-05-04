@@ -13,9 +13,9 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * Gestiona el modelo de datos de los productos para los movimientos de almacén
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseInventoryProductMovement extends Model implements Auditable
 {
@@ -35,8 +35,8 @@ class WarehouseInventoryProductMovement extends Model implements Auditable
      * Método que obtiene el registro en el inventario del producto movilizado
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseInventoryProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouseInventoryProduct()
     {
@@ -47,8 +47,8 @@ class WarehouseInventoryProductMovement extends Model implements Auditable
      * Método que obtiene el registro en el inventario del producto que se va movilizar
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseInventoryProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouseInitialInventoryProduct()
     {
@@ -59,8 +59,8 @@ class WarehouseInventoryProductMovement extends Model implements Auditable
      * Método que obtiene el movimiento de almacén asociado al registro
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseMovement
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouseMovement()
     {

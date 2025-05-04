@@ -2,17 +2,15 @@
 
 namespace Modules\Budget\Http\Controllers;
 
+use App\Models\Profile;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Modules\Budget\Models\Institution;
+use Nwidart\Modules\Facades\Module;
 use Modules\Budget\Models\Department;
+use Modules\Budget\Models\Institution;
 use Modules\Budget\Models\BudgetProject;
-use Modules\Payroll\Models\PayrollPosition;
-use Modules\Payroll\Models\PayrollStaff;
-use Modules\Accounting\Models\Profile;
-use Modules\Payroll\Models\PayrollEmployment;
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
  * @class BudgetProjectController
@@ -21,34 +19,44 @@ use Modules\Payroll\Models\PayrollEmployment;
  * Clase que gestiona los Proyectos
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetProjectController extends Controller
 {
     use ValidatesRequests;
 
-    /** @var array Arreglo con las reglas de validación sobre los datos de un formulario */
+    /**
+     * Arreglo con las reglas de validación sobre los datos de un formulario
+     *
+     * @var array $validate_rules
+     */
     public $validate_rules;
 
-    /** @var array Arreglo con los mensajes de error de cada campo de un formulario */
+    /**
+     * Arreglo con los mensajes de error de cada campo de un formulario
+     *
+     * @var array $messages
+     */
     public $messages;
 
     /**
      * Define la configuración de la clase
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:budget.project.list', ['only' => 'index', 'vueList']);
         $this->middleware('permission:budget.project.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:budget.project.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:budget.project.delete', ['only' => 'destroy']);
 
-        /** @var array Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validate_rules = [
             'institution_id' => ['required'],
             'department_id' => ['required'],
@@ -61,7 +69,7 @@ class BudgetProjectController extends Controller
             'to_date' => ['required'],
         ];
 
-        /** @var array Define los mensajes de error para el formulario */
+        /* Define los mensajes de error para el formulario */
         $this->messages = [
             'institution_id.required' => 'El campo institución es obligatorio. ',
             'department_id.required' => 'El campo dependencia es obligatorio. ',
@@ -80,6 +88,7 @@ class BudgetProjectController extends Controller
      * Muestra un listado de proyectos
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return Renderable
      */
     public function index()
@@ -91,11 +100,12 @@ class BudgetProjectController extends Controller
      * Muestra el formulario para crear un proyecto
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return Renderable
      */
     public function create()
     {
-        /** @var array Arreglo de opciones a implementar en el formulario */
+        /* Arreglo de opciones a implementar en el formulario */
         $header = [
             'route' => 'budget.projects.store',
             'method' => 'POST',
@@ -103,7 +113,7 @@ class BudgetProjectController extends Controller
             'class' => 'form-horizontal',
         ];
 
-        /** @var array Arreglo de opciones de instituciones a representar en la plantilla para su selección */
+        /* Arreglo de opciones de instituciones a representar en la plantilla para su selección */
         $institutions = template_choices(Institution::class, ['acronym'], ['active' => true]);
 
         $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
@@ -118,24 +128,25 @@ class BudgetProjectController extends Controller
             }
         }
 
-        /** @var array Arreglo de opciones de departamentos a representar en la plantilla para su selección */
+        /* Arreglo de opciones de departamentos a representar en la plantilla para su selección */
         $departments = template_choices(Department::class, ['acronym', '-', 'name'], ['active' => true]);
 
-        /**
-         * @var array Arreglo de opciones de cargos a representar en la
-         * plantilla para su selección
-         */
-        $positions = template_choices(
-            PayrollPosition::class,
+        /*  Arreglo de opciones de cargos a representar en la plantilla para su selección */
+        $positions = (
+            Module::has('Payroll') && Module::isEnabled('Payroll')
+        ) ? template_choices(
+            \Modules\Payroll\Models\PayrollPosition::class,
             'name',
-        );
+        ) : ['' => 'Seleccione...'];
 
-        /** @var array Arreglo de opciones de personal a representar en la plantilla para su selección */
-        $staffs = template_choices(
-            PayrollStaff::class,
+        /* Arreglo de opciones de personal a representar en la plantilla para su selección */
+        $staffs = (
+            Module::has('Payroll') && Module::isEnabled('Payroll')
+        ) ? template_choices(
+            \Modules\Payroll\Models\PayrollStaff::class,
             ['id_number', '-', 'full_name'],
             ['relationship' => 'payrollEmployment', 'where' => ['active' => true]]
-        );
+        ) : ['' => 'Seleccione...'];
 
         return view('budget::projects.create-edit-form', compact(
             'header',
@@ -150,16 +161,16 @@ class BudgetProjectController extends Controller
      * Guarda información del nuevo proyecto
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
-     * @return Renderable
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
         $this->validate($request, $this->validate_rules, $this->messages);
 
-        /**
-         * Registra el nuevo proyecto
-         */
+        /* Registra el nuevo proyecto */
         BudgetProject::create([
             'name' => $request->name,
             'code' => $request->code,
@@ -181,7 +192,9 @@ class BudgetProjectController extends Controller
      * Muestra información de un proyecto
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $id Identificador del proyecto a mostrar
+     *
      * @return Renderable
      */
     public function show($id)
@@ -193,41 +206,44 @@ class BudgetProjectController extends Controller
      * Muestra el formulario para editar un proyecto
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $id Identificador del proyecto a modificar
+     *
      * @return Renderable
      */
     public function edit($id)
     {
-        /** @var object Objeto con información del proyecto a modificar */
+        /* Objeto con información del proyecto a modificar */
         $budgetProject = BudgetProject::find($id);
         $budgetProjectInstitucion = BudgetProject::find($id)->department;
 
-        $staffPosition = PayrollEmployment::query()
+        $staffPosition = (
+            Module::has('Payroll') && Module::isEnabled('Payroll')
+        ) ? \Modules\Payroll\Models\PayrollEmployment::query()
         ->where('payroll_staff_id', $budgetProject->payroll_staff_id)
         ->first()
-        ->payroll_position;
+        ->payroll_position : null;
 
-
-        /** @var array Arreglo de opciones a implementar en el formulario */
+        /* Arreglo de opciones a implementar en el formulario */
         $header = [
             'route' => ['budget.projects.update', $budgetProject->id],
             'method' => 'PUT',
             'role' => 'form'
         ];
 
-        /** @var object Objeto con datos del modelo a modificar */
+        /* Objeto con datos del modelo a modificar */
         $model = $budgetProject;
 
         $model["institution_id"] = $budgetProjectInstitucion["institution_id"];
 
-        /** @var array Arreglo de opciones de instituciones a representar en la plantilla para su selección */
+        /* Arreglo de opciones de instituciones a representar en la plantilla para su selección */
         $institutions = template_choices(Institution::class, [
             'acronym',
             '-',
             'name'
         ]);
 
-        /** @var array Arreglo de opciones de departamentos a representar en la plantilla para su selección */
+        /* Arreglo de opciones de departamentos a representar en la plantilla para su selección */
         $departments = template_choices(
             Department::class,
             [
@@ -240,9 +256,11 @@ class BudgetProjectController extends Controller
             ]
         );
 
-        /** @var array Arreglo de opciones de cargos a representar en la plantilla para su selección */
-        $positions = template_choices(
-            PayrollPosition::class,
+        /* Arreglo de opciones de cargos a representar en la plantilla para su selección */
+        $positions = (
+            Module::has('Payroll') && Module::isEnabled('Payroll')
+        ) ? template_choices(
+            \Modules\Payroll\Models\PayrollPosition::class,
             'name',
             [
                 'relationship' => 'payrollEmployments',
@@ -250,19 +268,21 @@ class BudgetProjectController extends Controller
                     'payroll_employment_payroll_position.active' => true
                 ]
             ]
-        );
+        ) : ['' => 'Seleccione...'];
 
         if (!is_null($staffPosition)) {
             $positions[$staffPosition->id] = $staffPosition->name;
         }
 
 
-        /** @var array Arreglo de opciones de personal a representar en la plantilla para su selección */
-        $staffs = template_choices(
-            PayrollStaff::class,
+        /* Arreglo de opciones de personal a representar en la plantilla para su selección */
+        $staffs = (
+            Module::has('Payroll') && Module::isEnabled('Payroll')
+        ) ? template_choices(
+            \Modules\Payroll\Models\PayrollStaff::class,
             ['id_number', '-', 'full_name'],
             ['relationship' => 'payrollEmployment', 'where' => ['active' => true]]
-        );
+        ) : ['' => 'Seleccione...'];
 
         return view('budget::projects.create-edit-form', compact(
             'header',
@@ -278,9 +298,11 @@ class BudgetProjectController extends Controller
      * Actualiza la información de un proyecto
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
+     *
+     * @param  Request $request Datos de la petición
      * @param  integer $id Identificador del proyecto a modificar
-     * @return Renderable
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -302,10 +324,10 @@ class BudgetProjectController extends Controller
             'name.required'                => 'El campo nombre es obligatorio. ',
         ]);
 
-        /** @var object Objeto con información del proyecto a modificar */
+        /* Objeto con información del proyecto a modificar */
         $budgetProject = BudgetProject::find($id);
         $budgetProject->fill($request->all());
-        /** @var boolean Establece si el proyecto esta o no activo */
+        /* Establece si el proyecto esta o no activo */
         $budgetProject->active = $request->active ?? false;
         $budgetProject->save();
 
@@ -317,12 +339,14 @@ class BudgetProjectController extends Controller
      * Elimina un proyecto específico
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $id Identificador del proyecto a eliminar
-     * @return Renderable
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /** @var object Objeto con información del proyecto a eliminar */
+        /* Objeto con información del proyecto a eliminar */
         $budgetProject = BudgetProject::find($id);
 
         if ($budgetProject) {
@@ -336,13 +360,15 @@ class BudgetProjectController extends Controller
      * Obtiene listado de registros
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @param  [boolean] $active Filtrar por estatus del registro, valores permitidos true o false,
-     *                           este parámetro es opcional.
+     *
+     * @param  boolean $active  Filtrar por estatus del registro, valores permitidos true o false,
+     *                          este parámetro es opcional.
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function vueList($active = null)
     {
-        /** @var object Objeto con información de los proyectos registrados */
+        /* Objeto con información de los proyectos registrados */
         $budgetProjects = ($active !== null)
             ? BudgetProject::where('active', $active)->with(['payrollStaff', 'specificActions.subSpecificFormulations'])->get()
             : BudgetProject::with(['payrollStaff', 'specificActions.subSpecificFormulations'])->get();
@@ -388,8 +414,10 @@ class BudgetProjectController extends Controller
      * Obtiene los proyectos registrados
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $id Identificador del proyecto a buscar, este parámetro es opcional
-     * @return JSON        JSON con los datos de los proyectos
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getProjects($id = null)
     {
@@ -405,13 +433,17 @@ class BudgetProjectController extends Controller
      * Método que devuelve un proyecto registrado según el id que se le pase
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $id Identificador del proyecto a buscar.
-     * @return JSON        JSON con los datos del  proyecto específico.
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getDetailProject($id)
     {
         $project = BudgetProject::find($id);
-        $cargo = PayrollStaff::where("id", $project->payroll_staff_id)->first();
+        $cargo = (
+            Module::has("Payroll") && Module::isEnabled("Payroll")
+        ) ? \Modules\Payroll\Models\PayrollStaff::where("id", $project->payroll_staff_id)->first() : [];
 
         return response()->json([
             'result' => true,
@@ -424,7 +456,8 @@ class BudgetProjectController extends Controller
      * Método que devuelve lo(s) proyecto(s) registrado que cuyas acciones específicas tengan asignado presupuesto
      *
      * @author  Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
-     * @return JSON        JSON con los datos del o de los proyectos.
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getBudgetProjectsAssigned()
     {
@@ -451,7 +484,8 @@ class BudgetProjectController extends Controller
      * Método que devuelve true o false si el id del proyecto se ecuentra en el arrays de proyecto asignados
      *
      * @author  Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
-     * @return bool       true/false.
+     *
+     * @return bool
      */
     public function searchProject($project_assinegnet, $id_project)
     {

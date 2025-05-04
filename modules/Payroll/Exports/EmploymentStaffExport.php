@@ -7,15 +7,41 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 
+/**
+ * @class EmploymentStaffExport
+ * @brief Clase que exporta la información del personal
+ *
+ * @author Ing. Francisco Escala <fescala@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class EmploymentStaffExport implements FromArray, WithHeadings, ShouldAutoSize, WithTitle
 {
+    /**
+     * Lista de errores encontrados en la exportación de datos
+     *
+     * @var array $errors
+     */
     protected $errors;
 
+    /**
+     * Método constructor de la clase.
+     *
+     * @param array $errors Lista de errores encontrados en la exportación de datos
+     *
+     * @return void
+     */
     public function __construct(array $errors)
     {
         $this->errors = $errors;
     }
 
+    /**
+     * Encabezados de las columnas de la hoja a exportar
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return [
@@ -66,11 +92,21 @@ class EmploymentStaffExport implements FromArray, WithHeadings, ShouldAutoSize, 
         ];
     }
 
+    /**
+     * Establece el tiúlo de la hoja
+     *
+     * @return string
+     */
     public function title(): string
     {
         return 'Datos Laborales';
     }
 
+    /**
+     * Retorna los errores de la hoja
+     *
+     * @return array
+     */
     public function array(): array
     {
         return $this->errors;

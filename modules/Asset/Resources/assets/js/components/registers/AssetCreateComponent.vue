@@ -303,10 +303,10 @@
 					marca: '',
 					model: '',
 					value: '',
-					purchase_supplier_id: '', 
-					color: '', 
+					purchase_supplier_id: '',
+					color: '',
 					asset_institutional_code: '',
-					
+
 
 					country_id: '',
 					estate_id: '',
@@ -365,8 +365,8 @@
 					marca: '',
 					model: '',
 					value: '',
-					purchase_supplier_id: '', 
-					color: '', 
+					purchase_supplier_id: '',
+					color: '',
 					asset_institutional_code: '',
 
 
@@ -416,11 +416,11 @@
 				const vm = this;
 				vm.asset_status = [];
 				axios.get(`${window.app_url}/asset/get-status`).then(response => {
-					vm.asset_status = response.data.filter((item) => item.id !== 1 
+					vm.asset_status = response.data.filter((item) => item.id !== 1
 																	&& item.id !== 6 && item.id !== 11);
 				});
 			},
-			
+
 			/**
 			 * Obtiene los datos de las funciones de uso de los bienes institucionales
 			 *
@@ -445,7 +445,7 @@
           		await axios.get(`${window.app_url}/asset/registers/info/${id}`).then(response => {
               		if(typeof(response.data.records != "undefined")) {
               			let recordEdit = response.data.records;
-                  		
+
                   		vm.record = recordEdit;
               		}
           		});
@@ -458,8 +458,7 @@
 
 			/**
 			 * Reescribe el método getEstates para cambiar su comportamiento por defecto
-			 * Obtiene los Estados del Pais seleccionado
-			 *
+			 * Obtiene los Estados del Pais seleccionado			 *
 			 */
 			async getEstates() {
 				const vm = this;
@@ -475,28 +474,23 @@
 	          		}
 				}
 			},
-            
-				/**
-			 * * realizado por Francisco Escala fjescala@gmail.com
-			 *
+
+			/**
+			 * realizado por Francisco Escala fjescala@gmail.com
 			 */
 			async getSuppliers() {
 				const vm = this;
 				vm.supplier = [];
 
-			
-					await axios.get(`${window.app_url}/purchase/suppliers-list`).then(response => {
+					await axios.get(`${window.app_url}/asset/suppliers-list`).then(response => {
 						vm.supplier = response.data;
-				
+
 					});
-			
-		
 			},
 
 			/**
-			 * * Reescribe el método getMunicipalities para cambiar su comportamiento por defecto
+			 * Reescribe el método getMunicipalities para cambiar su comportamiento por defecto
 			 * Obtiene los Municipios del Estado seleccionado
-			 *
 			 */
 			async getMunicipalities() {
 				const vm = this;

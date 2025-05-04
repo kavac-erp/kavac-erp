@@ -3,22 +3,20 @@
 namespace Modules\Asset\Http\Controllers;
 
 use App\Models\Institution;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Modules\Asset\Models\Asset;
-use Modules\Asset\Models\AssetInstitutionStorage;
+use Illuminate\Support\Facades\Log;
 use Modules\Asset\Models\AssetStorage;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Asset\Models\AssetInstitutionStorage;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
  * @class AssetStorageController
- * @brief [descripción detallada]
+ * @brief Gestiona los depósitos de bienes
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -31,10 +29,12 @@ class AssetStorageController extends Controller
      * Define la configuración de la clase
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        // /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:asset.setting.storage.create', ['only' => ['index', 'create', 'store']]);
         $this->middleware('permission:asset.setting.storage.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:asset.setting.storage.delete', ['only' => ['destroy']]);
@@ -43,11 +43,11 @@ class AssetStorageController extends Controller
     /**
      * Muestra el listado de los depósitos registrados
      *
-     * @method    index
-     *
      * @author    Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      *
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     * @param     integer|null $institution ID de la institución
+     *
+     * @return \Illuminate\Http\Response JSON con los registros a mostrar
      */
     public function index($institution = null)
     {
@@ -85,13 +85,11 @@ class AssetStorageController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    create
+     * Muestra el formulario para la creación de un nuevo depósito de bienes
      *
      * @author    Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    Renderable
      */
     public function create()
     {
@@ -101,12 +99,11 @@ class AssetStorageController extends Controller
     /**
      * Valida y registra un nuevo depósito
      *
-     * @method    store
-     *
      * @author    Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      *
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\Response|void
      */
     public function store(Request $request)
     {
@@ -146,7 +143,7 @@ class AssetStorageController extends Controller
             }
             $institution_id = empty($request->institution_id) ? $institution->id : $request->institution_id;
 
-            if($request->main){
+            if ($request->main) {
                 AssetInstitutionStorage::where('main', true)
                       ->update(['main' => false]);
             }
@@ -161,15 +158,13 @@ class AssetStorageController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra información del depósito de bienes
      *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author    Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    Renderable
      */
     public function show($id)
     {
@@ -177,15 +172,13 @@ class AssetStorageController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para la actualización de datos de un depósito de bienes
      *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author    Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    Renderable
      */
     public function edit($id)
     {
@@ -195,13 +188,12 @@ class AssetStorageController extends Controller
     /**
      * Valida y actualiza un depósito
      *
-     * @method    update
-     *
      * @author    Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      *
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @param  \Modules\Asset\Models\AssetStorage  $storage (Datos del almacén)
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  \Modules\Asset\Models\AssetStorage  $storage Datos del almacén
+     *
+     * @return \Illuminate\Http\Response|void
      */
     public function update(Request $request, AssetStorage $storage)
     {
@@ -241,7 +233,7 @@ class AssetStorageController extends Controller
 
             $institution_id =  empty($request->institution_id) ? $institution->id : $request->institution_id;
 
-            if($request->main){
+            if ($request->main) {
                 AssetInstitutionStorage::where('main', true)
                       ->update(['main' => false]);
             }
@@ -259,13 +251,12 @@ class AssetStorageController extends Controller
     /**
      * [descripción del método]
      *
-     * @method    destroy
-     *
      * @author    Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      *
-     * @param  \Modules\Asset\Models\AssetStorage  $storage (Datos del almacén)
-     * @param  Integer $id Identificador único del registro
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     * @param  \Modules\Asset\Models\AssetStorage  $storage Datos del depósito
+     * @param  integer $id Identificador único del registro
+     *
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -276,10 +267,18 @@ class AssetStorageController extends Controller
             $storage->delete();
             return response()->json(['record' => $storage, 'message' => 'Success'], 200);
         } catch (\Throwable $e) {
+            Log::error($e->getMessage());
             return response()->json(['error' => true, 'message' => __($e->getMessage())], 200);
         }
     }
 
+    /**
+     * Gestiona los depositos de bienes
+     *
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function manage($id)
     {
         $storage_inst = AssetInstitutionStorage::where('storage_id', $id)->first();
@@ -306,17 +305,23 @@ class AssetStorageController extends Controller
         );
     }
 
+    /**
+     * Obtiene los depósitos de bienes
+     *
+     * @param integer|null $institution_id Identificador de la institución
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getStorages($institution_id = null)
     {
         $storages = AssetInstitutionStorage::select('id', 'institution_id', 'storage_id', 'main', 'manage')
             ->with(['storage' => function ($query) {
                 $query->where('active', true);
-                }]);
-                
+            }]);
+
         if (!empty($institution_id)) {
             $storages = $storages->where('institution_id', $institution_id);
         }
         return response()->json($storages->get(), 200);
-
     }
 }

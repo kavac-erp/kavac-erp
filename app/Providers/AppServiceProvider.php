@@ -1,7 +1,5 @@
 <?php
 
-/** Proveedores de servicios generales del sistema */
-
 namespace App\Providers;
 
 use App\Observers\ModelObserver;
@@ -20,9 +18,7 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
-     *
-     * @method  register
+     * Registra cualquier servicio de la aplicación
      *
      * @return void
      */
@@ -32,9 +28,7 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
-     *
-     * @method  boot
+     * Ejecuta los servicios de la aplicación
      *
      * @return void
      */
@@ -44,10 +38,9 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         if (!app()->runningInConsole()) {
-            $module = new Module();
-            /** Solo ejecuta esta instrucción si no se esta ejecutando en consola de comandos */
+            // Solo ejecuta esta instrucción si no se esta ejecutando en consola de comandos
             foreach (NotificationSetting::all() as $notifySetting) {
-                if (!is_null($notifySetting->module) && $module->isDisabled($notifySetting->module)) {
+                if (!is_null($notifySetting->module) && Module::isDisabled($notifySetting->module)) {
                     continue;
                 }
 

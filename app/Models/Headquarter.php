@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +13,8 @@ use App\Traits\ModelsTrait;
  * @brief Datos de las sedes
  *
  * Gestiona el modelo de datos para las sedes
+ *
+ * @property  string  $name
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
  *

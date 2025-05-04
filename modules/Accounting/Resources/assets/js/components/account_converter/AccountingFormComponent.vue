@@ -1,15 +1,21 @@
 <template>
     <div class="form-horizontal">
-        <div class="card-body pb-5">
+        <div class="card-body pb-5" v-if="!results">
             <accounting-show-errors ref="accountingConverterForm" />
             <div class="row" v-if="pair_arrays.length == 0">
-                <div class="col-4 mb-4" id="helpTotalToConvert">
-                    <label class="control-label"
-                        >Cantidad de cuentas a convertir</label
-                    >
+                <label class="control-label"
+                    >Cantidad de cuentas a convertir</label
+                >
+            </div>
+            <div class="row" v-if="pair_arrays.length == 0">
+                <div
+                    class="col-6 mb-6"
+                    id="helpTotalToConvert"
+                    style="padding-top: 0.5rem"
+                >
                     <input
                         type="number"
-                        class="form-control col-md-2"
+                        class="form-control"
                         placeholder="1"
                         min="1"
                         v-model="totalToConvert"
@@ -17,12 +23,14 @@
                         data-toggle="tooltip"
                     />
                 </div>
-                <div class="col-6 mb-4">
+                <div class="col-6 mb-6">
                     <button
                         type="button"
                         @click="addPair"
-                        title=""
-                        class="btn btn-success btn-icon btn-round"
+                        title="Agregar más cuentas a convertir"
+                        data-toggle="tooltip"
+                        v-has-tooltip
+                        class="btn btn-primary btn-icon btn-round"
                         data-original-title="Guardar registro"
                     >
                         <i class="fa fa-plus-circle cursor-pointer"></i>
@@ -40,7 +48,7 @@
             </div>
             <div v-for="(pair, index) in pair_arrays" :key="index" class="row">
                 <div
-                    class="col-xs-12 col-sm-12 col-md-6 is-required"
+                    class="col-xs-10 col-sm-10 col-md-5 is-required"
                     id="helpSelectBudget"
                 >
                     <label class="control-label">Cuentas Presupuestarias</label>
@@ -54,7 +62,7 @@
                     ></select2>
                 </div>
                 <div
-                    class="col-xs-12 col-sm-12 col-md-6 is-required"
+                    class="col-xs-10 col-sm-10 col-md-5 is-required"
                     id="helpSelectAccounting"
                 >
                     <label class="control-label">Cuentas Patrimoniales</label>
@@ -67,10 +75,86 @@
                         title="Seleccione una cuenta patrimonial"
                     ></select2>
                 </div>
+                <div
+                    class="col-xs-10 col-sm-10 col-md-2"
+                    style="padding-top: 1.25rem"
+                >
+                    <button
+                        @click="deletePair(index)"
+                        title=""
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        type="button"
+                        class="btn btn-danger btn-xs btn-icon btn-action btn-tooltip"
+                        data-original-title="Eliminar registro"
+                    >
+                        <i class="fa fa-trash-o"></i>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="card-footer text-right">
+        <div class="card-footer text-right" v-if="!results">
             <buttonsDisplay :route_list="app_url + '/q'" display="false" />
+        </div>
+        <div class="card-body pb-5" v-if="results">
+            <div
+                :class="'alert alert-success'"
+                role="alert"
+                v-if="nonDuplicates.length > 0"
+            >
+                <div class="container">
+                    <div class="alert-icon">
+                        <i class="now-ui-icons objects_support-17"></i>
+                    </div>
+                    <strong>Exito!</strong> Debe verificar los siguiente antes
+                    de continuar:
+                    <button
+                        type="button"
+                        @click="this.return"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                    >
+                        <span aria-hidden="true">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                        </span>
+                    </button>
+                    <ul>
+                        <li v-for="success in nonDuplicates" :key="success">
+                            {{ success }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                :class="'alert alert-danger'"
+                role="alert"
+                v-if="duplicates.length > 0"
+            >
+                <div class="container">
+                    <div class="alert-icon">
+                        <i class="now-ui-icons objects_support-17"></i>
+                    </div>
+                    <strong>Cuidado!</strong> Debe verificar los siguientes
+                    errores antes de continuar:
+                    <button
+                        type="button"
+                        @click="this.return"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                    >
+                        <span aria-hidden="true">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                        </span>
+                    </button>
+                    <ul>
+                        <li v-for="error in duplicates" :key="error">
+                            {{ error }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -100,6 +184,10 @@ export default {
             budgetOptions: [],
             accountingOptions: [],
             budgetSelect: "",
+            results: false,
+            duplicates: [],
+            nonDuplicates: [],
+            results: false,
             pair_arrays: [],
             accountingSelect: "",
             urlPrevious: `${window.app_url}/accounting/converter`,
@@ -131,8 +219,11 @@ export default {
     },
     methods: {
         reset() {
-            this.pair_arrays = [
-            ]
+            this.pair_arrays = [];
+        },
+        return() {
+            const vm = this;
+            location.href = vm.urlPrevious;
         },
 
         /**
@@ -149,6 +240,10 @@ export default {
                     accountingSelect: "",
                 });
             }
+        },
+        deletePair(index) {
+            // Elimina el par correspondiente al índice proporcionado
+            this.pair_arrays.splice(index, 1);
         },
         /**
          * Método que agrega upar de cuentas.
@@ -167,23 +262,24 @@ export default {
         /**
          * enviar la información de las cuentas a convertir para ser almacenada
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          * @param {int} $indexToConvertion [posición en el array de cuentas a convertir]
          */
-        createRecord: function() {
+        createRecord: function () {
             const vm = this;
-            let checkArray = (arrayElement) => 
-                arrayElement.budgetSelect == "" || arrayElement.accountingSelect == ""; 
+            let checkArray = (arrayElement) =>
+                arrayElement.budgetSelect == "" ||
+                arrayElement.accountingSelect == "";
             let conditionArray = vm.pair_arrays.some(checkArray);
             if (conditionArray == true) {
-                    vm.$refs.accountingConverterForm.showAlertMessages(
-                        'Los campos de selección de cuenta son obligatorios.'
-                    );
-                    return;
-                }
+                vm.$refs.accountingConverterForm.showAlertMessages(
+                    "Los campos de selección de cuenta son obligatorios."
+                );
+                return;
+            }
             if (vm.pair_arrays.length == 0) {
                 vm.$refs.accountingConverterForm.showAlertMessages(
-                    'Debe agregar al menos una cuenta a convertir.'
+                    "Debe agregar al menos una cuenta a convertir."
                 );
             } else {
                 vm.loading = true;
@@ -208,13 +304,14 @@ export default {
                             } else {
                                 vm.$refs.accountingConverterForm.reset();
                                 vm.showMessage("store");
-
+                                vm.results = true;
                                 vm.budgetSelect = "";
                                 vm.accountingSelect = "";
                                 vm.accountingOptions = [];
                                 vm.budgetOptions = [];
                                 vm.pair_arrays = [];
-                                location.href = vm.urlPrevious;
+                                vm.nonDuplicates = response.data.non_duplicates;
+                                vm.duplicates = response.data.duplicates;
                             }
                             vm.loading = false;
                         })
@@ -223,7 +320,9 @@ export default {
 
                             for (let index in error.response.data.errors) {
                                 if (error.response.data.errors[index]) {
-                                    vm.$refs.accountingConverterForm.showAlertMessages(error.response.data.errors[index][0]);
+                                    vm.$refs.accountingConverterForm.showAlertMessages(
+                                        error.response.data.errors[index][0]
+                                    );
                                 }
                             }
                         });
@@ -258,7 +357,9 @@ export default {
 
                             for (let index in error.response.data.errors) {
                                 if (error.response.data.errors[index]) {
-                                    vm.$refs.accountingConverterForm.showAlertMessages(error.response.data.errors[index][0]);
+                                    vm.$refs.accountingConverterForm.showAlertMessages(
+                                        error.response.data.errors[index][0]
+                                    );
                                 }
                             }
                         });

@@ -50,6 +50,16 @@ if (window.auth) {
 }
 Vue.use(window.execution_year);
 
+Vue.component('upload-documents', () => import(
+    /* webpackChunkName: "upload-documents" */
+    "./components/Shared/Documents/UploadComponent.vue"
+));
+
+Vue.component('download-documents', () => import(
+    /* webpackChunkName: "download-documents" */
+    "./components/Shared/Documents/DownloadComponent.vue"
+));
+
 /**
  * Calculadora de fórmulas
  *

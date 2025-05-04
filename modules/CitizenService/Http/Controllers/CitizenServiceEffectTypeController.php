@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\CitizenService\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -14,11 +12,11 @@ use Nwidart\Modules\Facades\Module;
 
 /**
  * @class CitizenServiceEffectTypeController
- * @brief [descripción detallada]
+ * @brief Controlador para los tipos de efectos de la oficina de información
  *
- * [descripción corta]
+ * Clase que gestiona el controlador para los tipos de efectos de la OAC
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -27,23 +25,39 @@ class CitizenServiceEffectTypeController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
     protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:citizenservice.effect-types.create', ['only' => ['index', 'create', 'store']]);
-        $this->middleware('permission:citizenservice.effect-types.edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:citizenservice.effect-types.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:citizenservice.effect.types.create', ['only' => ['index', 'create', 'store']]);
+        $this->middleware('permission:citizenservice.effect.types.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:citizenservice.effect.types.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'                                  => ['required', 'regex:/^[\D][a-zA-ZÁ-ÿ0-9\s]*/u', 'max:100'],
             'description'                           => ['nullable', 'regex:/^[\D][a-zA-ZÁ-ÿ0-9\s]*/u', 'max:200'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required'         => 'El campo nombre es obligatorio.',
             'name.max'              => 'El campo nombre no debe contener más de 100 caracteres.',
@@ -52,14 +66,13 @@ class CitizenServiceEffectTypeController extends Controller
             'description.regex'     => 'El campo descripción no debe permitir números ni símbolos.',
         ];
     }
+
     /**
-     * [descripción del método]
+     * Obtiene un listado de los registros de tipos de efectos
      *
-     * @method    index
+     * @author    Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -67,13 +80,11 @@ class CitizenServiceEffectTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para crear un nuevo tipo de efecto
      *
-     * @method    create
+     * @author    Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    Renderable
      */
     public function create()
     {
@@ -81,15 +92,13 @@ class CitizenServiceEffectTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena un nuevo tipo de efecto
      *
-     * @method    store
+     * @author    Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
+     * @param     Request    $request    Datos de la petición
      *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -114,15 +123,13 @@ class CitizenServiceEffectTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra la información de un tipo de efecto
      *
-     * @method    show
+     * @author    Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
+     * @param     integer    $id    Identificador del tipo de efecto
      *
-     * @param     integer    $id    Identificador del registro
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    Renderable
      */
     public function show($id)
     {
@@ -130,15 +137,13 @@ class CitizenServiceEffectTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para editar un tipo de efecto
      *
-     * @method    edit
+     * @author    Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
+     * @param     integer    $id    Identificador del tipo de efecto
      *
-     * @param     integer    $id    Identificador del registro
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    Renderable
      */
     public function edit($id)
     {
@@ -146,21 +151,19 @@ class CitizenServiceEffectTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza la información de un tipo de efecto
      *
-     * @method    update
+     * @author    Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request  Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
         $citizenServiceEffectType = CitizenServiceEffectType::find($id);
-        $validateRules  = $this->validateRules;
+
         $this->validate($request, [
             'name' => [
                 'required',
@@ -182,15 +185,13 @@ class CitizenServiceEffectTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Elimina un tipo de efecto
      *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author    Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -202,11 +203,9 @@ class CitizenServiceEffectTypeController extends Controller
     /**
      * Retorna un json con todos los tipos de impacto para ser usado en un componente <select2>
      *
-     * @method    getEffectType
-     *
      * @author    Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function getEffectType()
     {

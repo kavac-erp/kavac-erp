@@ -4,10 +4,19 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class AddFieldDescriptionToCitizenServiceDepartmentsTable
+ * @brief Agrega el campo description a la tabla de departamentos de solicitudes de servicios
+ *
+ * @author Yenifer Ramírez <yramirez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AddFieldDescriptionToCitizenServiceDepartmentsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -21,7 +30,7 @@ class AddFieldDescriptionToCitizenServiceDepartmentsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

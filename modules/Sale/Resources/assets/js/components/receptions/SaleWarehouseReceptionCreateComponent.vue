@@ -42,7 +42,7 @@
     			</div>
     		</div>
     		<hr>
-    		
+
     		<div class="row" id="saleHelpSectionProducts">
     			<div class="col-md-12">
     				<b>Ingrese los Productos a la solicitud</b>
@@ -56,7 +56,7 @@
     			<div class="col-md-3" id="saleHelpProductQuantity">
     				<div class="form-group is-required">
     					<label>Cantidad:</label>
-    					<input type="number" min="1" placeholder="Cantidad del Producto" data-toggle="tooltip" 								   
+    					<input type="number" min="1" placeholder="Cantidad del Producto" data-toggle="tooltip"
     						class="form-control input-sm"
     						v-model="sale_warehouse_inventory_product.quantity">
                     </div>
@@ -126,7 +126,7 @@
 
     		<div class="row">
     			<div class="col-md-12">
-    				<button type="button" @click="addProduct($event)" class="btn btn-sm btn-primary btn-custom float-right" 
+    				<button type="button" @click="addProduct($event)" class="btn btn-sm btn-primary btn-custom float-right"
     					title="Agregar registro a la lista"
     					data-toggle="tooltip">
     					<i class="fa fa-plus-circle"></i>
@@ -144,15 +144,15 @@
     			</div>
     			<div slot="id" slot-scope="props" class="text-center">
     				<div class="d-inline-flex">
-    					<button @click="editProduct(props.index, $event)" 
-                			class="btn btn-warning btn-xs btn-icon btn-action" 
+    					<button @click="editProduct(props.index, $event)"
+                			class="btn btn-warning btn-xs btn-icon btn-action"
                 			title="Modificar registro" data-toggle="tooltip" type="button">
                 			<i class="fa fa-edit"></i>
                 		</button>
-                    	
-                		<button @click="removeProduct(props.index, $event)" 
-    						class="btn btn-danger btn-xs btn-icon btn-action" 
-    						title="Eliminar registro" data-toggle="tooltip" 
+
+                		<button @click="removeProduct(props.index, $event)"
+    						class="btn btn-danger btn-xs btn-icon btn-action"
+    						title="Eliminar registro" data-toggle="tooltip"
     						type="button">
     						<i class="fa fa-trash-o"></i>
     					</button>
@@ -209,19 +209,19 @@
                     history_tax_id: '',
                     sale_setting_product_id: '',
     			},
-    			
+
     			columns: ['name', 'quantity', 'id'],
     			records: [],
     			errors: [],
-    			
+
     			setting: {
     				id: '',
     			},
-    			
+
     			institutions: [],
                 sale_warehouse: [],
     			sale_setting_products: [],
-    			currencies: [],	
+    			currencies: [],
                 measurement_units: [],
 
     			/** Revisar */
@@ -229,7 +229,7 @@
     		}
     	},
     	props: {
-    	receptionid: Number, 
+    	receptionid: Number,
     	},
     	methods: {
     		reset(){
@@ -395,13 +395,12 @@
                 vm.sale_warehouse_inventory_product.history_tax = {
                     name: history_tax_name,
                 }
-                
 
-    			if (this.editIndex === null) {					
+    			if (this.editIndex === null) {
     				vm.records.push(vm.sale_warehouse_inventory_product);
     				vm.resetProduct();
     			}
-    			else if (this.editIndex >= 0 ) {				
+    			else if (this.editIndex >= 0 ) {
     				vm.records.splice(this.editIndex, 1);
     				vm.records.push(vm.sale_warehouse_inventory_product);
     				vm.resetProduct();
@@ -427,7 +426,7 @@
     		},
     		loadReception(id) {
     			const vm = this;
-                
+
                 axios.get('/sale/receptions/info/' + id).then(response => {
                     let data = response.data.records;
                     vm.record = {

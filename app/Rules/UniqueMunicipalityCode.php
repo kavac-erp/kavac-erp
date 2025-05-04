@@ -1,7 +1,5 @@
 <?php
 
-/** Reglas de validación personalizadas */
-
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
@@ -22,9 +20,9 @@ use App\Models\Municipality;
 class UniqueMunicipalityCode implements Rule, DataAwareRule
 {
     /**
-     * Todos los datos en validación.
+     * Arreglo con todos los datos en validación.
      *
-     * @var array
+     * @var array $data
      */
     protected $data = [];
 
@@ -32,6 +30,7 @@ class UniqueMunicipalityCode implements Rule, DataAwareRule
      * Establecer los datos bajo validación.
      *
      * @param  array  $data
+     *
      * @return $this
      */
     public function setData($data)
@@ -46,6 +45,7 @@ class UniqueMunicipalityCode implements Rule, DataAwareRule
      *
      * @param  string  $attribute
      * @param  mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)

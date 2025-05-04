@@ -1,5 +1,7 @@
 <map id="sendHasActiveSessionRequest" name="sendHasActiveSessionRequest">
-<area shape="rect" id="node1" title="Obtiene la instancia de la petición del usuario con sesión activa." alt="" coords="5,31,228,57"/>
-<area shape="rect" id="node2" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a9a09982111e0ef54094e8d852544a721" title="Obtiene el mensaje a mostrar de la sesión activa." alt="" coords="276,5,493,32"/>
-<area shape="rect" id="node3" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a7475524fbb2e38dd6c9f7a6661b0bb81" title="Obtiene el campo usado como nombre de usuario para el acceso a la aplicación, usado por el controlado..." alt="" coords="341,56,428,83"/>
+<area shape="rect" id="Node000001" title="Obtiene la instancia de la petición del usuario con sesión activa." alt="" coords="5,31,228,56"/>
+<area shape="rect" id="Node000002" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a9a09982111e0ef54094e8d852544a721" title="Obtiene el mensaje a mostrar de la sesión activa." alt="" coords="276,5,493,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,30,262,27,262,32,228,35"/>
+<area shape="rect" id="Node000003" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a7475524fbb2e38dd6c9f7a6661b0bb81" title="Obtiene el campo usado como nombre de usuario para el acceso a la aplicación." alt="" coords="341,55,428,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,51,328,60,327,65,228,56"/>
 </map>

@@ -5,11 +5,9 @@ namespace Modules\Asset\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Support\Facades\Auth;
 use Modules\Asset\Models\AssetRequestEvent;
 use Modules\Asset\Models\Asset;
 use App\Repositories\UploadDocRepository;
-use Modules\TechnicalSupport\Models\TechnicalSupportRequest;
 
 /**
  * @class      AssetRequestEventController
@@ -18,6 +16,7 @@ use Modules\TechnicalSupport\Models\TechnicalSupportRequest;
  * Clase que gestiona los eventos ocurridos a los bienes institucionales solicitados
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -25,9 +24,16 @@ class AssetRequestEventController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:asset.request.event.create', ['only' => 'store']);
         $this->middleware('permission:asset.request.event.delete', ['only' => 'destroy']);
     }
@@ -36,6 +42,7 @@ class AssetRequestEventController extends Controller
      * Muestra un listado de las solicitudes de eventos de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function index()
@@ -47,7 +54,10 @@ class AssetRequestEventController extends Controller
      * Valida y registra un nuevo evento
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
+     * @param     \App\Repositories\UploadDocRepository $upDoc      Repositorio para la gestión de documentos
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function store(Request $request, UploadDocRepository $upDoc)
@@ -68,13 +78,7 @@ class AssetRequestEventController extends Controller
             ]);
         }
 
-
-
-        /**
-         * Objeto asociado al modelo AssetRequestEvent
-         *
-         * @var Object $event
-         */
+        /* Objeto asociado al modelo AssetRequestEvent */
         $event = AssetRequestEvent::create([
             'type'             => $request->input('type'),
             'description'      => $request->input('description'),
@@ -82,7 +86,7 @@ class AssetRequestEventController extends Controller
             'ids_assets'       => $request->equipments
         ]);
         if ($request->type == 2) {
-            /** Carga los documentos en el servidor */
+            /* Carga los documentos en el servidor */
             if (count($request->files) > 0) {
                 foreach ($request->file('files') as $file) {
                     $upDoc->uploadDoc(
@@ -102,17 +106,11 @@ class AssetRequestEventController extends Controller
         $request->merge(['equipments' => json_decode($request->equipments)]);
         foreach ($request->equipments as $equipment) {
             $asset = Asset::find($equipment);
-            /** Si se selecciona la opción averiado */
+            /* Si se selecciona la opción averiado */
             if ($request->type == 1) {
                 $asset->asset_condition_id = 4;
                 $asset->asset_status_id = 5;
                 $asset->save();
-                // $technicalSupportRequest = TechnicalSupportRequest::create([
-                //     'state'       => 'Pendiente',
-                //     'description' => $request->input('description'),
-                //     'user_id'     => Auth::id(),
-                //     'asset_id'    => $asset->id,
-                // ]);
             } elseif ($request->type == 2) { /** Si se selecciona la opción perdido */
                 $asset->asset_condition_id = 7;
                 $asset->asset_status_id = 8;
@@ -126,8 +124,10 @@ class AssetRequestEventController extends Controller
      * Actualiza la información de las solicitudes de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @param     Integer                          $id         Identificador único del evento
+     * @param     integer                          $id         Identificador único del evento
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function update(Request $request, $id)
@@ -151,7 +151,9 @@ class AssetRequestEventController extends Controller
      * Elimina un evento
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     Integer                          $id         Identificador único del evento
+     *
+     * @param     integer                          $id         Identificador único del evento
+     *
      * @return    \Illuminate\Http\JsonResponse                    Objeto con los registros a mostrar
      */
     public function destroy($id)
@@ -173,6 +175,9 @@ class AssetRequestEventController extends Controller
      * Muestra un listado de los eventos pertenecientes a una solicitud de bienes institucionales da
      *
      * @author    Francisco J. P. Ruiz <javierrupe19@gmail.com>
+     *
+     * @param     integer                          $id         Identificador de la solicitud de bienes
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function show($id)

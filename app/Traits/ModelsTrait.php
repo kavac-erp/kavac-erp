@@ -1,17 +1,16 @@
 <?php
 
-/** Traits de uso general */
-
 namespace App\Traits;
 
-use App\Exceptions\ClosedFiscalYearException;
-use App\Exceptions\RestrictedRegistryDeletionException;
+use DateTime;
+use App\Models\City;
 use App\Models\FiscalYear;
 use App\Models\Institution;
-use App\Models\City;
-use Illuminate\Support\Facades\Cache;
 use App\Scopes\OrganismScope;
-use DateTime;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Cache;
+use App\Exceptions\ClosedFiscalYearException;
+use App\Exceptions\RestrictedRegistryDeletionException;
 
 /**
  * @trait   Trait para la gestión de modelos
@@ -28,8 +27,6 @@ trait ModelsTrait
 {
     /**
      * Método que ejecuta eventos del modelo
-     *
-     * @method      boot
      *
      * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
      *
@@ -103,43 +100,45 @@ trait ModelsTrait
             // Obtener el nombre de la clase del modelo que se está eliminando.
             $class_name = get_class($model);
 
-            // Caso de la eliminación de Proyectos o AC relacionados a AE.
-            if ($class_name === 'Modules\Budget\Models\BudgetProject') {
-                $projectType = 'Modules\Budget\Models\BudgetProject';
-                $projectID = $model->id;
+            if (Module::has('Budget') && Module::isEnabled('Budget')) {
+                // Caso de la eliminación de Proyectos o AC relacionados a AE.
+                if ($class_name === 'Modules\Budget\Models\BudgetProject') {
+                    $projectType = 'Modules\Budget\Models\BudgetProject';
+                    $projectID = $model->id;
 
-                $relatedActions = \Modules\Budget\Models\BudgetSpecificAction::where(
-                    'specificable_type',
-                    $projectType
-                )
-                    ->where('specificable_id', $projectID)
-                    ->get();
+                    $relatedActions = \Modules\Budget\Models\BudgetSpecificAction::where(
+                        'specificable_type',
+                        $projectType
+                    )
+                        ->where('specificable_id', $projectID)
+                        ->get();
 
-                if ($relatedActions->isNotEmpty()) {
-                    throw new RestrictedRegistryDeletionException(
-                        __(
-                            "No es posible eliminar este registro, ya que " .
-                            "está vinculado a otro registro del sistema"
-                        )
-                    );
-                }
-            } elseif ($class_name === 'Modules\Budget\Models\BudgetCentralizedAction') {
-                $projectType = 'Modules\Budget\Models\BudgetCentralizedAction';
-                $projectID = $model->id;
-                $relatedActions = \Modules\Budget\Models\BudgetSpecificAction::where(
-                    'specificable_type',
-                    $projectType
-                )
-                    ->where('specificable_id', $projectID)
-                    ->get();
+                    if ($relatedActions->isNotEmpty()) {
+                        throw new RestrictedRegistryDeletionException(
+                            __(
+                                "No es posible eliminar este registro, ya que " .
+                                "está vinculado a otro registro del sistema"
+                            )
+                        );
+                    }
+                } elseif ($class_name === 'Modules\Budget\Models\BudgetCentralizedAction') {
+                    $projectType = 'Modules\Budget\Models\BudgetCentralizedAction';
+                    $projectID = $model->id;
+                    $relatedActions = \Modules\Budget\Models\BudgetSpecificAction::where(
+                        'specificable_type',
+                        $projectType
+                    )
+                        ->where('specificable_id', $projectID)
+                        ->get();
 
-                if ($relatedActions->isNotEmpty()) {
-                    throw new RestrictedRegistryDeletionException(
-                        __(
-                            "No es posible eliminar este registro, ya que " .
-                            "está vinculado a otro registro del sistema"
-                        )
-                    );
+                    if ($relatedActions->isNotEmpty()) {
+                        throw new RestrictedRegistryDeletionException(
+                            __(
+                                "No es posible eliminar este registro, ya que " .
+                                "está vinculado a otro registro del sistema"
+                            )
+                        );
+                    }
                 }
             }
 
@@ -161,6 +160,11 @@ trait ModelsTrait
                 $dynamicFieldName = 'payroll_lang_id';
             }
 
+            // Caso de la eliminación de tipos de becas en Talento Humano.
+            if ($dynamicFieldName === 'payroll_scholarship_type_id') {
+                $dynamicFieldName = 'payroll_scholarship_types_id';
+            }
+
             // Caso de la eliminación de Tipos financiamiento de Presupuesto.
             if ($dynamicFieldName === 'budget_financement_types_id') {
                 $dynamicFieldName = 'budget_financement_type_id';
@@ -175,7 +179,7 @@ trait ModelsTrait
             $modelId = $model->id;
 
             // Obtener los modelos registrados en la app.
-            $x = new City;
+            $x = new City();
             $getModels = $x->getModels();
 
             // Inicializa una variable para rastrear si se encontró al menos una coincidencia.
@@ -184,7 +188,7 @@ trait ModelsTrait
             // Iterar sobre los modelos en $getModels
             foreach ($getModels as $className) {
                 // Crear una instancia del modelo actual
-                $modelInstance = new $className;
+                $modelInstance = new $className();
 
                 // Obtener la lista de campos fillable del modelo actual
                 $fillableFields = $modelInstance->getFillable();
@@ -267,8 +271,6 @@ trait ModelsTrait
     /**
      * Método que escanea todos los modelos presentes en la aplicación
      *
-     * @method  getModels
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return array                Retorna un arreglo con los módulos
@@ -298,9 +300,13 @@ trait ModelsTrait
             }
         }
 
-        /** Escanea los directorios de módulos para obtener los correspondientes modelos */
+        /* Escanea los directorios de módulos para obtener los correspondientes modelos */
         $results_modules = scandir($modules_path);
         foreach ($results_modules as $result_module) {
+            if (!Module::has($result_module) || Module::isDisabled($result_module)) {
+                /* Si el módulo no esta presente o esta deshabilitado se continua escaneando los demás módulos */
+                continue;
+            }
             if (
                 $result_module === '.' || $result_module === '..' ||
                 !file_exists(base_path() . '/modules/' . $result_module . '/Models')
@@ -336,8 +342,6 @@ trait ModelsTrait
     /**
      * Identifica si un modelo esta establecido para una eliminación lógica
      *
-     * @method  isModelSoftDelete
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  string  $model Nombre del modelo a evaluar
@@ -354,8 +358,6 @@ trait ModelsTrait
 
     /**
      * Establece datos en cache
-     *
-     * @method setCacheEvents
      *
      * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
      *

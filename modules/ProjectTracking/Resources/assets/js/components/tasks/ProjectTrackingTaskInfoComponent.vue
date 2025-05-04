@@ -27,27 +27,27 @@
                                             <strong>Proyecto Asociado:</strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                    {{ record.project.name }}
+                                                    {{ record?.project.name }}
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div v-if="record.subproject_name" class="col-md-4">
+                                    <div v-else-if="record.subproject_name" class="col-md-4">
                                         <div class="form-group">
                                             <strong>Subproyecto Asociado:</strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                    {{ record.subproject.name }}
+                                                    {{ record?.subproject.name }}
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div v-if="record.product_name" class="col-md-4">
+                                    <div v-else-if="record.product_name" class="col-md-4">
                                         <div class="form-group">
                                             <strong>Producto Asociado:</strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                    {{ record.product.name }}
+                                                    {{ record?.product.name }}
                                                 </span>
                                             </div>
                                         </div>
@@ -97,7 +97,7 @@
                                             <strong>Prioridad:</strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                    {{ record.priority.name }}
+                                                    {{ record?.priority.name }}
                                                 </span>
                                             </div>
                                         </div>

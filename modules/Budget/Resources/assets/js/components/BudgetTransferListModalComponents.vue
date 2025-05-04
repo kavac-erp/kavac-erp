@@ -28,14 +28,14 @@
                     </h6>
                 </div>
                 <div class="modal-body">
-                    <div class="tab-content">   
+                    <div class="tab-content">
                         <div
                             class="tab-pane active"
                             id="general"
                             role="tabpanel"
                         >
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <strong>Fecha de creación:</strong>
                                         <div class="row" style="margin: 1px 0">
@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-10">
                                     <div class="form-group">
                                         <strong>Institución:</strong>
                                         <div class="row" style="margin: 1px 0">
@@ -57,9 +57,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <strong>Documento:</strong>
+                                        <strong>Nro. Documento:</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <span class="col-md-12">
                                                 {{ record.document }}
@@ -67,7 +67,23 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <strong>Ver Documento:</strong>
+                                        <div class="row" style="margin: 1px 0">
+                                            <a
+                                                :href="showDocument()" target="_blank"
+                                                class="btn btn-primary btn-xs btn-icon btn-action btn-tooltip"
+                                                v-if="record.document_file && record.document_file.url"
+                                                data-toggle="tooltip" title="Ver documento que avala la modificación presupuestaria"
+                                            >
+                                                <i class="fa fa-file" aria-hidden="true"></i>
+                                            </a>
+                                            <span v-else>Sin registro</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
                                     <div class="form-group">
                                         <strong>Descripción:</strong>
                                         <div class="row" style="margin: 1px 0">
@@ -164,6 +180,7 @@
                     to_date: '',
                     specificable_id: '',
                     document: '',
+                    documentFile: '',
                     institution: {}
                 },
                 errors: [],
@@ -175,10 +192,13 @@
         methods: {
             /**
              * Método que borra todos los datos del formulario
-             * 
+             *
              * @author  Daniel Ordaz<danielordaz61@gmail.com>
              */
             reset() {},
+            showDocument() {
+                return `${window.app_url}/${this.record.document_file.url}`;
+            }
         },
     }
 </script>

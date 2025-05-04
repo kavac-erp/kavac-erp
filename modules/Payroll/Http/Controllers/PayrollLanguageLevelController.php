@@ -15,9 +15,9 @@ use Modules\Payroll\Models\PayrollLanguageLevel;
  * Clase que gestiona los niveles de idioma
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollLanguageLevelController extends Controller
 {
@@ -27,10 +27,12 @@ class PayrollLanguageLevelController extends Controller
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         /*$this->middleware('permission:payroll.language.levels.list', ['only' => 'index']);*/
         $this->middleware('permission:payroll.language.levels.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.language.levels.edit', ['only' => ['edit', 'update']]);
@@ -41,6 +43,7 @@ class PayrollLanguageLevelController extends Controller
      * Muestra todos los registros del nivel de idioma
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos del nivel de idioma
      */
     public function index()
@@ -49,8 +52,9 @@ class PayrollLanguageLevelController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar un nuevo nivel de idioma
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -61,7 +65,9 @@ class PayrollLanguageLevelController extends Controller
      * Valida y registra un nuevo nivel de idioma
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
+     *
      * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
@@ -74,8 +80,9 @@ class PayrollLanguageLevelController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra la información del nivel de idioma
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -83,8 +90,9 @@ class PayrollLanguageLevelController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para actualizar la información del nivel de idioma
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -95,8 +103,10 @@ class PayrollLanguageLevelController extends Controller
      * Actualiza la información del nivel de idioma
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
      * @param  integer $id                          Identificador del nivel de idioma  a actualizar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
@@ -114,7 +124,9 @@ class PayrollLanguageLevelController extends Controller
      * Elimina el nivel de idioma
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador del nivel de idioma a eliminar
+     *
      * @return \Illuminate\Http\JsonResponse    Json: objeto eliminado y mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -128,6 +140,7 @@ class PayrollLanguageLevelController extends Controller
      * Obtiene los niveles de idioma registrados
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos del nivel de idioma
      */
     public function getPayrollLanguageLevels()

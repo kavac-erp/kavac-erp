@@ -25,7 +25,6 @@ class UpdateSaleQuoteProductsTable extends Migration
     public function up()
     {
         Schema::table('sale_quote_products', function (Blueprint $table) {
-            //remove previous fields
             $fields = [
                     'name_enterprise',
                     'address_applicant',
@@ -158,7 +157,6 @@ class UpdateSaleQuoteProductsTable extends Migration
                 }
             }
 
-            //remove fields
             $fields = [
                     'product_type',
                     'value',
@@ -172,7 +170,6 @@ class UpdateSaleQuoteProductsTable extends Migration
                 }
             }
 
-            //create previous fields
             if (!Schema::hasColumn('sale_quote_products', 'name_enterprise')) {
                 $table->string('name_enterprise', 200)->nullable()->comment('Name de la empresa');
             }

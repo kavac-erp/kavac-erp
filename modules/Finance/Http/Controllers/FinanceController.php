@@ -12,6 +12,7 @@ use Modules\Finance\Models\FinanceBankingMovement;
 use Modules\Finance\Models\FinancePaymentDeduction;
 use Modules\Finance\Models\FinancePaymentExecute;
 use Modules\Finance\Models\FinancePayOrder;
+use Modules\Finance\Models\FinanceConciliation;
 
 /**
  * @class FinanceController
@@ -20,15 +21,16 @@ use Modules\Finance\Models\FinancePayOrder;
  * Clase que gestiona el módulo de finanzas
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class FinanceController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Muestra registros del módulo de finanzas
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -36,8 +38,9 @@ class FinanceController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario de creación de un nuevo registro
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -45,8 +48,10 @@ class FinanceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
+     * Almacena un nuevo registro de configuración de códigos en el módulo de finanzas
+     *
+     * @param  Request $request Datos de la petición
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
@@ -56,15 +61,16 @@ class FinanceController extends Controller
             'movements_code' => [new CodeSettingRule()],
             'pay_orders_code' => [new CodeSettingRule()],
             'payment_executes_code' => [new CodeSettingRule()],
+            'conciliations_code' => [new CodeSettingRule()],
         ]);
 
-        /** @var array $codes Arreglo con información de los campos de códigos configurados */
+        /* Arreglo con información de los campos de códigos configurados */
         $codes = $request->input();
-        /** @var boolean $saved Define el estatus verdadero para indicar que no se ha registrado información */
+        /* Define el estatus verdadero para indicar que no se ha registrado información */
         $saved = false;
 
         foreach ($codes as $key => $value) {
-            /** @var string $model Define el modelo al cual hace referencia el código */
+            /* Define el modelo al cual hace referencia el código */
             $model = '';
 
             if ($key !== '_token' && !is_null($value)) {
@@ -83,6 +89,9 @@ class FinanceController extends Controller
                 } elseif ($table === "paymentExecutes") {
                     $table = "payment_executes";
                     $model = FinancePaymentExecute::class;
+                } elseif ($table === "conciliations") {
+                    $table = "conciliations";
+                    $model = FinanceConciliation::class;
                 }
 
                 $codeSetting = CodeSetting::where([
@@ -103,7 +112,7 @@ class FinanceController extends Controller
                     ]);
                 }
 
-                /** @var boolean $saved Define el estado verdadero para indicar que se ha registrado información */
+                /* Define el estado verdadero para indicar que se ha registrado información */
                 $saved = true;
             }
         }
@@ -116,8 +125,9 @@ class FinanceController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra detalles de un registro
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -125,8 +135,9 @@ class FinanceController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario de edición de un registro
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -134,27 +145,33 @@ class FinanceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza un registro
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return void
      */
     public function update(Request $request)
     {
+        //
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Renderable
+     * Elimina un registro
+     *
+     * @return void
      */
     public function destroy()
     {
+        //
     }
 
     /**
      * Gestiona la configuración para los cheques a emitir
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @return Renderable
+     *
+     * @return \Illuminate\View\View
      */
     public function setting()
     {
@@ -162,9 +179,26 @@ class FinanceController extends Controller
         $movementCode = CodeSetting::where('model', FinanceBankingMovement::class)->first() ?? '';
         $payOrderCode = CodeSetting::where('model', FinancePayOrder::class)->first() ?? '';
         $paymentExecutesCode = CodeSetting::where('model', FinancePaymentExecute::class)->first() ?? '';
-        return view('finance::settings', compact('checkCode', 'movementCode', 'payOrderCode', 'paymentExecutesCode'));
+        $conciliationCode = CodeSetting::where('model', FinanceConciliation::class)->first() ?? '';
+        return view(
+            'finance::settings',
+            compact(
+                'checkCode',
+                'movementCode',
+                'payOrderCode',
+                'paymentExecutesCode',
+                'conciliationCode'
+            )
+        );
     }
 
+    /**
+     * Obtiene información de las deducciones a pagar
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function getDeductionsToPay(Request $request)
     {
         $deductions_ids = json_decode($request->deductions_ids);

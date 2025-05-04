@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +12,11 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * @brief Datos de Teléfonos
  *
  * Gestiona el modelo de datos para los Teléfonos
+ *
+ * @property string $area_code
+ * @property string $number
+ * @property string $type
+ * @property string $extension
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -41,8 +44,6 @@ class Phone extends Model implements Auditable
 
     /**
      * Phone morphs to models in phonetable_type.
-     *
-     * @method  phoneable
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

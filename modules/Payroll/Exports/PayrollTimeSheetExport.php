@@ -6,25 +6,53 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
-use Maatwebsite\Excel\Concerns\WithEvents;
 
+/**
+ * @class PayrollTimeSheetExport
+ * @brief Clase que exporta el listado de registros de la hoja de tiempo
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PayrollTimeSheetExport extends \App\Exports\DataExport implements
     WithHeadings,
     ShouldAutoSize,
     WithMapping,
     WithCustomStartCell
 {
+    /**
+     * Encabezados de la hoja
+     *
+     * @var array $headings
+     */
     protected $headings;
+
+    /**
+     * Colección de datos a exportar
+     *
+     * @var array $collection
+     */
     protected $collection;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @param array $collection Colección de datos
+     *
+     * @return void
+     */
     public function __construct(array $collection)
     {
         $this->collection = $collection;
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * Genera el listado de registros de la hoja de tiempo
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         $data = [];
@@ -33,13 +61,15 @@ class PayrollTimeSheetExport extends \App\Exports\DataExport implements
             if (!array_key_exists($row['staff_id'], $data)) {
                 $data[$row['staff_id']] = [
                     'N°' => $row['N°'],
+                    'Cedula' => $row['id_number'],
                     'Ficha' => $row['Ficha'],
                     'Nombre' => $row['Nombre'],
                 ];
             }
 
             foreach ($this->collection['params']['inputValues'] as $key => $value) {
-                if (!str_contains($key, 'Total') &&
+                if (
+                    !str_contains($key, 'Total') &&
                     !str_contains($key, 'total') &&
                     !str_contains($key, 'Conceptos') &&
                     !str_contains($key, 'Observación')
@@ -74,9 +104,8 @@ class PayrollTimeSheetExport extends \App\Exports\DataExport implements
     /**
      * Establece las cabeceras de los datos en el archivo a exportar
      *
-     * @method    headings
-     *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return    array    Arreglo con las cabeceras de los datos a exportar
      */
     public function headings(): array
@@ -84,7 +113,8 @@ class PayrollTimeSheetExport extends \App\Exports\DataExport implements
         $headings = [];
 
         foreach ($this->collection['params']['columns'] as $column) {
-            if (!str_contains($column['name'], 'Total') &&
+            if (
+                !str_contains($column['name'], 'Total') &&
                 !str_contains($column['name'], 'total') &&
                 !str_contains($column['name'], 'Observación') &&
                 !str_contains($column['name'], 'Conceptos')
@@ -100,8 +130,6 @@ class PayrollTimeSheetExport extends \App\Exports\DataExport implements
 
     /**
      * Establece los datos que van a ser exportados
-     *
-     * @method    map
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *

@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos del historico de los reportes del modulo de bienes
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetReport extends Model implements Auditable
 {
@@ -47,10 +47,11 @@ class AssetReport extends Model implements Auditable
      * Método que obtiene la información del documento asociado al registro
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Document
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function document()
     {
-        return $this->belongsTo(\App\Models\Document::class);
+        return $this->belongsTo(Document::class);
     }
 }

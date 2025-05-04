@@ -1,0 +1,5 @@
+<map id="getList" name="getList">
+<area shape="rect" id="Node000001" title="Muestra el listado de archivos de respaldo." alt="" coords="5,5,72,31"/>
+<area shape="rect" id="Node000002" href="$d5/d76/classApp_1_1Repositories_1_1BackupRepository.html#ae17e1d0ac47e0f386ed880009b8d3a6f" title="Muestra el tamaño del archivo en formato legible." alt="" coords="120,5,237,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,15,106,15,106,21,72,21"/>
+</map>

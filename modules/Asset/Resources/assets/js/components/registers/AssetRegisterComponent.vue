@@ -106,22 +106,22 @@
                             <div class="form-group is-required">
                                 <label>Organización:</label>
                                 <select2
-                                    :options="institutions" data-toggle="tooltip"
+                                    :options="institutions"
+                                    data-toggle="tooltip"
                                     title="Seleccione un registro de la lista"
+                                    @input="getDepartments(); getAssetInstitutionStorages();"
                                     v-model="record.institution_id">
                                 </select2>
                                 <input type="hidden" v-model="record.id">
                             </div>
                         </div>
-                        <div class="col-md-4" id="helpSupplier">
-                            <div class="form-group is-required">
-                                <label>Proveedor:</label>
-                                <input type="text" placeholder="Proveedor"
-                                    data-toggle="tooltip"
-                                    title="Indique el nombre del proveedor"
-                                    class="form-control input-sm"
-                                    v-model="record.supplier"
-                                >
+                        <div class="col-md-4">
+                            <div class="form-group" id="helpAssetPurchaseSupplier">
+                                <label>Proveedor</label>
+                                <select2
+                                    :options="purchase_suppliers"
+                                    v-model="record.purchase_supplier_id">
+                                </select2>
                             </div>
                         </div>
                         <div class="col-md-4" id="helpDocument">
@@ -257,7 +257,7 @@
                                     title="Código del bien según catálogo SIGECOF"
                                     disabled="disabled"
                                     class="form-control input-sm"
-                                    v-model="record.code_sigecof = code"
+                                    v-model="record.code_sigecof"
                                     v-input-mask
                                     data-inputmask="'mask': '99999-9999'"
                                 />
@@ -371,8 +371,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4" v-for="(field, index) in fields">
-                                <div class="form-group is-required">
+                            <div class="col-md-4" v-for="(field, index) in fields" :key="index">
+                                <div class="form-group" :class="{ 'is-required': field['required'] }">
                                     <label> {{ field['label'] }} </label>
                                     <input
                                         v-if="field['type'] == 'date'"
@@ -388,20 +388,7 @@
 
                                     <input
                                         v-else-if="field['type'] == 'text' && field['mask']"
-                                        type="text"
-                                        :placeholder="field['label']"
-                                        data-toggle="tooltip"
-                                        :title="'Indique el ' + field['label']"
-                                        class="form-control input-sm"
-                                        :tabindex="index + 18"
-                                        v-model="record.asset_details[current - 1][field['name']]"
-                                        :required="field['required']"
-                                        v-input-mask :data-inputmask="field['mask']"
-                                        @input="calculateAge(field['name'])"
-                                    />
-
-                                    <input
-                                        v-else-if="field['type'] == 'text'"
+                                        :id="field['name']"
                                         type="text"
                                         :placeholder="field['label']"
                                         data-toggle="tooltip"
@@ -411,14 +398,31 @@
                                         v-model="record.asset_details[current - 1][field['name']]"
                                         :required="field['required']"
                                         v-input-mask
-                                        data-inputmask-regex="[a-zA-Z0-9\s]*$"
+                                        :data-inputmask="field['mask']"
+                                        @input="calculateAge(field['name'])"
+                                    />
+
+                                    <input
+                                        v-else-if="field['type'] == 'text' && !field['mask']"
+                                        :id="field['name']"
+                                        v-model="record.asset_details[current - 1][field['name']]"
+                                        :required="field['required']"
+                                        :placeholder="field['label']"
+                                        data-toggle="tooltip"
+                                        :title="'Indique el ' + field['label'] + ' o N/P'"
+                                        class="form-control input-sm"
+                                        :tabindex="index + 18"
+                                        v-input-mask
+                                        data-inputmask-regex="^([0-9]+|[nN]/[pP]|[a-zA-Z0-9\s\-]+)$"
                                         @input="(event) =>
                                             (record.asset_details[current - 1][field['name']] =
                                                 event.target.value.toUpperCase())"
-                                        />
+                                        type="text"
+                                    />
 
                                     <select2
-                                        v-if="field['type'] == 'select'"
+                                        v-else-if="field['type'] == 'select'"
+                                        :id="field['name']"
                                         :options="getOptions(field['options'])"
                                         data-toggle="tooltip" :tabindex="index + 18"
                                         title="Seleccione un registro de la lista"
@@ -628,10 +632,10 @@ export default {
             fields: [],
             records: [],
             columns: [
-                'code_sigecof', 
-                'department.name', 
-                'asset_specific_category.name', 
-                'asset_count', 
+                'code_sigecof',
+                'department.name',
+                'asset_specific_category.name',
+                'asset_count',
                 'id'
             ],
             table_options: {
@@ -643,15 +647,15 @@ export default {
                     'id': 'Acción'
                 },
                 sortable: [
-                    'code_sigecof', 
+                    'code_sigecof',
                     'department.name',
                     'asset_specific_category.name',
                     'asset_count'
                 ],
                 filterable: [
-                    'code_sigecof', 
-                    'department.name', 
-                    'asset_specific_category.name', 
+                    'code_sigecof',
+                    'department.name',
+                    'asset_specific_category.name',
                     'asset_count'
                 ],
             },
@@ -697,7 +701,7 @@ export default {
     methods: {
         /**
          * Obtiene los datos de los años fiscales registrados
-         * 
+         *
          * @author Natanael Rojo <rojonatanael99@gmail.com>
          */
         getFiscalYear() {
@@ -710,7 +714,7 @@ export default {
         /**
          * Calcula la diferencia entre el año fiscal actual, y el año de construcción
          * @param {string} field_name variable que indica el nombre del campo a partir del cual se hará el cálculo
-         * 
+         *
          * @author Natanael Rojo <rojonatanael99@gmail.com>
          */
         calculateAge(field_name) {
@@ -821,7 +825,7 @@ export default {
          *
          * @author Manuel Zambrano <mazambranos@cenditel.gob.ve>
          */
-         getAssetInstitutionStorages() {
+        getAssetInstitutionStorages() {
             const vm = this;
             vm.asset_institution_storages = [];
             axios.get(`${window.app_url}/asset/get-storages/${vm.record.institution_id}`).then(response => {
@@ -978,7 +982,7 @@ export default {
         async getPurchaseSuppliers() {
             const vm = this;
             vm.purchase_suppliers = [];
-            await axios.get(`${window.app_url}/purchase/suppliers-list`).then(response => {
+            await axios.get(`${window.app_url}/asset/suppliers-list`).then(response => {
                 vm.purchase_suppliers = response.data;
             });
         },
@@ -1095,65 +1099,65 @@ export default {
             let errors = [];
 
             const requiredFields = [
-                { 
+                {
                     field: 'institution_id',
-                    message: 'El campo institución es requerido.' 
+                    message: 'El campo institución es requerido.'
                 },
-                { 
-                    field: 'document_num', 
-                    message: 'El campo Número de documento es requerido.' 
+                {
+                    field: 'document_num',
+                    message: 'El campo Número de documento es requerido.'
                 },
-                { 
-                    field: 'asset_acquisition_type_id', 
-                    message: 'El campo Forma de adquisición es requerido.' 
+                {
+                    field: 'asset_acquisition_type_id',
+                    message: 'El campo Forma de adquisición es requerido.'
                 },
-                { 
-                    field: 'acquisition_date', 
-                    message: 'El campo Fecha de adquisición es requerido.' 
+                {
+                    field: 'acquisition_date',
+                    message: 'El campo Fecha de adquisición es requerido.'
                 },
-                { 
-                    field: 'currency_id', 
-                    message: 'El campo Moneda es requerido.' 
+                {
+                    field: 'currency_id',
+                    message: 'El campo Moneda es requerido.'
                 },
-                { 
-                    field: 'asset_type_id', 
-                    message: 'El campo tipo de Bien requerido.' 
+                {
+                    field: 'asset_type_id',
+                    message: 'El campo tipo de Bien requerido.'
                 },
-                { 
-                    field: 'asset_category_id', 
-                    message: 'El campo Categoría general es requerido.' 
+                {
+                    field: 'asset_category_id',
+                    message: 'El campo Categoría general es requerido.'
                 },
-                { 
-                    field: 'asset_subcategory_id', 
-                    message: 'El campo Subcategoría es requerido.' 
+                {
+                    field: 'asset_subcategory_id',
+                    message: 'El campo Subcategoría es requerido.'
                 },
-                { 
+                {
                     field: 'asset_specific_category_id',
-                    message: 'El campo Categoría específica es requerido.' 
+                    message: 'El campo Categoría específica es requerido.'
                 },
-                { 
-                    field: 'code_sigecof', 
-                    message: 'El campo Código sigecof es requerido.' 
+                {
+                    field: 'code_sigecof',
+                    message: 'El campo Código sigecof es requerido.'
                 },
-                { 
-                    field: 'code', 
-                    message: 'El campo Código interno es requerido.', 
-                    object: assetDetails 
+                {
+                    field: 'code',
+                    message: 'El campo Código interno es requerido.',
+                    object: assetDetails
                 },
-                { 
-                    field: 'asset_condition_id', 
-                    message: 'El campo Condición física es requerido.', 
-                    object: assetDetails 
+                {
+                    field: 'asset_condition_id',
+                    message: 'El campo Condición física es requerido.',
+                    object: assetDetails
                 },
-                { 
-                    field: 'asset_status_id', 
+                {
+                    field: 'asset_status_id',
                     message: 'El campo Estado del uso del bien es requerido.',
-                    object: assetDetails 
+                    object: assetDetails
                 },
-                { 
+                {
                     field: 'department_id',
-                     message: 'El campo Unidad administrativa es requerido.', 
-                     object: assetDetails 
+                    message: 'El campo Unidad administrativa es requerido.',
+                    object: assetDetails
                 },
             ];
 
@@ -1163,12 +1167,38 @@ export default {
                     errors.push(message);
                 }
             });
-            
+
             vm.fields.forEach(function (field) {
-                if (typeof (assetDetails[field['name']]) == 'undefined') {
-                    errors.push('El campo ' + field['label'] + ' es requerido.');
-                } else if (assetDetails[field['name']] == '' && field['required'] == true) {
-                    errors.push('El campo ' + field['label'] + ' es requerido.');
+                if (assetDetails[field['name']] === undefined || assetDetails[field['name']] === '') {
+                    if (field['required']) {
+                        errors.push('El campo ' + field['label'] + ' es requerido.');
+                    }
+                }
+                if (field['type'] === 'date' && assetDetails[field['name']]) {
+                    const dateNameToCheck = field['name'];
+                    const dateValueToCheck = assetDetails[dateNameToCheck];
+                    const contractDates = ['contract_start_date', 'contract_end_date', 'registration_date'];
+                    const acquisitionDate = record['acquisition_date'];
+
+                    if (dateValueToCheck && dateNameToCheck === contractDates[0] && assetDetails[contractDates[1]] &&
+                        Date.parse(dateValueToCheck) > Date.parse(assetDetails[contractDates[1]])) {
+                        errors.push('La fecha de inicio del contrato no puede ser mayor a la fecha de fin del contrato.');
+                    }
+
+                    if (dateValueToCheck && dateNameToCheck === contractDates[1] && assetDetails[contractDates[0]] &&
+                        Date.parse(dateValueToCheck) < Date.parse(assetDetails[contractDates[0]])) {
+                        errors.push('La fecha de fin del contrato no puede ser menor a la fecha de inicio del contrato.');
+                    }
+
+                    if (dateValueToCheck && dateNameToCheck === contractDates[0] && acquisitionDate &&
+                        Date.parse(dateValueToCheck) < Date.parse(acquisitionDate)) {
+                        errors.push('La fecha de inicio de contrato no puede ser menor a la fecha de adquisición.');
+                    }
+
+                    if (dateValueToCheck && dateNameToCheck ===  contractDates[2] && acquisitionDate &&
+                        Date.parse(dateValueToCheck) <= Date.parse(acquisitionDate)) {
+                        errors.push('La fecha de registro del inmueble no puede ser menor o igual a la fecha de adquisición.');
+                    }
                 }
             });
             const isValid = errors.length === 0;
@@ -1285,7 +1315,7 @@ export default {
             url = vm.setUrl(url);
 
             if (vm.record.id) {
-                vm.AddAssetGroup(event) ? vm.updateRecord(url) : false; 
+                vm.AddAssetGroup(event) ? vm.updateRecord(url) : false;
             }
             else {
                 vm.loading = true;
@@ -1307,8 +1337,8 @@ export default {
                     if (typeof (error.response) != "undefined") {
                         if (error.response.status == 403) {
                             vm.showMessage(
-                                'custom', 
-                                'Acceso Denegado', 
+                                'custom',
+                                'Acceso Denegado',
                                 'danger', 'screen-error',
                                 error.response.data.message
                             );
@@ -1393,10 +1423,19 @@ export default {
                     })[0];
                 }
                 fieldCode += (fieldSpc) ? fieldSpc['code'] : '';
+                this.record.code_sigecof = fieldCode;
                 return fieldCode;
             }
         }
     },
+
+    watch: {
+        'record.acquisition_date'(newDate) {
+            const today = new Date().toISOString().split('T')[0]; // Obtiene la fecha actual en formato YYYY-MM-DD
+            (newDate > today) && (this.record.acquisition_date = today);
+        }
+    },
+
     created() {
         const vm = this;
         vm.getInstitutions();
@@ -1410,7 +1449,7 @@ export default {
         vm.record.asset_details = [vm.createDefaultValues()];
         vm.getFiscalYear();
     },
-    
+
     mounted() {
         const vm = this;
         if (vm.assetid) {

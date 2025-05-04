@@ -1,8 +1,9 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Illuminate\Support\ServiceProvider;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -20,8 +21,6 @@ class $CLASS$ extends ServiceProvider
     /**
      * Registra el proveedor de servicios.
      *
-     * @method register
-     *
      * @return void
      */
     public function register()
@@ -31,8 +30,6 @@ class $CLASS$ extends ServiceProvider
 
     /**
      * Obtiene los servicios proporcionados por el proveedor.
-     *
-     * @method provides
      *
      * @return array    [descripción de los datos devueltos]
      */

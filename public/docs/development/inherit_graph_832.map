@@ -1,3 +1,5 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d7/d67/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingSettingsController.html" title="[controlador dedicado a conectar las distintas funcionalidades para la configuracion de modulo seguim..." alt="" coords="5,5,244,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$dc/d0e/classApp_1_1Models_1_1FiscalYear.html" title="Datos de años fiscales." alt="" coords="5,5,92,31"/>
+<area shape="rect" id="Node000001" href="$de/daf/classModules_1_1Purchase_1_1Models_1_1FiscalYear.html" title="Modelo que extiende las funcionalidades del modelo base FiscalYear." alt="" coords="140,5,227,31"/>
+<area shape="poly" id="edge86_Node000000_Node000001" title=" " alt="" coords="106,15,140,15,140,21,106,21"/>
 </map>

@@ -27,9 +27,12 @@ class ProjectTrackingStaffClassification extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = [
+        'deleted_at'
+    ];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
@@ -37,8 +40,7 @@ class ProjectTrackingStaffClassification extends Model implements Auditable
      * @var array $fillable
      */
     protected $fillable = [
-        'name', 'description'
+        'name',
+        'description',
     ];
-
-    protected $table = 'projecttracking_staff_classifications';
 }

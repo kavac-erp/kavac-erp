@@ -1,480 +1,924 @@
 <template>
-	<section>
-		<a class="btn btn-info btn-xs btn-icon btn-action"
-		   href="#" title="Ver información" data-toggle="tooltip"
-		   v-has-tooltip
-		   @click="addRecord('view_request', route_list, $event)">
-			<i class="fa fa-eye"></i>
-		</a>
-		<div class="modal fade text-left" tabindex="-1" role="dialog" id="view_request">
-			<div class="modal-dialog modal-lg" style="max-width: 60rem">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-						<h6>
-							<i class="icofont icofont-read-book ico-2x"></i>
-							Información de la Solicitud Registrada
-						</h6>
-					</div>
+    <section>
+        <a
+            class="btn btn-info btn-xs btn-icon btn-action"
+            href="#"
+            title="Ver información"
+            data-toggle="tooltip"
+            v-has-tooltip
+            @click="addRecord('view_request', route_list, $event)"
+        >
+            <i class="fa fa-eye"></i>
+        </a>
+        <div
+            class="modal fade text-left"
+            tabindex="-1"
+            role="dialog"
+            id="view_request"
+        >
+            <div class="modal-dialog modal-lg" style="max-width: 60rem">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h6>
+                            <i class="icofont icofont-read-book ico-2x"></i>
+                            Información de la Solicitud Registrada
+                        </h6>
+                    </div>
 
-					<div class="modal-body">
-						<div class="alert alert-danger" v-if="errors.length > 0">
-							<ul>
-								<li v-for="(error, index) in errors" :key="index">{{ error }}</li>
-							</ul>
-						</div>
-						<div class="row">
-							<ul class="nav nav-tabs custom-tabs justify-content-center" role="tablist">
-		                        <li class="nav-item">
-		                            <a class="nav-link active" data-toggle="tab" href="#general" id="info_general" role="tab">
-		                                <i class="ion-android-person"></i> Información general
-									</a>
-		                        </li>
-		                        <li class="nav-item">
-		                            <a class="nav-link" data-toggle="tab" href="#contact" role="tab">
-		                                <i class="ion-android-person"></i> Información de contacto
-		                            </a>
-		                        </li>
-		                        <li class="nav-item">
-		                            <a class="nav-link" data-toggle="tab" href="#institution" role="tab">
-		                                <i class="ion-arrow-person"></i> Información de la institución
-		                            </a>
-		                        </li>
-								<li class="nav-item">
-								  <a class="nav-link" data-toggle="tab" href="#info" role="tab">
-									  <i class="ion-arrow-person"></i> Información de archivos
-								  </a>
-							  	</li>
-							  	<li class="nav-item">
-								  <a class="nav-link" data-toggle="tab" href="#indicator" role="tab">
-									  <i class="ion-arrow-person"></i> Información de indicadores
-								  </a>
-							  	</li>
-		                    </ul>
-						</div>
+                    <div class="modal-body">
+                        <div
+                            class="alert alert-danger"
+                            v-if="errors.length > 0"
+                        >
+                            <ul>
+                                <li
+                                    v-for="(error, index) in errors"
+                                    :key="index"
+                                >
+                                    {{ error }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <ul
+                                class="nav nav-tabs custom-tabs justify-content-center"
+                                role="tablist"
+                            >
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link active"
+                                        data-toggle="tab"
+                                        href="#general"
+                                        id="info_general"
+                                        role="tab"
+                                    >
+                                        <i class="ion-android-person"></i>
+                                        Información general
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link"
+                                        data-toggle="tab"
+                                        href="#contact"
+                                        role="tab"
+                                    >
+                                        <i class="ion-android-person"></i>
+                                        Información de contacto
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link"
+                                        data-toggle="tab"
+                                        href="#institution"
+                                        role="tab"
+                                    >
+                                        <i class="ion-arrow-person"></i>
+                                        Información de la institución
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link"
+                                        data-toggle="tab"
+                                        href="#info"
+                                        role="tab"
+                                    >
+                                        <i class="ion-arrow-person"></i>
+                                        Información de archivos
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link"
+                                        data-toggle="tab"
+                                        href="#indicator"
+                                        role="tab"
+                                    >
+                                        <i class="ion-arrow-person"></i>
+                                        Información de indicadores
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
 
-	                    <div class="tab-content">
-	                    	<div class="tab-pane active" id="general" role="tabpanel">
-		                    	<div class="row">
-								        <div class="col-md-4">
-								        	<div class="form-group">
-												<strong>Fecha de la solicitud</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="date">
-													</span>
-												</div>
-												<input type="hidden" id="id">
-											</div>
-										</div>
+                        <div class="tab-content">
+                            <div
+                                class="tab-pane active"
+                                id="general"
+                                role="tabpanel"
+                            >
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong
+                                                >Fecha de la solicitud</strong
+                                            >
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="date"
+                                                >
+                                                </span>
+                                            </div>
+                                            <input type="hidden" id="id" />
+                                        </div>
+                                    </div>
 
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Motivo de la solicitud</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="motive_request">
-													</span>
-												</div>
-								            </div>
-										</div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong
+                                                >Motivo de la solicitud</strong
+                                            >
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="motive_request"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Atributos</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="attribute">
-													</span>
-												</div>
-								            </div>
-										</div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Atributos</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="attribute"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Tipo de solicitud</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="citizen_service_request_type_id">
-												   </span>
-												</div>
-								            </div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Dirección de departamento</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="citizen_service_department_id">
-												   </span>
-												</div>
-								            </div>
-										</div>
-								</div>
-							</div>
-							<div class="tab-pane" id="contact" role="tabpanel">
-		                    	<div class="row">
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Nombre</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="applicant_name">
-													</span>
-												</div>
-								            </div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Cédula de identidad</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="id_number">
-													</span>
-												</div>
-								            </div>
-										</div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Tipo de solicitud</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="citizen_service_request_type_id"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong
+                                                >Dirección de
+                                                departamento</strong
+                                            >
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="citizen_service_department_id"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong
+                                                >Director y/o
+                                                responsable</strong
+                                            >
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="director_id"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="contact" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Nombre</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="applicant_name"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Cédula de identidad</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="id_number"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Números teléfonicos</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="applicant_phone">
-													</span>
-												</div>
-								            </div>
-										</div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Números teléfonicos</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="applicant_phone"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Correo</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="email">
-													</span>
-												</div>
-								            </div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Fecha de nacimiento</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="birth_date">
-													</span>
-												</div>
-								            </div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Edad</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="age">
-													</span>
-												</div>
-								            </div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>País</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="country_id">
-												   </span>
-												</div>
-								            </div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Estado</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="estate_id">
-												   </span>
-												</div>
-								            </div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Ciudad</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="city_id">
-												   </span>
-												</div>
-								            </div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Municipio</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="municipality_id">
-												   </span>
-												</div>
-								            </div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Parroquia</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="parish_id">
-												   </span>
-												</div>
-								            </div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<strong>Dirección</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="address">
-												   </span>
-												</div>
-								            </div>
-										</div>
-		                    	</div>
-		                    </div>
-		                    <div class="tab-pane" id="institution" role="tabpanel">
-		                    	<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<strong>Nombre de la institución</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="institution_name">
-													</span>
-												</div>
-								            </div>
-										</div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Correo</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="email"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Fecha de nacimiento</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="birth_date"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Edad</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="age"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Género</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="gender"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Nacionalidad</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="nationality"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>País</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="country_id"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Estado</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="estate_id"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Ciudad</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="city_id"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Municipio</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="municipality_id"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Parroquia</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="parish_id"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Dirección</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="address"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Ubicación</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="location"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Comuna</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="commune"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong>Consejo comunal</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="communal_council"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <strong
+                                                >Cantidad de habitantes</strong
+                                            >
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="population_size"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="tab-pane"
+                                id="institution"
+                                role="tabpanel"
+                            >
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <strong
+                                                >Nombre de la
+                                                institución</strong
+                                            >
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="institution_name"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-										<div class="col-md-6">
-											<div class="form-group">
-												<strong>Rif</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="rif">
-													</span>
-												</div>
-								            </div>
-										</div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <strong>Rif</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="rif"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-										<div class="col-md-6">
-											<div class="form-group">
-												<strong>Dirección de la institución</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="institution_address">
-													</span>
-												</div>
-								            </div>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<strong>Dirección web</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="web">
-													</span>
-												</div>
-								            </div>
-										</div>
-		                    	</div>
-		                    </div>
-							<div class="tab-pane" id="info"  role="tabpanel">
-								<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">	
-												<strong>Nombre del archivo</strong>
-												<div class="row" style="margin: 1px 0">
-														<span class="col-md-12" id="archive">
-														</span>
-												</div>
-											</div>	
-										</div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <strong
+                                                >Dirección de la
+                                                institución</strong
+                                            >
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="institution_address"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <strong>Dirección web</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="web"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="info" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <strong>Nombre del archivo</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="archive"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-										<div class="col-md-6">
-											<div class="form-group">
-												<strong>Fecha de verificación</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="date_verification">
-													</span>
-												</div>
-											</div>
-										</div>
-								</div>
-							</div>
-							<div class="tab-pane" id="indicator"  role="tabpanel">
-								<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">	
-												<strong>Indicador</strong>
-												<div class="row" style="margin: 1px 0">
-														<span class="col-md-12" id="indicator_id">
-														</span>
-												</div>
-											</div>	
-										</div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <strong
+                                                >Fecha de verificación</strong
+                                            >
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="date_verification"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="tab-pane"
+                                id="indicator"
+                                role="tabpanel"
+                            >
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <strong>Indicador</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="indicator_id"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-										<div class="col-md-6">
-											<div class="form-group">
-												<strong>Nombre</strong>
-												<div class="row" style="margin: 1px 0">
-													<span class="col-md-12" id="name">
-													</span>
-												</div>
-											</div>
-										</div>
-								</div>
-							</div>
-	                    </div>
-	                </div>
-					<div class="modal-footer">
-
-	                	<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
-	                			data-dismiss="modal">
-	                		Cerrar
-	                	</button>
-		            </div>
-		        </div>
-		    </div>
-		</div>
-
-	</section>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <strong>Nombre</strong>
+                                            <div
+                                                class="row"
+                                                style="margin: 1px 0"
+                                            >
+                                                <span
+                                                    class="col-md-12"
+                                                    id="name"
+                                                >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-default btn-sm btn-round btn-modal-close"
+                            data-dismiss="modal"
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				records: [],
-				errors: [],
+export default {
+    data() {
+        return {
+            records: [],
+            errors: [],
+        };
+    },
+    created() {},
+    methods: {
+        /**
+         * Método que borra todos los datos del formulario
+         *
+         * @author  Yennifer Ramirez <yramirez@cenditel.gob.ve>
+         */
+        reset() {},
 
-			}
-		},
-		created() {
+        initRecords(url, modal_id) {
+            this.errors = [];
+            this.reset();
 
+            const vm = this;
+            var fields = {};
+            var tipo = "";
+            var documents = "";
+            document.getElementById("info_general").click();
+            url = vm.setUrl(url);
 
-		},
-		methods: {
-			/**
-             * Método que borra todos los datos del formulario
-             *
-             * @author  Yennifer Ramirez <yramirez@cenditel.gob.ve>
-             */
-            reset() {
-            },
+            axios
+                .get(url)
+                .then((response) => {
+                    axios
+                        .get(
+                            `${window.app_url}/citizenservice/get-documents/${response.data.record.id}`
+                        )
+                        .then((response) => {
+                            documents = response.data;
+                            let fileText = ``;
+                            documents.records.forEach(function (files) {
+                                fileText += `<div class ="row">`;
+                                fileText += `<a href='get-documents/show/${files.file}'>${files.file}</a>`;
 
-             initRecords(url,modal_id){
-            	this.errors = [];
-				this.reset();
+                                fileText += "</div>";
+                            });
 
-				const vm = this;
-            	var fields = {};
-                var tipo="";
-				var documents="";
-            	document.getElementById("info_general").click();
-				url = vm.setUrl(url);
+                            document.getElementById(
+                                "date_verification"
+                            ).innerText = fields.date_verification
+                                ? fields.date_verification
+                                : "N/A";
+                            document.getElementById("archive").innerHTML =
+                                fileText;
+                        })
+                        .catch((error) => {
+                            if (typeof error.response !== "undefined") {
+                                if (error.response.status == 403) {
+                                    vm.showMessage(
+                                        "custom",
+                                        "Acceso Denegado",
+                                        "danger",
+                                        "screen-error",
+                                        error.response.data.message
+                                    );
+                                } else {
+                                    vm.logs(
+                                        "resources/js/all.js",
+                                        343,
+                                        error,
+                                        "initRecords"
+                                    );
+                                }
+                            }
+                        });
 
-            	axios.get(url).then(response => {
+                    if (typeof response.data.record !== "undefined") {
+                        fields = response.data.record;
 
-					axios.get(
-						`${window.app_url}/citizenservice/get-documents/${response.data.record.id}`
-					).then(response => {
-
-
-                      documents=response.data;
-					let fileText = ``;
-					documents.records.forEach(function(files) {
-						fileText += `<div class ="row">`;
-						fileText +=`<a href='get-documents/show/${files.file}'>${files.file}</a>`
-
-
-						fileText += '</div>';
-					});
-
-						document.getElementById('date_verification').innerText = (fields.date_verification)?fields.date_verification:'N/A';
-                        document.getElementById('archive').innerHTML = fileText;
-					}).catch(error => {
-						if (typeof(error.response) !== "undefined") {
-							if (error.response.status == 403) {
-								vm.showMessage(
-									'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
-								);
-							}
-							else {
-								vm.logs('resources/js/all.js', 343, error, 'initRecords');
-							}
-						}
-					});
-
-					if (typeof(response.data.record) !== "undefined") {
-
-						fields = response.data.record;
-
-
-						$(".modal-body #id").val( fields.id );
-		            	document.getElementById('date').innerText = (fields.date)?fields.date:'N/A';
-						document.getElementById('citizen_service_request_type_id').innerText = (fields.citizen_service_request_type_id)?fields.citizen_service_request_type.name:'N/A';
-						document.getElementById('citizen_service_department_id').innerText = (fields.citizen_service_department)?fields.citizen_service_department.name:'N/A';
-		            	document.getElementById('motive_request').innerText = (fields.motive_request)?fields.motive_request:'N/A';
-						document.getElementById('attribute').innerText = (fields.attribute)?fields.attribute:'N/A';
-		            	document.getElementById('applicant_name').innerText = (fields.first_name)?((fields.last_name)?(fields.first_name + ' ' + fields.last_name):(fields.first_name)):'N/A';
-		            	let phoneText = `
+                        $(".modal-body #id").val(fields.id);
+                        document.getElementById("date").innerText = fields.date
+                            ? fields.date
+                            : "N/A";
+                        document.getElementById("gender").innerText =
+                            fields.gender != null
+                                ? fields.gender
+                                : fields.gender_id != null
+                                ? fields.request_gender.name
+                                : "N/A";
+                        document.getElementById("nationality").innerText =
+                            fields.nationality != null
+                                ? fields.nationality
+                                : fields.nationality_id != null
+                                ? fields.request_nationality.name
+                                : "N/A";
+                        document.getElementById(
+                            "citizen_service_request_type_id"
+                        ).innerText = fields.citizen_service_request_type_id
+                            ? fields.citizen_service_request_type.name
+                            : "N/A";
+                        document.getElementById(
+                            "citizen_service_department_id"
+                        ).innerText = fields.citizen_service_department
+                            ? fields.citizen_service_department.name
+                            : "N/A";
+                        document.getElementById("motive_request").innerText =
+                            fields.motive_request
+                                ? fields.motive_request
+                                : "N/A";
+                        document.getElementById("attribute").innerText =
+                            fields.attribute ? fields.attribute : "N/A";
+                        document.getElementById("applicant_name").innerText =
+                            fields.first_name
+                                ? fields.last_name
+                                    ? fields.first_name + " " + fields.last_name
+                                    : fields.first_name
+                                : "N/A";
+                        let phoneText = `
 		            		<div>
 
 		            	`;
-		            	fields.phones.forEach(function(phone) {
-		            		if (phone.type == 'T') {
-		            			phoneText += `<span class="d-block">Teléfono: ${phone.area_code} ${phone.number}</span>`;
-		            		} else if (phone.type == 'F') {
-		            			phoneText += `<span class="d-block">Fax: ${phone.area_code} ${phone.number}</span>`;
-		            		} else if (phone.type == 'M') {
-		            			phoneText += `<span class="d-block">Móvil: ${phone.area_code} ${phone.number}</span>`;
-		            		}
-						});
+                        fields.phones.forEach(function (phone) {
+                            if (phone.type == "T") {
+                                phoneText += `<span class="d-block">Teléfono: ${phone.area_code} ${phone.number}</span>`;
+                            } else if (phone.type == "F") {
+                                phoneText += `<span class="d-block">Fax: ${phone.area_code} ${phone.number}</span>`;
+                            } else if (phone.type == "M") {
+                                phoneText += `<span class="d-block">Móvil: ${phone.area_code} ${phone.number}</span>`;
+                            }
+                        });
 
-		            	phoneText += '</div>';
-		            	document.getElementById('id_number').innerText = (fields.id_number)?fields.id_number:'N/A';
-		            	document.getElementById('applicant_phone').innerHTML = phoneText;
-		            	document.getElementById('email').innerText = (fields.email)?fields.email:'N/A';
-						document.getElementById('birth_date').innerText = (fields.birth_date)?fields.birth_date:'N/A';
-						document.getElementById('age').innerText = (fields.age)?fields.age:'N/A';
-		            	document.getElementById('country_id').innerText = (fields.parish)?fields.parish.municipality.estate.country.name:'N/A';
-		            	document.getElementById('estate_id').innerText = (fields.parish)?fields.parish.municipality.estate.name:'N/A';
-		            	document.getElementById('municipality_id').innerText = (fields.parish)?fields.parish.municipality.name:'N/A';
-		            	document.getElementById('parish_id').innerText = (fields.parish)?fields.parish.name:'N/A';
-		            	document.getElementById('city_id').innerText = (fields.city)?fields.city.name:'N/A';
-		            	document.getElementById('address').innerText = (fields.address)?fields.address:'N/A';
+                        phoneText += "</div>";
+                        document.getElementById("id_number").innerText =
+                            fields.id_number ? fields.id_number : "N/A";
+                        document.getElementById("applicant_phone").innerHTML =
+                            phoneText;
+                        document.getElementById("email").innerText =
+                            fields.email ? fields.email : "N/A";
+                        document.getElementById("birth_date").innerText =
+                            fields.birth_date ? fields.birth_date : "N/A";
+                        document.getElementById("age").innerText = fields.age
+                            ? fields.age
+                            : "N/A";
+                        document.getElementById("country_id").innerText =
+                            fields.parish
+                                ? fields.parish.municipality.estate.country.name
+                                : "N/A";
+                        document.getElementById("estate_id").innerText =
+                            fields.parish
+                                ? fields.parish.municipality.estate.name
+                                : "N/A";
+                        document.getElementById("municipality_id").innerText =
+                            fields.parish
+                                ? fields.parish.municipality.name
+                                : "N/A";
+                        document.getElementById("parish_id").innerText =
+                            fields.parish ? fields.parish.name : "N/A";
+                        document.getElementById("city_id").innerText =
+                            fields.city ? fields.city.name : "N/A";
+                        document.getElementById("address").innerText =
+                            fields.address ? fields.address : "N/A";
+                        document.getElementById("location").innerText =
+                            fields.location ? fields.location : "N/A";
+                        document.getElementById("commune").innerText =
+                            fields.commune ? fields.commune : "N/A";
+                        document.getElementById("communal_council").innerText =
+                            fields.communal_council
+                                ? fields.communal_council
+                                : "N/A";
+                        document.getElementById("population_size").innerText =
+                            fields.population_size
+                                ? fields.population_size
+                                : "N/A";
 
-		            	document.getElementById('institution_name').innerText = (fields.institution_name)?fields.institution_name:'N/A';
-		            	document.getElementById('rif').innerText = (fields.rif)?fields.rif:'N/A';
-		            	document.getElementById('institution_address').innerText = (fields.institution_address)?fields.institution_address:'N/A';
-		            	document.getElementById('web').innerText = (fields.web)?fields.web:'N/A';
+                        document.getElementById("institution_name").innerText =
+                            fields.institution_name
+                                ? fields.institution_name
+                                : "N/A";
+                        document.getElementById("rif").innerText = fields.rif
+                            ? fields.rif
+                            : "N/A";
+                        document.getElementById(
+                            "institution_address"
+                        ).innerText = fields.institution_address
+                            ? fields.institution_address
+                            : "N/A";
+                        document.getElementById("web").innerText = fields.web
+                            ? fields.web
+                            : "N/A";
+                        document.getElementById("director_id").innerText =
+                            fields.director_id != null
+                                ? fields.request_director.first_name +
+                                  " " +
+                                  fields.request_director.last_name
+                                : "N/A";
 
-		            	let indicatorText = `
+                        let indicatorText = `
 		            		<div>
 
 		            	`;
-		            	fields.citizen_service_indicator.forEach(function(indicator) {
-	            			indicatorText += `<span class="d-block">${indicator.indicator.name}</span>`;
-						});
+                        fields.citizen_service_indicator.forEach(function (
+                            indicator
+                        ) {
+                            indicatorText += `<span class="d-block">${indicator.indicator.name}</span>`;
+                        });
 
-		            	indicatorText += '</div>';
-						document.getElementById('indicator_id').innerHTML = indicatorText;
+                        indicatorText += "</div>";
+                        document.getElementById("indicator_id").innerHTML =
+                            indicatorText;
 
-						indicatorText = `
+                        indicatorText = `
 		            		<div>
 
 		            	`;
-		            	fields.citizen_service_indicator.forEach(function(indicator) {
-	            			indicatorText += `<span class="d-block">${indicator.name}</span>`;
-						});
+                        fields.citizen_service_indicator.forEach(function (
+                            indicator
+                        ) {
+                            indicatorText += `<span class="d-block">${indicator.name}</span>`;
+                        });
 
-		            	indicatorText += '</div>';
-						document.getElementById('name').innerHTML = indicatorText;
-					}
+                        indicatorText += "</div>";
+                        document.getElementById("name").innerHTML =
+                            indicatorText;
+                    }
 
-					if ($("#" + modal_id).length) {
-						$("#" + modal_id).modal('show');
-					}
-				}).catch(error => {
-					if (typeof(error.response) !== "undefined") {
-						if (error.response.status == 403) {
-							vm.showMessage(
-								'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
-							);
-						}
-						else {
-							vm.logs('resources/js/all.js', 343, error, 'initRecords');
-						}
-					}
-				});
-            },
-		},
-	};
+                    if ($("#" + modal_id).length) {
+                        $("#" + modal_id).modal("show");
+                    }
+                })
+                .catch((error) => {
+                    if (typeof error.response !== "undefined") {
+                        if (error.response.status == 403) {
+                            vm.showMessage(
+                                "custom",
+                                "Acceso Denegado",
+                                "danger",
+                                "screen-error",
+                                error.response.data.message
+                            );
+                        } else {
+                            vm.logs(
+                                "resources/js/all.js",
+                                343,
+                                error,
+                                "initRecords"
+                            );
+                        }
+                    }
+                });
+        },
+    },
+};
 </script>

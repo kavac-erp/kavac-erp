@@ -1,11 +1,10 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class ProfileController
@@ -14,6 +13,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar Perfiles de usuario
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -21,8 +21,6 @@ class ProfileController extends Controller
 {
     /**
      * Registra un nuevo perfil de usuario
-     *
-     * @method    store
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

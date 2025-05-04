@@ -16,9 +16,9 @@ use Modules\Purchase\Models\PurchaseSupplier;
  * Gestiona el modelo de datos para los objetos de los proveedores
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PurchaseSupplierObject extends Model implements Auditable
 {
@@ -27,17 +27,22 @@ class PurchaseSupplierObject extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista de atributos para la gestión de fechas
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * Lista de atributos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = ['type', 'name', 'description'];
 
 
     /**
-     * The PurchaseSupplierObject that belong to the PurchaseSuppliers
+     * Establece la relación con los proveedores
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

@@ -1,0 +1,8 @@
+<map id="handle" name="handle">
+<area shape="rect" id="Node000001" title="Ejecuta el trabajo." alt="" coords="5,43,72,68"/>
+<area shape="rect" id="Node000002" href="$df/d0d/classModules_1_1Payroll_1_1Jobs_1_1PayrollUpdatePaymentRelationship.html#a64d50335338102e2afdbf9cccf5b7914" title="Establece la fórmula de un concepto." alt="" coords="156,5,251,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="71,45,142,29,143,34,73,51"/>
+<area shape="rect" id="Node000003" href="$df/d0d/classModules_1_1Payroll_1_1Jobs_1_1PayrollUpdatePaymentRelationship.html#a11eb53bb6124b3eaef778dffb53712ef" title="Traduce la fórmula de conceptos de nómina." alt="" coords="120,79,287,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="73,60,132,73,131,78,71,65"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="176,80,170,70,173,61,185,54,203,52,226,55,235,64,232,68,223,60,203,57,186,59,177,64,176,70,181,77"/>
+</map>

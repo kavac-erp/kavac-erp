@@ -1,0 +1,9 @@
+<map id="calculateBeginningBalance" name="calculateBeginningBalance">
+<area shape="rect" id="Node000001" title="Calcula los saldos iniciales de cada cuenta en el rango dado, y lo alamcena." alt="" coords="236,31,435,56"/>
+<area shape="rect" id="Node000002" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a5c0379fc68799a3f32447bd6760dcd02" title="Vista en la que se genera el reporte en pdf de balance de comprobación." alt="" coords="131,5,174,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,31,174,23,175,18,230,26"/>
+<area shape="rect" id="Node000004" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a23c281813aa2f3d73fe2c7089b2b7f03" title="Vista en la que se genera el reporte en pdf de balance de comprobación." alt="" coords="117,55,188,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="226,60,189,65,188,60,225,55"/>
+<area shape="rect" id="Node000003" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a23d7453ab9e51eca5ab50a38ce4a84c0" title="Genera el reporte en hojade cálculo de balance general." alt="" coords="5,5,69,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="118,21,70,21,70,15,118,15"/>
+</map>

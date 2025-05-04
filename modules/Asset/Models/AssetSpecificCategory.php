@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos para las categorias especificas de un bien
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetSpecificCategory extends Model implements Auditable
 {
@@ -53,7 +53,7 @@ class AssetSpecificCategory extends Model implements Auditable
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve> | <henryp2804@gmail.com>
      *
-     * @return    Object    Objeto con las propiedades registrados
+     * @return    object    Objeto con las propiedades registrados
      */
     public function getAssetTypeIdAttribute()
     {
@@ -68,8 +68,8 @@ class AssetSpecificCategory extends Model implements Auditable
      * Método que obtiene la subcategoria asociada a la categoria especifica
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetSubcategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetSubcategory()
     {
@@ -80,7 +80,8 @@ class AssetSpecificCategory extends Model implements Auditable
      * Método que obtiene los bienes asociados a la categoria especifica
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo Asset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assets()
     {

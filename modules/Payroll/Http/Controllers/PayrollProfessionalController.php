@@ -2,6 +2,7 @@
 
 namespace Modules\Payroll\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
@@ -20,6 +21,8 @@ use Modules\Payroll\Models\PayrollAcknowledgment;
 use Modules\Payroll\Models\PayrollAcknowledgmentFile;
 use Modules\Payroll\Models\PayrollStudy;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Modules\Payroll\Imports\Staff\RegisterStaffImport;
 use Modules\Payroll\Jobs\PayrollExportNotification;
 
 /**
@@ -29,36 +32,51 @@ use Modules\Payroll\Jobs\PayrollExportNotification;
  * Clase que gestiona los datos de información profesional
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollProfessionalController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $rules
+     */
     protected $rules;
+
+    /**
+     * Lista de atributos para los campos personalizados
+     *
+     * @var array $attributes
+     */
     protected $attributes;
 
     /**
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:payroll.professionals.list', ['only' => ['index', 'vueList']]);
         $this->middleware('permission:payroll.professionals.create', ['only' => 'store']);
         $this->middleware('permission:payroll.professionals.edit', ['only' => ['create', 'update']]);
         $this->middleware('permission:payroll.professionals.delete', ['only' => 'destroy']);
+        $this->middleware('permission:payroll.professionals.import', ['only' => 'import']);
+        $this->middleware('permission:payroll.professionals.export', ['only' => 'export']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->rules = [
             'payroll_instruction_degree_id' => ['required'],
         ];
 
-        /** Define los atributos para los campos personalizados */
+        /* Define los atributos para los campos personalizados */
         $this->attributes = [
             'payroll_staff_id' => 'trabajador',
             'payroll_instruction_degree_id' => 'grado de instrucción',
@@ -69,7 +87,8 @@ class PayrollProfessionalController extends Controller
      * Muestra todos los registros de información profesional del trabajador
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
-     * @return Renderable    Muestra los datos organizados en una tabla
+     *
+     * @return \Illuminate\View\View    Muestra los datos organizados en una tabla
      */
     public function index()
     {
@@ -80,7 +99,8 @@ class PayrollProfessionalController extends Controller
      * Muestra el formulario de registro de información profesional del trabajador
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
-     * @return Renderable    Vista con el formulario
+     *
+     * @return \Illuminate\View\View    Vista con el formulario
      */
     public function create()
     {
@@ -91,7 +111,9 @@ class PayrollProfessionalController extends Controller
      * Valida y registra una nueva información profesional del trabajador
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
+     *
      * @return \Illuminate\Http\JsonResponse        Json: result en verdadero y redirect con la url a donde ir
      */
     public function store(Request $request)
@@ -303,7 +325,9 @@ class PayrollProfessionalController extends Controller
      * Muestra los datos de la información profesional del trabajador en específico
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                          Identificador del dato a mostrar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con el dato de la información profesional del trabajador
      */
     public function show($id)
@@ -332,8 +356,10 @@ class PayrollProfessionalController extends Controller
      * Muestra el formulario de actualización de información profesional del trabajador
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id              Identificador con el dato a actualizar
-     * @return Renderable    Vista con el formulario y el objeto con el dato a actualizar
+     *
+     * @return \Illuminate\View\View    Vista con el formulario y el objeto con el dato a actualizar
      */
     public function edit($id)
     {
@@ -345,8 +371,10 @@ class PayrollProfessionalController extends Controller
      * Actualiza la información profesional del trabajador
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
      * @param  integer $id                          Identificador del dato a actualizar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con la redirección y mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
@@ -463,8 +491,7 @@ class PayrollProfessionalController extends Controller
             $payrollProfessional->payroll_staff_id = $request->payroll_staff_id;
             $payrollProfessional->payroll_instruction_degree_id = $request->payroll_instruction_degree_id;
             $payrollProfessional->is_student = ($request->is_student) ? true : false;
-            $payrollProfessional
-                ->payroll_study_type_id = ($request->is_student) ? $request->payroll_study_type_id : null;
+            $payrollProfessional->payroll_study_type_id = ($request->is_student) ? $request->payroll_study_type_id : null;
             $payrollProfessional->study_program_name = ($request->is_student) ? $request->study_program_name : null;
             $payrollProfessional->class_schedule = ($request->is_student) ? $request->class_schedule : null;
             $payrollProfessional->save();
@@ -575,12 +602,32 @@ class PayrollProfessionalController extends Controller
         $request->session()->flash('message', ['type' => 'store']);
         return response()->json(['result' => true, 'redirect' => route('payroll.professionals.index')], 200);
     }
+
+    /**
+     * Realiza la acción necesaria para importar los datos Profesionales
+     *
+     * @author    Francisco Escala <fescala@cenditel.gob.ve>
+     *
+     * @return    \Illuminate\Http\JsonResponse    Objeto que permite descargar el archivo con la información a ser exportada
+     */
+    public function import(Request $request)
+    {
+        $filePath = $request->file('file')->store('', 'temporary');
+        $fileErrorsPath = 'import' . uniqid() . '.errors';
+        Storage::disk('temporary')->put($fileErrorsPath, '');
+        $import = new RegisterStaffImport($filePath, 'temporary', auth()->user()->id, $fileErrorsPath);
+
+        $import->import();
+
+        return response()->json(['result' => true], 200);
+    }
+
     /**
      * Exportar registros
      *
-     * @author
+     * @author  Francisco Escala <fescala@cenditel.gob.ve>
      *
-     *
+     * @return    \Illuminate\Http\RedirectResponse
      */
     public function export()
     {
@@ -599,11 +646,14 @@ class PayrollProfessionalController extends Controller
 
         return redirect()->route('payroll.professionals.index');
     }
+
     /**
      * Elimina la información profesional del trabajador
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador del dato a eliminar
+     *
      * @return \Illuminate\Http\JsonResponse    Json con mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -617,17 +667,33 @@ class PayrollProfessionalController extends Controller
      * Muestra la información profesional del trabajador registrada
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de la información profesional
      */
-    public function vueList()
+    public function vueList(Request $request)
     {
         $records = PayrollProfessional::select(
-            'id', 'instruction_degree_name', 'is_student', 'study_program_name', 'class_schedule',
-            'payroll_staff_id', 'payroll_instruction_degree_id', 'payroll_study_type_id'
+            'id',
+            'instruction_degree_name',
+            'is_student',
+            'study_program_name',
+            'class_schedule',
+            'payroll_staff_id',
+            'payroll_instruction_degree_id',
+            'payroll_study_type_id'
         )->with([
-            'payrollStaff' => function($query) {
+            'payrollStaff' => function ($query) {
                 $query->without(
-                    'payrollNationality', 'payrollFinancial', 'payrollGender', 'payrollBloodType', 'payrollDisability', 'payrollLicenseDegree', 'payrollEmployment', 'payrollStaffUniformSize', 'payrollSocioeconomic', 'payrollProfessional'
+                    'payrollNationality',
+                    'payrollFinancial',
+                    'payrollGender',
+                    'payrollBloodType',
+                    'payrollDisability',
+                    'payrollLicenseDegree',
+                    'payrollEmployment',
+                    'payrollStaffUniformSize',
+                    'payrollSocioeconomic',
+                    'payrollProfessional'
                 );
             },
             'payrollInstructionDegree',
@@ -645,14 +711,24 @@ class PayrollProfessionalController extends Controller
                     $query->with(['documents', 'image']);
                 }]);
             }
-        ])->get();
-        return response()->json(['records' => $records], 200);
+        ])
+        ->search($request->get('query'))
+        ->paginate($request->get('limit'));
+
+        return response()->json(
+            [
+                'data' => $records->items(),
+                'count' => $records->total(),
+            ],
+            200
+        );
     }
 
     /**
      * Obtiene las profesiones sin usar template_choices
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de las profesiones
      */
     public function getJsonProfessions()

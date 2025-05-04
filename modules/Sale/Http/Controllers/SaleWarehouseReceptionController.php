@@ -24,9 +24,9 @@ use Modules\Sale\Models\SaleSettingProduct;
  * Clase que gestiona las recepciones de los productos al almacén
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleWarehouseReceptionController extends Controller
 {
@@ -36,11 +36,13 @@ class SaleWarehouseReceptionController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
 
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.warehouse.reception.list', ['only' => 'index']);
         $this->middleware('permission:sale.warehouse.reception.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:sale.warehouse.reception.edit', ['only' => ['edit', 'update']]);
@@ -51,11 +53,12 @@ class SaleWarehouseReceptionController extends Controller
      * Muestra un listado de las Recepciones o Ingresos de Almacén
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
-        $user = Auth()->user();
+        $user = auth()->user();
         $hasRole = false;
         if ($user->hasRole('admin') || $user->hasRole('sale')) {
             $hasRole = true;
@@ -67,7 +70,8 @@ class SaleWarehouseReceptionController extends Controller
      * Muestra el formulario para registrar un nuevo Ingreso de Almacén
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -78,8 +82,10 @@ class SaleWarehouseReceptionController extends Controller
      * Valida y Registra un nuevo Ingreso de Almacén
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -141,8 +147,6 @@ class SaleWarehouseReceptionController extends Controller
             ]);
         }
 
-
-        /*********************************************************/
         $inst_ware = SaleWarehouseInstitutionWarehouse::where('sale_warehouse_id', $request->sale_warehouse_id)
             ->where('institution_id', $request->institution_id)->first();
 
@@ -166,16 +170,16 @@ class SaleWarehouseReceptionController extends Controller
                 $value = $product['unit_value'];
                 $history_tax = $product['history_tax_id'];
 
-                /** Se busca en el inventario por producto y unidad si existe un registro previo */
+                /* Busca en el inventario por producto y unidad si existe un registro previo */
 
                 $inventory = SaleWarehouseInventoryProduct::where('sale_setting_product_id', $product_id)
                     ->where('sale_warehouse_institution_warehouse_id', $inst_ware->id)
                     ->where('unit_value', $value)->get();
 
-                /** Si existe un registro previo se verifican los atributos del nuevo ingreso */
+                /* Si existe un registro previo se verifican los atributos del nuevo ingreso */
                 if (count($inventory) > 0) {
                     foreach ($inventory as $product_inventory) {
-                        /** @var boolean $equal Define si los atributos coinciden con los registrados */
+                        /* Define si los atributos coinciden con los registrados */
                         $equal = true;
 
                         foreach ($product['sale_setting_products'] as $attribute) {
@@ -184,12 +188,12 @@ class SaleWarehouseReceptionController extends Controller
                             $product_att = SaleSettingProduct::where('id', $product_id)
                                 ->where('name', $name)->first();
 
-                            if (!is_null($product_att)) {
+                            if (!is_null($product_att) && isset($val)) {
                                 $product_value = SaleWarehouseProductValue::where('value', $val)
                                     ->where('sale_warehouse_inventory_product_id', $product_inventory->id)->first();
 
                                 if (is_null($product_value)) {
-                                    /** si el valor de este atributo no existe, son diferentes */
+                                    /* si el valor de este atributo no existe, son diferentes */
                                     $equal = false;
                                     break;
                                 }
@@ -200,8 +204,7 @@ class SaleWarehouseReceptionController extends Controller
                         }
 
                         if ($equal === true) {
-
-                            /** Se genera el movimiento, para su posterior aprobación */
+                            /* Se genera el movimiento, para su posterior aprobación */
 
                             $inventory_movement = SaleWarehouseInventoryProductMovement::create([
                                 'quantity' => $quantity,
@@ -212,10 +215,7 @@ class SaleWarehouseReceptionController extends Controller
                         }
                     }
                 } elseif ((count($inventory) == 0) || ($equal == false)) {
-                    /**
-                     * Si no existe un registro previo de ese producto en inventario o algún atributo es diferente
-                     * se genera un nuevo registro
-                     */
+                    /* Si no existe un registro previo de ese producto en inventario o algún atributo es diferente se genera un nuevo registro */
                     $codeSetting = CodeSetting::where('table', 'sale_warehouse_inventory_products')->first();
 
                     $currentFiscalYear = FiscalYear::select('year')
@@ -232,7 +232,7 @@ class SaleWarehouseReceptionController extends Controller
                     );
 
                     $product_inventory = SaleWarehouseInventoryProduct::create([
-                        'code' => $codep,
+                        'code' => $code,
                         'sale_setting_product_id' => $product_id,
                         'currency_id' => $currency,
                         'measurement_unit_id' => $measurement_unit,
@@ -274,8 +274,10 @@ class SaleWarehouseReceptionController extends Controller
      * Muestra el formulario para editar un Ingreso de Almacén
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del ingreso de almacén
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -287,9 +289,11 @@ class SaleWarehouseReceptionController extends Controller
      * Actualiza la información de los Ingresos de Almacén
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id Identificador único del ingreso de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -327,7 +331,7 @@ class SaleWarehouseReceptionController extends Controller
             $sale_warehouse_movement->save();
 
             $update = now();
-            /** Se agregan los nuevos elementos a la solicitud */
+            /* Se agregan los nuevos elementos a la solicitud */
 
             foreach ($request->sale_warehouse_inventory_products as $product) {
                 $product_id = $product['sale_setting_product_id'];
@@ -337,16 +341,16 @@ class SaleWarehouseReceptionController extends Controller
                 $value = $product['unit_value'];
                 $history_tax = $product['history_tax_id'] ?? null;
 
-                /** Se busca en el inventario por producto y unidad si existe un registro previo */
+                /* Se busca en el inventario por producto y unidad si existe un registro previo */
 
                 $inventory = SaleWarehouseInventoryProduct::where('sale_setting_product_id', $product_id)
                     ->where('sale_warehouse_institution_warehouse_id', $inst_ware->id)
                     ->where('unit_value', $value)->get();
 
-                /** Si existe un registro previo se verifican los atributos del nuevo ingreso */
+                /* Si existe un registro previo se verifican los atributos del nuevo ingreso */
                 if (count($inventory) > 0) {
                     foreach ($inventory as $product_inventory) {
-                        /** @var boolean $equal Define si los atributos coinciden con los registrados */
+                        /* Define si los atributos coinciden con los registrados */
                         $equal = true;
 
                         foreach ($product['sale_setting_product'] as $attribute) {
@@ -355,12 +359,12 @@ class SaleWarehouseReceptionController extends Controller
                             $product_att = SaleSettingProduct::where('id', $product_id)
                                 ->where('name', $name)->first();
 
-                            if (!is_null($product_att)) {
+                            if (!is_null($product_att) && isset($val)) {
                                 $product_value = SaleWarehouseProductValue::where('value', $val)
                                     ->where('sale_warehouse_inventory_product_id', $product_inventory->id)->first();
 
                                 if (is_null($product_value)) {
-                                    /** si el valor de este atributo no existe, son diferentes */
+                                    /* si el valor de este atributo no existe, son diferentes */
                                     $equal = false;
                                     break;
                                 }
@@ -371,8 +375,7 @@ class SaleWarehouseReceptionController extends Controller
                         }
 
                         if ($equal === true) {
-
-                            /** Se eliminan los demas elementos de la solicitud */
+                            /* Se eliminan los demas elementos de la solicitud */
                             $sale_warehouse_inventory_product_movements = SaleWarehouseInventoryProductMovement::where(
                                 'sale_warehouse_movement_id',
                                 $sale_warehouse_movement->id
@@ -382,7 +385,7 @@ class SaleWarehouseReceptionController extends Controller
                                 $sale_warehouse_inventory_product_movement->delete();
                             }
 
-                            /** Se genera el movimiento, para su posterior aprobación */
+                            /* Se genera el movimiento, para su posterior aprobación */
 
                             $inventory_movement = SaleWarehouseInventoryProductMovement::create([
                                 'quantity' => $quantity,
@@ -392,11 +395,8 @@ class SaleWarehouseReceptionController extends Controller
                             ]);
                         }
                     }
-                } elseif ((count($inventory) == 0) || ($equal == false)) {
-                    /**
-                     * Si no existe un registro previo de ese producto en inventario o algún atributo es diferente
-                     * se genera un nuevo registro
-                     */
+                } elseif ((count($inventory) == 0) || (isset($equal) && $equal == false)) {
+                    /* Si no existe un registro previo de ese producto en inventario o algún atributo es diferente se genera un nuevo registro */
                     $codeSetting = CodeSetting::where('table', 'sale_warehouse_inventory_products')->first();
 
                     $currentFiscalYear = FiscalYear::select('year')
@@ -413,7 +413,7 @@ class SaleWarehouseReceptionController extends Controller
                     );
 
                     $product_inventory = SaleWarehouseInventoryProduct::create([
-                        'code' => $codep,
+                        'code' => $code,
                         'sale_setting_product_id' => $product_id,
                         'currency_id' => $currency,
                         'measurement_unit_id' => $measurement_unit,
@@ -422,7 +422,7 @@ class SaleWarehouseReceptionController extends Controller
                         'sale_warehouse_institution_warehouse_id' => $inst_ware->id,
                     ]);
 
-                    /** Se eliminan los demas elementos de la solicitud */
+                    /* Se eliminan los demas elementos de la solicitud */
                     $sale_warehouse_inventory_product_movements = SaleWarehouseInventoryProductMovement::where(
                         'sale_warehouse_movement_id',
                         $sale_warehouse_movement->id
@@ -449,8 +449,10 @@ class SaleWarehouseReceptionController extends Controller
      * Elimina un ingreso de almacén
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del ingreso de almacén
+     *
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -463,8 +465,10 @@ class SaleWarehouseReceptionController extends Controller
      * Vizualiza la información de una recepción o ingreso de almacén
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del movimiento de almacén
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del movimiento de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function vueInfo($id)
@@ -485,7 +489,8 @@ class SaleWarehouseReceptionController extends Controller
      * Obtiene un listado de los ingresos de almacén registrados
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse Objeto con los registros a mostrar
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueList()
     {
@@ -503,9 +508,11 @@ class SaleWarehouseReceptionController extends Controller
      * Rechaza el ingreso de almacén
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id Identificador único del ingreso de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function rejectedReception(Request $request, $id)
     {
@@ -521,9 +528,11 @@ class SaleWarehouseReceptionController extends Controller
      * Aprueba el ingreso de almacén
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id Identificador único del ingreso de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function approvedReception(Request $request, $id)
     {
@@ -550,7 +559,8 @@ class SaleWarehouseReceptionController extends Controller
      * Muestra una lista de las unidades de medida
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return Array con los registros a mostrar
+     *
+     * @return array
      */
     public function getMeasurementUnits()
     {
@@ -561,7 +571,8 @@ class SaleWarehouseReceptionController extends Controller
      * Muestra una lista del porcentaje de impuestos registrados en el sistema
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @return Array con los registros a mostrar
+     *
+     * @return array
      */
     public function getTaxes()
     {

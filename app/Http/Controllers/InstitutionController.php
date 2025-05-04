@@ -1,12 +1,11 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\FiscalYear;
 use App\Models\Institution;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class InstitutionController
@@ -15,6 +14,7 @@ use App\Models\Institution;
  * Controlador para gestionar Organizaciones
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -22,8 +22,6 @@ class InstitutionController extends Controller
 {
     /**
      * Obtiene las Organizaciones registradas
-     *
-     * @method  getInstitutions
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -57,8 +55,6 @@ class InstitutionController extends Controller
     /**
      * Obtiene el año actual para la ejecución de recursos
      *
-     * @method  getExecutionYear
-     *
      * @param  integer $institution_id          Identificador de la organización, si no se especifica toma
      *                                          el valor por defecto
      * @param  string  $year                    Año de la ejecución, si no se especifica toma el año actual
@@ -69,18 +65,18 @@ class InstitutionController extends Controller
     {
         $currentFiscalYear = FiscalYear::select('year')
                                         ->where(['active' => true, 'closed' => false])->orderBy('year', 'desc')->first();
-        /** @var string Texto que identifica el año fiscal actual */
+        // Texto que identifica el año fiscal actual
         $year = $year ?? $currentFiscalYear->year ?? Carbon::now()->format("Y");
-        /** @var string Año de ejercicio fiscal por defecto */
+        // Año de ejercicio fiscal por defecto
         $exec_year = $year;
-        /** @var array Establece los filtros a aplicar para la consulta del año fiscal en curso */
+        // Establece los filtros a aplicar para la consulta del año fiscal en curso
         $filter = ['active' => true];
         $filter[(is_null($institution_id)) ? 'default' : 'id'] = (is_null($institution_id)) ? true : $institution_id;
-        /** @var Institution Objeto con datos de los organismos a consultar */
+        // Objeto con datos de los organismos a consultar
         $institution = Institution::with(['fiscalYears'])->where($filter)->first();
 
         if ($institution) {
-            /** @var FiscalYear Año de ejercicio fiscal activo */
+            // Año de ejercicio fiscal activo
             $fiscalYear = $institution->fiscalYears()->where(['year' => $year, 'active' => true])->first();
             if (!$fiscalYear) {
                 $fiscalYear = $institution->fiscalYears()->updateOrCreate(
@@ -91,7 +87,7 @@ class InstitutionController extends Controller
                     ]
                 );
             }
-            /** @var string Año fiscal actual */
+            // Año fiscal actual
             $exec_year = $fiscalYear->year;
         }
 

@@ -27,6 +27,7 @@ class PayrollNationality extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
@@ -40,12 +41,18 @@ class PayrollNationality extends Model implements Auditable
         'name', 'country_id'
     ];
 
+    /**
+     * Lista de relaciones a cargar con el modelo
+     *
+     * @var array $with
+     */
     protected $with = ['country'];
 
     /**
      * Método que obtiene la nacionalidad asociada a un país
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function country()
@@ -57,6 +64,7 @@ class PayrollNationality extends Model implements Auditable
      *  Método que obtiene la nacionalidad asociada a muchas informaciones personales del trabajador
      *
      * @author William Páez <wpaezs@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollStaffs()

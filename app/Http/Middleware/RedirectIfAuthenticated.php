@@ -1,7 +1,5 @@
 <?php
 
-/** Middlewares base de la aplicación */
-
 namespace App\Http\Middleware;
 
 use Closure;
@@ -17,8 +15,6 @@ class RedirectIfAuthenticated
 {
     /**
      * Gestiona una solicitud entrante.
-     *
-     * @method  handle
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next

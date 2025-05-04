@@ -3,9 +3,9 @@
  *
  * @author  Pedro Buitrago <pbuitrago@cenditel.gob.ve | pedrobui@gmail.com>
  */
-Vue.component('testing-component', () => import(
-    '../../modules/DigitalSignature/Resources/assets/js/components/DigitalSignatureVerifySignComponent.vue'
-));
+// Vue.component('testing-component', () => import(
+//     '../../modules/DigitalSignature/Resources/assets/js/components/DigitalSignatureVerifySignComponent.vue'
+// ));
 
 
 /**
@@ -13,6 +13,6 @@ Vue.component('testing-component', () => import(
  *
  * @author  Pedro Buitrago <pbuitrago@cenditel.gob.ve | pedrobui@gmail.com>
  */
-Vue.component('signing-component', () => import(
-    '../../modules/DigitalSignature/Resources/assets/js/components/DigitalSignatureSignFileComponent.vue'
-));
+// Vue.component('signing-component', () => import(
+//     '../../modules/DigitalSignature/Resources/assets/js/components/DigitalSignatureSignFileComponent.vue'
+// ));

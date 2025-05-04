@@ -4,10 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class DeletePurchaseSupplierTypeIdToPurchaseRequirementsTable
+ * @brief Migración encargada de borrar el campo purchase_supplier_type_id de la tabla purchase_requirements
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class DeletePurchaseSupplierTypeIdToPurchaseRequirementsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -24,7 +31,7 @@ class DeletePurchaseSupplierTypeIdToPurchaseRequirementsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

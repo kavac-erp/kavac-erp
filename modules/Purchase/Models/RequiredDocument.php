@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Purchase\Models;
 
 use App\Models\RequiredDocument as BaseRequiredDocument;
@@ -20,7 +18,7 @@ use App\Models\RequiredDocument as BaseRequiredDocument;
 class RequiredDocument extends BaseRequiredDocument
 {
     /**
-     * Get all of the purchaseDocumentRequiredDocument for the RequiredDocument
+     * Establece la relación con el requerimiento de documentos en compras
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

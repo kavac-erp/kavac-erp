@@ -4,10 +4,21 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class CreateCitizenServiceRequestTypesTable
+ * @brief Crear tabla de tipos de solicitudes
+ *
+ * Gestiona la creación o eliminación de la tabla de tipos de solicitudes
+ *
+ * @author Yenifer Ramírez <yramirez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CreateCitizenServiceRequestTypesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -25,7 +36,7 @@ class CreateCitizenServiceRequestTypesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

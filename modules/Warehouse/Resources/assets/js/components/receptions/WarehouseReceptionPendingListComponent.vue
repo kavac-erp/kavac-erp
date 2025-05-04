@@ -30,15 +30,15 @@
             <div slot="id" slot-scope="props" class="text-center">
                 <div class="d-inline-flex">
 
-                   
-                    
-                    <button @click="approvedRequest(props.index)" 
+
+
+                    <button @click="approvedRequest(props.index)"
                             class="btn btn-success btn-xs btn-icon btn-action" title="Aceptar solicitud"
                             data-toggle="tooltip" type="button"
                             :disabled="props.row.state != 'Pendiente'">
                         <i class="fa fa-check"></i>
                     </button>
-                    <button @click="rejectedRequest(props.index)" 
+                    <button @click="rejectedRequest(props.index)"
                             class="btn btn-danger btn-xs btn-icon btn-action" title="Rechazar solicitud"
                             data-toggle="tooltip" type="button"
                             :disabled="props.row.state != 'Pendiente'">
@@ -85,7 +85,7 @@
              * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve | roldandvg@gmail.com>
              */
             reset() {
-                
+
             },
             rejectedRequest(index)
             {
@@ -124,7 +124,7 @@
                         }
                     }
                 });
-                
+
             },
             approvedRequest(index)
             {
@@ -162,7 +162,7 @@
                         }
                     }
                 });
-                
+
             },
         }
     };

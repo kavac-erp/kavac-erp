@@ -13,25 +13,38 @@
                             />
                         </div>
                     </div>
-                    <div id="helpEntriesInstitution" class="col-12 col-sm-6 col-md-4">
+                    <div
+                        id="helpEntriesInstitution"
+                        class="col-12 col-sm-6 col-md-4"
+                    >
                         <div class="form-group is-required">
-                            <label class="control-label">Organización que genera</label>
+                            <label class="control-label"
+                                >Organización que genera</label
+                            >
                             <select2
                                 :options="institutions"
                                 v-model="institution_id"
                             ></select2>
                         </div>
                     </div>
-                    <div id="helpEntriesCategory" class="col-12 col-sm-6 col-md-4">
+                    <div
+                        id="helpEntriesCategory"
+                        class="col-12 col-sm-6 col-md-4"
+                    >
                         <div class="form-group is-required">
-                            <label class="control-label">Categoría del asiento</label>
+                            <label class="control-label"
+                                >Categoría del asiento</label
+                            >
                             <select2
                                 :options="categories"
                                 v-model="category"
                             ></select2>
                         </div>
                     </div>
-                    <div id="helpEntriesCurrency" class="col-12 col-sm-6 col-md-4">
+                    <div
+                        id="helpEntriesCurrency"
+                        class="col-12 col-sm-6 col-md-4"
+                    >
                         <div class="form-group is-required">
                             <label class="control-label">Tipo de moneda</label>
                             <select2
@@ -40,9 +53,14 @@
                             ></select2>
                         </div>
                     </div>
-                    <div id="helpEntriesDescription" class="col-12 col-sm-6 col-md-4">
+                    <div
+                        id="helpEntriesDescription"
+                        class="col-12 col-sm-6 col-md-4"
+                    >
                         <div class="form-group is-required">
-                            <label class="control-label">Concepto ó Descripción</label>
+                            <label class="control-label"
+                                >Concepto ó Descripción</label
+                            >
                             <input
                                 type="text"
                                 class="form-control input-sm"
@@ -50,7 +68,10 @@
                             />
                         </div>
                     </div>
-                    <div id="helpEntriesObservation" class="col-12 col-sm-6 col-md-4">
+                    <div
+                        id="helpEntriesObservation"
+                        class="col-12 col-sm-6 col-md-4"
+                    >
                         <div class="form-group">
                             <label class="control-label">Observaciones</label>
                             <input
@@ -60,9 +81,15 @@
                             />
                         </div>
                     </div>
-                    <div v-if="reference" id="helpEntriesReference" class="col-12 col-sm-6 col-md-4">
+                    <div
+                        v-if="reference"
+                        id="helpEntriesReference"
+                        class="col-12 col-sm-6 col-md-4"
+                    >
                         <div class="form-group">
-                            <label class="control-label">Código Referencia</label>
+                            <label class="control-label"
+                                >Código Referencia</label
+                            >
                             <h5 class="control-label">
                                 <strong>{{ reference }}</strong>
                             </h5>
@@ -103,7 +130,7 @@ export default {
         institution_id_prop: {
             type: Number,
             required: true,
-            default: null
+            default: null,
         },
     },
     data() {
@@ -126,7 +153,7 @@ export default {
         this.institution_id = this.institutions[0]["id"];
         if (this.data_edit) {
             const regexForStripHTML = /(<([^>]+)>)/gi;
-            
+
             this.data_edit_mutable = this.data_edit;
 
             this.reference = this.data_edit.reference;
@@ -135,8 +162,14 @@ export default {
             this.institution_id = this.data_edit.institution;
             this.currency_id = this.data_edit.currency;
             this.date = this.data_edit.date;
-            this.concept = this.data_edit.concept.replaceAll(regexForStripHTML, '');
-            this.observations = this.data_edit.observations.replaceAll(regexForStripHTML, '');
+            this.concept = this.data_edit.concept.replaceAll(
+                regexForStripHTML,
+                ""
+            );
+            this.observations = this.data_edit.observations.replaceAll(
+                regexForStripHTML,
+                ""
+            );
         }
 
         EventBus.$on("reset:accounting-entry-edit-create", () => {
@@ -163,9 +196,9 @@ export default {
          * emite el evento para actualizar los datos al componente
          * AccountingAccountsInFormComponent
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
-        validateRequired: function() {
+        validateRequired: function () {
             if (
                 !this.validated &&
                 (this.date == "" ||
@@ -224,36 +257,25 @@ export default {
                 });
             }
         },
-
-        // generateReferenceCode(){
-        // 	axios.post('/accounting/settings/generateReferenceCode').then(response=>{
-        // 		if (response.data.result) {
-        // 			location.href = '/accounting/settings';
-        // 		}
-        // 		this.reference = response.data.code;
-        // 		this.validated = false;
-        // 		this.validateRequired();
-        // 	})
-        // }
     },
     watch: {
-        date: function(res) {
+        date: function (res) {
             if (res == "") {
                 this.validated = false;
             } else this.validateRequired();
         },
-        reference: function(res) {
+        reference: function (res) {
             if (res == "") {
                 this.validated = false;
             } else this.validateRequired();
         },
-        concept: function(res) {
+        concept: function (res) {
             this.validateRequired();
         },
-        observations: function(res) {
+        observations: function (res) {
             this.validateRequired();
         },
-        category: function(res) {
+        category: function (res) {
             if (res != "") {
                 this.validateRequired();
             } else {
@@ -261,13 +283,13 @@ export default {
                 this.validateRequired();
             }
         },
-        currency_id: function(res) {
+        currency_id: function (res) {
             if (res) {
                 EventBus.$emit("change:currency", res);
             }
             this.validateRequired();
         },
-        institution_id: function(res) {
+        institution_id: function (res) {
             if (res == "") {
                 this.validated = false;
                 this.validateRequired();
@@ -283,7 +305,10 @@ export default {
 
         // Selecciona la organización por defecto
         if (!vm.institution_id) {
-            setTimeout(() => vm.institution_id = vm.institution_id_prop, 2000);
+            setTimeout(
+                () => (vm.institution_id = vm.institution_id_prop),
+                2000
+            );
         }
     },
 };

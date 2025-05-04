@@ -202,7 +202,7 @@ trait HasRoleAndPermission
     /**
      * Get all permissions from roles.
      *
-     * @return Builder
+     * @return Builder|\Illuminate\Database\Eloquent\Model
      */
     public function rolePermissions()
     {
@@ -459,6 +459,14 @@ trait HasRoleAndPermission
         return (!is_array($argument)) ? preg_split('/ ?[,|] ?/', $argument) : $argument;
     }
 
+    /**
+     * Invoca el método mágico
+     *
+     * @param  mixed $method
+     * @param  mixed $parameters
+     *
+     * @return boolean|void
+     */
     public function callMagic($method, $parameters)
     {
         if (Str::startsWith($method, 'is')) {
@@ -477,6 +485,14 @@ trait HasRoleAndPermission
         return parent::__call($method, $parameters);
     }
 
+    /**
+     * Invoca al método mágico
+     *
+     * @param  mixed $method
+     * @param  mixed $parameters
+     *
+     * @return boolean|void
+     */
     public function __call($method, $parameters)
     {
         return $this->callMagic($method, $parameters);

@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class ChangeFieldProjectNameToCitizenServiceRegistersTable
- * @brief [descripción detallada]
+ * @brief Modifica el tipo de dato de la columna project_name de la tabla de registros de servicio
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Yenifer Ramírez <yramirez@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

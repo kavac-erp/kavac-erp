@@ -17,7 +17,7 @@
 						</button>
 						<h6>
 							<i class="icofont icofont-meeting-add ico-2x"></i>
-							Solicitud de Prorroga 
+							Solicitud de Prorroga
 						</h6>
 					</div>
 
@@ -50,7 +50,7 @@
 										:min="add_period(delivery_date, 1, 'days', format = 'YYYY-MM-DD')"
 										:max="date_max"
 										id="delivery_date"
-										class="form-control" 
+										class="form-control"
 										v-model="record.delivery_date">
 								</div>
 							</div>
@@ -98,7 +98,7 @@
 			hasEquipments: Boolean,
 			asset_request_extension: Boolean,
 		},
-		
+
 		methods: {
 			/**
              * Método que borra todos los datos del formulario
@@ -122,7 +122,7 @@
 				};
 
 				if ($("#" + modal_id).length) {
-					$("#" + modal_id).modal('show');	
+					$("#" + modal_id).modal('show');
 				}
 			},
 

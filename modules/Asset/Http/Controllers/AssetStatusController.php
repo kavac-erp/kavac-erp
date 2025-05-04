@@ -3,10 +3,11 @@
 namespace Modules\Asset\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Modules\Asset\Models\AssetStatus;
 use Illuminate\Validation\Rule;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
+use Modules\Asset\Models\AssetStatus;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
  * @class      AssetStatusController
@@ -15,6 +16,7 @@ use Illuminate\Validation\Rule;
  * Clase que gestiona los estatus de uso de bienes institucionales
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -24,12 +26,15 @@ class AssetStatusController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
+
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -38,18 +43,20 @@ class AssetStatusController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         //$this->middleware('permission:asset.setting.status');
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'     => ['required', 'regex:/^[a-zA-ZÁ-ÿ\s]*$/u', 'max:100', Rule::unique('asset_status')],
 
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required'     => 'El campo estatus de uso es obligatorio.',
             'name.max'          => 'El campo estatus de uso no debe contener más de 100 caracteres.',
@@ -62,6 +69,7 @@ class AssetStatusController extends Controller
      * Muestra un listado de los estatus de uso de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function index()
@@ -74,7 +82,9 @@ class AssetStatusController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function store(Request $request)
@@ -82,11 +92,7 @@ class AssetStatusController extends Controller
         $this->validate($request, $this->validateRules, $this->messages);
 
 
-        /**
-         * Objeto asociado al modelo AssetStatus
-         *
-         * @var Object $status
-         */
+        /* Objeto asociado al modelo AssetStatus */
         $status = AssetStatus::create([
             'name' => $request->input('name')
         ]);
@@ -99,18 +105,23 @@ class AssetStatusController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request             $request    Datos de la petición
      * @param     \Modules\Asset\Models\AssetStatus    $status     Datos del status de uso de un bien
+     *
      * @return    \Illuminate\Http\JsonResponse        Objeto con los registros a mostrar
      */
-
     public function update(Request $request, AssetStatus $status)
     {
         $validateRules  = $this->validateRules;
         $validateRules  = array_replace(
             $validateRules,
-            ['name' => ['required', 'regex:/^[a-zA-ZÁ-ÿ\s]*$/u', 'max:100',
-                            Rule::unique('asset_status')->ignore($status->id)]]
+            [
+                'name' => [
+                    'required', 'regex:/^[a-zA-ZÁ-ÿ\s]*$/u', 'max:100',
+                    Rule::unique('asset_status')->ignore($status->id)
+                ]
+            ]
         );
         $this->validate($request, $validateRules, $this->messages);
 
@@ -124,7 +135,9 @@ class AssetStatusController extends Controller
      * Elimina el estatus de uso de un bien
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Modules\Asset\Models\AssetStatus    $status    Datos del estatus de uso de un bien
+     *
      * @return    \Illuminate\Http\JsonResponse        Objeto con los registros a mostrar
      */
     public function destroy(AssetStatus $status)
@@ -133,6 +146,7 @@ class AssetStatusController extends Controller
             $status->delete();
             return response()->json(['record' => $status, 'message' => 'Success'], 200);
         } catch (\Throwable $e) {
+            Log::error($e->getMessage());
             return response()->json(['error' => true, 'message' => __($e->getMessage())], 200);
         }
     }
@@ -141,7 +155,8 @@ class AssetStatusController extends Controller
      * Obtiene el listado de los estatus de uso de los bienes institucionales a implementar en elementos select
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return    Array    Arreglo con los registros a mostrar
+     *
+     * @return    array    Arreglo con los registros a mostrar
      */
     public function getStatus()
     {

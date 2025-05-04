@@ -1,0 +1,7 @@
+<map id="map" name="map">
+<area shape="rect" id="Node000001" title="Define las rutas del módulo de bienes." alt="" coords="5,31,56,56"/>
+<area shape="rect" id="Node000002" href="$d8/d99/classModules_1_1Sale_1_1Providers_1_1RouteServiceProvider.html#ad400e7ca0cea76b9680eeb68b55ea0e0" title="Define las rutas de API del módulo." alt="" coords="107,5,225,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="56,36,93,29,94,34,57,41"/>
+<area shape="rect" id="Node000003" href="$d8/d99/classModules_1_1Sale_1_1Providers_1_1RouteServiceProvider.html#ac887962db9a9a8f344572bd205a02165" title="Define las rutas &quot;web&quot; del módulo." alt="" coords="104,55,228,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="57,45,91,51,90,56,56,50"/>
+</map>

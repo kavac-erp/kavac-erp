@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos del inventario de los productos almacenables
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseInventoryProduct extends Model implements Auditable
 {
@@ -42,8 +42,18 @@ class WarehouseInventoryProduct extends Model implements Auditable
         'warehouse_institution_warehouse_id'
     ];
 
+     /**
+      * Lista de atributos personalizados a cargar con el modelo
+      *
+      * @var array $appends
+      */
      protected $appends = ['real'];
 
+    /**
+     * Obtiene el valor real del producto
+     *
+     * @return float|int
+     */
     public function getRealAttribute()
     {
         return $this->exist - $this->reserved;
@@ -53,8 +63,8 @@ class WarehouseInventoryProduct extends Model implements Auditable
      * Método que obtiene el producto registrado
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouseProduct()
     {
@@ -65,8 +75,8 @@ class WarehouseInventoryProduct extends Model implements Auditable
      * Método que obtiene los valores de los atributos del producto registrado
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * WarehouseProductValue
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function warehouseProductValues()
     {
@@ -77,7 +87,8 @@ class WarehouseInventoryProduct extends Model implements Auditable
      * Método que obtiene la moneda en que se expresa el valor del producto
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Currency
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency()
     {
@@ -88,8 +99,8 @@ class WarehouseInventoryProduct extends Model implements Auditable
      * Método que obtiene el almacen donde esta inventariado el producto
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseInstitutionWarehouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouseInstitutionWarehouse()
     {
@@ -100,8 +111,8 @@ class WarehouseInventoryProduct extends Model implements Auditable
      * Método que obtiene las reglas de almacenamiento del producto en el inventario
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseInventoryRule
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function warehouseInventoryRule()
     {

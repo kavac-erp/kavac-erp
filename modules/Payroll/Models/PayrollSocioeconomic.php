@@ -27,13 +27,21 @@ class PayrollSocioeconomic extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * Lista de relaciones a cargar con el modelo
+     *
+     * @var array $with
+     */
     protected $with = ['maritalStatus', 'payrollChildrens'];
+
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -45,6 +53,7 @@ class PayrollSocioeconomic extends Model implements Auditable
      * Método que obtiene la información socioeconómica del trabajador asociado a una información personal del mismo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollStaff()
@@ -56,6 +65,7 @@ class PayrollSocioeconomic extends Model implements Auditable
      * Método que obtiene la información socioeconómica del trabajador asociado a un estado civil
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function maritalStatus()
@@ -67,10 +77,30 @@ class PayrollSocioeconomic extends Model implements Auditable
      * Método que obtiene lo socioeconómico del trabajador asociado a muchos hijos
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollChildrens()
     {
         return $this->hasMany(PayrollFamilyBurden::class);
+    }
+
+    /**
+     * Scope que aplica los filtros de búsqueda
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query Objeto con la consulta
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query)
+    {
+        return $query->when(request()->has('query'), function ($query) {
+            $search = request('query');
+            $query->whereHas('payrollStaff', function ($query) use ($search) {
+                $query->where('first_name', 'ilike', '%' . $search . '%')
+                    ->orWhere('last_name', 'ilike', '%' . $search . '%')
+                    ->orWhere('id_number', 'ilike', '%' . $search . '%');
+            });
+        });
     }
 }

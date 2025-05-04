@@ -1,13 +1,14 @@
 <?php
 
-/** Controladores de uso exclusivo para usuarios administradores */
-
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Repositories\BackupRepository;
 use Illuminate\Support\Facades\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * @class BackupController
@@ -25,17 +26,15 @@ class BackupController extends Controller
     /**
      * Muestra un listado de respaldos del sistema
      *
-     * @method  index
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  BackupRepository $backup Objeto con los métodos a implementar para la gestión de respaldos
      *
-     * @return View    Devuelve la vista con los datos a mostrar
+     * @return View Devuelve la vista con los datos a mostrar
      */
     public function index(BackupRepository $backup)
     {
-        /** @var array Arreglo con el listado de respaldos */
+        // Arreglo con el listado de respaldos
         $backups = $backup->getList(
             config('backup.backup.destination.disks'),
             config('backup.backup.name')
@@ -46,8 +45,6 @@ class BackupController extends Controller
 
     /**
      * Crea un nuevo respaldo
-     *
-     * @method  create
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -65,17 +62,16 @@ class BackupController extends Controller
     /**
      * Descarga un respaldo solicitado
      *
-     * @method  download
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  string           $file_name      Nombre del archivo a descargar
      * @param  BackupRepository $backup         Objeto con los métodos para la gestión de respaldos
+     *
      * @return StreamedResponse                 Retorna el response para la descarga del archivo
      */
     public function download($file_name, BackupRepository $backup)
     {
-        /** @var array Arreglo con información del archivo a descargar */
+        // Arreglo con información del archivo a descargar
         $down = $backup->getFile(
             config('backup.backup.destination.disks'),
             config('backup.backup.name'),
@@ -86,11 +82,11 @@ class BackupController extends Controller
             abort(404, __('El archivo de respaldo no existe.'));
         }
 
-        /** @var string Texto con el contenido del archivo */
+        // Texto con el contenido del archivo
         $stream = $down['stream'];
-        /** @var string|object Texto con el nombre del driver a usar para el sistema de archivos */
+        // Texto con el nombre del driver a usar para el sistema de archivos
         $fs = $down['fs'];
-        /** @var string Ruta en donde se encuentra el archivo a descargar */
+        // Ruta en donde se encuentra el archivo a descargar
         $file = $down['file'];
 
         return Response::stream(function () use ($stream) {
@@ -105,20 +101,18 @@ class BackupController extends Controller
     /**
      * Elimina un archivo de respaldo
      *
-     * @method  delete
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  string               $file_name      Nombre del archivo a eliminar
      * @param  BackupRepository     $backup         Objeto con los métodos para la gestión de respaldos
      *
      * @return RedirectResponse                     Muestra una página de error 404 si el archivo no pudo ser
-     *                                              eliminado, si el procedimiento fue exitoso retorna al
+     *                                              eliminado, si el procedimiento fue exitoso redirige al
      *                                              listado de respaldos
      */
     public function delete($file_name, BackupRepository $backup)
     {
-        /** @var boolean Determina si el archivo fue eliminado o no */
+        // Determina si el archivo fue eliminado o no
         $removed = $backup->delFile(
             config('backup.backup.destination.disks'),
             config('backup.backup.name'),
@@ -135,8 +129,6 @@ class BackupController extends Controller
     /**
      * Método que ejecuta la acción para la restauración de la base de datos a partir de un respaldo
      *
-     * @method     restore
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param      BackupRepository    $backup     Repositorio de instrucciones para la ejecución de procesos de
@@ -148,10 +140,10 @@ class BackupController extends Controller
      */
     public function restore(Request $request, BackupRepository $backup)
     {
-        /** @var string Ruta del archivo a restaurar */
+        // Ruta del archivo a restaurar
         $filename = $request->filename;
 
-        /** @var boolean Determina si el archivo fue restaurado o no */
+        // Determina si el archivo fue restaurado o no
         $restaured = $backup->restore($filename, $request);
 
         return response()->json(['result' => $restaured], 200);

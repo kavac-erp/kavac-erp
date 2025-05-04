@@ -6,7 +6,9 @@ use App\Models\CodeSetting;
 use App\Models\FiscalYear;
 use App\Models\Phone;
 use App\Models\Profile;
+use App\Models\User;
 use App\Rules\AgeToWork;
+use App\Rules\Rif as RifRule;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -19,6 +21,7 @@ use Modules\Payroll\Models\PayrollFinancial;
 use Modules\Payroll\Models\PayrollStaff;
 use Modules\Payroll\Models\PayrollStaffUniformSize;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Modules\Payroll\Imports\Staff\RegisterStaffImport;
 use Modules\Payroll\Jobs\PayrollExportNotification;
 
@@ -29,55 +32,77 @@ use Modules\Payroll\Jobs\PayrollExportNotification;
  * Clase que gestiona la información personal del trabajador
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollStaffController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $rules
+     */
     protected $rules;
+
+    /**
+     * Atributos de las reglas de validación
+     *
+     * @var array $attributes
+     */
     protected $attributes;
 
     /**
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:payroll.staffs.list', ['only' => ['index', 'vueList']]);
         $this->middleware('permission:payroll.staffs.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.staffs.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:payroll.staffs.delete', ['only' => 'destroy']);
+        $this->middleware('permission:payroll.staffs.import', ['only' => 'import']);
+        $this->middleware('permission:payroll.staffs.export', ['only' => 'export']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->rules = [
             'first_name' => ['required', 'max:100'],
             'last_name' => ['required', 'max:100'],
             'payroll_nationality_id' => ['required'],
             'id_number' => [],
             'passport' => [],
-            'email' => ['required', 'unique:payroll_staffs,email', 'email'],
+            'rif' => [
+                'required',
+                'regex:/^[E, G, J, P, V, 0-9 ]+$/',
+                'size:10',
+                new RifRule(),
+                Rule::unique('payroll_staffs', 'rif')
+            ],
+            'email' => ['nullable', 'unique:payroll_staffs,email', 'email'],
             'birthdate' => [],
             'payroll_gender_id' => ['required'],
             'emergency_contact' => ['nullable'],
             'emergency_phone' => ['nullable', 'regex:/^\+\d{2}-\d{3}-\d{7}$/u'],
-            'payroll_blood_type_id' => ['required'],
+            'payroll_blood_type_id' => ['nullable'],
             'social_security' => ['nullable', 'max:20'],
             'country_id' => ['required'],
             'estate_id' => ['required'],
             'municipality_id' => ['required'],
             'parish_id' => ['required'],
-            'address' => ['required', 'max:200'],
+            'address' => ['nullable', 'max:200'],
             'medical_history' => ['nullable'],
             'uniform_sizes.*.size' => ['sometimes', 'required'],
             'uniform_sizes.*.name' => ['sometimes', 'required'],
         ];
 
-        /** Define los atributos para los campos personalizados*/
+        /* Define los atributos para los campos personalizados*/
         $this->attributes = [
             'id_number' => 'cédula de identidad',
             'birthdate' => 'fecha de nacimiento',
@@ -102,7 +127,8 @@ class PayrollStaffController extends Controller
      * Muestra todos los registros de información personal del trabajador
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
-     * @return Renderable    Muestra los datos organizados en una tabla
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -113,7 +139,8 @@ class PayrollStaffController extends Controller
      * Muestra el formulario de registro de información personal del trabajador
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
-     * @return Renderable    Vista con el formulario
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -124,7 +151,9 @@ class PayrollStaffController extends Controller
      * Valida y registra una nueva información personal del trabajador
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
+     *
      * @return \Illuminate\Http\JsonResponse        Json: result en verdadero y redirect con la url a donde ir
      */
     public function store(Request $request)
@@ -135,7 +164,9 @@ class PayrollStaffController extends Controller
         $this->rules['id_number'] = ['required', 'regex:/^([\d]{7}|[\d]{8})$/u', 'unique:payroll_staffs,id_number'];
         $this->rules['passport'] = ['nullable', 'max:20', 'unique:payroll_staffs,passport'];
         $this->rules['birthdate'] = ['required', 'date', new AgeToWork(($parameter) ? $parameter->p_value : 0)];
-        $this->validate($request, $this->rules, [], $this->attributes);
+        $this->validate($request, $this->rules, [
+            'rif.regex' => 'El formato del campo rif es inválido. Debe estar formado por 10 caracteres, el primer carácter debe ser una letra: J,V,E,G o P (en mayúscula); los otros nueve carácteres deben ser números (X000000000).'
+        ], $this->attributes);
         if ($request->has_disability) {
             $this->validate(
                 $request,
@@ -191,7 +222,7 @@ class PayrollStaffController extends Controller
         }
 
         $currentFiscalYear = FiscalYear::select('year')
-        ->where(['active' => true, 'closed' => false])->orderBy('year', 'desc')->first();
+            ->where(['active' => true, 'closed' => false])->orderBy('year', 'desc')->first();
 
         $payrollStaff = PayrollStaff::create([
 
@@ -199,8 +230,8 @@ class PayrollStaffController extends Controller
                 $codeSetting->format_prefix,
                 strlen($codeSetting->format_digits),
                 (strlen($codeSetting->format_year) == 2) ? (isset($currentFiscalYear) ?
-                substr($currentFiscalYear->year, 2, 2) : date('y')) : (isset($currentFiscalYear) ?
-                $currentFiscalYear->year : date('Y')),
+                    substr($currentFiscalYear->year, 2, 2) : date('y')) : (isset($currentFiscalYear) ?
+                    $currentFiscalYear->year : date('Y')),
                 PayrollStaff::class,
                 $codeSetting->field
             ),
@@ -209,6 +240,7 @@ class PayrollStaffController extends Controller
             'payroll_nationality_id' => $request->payroll_nationality_id,
             'id_number' => $request->id_number,
             'passport' => $request->passport,
+            'rif' => $request->rif,
             'email' => $request->email,
             'birthdate' => $request->birthdate,
             'payroll_gender_id' => $request->payroll_gender_id,
@@ -253,7 +285,9 @@ class PayrollStaffController extends Controller
      * Muestra los datos de la información personal del trabajador en específico
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                          Identificador del dato a mostrar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con el dato de la información personal del trabajador
      */
     public function show($id)
@@ -275,8 +309,10 @@ class PayrollStaffController extends Controller
      * Muestra el formulario de actualización de información personal del trabajador
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id              Identificador del dato a actualizar
-     * @return Renderable    Vista con el formulario y el objeto con el dato a actualizar
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -288,8 +324,10 @@ class PayrollStaffController extends Controller
      * Actualiza la información personal del trabajador
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
      * @param  integer $id                          Identificador del dato a actualizar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con la redirección y mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
@@ -302,7 +340,14 @@ class PayrollStaffController extends Controller
             'required', 'regex:/^([\d]{7}|[\d]{8})$/u', 'unique:payroll_staffs,id_number,' . $payrollStaff->id,
         ];
         $this->rules['passport'] = ['nullable', 'max:20', 'unique:payroll_staffs,passport,' . $payrollStaff->id];
-        $this->rules['email'] = ['required', 'unique:payroll_staffs,email,' . $payrollStaff->id, 'email'];
+        $this->rules['rif'] = [
+            'required',
+            'regex:/^[E, G, J, P, V, 0-9 ]+$/',
+            'size:10',
+            new RifRule(),
+            Rule::unique('payroll_staffs', 'rif')->ignore($payrollStaff->id)
+        ];
+        $this->rules['email'] = ['nullable', 'unique:payroll_staffs,email,' . $payrollStaff->id, 'email'];
         $this->rules['birthdate'] = ['required', 'date', new AgeToWork(($parameter) ? $parameter->p_value : 0)];
         $this->validate($request, $this->rules, [], $this->attributes);
         if ($request->has_disability) {
@@ -354,6 +399,7 @@ class PayrollStaffController extends Controller
         $payrollStaff->payroll_nationality_id = $request->payroll_nationality_id;
         $payrollStaff->id_number = $request->id_number;
         $payrollStaff->passport = $request->passport;
+        $payrollStaff->rif = $request->rif;
         $payrollStaff->email = $request->email;
         $payrollStaff->birthdate = $request->birthdate;
         $payrollStaff->payroll_gender_id = $request->payroll_gender_id;
@@ -361,7 +407,7 @@ class PayrollStaffController extends Controller
         $payrollStaff->payroll_disability_id = ($request->has_disability) ? $request->payroll_disability_id : null;
         $payrollStaff->has_driver_license = ($request->has_driver_license) ? ($request->has_driver_license) : false;
         $payrollStaff->payroll_license_degree_id = ($request->has_driver_license) ?
-        $request->payroll_license_degree_id : null;
+            $request->payroll_license_degree_id : null;
         $payrollStaff->social_security = $request->social_security;
         $payrollStaff->payroll_blood_type_id = $request->payroll_blood_type_id;
         $payrollStaff->emergency_contact = $request->emergency_contact;
@@ -417,7 +463,9 @@ class PayrollStaffController extends Controller
      * Elimina la información personal del trabajador
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador del dato a eliminar
+     *
      * @return \Illuminate\Http\JsonResponse    Json con mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -436,18 +484,19 @@ class PayrollStaffController extends Controller
         $payrollSocioeconomic->delete();
         $payrollFinancial->delete();
         $payrollStaff->delete();
-        return response()->json(['record' => $payrollStaff, 'message' => 'Success'], 200);
+        return response()->json(['record' => $payrollStaff, 'message' => 'Registro eliminado con exito.'], 200);
     }
 
     /**
      * Muestra la información laboral personal del trabajador
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de la información personal del trabajador
      */
-    public function vueList()
+    public function vueList(Request $request)
     {
-        return response()->json(['records' => PayrollStaff::without(
+        $records = PayrollStaff::without(
             'payrollFinancial',
             'payrollEmployment',
             'payrollSocioeconomic',
@@ -471,13 +520,24 @@ class PayrollStaffController extends Controller
             'payrollStaffUniformSize' => function ($query) {
                 $query->select('id', 'name', 'size', 'payroll_staff_id');
             },
-        ])->get()], 200);
+        ])
+        ->search($request->get('query'))
+        ->paginate($request->get('limit'));
+
+        return response()->json(
+            [
+                'data' => $records->items(),
+                'count' => $records->total(),
+            ],
+            200
+        );
     }
 
     /**
      * Obtiene la información personal de los trabajadores
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de la información personal de los trabajadores
      */
     public function getPayrollStaffs($type = 'all')
@@ -524,15 +584,25 @@ class PayrollStaffController extends Controller
         } elseif (is_numeric($type)) {
             $options = [['id' => '', 'text' => 'Seleccione...']];
 
-            /** Filtra por el personal que aún no tiene registrado los datos Socioeconomico */
+            /* Filtra por el personal que aún no tiene registrado los datos Socioeconomico */
             $staffs = PayrollStaff::doesnthave('payrollEmployment')->get();
             foreach ($staffs as $staff) {
-                $options[] = ['id' => $staff->id, 'text' => "{$staff->id_number} - {$staff->full_name}"];
+                $options[] = [
+                    'id' => $staff->id,
+                    'text' => "{$staff->id_number} - {$staff->full_name}"
+                ];
             }
-            $editStaff = PayrollEmployment::with('payrollStaff')->where('id', (int) $type)->get();
-            $pushOptions = ['id' => $editStaff[0]->payrollStaff->id, 'text' => "{$editStaff[0]->payrollStaff->id_number} - {$editStaff[0]->payrollStaff->full_name}"];
+            $editStaff = PayrollEmployment::with('payrollStaff')->where('id', (int) $type)->first();
 
-            array_push($options, $pushOptions);
+            if ($editStaff) {
+                $pushOptions = [
+                    'id' => $editStaff->payrollStaff->id,
+                    'text' => "{$editStaff->payrollStaff->id_number} - {$editStaff->payrollStaff->full_name}",
+                    'employee_id' => $editStaff->id
+                ];
+
+                array_push($options, $pushOptions);
+            }
 
             return response()->json($options);
         } elseif ($type == 'auth') {
@@ -558,7 +628,7 @@ class PayrollStaffController extends Controller
             }
         } elseif ($type == 'financial') {
             $options = [['id' => '', 'text' => 'Seleccione...']];
-            /** Filtra por el personal que aún no tiene registrado los datos financieros */
+            /* Filtra por el personal que aún no tiene registrado los datos financieros */
             $staffs = PayrollStaff::doesnthave('payrollFinancial')->get();
 
             foreach ($staffs as $staff) {
@@ -567,7 +637,7 @@ class PayrollStaffController extends Controller
             return response()->json($options);
         } elseif ($type == 'staff-accounts') {
             $options = [['id' => '', 'text' => 'Seleccione...']];
-            /** Filtra por el personal que aún no tiene registrado cuentas contables */
+            /* Filtra por el personal que aún no tiene registrado cuentas contables */
             $staffs = PayrollStaff::query()
                 ->doesnthave('payrollStaffAccount')
                 ->when(!empty(request()->payroll_staff_id), function ($query) {
@@ -582,7 +652,7 @@ class PayrollStaffController extends Controller
         }
 
         $options = [['id' => '', 'text' => 'Seleccione...']];
-        /** Filtra por el personal que aún no tiene registrado los datos laborales */
+        /* Filtra por el personal que aún no tiene registrado los datos laborales */
         $staffs = PayrollStaff::doesnthave('payrollEmployment')->get();
 
         foreach ($staffs as $staff) {
@@ -596,6 +666,7 @@ class PayrollStaffController extends Controller
      * Obtiene la información personal de los trabajadores
      *
      * @author  Pedro Buitrago <pbuitrago@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de la información personal de los trabajadores
      */
     public function getPayrollSocioeconomic($type = 'all')
@@ -621,7 +692,7 @@ class PayrollStaffController extends Controller
 
         $options = [['id' => '', 'text' => 'Seleccione...']];
 
-        /** Filtra por el personal que aún no tiene registrado los datos Socioeconomico */
+        /* Filtra por el personal que aún no tiene registrado los datos Socioeconomico */
         $staffs = PayrollStaff::doesnthave('payrollSocioeconomic')->get();
         foreach ($staffs as $staff) {
             $options[] = ['id' => $staff->id, 'text' => "{$staff->id_number} - {$staff->full_name}"];
@@ -633,21 +704,26 @@ class PayrollStaffController extends Controller
      * Realiza la acción necesaria para importar los datos Personales
      *
      * @author    Francisco Escala
-     * @return    object    Objeto que permite descargar el archivo con la información a ser exportada
+     *
+     * @return    \Illuminate\Http\JsonResponse    Objeto que permite descargar el archivo con la información a ser exportada
      */
     public function import(Request $request)
     {
-        $user = auth()->user();
         $filePath = $request->file('file')->store('', 'temporary');
         $fileErrorsPath = 'import' . uniqid() . '.errors';
         Storage::disk('temporary')->put($fileErrorsPath, '');
-        $import = new RegisterStaffImport($filePath, 'temporary', $user, $fileErrorsPath);
+        $import = new RegisterStaffImport($filePath, 'temporary', auth()->user()->id, $fileErrorsPath);
 
         $import->import();
 
         return response()->json(['result' => true], 200);
     }
 
+    /**
+     * Exporta la información de datos personales de los trabajadores
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function export()
     {
         $userId = auth()->user()->id;
@@ -656,19 +732,22 @@ class PayrollStaffController extends Controller
             'Datos Personales',
         );
 
-        request()->session()->flash('message', ['type' => 'other', 'title' => '¡Éxito!',
+        request()->session()->flash('message', [
+            'type' => 'other', 'title' => '¡Éxito!',
             'text' => 'Su solicitud esta en proceso, esto puede tardar unos ' .
-            'minutos. Se le notificara al terminar la operación',
+                'minutos. Se le notificara al terminar la operación',
             'icon' => 'screen-ok',
             'class' => 'growl-primary'
         ]);
 
         return redirect()->route('payroll.staffs.index');
     }
+
     /**
      * Obtiene la información personal de los trabajadores
      *
      * @author  Pedro Buitrago <pbuitrago@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de la información personal de los trabajadores
      */
     public function getPayrollProfessional($type = 'all')
@@ -678,7 +757,7 @@ class PayrollStaffController extends Controller
         } elseif (is_numeric($type)) {
             $options = [['id' => '', 'text' => 'Seleccione...']];
 
-            /** Filtra por el personal que aún no tiene registrado los datos Socioeconomico */
+            /* Filtra por el personal que aún no tiene registrado los datos Socioeconomico */
             $staffs = PayrollStaff::doesnthave('payrollProfessional')->get();
             foreach ($staffs as $staff) {
                 $options[] = ['id' => $staff->id, 'text' => "{$staff->id_number} - {$staff->full_name}"];
@@ -694,7 +773,7 @@ class PayrollStaffController extends Controller
 
         $options = [['id' => '', 'text' => 'Seleccione...']];
 
-        /** Filtra por el personal que aún no tiene registrado los datos Socioeconomico */
+        /* Filtra por el personal que aún no tiene registrado los datos Socioeconomico */
         $staffs = PayrollStaff::doesnthave('payrollProfessional')->get();
         foreach ($staffs as $staff) {
             $options[] = ['id' => $staff->id, 'text' => "{$staff->id_number} - {$staff->full_name}"];

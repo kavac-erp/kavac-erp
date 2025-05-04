@@ -1,0 +1,7 @@
+<map id="calcualteYearOld" name="calcualteYearOld">
+<area shape="rect" id="Node000001" title="Obtiene el año mas antiguo del reporte." alt="" coords="197,31,328,56"/>
+<area shape="rect" id="Node000002" href="$d3/d7f/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingReportsController.html#ac64d5085b200688d184d28aa7d547e9b" title="Vista en la que se genera el reporte del libro contable." alt="" coords="11,5,144,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,35,144,30,145,24,184,30"/>
+<area shape="rect" id="Node000003" href="$d3/d7f/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingReportsController.html#a76a23fc7575b152dfeb5531fb0311c2f" title="Vista en la que se genera el reporte de estados financieros." alt="" coords="5,55,149,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="184,56,150,61,150,55,183,51"/>
+</map>

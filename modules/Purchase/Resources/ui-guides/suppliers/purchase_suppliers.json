@@ -52,6 +52,10 @@
         "intro" : "Esta sección permite ingresar cuenta contable asociada al proveedor"
     },
     {
+        "element" : "#helpFileNumber",
+        "intro" : "Esta sección permite ingresar el número de expediente del proveedor. Este número es para registro interno del organismo"
+    },
+    {
         "element" : "#helpWebsite",
         "intro" : "Esta sección permite ingresar el sítio web del proveedor"
     },

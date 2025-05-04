@@ -8,12 +8,12 @@ use Modules\Purchase\Models\PurchaseDirectHire;
 use Illuminate\Support\Facades\DB;
 
 /**
- * @class $CLASS$
- * @brief [descripción detallada]
+ * @class PurchaseUpdateDirectHireDueDateSeeder
+ * @brief Adapta el formato del campo due_date de la tabla purchase_direct_hires
  *
  * Se adapta el formato del campo due_date a json_encode([$data_frame => $due_date])
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -23,9 +23,7 @@ class PurchaseUpdateDirectHireDueDateSeeder extends Seeder
     /**
      * Ejecuta los seeds de la base de datos
      *
-     * @method run
-     *
-     * @return void     [descripción de los datos devueltos]
+     * @return void
      */
     public function run()
     {

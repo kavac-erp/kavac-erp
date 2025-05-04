@@ -13,6 +13,14 @@ use App\Roles\Traits\Slugable;
  *
  * Gestiona información sobre los permisos de acceso
  *
+ * @property string $name
+ * @property string $slug
+ * @property string $description
+ * @property string $model
+ * @property string $model_prefix
+ * @property string $slug_alt
+ * @property string $short_description
+ *
  * @author ultraware\roles <a href="https://github.com/ultraware/roles.git">Ultraware\Roles</a>
  */
 class Permission extends Model implements PermissionHasRelationsContract

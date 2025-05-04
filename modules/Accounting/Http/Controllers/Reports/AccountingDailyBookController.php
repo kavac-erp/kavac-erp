@@ -1,38 +1,51 @@
 <?php
 
-/**
- * Controlador de libro diario en contabilidad
- */
-
 namespace Modules\Accounting\Http\Controllers\Reports;
 
-use Illuminate\Routing\Controller;
-use Modules\Accounting\Models\AccountingReportHistory;
-use Modules\Accounting\Models\AccountingEntry;
-use Modules\Accounting\Models\Currency;
-use Modules\Accounting\Models\Setting;
-use Modules\Accounting\Models\Institution;
-use Modules\Accounting\Models\Profile;
-use Modules\Accounting\Models\ExchangeRate;
-use App\Repositories\ReportRepository;
-use Modules\DigitalSignature\Repositories\ReportRepositorySign;
-use Auth;
 use DateTime;
+use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Repositories\ReportRepository;
+use Modules\Accounting\Models\Profile;
+use Modules\Accounting\Models\Setting;
+use Modules\Accounting\Models\Currency;
+use Modules\Accounting\Models\Institution;
+use Modules\Accounting\Models\ExchangeRate;
+use Modules\Accounting\Models\AccountingEntry;
+use Modules\Accounting\Models\AccountingReportHistory;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Modules\Accounting\Exports\AccountingDailyBookSheetExport;
+use Modules\DigitalSignature\Repositories\ReportRepositorySign;
 
 /**
- *  * Clase que gestiona el reporte de libro diario
- *
- * @class AccountingReportPdfDailyBookController
- *
+ * @class AccountingDailyBookController
  * @brief Controlador para la generación del reporte del libro diario
+ *
+ * Clase que gestiona el reporte de libro diario
  *
  * @author Juan Rosas <jrosas@cenditel.gob.ve>
  *
- * @license LICENCIA DE SOFTWARE CENDITEL
- * @link    http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AccountingDailyBookController extends Controller
 {
+    /**
+     * Lista de registros
+     *
+     * @var array $records
+     */
+    protected $records = [];
+
+    /**
+     * Salto de página
+     *
+     * @var mixed $PageBreakTrigger
+     */
+    protected $PageBreakTrigger;
+
     /**
      * Define la configuración de la clase
      *
@@ -40,19 +53,15 @@ class AccountingDailyBookController extends Controller
      */
     public function __construct()
     {
-        /**
-         * Establece permisos de acceso para cada método del controlador
-         * */
+        /* Establece permisos de acceso para cada método del controlador */
         $this->middleware(
             'permission:accounting.report.dailybook',
             ['only' => ['index', 'pdf', 'pdfVue', 'pdfSign', 'pdfVueSign']]
         );
     }
 
-    protected $records = [];
-
     /**
-     * Función para obtener records
+     * Función para obtener los registros
      *
      * @return array
      */
@@ -64,16 +73,17 @@ class AccountingDailyBookController extends Controller
     /**
      * Función para mezclar records
      *
-     * @param array $records Records
+     * @param array $records Registros
      *
-     * @return null
+     * @return void
      */
     public function setRecords($records)
     {
         $this->records = array_merge($this->records, $records);
     }
+
     /**
-     * [pdf verifica las conversiones monetarias de un reporte libro diario]
+     * Verifica las conversiones monetarias de un reporte libro diario
      *
      * @param string   $initDate variable con la fecha inicial
      * @param string   $endDate  variable con la fecha inicial
@@ -85,11 +95,7 @@ class AccountingDailyBookController extends Controller
      */
     public function pdfVue($initDate, $endDate, Currency $currency)
     {
-        /**
-         * [$entries información del asiento contable]
-         *
-         * @var AccountingEntry
-         */
+        /* Información del asiento contable */
         $entries = [];
         $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
 
@@ -159,20 +165,11 @@ class AccountingDailyBookController extends Controller
             );
         }
 
-        /**
-         * [$url link para consultar ese regporte]
-         *
-         * @var string
-         */
+        /* link para consultar ese regporte */
         $url = 'dailyBook/' . $initDate . '/' . $endDate;
 
-
         if (auth()->user()->isAdmin()) {
-            /**
-             * [$report almacena el registro del reporte del dia si existe]
-             *
-             * @var [type]
-             */
+            /* almacena el registro del reporte del dia si existe */
             $report = AccountingReportHistory::whereBetween(
                 'updated_at',
                 [
@@ -182,11 +179,7 @@ class AccountingDailyBookController extends Controller
             )
                 ->where('report', 'Libro Diario')->first();
         } else {
-            /**
-             * [$report almacena el registro del reporte del dia si existe]
-             *
-             * @var [type]
-             */
+            /* almacena el registro del reporte del dia si existe */
             $report = AccountingReportHistory::whereBetween(
                 'updated_at',
                 [
@@ -198,10 +191,7 @@ class AccountingDailyBookController extends Controller
                 ->where('institution_id', $user_profile['institution']['id'])->first();
         }
 
-        /*
-         * se crea o actualiza el registro del reporte
-         */
-
+        /* se crea o actualiza el registro del reporte */
         if (auth()->user()->isAdmin()) {
             if (!$report) {
                 $report = AccountingReportHistory::create(
@@ -238,7 +228,7 @@ class AccountingDailyBookController extends Controller
     }
 
     /**
-     * [pdf verifica las conversiones monetarias de un reporte libro diario]
+     * Verifica las conversiones monetarias de un reporte libro diario
      *
      * @param string   $initDate variable con la fecha inicial
      * @param string   $endDate  variable con la fecha inicial
@@ -246,15 +236,11 @@ class AccountingDailyBookController extends Controller
      *
      * @author Juan Rosas <jrosas@cenditel.gob.ve>
      *
-     * @return null
+     * @return JsonResponse
      */
     public function pdfVueSign($initDate, $endDate, Currency $currency)
     {
-        /**
-         * [$entries información del asiento contable]
-         *
-         * @var AccountingEntry
-         */
+        /* Información del asiento contable */
         $entries = [];
         $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
 
@@ -311,20 +297,12 @@ class AccountingDailyBookController extends Controller
                 }
             }
         }
-        /**
-         * [$url link para consultar ese regporte]
-         *
-         * @var string
-         */
+
+        /* link para consultar ese regporte */
         $url = 'dailyBookSign/' . $initDate . '/' . $endDate;
 
-
         if (auth()->user()->isAdmin()) {
-            /**
-             * [$report almacena el registro del reporte del dia si existe]
-             *
-             * @var [type]
-             */
+            /* almacena el registro del reporte del dia si existe */
             $report = AccountingReportHistory::whereBetween(
                 'updated_at',
                 [
@@ -334,11 +312,7 @@ class AccountingDailyBookController extends Controller
             )
                 ->where('report', 'Libro Diario')->first();
         } else {
-            /**
-             * [$report almacena el registro del reporte del dia si existe]
-             *
-             * @var [type]
-             */
+            /* almacena el registro del reporte del dia si existe */
             $report = AccountingReportHistory::whereBetween(
                 'updated_at',
                 [
@@ -350,9 +324,7 @@ class AccountingDailyBookController extends Controller
                 ->where('institution_id', $user_profile['institution']['id'])->first();
         }
 
-        /*
-         * se crea o actualiza el registro del reporte
-         */
+        /* se crea o actualiza el registro del reporte */
 
         if (auth()->user()->isAdmin()) {
             if (!$report) {
@@ -388,15 +360,29 @@ class AccountingDailyBookController extends Controller
 
         return response()->json(['result' => true, 'id' => $report->id], 200);
     }
+
     /**
-     * [pdf vista en la que se genera el reporte en pdf del libro diario]
+     * Genera el reporte en hojade calculo de balance general
      *
-     * @param integer $report_id [id de reporte y su informacion]
+     * @param  integer $report id de reporte y su informacion
+     *
+     * @return BinaryFileResponse|void
+     */
+    public function export($report)
+    {
+        return  $this->pdf($report, true);
+    }
+
+    /**
+     * Vista en la que se genera el reporte en pdf del libro diario
+     *
+     * @param integer $report_id id de reporte y su información
      *
      * @author Juan Rosas <jrosas@cenditel.gob.ve>
-     * @return null
+     *
+     * @return BinaryFileResponse|View|void
      */
-    public function pdf($report_id)
+    public function pdf($report_id, $xml = false)
     {
         $report = AccountingReportHistory::with('currency')->find($report_id);
         // Validar acceso para el registro
@@ -406,6 +392,9 @@ class AccountingDailyBookController extends Controller
             if ($report && $report->queryAccess($user_profile['institution']['id'])) {
                 return view('errors.403');
             }
+            $institution = Institution::find($user_profile['institution']['id']);
+        } else {
+            $institution = Institution::where('default', true)->first();
         }
         $initDate = explode('/', $report->url)[1];
         $endDate = explode('/', $report->url)[2];
@@ -413,11 +402,7 @@ class AccountingDailyBookController extends Controller
 
         $currency = $report->currency;
 
-        /**
-         * [$entries información del asiento contable]
-         *
-         * @var AccountingEntry
-         */
+        /* información del asiento contable */
         $entries = '';
 
         $convertions = [];
@@ -477,6 +462,7 @@ class AccountingDailyBookController extends Controller
                                 ($entry['currency']['id'] != $currency->id) ?? true
                             ) : 0,
                             'code' => $r['account'] ? $r['account']['code'] : '',
+                            'bank_reference' => $r['bank_reference'] ? $r['bank_reference'] : '',
                             'denomination' => $r['account'] ? $r['account']['denomination'] : '',
                             'concept' => $r['account'] ? $entry['concept'] : '',
                             ]
@@ -487,11 +473,8 @@ class AccountingDailyBookController extends Controller
                 $this->setRecords($records);
             }
         );
-        /**
-         * [$setting configuración general de la apliación]
-         *
-         * @var Setting
-         */
+
+        /*configuración general de la apliación */
         $setting = Setting::all()->first();
         $initDate = new DateTime($initDate);
         $endDate = new DateTime($endDate);
@@ -501,32 +484,39 @@ class AccountingDailyBookController extends Controller
 
         $Entry = false;
 
-        /**
-         * [$pdf base para generar el pdf]
-         *
-         * @var [Modules\Accounting\Pdf\Pdf]
-         */
+        /* base para generar el pdf */
         $pdf = new ReportRepository();
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
-        $institution = Institution::find(1);
-        $pdf->setConfig(['institution' => $institution, 'urlVerify' => url('report/auxiliaryBook/' . $report->id)]);
-        $pdf->setHeader('Reporte de Contabilidad', 'Reporte de libro diario');
-        $pdf->setFooter();
-        $pdf->setBody(
-            'accounting::pdf.entry_and_daily_book',
-            true,
-            [
-            'pdf' => $pdf,
-            'entries' => $this->getRecords(),
-            'convertions' => $convertions,
-            'currency' => $currency,
-            'Entry' => $Entry,
-            'initDate' => $initDate,
-            'endDate' => $endDate,
-            ]
-        );
+
+        /* Definición de las caracteristicas generales de la página pdf */
+        if ($xml) {
+            return Excel::download(new AccountingDailyBookSheetExport([
+                'pdf' => $pdf,
+                'entries' => $this->getRecords(),
+                'convertions' => $convertions,
+                'currency' => $currency,
+                'Entry' => $Entry,
+                'initDate' => $initDate,
+                'endDate' => $endDate,
+
+            ]), now()->format('d-m-Y') . 'Reporte_de_libro_diario.xlsx');
+        } else {
+            $pdf->setConfig(['institution' => $institution, 'urlVerify' => url('report/auxiliaryBook/' . $report->id)]);
+            $pdf->setHeader('Reporte de Contabilidad', 'Reporte de libro diario');
+            $pdf->setFooter();
+            $pdf->setBody(
+                'accounting::pdf.entry_and_daily_book',
+                true,
+                [
+                'pdf' => $pdf,
+                'entries' => $this->getRecords(),
+                'convertions' => $convertions,
+                'currency' => $currency,
+                'Entry' => $Entry,
+                'initDate' => $initDate,
+                'endDate' => $endDate,
+                ]
+            );
+        }
     }
 
     /**
@@ -536,7 +526,7 @@ class AccountingDailyBookController extends Controller
      *
      * @author Juan Rosas <jrosas@cenditel.gob.ve>
      *
-     * @return null
+     * @return \Illuminate\View\View|JsonResponse|null
      */
     public function pdfSign($report_id)
     {
@@ -554,16 +544,10 @@ class AccountingDailyBookController extends Controller
 
         $currency = $report->currency;
 
-        /**
-         * [$entries información del asiento contable]
-         *
-         * @var AccountingEntry
-         */
+        /* información del asiento contable */
         $entries = '';
 
         $convertions = [];
-
-
 
         if (auth()->user()->isAdmin()) {
             $r = AccountingEntry::with(
@@ -626,11 +610,7 @@ class AccountingDailyBookController extends Controller
             }
         );
 
-        /**
-         * [$setting configuración general de la apliación]
-         *
-         * @var Setting
-         */
+        /* configuración general de la apliación */
         $setting = Setting::all()->first();
         $initDate = new DateTime($initDate);
         $endDate = new DateTime($endDate);
@@ -640,15 +620,9 @@ class AccountingDailyBookController extends Controller
 
         $Entry = false;
 
-        /**
-         * [$pdf base para generar el pdf]
-         *
-         * @var [Modules\Accounting\Pdf\Pdf]
-         */
+        /* base para generar el pdf */
         $pdf = new ReportRepositorySign();
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definición de las caracteristicas generales de la página pdf */
         $institution = Institution::find(1);
         $pdf->setConfig(
             [
@@ -679,19 +653,19 @@ class AccountingDailyBookController extends Controller
     }
 
     /**
-     * [calculateOperation realiza la conversion de saldo]
-
-     * @param array   $convertions   [lista de tipos cambios para la moneda]
-     * @param integer $currency_id   [identificador del asiento]
-     * @param float   $value         [saldo del asiento]
-     * @param float   $date          [fecha del asiento]
-     * @param boolean $equalCurrency [bandera que indica si el tipo de moneda
+     * Realiza la conversion de saldo
+     *
+     * @param array   $convertions   lista de tipos cambios para la moneda
+     * @param integer $currency_id   identificador del asiento
+     * @param float   $value         saldo del asiento
+     * @param float   $date          fecha del asiento
+     * @param boolean $equalCurrency bandera que indica si el tipo de moneda
      *                               en el que esta el asiento es la misma
-     *                               que la que se desea expresar]
+     *                               que la que se desea expresar
      *
      * @author Juan Rosas <jrosas@cenditel.gob.ve>
      *
-     * @return float                  [resultdado de la operacion]
+     * @return float                  resultdado de la operación
      */
     public function calculateOperation($convertions, $currency_id, $value, $date, $equalCurrency)
     {
@@ -714,15 +688,16 @@ class AccountingDailyBookController extends Controller
     }
 
     /**
-     * [calculateExchangeRates encuentra los tipos de cambio]
+     * Encuentra los tipos de cambio
      *
-     * @param array           $convertions [lista de conversiones]
-     * @param AccountingEntry $entry       [asiento contable]
-     * @param integer         $currency_id [identificador de la moneda
-     *                                     a la cual se realizara la conversion]
+     * @param array           $convertions lista de conversiones
+     * @param AccountingEntry $entry       asiento contable
+     * @param integer         $currency_id identificador de la moneda
+     *                                     a la cual se realizara la conversión
      *
      * @author Juan Rosas <jrosas@cenditel.gob.ve>
-     * @return array                        [lista de conversiones actualizada]
+     *
+     * @return array                        lista de conversiones actualizada
      */
     public function calculateExchangeRates($convertions, $entry, $currency_id)
     {
@@ -748,10 +723,11 @@ class AccountingDailyBookController extends Controller
         }
         return $convertions;
     }
+
     /**
      * Devolver PageBreakTrigger
      *
-     * @return array
+     * @return mixed
      */
     public function getCheckBreak()
     {

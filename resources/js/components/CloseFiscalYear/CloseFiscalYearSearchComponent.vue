@@ -82,8 +82,7 @@ export default {
     },
     methods: {
         /**
-         * Listado de años fiscales
-         *
+         * Listado de años fiscales         *
          */
         async getClosedFiscalYears() {
             const vm = this;

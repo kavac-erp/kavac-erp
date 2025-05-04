@@ -46,7 +46,7 @@
                                     <input type="hidden" v-model="record.id">
                                 </div>
                             </div>
-                         
+
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="description">Descripción:</label>
@@ -56,19 +56,19 @@
                                 </div>
                             </div>
                         </div>
-                       
+
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('projecttracking/type-products')" 
+							<button type="button" @click="createRecord('projecttracking/type-products')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -105,10 +105,10 @@
         data() {
             return {
                 record: {
-                    id: '',                   
+                    id: '',
                     name: '',
-                    description: '',                   
-  
+                    description: '',
+
                 },
                 errors: [],
                 records: [],
@@ -117,37 +117,37 @@
             }
         },
         props: {
-           
+
         },
         methods: {
-          
+
             reset() {
                 this.record = {
-                    id: '',       
+                    id: '',
                     name: '',
-                    description: '',             
+                    description: '',
                 };
             },
-     
-       
+
+
         },
         created() {
             this.table_options.headings = {
                 'name': 'Nombre',
-                'description': 'Descripción',             
+                'description': 'Descripción',
                 'id': 'Acción'
             };
             this.table_options.sortable = ['name', 'description'];
             this.table_options.filterable = ['name', 'description'];
             this.table_options.columnsClasses = {
                 'name': 'col-md-3',
-                'description': 'col-md-7',              
+                'description': 'col-md-7',
                 'id': 'col-md-2'
             };
         },
         mounted() {
-       
-         
+
+
         }
     };
 </script>

@@ -23,13 +23,6 @@
                 <div class="card-header">
                     <h6 class="card-title">
                         {{ __('Formatos de Códigos') }}
-                        {{--
-                            // Issue #96: Solicitaron que no se muestre el botón de ayuda en esta sección
-                            @include('buttons.help', [
-                                'helpId' => 'PayrollCodeSetting',
-                                'helpSteps' => get_json_resource('ui-guides/settings/code_setting.json', 'payroll')
-                            ])
-                        --}}
                     </h6>
                     <div class="card-btns">
                         @include('buttons.previous', ['route' => url()->previous()])
@@ -40,7 +33,9 @@
                 {!! Form::token() !!}
                 <div class="card-body">
                     @include('layouts.help-text', ['codeSetting' => true])
-                    @include('layouts.form-errors')
+                    @if($errors->any() && !$errors->has('p_value'))
+                        @include('layouts.form-errors')
+                    @endif
                     <div class="row">
                         <div class="col-12">
                             <h6>{{ __('Personal') }}</h6>
@@ -156,8 +151,10 @@
                 </div>
                 {!! Form::open(['route' => 'payroll.parameters.update-report-parameters', 'method' => 'post']) !!}
                     {!! Form::token() !!}
-                    <div class="card-body">
-                        @include('layouts.form-errors')
+                    <div class="card-body" style="min-height: 100px">
+                        @if($errors->any() && $errors->has('p_value') && preg_match('/^(\w+) edad laboral (\w+)/i', $errors->first('p_value')))
+                            @include('layouts.form-errors')
+                        @endif
                         <div class="row">
                             <div class="col-md-4" id="helpWorkAge">
                                 <div class="form-group">
@@ -171,7 +168,7 @@
                                             'title' => 'Indique la edad laboral permitida', 'min' => '1',
                                             'placeholder' => 'Edad'
                                         ]) !!}
-                                        {!! Form::hidden('p_key', 'work_age'); !!}
+                                        {!! Form::hidden('p_key', 'work_age') !!}
                                     @endif
                                 </div>
                             </div>
@@ -207,8 +204,10 @@
                 </div>
                 {!! Form::open(['id' => 'form-report-configurations', 'route' => 'payroll.parameters.update-report-parameters', 'method' => 'post']) !!}
                 {!! Form::token() !!}
-                <div class="card-body">
-                    @include('layouts.form-errors')
+                <div class="card-body" style="min-height: 100px">
+                    @if($errors->any() && $errors->has('p_value') && !preg_match('/^(\w+) edad laboral (\w+)/i', $errors->first('p_value')))
+                        @include('layouts.form-errors')
+                    @endif
                     <div class="row">
                         @if ($PayrollReportConfigurations)
                             @foreach($PayrollReportConfigurations as $PayrollReportConfiguration)
@@ -237,16 +236,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                {{-- @elseif($PayrollReportConfiguration['p_key'] == 'zero_concept')
-                                    <div class="col-md-4" id="helpZeroConcept">
-                                        <div class="form-group">
-                                            {!! Form::label('zero_concept', 'Mostrar conceptos en cero', []) !!}
-                                            <div class=" custom-control custom-switch">
-                                                {!! Form::checkbox('zero_concept', true, ( !is_null($PayrollReportConfiguration) && $PayrollReportConfiguration['p_value'] === 'true'), [ 'id' => 'zero_concept', 'class' => 'custom-control-input']) !!}
-                                                <label class="custom-control-label" for="zero_concept"></label>
-                                            </div>
-                                        </div>
-                                    </div> --}}
                                 @endif
                             @endforeach
                         @endif
@@ -323,10 +312,10 @@
 
                         {{-- Tipos de sangre --}}
                         <payroll-blood-types></payroll-blood-types>
-                    
+
                         {{-- Parentescos --}}
                         <payroll-relationships></payroll-relationships>
-                        
+
                         {{-- Discapacidades --}}
                         <payroll-disabilities></payroll-disabilities>
 
@@ -344,6 +333,9 @@
 
                         {{-- Nivel de Responsabilidades --}}
                         <payroll-responsibilities-level></payroll-responsibilities-level>
+
+                        {{-- Responsables de ARC --}}
+                        <payroll-arc-responsibles></payroll-arc-responsibles>
                     </div>
                 </div>
             </div>
@@ -395,7 +387,7 @@
                             start_operations_date="{!! (isset($institution)) ? $institution->start_operations_date : '' !!}"
                             accounting="{{ Module::has('Accounting') && Module::isEnabled('Accounting') }}"
                             finance="{{ Module::has('Finance') && Module::isEnabled('Finance') }}"
-                            :moment_close_permission="{{json_encode(auth()->user()->hasPermission('payroll.registers.moment-close'))}}">
+                            :moment_close_permission="{{json_encode(auth()->user()->hasPermission('payroll.registers.moment.close'))}}">
                         </payroll-payment-types>
 
                         {{-- Políticas vacacionales --}}
@@ -417,7 +409,7 @@
 
                         {{-- Grupos de supervisados --}}
                         <payroll-supervised-groups></payroll-supervised-groups>
-                        
+
                         {{-- Parámetros de tiempo --}}
                         <payroll-time-sheet-parameters></payroll-time-sheet-parameters>
                     </div>

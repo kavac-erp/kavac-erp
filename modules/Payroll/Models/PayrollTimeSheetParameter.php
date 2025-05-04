@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,11 +10,9 @@ use App\Traits\ModelsTrait;
 
 /**
  * @class PayrollTimeSheetParameter
- * @brief [descripción detallada]
+ * @brief Gestiona la información, procesos, consultas y relaciones asociadas al modelo
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -29,12 +25,14 @@ class PayrollTimeSheetParameter extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['code', 'name', 'description'];
@@ -73,11 +71,21 @@ class PayrollTimeSheetParameter extends Model implements Auditable
         return $this->hasOne(PayrollTimeSheet::class);
     }
 
+    /**
+     * Obtiene la relación con las hojas de tiempo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function payrollTimeSheets()
     {
         return $this->hasMany(PayrollTimeSheet::class);
     }
 
+    /**
+     * Obtiene la relación con las hojas de tiempo pendientes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function payrollTimeSheetsPending()
     {
         return $this->hasMany(PayrollTimeSheetPending::class);

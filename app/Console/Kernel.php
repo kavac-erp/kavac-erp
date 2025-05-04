@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Define los comandos personalizados del sistema
- *
- * @author   Taylor Otwell <taylor@laravel.com>
- */
-
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
@@ -22,7 +16,7 @@ class Kernel extends ConsoleKernel
     /**
      * Los comandos de artisan proporcionados por la aplicación.
      *
-     * @var array
+     * @var array $commands
      */
     protected $commands = [
         //
@@ -32,6 +26,7 @@ class Kernel extends ConsoleKernel
      * Define la planificación en la ejecución de comandos de la aplicación.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     *
      * @return void
      */
     protected function schedule(Schedule $schedule)

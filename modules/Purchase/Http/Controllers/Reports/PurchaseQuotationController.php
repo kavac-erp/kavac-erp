@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Purchase\Http\Controllers\Reports;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -14,11 +12,9 @@ use Modules\Purchase\Models\Pivot;
 
 /**
  * @class PurchaseQuotationController
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -28,15 +24,13 @@ class PurchaseQuotationController extends Controller
     /**
      * Genera el reporte de cotización base para su visualización
      *
-     * @method    pdf
-     *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    void
      */
     public function pdf($id)
     {
-        $user = Auth()->user();
+        $user = auth()->user();
         $profileUser = $user->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
@@ -46,10 +40,7 @@ class PurchaseQuotationController extends Controller
             ->first();
         }
 
-        /**
-         * [$pdf base para generar el pdf]
-         * @var [Modules\Accounting\Pdf\Pdf]
-         */
+        /* base para generar el pdf */
         $pdf = new ReportRepository();
         $records = PurchaseQuotation::with(
             'purchaseSupplier',
@@ -65,9 +56,7 @@ class PurchaseQuotationController extends Controller
             ->with('relatable')
             ->get();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definicion de las caracteristicas generales de la página pdf */
         $pdf->setConfig([
             'institution' => Institution::first(),
             'urlVerify'   => url('/purchase/quotation/pdf/' . $id)

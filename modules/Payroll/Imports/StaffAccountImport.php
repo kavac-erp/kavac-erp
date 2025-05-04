@@ -16,6 +16,15 @@ use Modules\Payroll\Models\PayrollStaff;
 use Modules\Payroll\Models\PayrollStaffAccount;
 use Maatwebsite\Excel\Validators\Failure;
 
+/**
+ * @class StaffAccountImport
+ * @brief Importa un archivo de cuentas contables del personal
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class StaffAccountImport implements
     ToModel,
     WithValidation,
@@ -27,21 +36,30 @@ class StaffAccountImport implements
     use SkipsErrors;
     use SkipsFailures;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @param string $fileErrosPath Ruta donde se guardan los archivos de errores
+     *
+     * @return void
+     */
     public function __construct(
         protected string $fileErrosPath,
-    ){
-
+    ) {
+        //
     }
 
     /**
-     * @param array $row
+     * Modelo para importar datos
+     *
+     * @param array $row Arreglo de columnas a importar
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
 
     public function model(array $row)
     {
-        /** @var array Datos del tipo de bien al cual asociar la información del bien */
+        /* Datos del tipo de bien al cual asociar la información del bien */
         DB::transaction(function () use ($row) {
             // Validar cuenta contable con trabajador
             $hasAccountSavedForStaff = PayrollStaffAccount::query()
@@ -60,6 +78,14 @@ class StaffAccountImport implements
         });
     }
 
+    /**
+     * Preparar los datos para ser importados (validaciones)
+     *
+     * @param array $data Arreglo con los datos
+     * @param integer $index Indice de la fila
+     *
+     * @return array
+     */
     public function prepareForValidation($data, $index)
     {
         if (
@@ -111,6 +137,11 @@ class StaffAccountImport implements
         return $data;
     }
 
+    /**
+     * Callback de error de validación
+     *
+     * @param object $failures Arreglo columnas que fallaron en la validación
+     */
     public function onFailure(Failure ...$failures)
     {
         foreach ($failures as $failure) {
@@ -125,6 +156,11 @@ class StaffAccountImport implements
         }
     }
 
+    /**
+     * Reglas de validación
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [

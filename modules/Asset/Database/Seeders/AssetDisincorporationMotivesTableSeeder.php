@@ -10,11 +10,10 @@ use Modules\Asset\Models\AssetDisincorporationMotive;
  * @class AssetDisincorporationMotivesTableSeeder
  * @brief Inicializar los Motivos de desincorporación de los bienes
  *
- *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetDisincorporationMotivesTableSeeder extends Seeder
 {
@@ -22,6 +21,7 @@ class AssetDisincorporationMotivesTableSeeder extends Seeder
      * Método que registra los valores iniciales de las formas de la condición física de un bien
      *
      * @author  Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function run()
@@ -39,8 +39,6 @@ class AssetDisincorporationMotivesTableSeeder extends Seeder
             ['name' => 'Donación'],
 
         ];
-
-
 
         foreach ($disincorporation_motives as $disincorporation_motive) {
             AssetDisincorporationMotive::updateOrCreate(

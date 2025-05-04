@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -10,12 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Modules\Payroll\Models\Parameter;
 
 /**
- * @class $CLASS$
- * @brief [descripción detallada]
+ * @class PayrollReportConfigurationTableSeeder
+ * @brief Carga los datos de configuración de los reportes
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -25,9 +21,7 @@ class PayrollReportConfigurationTableSeeder extends Seeder
     /**
      * Ejecuta los seeds de la base de datos
      *
-     * @method run
-     *
-     * @return void     [descripción de los datos devueltos]
+     * @return void
      */
     public function run()
     {

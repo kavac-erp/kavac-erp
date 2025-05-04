@@ -1,11 +1,10 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\UploadImageRepository;
@@ -17,6 +16,7 @@ use App\Repositories\UploadImageRepository;
  * Controlador para gestionar Imágenes
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -24,8 +24,6 @@ class ImageController extends Controller
 {
     /**
      * Registra una nueva imagen
-     *
-     * @method    store
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -39,9 +37,9 @@ class ImageController extends Controller
     {
         if ($request->file('image')) {
             if ($up->uploadImage($request->file('image'), 'pictures')) {
-                /** @var integer Identificador de la imagen registrada */
+                /// Identificador de la imagen registrada
                 $image_id = $up->getImageStored()->id;
-                /** @var string URL de la imagen */
+                // URL de la imagen
                 $image_url = $up->getImageStored()->url;
                 return response()->json(['result' => true, 'image_id' => $image_id, 'image_url' => $image_url], 200);
             }
@@ -52,8 +50,6 @@ class ImageController extends Controller
     /**
      * Elimina una imagen
      *
-     * @method    destroy
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Request    $request    Objeto con información de la petición
@@ -63,7 +59,7 @@ class ImageController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        /** @var Image Objeto con información de la imagen a eliminar */
+        // Objeto con información de la imagen a eliminar
         $image = Image::find($id);
 
         if (is_null($image)) {
@@ -72,7 +68,7 @@ class ImageController extends Controller
             ], 200);
         }
 
-        /** @var string Ruta del archivo a eliminar */
+        // Ruta del archivo a eliminar
         $file = $image->file;
 
         DB::transaction(function () use ($image, $file, $request) {
@@ -90,8 +86,6 @@ class ImageController extends Controller
 
     /**
      * Obtiene detalles de una imagen
-     *
-     * @method  getImage
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

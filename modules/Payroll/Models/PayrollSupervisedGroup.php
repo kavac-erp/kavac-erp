@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,11 +11,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @class PayrollSupervisedGroup
- * @brief [descripción detallada]
+ * @brief Gestiona la información, procesos, consultas y relaciones asociadas al modelo
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -30,12 +26,14 @@ class PayrollSupervisedGroup extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['code', 'supervisor_id', 'approver_id'];
@@ -79,8 +77,8 @@ class PayrollSupervisedGroup extends Model implements Auditable
     /**
      * Get all of the payrollGuardSchemes for the PayrollSupervisedGroup
      *
-     * * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * 
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollGuardSchemes(): HasMany

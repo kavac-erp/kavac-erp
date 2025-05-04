@@ -7,19 +7,34 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\CitizenService\Models\CitizenServiceDepartment;
+use Nwidart\Modules\Facades\Module;
 
+/**
+ * @class CitizenServiceDepartmentController
+ * @brief Controlador para los departamentos de la oficina de atención al ciudadano
+ *
+ * Clase que gestiona el controlador para los departamentos de la OAC
+ *
+ * @author Ing. Yenifer Ramirez <yramirez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CitizenServiceDepartmentController extends Controller
 {
     use ValidatesRequests;
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
+
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -27,38 +42,50 @@ class CitizenServiceDepartmentController extends Controller
      * Define la configuración de la clase
      *
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:citizenservice.departaments.create', ['only' => ['index', 'create', 'store']]);
         $this->middleware('permission:citizenservice.departaments.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:citizenservice.departaments.delete', ['only' => ['destroy']]);
 
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
-            'name'        => ['required', 'regex:/^[\D][a-zA-ZÁ-ÿ0-9\s]*/u', 'max:100'],
-            'description' => ['required', 'regex:/^[\D][a-zA-ZÁ-ÿ0-9\s]*/u', 'max:200']
+            'name'           => ['required', 'regex:/^[\D][a-zA-ZÁ-ÿ0-9\s]*/u', 'max:100'],
+            'description'    => ['nullable', 'max:200'],
+            'director_id'    => [Module::has('Payroll') && Module::isEnabled('Payroll') ? 'required' : 'nullable'],
+            'coordinator_id' => ['nullable'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required'         => 'El campo nombre es obligatorio.',
             'name.max'              => 'El campo nombre no debe contener más de 100 caracteres.',
             'name.regex'            => 'El campo nombre no debe permitir números ni símbolos.',
-            'description.required'  => 'El campo descripción es obligatorio',
             'description.max'       => 'El campo descripción no debe contener más de 100 caracteres.',
-            'description.regex'     => 'El campo descripción no debe permitir números ni símbolos.',
+            'director_id.required'  => 'El campo director es obligatorio.',
         ];
-    }
-    public function index()
-    {
-        return response()->json(['records' => CitizenServiceDepartment::all()], 200);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Obtiene el listado de departamentos de la OAC
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        return response()->json([
+            'records' => CitizenServiceDepartment::with('departmentDirector', 'departmentCoordinator')->get()
+        ], 200);
+    }
+
+    /**
+     * Muestra el formulario para crear un nuevo departamento
+     *
      * @return Renderable
      */
     public function create()
@@ -67,9 +94,11 @@ class CitizenServiceDepartmentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena información del nuevo departamento de la OAC
+     *
      * @param  Request $request
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -77,16 +106,18 @@ class CitizenServiceDepartmentController extends Controller
 
         //Guardar los registros del formulario en  CitizenServiceDepartment
         $citizenServiceDepartment = CitizenServiceDepartment::create([
-
-            'name'          => $request->input('name'),
-            'description'   => $request->input('description'),
+            'name'             => $request->input('name'),
+            'description'      => $request->input('description'),
+            'director_id'      => $request->input('director_id'),
+            'coordinator_id'   => $request->input('coordinator_id'),
         ]);
 
         return response()->json(['record' => $citizenServiceDepartment, 'message' => 'Success'], 200);
     }
 
     /**
-     * Show the specified resource.
+     * Muestra detalles del departamento de la OAC
+     *
      * @return Renderable
      */
     public function show()
@@ -95,7 +126,8 @@ class CitizenServiceDepartmentController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar el departamento de la OAC
+     *
      * @return Renderable
      */
     public function edit()
@@ -104,9 +136,11 @@ class CitizenServiceDepartmentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza la información del departamento de la OAC
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -118,8 +152,10 @@ class CitizenServiceDepartmentController extends Controller
         );
         $this->validate($request, $validateRules, $this->messages);
 
-        $citizenServiceDepartment->name          = $request->name;
-        $citizenServiceDepartment->description   = $request->description;
+        $citizenServiceDepartment->name             = $request->name;
+        $citizenServiceDepartment->description      = $request->description;
+        $citizenServiceDepartment->director_id      = $request->director_id;
+        $citizenServiceDepartment->coordinator_id   = $request->coordinator_id;
 
         $citizenServiceDepartment->save();
 
@@ -127,8 +163,9 @@ class CitizenServiceDepartmentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina el departamento de la OAC
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -137,8 +174,27 @@ class CitizenServiceDepartmentController extends Controller
         return response()->json(['record' => $citizenServiceDepartment, 'message' => 'Success'], 200);
     }
 
+    /**
+     * Obtiene el listado de departamentos de la OAC
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getDepartments()
     {
-        return template_choices('Modules\CitizenService\Models\CitizenServiceDepartment', 'name', [], true, null);
+        $departmentList = CitizenServiceDepartment::all();
+        $departments = [];
+        array_push($departments, [
+            'id' => '',
+            'text' => 'Seleccione...',
+            'director_id' => ''
+        ]);
+        foreach ($departmentList->all() as $department) {
+            array_push($departments, [
+                'id' => $department->id,
+                'text' => $department->name,
+                'director_id' => $department->director_id
+            ]);
+        }
+        return response()->json($departments);
     }
 }

@@ -1,0 +1,11 @@
+<map id="collection" name="collection">
+<area shape="rect" id="Node000001" title="Genera el listado de registros de la hoja de tiempo." alt="" coords="248,43,333,68"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="314,32,307,24,291,21,276,23,269,28,267,34,272,41,267,44,262,34,265,25,275,18,291,16,310,20,318,28"/>
+<area shape="rect" id="Node000002" href="$db/dca/classModules_1_1Payroll_1_1Exports_1_1PayrollTimeSheetExport.html#abaef1899ea18487cbe53acf652eef689" title="Método constructor de la clase." alt="" coords="104,5,200,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="234,43,199,33,201,28,235,38"/>
+<area shape="rect" id="Node000003" href="$db/dca/classModules_1_1Payroll_1_1Exports_1_1PayrollTimeSheetExport.html#a745d4aab1c267632323ad838f61d3a15" title="Establece las cabeceras de los datos en el archivo a exportar." alt="" coords="111,79,193,104"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="235,72,193,83,192,78,234,67"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="172,67,166,60,152,57,140,59,134,64,132,70,136,77,131,80,127,70,129,61,138,54,152,52,169,55,176,64"/>
+<area shape="rect" id="Node000004" href="$db/dca/classModules_1_1Payroll_1_1Exports_1_1PayrollTimeSheetExport.html#acf0a3c3139011c3d0c00197bb36ac50c" title="Establece los datos que van a ser exportados." alt="" coords="5,79,56,104"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="98,94,56,94,56,89,98,89"/>
+</map>

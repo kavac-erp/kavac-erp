@@ -11,11 +11,10 @@ use Modules\Payroll\Models\PayrollLanguage;
  * @class PayrollLanguagesTableSeeder
  * @brief Inicializar los idiomas
  *
- *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollLanguagesTableSeeder extends Seeder
 {
@@ -23,6 +22,7 @@ class PayrollLanguagesTableSeeder extends Seeder
      * Método que registra los valores de los idiomas
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return void
      */
     public function run()

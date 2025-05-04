@@ -5,14 +5,22 @@ namespace Modules\Payroll\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Modules\Payroll\Models\Payroll;
 use App\Models\CodeSetting;
 
+/**
+ * @class PayrollUpdateCodePayrollsSeeder
+ * @brief Actualiza los códigos de nómia
+ *
+ * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PayrollUpdateCodePayrollsSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */

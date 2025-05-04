@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de almacenes
  *
  * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleWarehouse extends Model implements Auditable
 {
@@ -25,15 +25,23 @@ class SaleWarehouse extends Model implements Auditable
     use AuditableTrait;
     use ModelsTrait;
 
+    /**
+     * Lista de relaciones a cargar con el modelo
+     *
+     * @var array $with
+     */
     protected $with = ['parish'];
+
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name','main','active','address','institution_id','country_id','estate_id',
@@ -43,8 +51,8 @@ class SaleWarehouse extends Model implements Auditable
      * Método que obtiene las instituciones que gestionan el almacén
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * SaleWarehouseInstitutionWarehouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleWarehouseInstitutionWarehouses()
     {
@@ -54,7 +62,6 @@ class SaleWarehouse extends Model implements Auditable
     /**
      * Método que obtiene la solicitud asociado a una parroquia
      *
-     * @author
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parish()
@@ -66,8 +73,8 @@ class SaleWarehouse extends Model implements Auditable
      * Método que obtiene los métodos de pago del módulo de comercialización
      *
      * PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * SalePaymentMethod
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleQuote()
     {

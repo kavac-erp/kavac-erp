@@ -11,9 +11,9 @@ use Illuminate\Database\Migrations\Migration;
  * Gestiona la creación o eliminación de la tabla de bienes institucionales asociados a un registro de inventario
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class CreateAssetInventoryAssetsTable extends Migration
 {
@@ -21,6 +21,7 @@ class CreateAssetInventoryAssetsTable extends Migration
      * Método que ejecuta las migraciones
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function up()
@@ -47,6 +48,7 @@ class CreateAssetInventoryAssetsTable extends Migration
      * Método que elimina las migraciones
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function down()

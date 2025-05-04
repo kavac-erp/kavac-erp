@@ -1,0 +1,5 @@
+<map id="index" name="index">
+<area shape="rect" id="Node000001" title="muestra la vista donde se mostraran los asientos contables aprobados" alt="" coords="5,5,64,31"/>
+<area shape="rect" id="Node000002" href="$d4/d4d/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingEntryController.html#a7fd78c611ef067163bf0b574e7755c5f" title="Obtiene un listado con las instituciones registradas en el sistemas Caso Admin muestra todas Caso Use..." alt="" coords="112,5,288,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="64,15,98,15,98,21,64,21"/>
+</map>

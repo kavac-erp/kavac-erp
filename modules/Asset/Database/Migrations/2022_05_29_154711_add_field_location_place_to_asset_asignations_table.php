@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldLocationPlaceToAssetAsignationsTable
- * @brief [descripción detallada]
+ * @brief Agrega un campo location_place a la tabla asset_asignations
  *
- * [descripción corta]
+ * Agrega un campo location_place a la tabla asset_asignations
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Francisco J. P. Ruiz <javierrupe19@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -24,7 +24,7 @@ class AddFieldLocationPlaceToAssetAsignationsTable extends Migration
      */
     public function up()
     {
-        
+
         if (Schema::hasTable('asset_asignations')) {
             Schema::table('asset_asignations', function (Blueprint $table) {
                 if (!Schema::hasColumn('asset_asignations', 'location_place')) {

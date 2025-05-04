@@ -1,15 +1,37 @@
 {
-    "version": "1.0.4",
+    "version": "1.0.5",
     "name": "DigitalSignature",
     "alias": "digitalsignature",
     "name_es": "Firma Electrónica",
     "description": "Gestión de firma electrónica",
     "long_description": "",
+    "authors": [
+        {
+            "name": "Ing. Roldan Vargas",
+            "email": ["rvargas@cenditel.gob.ve", "roldandvg@gmail.com"]
+        },
+        {
+            "name": "Ing. Pedro Buitrago",
+            "email": ["pbuitrago@cenditel.gob.ve"]
+        },
+        {
+            "name": "Ing. Argenis Osorio",
+            "email":["aosorio@cenditel.gob.ve"]
+        },
+        {
+            "name": "Ing. Angelo Osorio",
+            "email": ["adosorio@cenditel.gob.ve"]
+        }
+    ],
+    "icon": {
+        "name": "ion-document-text",
+        "color": "#0073b7"
+    },
+    "logo": "digital-signature-logo.png",
     "keywords": [],
     "active": 1,
     "order": 9,
     "priority": 9,
-    "logo": "digital-signature-logo.png",
     "providers": [
         "Modules\\DigitalSignature\\Providers\\DigitalSignatureServiceProvider"
     ],

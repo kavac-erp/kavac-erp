@@ -1,8 +1,9 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Illuminate\Queue\SerializesModels;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -22,8 +23,6 @@ class $CLASS$
     /**
      * Crea una nueva instancia del comando.
      *
-     * @method __construct
-     *
      * @return void
      */
     public function __construct()
@@ -33,8 +32,6 @@ class $CLASS$
 
     /**
      * Obtiene los canales en los cuales debe transmitirse el evento.
-     *
-     * @method __construct
      *
      * @return array    [descripción de los datos devueltos]
      */

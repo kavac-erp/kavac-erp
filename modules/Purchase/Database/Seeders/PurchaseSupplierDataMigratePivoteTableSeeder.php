@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Purchase\Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -11,12 +9,10 @@ use Modules\Purchase\Models\PurchaseSupplierSpecialty;
 use Modules\Purchase\Models\PurchaseSupplier;
 
 /**
- * @class $CLASS$
- * @brief [descripción detallada]
+ * @class PurchaseSupplierDataMigratePivoteTableSeeder
+ * @brief Ejecuta la modificación de datos en la tabla pivote de proveedores
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -26,9 +22,7 @@ class PurchaseSupplierDataMigratePivoteTableSeeder extends Seeder
     /**
      * Ejecuta los seeds de la base de datos
      *
-     * @method run
-     *
-     * @return void     [descripción de los datos devueltos]
+     * @return void
      */
     public function run()
     {

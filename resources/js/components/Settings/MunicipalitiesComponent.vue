@@ -37,7 +37,7 @@
                                 <div class="form-group" v-if="editMunicipalities == 'true'">
                                     <label>Estados:</label>
                                     <select id="estate" v-model="record.estate_id">
-                                        <option :value="ste.id" :selected="ste.id == record.estate_id" 
+                                        <option :value="ste.id" :selected="ste.id == record.estate_id"
                                                 v-for="(ste, index) in estates" :key="index">
                                                 {{ ste.text }}
                                         </option>
@@ -64,15 +64,15 @@
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
                                     @click="clearFilters" data-dismiss="modal">
                                 Cerrar
                             </button>
-                            <button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+                            <button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
                                     @click="reset()">
                                 Cancelar
                             </button>
-                            <button type="button" @click="createRecords('municipalities')" 
+                            <button type="button" @click="createRecords('municipalities')"
                                     class="btn btn-primary btn-sm btn-round btn-modal-save">
                                 Guardar
                             </button>
@@ -118,7 +118,7 @@
                 countries: [],
                 estates: [],
                 columns: ['estate.name', 'name', 'code', 'id'],
-                editMunicipalities: '', 
+                editMunicipalities: '',
             }
         },
         watch: {
@@ -210,7 +210,7 @@
             createRecords(url, list = true, reset = true) {
                 const vm = this;
                 url = vm.setUrl(url);
-                
+
                 if (vm.record.id) {
                     vm.updateRecord(url);
                 }

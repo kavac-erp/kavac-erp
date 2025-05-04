@@ -5,6 +5,7 @@ var classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetSubSpecificFormulatio
     [ "destroy", "d1/db2/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetSubSpecificFormulationController.html#a726fa8a4b4b187b9ca32ba427aac8137", null ],
     [ "download", "d1/db2/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetSubSpecificFormulationController.html#a12948ba164d075f094f3328840054e51", null ],
     [ "edit", "d1/db2/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetSubSpecificFormulationController.html#a459ed16587e3a50b39b672c7e473abc5", null ],
+    [ "export", "d1/db2/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetSubSpecificFormulationController.html#ab55b637b48fb5e04db3f3a50e9798c61", null ],
     [ "getAvailabilityOpenedAccounts", "d1/db2/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetSubSpecificFormulationController.html#a3a547bb062badb2899f6c5e9f1fd082e", null ],
     [ "getFormulation", "d1/db2/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetSubSpecificFormulationController.html#acd046657f1d047bb47020873a971bb25", null ],
     [ "importFormulation", "d1/db2/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetSubSpecificFormulationController.html#a7538cabe4cd75ee0451b86ab72d893ea", null ],

@@ -1,7 +1,5 @@
 <?php
 
-/** Revisar */
-
 namespace Modules\Asset\Http\Controllers;
 
 use App\Models\Institution;
@@ -13,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Asset\Jobs\AssetGenerateReport;
 use Modules\Asset\Models\AssetReport;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @class      AssetReportController
@@ -21,6 +20,7 @@ use Modules\Asset\Models\AssetReport;
  * Clase que gestiona los reportes generados en el módulo de bienes
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -32,10 +32,12 @@ class AssetReportController extends Controller
      * Define la configuración de la clase
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:asset.report.create', ['only' => 'create']);
         $this->middleware('permission:asset.report.view', ['only' => 'index']);
     }
@@ -44,6 +46,7 @@ class AssetReportController extends Controller
      * Muestra un listado de las solicitudes de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    Renderable
      */
     public function index()
@@ -61,7 +64,9 @@ class AssetReportController extends Controller
      * Valida y registra un nuevo reporte de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function store(Request $request)
@@ -93,11 +98,7 @@ class AssetReportController extends Controller
             $codeSetting->field
         );
 
-        /**
-         * Objeto asociado al modelo AssetReport
-         *
-         * @var Object $report
-         */
+        /* Objeto asociado al modelo AssetReport */
         $report = AssetReport::create([
             'code' => $code,
             'type_report' => $request->input('type_report'),
@@ -118,13 +119,13 @@ class AssetReportController extends Controller
             'end_date' => $request->input('end_date'),
         ]);
         if ($request->input('operation') == 'open') {
-            /**
+            /*
              * Si selecciona la opción (abrir documento)
              *
              * Special Requirements: Abrir documento al finalizar
              */
         } elseif ($request->input('operation') == 'download') {
-            /**
+            /*
              * Si selecciona la opción (descargar documento)
              *
              * Special Requirements: Forzar descarga del documento
@@ -155,8 +156,10 @@ class AssetReportController extends Controller
      * Obtiene la información de un reporte registrado
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     String    $code_report    Identificador único del reporte
-     * @return    void
+     *
+     * @param     string    $code_report    Identificador único del reporte
+     *
+     * @return    BinaryFileResponse
      */
     public function show($code_report)
     {
@@ -167,6 +170,11 @@ class AssetReportController extends Controller
         return response()->download($file, $report->code, [], 'inline');
     }
 
+    /**
+     * Muestra un listado de los reportes de depreciación de bienes
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function depreciationReports()
     {
         return view('asset::reports.depreciation-reports');

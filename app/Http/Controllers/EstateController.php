@@ -1,13 +1,12 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Estate;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Rules\UniqueEstateCode;
+use Illuminate\Validation\Rule;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class EstateController
@@ -16,6 +15,7 @@ use App\Rules\UniqueEstateCode;
  * Controlador para gestionar Estados
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -24,13 +24,11 @@ class EstateController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:estate.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:estate.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:estate.delete', ['only' => 'destroy']);
@@ -39,8 +37,6 @@ class EstateController extends Controller
 
     /**
      * Listado de todos los registros de los Estados
-     *
-     * @method    index
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -53,8 +49,6 @@ class EstateController extends Controller
 
     /**
      * Registra un nuevo Estado
-     *
-     * @method    store
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -85,7 +79,7 @@ class EstateController extends Controller
             ]);
         }
 
-        /** @var Estate Objeto con información del Estado */
+        // Objeto con información del Estado
         $estate = Estate::updateOrCreate([
             'name' => $request->name,
             'country_id' => $request->country_id
@@ -98,8 +92,6 @@ class EstateController extends Controller
 
     /**
      * Actualiza la información del Estado
-     *
-     * @method  update
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -126,8 +118,6 @@ class EstateController extends Controller
 
     /**
      * Elimina un Estado
-     *
-     * @method  destroy
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

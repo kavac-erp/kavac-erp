@@ -82,8 +82,19 @@
                         />
                     </div>
                 </div>
-                <div class="col-md-4" id="helpStaffEmail">
+                <div class="col-md-4" id="helpStaffRif">
                     <div class="form-group is-required">
+                        <label>Rif</label>
+                        <input
+                            type="text"
+                            class="form-control input-sm"
+                            v-model="record.rif"
+                            maxlength="10"
+                        />
+                    </div>
+                </div>
+                <div class="col-md-4" id="helpStaffEmail">
+                    <div class="form-group">
                         <label>Correo Electrónico</label>
                         <input
                             type="email"
@@ -200,7 +211,7 @@
                     id="helpStaffBloodType"
                     v-if="payroll_blood_types.length > 0"
                 >
-                    <div class="form-group is-required">
+                    <div class="form-group">
                         <label>Tipo de Sangre</label>
                         <select2
                             :options="payroll_blood_types"
@@ -269,7 +280,7 @@
                 </div>
             </div>
             <br>
-            <div> 
+            <div>
                 <label>Dirección de Habitación</label>
             </div>
             <div class="row">
@@ -320,7 +331,7 @@
                     </div>
                 </div>
                 <div class="col-md-4" id="helpStaffAddress">
-                    <div class="form-group is-required">
+                    <div class="form-group">
                         <label>Dirección</label>
                         <input
                             type="text"
@@ -362,7 +373,7 @@
                     @click="addUniformSize()"
                 ></i>
             </h6>
-            <div class="row" v-for="(uniform, u) in record.uniform_sizes">
+            <div class="row" v-for="(uniform, u) in record.uniform_sizes" :key="u">
                 <div class="col-md-4">
                     <div class="form-group is-required">
                         <label for="uniform_name">Nombre:</label>
@@ -524,6 +535,7 @@
                     payroll_nationality_id: '',
                     id_number: '',
                     passport: '',
+                    rif: '',
                     email: '',
                     birthdate: '',
                     payroll_gender_id: '',
@@ -572,6 +584,7 @@
                     payroll_nationality_id: '',
                     id_number: '',
                     passport: '',
+                    rif: '',
                     email: '',
                     birthdate: '',
                     payroll_gender_id: '',
@@ -605,6 +618,7 @@
                         payroll_nationality_id: data.payroll_nationality_id,
                         id_number: data.id_number,
                         passport: data.passport ? data.passport : '',
+                        rif: data.rif ? data.rif : '',
                         email: data.email ? data.email : '',
                         birthdate: data.birthdate,
                         payroll_gender_id: data.payroll_gender_id,

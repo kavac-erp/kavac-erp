@@ -11,16 +11,17 @@ use App\Models\Department as BaseDepartment;
  * Modelo que extiende las funcionalidades del modelo base Department
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class Department extends BaseDepartment
 {
     /**
-     * Department has many BudgetProjects.
+     * Establece la relación con proyectos de presupuesto asociados a un departamento.
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function budgetProjects()
@@ -29,9 +30,10 @@ class Department extends BaseDepartment
     }
 
     /**
-     * Department has many BudgetCentralizedAction.
+     * Establece la relación con acciones centralizadas de presupuesto asociados a un departamento.
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function budgetCentralizedActions()

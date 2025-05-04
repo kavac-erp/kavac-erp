@@ -145,10 +145,10 @@
                                                             style="background-color: white; color: darkgray;">
                                                         <div class="multiselect__tags" style="display: flex; flex-wrap: wrap;">
                                                             <div class="multiselect__tags-wrap" style="inline-grid"
-                                                                v-for="(selection, index) in record.data_source[staff.id + '-' + field['month'] + '-' + field['day']]">
-                                                                <span class="multiselect__tag" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                v-for="(selection, index) in record.data_source[staff.id + '-' + field['month'] + '-' + field['day']]" :key="index">
+                                                                <span class="multiselect__tag" :style="'white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'">
                                                                     {{ selection.acronym }}
-                                                                    <span class="badge badge-light" style="left: 1rem;"
+                                                                    <span class="badge badge-light" :style="'left: 1rem;'"
                                                                         v-if="selection.count > 1">
                                                                         {{ selection.count }}
                                                                     </span>
@@ -204,15 +204,15 @@
 	                </div>
 					<div class="modal-footer">
 	                	<div class="form-group">
-	                		<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+	                		<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('payroll/guard-schemes')" 
+							<button type="button" @click="createRecord('payroll/guard-schemes')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -261,7 +261,7 @@
 										class="btn btn-danger btn-xs btn-icon btn-action"
 										title="Eliminar registro" data-toggle="tooltip"
 										type="button"
-                                        :disabled="'PR' == props.row.document_status"></button>
+                                        :disabled="'PR' == props.row.document_status">
 									<i class="fa fa-trash-o"></i>
 								</button>
 	                		</div>

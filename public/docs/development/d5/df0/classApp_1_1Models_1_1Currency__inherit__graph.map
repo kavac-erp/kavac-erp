@@ -1,3 +1,9 @@
 <map id="Currency" name="Currency">
-<area shape="rect" id="node1" title="Datos de Monedas." alt="" coords="5,5,204,171"/>
+<area shape="rect" id="Node000001" title="Datos de Monedas." alt="" coords="255,5,446,211"/>
+<area shape="rect" id="Node000002" href="$d4/da0/classModules_1_1Accounting_1_1Models_1_1Currency.html" title="Clase que extiende la clase Currency de la aplicación base." alt="" coords="5,259,205,344"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,194,160,261,157,256,243,190"/>
+<area shape="rect" id="Node000003" href="$d4/de3/classModules_1_1Budget_1_1Models_1_1Currency.html" title="Modelo que extiende las funcionalidades del modelo base Currency." alt="" coords="229,269,472,334"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="353,224,353,268,348,268,348,224"/>
+<area shape="rect" id="Node000004" href="$d2/da1/classModules_1_1Purchase_1_1Models_1_1Currency.html" title="Extension de la clase Currency de la aplicación base." alt="" coords="496,259,672,344"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="458,194,535,256,531,260,455,198"/>
 </map>

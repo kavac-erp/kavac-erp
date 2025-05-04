@@ -11,6 +11,7 @@ use App\Models\Institution as BaseInstitution;
  * Modelo que extiende las funcionalidades del modelo base Institution
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -20,6 +21,7 @@ class Institution extends BaseInstitution
      * Método que obtiene la información de los conceptos asociados a la institución
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollConcepts()
@@ -31,6 +33,7 @@ class Institution extends BaseInstitution
      * Método que obtiene la información de la política vacacional asociada a la institución
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollVacationPolicies()
@@ -42,6 +45,7 @@ class Institution extends BaseInstitution
      * Método que obtiene la información de las solicitudes de vacaciones asociados a la institución
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollVacationRequests()
@@ -53,6 +57,7 @@ class Institution extends BaseInstitution
      * Método que obtiene la información de la política de prestaciones asociada a la institución
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollBenefitsPolicies()
@@ -64,6 +69,7 @@ class Institution extends BaseInstitution
      * Método que obtiene la información de las solicitudes de adelanto de prestaciones asociados a la institución
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollBenefitsRequests()

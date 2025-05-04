@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddUniqueFieldToAssetConditionsTable
- * @brief [descripción detallada]
+ * @brief Agrega una clave única a la tabla asset_conditions
  *
- * [descripción corta]
+ * Agrega una clave única a la tabla asset_conditions
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Yennifer Ramírez <yramirez@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

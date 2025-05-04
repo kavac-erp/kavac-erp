@@ -1,6 +1,7 @@
 var classApp_1_1Http_1_1Controllers_1_1DocumentController =
 [
     [ "create", "dc/dc5/classApp_1_1Http_1_1Controllers_1_1DocumentController.html#a435e7d7525d4bcd0ed5e34a469f3adf6", null ],
+    [ "destroy", "dc/dc5/classApp_1_1Http_1_1Controllers_1_1DocumentController.html#a4d8867719125ccafaec44cfb3dcf27b0", null ],
     [ "edit", "dc/dc5/classApp_1_1Http_1_1Controllers_1_1DocumentController.html#a3ef5edd4c8c0bfef402f081136ae2048", null ],
     [ "getDocument", "dc/dc5/classApp_1_1Http_1_1Controllers_1_1DocumentController.html#a03de7ad5a3f780ff334d45f1d9bd8bfb", null ],
     [ "index", "dc/dc5/classApp_1_1Http_1_1Controllers_1_1DocumentController.html#a149eb92716c1084a935e04a8d95f7347", null ],

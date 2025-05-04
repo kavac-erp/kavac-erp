@@ -36,7 +36,8 @@
     		</div>
 			<citizenservice-request-create
 				route_list="{{ url('citizenservice/requests') }}"
-				:requestid ="{!! (isset($request)) ? $request->id : 'null' !!}">
+				is-payroll-active="{{ Module::has('Payroll') && Module::isEnabled('Payroll') }}"
+				:requestid="{!! (isset($request)) ? $request->id : 'null' !!}">
 		    </citizenservice-request-create>
 	    </div>
 	</div>

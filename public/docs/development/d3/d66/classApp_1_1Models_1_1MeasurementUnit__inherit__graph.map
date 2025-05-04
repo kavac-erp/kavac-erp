@@ -1,0 +1,5 @@
+<map id="MeasurementUnit" name="MeasurementUnit">
+<area shape="rect" id="Node000001" title="Datos de las unidades de medida." alt="" coords="5,5,136,111"/>
+<area shape="rect" id="Node000002" href="$d3/df7/classModules_1_1Purchase_1_1Models_1_1MeasurementUnit.html" title="Modelo que extiende las funcionalidades del modelo base MeasurementUnit." alt="" coords="5,159,136,224"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="73,124,73,159,68,159,68,124"/>
+</map>

@@ -4,48 +4,52 @@ namespace Modules\Accounting\Http\Controllers\Reports;
 
 use Illuminate\Routing\Controller;
 use Modules\Accounting\Models\AccountingEntry;
-use Modules\Accounting\Models\AccountingEntryAccount;
 use Modules\Accounting\Models\Setting;
 use Modules\Accounting\Models\Profile;
 use Modules\Accounting\Models\Institution;
 use App\Repositories\ReportRepository;
-use Auth;
 
-// http://127.0.0.1:8000/accounting/entries/pdf/81158
 /**
- * @class AccountingReportPdfCheckupBalanceController
+ * @class AccountingEntryController
  * @brief Controlador para la generación del reporte del asiento contable
  *
  * Clase que gestiona de la generación del reporte del asiento contable
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @copyright <a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *                LICENCIA DE SOFTWARE CENDITEL</a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AccountingEntryController extends Controller
 {
     /**
+     * Salto de página
+     *
+     * @var mixed $PageBreakTrigger
+     */
+    protected $PageBreakTrigger;
+
+    /**
      * Define la configuración de la clase
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:accounting.entries.report', ['only' => 'pdf']);
     }
 
     /**
      * vista en la que se genera el reporte en pdf de balance de comprobación
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param Int $id id del asiento contable
-    */
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param integer $id id del asiento contable
+     */
     public function pdf($id)
     {
-
         // Validar acceso para el registro
-        //
         $is_admin = auth()->user()->isAdmin();
 
         $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
@@ -67,23 +71,15 @@ class AccountingEntryController extends Controller
             }
         }
 
-        /**
-         * [$setting configuración general de la apliación]
-         * @var Setting
-         */
+        /* configuración general de la apliación */
         $setting = Setting::all()->first();
 
         $OnlyOneEntry   = true;
 
-        /**
-         * [$pdf base para generar el pdf]
-         * @var [Modules\Accounting\Pdf\Pdf]
-         */
+        /* base para generar el pdf */
         $pdf = new ReportRepository();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definicion de las caracteristicas generales de la página pdf */
         $institution = null;
 
         if (!$is_admin && $user_profile && $user_profile['institution']) {
@@ -103,6 +99,11 @@ class AccountingEntryController extends Controller
         ]);
     }
 
+    /**
+     * Devolver PageBreakTrigger
+     *
+     * @return mixed
+     */
     public function getCheckBreak()
     {
         return $this->PageBreakTrigger;

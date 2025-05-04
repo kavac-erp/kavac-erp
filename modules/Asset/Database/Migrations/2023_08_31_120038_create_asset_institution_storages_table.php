@@ -21,6 +21,7 @@ class CreateAssetInstitutionStoragesTable extends Migration
      * Ejecuta las migraciones.
      *
      * @author  Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
+     *
      * @return void
      */
     public function up()

@@ -7,10 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Modules\Finance\Models\FinanceBank;
 
+/**
+ * @class FinanceBanksTableSeeder
+ * @brief Carga de datos en la tabla de finance_banks
+ *
+ * Clase seeder de la tabla de finance_banks
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class FinanceBanksTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */

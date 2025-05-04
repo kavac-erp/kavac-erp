@@ -14,10 +14,21 @@ use Modules\Budget\Models\BudgetProject;
 use Modules\Budget\Models\BudgetSpecificAction;
 use Modules\Budget\Models\BudgetSubSpecificFormulation;
 
+/**
+ * @class BudgetNotificationSettingsTableSeeder
+ * @brief Información por defecto para configuración de notificación de presupuesto
+ *
+ * Gestiona la información por defecto a registrar inicialmente para la configuración de notificación de presupuesto
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class BudgetNotificationSettingsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */

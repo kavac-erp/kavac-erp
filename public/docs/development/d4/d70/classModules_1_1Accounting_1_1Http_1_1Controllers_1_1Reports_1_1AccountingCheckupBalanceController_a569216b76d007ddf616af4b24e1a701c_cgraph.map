@@ -1,0 +1,9 @@
+<map id="pdfVue" name="pdfVue">
+<area shape="rect" id="Node000001" title="Genera el reporte del balance de comprobación." alt="" coords="5,55,72,80"/>
+<area shape="rect" id="Node000002" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#ab0ddffde595d12d9c85da6f4c1eb2605" title="Encuentra los tipos de cambio." alt="" coords="120,5,301,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="71,54,119,39,147,32,148,37,121,45,73,59"/>
+<area shape="rect" id="Node000003" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a4412028831ce993246eb29b08f2ebb03" title="Obtiene las conversiones." alt="" coords="150,55,271,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="72,65,136,65,136,70,72,70"/>
+<area shape="rect" id="Node000004" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a678f5c49204c69d24b2b293794996ecd" title="Establece las conversiones." alt="" coords="151,104,271,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="73,75,121,89,152,98,150,103,119,94,72,80"/>
+</map>

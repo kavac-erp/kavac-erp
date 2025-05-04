@@ -57,7 +57,7 @@ class CreatePeriodicCostsTable extends Migration
                 ->boolean('attributes')
                 ->default(false)
                 ->comment('Establecer atributos personalizados. (true) si, (false) no');
-            
+
             $table->timestamps();
             $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');
         });

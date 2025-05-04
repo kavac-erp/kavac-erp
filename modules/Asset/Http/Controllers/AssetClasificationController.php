@@ -3,12 +3,13 @@
 namespace Modules\Asset\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Modules\Asset\Models\AssetSpecificCategory;
-use Modules\Asset\Models\AssetSubcategory;
-use Modules\Asset\Models\AssetCategory;
 use Modules\Asset\Models\AssetType;
+use Modules\Asset\Models\AssetCategory;
+use Modules\Asset\Models\AssetSubcategory;
+use Modules\Asset\Models\AssetSpecificCategory;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
  * @class     AssetClasificationController
@@ -17,6 +18,7 @@ use Modules\Asset\Models\AssetType;
  * Clase que gestiona el clasificador de bienes institucionales
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -28,10 +30,12 @@ class AssetClasificationController extends Controller
      * Define la configuración de la clase
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:asset.setting.specific');
     }
 
@@ -39,7 +43,8 @@ class AssetClasificationController extends Controller
      * Muestra un listado del clasificador de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function index()
     {
@@ -56,12 +61,14 @@ class AssetClasificationController extends Controller
      * Valida y registra un nuevo registro en el clasificador de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function store(Request $request)
     {
-        /** Validación de los datos de la petición */
+        /* Validación de los datos de la petición */
         $this->validate($request, [
             'asset_type_id' => ['required'],
             'asset_category_id' => ['required'],
@@ -108,16 +115,13 @@ class AssetClasificationController extends Controller
             ]);
         }
 
-        /**
-         * Objeto asociado al modelo AssetSpecificCategory
-         *
-         * @var Object $specific
-         */
+        /* Objeto asociado al modelo AssetSpecificCategory */
         $specific = AssetSpecificCategory::create([
             'code' => $request->input('code'),
             'name' => $request->input('name'),
-            'asset_subcategory_id' => ($request->asset_subcategory_id === '-1') ? $subcategory->id :
-                                                                                $request->asset_subcategory_id,
+            'asset_subcategory_id' => (
+                $request->asset_subcategory_id === '-1'
+            ) ? $subcategory->id : $request->asset_subcategory_id,
         ]);
 
         return response()->json(['records' => $specific, 'message' => 'Success'], 200);
@@ -127,9 +131,11 @@ class AssetClasificationController extends Controller
      * Actualiza la información del clasificador de bienes
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     \Illuminate\Http\Request                       $request     Datos de la petición
-     * @param     \Modules\Asset\Models\AssetSpecificCategory    $specific    Datos de la categoria
-     * @return    \Illuminate\Http\JsonResponse                  Objeto con los registros a mostrar
+     *
+     * @param     Request                  $request     Datos de la petición
+     * @param     AssetSpecificCategory    $specific    Datos de la categoria
+     *
+     * @return    JsonResponse                  Objeto con los registros a mostrar
      */
     public function update(Request $request, AssetSpecificCategory $specific)
     {
@@ -158,11 +164,7 @@ class AssetClasificationController extends Controller
             ]);
         }
 
-        /**
-         * Objeto asociado al modelo AssetSpecificCategory
-         *
-         * @var Object $specific
-         */
+        /* Objeto asociado al modelo AssetSpecificCategory */
         $specific = AssetSpecificCategory::find($request->id);
 
         $specific->name = $request->input('name');
@@ -177,8 +179,10 @@ class AssetClasificationController extends Controller
      * Elimina un registro del clasificador de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     Integer                          $id    Identificador único del registro a eliminar
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     integer         $id    Identificador único del registro a eliminar
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function destroy($id)
     {

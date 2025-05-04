@@ -1,3 +1,5 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d6/d82/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseCloseController.html" title="Controlador de los cierres de almacén registrados." alt="" coords="5,5,200,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$da/d7d/interfaceApp_1_1Roles_1_1Contracts_1_1PermissionHasRelations.html" title="Interface para la gestión de permisos y sus relaciones." alt="" coords="5,5,185,31"/>
+<area shape="rect" id="Node000001" href="$dd/dbe/classApp_1_1Roles_1_1Models_1_1Permission.html" title="Modelo para la gestión de permisos." alt="" coords="233,5,328,31"/>
+<area shape="poly" id="edge98_Node000000_Node000001" title=" " alt="" coords="199,15,233,15,233,21,199,21"/>
 </map>

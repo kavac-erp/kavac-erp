@@ -69,14 +69,26 @@
                   </div>
                 </div>
                 <hr>
-                <div class="mb-3" v-for="infoGroup in record.groups">
+                <div class="mb-3" v-for="(infoGroup, index) in record.groups" :key="index">
                   <h6 class="card-title">
                             {{infoGroup.group_name}}:
                   </h6>
                   <div class="row mt-3">
-                    <div class="col-4" v-for="item in infoGroup.items" v-if="item.value">
+                    <div :class="{'col-4': item.value}" :style="{'display': item.value ? 'block' : 'none'}" v-for="(item, index) in infoGroup.items" :key="index">
                         <strong>{{item.label}}:</strong>
                         {{`${item.value} ${item.unit ? ' ' + item.unit : ''}`}}
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+                <div class="mb-3" v-if="record.description.name">
+                  <h6 class="card-title">
+                      {{record.description.label}}:
+                  </h6>
+                  <div class="row mt-3">
+                    <div class="col-12" style="display:block">
+                        <strong>{{record.description.label}}:</strong>
+                        <span v-html="record.description.name"></span>
                     </div>
                   </div>
                   <hr>
@@ -84,7 +96,7 @@
               </div>
               <div class="tab-pane" id="purchase" role="tabpanel">
                 <div class="row">
-                  <div v-for="item in record.asset_details"  class="col-md-6">
+                  <div v-for="(item, index) in record.asset_details"  class="col-md-6" :key="index">
                     <div class="form-group">
                       <strong>{{item.label}}</strong>
                       <div class="row" style="margin: 1px 0">

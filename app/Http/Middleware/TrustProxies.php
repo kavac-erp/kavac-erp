@@ -1,7 +1,5 @@
 <?php
 
-/** Middlewares base de la aplicación */
-
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
@@ -18,14 +16,14 @@ class TrustProxies extends Middleware
     /**
      * Los proxies de confianza para esta aplicación.
      *
-     * @var array|string
+     * @var array|string $proxies
      */
     protected $proxies;
 
     /**
      * Los encabezados que deben usarse para detectar proxies.
      *
-     * @var int
+     * @var int $headers
      */
     protected $headers = Request::HEADER_X_FORWARDED_ALL;
 }

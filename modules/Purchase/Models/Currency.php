@@ -2,30 +2,36 @@
 
 namespace Modules\Purchase\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Currency as BaseCurrency;
 
+/**
+ * @class Currency
+ * @brief Extension de la clase Currency de la aplicación base
+ *
+ * Extension de la clase Currency de la aplicación base
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class Currency extends BaseCurrency
 {
     /**
-     * Currency has many PurchaseBaseBudget.
+     * Establece la relación con los presupuestos base asociados a una moneda
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function purchaseBaseBudget()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = currency_id, localKey = id)
         return $this->hasMany(PurchaseBaseBudget::class);
     }
 
     /**
-     * Currency has many PurchaseOrder.
+     * Establece la relación con las ordenes de compra asociadas a una moneda
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function purchaseOrder()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = currency_id, localKey = id)
         return $this->hasMany(PurchaseOrder::class);
     }
 }

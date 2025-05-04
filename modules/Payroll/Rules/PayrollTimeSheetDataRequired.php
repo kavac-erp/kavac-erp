@@ -11,17 +11,17 @@ use Illuminate\Contracts\Validation\Rule;
  * Gestiona las reglas de validación de las hojas de tiempo
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollTimeSheetDataRequired implements Rule
 {
     /**
      * Determina si la regla de validación es correcta.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param  string  $attribute Atributo a verificar
+     * @param  mixed  $value     Valor del atributo a verificar
+     *
      * @return bool
      */
     public function passes($attribute, $value)

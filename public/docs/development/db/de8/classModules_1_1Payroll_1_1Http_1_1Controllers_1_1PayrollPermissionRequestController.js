@@ -13,6 +13,6 @@ var classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPermissionRequestCo
     [ "vueInfo", "db/de8/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPermissionRequestController.html#a33c93a58e2d349e7e235a94a1691a76d", null ],
     [ "vueList", "db/de8/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPermissionRequestController.html#aca78b35dd9df5b11e63e88796cf08c66", null ],
     [ "vuePendingList", "db/de8/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPermissionRequestController.html#a8b33c34bcfa8ed7c94869b0c15bc653a", null ],
-    [ "$messages", "db/de8/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPermissionRequestController.html#ae7715468b3957bb3cc52320a1da96b7e", null ],
-    [ "$validateRules", "db/de8/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPermissionRequestController.html#a08fdb9625ef4d58fe9846c962a0b0dd6", null ]
+    [ "$messages", "db/de8/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPermissionRequestController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f", null ],
+    [ "$validateRules", "db/de8/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPermissionRequestController.html#a19db8a4aa08742d71b20bee403d09b5d", null ]
 ];

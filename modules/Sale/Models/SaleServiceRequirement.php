@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,11 +10,9 @@ use App\Traits\ModelsTrait;
 
 /**
  * @class SaleServiceRequeriment
- * @brief [descripción detallada]
+ * @brief Gestiona la información, procesos, consultas y relaciones asociadas al modelo
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -29,12 +25,14 @@ class SaleServiceRequirement extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'sale_service_id'];
@@ -43,8 +41,8 @@ class SaleServiceRequirement extends Model implements Auditable
      * Método que obtiene los registros del formualrio de solicitud de servicios
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo Objeto con el registro relacionado al modelo
-     * saleClientsEmail
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleService()
     {

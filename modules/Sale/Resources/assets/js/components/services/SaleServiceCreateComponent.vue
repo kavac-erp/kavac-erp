@@ -34,8 +34,8 @@
                 <div v-show="record.sale_client_id != 0" class="form-group">
                     <label for="sale_clients_email">Correo:</label>
                     <p v-for="(email, index) in sale_client.sale_clients_email" :key="index">
-                        <input type="text" class="form-control input-sm" :disabled="true" 
-                            data-toggle="tooltip" title="Dirección" 
+                        <input type="text" class="form-control input-sm" :disabled="true"
+                            data-toggle="tooltip" title="Dirección"
                             id="email" v-model="email.email" />
                     </p>
                 </div>
@@ -45,7 +45,7 @@
                     <label for="sale_clients_phone">Número telefónico:</label>
                     <p v-for="(value, index) in sale_client.sale_clients_phone" :key="index">
                         <input type="text" class="form-control input-sm" :disabled="true"
-                            data-toggle="tooltip" title="Dirección fiscal" 
+                            data-toggle="tooltip" title="Dirección fiscal"
                             id="phone" v-model="value.phone" />
                     </p>
                 </div>
@@ -56,8 +56,8 @@
             <div class="col-md-3" id="HelpOrganization">
                 <div class="form-group is-required">
                     <label for="applicant_organization">Organización:</label>
-                    <input type="text" class="form-control input-sm" 
-                        data-toggle="tooltip" title="Dirección" 
+                    <input type="text" class="form-control input-sm"
+                        data-toggle="tooltip" title="Dirección"
                         v-model="record.organization" id="applicant_organization" />
                 </div>
             </div>
@@ -65,7 +65,7 @@
                 <div class="form-group is-required">
                     <label for="economic_activity">Descripción de la actividad económica:</label>
                     <textarea type="text" class="form-control input-sm"
-                        data-toggle="tooltip" title="Dirección fiscal" 
+                        data-toggle="tooltip" title="Dirección fiscal"
                         v-model="record.description" id="economic_activity"></textarea>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                 <div class="form-group is-required" id="HelpServiceResume">
                     <label for="economic_activity">Resumen de la solicitud:</label>
                     <textarea type="text" class="form-control input-sm"
-                        data-toggle="tooltip" title="Dirección fiscal" 
+                        data-toggle="tooltip" title="Dirección fiscal"
                         v-model="record.resume" id="economic_activity"></textarea>
                 </div>
             </div>
@@ -130,7 +130,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>            
+            </div>
             <br>
             <div class="col-md-12" id="HelpServiceRequirement">
                 <h6 class="card-title">Requerimiento del solicitante <i class="fa fa-plus-circle cursor-pointer"
@@ -226,7 +226,7 @@ export default {
                 let good_to_be_traded_id = good_to_be_traded.id;
                 vm.record.sale_goods_to_be_traded.push(good_to_be_traded_id);
             }
-            
+
         }
     },
     methods: {
@@ -283,7 +283,7 @@ export default {
          * Agrega una nueva columna para los requerimientos del servicio
          *
          * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
-         */ 
+         */
         addRequirement() {
             const vm = this;
             vm.record.requirements.push({

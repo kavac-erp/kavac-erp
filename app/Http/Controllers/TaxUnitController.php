@@ -1,11 +1,10 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\TaxUnit;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class TaxUnitController
@@ -14,6 +13,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar Unidades Tributarias (U.T.)
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -22,13 +22,11 @@ class TaxUnitController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:tax.unit.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:tax.unit.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:tax.unit.delete', ['only' => 'destroy']);
@@ -37,8 +35,6 @@ class TaxUnitController extends Controller
 
     /**
      * Listado de todas las unidades tributarias registradas
-     *
-     * @method    index
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -52,8 +48,6 @@ class TaxUnitController extends Controller
     /**
      * Registra una nueva unidad tributaria
      *
-     * @method    store
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Request    $request    Objeto con información de la petición
@@ -62,7 +56,7 @@ class TaxUnitController extends Controller
      */
     public function store(Request $request)
     {
-        /** @var array Arreglo con las reglas de validación */
+        // Arreglo con las reglas de validación
         $rules = [
             'value' => ['required', 'numeric'],
             'start_date' => ['required', 'date']
@@ -76,7 +70,7 @@ class TaxUnitController extends Controller
             'end_date.after' => 'La fecha final debe ser mayor a la fecha inicial'
         ]);
 
-        /** @var TaxUnit Objeto con información de la unidad tributaria registrada */
+        // Objeto con información de la unidad tributaria registrada
         $taxUnit = TaxUnit::create([
             'value' => $request->value,
             'start_date' => $request->start_date,
@@ -90,8 +84,6 @@ class TaxUnitController extends Controller
     /**
      * Actualiza la información de una unidad tributaria
      *
-     * @method    update
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Request    $request    Objeto con información de la petición
@@ -101,7 +93,7 @@ class TaxUnitController extends Controller
      */
     public function update(Request $request, TaxUnit $taxUnit)
     {
-        /** @var array Arreglo con las reglas de validación */
+        // Arreglo con las reglas de validación
         $rules = [
             'value' => ['required', 'numeric'],
             'start_date' => ['required', 'date']
@@ -126,8 +118,6 @@ class TaxUnitController extends Controller
 
     /**
      * Elimina una unidad tributaria
-     *
-     * @method    destroy
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

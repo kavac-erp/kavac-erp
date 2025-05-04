@@ -2,30 +2,38 @@
 
 namespace Modules\Accounting\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Institution as BaseInstitution;
 
+/**
+ * @class Institution
+ * @brief Clase que extiende la clase Institution de la aplicación base
+ *
+ * Gestiona la clase que extiende la clase Institution de la aplicación base
+ *
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class Institution extends BaseInstitution
 {
     /**
-     * Institution has many AccoutingEntry.
+     * Establece la relación con las entradas contables
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function accoutingEntry()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = institution_id, localKey = id)
-        return $this->hasMany(AccoutingEntry::class);
+        return $this->hasMany(AccountingEntry::class);
     }
 
     /**
-     * Institution has many .
+     * Establece la relación con el historial de reportes
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function accountingReportHistory()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = institution_id, localKey = id)
         return $this->hasMany(AccountingReportHistory::class);
     }
 }

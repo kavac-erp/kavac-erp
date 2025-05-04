@@ -7,11 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * @class UpdateFieldTypeToBudgetStagesTable
- * @brief [descripción detallada]
+ * @brief Actualiza el tipo de dato del campo 'type2' de la tabla 'budget_stages'
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Francisco J. P. Ruiz <fpenya@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -46,11 +44,11 @@ class UpdateFieldTypeToBudgetStagesTable extends Migration
                 if (!Schema::hasColumn('budget_stages', 'type')) {
                     $table->string('type', 3)->nullable()
                     ->comment(
-                        'Identifica las etapas presupuestarias del compromiso. Ej. 
-                        (PRE)compromiso, 
+                        'Identifica las etapas presupuestarias del compromiso. Ej.
+                        (PRE)compromiso,
                         (PRO)gramado,
-                        (COM)prometido, 
-                        (CAU)sado, 
+                        (COM)prometido,
+                        (CAU)sado,
                         (PAG)ado,
                         (ANU)lado'
                     );
@@ -81,10 +79,10 @@ class UpdateFieldTypeToBudgetStagesTable extends Migration
                     $table->enum('type', ['PRE', 'PRO', 'COM', 'CAU', 'PAG'])
                     ->default('PRE')
                     ->comment(
-                        'Identifica las etapas presupuestarias del compromiso. Ej. 
-                        (PRE)compromiso, 
+                        'Identifica las etapas presupuestarias del compromiso. Ej.
+                        (PRE)compromiso,
                         (PRO)gramado,
-                        (COM)prometido, 
+                        (COM)prometido,
                         (CAU)sado, (PAG)ado'
                     );
                 }

@@ -26,24 +26,40 @@ use Modules\Warehouse\Models\WarehouseMovement;
  * Clase que gestiona las recepciones de los productos al almacén
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseReceptionController extends Controller
 {
     use ValidatesRequests;
 
     /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
+    protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
+    protected $messages;
+
+    /**
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
 
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:warehouse.inventory.show', ['only' => ['index', 'vueInfo']]);
         $this->middleware('permission:warehouse.inventory.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:warehouse.inventory.edit', ['only' => ['edit', 'update']]);
@@ -51,7 +67,7 @@ class WarehouseReceptionController extends Controller
         $this->middleware('permission:warehouse.inventory.approve', ['only' => 'approvedReception']);
         $this->middleware('permission:warehouse.inventory.decline', ['only' => 'rejectedReception']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'warehouse_inventory_products' => ['required'],
             'warehouse_id' => ['required'],
@@ -62,7 +78,7 @@ class WarehouseReceptionController extends Controller
             'reception_date' => ['required']
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'institution_id.required' => 'El campo nombre de la organización es obligatorio.',
             'warehouse_id.required' => 'El campo nombre del almacén es obligatorio.',
@@ -78,7 +94,8 @@ class WarehouseReceptionController extends Controller
      * Muestra un listado de las Recepciones o Ingresos de Almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return Renderable (JSON con los registros a mostrar)
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -89,7 +106,8 @@ class WarehouseReceptionController extends Controller
      * Muestra el formulario para registrar un nuevo Ingreso de Almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return Renderable (JSON con los registros a mostrar)
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -106,8 +124,10 @@ class WarehouseReceptionController extends Controller
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -145,8 +165,6 @@ class WarehouseReceptionController extends Controller
             return response()->json(['result' => false, 'redirect' => route('warehouse.setting.index')], 200);
         }
 
-        /*********************************************************/
-
         $inst_ware = WarehouseInstitutionWarehouse::where('warehouse_id', $request->warehouse_id)
             ->where('institution_id', $request->institution_id)->first();
 
@@ -170,16 +188,16 @@ class WarehouseReceptionController extends Controller
                 $minimum = $product['minimum'];
                 $maximum = $product['maximum'];
 
-                /** Se busca en el inventario por producto y unidad si existe un registro previo */
+                /* Se busca en el inventario por producto y unidad si existe un registro previo */
 
                 $inventory = WarehouseInventoryProduct::where('warehouse_product_id', $product_id)
                     ->where('warehouse_institution_warehouse_id', $inst_ware->id)
                     ->where('unit_value', $value)->get();
 
-                /** Si existe un registro previo se verifican los atributos del nuevo ingreso */
+                /* Si existe un registro previo se verifican los atributos del nuevo ingreso */
                 if (count($inventory) > 0) {
                     foreach ($inventory as $product_inventory) {
-                        /** @var boolean $equal Define si los atributos coinciden con los registrados */
+                        /* Define si los atributos coinciden con los registrados */
                         $equal = true;
 
                         foreach ($product['warehouse_product_attributes'] as $attribute) {
@@ -195,7 +213,7 @@ class WarehouseReceptionController extends Controller
                                     ->where('warehouse_inventory_product_id', $product_inventory->id)->first();
 
                                 if (is_null($product_value)) {
-                                    /** si el valor de este atributo no existe, son diferentes */
+                                    /* si el valor de este atributo no existe, son diferentes */
                                     $equal = false;
                                     break;
                                 }
@@ -205,8 +223,7 @@ class WarehouseReceptionController extends Controller
                             }
                         }
                         if ($equal === true) {
-
-                            /** Se actualiza la regla de abastecimiento */
+                            /* Se actualiza la regla de abastecimiento */
                             if (isset($minimum)) {
                                 $rule = WarehouseInventoryRule::updateOrCreate([
                                     'warehouse_inventory_product_id' => $product_inventory->id,
@@ -217,7 +234,7 @@ class WarehouseReceptionController extends Controller
                                 ]);
                             }
 
-                            /** Se genera el movimiento, para su posterior aprobación */
+                            /* Se genera el movimiento, para su posterior aprobación */
                             $inventory_movement = WarehouseInventoryProductMovement::create([
                                 'quantity' => $quantity,
                                 'new_value' => $value,
@@ -228,9 +245,9 @@ class WarehouseReceptionController extends Controller
                     }
                 }
                 if ((count($inventory) == 0) || ($equal == false)) {
-                    /**
-                     * Si no existe un registro previo de ese producto en inventario o algún atributo es diferente
-                     * se genera un nuevo registro
+                    /*
+                     | Si no existe un registro previo de ese producto en inventario o algún atributo es diferente
+                     | se genera un nuevo registro
                      */
                     $codeSetting = CodeSetting::where('table', 'warehouse_inventory_products')->first();
 
@@ -307,8 +324,10 @@ class WarehouseReceptionController extends Controller
      * Muestra el formulario para editar un Ingreso de Almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @return Renderable
+     *
+     * @param  integer $id Identificador único del ingreso de almacén
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -321,9 +340,11 @@ class WarehouseReceptionController extends Controller
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id Identificador único del ingreso de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -347,7 +368,7 @@ class WarehouseReceptionController extends Controller
             $equal = null;
 
             $update = now();
-            /** Se agregan los nuevos elementos a la solicitud */
+            /* Se agregan los nuevos elementos a la solicitud */
 
             foreach ($request->warehouse_inventory_products as $product) {
                 $product_id = $product['warehouse_product_id'];
@@ -357,13 +378,13 @@ class WarehouseReceptionController extends Controller
                 $minimum = $product['minimum'];
                 $maximum = $product['maximum'];
 
-                /** Se busca en el inventario por producto y unidad si existe un registro previo */
+                /* Se busca en el inventario por producto y unidad si existe un registro previo */
 
                 $inventory = WarehouseInventoryProduct::where('warehouse_product_id', $product_id)
                     ->where('warehouse_institution_warehouse_id', $inst_ware->id)
                     ->where('unit_value', $value)->get();
 
-                /** Si existe un registro previo se verifican los atributos del nuevo ingreso */
+                /* Si existe un registro previo se verifican los atributos del nuevo ingreso */
                 if (count($inventory) > 0) {
                     foreach ($inventory as $product_inventory) {
                         $old_inventory = $product_movements->where(
@@ -373,7 +394,7 @@ class WarehouseReceptionController extends Controller
 
                         $equal =  (is_null($old_inventory)) ? false : true;
                         if ($equal == true) {
-                            /** Verificamos que tengan los mismos atributos */
+                            /* Verificamos que tengan los mismos atributos */
 
                             foreach ($product['warehouse_product_attributes'] as $attribute) {
                                 $name = $attribute['name'];
@@ -397,7 +418,7 @@ class WarehouseReceptionController extends Controller
                                     break;
                                 }
                             }
-                            /** Si todos los atributos de este producto son iguales ajustamos la existencia */
+                            /* Si todos los atributos de este producto son iguales ajustamos la existencia */
                             if ($equal == true) {
                                 $old_inventory->quantity = $quantity;
                                 $old_inventory->new_value = $value;
@@ -418,9 +439,7 @@ class WarehouseReceptionController extends Controller
                         }
                     }
                 }
-                /** Si no existe un registro previo de ese producto en inventario
-                 * ó algún atributo es diferente (se genera un nuevo registro)
-                 */
+                /* Si no existe un registro previo de ese producto en inventario ó algún atributo es diferente (se genera un nuevo registro) */
                 if ((count($inventory) == 0) || ($equal == false)) {
                     $codeSetting = CodeSetting::where('table', 'warehouse_inventory_products')->first();
 
@@ -473,7 +492,7 @@ class WarehouseReceptionController extends Controller
                 }
             }
 
-            /** Se eliminan los demas elementos de la solicitud */
+            /* Se eliminan los demas elementos de la solicitud */
             $warehouse_inventory_product_movements = WarehouseInventoryProductMovement::where(
                 'warehouse_movement_id',
                 $warehouse_movement->id
@@ -491,8 +510,10 @@ class WarehouseReceptionController extends Controller
      * Elimina un ingreso de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del ingreso de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -505,8 +526,10 @@ class WarehouseReceptionController extends Controller
      * Vizualiza la información de una recepción o ingreso de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del movimiento de almacén
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del movimiento de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function vueInfo($id)
@@ -531,6 +554,7 @@ class WarehouseReceptionController extends Controller
      * Obtiene un listado de los ingresos de almacén registrados
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse Objeto con los registros a mostrar
      */
     public function vueList()
@@ -562,9 +586,11 @@ class WarehouseReceptionController extends Controller
      * Rechaza el ingreso de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del ingreso de almacén
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function rejectedReception(Request $request, $id)
     {
@@ -580,9 +606,11 @@ class WarehouseReceptionController extends Controller
      * Aprueba el ingreso de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del ingreso de almacén
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function approvedReception(Request $request, $id)
     {

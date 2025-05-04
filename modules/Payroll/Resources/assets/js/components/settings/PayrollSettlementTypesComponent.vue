@@ -51,10 +51,8 @@
                                     <!-- <label>Concepto:</label> -->
 									<label>Tipo de pago de nómina</label>
     								<!-- <select2 :options="payroll_concepts" -->
-									<select2 :options="payroll_payment_types" 
+									<select2 :options="payroll_payment_types"
 										v-model="record.payroll_payment_types_id">
-    									<!-- v-model="record.payroll_concept_id"> -->
-										
     								</select2>
         	                    </div>
                             </div>
@@ -72,15 +70,15 @@
 	                </div>
 					<div class="modal-footer">
 	                	<div class="form-group">
-	                		<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+	                		<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('payroll/settlement-types')" 
+							<button type="button" @click="createRecord('payroll/settlement-types')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -117,12 +115,10 @@
 					id: '',
 					name: '',
                     motive: '',
-                    // payroll_concept_id: '',
-					payroll_payment_types_id: '',
+                    payroll_payment_types_id: '',
 				},
 				errors: [],
 				records: [],
-                // payroll_concepts: [],
 				payroll_payment_types: [],
 				columns: ['name', 'motive', 'id'],
 			}
@@ -160,7 +156,6 @@
 		mounted() {
             const vm = this;
             $("#add_payroll_settlement_type").on('show.bs.modal', function() {
-                // vm.getPayrollConcepts();
 				vm.getPayrollPaymentTypes();
             });
         },

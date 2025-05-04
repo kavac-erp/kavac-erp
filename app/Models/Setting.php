@@ -1,12 +1,11 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
+use App\Traits\ModelsTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
@@ -14,6 +13,15 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * @brief Datos de Configuraciones
  *
  * Gestiona el modelo de datos para las configuraciones generales del sistema
+ *
+ * @property boolean $support
+ * @property boolean $chat
+ * @property boolean $notify
+ * @property boolean $report_banner
+ * @property boolean $multi_institution
+ * @property boolean $digital_sign
+ * @property boolean $active
+ * @property boolean $multi_warehouse
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -24,6 +32,7 @@ class Setting extends Model implements Auditable
 {
     use SoftDeletes;
     use AuditableTrait;
+    use ModelsTrait;
 
     /**
      * Lista de atributos para la gestión de fechas

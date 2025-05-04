@@ -16,6 +16,7 @@ use App\Rules\CodeSetting as CodeSettingRule;
  * Clase que gestiona la configuración general del módulo de bienes
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -27,10 +28,12 @@ class AssetSettingController extends Controller
      * Define la configuración de la clase
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:asset.setting', ['only' => 'index']);
     }
 
@@ -38,6 +41,7 @@ class AssetSettingController extends Controller
      * Muestra la configuración del módulo de bienes
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    Renderable
      */
     public function index()
@@ -49,14 +53,27 @@ class AssetSettingController extends Controller
         $rpCode = $codeSettings->where('table', 'asset_reports')->first();
         $ivCode = $codeSettings->where('table', 'asset_inventories')->first();
         $dpCode = $codeSettings->where('table', 'asset_depreciations')->first();
-        return view('asset::settings', compact('codeSettings', 'asCode', 'dsCode', 'rqCode', 'rpCode', 'ivCode', 'dpCode'));
+        return view(
+            'asset::settings',
+            compact(
+                'codeSettings',
+                'asCode',
+                'dsCode',
+                'rqCode',
+                'rpCode',
+                'ivCode',
+                'dpCode'
+            )
+        );
     }
 
     /**
      * Valida y registra la configuración de códigos del módulo de bienes
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
+     *
      * @return    Renderable
      */
     public function store(Request $request)
@@ -71,13 +88,13 @@ class AssetSettingController extends Controller
             'depreciations_code' => [new CodeSettingRule()]
         ]);
 
-        /** @var array Arreglo con información de los campos de códigos configurados */
+        /* Arreglo con información de los campos de códigos configurados */
         $codes = $request->input();
-        /** @var boolean Define el estatus verdadero para indicar que no se ha registrado información */
+        /* Define el estatus verdadero para indicar que no se ha registrado información */
         $saved = false;
 
         foreach ($codes as $key => $value) {
-            /** @var string Define el modelo al cual hace referencia el código */
+            /* Define el modelo al cual hace referencia el código */
             $model = '';
 
             if ($key !== '_token' && !is_null($value)) {
@@ -85,22 +102,22 @@ class AssetSettingController extends Controller
                 list($prefix, $digits, $sufix) = CodeSetting::divideCode($value);
 
                 if ($table === "asignations") {
-                    /** @var string Define el modelo para asociado a las asignaciones de bienes */
+                    /* Define el modelo para asociado a las asignaciones de bienes */
                     $model = \Modules\Asset\Models\AssetAsignation::class;
                 } elseif ($table === "disincorporations") {
-                    /** @var string Define el modelo para asociado a las desincorporaciones de bienes */
+                    /* Define el modelo para asociado a las desincorporaciones de bienes */
                     $model = \Modules\Asset\Models\AssetDisincorporation::class;
                 } elseif ($table === "requests") {
-                    /** @var string Define el modelo para asociado a las solicitudes de bienes */
+                    /* Define el modelo para asociado a las solicitudes de bienes */
                     $model = \Modules\Asset\Models\AssetRequest::class;
                 } elseif ($table === "reports") {
-                    /** @var string Define el modelo para asociado a los reportes de bienes */
+                    /* Define el modelo para asociado a los reportes de bienes */
                     $model = \Modules\Asset\Models\AssetReport::class;
                 } elseif ($table === "inventories") {
-                    /** @var string Define el modelo para asociado al inventario de bienes */
+                    /* Define el modelo para asociado al inventario de bienes */
                     $model = \Modules\Asset\Models\AssetInventory::class;
                 } elseif ($table === "depreciations") {
-                    /** @var string Define el modelo para asociado al inventario de bienes */
+                    /* Define el modelo para asociado al inventario de bienes */
                     $model = \Modules\Asset\Models\AssetDepreciation::class;
                 }
 
@@ -122,7 +139,7 @@ class AssetSettingController extends Controller
                     ]);
                 }
 
-                /** @var boolean Define el estatus verdadero para indicar que se ha registrado información */
+                /* Define el estatus verdadero para indicar que se ha registrado información */
                 $saved = true;
             }
         }
@@ -133,7 +150,7 @@ class AssetSettingController extends Controller
             $request->session()->flash('message', [
                 'type' => 'other', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'growl-danger',
                 'text' => 'No se registro ningún cambio'
-                ]);
+            ]);
         }
 
         return redirect()->back();

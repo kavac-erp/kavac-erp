@@ -1,7 +1,8 @@
 <template>
     <div>
         <a class="btn btn-info btn-xs btn-icon btn-action" href="javascript:void(0)"
-            title="Ver información del registro" data-toggle="tooltip" @click="initRecord(url)">
+            title="Ver información del registro" aria-label="Ver información del registro" data-toggle="tooltip"
+            @click="initRecord(url)">
             <i class="fa fa-eye"></i>
         </a>
         <div class="modal fade text-left" tabindex="-1" role="dialog" :id='"view_project" + modal_id'>
@@ -73,10 +74,18 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <strong>Tipo de produto:</strong>
-                                            <div class="row" style="margin: 1px 0">
+                                            <strong>Tipos de producto: </strong>
+                                            <div class="row" style="margin: 1px 0"
+                                                v-if="record?.product_types.length > 0"
+                                                v-for="(productType, index) in record.product_types" :key="index">
                                                 <span class="col-md-12">
-                                                    {{ record.type_product_id ? record.type_product.name : 'N/A' }}
+                                                    <!-- {{ record.type_product_id ? record.type_product.name : 'N/A' }} -->
+                                                    {{ productType.name ? productType.name : 'N/A' }}{{ index <
+                                                        record.product_types.length - 1 ? ', ' : '' }} </span>
+                                            </div>
+                                            <div class="row" style="margin: 1px 0" v-else>
+                                                <span class="col-md-12">
+                                                    N/A
                                                 </span>
                                             </div>
                                         </div>
@@ -86,7 +95,8 @@
                                             <strong>Responsable del proyecto:</strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                    {{ record.responsable.first_name ? record.responsable.first_name : record.responsable.name }} 
+                                                    {{ record.responsable.first_name ? record.responsable.first_name :
+                                                        record.responsable.name }}
                                                     {{ record.responsable.last_name }}
                                                 </span>
                                             </div>
@@ -97,7 +107,8 @@
                                             <strong>Monto de financiamiento:</strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                    {{ (record.financing_amount && record.currency_id) ? record.currency.symbol + '. ' + record.financing_amount : 'N/A'}}
+                                                    {{ (record.financing_amount && record.currency_id) ?
+                                                        record.currency.symbol + '. ' + record.financing_amount : 'N/A' }}
                                                 </span>
                                             </div>
                                         </div>

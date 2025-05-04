@@ -1,0 +1,7 @@
+<map id="Tax" name="Tax">
+<area shape="rect" id="Node000001" title="Datos de Impuestos." alt="" coords="135,5,230,111"/>
+<area shape="rect" id="Node000002" href="$d6/db0/classModules_1_1Purchase_1_1Models_1_1Tax.html" title="Extiende del modelo de impuestos de la aplicación base." alt="" coords="5,159,181,224"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,124,117,160,113,157,138,121"/>
+<area shape="rect" id="Node000003" href="$d9/d68/classModules_1_1Purchase_1_1Models_1_1User.html" title="Extiende del modelo de usuario de la aplicación base." alt="" coords="205,159,339,224"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,121,253,157,248,160,223,124"/>
+</map>

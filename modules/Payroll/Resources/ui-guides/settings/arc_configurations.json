@@ -1,0 +1,15 @@
+[
+    {
+        "element" : "#helpPayrollArcConfigurations",
+        "intro" : "Esta sección permite gestionar la configuración del responsable de la planilla ARC."
+    },
+    {
+        "element" : "#helpResponsibleARC",
+        "intro" : "En este campo, se puede especificar el responsable de la planilla ARC."
+    },
+    {
+        "element" : "#helpParamArc",
+        "intro" : "Botones para ejecutar las acciones de limpiar, cancelar o guardar los datos del formulario",
+        "position" : "left"
+    }
+]

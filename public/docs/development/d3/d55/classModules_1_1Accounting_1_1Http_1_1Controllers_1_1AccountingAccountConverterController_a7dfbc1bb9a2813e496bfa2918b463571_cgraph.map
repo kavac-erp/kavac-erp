@@ -1,0 +1,5 @@
+<map id="getAllRecordsBudgetVuejs" name="getAllRecordsBudgetVuejs">
+<area shape="rect" id="Node000001" title="Registros de las cuentas presupuestarias al componente." alt="" coords="5,5,199,31"/>
+<area shape="rect" id="Node000002" href="$d3/d55/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountConverterController.html#a824c486c664700a0d40a8f0961ba1545" title="Consulta los registros del modelo BudgetAccount que posean conversión." alt="" coords="247,5,388,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,15,233,15,233,21,199,21"/>
+</map>

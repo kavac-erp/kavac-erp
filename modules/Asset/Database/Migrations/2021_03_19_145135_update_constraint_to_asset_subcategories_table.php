@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class UpdateConstraintToAssetSubcategoriesTable
- * @brief [descripción detallada]
+ * @brief Actualiza el constraint de la tabla de subcategorías de bienes
  *
- * [descripción corta]
+ * Actualiza el constraint de la tabla de subcategorías de bienes
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Yennifer Ramírez <yramirez@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

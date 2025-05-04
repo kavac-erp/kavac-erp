@@ -380,7 +380,7 @@
                 <i class="fa fa-save"></i>
             </button>
         </div>
-    </div>  
+    </div>
 </template>
 <script>
 export default {
@@ -578,9 +578,8 @@ export default {
                     vm.loading = false;
                     vm.showMessage('store');
                     setTimeout(function() {
-                        //location.href = url;
                         location.href = `${window.app_url}/purchase/requirements`;
-                        
+
                     }, 2000);
                 }).catch(error => {
                     vm.errors = [];
@@ -695,7 +694,7 @@ export default {
 
         /**
          * Agrega el producto
-         * 
+         *
          * @author     Daniel Contreras <dcontreras@cenditel.gob.ve>
          */
         addProduct(){
@@ -745,7 +744,7 @@ export default {
 
         /**
          * Edita el producto
-         * 
+         *
          * @author     Pedro Contreras <pmcontreras@cenditel.gob.ve>
          */
          editProduct(index, event){

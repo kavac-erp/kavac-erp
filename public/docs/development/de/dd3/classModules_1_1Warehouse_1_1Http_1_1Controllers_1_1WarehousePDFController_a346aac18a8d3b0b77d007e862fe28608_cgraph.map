@@ -1,0 +1,5 @@
+<map id="createForWarehouse" name="createForWarehouse">
+<area shape="rect" id="Node000001" title="Crea un informe de productos en almacén para un almacén específico." alt="" coords="5,5,160,31"/>
+<area shape="rect" id="Node000002" href="$de/dd3/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehousePDFController.html#a3e4f63c651fd90d54253f6299d677ff4" title="Genera un informe de productos en almacén en formato PDF." alt="" coords="208,5,315,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,15,194,15,194,21,160,21"/>
+</map>

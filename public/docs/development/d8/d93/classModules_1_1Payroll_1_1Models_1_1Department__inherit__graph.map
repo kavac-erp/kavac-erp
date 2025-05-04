@@ -1,3 +1,5 @@
 <map id="Department" name="Department">
-<area shape="rect" id="node1" title="Datos de departamento." alt="" coords="5,5,244,97"/>
+<area shape="rect" id="Node000001" title="Datos de departamento." alt="" coords="5,239,235,324"/>
+<area shape="rect" id="Node000002" href="$d8/dd3/classApp_1_1Models_1_1Department.html" title="Datos de las Unidades, Departamentos o Dependencias." alt="" coords="60,5,180,191"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,204,123,239,117,239,117,204"/>
 </map>

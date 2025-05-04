@@ -1,8 +1,9 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -19,8 +20,6 @@ class $CLASS$ extends JsonResource
 {
     /**
      * Transforma el recurso de colección en un arreglo.
-     *
-     * @method toArray
      *
      * @param  \Illuminate\Http\Request     Objeto con datos de la petición
      *

@@ -60,9 +60,9 @@
         </div>
         <!-- Final de filtros de la tabla -->
         <hr>
-        <v-client-table
+        <v-server-table
             :columns="columns"
-            :data="records"
+            :url="'purchase/direct_hire/vue-list'"
             :options="table_options"
         >
             <div slot="date" slot-scope="props" class="text-center">
@@ -111,10 +111,7 @@
                     </template>
                     <template v-else>
                         <button
-                            v-show="
-                                props.row.status_pay_order != 'AP'
-                                && props.row.status_pay_order != 'PA'
-                            "
+                            v-show="props.row.status == 'WAIT'"
                             class="btn btn-warning btn-xs btn-icon btn-action"
                             title="Modificar registro"
                             data-toggle="tooltip"
@@ -124,10 +121,7 @@
                             <i class="fa fa-edit"></i>
                         </button>
                         <button
-                            v-show="
-                                props.row.status_pay_order != 'AP'
-                                && props.row.status_pay_order != 'PA'
-                            "
+                            v-show="props.row.status == 'WAIT'"
                             @click="deleteRecord(props.row.id, '/purchase/direct_hire')"
                             class="btn btn-danger btn-xs btn-icon btn-action"
                             title="Eliminar registro"
@@ -139,7 +133,7 @@
                     </template>
                 </div>
             </div>
-        </v-client-table>
+        </v-server-table>
     </section>
 </template>
 <script>

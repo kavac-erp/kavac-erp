@@ -7,7 +7,8 @@ var classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTyp
     [ "getTypeProducts", "de/d04/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTypeProductsController.html#aa7badfc7a8a384be47277403947bb352", null ],
     [ "index", "de/d04/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTypeProductsController.html#a149eb92716c1084a935e04a8d95f7347", null ],
     [ "show", "de/d04/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTypeProductsController.html#ae4914d07a9bbe4aede7a5dea759f6287", null ],
+    [ "store", "de/d04/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTypeProductsController.html#a9ef485163104597c12185b53cdacf638", null ],
     [ "update", "de/d04/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTypeProductsController.html#a28e52e36e909bbf1bc2f92198ac77c7a", null ],
-    [ "$messages", "de/d04/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTypeProductsController.html#ae7715468b3957bb3cc52320a1da96b7e", null ],
-    [ "$validateRules", "de/d04/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTypeProductsController.html#a08fdb9625ef4d58fe9846c962a0b0dd6", null ]
+    [ "$messages", "de/d04/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTypeProductsController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f", null ],
+    [ "$validateRules", "de/d04/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTypeProductsController.html#a19db8a4aa08742d71b20bee403d09b5d", null ]
 ];

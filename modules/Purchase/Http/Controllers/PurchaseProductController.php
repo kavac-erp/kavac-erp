@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Purchase\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -12,14 +10,13 @@ use Maatwebsite\Excel\Facades\Excel;
 use Modules\Purchase\Models\PurchaseProduct;
 use Modules\Purchase\Exports\PurchaseProductExport;
 use Modules\Purchase\Imports\PurchaseProductImport;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @class PurchaseProductController
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -30,13 +27,15 @@ class PurchaseProductController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -44,16 +43,18 @@ class PurchaseProductController extends Controller
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name' => ['required'],
             'code' => ['required', 'max:300', 'unique:purchase_products,code'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required' => 'El campo nombre del insumo o producto es obligatorio.',
             'name.max' => 'El campo nombre del insumo o producto no debe ser mayor que 300 caracteres.',
@@ -64,13 +65,9 @@ class PurchaseProductController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Obtiene la lista de productos
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -78,13 +75,9 @@ class PurchaseProductController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para registrar un nuevo producto
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -92,15 +85,11 @@ class PurchaseProductController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena un nuevo producto
      *
-     * @method    store
+     * @param     Request    $request    Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -115,15 +104,11 @@ class PurchaseProductController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información de un producto
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -131,15 +116,11 @@ class PurchaseProductController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario para editar un nuevo producto
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -147,16 +128,12 @@ class PurchaseProductController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza los datos de un producto
      *
-     * @method    update
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -175,15 +152,11 @@ class PurchaseProductController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina un producto
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -197,7 +170,8 @@ class PurchaseProductController extends Controller
      * Realiza la acción necesaria para exportar los datos del modelo PurchaseProduct
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return object    Objeto que permite descargar el archivo con la información a ser exportada
+     *
+     * @return BinaryFileResponse    Objeto que permite descargar el archivo con la información a ser exportada
      */
     public function export()
     {
@@ -209,7 +183,7 @@ class PurchaseProductController extends Controller
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return JsonResponse    Objeto que permite cargar el archivo con la información a ser importada
+     * @return \Illuminate\Http\JsonResponse    Objeto que permite cargar el archivo con la información a ser importada
      */
     public function import(Request $request)
     {
@@ -220,10 +194,9 @@ class PurchaseProductController extends Controller
     /**
      * Obtiene los datos de los productos registrados
      *
-     * @method    getProducts
+     * @param     Request    $request    Datos de la petición
      *
-     * @param     object    Request    $request    Objeto con datos de la petición
-     *
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function getProducts(Request $request)
     {

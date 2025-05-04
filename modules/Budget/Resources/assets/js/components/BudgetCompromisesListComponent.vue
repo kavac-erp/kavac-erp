@@ -137,12 +137,13 @@
                     </button>
                 </template>
                 <template v-if="
-                        (lastYear && format_date(props.row.compromised_at, 'YYYY') <= lastYear 
+                        (lastYear && format_date(props.row.compromised_at, 'YYYY') <= lastYear
                         || (props.row.exist_pay_order && props.row.status_pay_order
                         && props.row.status_pay_order != 'AN')
                         || props.row.status === 'AP'
                         || props.row.status === 'CAU'
                         || props.row.status === 'AN'
+                        || props.row.status === 'PA'
                     )">
                     <button
                         class="btn btn-warning btn-xs btn-icon btn-action"
@@ -164,32 +165,6 @@
                         <i class="fa fa-edit"></i>
                     </button>
                 </template>
-                <!-- <template v-if="
-                        (lastYear && format_date(props.row.compromised_at, 'YYYY') <= lastYear 
-                        || props.row.exist_pay_order
-                        || props.row.status === 'AP'
-                        || props.row.status === 'AN'
-                    )">
-                    <button
-                        class="btn btn-danger btn-xs btn-icon btn-action"
-                        type="button"
-                        title="Eliminar registro"
-                        disabled
-                    >
-                        <i class="fa fa-trash-o"></i>
-                    </button>
-                </template>
-                <template v-else>
-                    <button
-                        class="btn btn-danger btn-xs btn-icon btn-action"
-                        type="button"
-                        data-toggle="tooltip"
-                        title="Eliminar registro"
-                        @click="deleteRecord(props.row.id, '')"
-                    >
-                        <i class="fa fa-trash-o"></i>
-                    </button>
-                </template> -->
                 <a
                     class="btn btn-primary btn-xs btn-icon"
                     title="Imprimir registro"
@@ -202,8 +177,8 @@
                 </a>
                 <budget-cancel-compromise
                     v-if="
-                        (cancelBudgetCompromisePermission
-                        && props.row.status === 'AP')
+                        cancelBudgetCompromisePermission
+                        && props.row.status === 'AP'
                     "
                     :cancelBudgetCompromisePermission="
                         cancelBudgetCompromisePermission
@@ -256,6 +231,7 @@
                 columns: [
                     'compromised_at',
                     'code',
+                    'document_number',
                     'code_acc',
                     'description',
                     'status',
@@ -273,17 +249,19 @@
             this.table_options.headings = {
                 'compromised_at': 'Fecha de generación',
                 'code': 'Código del compromiso',
+                'document_number': 'Documento de origen',
                 'code_acc': 'Código de la Acción Específica',
                 'description': 'Descripción',
                 'status': 'Estatus',
                 'id': 'Acción'
             };
-            this.table_options.sortable = ['code', 'code_acc', 'compromised_at', 'description'];
-            this.table_options.filterable = ['code', 'code_acc', 'compromised_at', 'description'];
+            this.table_options.sortable = ['code', 'document_number', 'code_acc', 'compromised_at', 'description'];
+            this.table_options.filterable = ['code', 'document_number', 'code_acc', 'compromised_at', 'description'];
             this.table_options.columnsClasses = {
-                'compromised_at': 'col-md-2',
+                'compromised_at': 'col-md-1',
                 'code': 'col-md-2 text-center',
-                'code_acc': 'col-md-2',
+                'document_number': 'col-md-2 text-center',
+                'code_acc': 'col-md-1',
                 'description': 'col-md-2',
                 'status': 'col-md-2',
                 'id': 'col-md-2 text-center'
@@ -392,7 +370,7 @@
                         record.total += parseFloat(r.amount);
                     }
                 }
-                
+
                 return record.total;
             },
 
@@ -475,7 +453,6 @@
             // Obtener la lista de todos los compromisos.
             let url = this.setUrl('budget/compromises/list/all');
             axios.get(url).then(response => {
-                // this.records = response.data.records;
                 this.cancelBudgetCompromisePermission = response.data.cancelBudgetCompromisePermission;
                 this.approveBudgetCompromisePermission = response.data.approveBudgetCompromisePermission;
                 // Variable usada para el reseteo de los filtros de la tabla.

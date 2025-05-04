@@ -30,7 +30,7 @@ class CreateSaleSettingFrecuenciesTable extends Migration
             $table->string('name', 100)
                 ->nullable()
                 ->comment('Nombre');
-            
+
             $table->timestamps();
             $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');
         });

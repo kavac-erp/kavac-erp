@@ -28,7 +28,7 @@
 					</div>
 				</div>
 				@php
-					$roles = App\Roles\Models\Role::with('permissions')->where('slug', '<>', 'user')->get();
+					$roles = App\Roles\Models\Role::with('permissions')->get();
 					$permissions = App\Roles\Models\Permission::with('roles')->orderBy('model_prefix')->get();
 				@endphp
 				<roles-permissions

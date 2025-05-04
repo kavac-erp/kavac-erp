@@ -37,16 +37,6 @@
                             </div>col-6
                         </div>
                         <div class="row">
-                            <!--<div class="col-6 col-md-6">
-                                <div class="form-group is-required">
-                                    <label>Nombre del Proceso:</label>
-                                    <input type="text" placeholder="Nombre" data-toggle="tooltip"
-                                      v-input-mask data-inputmask-regex="[a-zA-ZÁ-ÿ\s]*$"
-                                           title="Indique el nombre del proceso (requerido)"
-                                           class="form-control input-sm" v-model="record.name" v-is-text required>
-                                    <input type="hidden" v-model="record.id">
-                                </div>
-                            </div>-->    
                             <div class="col-6 col-md-6">
                                 <div class="form-group is-required">
                                     <label>Nombre de la Actividad:</label>
@@ -54,7 +44,7 @@
                                            title="Indique el Nombre de la Actividad"
                                            class="form-control input-sm" v-model="record.name_activity">
                                 </div>
-                            </div> 
+                            </div>
                             <div class="col-12 col-md-6">
                                 <div class="form-group is-required">
                                     <label>Orden:</label>
@@ -64,8 +54,8 @@
                                         class="form-control input-sm" v-model="record.orden" required>
                                 </div>
                             </div>
-                        </div> 
-                        <div class="row">  
+                        </div>
+                        <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="form-group is-required">
                                     <label>Tipo de Proyecto:</label>
@@ -82,7 +72,7 @@
 			                        <select2 :options="type_products"
 					                   	data-toggle="tooltip"
 					                	title="Seleccione un Tipo de Producto"
-						               v-model="record.project_tracking_type_products_id">   
+						               v-model="record.project_tracking_type_products_id">
                                     </select2>
 			                  </div>
                             </div>
@@ -92,25 +82,21 @@
                                     <input type="text" placeholder="Descripción de la Actividad" data-toggle="tooltip"
                                            title="Indique la descripción de la actividad"
                                            class="form-control input-sm" v-model="record.description">
-                                    <!--<ckeditor :editor="ckeditor.editor" data-toggle="tooltip"
-                                              title="Indique la descripción del tipo de producto"
-                                              :config="ckeditor.editorConfig" class="form-control"
-                                              tag-name="textarea" rows="3"* v-model="record.description"></ckeditor>-->
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('projecttracking/activity')" 
+							<button type="button" @click="createRecord('projecttracking/activity')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -147,51 +133,47 @@
         data() {
             return {
                 record: {
-                    id: '',                   
-                    //name: '',
+                    id: '',
                     name_activity:'',
-                    description: '',                   
+                    description: '',
                     orden: '',
                     project_tracking_type_products_id:'',
                     project_tracking_project_types_id:'',
-  
+
                 },
                 errors: [],
                 records: [],
                 type_products: [],
                 type_projects: [],
-                //columns: ['name', 'orden', 'name_activity', 'description','id'],
                 columns: ['name_activity', 'description', 'orden', 'id'],
             }
         },
         props: {
-           
+
         },
         methods: {
-          
+
             reset() {
                 this.record = {
-                    id: '',                   
+                    id: '',
                     //name: '',
                     name_activity:'',
-                    description: '',                   
+                    description: '',
                     orden: '',
                     project_tracking_type_products_id:'',
                     project_tracking_project_types_id:'',
-            
+
                 };
             },
-            
+
             getTypesProducts() {
 				const vm = this;
-				//vm.asset_conditions = [];
 				axios.get(`${window.app_url}/projecttracking/get-type-products`).then(response => {
 					vm.type_products = response.data;
 				});
 			},
             getTypesProjects() {
                 const vm = this;
-                //vm.asset_conditions = [];
                 axios.get(`${window.app_url}/projecttracking/get-type-projects`).then(response => {
                     vm.type_projects = response.data;
                 });
@@ -201,7 +183,7 @@
             const vm = this;
             this.table_options.headings = {
                 'name_activity': 'Nombre de la Actividad',
-                'description': 'Descripción',             
+                'description': 'Descripción',
                 'orden': 'Orden',
                 'id': 'Acción'
             };
@@ -209,7 +191,7 @@
             this.table_options.filterable = ['name_activity', 'description', 'orden'];
             this.table_options.columnsClasses = {
                 'name_activity': 'col-md-3',
-                'description': 'col-md-3',              
+                'description': 'col-md-3',
                 'orden': 'col-md-3',
                 'id': 'col-md-2'
             };
@@ -218,10 +200,7 @@
            	const vm = this;
             vm.getTypesProducts();
             vm.getTypesProjects();
-			/*if (vm.assetid) {
-				vm.loadForm(vm.assetid);
-			} */
-         
+
         }
     };
 </script>

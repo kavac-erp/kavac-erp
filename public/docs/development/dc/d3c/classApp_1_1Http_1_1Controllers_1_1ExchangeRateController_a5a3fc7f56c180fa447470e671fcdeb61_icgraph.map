@@ -1,0 +1,5 @@
+<map id="checkAlreadyExchange" name="checkAlreadyExchange">
+<area shape="rect" id="Node000001" title="Determina si el tipo de cambio con la moneda de origen y destino ya existe, en caso de que exista des..." alt="" coords="108,5,281,31"/>
+<area shape="rect" id="Node000002" href="$dc/d3c/classApp_1_1Http_1_1Controllers_1_1ExchangeRateController.html#a9ef485163104597c12185b53cdacf638" title="Registra un nuevo tipo de cambio de moneda." alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,21,60,21,60,15,94,15"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="pdfSign" name="pdfSign">
+<area shape="rect" id="Node000001" title="[pdf vista en la que se genera el reporte en pdf del libro diario]" alt="" coords="5,80,76,105"/>
+<area shape="rect" id="Node000002" href="$d9/d28/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingDailyBookController.html#ab0ddffde595d12d9c85da6f4c1eb2605" title="Encuentra los tipos de cambio." alt="" coords="124,5,305,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="58,78,88,58,123,40,142,32,144,37,125,44,90,63,61,82"/>
+<area shape="rect" id="Node000003" href="$d9/d28/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingDailyBookController.html#a6f3d70e44a5afea25eb600c5e19f6a29" title="Realiza la conversion de saldo." alt="" coords="142,55,287,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="76,85,128,77,129,83,77,90"/>
+<area shape="rect" id="Node000004" href="$d9/d28/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingDailyBookController.html#ac3cf5a88085580b7a687ee3ed9f3b605" title="Función para obtener los registros." alt="" coords="167,104,262,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="77,95,154,106,153,111,76,100"/>
+<area shape="rect" id="Node000005" href="$d9/d28/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingDailyBookController.html#abf60f8c2a16cb6270ec1b58d3651befe" title="Función para mezclar records." alt="" coords="167,153,262,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="62,103,125,138,155,149,153,154,123,143,60,108"/>
+</map>

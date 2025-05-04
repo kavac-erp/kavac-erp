@@ -14,7 +14,7 @@ A través de los registros iniciales se completa la **Configuración** del módu
 
 Las secciones **Convertidor de Cuentas** y **Asientos Contables** corresponden a las principales funcionalidades para la gestión contable, desde estas secciones es posible establecer las relaciones entre las cuentas patrimoniales y presupuestarias, consultar conversiones, crear un asiento contable, consultar asientos contables aprobados o sin aprobar y aprobar asientos contables.
 
-Los **Reportes** generados, se dividen en reportes de libros contables y estados financieros, esta funcionalidad permite tener una vista instantánea de las finanzas de la organización a través del estado de cada libro contable sean estos: libro diario, mayor analítico y libro auxiliar; y de los estados financieros, tales como balance de comprobación, estado de resultados y balance general. 
+Los **Reportes** generados, se dividen en reportes de libros contables y estados financieros, esta funcionalidad permite tener una vista instantánea de las finanzas de la organización a través del estado de cada libro contable sean estos: libro diario, mayor analítico y libro auxiliar; y de los estados financieros, tales como balance de comprobación, estado de resultados y balance general.
 
 En las secciones posteriores de este manual se detalla con mayor especificación sobre las funcionalidades de este módulo.
 
@@ -37,8 +37,8 @@ Nombre del producto: KAVAC ‘Sistema de Gestión de Recursos’
 
    Nombre del licenciante y año: Licencia Combinada de Software y Contenidos de la Fundación CENDITEL. Versión 1.2 (Año: 2015).
 
-   **Créditos**: 
-   
+   **Créditos**:
+
    **Líder de proyecto / Diseño / Desarrollo / Autor / Director de Desarrollo (2021)**
 
 - Roldan Vargas (rvargas@cenditel.gob.ve | roldandvg@gmail.com)
@@ -48,31 +48,31 @@ Nombre del producto: KAVAC ‘Sistema de Gestión de Recursos’
 
  Analistas Activos
 
-- Mariangel Molero (mmolero@cenditel.gob.ve) 
+- Mariangel Molero (mmolero@cenditel.gob.ve)
 - Kleivymar Montilla (kmontilla@cenditel.gob.ve)
 - María Auxiliadora Morales (mmorales@cenditel.gob.ve)
-- Ramón Gil (rgil@cenditel.gob.ve) 
+- Ramón Gil (rgil@cenditel.gob.ve)
 - Hildayra Colmenares (hcolmenares@cenditel.gob.ve)
- 
+
  Analistas Inactivos
 
-- Luis Ramírez (lgramirez@cenditel.gob.ve) 
-- Marilyn Caballero (mcaballero@cenditel.gob.ve) 
+- Luis Ramírez (lgramirez@cenditel.gob.ve)
+- Marilyn Caballero (mcaballero@cenditel.gob.ve)
 - Julie Vera (jvera@cenditel.gob.ve)
 - María Laura Gonzalez (mgonzalez@cenditel.gob.ve)
 - Francisco Berbesi (fberbesi@cenditel.gob.ve)
-   
+
    **Desarrolladores**
 
 Desarrolladores Activos
 
-- Henry Paredes (henryp2804@gmail.com) 
-- Juan Rosas (jrosas@cenditel.gob.ve) 
-- Yennifer Ramírez (yramirez@cenditel.gob.ve) 
-- Pedro Buitrago (pbuitrago@cenditel.gob.ve) 
-- Angelo Osorio (adosorio@cenditel.gob.ve) 
-- Daniel Contreras (dcontreras@cenditel.gob.ve) 
-- Miguel Narváez (mnarvaez@cenditel.gob.ve) 
+- Henry Paredes <henryp2804@gmail.com>
+- Juan Rosas (jrosas@cenditel.gob.ve)
+- Yennifer Ramírez (yramirez@cenditel.gob.ve)
+- Pedro Buitrago (pbuitrago@cenditel.gob.ve)
+- Angelo Osorio (adosorio@cenditel.gob.ve)
+- Daniel Contreras (dcontreras@cenditel.gob.ve)
+- Miguel Narváez (mnarvaez@cenditel.gob.ve)
 - Argenis Osorio (aosorio@cenditel.gob.ve)
 - Francisco Ruiz (fruiz@cenditel.gob.ve)
 - Francisco Escala (fescala@cenditel.gob.ve)
@@ -81,20 +81,20 @@ Desarrolladores Activos
 - Oscar Josue González (ojgonzalez@cenditel.gob.ve)
 
 
-      
+
 Desarrolladores Inactivos
 
-- William Paéz (wpaez@cenditel.gob.ve) 
-- José Puentes (jpuentes@cenditel.gob.ve) 
+- William Paéz (wpaez@cenditel.gob.ve)
+- José Puentes (jpuentes@cenditel.gob.ve)
 - Juan Vizcarrondo (jvizcarrondo@cenditel.gob.ve)
 
 
    **Director de Desarrollo (2018-2019)**
 
 - Argenis Osorio (aosorio@cenditel.gob.ve)
-   
+
    **Director de Desarrollo (2020)**
-   
+
 - Laura Colina (lcolina@cenditel.gob.ve)
 
    **Colaborador**
@@ -102,13 +102,13 @@ Desarrolladores Inactivos
 - Santiago Roca (sroca@cenditel.gob.ve)
 
 
-Licencia Combinada de Software y Contenidos de la Fundación CENDITEL (2015)  
+Licencia Combinada de Software y Contenidos de la Fundación CENDITEL (2015)
 
 
 La Fundación Centro Nacional de Desarrollo e Investigación en Tecnologías Libres (CENDITEL), ente adscrito al Ministerio del Poder Popular para  Ciencia y Tecnología (Mincyt), concede permiso, para usar, copiar, modificar y distribuir libremente y sin fines comerciales el Software KAVAC ‘Sistema de Gestión de Recursos’ (sin garantía alguna) asimismo permite, copiar, adaptar, publicar y comunicar los contenidos, preservando en ambos casos los derechos morales de los autores y manteniendo los mismos principios para las obras derivadas, de conformidad con los términos y condiciones de las licencias de software y contenidos de la Fundación CENDITEL.
 
 
-Cada vez que copie y distribuya este producto debe acompañarlo de una copia de las licencias. Para más información sobre los términos y condiciones de las licencias visite las siguientes direcciones electrónicas:  
+Cada vez que copie y distribuya este producto debe acompañarlo de una copia de las licencias. Para más información sobre los términos y condiciones de las licencias visite las siguientes direcciones electrónicas:
 
 
 [Licencia de Software](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

@@ -1,49 +1,39 @@
 <?php
 
-/**
- * Controlador del modelo AssetDepreciation
- */
-
 namespace Modules\Asset\Http\Controllers;
 
-use App\Models\CodeSetting;
-use App\Models\Currency;
-use App\Models\DocumentStatus;
-use App\Models\ExchangeRate;
-use App\Models\FiscalYear;
-use App\Models\Profile;
-use App\Repositories\ReportRepository;
-use Illuminate\Http\Request;
-use Modules\Asset\Models\Asset;
-use Illuminate\Routing\Controller;
-use Modules\Asset\Models\AssetRequest;
-use Modules\Asset\Models\AssetAsignation;
-use Modules\Asset\Models\AssetSubcategory;
-// use Modules\Asset\Models\AssetDepreciation;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Support\Facades\DB;
-use Modules\Asset\Http\Resources\AssetResource;
-use Modules\Asset\Models\AssetDisincorporation;
-use Modules\Asset\Http\Resources\AssetAsignationResource;
-use Modules\Asset\Http\Resources\AssetSubcategoryResource;
-use Modules\Asset\Http\Resources\AssetDepreciationResource;
-use App\Models\Institution;
 use Carbon\Carbon;
+use App\Models\Currency;
+use App\Models\FiscalYear;
+use App\Models\CodeSetting;
+use App\Models\Institution;
+use App\Models\ExchangeRate;
+use Illuminate\Http\Request;
+use App\Models\DocumentStatus;
+use Modules\Asset\Models\Asset;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Modules\Asset\Models\AssetBook;
+use Nwidart\Modules\Facades\Module;
+use App\Repositories\ReportRepository;
 use Modules\Asset\Models\AssetDepreciation;
+use Illuminate\Contracts\Support\Renderable;
 use Modules\Asset\Models\AssetDepreciationAsset;
 use Modules\Asset\Models\AssetDepreciationMethod;
-use Nwidart\Modules\Facades\Module;
+use Modules\Asset\Http\Resources\AssetDepreciationResource;
 
 /**
- * Controlador del modelo AssetDepreciation
- *
  * @class  AssetDepreciationController
- * @brief  descripción detallada
+ * @brief  Controlador para la gestión de depreciación de bienes
+ *
+ * Controlador para la depreciación de bienes
+ *
  * @author Fabián Palmera <fpalmera@cenditel.gob.ve>
  *
- * @license [LICENCIA DE SOFTWARE CENDITEL]
- * @link    (http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetDepreciationController extends Controller
 {
@@ -51,6 +41,8 @@ class AssetDepreciationController extends Controller
      * Define la configuración de la clase
      *
      * @author Fabián Palmera <fpalmera@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -58,34 +50,10 @@ class AssetDepreciationController extends Controller
         $this->middleware('permission:asset.depreciation.list', ['only' => ['index', 'vueInfo', 'vueList']]);
         $this->middleware('permission:asset.depreciation.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:asset.depreciation.report', ['only' => 'managePdf']);
-
-        // $this->validateRules = [
-        //     'date' => ['required'],
-        //     'acquisition_value' => ['required'],
-        //     'depreciation_years' => ['required'],
-        //     'residual_value' => ['required'],
-        //     'formed_by_id' => ['required'],
-        //     'produced_by_id' => ['required'],
-        // ];
-
-        // /* Define los mensajes de validación para las reglas del formulario */
-        // $this->messages = [
-        //     'date.required' => 'El campo fecha de desincorporación es obligatorio.',
-        //     'acquisition_value.required' =>
-        //     'El campo valor de adquisición es obligatorio.',
-        //     'depreciation_years.required' =>
-        //     'El campo años de depreciación es obligatorio.',
-        //     'residual_value.required' => 'El campo valor residual es obligatorio.',
-        //     'formed_by_id.required' => 'El campo conformado por es obligatorio.',
-        //     'produced_by_id.required' => 'El campo elaborado por es obligatorio.',
-
-        // ];
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method index
+     * Muestra el listado de depreciación de bienes
      *
      * @author Fabián Palmera <fpalmera@cenditel.gob.ve>
      *
@@ -97,9 +65,7 @@ class AssetDepreciationController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method create
+     * Muestra el formulario de creación de depreciación de bienes
      *
      * @author Fabián Palmera <fpalmera@cenditel.gob.ve>
      *
@@ -111,300 +77,310 @@ class AssetDepreciationController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @param Request $request Objeto con información de la petición
-     *
-     * @method store
+     * Registra la depreciación de bienes
      *
      * @author Fabián Palmera <fpalmera@cenditel.gob.ve>
+     *
+     * @param Request $request Datos de la petición
      *
      * @return Renderable
      */
     public function store(Request $request)
     {
-        DB::transaction(function () use ($request) {
-            $findAssets = Asset::query()
-                ->with(['assetSpecificCategory', 'assetDepreciationAssets', 'assetAdjustmentAssets.assetBook'])
-                ->has('assetSpecificCategory')
-                ->get();
+        try {
+            DB::transaction(function () use ($request) {
+                $findAssets = Asset::query()
+                    ->with(['assetSpecificCategory', 'assetDepreciationAssets', 'assetAdjustmentAssets.assetBook'])
+                    ->has('assetSpecificCategory')
+                    ->get();
 
-            $assets = [];
-            foreach ($findAssets as $asset) {
-                if (array_key_exists('depresciation_years', $asset->asset_details)) {
-                    $depreciatedYears = $asset->asset_details['depresciation_years'];
-                    $acquisitionDate = $asset->acquisition_date;
-                    $acquisitionDate = new Carbon($acquisitionDate);
-                    $currentDate = Carbon::now();
-                    if ($acquisitionDate->addYear($depreciatedYears) >= $currentDate) {
-                        array_push($assets, $asset);
+                $assets = [];
+                foreach ($findAssets as $asset) {
+                    if (array_key_exists('depresciation_years', $asset->asset_details)) {
+                        $depreciatedYears = $asset->asset_details['depresciation_years'];
+                        $acquisitionDate = $asset->acquisition_date;
+                        $acquisitionDate = new Carbon($acquisitionDate);
+                        $currentDate = Carbon::now();
+                        if ($acquisitionDate->addYears($depreciatedYears) >= $currentDate) {
+                            array_push($assets, $asset);
+                        }
                     }
                 }
-            }
 
-            $assetMethod = AssetDepreciationMethod::query()
-                ->where('depreciation_type_id', 1)
-                ->first();
-
-            $currentFiscalYear = FiscalYear::query()
-                ->select('year')
-                ->where(['active' => true, 'closed' => false])
-                ->orderBy('year', 'desc')
-                ->first();
-
-            $defaultCurrency = Currency::query()
-                ->where('default', true)
-                ->first();
-
-            $depreciationDate = $currentFiscalYear->year . '-12-31';
-            $formatedDepreciationDate = date('d/m/Y', strtotime($depreciationDate));
-
-            $arr = [];
-            $totalDepreciationAmount = 0.00;
-
-            foreach ($assets as $key => $asset) {
-                $exchangeRate = ExchangeRate::query()
-                    ->where('active', true)
-                    ->where('start_at', '<=', $depreciationDate)
-                    ->where(function ($query) use ($depreciationDate) {
-                        $query
-                            ->where('end_at', '>=', $depreciationDate)
-                            ->orWhereNull('end_at');
-                    })
-                    ->where('from_currency_id', $defaultCurrency->id)
-                    ->where('to_currency_id', $asset->currency_id)
-                    ->orderBy('id', 'desc')
+                $assetMethod = AssetDepreciationMethod::query()
+                    ->where('depreciation_type_id', 1)
                     ->first();
 
-                if (!$exchangeRate && $asset->currency_id != $defaultCurrency->id) {
-                    $request->session()->flash('message', [
-                        'type' => 'other', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'growl-danger',
-                        'text' => 'No se puede realizar la depreciación, por favor revise los tipos de' .
-                            'cambios activos para la fecha de depreciación ' . $formatedDepreciationDate,
-                    ]);
+                $currentFiscalYear = FiscalYear::query()
+                    ->select('year')
+                    ->where(['active' => true, 'closed' => false])
+                    ->orderBy('year', 'desc')
+                    ->first();
 
-                    return response()->json(['result' => false, 'redirect' => route('asset.depreciation.index')], 200);
-                }
+                $defaultCurrency = Currency::query()
+                    ->where('default', true)
+                    ->first();
 
-                $details = $asset->asset_details;
+                $depreciationDate = $currentFiscalYear->year . '-12-31';
+                $formatedDepreciationDate = date('d/m/Y', strtotime($depreciationDate));
 
-                $cond_a = (!empty($details['acquisition_value']) && $details['acquisition_value'] != 0);
-                $cond_b = (!empty($details['depresciation_years']) && $details['depresciation_years'] != 0);
-                $cond_c = $asset->acquisition_date != null;
+                $arr = [];
+                $totalDepreciationAmount = 0.00;
 
-                if ($cond_a && $cond_b && $cond_c) {
-                    if ($assetMethod) {
-                        $depreciationFormula = $assetMethod->depreciation_type_id->getTranslateFormula();
-                        $months = 12;
-                        $days = 30;
-                        $totalDays = 360;
-                        $notDepreciated = false;
-                        $depreciatedYears = $asset->assetDepreciationAssets->last()->depreciated_years ?? 0;
+                foreach ($assets as $key => $asset) {
+                    $exchangeRate = ExchangeRate::query()
+                        ->where('active', true)
+                        ->where('start_at', '<=', $depreciationDate)
+                        ->where(function ($query) use ($depreciationDate) {
+                            $query
+                                ->where('end_at', '>=', $depreciationDate)
+                                ->orWhereNull('end_at');
+                        })
+                        ->where('from_currency_id', $defaultCurrency->id)
+                        ->where('to_currency_id', $asset->currency_id)
+                        ->orderBy('id', 'desc')
+                        ->first();
 
-                        // Toma los valores del bien
-                        $fisrtAcquisitionValue = $details['acquisition_value'];
-                        $residualValue = $details['residual_value'];
-                        $depresciationYears = $details['depresciation_years'];
+                    if (!$exchangeRate && $asset->currency_id != $defaultCurrency->id) {
+                        throw new \Exception(
+                            'No se puede realizar la depreciación, por favor revise los tipos de' .
+                                'cambios activos para la fecha de depreciación ' . $formatedDepreciationDate .
+                                ':asset.depreciation.index',
+                            1
+                        );
+                    }
 
-                        if (count($asset->assetAdjustmentAssets) > 0) {
-                            $fisrtAcquisitionValue = $asset->assetAdjustmentAssets->last()->assetBook->amount;
-                            $residualValue = $asset->assetAdjustmentAssets->last()->residual_value;
-                            $depresciationYears = $asset->assetAdjustmentAssets->last()->depresciation_years;
-                        }
+                    $details = $asset->asset_details;
 
-                        if (
-                            count($asset->assetDepreciationAssets) > 0 &&
-                            ($depreciatedYears + 1) > $depresciationYears &&
-                            $asset->assetDepreciationAssets->last()->remaining_days == 0
-                        ) {
-                            // Indica que el bien ya no se puede depreciar
-                            $notDepreciated = true;
-                        }
+                    $cond_a = (!empty($details['acquisition_value']) && $details['acquisition_value'] != 0);
+                    $cond_b = (!empty($details['depresciation_years']) && $details['depresciation_years'] != 0);
+                    $cond_c = $asset->acquisition_date != null;
 
-                        if ($notDepreciated ===  false) {
-                            $depreciationFormula = str_replace(
-                                'acquisition_value',
-                                currency_format($fisrtAcquisitionValue, 2, true),
-                                $depreciationFormula
-                            );
+                    if ($cond_a && $cond_b && $cond_c) {
+                        if ($assetMethod) {
+                            $depreciationFormula = $assetMethod->depreciation_type_id->getTranslateFormula();
+                            $months = 12;
+                            $days = 30;
+                            $totalDays = 360;
+                            $notDepreciated = false;
+                            $depreciatedYears = $asset->assetDepreciationAssets->last()->depreciated_years ?? 0;
 
-                            $depreciationFormula = str_replace(
-                                'residual_value',
-                                currency_format($residualValue ?? 0, 2, true),
-                                $depreciationFormula
-                            );
+                            // Toma los valores del bien
+                            $fisrtAcquisitionValue = $details['acquisition_value'];
+                            $residualValue = $details['residual_value'];
+                            $depresciationYears = $details['depresciation_years'];
 
-                            $depreciationFormula = str_replace(
-                                'depresciation_years',
-                                currency_format($depresciationYears, 2, true),
-                                $depreciationFormula
-                            );
-
-                            // Se calcula el resultado de la formula de depreciación
-                            $string = 'select(' . $depreciationFormula . ')';
-                            $calc = DB::select(DB::raw($string));
-                            $col = '?column?';
-                            $value = $calc[0]->$col ?? $calc[0]->case;
-
-                            if ($exchangeRate && $asset->currency_id != $defaultCurrency->id) {
-                                $value = $value * $exchangeRate->amount;
+                            if (count($asset->assetAdjustmentAssets) > 0) {
+                                $fisrtAcquisitionValue = $asset->assetAdjustmentAssets->last()->assetBook->amount;
+                                $residualValue = $asset->assetAdjustmentAssets->last()->residual_value;
+                                $depresciationYears = $asset->assetAdjustmentAssets->last()->depresciation_years;
                             }
 
-                            // Se indica la fecha del periodo a tomar según el caso correspondiente
-                            $useRemainingDays = false;
-
-                            if (count($asset->assetDepreciationAssets) == 0) {
-                                // Toma la fecha de adquisición del bien y la divide en año, mes y día
-                                $date = explode('-', $asset->acquisition_date);
-                            } elseif (
-                                count($asset->assetDepreciationAssets) > 0 &&
-                                ($depreciatedYears + 1) <= $depresciationYears
-                            ) {
-                                // Toma la fecha de adquisición del bien y la divide en año, mes y día
-                                $date = explode('-', '2023-01-01');
-                            } elseif (
+                            if (
                                 count($asset->assetDepreciationAssets) > 0 &&
                                 ($depreciatedYears + 1) > $depresciationYears &&
-                                $asset->assetDepreciationAssets->last()->remaining_days > 0
+                                $asset->assetDepreciationAssets->last()->days_remaining == 0
                             ) {
-                                // Usa los días restantes para depreciar
-                                $useRemainingDays = true;
+                                // Indica que el bien ya no se puede depreciar
+                                $notDepreciated = true;
                             }
 
-                            // Calcula el valor diario de adquisición del bien
-                            $dailyAcquisitionValue = ($value / 12) / 30;
+                            if ($notDepreciated ===  false) {
+                                $depreciationFormula = str_replace(
+                                    'acquisition_value',
+                                    currency_format($fisrtAcquisitionValue, 2, true),
+                                    $depreciationFormula
+                                );
 
-                            if ($useRemainingDays == false) {
-                                // Calcula el valor de los meses pendientes para depreciar
-                                $pendingMonths = $months - $date[1];
+                                $depreciationFormula = str_replace(
+                                    'residual_value',
+                                    currency_format($residualValue ?? 0, 2, true),
+                                    $depreciationFormula
+                                );
 
-                                // Calcula el valor de los días pendientes para depreciar
-                                $pendingDays = ($days - $date[2]) + 1;
+                                $depreciationFormula = str_replace(
+                                    'depresciation_years',
+                                    currency_format($depresciationYears, 2, true),
+                                    $depreciationFormula
+                                );
 
-                                // Calcula el valor de los meses pendientes para depreciar en días
-                                $pendingMonthsToDays = $pendingMonths * $days;
+                                // Se calcula el resultado de la formula de depreciación
+                                $string = 'select(' . $depreciationFormula . ')';
+                                $calc = DB::select(DB::raw($string));
+                                $col = '?column?';
+                                $value = $calc[0]->$col ?? $calc[0]->case;
 
-                                // Calcula el valor del total de días pendientes para depreciar
-                                $totalDepreciationDays = $pendingDays + $pendingMonthsToDays;
+                                if ($exchangeRate && $asset->currency_id != $defaultCurrency->id) {
+                                    $value = $value * $exchangeRate->amount;
+                                }
 
-                                // Calcula el valor de los días que quedarón pendientes para el final de la depreciación
-                                $pendingDaysAfterDepreciation = $asset->assetDepreciationAssets->last() &&
-                                    $asset->assetDepreciationAssets->last()->remaining_days > 0 ?
-                                    $asset->assetDepreciationAssets->last()->remaining_days :
-                                    $totalDays - $totalDepreciationDays;
+                                // Se indica la fecha del periodo a tomar según el caso correspondiente
+                                $useRemainingDays = false;
 
-                                $value = $dailyAcquisitionValue * $totalDepreciationDays;
-                            } else {
-                                $value = $dailyAcquisitionValue *
-                                $asset
-                                    ->assetDepreciationAssets
-                                    ->last()
-                                    ->remaining_days;
+                                if (count($asset->assetDepreciationAssets) == 0) {
+                                    // Toma la fecha de adquisición del bien y la divide en año, mes y día
+                                    $date = explode('-', $asset->acquisition_date);
+                                } elseif (
+                                    count($asset->assetDepreciationAssets) > 0 &&
+                                    ($depreciatedYears + 1) <= $depresciationYears
+                                ) {
+                                    // Toma la fecha de adquisición del bien y la divide en año, mes y día
+                                    $date = explode('-', '2023-01-01');
+                                } elseif (
+                                    count($asset->assetDepreciationAssets) > 0 &&
+                                    ($depreciatedYears + 1) > $depresciationYears &&
+                                    $asset->assetDepreciationAssets->last()->days_remaining > 0
+                                ) {
+                                    // Usa los días restantes para depreciar
+                                    $useRemainingDays = true;
+                                }
+
+                                // Calcula el valor diario de adquisición del bien
+                                $dailyAcquisitionValue = ($value / 12) / 30;
+
+                                if ($useRemainingDays == false) {
+                                    // Calcula el valor de los meses pendientes para depreciar
+                                    $pendingMonths = $months - $date[1];
+
+                                    // Calcula el valor de los días pendientes para depreciar
+                                    $pendingDays = ($days - $date[2]) + 1;
+
+                                    // Calcula el valor de los meses pendientes para depreciar en días
+                                    $pendingMonthsToDays = $pendingMonths * $days;
+
+                                    // Calcula el valor del total de días pendientes para depreciar
+                                    $totalDepreciationDays = $pendingDays + $pendingMonthsToDays;
+
+                                    // Calcula el valor de los días que quedarón pendientes para el final de la depreciación
+                                    $pendingDaysAfterDepreciation = $asset->assetDepreciationAssets->last() &&
+                                        $asset->assetDepreciationAssets->last()->days_remaining > 0 ?
+                                        $asset->assetDepreciationAssets->last()->days_remaining :
+                                        $totalDays - $totalDepreciationDays;
+
+                                    $value = $dailyAcquisitionValue * $totalDepreciationDays;
+                                } else {
+                                    $value = $dailyAcquisitionValue *
+                                    $asset
+                                        ->assetDepreciationAssets
+                                        ->last()
+                                        ->days_remaining;
+                                    $pendingDaysAfterDepreciation = 0;
+                                }
+
+                                $depreciatedYears = $depreciatedYears + 1;
+                                $totalDepreciationAmount = $totalDepreciationAmount + $value;
+
+                                $arr[] = [
+                                    'asset_id' => $asset->id,
+                                    'name' => $asset['assetSpecificCategory']['name'],
+                                    'amount' => $value,
+                                    'depreciated_years' => $depreciatedYears,
+                                    'remaining_days' => $pendingDaysAfterDepreciation
+                                ];
                             }
-
-                            $depreciatedYears = $depreciatedYears + 1;
-                            $totalDepreciationAmount = $totalDepreciationAmount + $value;
-
-                            $arr[] = [
-                                'asset_id' => $asset->id,
-                                'name' => $asset['assetSpecificCategory']['name'],
-                                'amount' => $value,
-                                'depreciated_years' => $depreciatedYears,
-                                'remaining_days' => $pendingDaysAfterDepreciation
-                            ];
+                        } else {
+                            throw new \Exception(
+                                'Debe configurar previamente el método de depreciación a utilizar:asset.setting.index',
+                                1
+                            );
                         }
-                    } else {
-                        $request->session()->flash('message', [
-                            'type' => 'other', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'growl-danger',
-                            'text' => 'Debe configurar previamente el método de depreciación a utilizar',
-                        ]);
-                        return response()->json(['result' => false, 'redirect' => route('asset.setting.index')], 200);
                     }
                 }
-            }
 
-            $documentStatus = DocumentStatus::where('action', 'PR')->first();
+                $documentStatus = DocumentStatus::where('action', 'PR')->first();
 
-            $codeSetting = CodeSetting::where('table', 'asset_depreciations')->first();
-            if (is_null($codeSetting)) {
-                $request->session()->flash('message', [
-                    'type' => 'other', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'growl-danger',
-                    'text' => 'Debe configurar previamente el formato para el código a generar',
+                $codeSetting = CodeSetting::where('table', 'asset_depreciations')->first();
+                if (is_null($codeSetting)) {
+                    throw new \Exception(
+                        'Debe configurar previamente el formato para el código a generar:asset.setting.index',
+                        1
+                    );
+                }
+
+                $documentStatusCancel = DocumentStatus::where('action', 'AN')->first();
+                $oldAssetDepreciations = AssetDepreciation::query()
+                    ->where('document_status_id', '!=', $documentStatusCancel->id)
+                    ->where('year', $currentFiscalYear->year)
+                    ->get();
+
+                if (count($oldAssetDepreciations) > 0) {
+                    throw new \Exception(
+                        'Solo se puede realizar una depreciación por año fiscal:asset.depreciation.index',
+                        1
+                    );
+                }
+
+                $code = generate_registration_code(
+                    $codeSetting->format_prefix,
+                    strlen($codeSetting->format_digits),
+                    (strlen($codeSetting->format_year) == 2) ? (isset($currentFiscalYear) ?
+                        substr($currentFiscalYear->year, 2, 2) : date('y')) : (isset($currentFiscalYear) ?
+                        $currentFiscalYear->year : date('Y')),
+                    AssetDepreciation::class,
+                    $codeSetting->field
+                );
+
+                if (isset(auth()->user()->profile) && isset(auth()->user()->profile->institution_id)) {
+                    $institution = Institution::where(['id' => auth()->user()->profile->institution_id])->first();
+                } else {
+                    $institution = Institution::where(['active' => true, 'default' => true])->first();
+                }
+
+                $assetDepreciation = AssetDepreciation::create([
+                    'code' => $code,
+                    'year' => $currentFiscalYear->year,
+                    'amount' => $totalDepreciationAmount,
+                    'document_status_id' => $documentStatus->id,
+                    'institution_id' => $institution->id
                 ]);
-                return response()->json(['result' => false, 'redirect' => route('asset.setting.index')], 200);
-            }
 
-            $oldAssetDepreciations = AssetDepreciation::where('year', $currentFiscalYear->year)->get();
+                foreach ($arr as $item) {
+                    $lastAssetBook = AssetBook::query()
+                        ->where('asset_id', $item['asset_id'])
+                        ->toBase()
+                        ->get()
+                        ->last();
 
-            if (count($oldAssetDepreciations) > 0) {
-                $request->session()->flash('message', [
-                    'type' => 'other', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'growl-danger',
-                    'text' => 'Solo se puede realizar una depreciación por año fiscal',
-                ]);
+                    $amount = ($lastAssetBook?->amount - $item['amount']) < 0 ?
+                        ($lastAssetBook?->amount - $item['amount']) * -1 :
+                        ($lastAssetBook?->amount - $item['amount']);
 
-                return response()->json(['result' => false, 'redirect' => route('asset.depreciation.index')], 200);
-            }
+                    $assetBook = AssetBook::create([
+                        'asset_id' => $item['asset_id'],
+                        'amount' => $amount,
+                    ]);
 
-            $code = generate_registration_code(
-                $codeSetting->format_prefix,
-                strlen($codeSetting->format_digits),
-                (strlen($codeSetting->format_year) == 2) ? (isset($currentFiscalYear) ?
-                    substr($currentFiscalYear->year, 2, 2) : date('y')) : (isset($currentFiscalYear) ?
-                    $currentFiscalYear->year : date('Y')),
-                AssetDepreciation::class,
-                $codeSetting->field
-            );
+                    AssetDepreciationAsset::create([
+                        'asset_depreciation_id' => $assetDepreciation->id,
+                        'asset_id' => $item['asset_id'],
+                        'asset_book_id' => $assetBook->id,
+                        'amount' => $item['amount'],
+                        'depreciated_years' => $item['depreciated_years'],
+                        'days_remaining' => $item['remaining_days']
+                    ]);
+                }
+            });
 
-            if (isset(auth()->user()->profile) && isset(auth()->user()->profile->institution_id)) {
-                $institution = Institution::where(['id' => auth()->user()->profile->institution_id])->first();
-            } else {
-                $institution = Institution::where(['active' => true, 'default' => true])->first();
-            }
-
-            $assetDepreciation = AssetDepreciation::create([
-                'code' => $code,
-                'year' => $currentFiscalYear->year,
-                'amount' => $totalDepreciationAmount,
-                'document_status_id' => $documentStatus->id,
-                'institution_id' => $institution->id
+            $request->session()->flash('message', ['type' => 'store']);
+            return response()->json(['redirect' => route('asset.depreciation.index')], 200);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            $message = explode(':', $th->getMessage());
+            $request->session()->flash('message', [
+                'type' => 'other', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'growl-danger',
+                'text' => $message[0],
             ]);
 
-            foreach ($arr as $item) {
-                $lastAssetBook = AssetBook::query()
-                    ->where('asset_id', $item['asset_id'])
-                    ->toBase()
-                    ->get()
-                    ->last();
-
-                $amount = ($lastAssetBook?->amount - $item['amount']) < 0 ?
-                    ($lastAssetBook?->amount - $item['amount']) * -1 :
-                    ($lastAssetBook?->amount - $item['amount']);
-
-                $assetBook = AssetBook::create([
-                    'asset_id' => $item['asset_id'],
-                    'amount' => $amount,
-                ]);
-
-                AssetDepreciationAsset::create([
-                    'asset_depreciation_id' => $assetDepreciation->id,
-                    'asset_id' => $item['asset_id'],
-                    'asset_book_id' => $assetBook->id,
-                    'amount' => $item['amount'],
-                    'depreciated_years' => $item['depreciated_years'],
-                    'days_remaining' => $item['remaining_days']
-                ]);
-            }
-        });
+            return response()->json(['result' => false, 'redirect' => route($message[1])], 200);
+        }
     }
 
     /**
-     * [descripción del método
-     *
-     * @param integer $id Identificador del registro
-     *
-     * @method show
+     * Muestra los detalles de la depreciación de un bien
      *
      * @author Fabián Palmera <fpalmera@cenditel.gob.ve>
+     *
+     * @param integer $id Identificador del registro
      *
      * @return Renderable
      */
@@ -414,13 +390,11 @@ class AssetDepreciationController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @param integer $id Identificador del registro
-     *
-     * @method edit
+     * Muestra el formulario para editar la depreciación de un bien
      *
      * @author Fabián Palmera <fpalmera@cenditel.gob.ve>
+     *
+     * @param integer $id Identificador del registro
      *
      * @return Renderable
      */
@@ -430,16 +404,14 @@ class AssetDepreciationController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza los datos de depreciación de un bien
      *
-     * @param Request $request Objeto con datos de la petición
+     * @author Fabián Palmera <fpalmera@cenditel.gob.ve>
+     *
+     * @param Request $request Datos de la petición
      * @param integer $id      Identificador del registro
      *
-     * @method update
-     *
-     * @author nombre del autor] [correo del autor]
-     *
-     * @return Renderable
+     * @return void
      */
     public function update(Request $request, $id)
     {
@@ -447,15 +419,13 @@ class AssetDepreciationController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @param AssetDepreciation $depreciation Identificador del registro
-     *
-     * @method destroy
+     * Elimina la depreciación de un bien
      *
      * @author Fabián Palmera <fpalmera@cenditel.gob.ve>
      *
-     * @return \Illuminate\Http\JsonResponse Objeto con los registros a mostrar
+     * @param AssetDepreciation $depreciation Identificador del registro
+     *
+     * @return void
      */
     public function destroy($id)
     {
@@ -465,11 +435,11 @@ class AssetDepreciationController extends Controller
     /**
      * Vizualiza la información de la desincorporación de un bien institucional
      *
-     * @param integer $id Identificador único de la desincorporación
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     * @param integer $id Identificador único de la desincorporación     *
+     *
+     * @return JsonResponse    Objeto con los registros a mostrar
      */
     public function vueInfo(Request $request, $id)
     {
@@ -478,11 +448,11 @@ class AssetDepreciationController extends Controller
             ->find($id);
 
         $assetDepreciationAssets = AssetDepreciationAsset::query()
+            ->withTrashed()
             ->with('asset.assetSpecificCategory')
             ->where('asset_depreciation_id', $assetDepreciation->id)
             ->search($request->query('query'))
             ->paginate($request->limit ?? 10);
-        ;
 
         return response()->json(
             [
@@ -492,26 +462,42 @@ class AssetDepreciationController extends Controller
             ],
             200
         );
-        //return response()->json(
-        //    ['records' => !is_null($assets) ? AssetResource::collection($assets->get()) : null], 200);
     }
 
     /**
      * Obtiene un listado de los bienes registradas
-
+     *
+     * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param string  $operation    Tipo de operación realizada
      * @param integer $operation_id Identificador único de la operación
      *
-     * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     * @return JsonResponse    Objeto con los registros a mostrar
      */
     public function vueList()
     {
-        $user_profile = Profile::where('user_id', auth()->user()->id)->first();
+        $documentStatus = DocumentStatus::query()
+            ->where('action', 'AP')
+            ->first();
 
         $records = AssetDepreciation::query()
             ->with('documentStatus')
-            ->get();
+            ->get()
+            ->map(function ($record) use ($documentStatus) {
+                $record['has_approved_entry'] = false;
+
+                if ($record->document_status_id == $documentStatus->id) {
+                    $accountingEntry = \Modules\Accounting\Models\AccountingEntry::query()
+                        ->where('reference', $record->code)
+                        ->first();
+
+                    if ($accountingEntry && $accountingEntry->approved == true) {
+                        $record['has_approved_entry'] = true;
+                    }
+                }
+
+                return $record;
+            });
 
         return response()->json(
             ['records' => $records],
@@ -520,39 +506,15 @@ class AssetDepreciationController extends Controller
     }
 
     /**
-     * Obtiene un listado de los bienes registradas
-     *
-     * @param string     $operation Tipo de operación realizada
-     * @param integer $operation_id Identificador único de la operación
-     *
-     * @author Henry Paredes <hparedes@cenditel.gob.ve>
-
-     * @return \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
-     */
-
-    //  public function vueList($operation = null, $operation_id = null)
-    //  {
-    //      $asset_subcategories = AssetSubcategory::with([
-    //         'assetCategory' => function ($query) {
-    //              $query->with('assetType');
-    //              $query->with(['asset' => function ($query) {
-    //                 $query->with(['asset_type', 'acquisition_date', 'acquisition_value']);
-    //             }]);
-    //         }
-    //     ])->get();
-    //     return response()->json(['records' => $asset_subcategories], 200);
-    //  }
-
-    /**
      * Gestiona la generación de un informe en formato PDF basado en el tipo de informe
      * y código opcional proporcionados.
      *
-     * @param mixed $type_report El tipo de informe a generar.
-     * @param mixed $code Código opcional para filtrar el informe.
-     * @param string     $operation Tipo de operación realizada
-     *
      * @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
-
+     *
+     * @param string      $type_report    El tipo de informe a generar.
+     * @param string      $institution_id El identificador de la institución.
+     * @param string|null $code           Código opcional para filtrar el informe.
+     *
      * @return integer
      */
 
@@ -615,10 +577,12 @@ class AssetDepreciationController extends Controller
 
     /**
      * Registra los asientos contables de la depreciación en caso que exista contabilidad
-     * @param integer $id Identificador único de la operación
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param integer $id Identificador único de la operación     *
+     *
+     * @return JsonResponse    Objeto con los registros a mostrar
      */
     public function approve($id)
     {
@@ -669,8 +633,8 @@ class AssetDepreciationController extends Controller
                 );
 
                 $accountEntry = \Modules\Accounting\Models\AccountingEntry::create([
-                    'from_date'                      => Carbon::now()->format('Y-m-d'),
-                    'reference'                      => $code,
+                    'from_date'                      => $currentFiscalYear->year . '-12-31',
+                    'reference'                      => $assetDepreciation->code ?? $code,
                     'concept'                        => 'Depreciación de bienes',
                     'observations'                   => null,
                     'accounting_entry_category_id'   => $entryCategory->id,
@@ -731,11 +695,80 @@ class AssetDepreciationController extends Controller
 
                 return response()->json(['message' => 'Success'], 200);
             });
-        } else {
-            return response()->json(['result' => false, 'message' => [
-                'type' => 'custom', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'danger',
-                'text' => 'Debe tener instalado el módulo de contabilidad para acceder a esta funcionalidad',
-            ]], 403);
         }
+
+        return response()->json(['result' => false, 'message' => [
+            'type' => 'custom', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'danger',
+            'text' => 'Debe tener instalado el módulo de contabilidad para acceder a esta funcionalidad',
+        ]], 403);
+    }
+
+    /**
+     * Anula la depreciación y todos sus registros asociados
+     *
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @param integer $id Identificador único de la operación
+     *
+     * @return JsonResponse    Objeto con los registros a mostrar
+     */
+    public function cancel($id)
+    {
+        $exist_accounting = Module::has('Accounting') && Module::isEnabled('Accounting');
+
+        if ($exist_accounting) {
+            $documentStatus = DocumentStatus::query()
+                ->where('action', 'AP')
+                ->first();
+
+            $documentStatusCancel = DocumentStatus::query()
+                ->where('action', 'AN')
+                ->first();
+
+            // Se busca el registro de la depreciación
+            $assetDepreciation = AssetDepreciation::query()
+                ->with('assetDepreciationAssets.assetBook')
+                ->find($id);
+
+            // Se elimina el asiento contable de la depreciación en caso de que esté aprobada
+            if ($assetDepreciation->document_status_id == $documentStatus->id) {
+                $accountingEntry = \Modules\Accounting\Models\AccountingEntry::query()
+                    ->where('reference', $assetDepreciation->code)
+                    ->first();
+
+                if ($accountingEntry) {
+                    \Modules\Accounting\Models\AccountingEntryAccount::query()
+                        ->where('accounting_entry_id', $accountingEntry->id)
+                        ->delete();
+
+                    \Modules\Accounting\Models\AccountingEntryable::query()
+                        ->where('accounting_entry_id', $accountingEntry->id)
+                        ->delete();
+
+                    $accountingEntry->delete();
+                }
+            }
+
+            // Se eliminan todos los registros asociados a esa depreciación
+            if ($assetDepreciation) {
+                foreach ($assetDepreciation->assetDepreciationAssets as $depreciationAsset) {
+                    AssetBook::query()
+                        ->where('id', $depreciationAsset->asset_book_id)
+                        ->delete();
+
+                    $depreciationAsset->delete();
+                }
+
+                $assetDepreciation->document_status_id = $documentStatusCancel->id;
+                $assetDepreciation->save();
+            }
+
+            return response()->json(['message' => 'Success'], 200);
+        }
+
+        return response()->json(['result' => false, 'message' => [
+            'type' => 'custom', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'danger',
+            'text' => 'Debe tener instalado el módulo de contabilidad para acceder a esta funcionalidad',
+        ]], 403);
     }
 }

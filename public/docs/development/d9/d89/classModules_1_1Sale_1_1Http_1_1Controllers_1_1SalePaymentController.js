@@ -16,13 +16,15 @@ var classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController =
     [ "index", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#a149eb92716c1084a935e04a8d95f7347", null ],
     [ "paymentApprove", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#aacbe9d6b6ecda43c6f9d3865480404f5", null ],
     [ "paymentRejected", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#aa7714379c84fff180ff01530756e6527", null ],
+    [ "pdfGenerator", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#a034895ca4ea1c382e3bc49307493b0bf", null ],
     [ "pending", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#a1e949bc2e171547c24d00f0d0595cbb5", null ],
     [ "refusePayment", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#a9c2983bcd7455aba2a3d61f7e3838006", null ],
     [ "show", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#ae4914d07a9bbe4aede7a5dea759f6287", null ],
+    [ "store", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#a9ef485163104597c12185b53cdacf638", null ],
     [ "update", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
     [ "vueInfo", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#a33c93a58e2d349e7e235a94a1691a76d", null ],
     [ "vueList", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#aca78b35dd9df5b11e63e88796cf08c66", null ],
-    [ "$messages", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#ae7715468b3957bb3cc52320a1da96b7e", null ],
-    [ "$status_list", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#a172f462d4a64f5c1a197682858da1848", null ],
-    [ "$validateRules", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#a08fdb9625ef4d58fe9846c962a0b0dd6", null ]
+    [ "$messages", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f", null ],
+    [ "$status_list", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#ad27b1fd341741106ec625f09b1402198", null ],
+    [ "$validateRules", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html#a19db8a4aa08742d71b20bee403d09b5d", null ]
 ];

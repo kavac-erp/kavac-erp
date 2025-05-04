@@ -15,7 +15,7 @@
                 }}
             </span>
             <span>
-                <div v-for="att in props.row.warehouse_product_values">
+                <div v-for="(att, index) in props.row.warehouse_product_values" :key="index">
                     <b>{{att.warehouse_product_attribute.name +":"}}</b> {{ att.value}}
                 </div>
                     <b>Valor:</b> {{props.row.unit_value}} {{(props.row.currency)?props.row.currency.name:''}}
@@ -24,7 +24,7 @@
         <div slot="inventory" slot-scope="props">
             <span>
                 <b>Almacén:</b> {{
-                    props.row.warehouse_institution_warehouse 
+                    props.row.warehouse_institution_warehouse
                         ? props.row.warehouse_institution_warehouse.warehouse.name
                         : ''
                     }} <br>
@@ -60,7 +60,7 @@
                 </span>
             </div>
         </div>
-    </v-client-table>           
+    </v-client-table>
 </template>
 
 <script>
@@ -137,7 +137,7 @@
             },
             /**
              * Devuelve la cantidad solicitadas de un producto especifico
-             * 
+             *
              * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
              */
             quantityProductRequests(Codeproduct) {

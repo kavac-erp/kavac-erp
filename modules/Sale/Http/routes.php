@@ -1,28 +1,28 @@
 <?php
 
-/**
- * Grupo de rutas para el módulo de Comercialización
- */
+use Illuminate\Support\Facades\Route;
+
+/* Grupo de rutas para el módulo de Comercialización */
 
 Route::group(
     ['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'sale', 'namespace' => 'Modules\Sale\Http\Controllers'],
     function () {
-        /**
-         * -----------------------------------------------------------------------
-         * Ruta para el panel de control del módulo de Comercialización
-         * -----------------------------------------------------------------------
-         *
-         * Muestra información del módulo de Comercialización
+        /*
+         | -----------------------------------------------------------------------
+         | Ruta para el panel de control del módulo de Comercialización
+         | -----------------------------------------------------------------------
+         |
+         | Muestra información del módulo de Comercialización
          */
         Route::get('settings', 'SaleSettingController@index')->name('sale.settings.index');
         //Route::post('settings', 'SaleSettingController@store')->name('sale.settings.store');
 
-        /**
-         * -----------------------------------------------------------------------
-         * Rutas para la configuración general del módulo de Comercialización
-         * -----------------------------------------------------------------------
-         *
-         * Gestiona los datos de configuración del módulo de Comercialización
+        /*
+         | -----------------------------------------------------------------------
+         | Rutas para la configuración general del módulo de Comercialización
+         | -----------------------------------------------------------------------
+         |
+         | Gestiona los datos de configuración del módulo de Comercialización
          */
         Route::resource(
             'register-clients',
@@ -53,30 +53,26 @@ Route::group(
             ['as' => 'sale', 'except' => ['create','edit','show']]
         );
 
-        /**
-         * Gestión de los metodos de cobro
-         */
+        /* Gestión de los metodos de cobro */
         Route::resource(
             'register-charge-money',
             'SaleChargeMoneyController',
             ['as' => 'sale']
         );
 
-        /**
-         * Gestión de las formas de cobro
-         */
+        /* Gestión de las formas de cobro */
         Route::resource(
             'register-form-payment',
             'SaleFormPaymentController',
             ['as' => 'sale']
         );
 
-    /**
-     * -----------------------------------------------------------------------
-     * Rutas para la configuración general del módulo de Comercialización
-     * -----------------------------------------------------------------------
-     *
-     * Gestiona los datos de configuración del módulo de Comercialización
+    /*
+     | -----------------------------------------------------------------------
+     | Rutas para la configuración general del módulo de Comercialización
+     | -----------------------------------------------------------------------
+     |
+     | Gestiona los datos de configuración del módulo de Comercialización
      */
         Route::resource(
             'payment-method',
@@ -115,12 +111,12 @@ Route::group(
             'SaleSettingDepositController@getSaleSettingDeposit'
         )->name('sale.get-sale-setting-deposit');
 
-    /**
-     * -----------------------------------------------------------------------
-     * Rutas para la configuración de Almacen de Comercialización
-     * -----------------------------------------------------------------------
-     *
-     * Gestiona los datos de configuración de Almacen de Comercialización
+    /*
+     | -----------------------------------------------------------------------
+     | Rutas para la configuración de Almacen de Comercialización
+     | -----------------------------------------------------------------------
+     |
+     | Gestiona los datos de configuración de Almacen de Comercialización
      */
         Route::resource(
             'warehouse-method',
@@ -132,12 +128,12 @@ Route::group(
             'SaleWarehouseController@getSaleWarehouseMethod'
         )->name('sale.get-sale-warehousemethod');
 
-    /**
-     * -----------------------------------------------------------------------
-     * Rutas para la configuración de Descuento
-     * -----------------------------------------------------------------------
-     *
-     * Gestiona los datos de configuración de Descuento de Comercialización
+    /*
+     | -----------------------------------------------------------------------
+     | Rutas para la configuración de Descuento
+     | -----------------------------------------------------------------------
+     |
+     | Gestiona los datos de configuración de Descuento de Comercialización
      */
         Route::resource(
             'discount-method',
@@ -149,10 +145,10 @@ Route::group(
             'SaleDiscountController@getSaleDiscount'
         )->name('sale.get-sale-paymentmethod');
 
-    /**
-     * ------------------------------------------------------------
-     * Rutas para gestionar los Ingresos de Almacén
-     * ------------------------------------------------------------
+    /*
+     | ------------------------------------------------------------
+     | Rutas para gestionar los Ingresos de Almacén
+     | ------------------------------------------------------------
      */
 
         Route::resource('receptions', 'SaleWarehouseReceptionController', ['only' => 'store']);
@@ -180,22 +176,22 @@ Route::group(
             'SaleWarehouseReceptionController@approvedReception'
         );
 
-        /**
-         * ------------------------------------------------------------
-         * Rutas para gestionar los Elementos select de reportes
-         * ------------------------------------------------------------
+        /*
+         | ------------------------------------------------------------
+         | Rutas para gestionar los Elementos select de reportes
+         | ------------------------------------------------------------
          */
 
         Route::get('get-salewarehousemethod/{institution?}', 'SaleWarehouseController@getSaleWarehouseMethod');
         Route::get('get-sale-setting-product/{get-salewarehousemethod}', 'SaleSettingProductController@getSaleSettingProduct');
         Route::get('get-measurement-units', 'SaleWarehouseReceptionController@getMeasurementUnits');
 
-        /**
-         * -----------------------------------------------------------------------
-         * Rutas para la configuración de Gestión de Pedidos.
-         * -----------------------------------------------------------------------
-         *
-         * Gestiona los datos de configuración de Gestión de Pedidos.
+        /*
+         | -----------------------------------------------------------------------
+         | Rutas para la configuración de Gestión de Pedidos.
+         | -----------------------------------------------------------------------
+         |
+         | Gestiona los datos de configuración de Gestión de Pedidos.
          */
         Route::resource(
             'saleordermanagement-method',

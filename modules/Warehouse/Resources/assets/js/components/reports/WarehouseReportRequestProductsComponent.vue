@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="alert alert-danger" v-if="errors.length > 0">
                 <ul>
-                    <li v-for="error in errors">{{ error }}</li>
+                    <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                 </ul>
             </div>
 
@@ -191,7 +191,7 @@
                         }} <br>
                     </span>
                     <span>
-                        <div v-for="att in props.row.warehouse_inventory_product.warehouse_product_values">
+                        <div v-for="(att, index) in props.row.warehouse_inventory_product.warehouse_product_values" :key="index">
                             <b>{{att.warehouse_product_attribute.name +": "}}</b> {{ att.value}} <br>
                         </div>
                         <b>Valor:</b> {{props.row.warehouse_inventory_product.unit_value}}
@@ -420,7 +420,7 @@
             vm.getBudgetProjects();
             vm.getBudgetCentralizedActions();
             vm.getPayrollStaffs();
-            //vm.loadInventoryProduct('request-products');
+
             /**
              * Evento para determinar los datos a requerir según el tipo de formulación
              * (por proyecto o acción centralizada)

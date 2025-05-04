@@ -16,7 +16,7 @@ import Inputmask from "inputmask";
 
 /** Configuración de la directiva input-mask para uso de mascara en campos de texto de los componentes vuejs */
 Vue.directive('input-mask', {
-    bind: function(el) {
+    bind: function (el) {
         new Inputmask().mask(el);
     },
 });
@@ -27,7 +27,7 @@ Vue.directive('is-digits', {
         el.addEventListener('keydown', (e) => {
             let key = e.keyCode;
             let tab = (key === 9), spacebar = (key === 32), backspace = (key === 8), alt = (key === 18),
-                numeric = (key >= 48 && key <=57) || (key >= 96 && key <= 105), supr = (key === 46),
+                numeric = (key >= 48 && key <= 57) || (key >= 96 && key <= 105), supr = (key === 46),
                 ctrl = (key === 17), ctrlA = (key === 65), ini = (key === 36), end = (key === 35);
             if (numeric || spacebar || tab || ini || end || backspace || alt || supr) {
                 return;
@@ -45,7 +45,7 @@ Vue.directive('is-numeric', {
         el.addEventListener('keydown', (e) => {
             let key = e.keyCode;
             let tab = (key === 9), backspace = (key === 8), alt = (key === 18),
-                numeric = (key >= 48 && key <=57) || (key >= 96 && key <= 105), supr = (key === 46),
+                numeric = (key >= 48 && key <= 57) || (key >= 96 && key <= 105), supr = (key === 46),
                 ctrl = (key === 17), ctrlA = (key === 65), ini = (key === 36), end = (key === 35),
                 dot = ((key === 190 || key === 110) && !el.value.includes("."));
 
@@ -79,6 +79,27 @@ Vue.directive('is-text', {
             }
             else {
                 e.preventDefault();
+            }
+        });
+    }
+});
+
+/** Directiva que limita la escritura a solo carácteres alfabéticos, símbolos y el signo "." */
+Vue.directive('has-symbols', {
+    bind: (el) => {
+        el.addEventListener('keydown', (e) => {
+            let keyCode = e.keyCode;
+            let keyText = e.key;
+
+            if (
+                ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "(", ")", "-", ",", "!", "@", "#", "%", "Process", "^", "=", "+", "?", "/", "\\", "<", ">", "`", "~", "*", "[", "]", "{", "}", "|", ":", ";", '"', "'", " "].includes(keyText) ||
+                (!e.target.value && (keyText === " " || keyText === "Space" || keyText === ".")) ||
+                (e.target.value.indexOf(".") > 0 && keyText === ".")
+            ) {
+                e.preventDefault();
+            }
+            else {
+                return;
             }
         });
     }
@@ -123,15 +144,15 @@ Vue.mixin({
              */
             table_options: {
                 highlightMatches: true,
-                perPage:10,
-                perPageValues:[10, 20, 50],
+                perPage: 10,
+                perPageValues: [10, 20, 50],
                 sortable: true,
                 filterable: false,
                 orderBy: false,
                 columnsDropdown: false,
                 dateFormat: "DD/MM/YYYY",
                 pagination: {
-                    show:true,
+                    show: true,
                     dropdown: false,
                     chunk: 10,
                     edge: true,
@@ -220,7 +241,7 @@ Vue.mixin({
          *
          * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
          */
-        loading: function() {
+        loading: function () {
             let vm = this;
             if (!vm.loading) {
                 $('.preloader').fadeOut(2000);
@@ -241,9 +262,9 @@ Vue.mixin({
          * @param  {object}  e  Objeto con datos del error
          * @param  {string}  f  Función. Opcional
          */
-        logs: function(v, l, e, f) {
+        logs: function (v, l, e, f) {
             let vm = this;
-            var f = (typeof(f) !== "undefined") ? f : false;
+            var f = (typeof (f) !== "undefined") ? f : false;
             var err = e.toJSON();
             var p = {
                 view: v,
@@ -286,7 +307,7 @@ Vue.mixin({
          * @return  {String}         Ruta absoluta
          */
         setUrl(route) {
-            return (!route.includes('http')) ? `${window.app_url}${(route.startsWith('/'))?'':'/'}${route}` : route;
+            return (!route.includes('http')) ? `${window.app_url}${(route.startsWith('/')) ? '' : '/'}${route}` : route;
         },
         /**
          * Redirecciona a una url esecífica si fue suministrada
@@ -295,7 +316,7 @@ Vue.mixin({
          *
          * @param  {string} url URL a redireccionar.
          */
-        redirect_back: function(url) {
+        redirect_back: function (url) {
             location.href = url;
         },
         /**
@@ -318,7 +339,7 @@ Vue.mixin({
          *
          * @return {string}       Fecha con el formato establecido
          */
-        format_date: function(value, format = 'DD/MM/YYYY') {
+        format_date: function (value, format = 'DD/MM/YYYY') {
             return moment(String(value)).format(format);
         },
         /**
@@ -330,7 +351,7 @@ Vue.mixin({
          *
          * @return {string}       Fecha con el formato establecido
          */
-        format_timestamp: function(value) {
+        format_timestamp: function (value) {
             return moment(String(value)).format('DD/MM/YYYY hh:mm:ss A');
         },
         /**
@@ -344,9 +365,9 @@ Vue.mixin({
          *
          * @return     {[type]}  Objeto con información de la diferencia obtenida entre las dos fechas
          */
-        diff_datetimes: function(dateThen) {
+        diff_datetimes: function (dateThen) {
             var now = moment().format("YYYY-MM-DD HH:mm:ss");
-            var ms = moment(dateThen,"YYYY-MM-DD HH:mm:ss").diff(moment(now,"YYYY-MM-DD HH:mm:ss"));
+            var ms = moment(dateThen, "YYYY-MM-DD HH:mm:ss").diff(moment(now, "YYYY-MM-DD HH:mm:ss"));
             var d = moment.duration(ms);
             return {
                 years: d._data.years,
@@ -374,8 +395,8 @@ Vue.mixin({
                 dd = `0${dd}`;
             }
 
-            if ( mm < 10) {
-                mm=`0${mm}`;
+            if (mm < 10) {
+                mm = `0${mm}`;
             }
             return `${yyyy}-${mm}-${dd}`;
         },
@@ -397,15 +418,15 @@ Vue.mixin({
          *
          * @return    {String}            Devuelve el monto formateado de acuerdo a los requerimientos suministrados
          */
-        formatToCurrency: function(amount, symbol = null, style = 'currency', currency = 'VEF') {
+        formatToCurrency: function (amount, symbol = null, style = 'currency', currency = 'VEF') {
             let formatter = new Intl.NumberFormat('es-VE', {
                 style: style,
                 currency: currency
             });
 
             return (symbol !== null && style === 'currency')
-                   ? formatter.format(amount).replace('Bs.', symbol)
-                   : formatter.format(amount);
+                ? formatter.format(amount).replace(new RegExp('(Bs\.|' + currency + ')', 'g'), symbol)
+                : formatter.format(amount);
         },
         /**
          * Agrega dias, meses o años a una fecha proporcionada
@@ -421,7 +442,7 @@ Vue.mixin({
          *
          * @return    {string}      Fecha del período agregado
          */
-        add_period: function(current, number, type, format = 'DD/MM/YYYY') {
+        add_period: function (current, number, type, format = 'DD/MM/YYYY') {
             return moment(current).add(number, type).format(format);
         },
         /**
@@ -438,7 +459,7 @@ Vue.mixin({
          *
          * @return    {string}     Fecha del día a establecer
          */
-        start_day: function(date, format, startOf, day) {
+        start_day: function (date, format, startOf, day) {
             return moment(date, format).startOf(startOf).day(day);
         },
         /**
@@ -452,27 +473,27 @@ Vue.mixin({
          *
          * @return {float}         Retorna el valor numérico despues de la conversión
          */
-        measure_converter: function(number, from, to) {
+        measure_converter: function (number, from, to) {
             var result = false;
             let measurements = [
                 'mm', 'cm', 'mt', 'km', 'in', 'ft', 'px', 'em', 'rem', 'lt', 'kg', 'tn'
             ];
             let factors = {
-                mm: {cm: 0.1, mt: 0.001, ft: 0.00328084, in: 0.0393701, px: 3.779527559055},
-                cm: {mm: 10, mt: 0.01, ft: 0.0328084, in: 0.393701, px: 37.79527559055},
-                mt: {mm: 1000, cm: 100, km: 0.001, ft: 3.28084, in: 39.3701, px: 3779.527559055},
-                km: {mt: 1000, cm: 100000, ft: 3280.84, in: 39370.1},
-                in: {mt: 0.0254, cm: 2.54, mm: 25.4, ft: 0.0833333, px: 96},
-                ft: {km: 0.0003048, mt: 0.3048, cm: 30.48, mm: 304.8, in: 12},
-                px: {mm: 0.264583333, cm: 0.02645833333333, mt: 0.0002645833333333, em: 0.7528125},
-                em: {px: 1.421348031496}
+                mm: { cm: 0.1, mt: 0.001, ft: 0.00328084, in: 0.0393701, px: 3.779527559055 },
+                cm: { mm: 10, mt: 0.01, ft: 0.0328084, in: 0.393701, px: 37.79527559055 },
+                mt: { mm: 1000, cm: 100, km: 0.001, ft: 3.28084, in: 39.3701, px: 3779.527559055 },
+                km: { mt: 1000, cm: 100000, ft: 3280.84, in: 39370.1 },
+                in: { mt: 0.0254, cm: 2.54, mm: 25.4, ft: 0.0833333, px: 96 },
+                ft: { km: 0.0003048, mt: 0.3048, cm: 30.48, mm: 304.8, in: 12 },
+                px: { mm: 0.264583333, cm: 0.02645833333333, mt: 0.0002645833333333, em: 0.7528125 },
+                em: { px: 1.421348031496 }
             };
 
             if (measurements.includes(from) && measurements.includes(to) && from !== to) {
                 number = parseFloat(number * factors[from][to]);
                 result = true;
             }
-            return {result: result, number: number};
+            return { result: result, number: number };
         },
         /**
          * Inicializa todos los campos de formularios a un valor vacío
@@ -481,7 +502,7 @@ Vue.mixin({
          */
         clearForm() {
             let vm = this;
-            if (typeof(vm.record) !== "undefined") {
+            if (typeof (vm.record) !== "undefined") {
                 for (var index in vm.record) {
                     vm.record[index] = '';
                 }
@@ -504,14 +525,14 @@ Vue.mixin({
             url = this.setUrl(url);
 
             axios.get(url).then(response => {
-                if (typeof(response.data.records) !== "undefined") {
+                if (typeof (response.data.records) !== "undefined") {
                     vm.records = response.data.records;
                 }
                 if (modal_id) {
                     $(`#${modal_id}`).modal('show');
                 }
             }).catch(error => {
-                if (typeof(error.response) !== "undefined") {
+                if (typeof (error.response) !== "undefined") {
                     if (error.response.status == 403) {
                         vm.showMessage(
                             'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
@@ -536,7 +557,7 @@ Vue.mixin({
             url = this.setUrl(url);
 
             await axios.get(url).then(response => {
-                if (typeof(response.data.records) !== "undefined") {
+                if (typeof (response.data.records) !== "undefined") {
                     vm.records = response.data.records;
                 }
             }).catch(error => {
@@ -586,7 +607,7 @@ Vue.mixin({
                     fields[index] = vm.record[index];
                 }
                 await axios.post(url, fields).then(response => {
-                    if (typeof(response.data.redirect) !== "undefined") {
+                    if (typeof (response.data.redirect) !== "undefined") {
                         location.href = response.data.redirect;
                     }
                     else {
@@ -603,7 +624,7 @@ Vue.mixin({
                 }).catch(error => {
                     vm.errors = [];
 
-                    if (typeof(error.response) !="undefined") {
+                    if (typeof (error.response) != "undefined") {
                         if (error.response.status == 403) {
                             vm.showMessage(
                                 'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
@@ -646,8 +667,8 @@ Vue.mixin({
          */
         editForm(id) {
             location.href = (this.route_edit.indexOf("{id}") >= 0)
-                            ? this.route_edit.replace("{id}", id)
-                            : this.route_edit + '/' + id;
+                ? this.route_edit.replace("{id}", id)
+                : this.route_edit + '/' + id;
         },
         /**
          * Método que carga el formulario con los datos a modificar
@@ -685,8 +706,8 @@ Vue.mixin({
             for (var index in vm.record) {
                 fields[index] = vm.record[index];
             }
-            await axios.patch(`${url}${(url.endsWith('/'))?'':'/'}${vm.record.id}`, fields).then(response => {
-                if (typeof(response.data.redirect) !== "undefined") {
+            await axios.patch(`${url}${(url.endsWith('/')) ? '' : '/'}${vm.record.id}`, fields).then(response => {
+                if (typeof (response.data.redirect) !== "undefined") {
                     location.href = response.data.redirect;
                 }
                 else {
@@ -698,12 +719,12 @@ Vue.mixin({
             }).catch(error => {
                 vm.errors = [];
 
-                if (typeof(error.response) !="undefined") {
+                if (typeof (error.response) != "undefined") {
                     if (error.response.status == 403) {
-                            vm.showMessage(
-                                'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
-                            );
-                        }
+                        vm.showMessage(
+                            'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
+                        );
+                    }
                     for (var index in error.response.data.errors) {
                         if (error.response.data.errors[index]) {
                             vm.errors.push(error.response.data.errors[index][0]);
@@ -721,7 +742,7 @@ Vue.mixin({
          * @param  {integer} id Identificador del registro a mostrar
          */
         showRecord(id) {
-            if (typeof(this.route_show) !== "undefined" && this.route_show) {
+            if (typeof (this.route_show) !== "undefined" && this.route_show) {
                 if (this.route_show.indexOf("{id}") >= 0) {
                     location.href = this.route_show.replace("{id}", id);
                 }
@@ -741,7 +762,7 @@ Vue.mixin({
         deleteRecord(id, url) {
             const vm = this;
             /** @type {string} URL que atiende la petición de eliminación del registro */
-            var url = vm.setUrl((url)?url:vm.route_delete);
+            var url = vm.setUrl((url) ? url : vm.route_delete);
 
             bootbox.confirm({
                 title: "¿Eliminar registro?",
@@ -762,8 +783,8 @@ Vue.mixin({
                             return rec.id === id;
                         })[0]));
 
-                        await axios.delete(`${url}${url.endsWith('/')?'':'/'}${recordDelete.id}`).then(response => {
-                            if (typeof(response.data.error) !== "undefined") {
+                        await axios.delete(`${url}${url.endsWith('/') ? '' : '/'}${recordDelete.id}`).then(response => {
+                            if (typeof (response.data.error) !== "undefined") {
                                 /** Muestra un mensaje de error si sucede algún evento en la eliminación */
                                 vm.showMessage('custom', 'Alerta!', 'warning', 'screen-error', response.data.message);
                                 return false;
@@ -772,12 +793,12 @@ Vue.mixin({
                             vm.records = JSON.parse(JSON.stringify(vm.records.filter((rec) => {
                                 return rec.id !== id;
                             })));
-                            if (typeof(vm.$refs.tableResults) !== "undefined") {
+                            if (typeof (vm.$refs.tableResults) !== "undefined") {
                                 vm.$refs.tableResults.refresh;
                             }
                             vm.showMessage('destroy');
                         }).catch(error => {
-                            if (typeof(error.response) !="undefined") {
+                            if (typeof (error.response) != "undefined") {
                                 if (error.response.status == 403) {
                                     vm.showMessage(
                                         'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
@@ -803,22 +824,22 @@ Vue.mixin({
          * @param  {string} custom_text Texto personalizado para el mensaje (opcional)
          */
         showMessage(type, msg_title, msg_class, msg_icon, custom_text) {
-            msg_title = (typeof(msg_title) == "undefined" || !msg_title)?'Éxito':msg_title;
-            msg_class = (typeof(msg_class) == "undefined" || !msg_class)?'growl-success':'growl-'+msg_class;
-            msg_icon = (typeof(msg_icon) == "undefined" || !msg_icon)?'screen-ok':msg_icon;
-            custom_text = (typeof(custom_text)!=="undefined")?custom_text:'';
+            msg_title = (typeof (msg_title) == "undefined" || !msg_title) ? 'Éxito' : msg_title;
+            msg_class = (typeof (msg_class) == "undefined" || !msg_class) ? 'growl-success' : 'growl-' + msg_class;
+            msg_icon = (typeof (msg_icon) == "undefined" || !msg_icon) ? 'screen-ok' : msg_icon;
+            custom_text = (typeof (custom_text) !== "undefined") ? custom_text : '';
 
             var msg_text;
-            if (type=='store') {
+            if (type == 'store') {
                 msg_text = 'Registro almacenado con éxito';
             }
-            else if (type=='update') {
+            else if (type == 'update') {
                 msg_text = 'Registro actualizado con éxito';
             }
-            else if (type=='destroy') {
+            else if (type == 'destroy') {
                 msg_text = 'Registro eliminado con éxito';
             }
-            else if (type=='custom') {
+            else if (type == 'custom') {
                 msg_text = custom_text;
             }
 
@@ -854,7 +875,7 @@ Vue.mixin({
         async getEstates() {
             const vm = this;
             vm.estates = [
-                {id: '', text: 'Seleccione...'}
+                { id: '', text: 'Seleccione...' }
             ];
             if (vm.record.country_id) {
                 const url = vm.setUrl(`/get-estates/${vm.record.country_id}`);
@@ -920,16 +941,16 @@ Vue.mixin({
         },
 
         /**
-		 * Obtiene los datos de los géneros registradas
-		 *
-		 * @author William Páez <wpaez@cenditel.gob.ve>
-		 */
-		async getGenders() {
-			this.genders = [];
-			await axios.get(`${window.app_url}/get-genders`).then(response => {
-				this.genders = response.data;
-			});
-		},
+         * Obtiene los datos de los géneros registradas
+         *
+         * @author William Páez <wpaez@cenditel.gob.ve>
+         */
+        async getGenders() {
+            this.genders = [];
+            await axios.get(`${window.app_url}/get-genders`).then(response => {
+                this.genders = response.data;
+            });
+        },
 
         /**
          * Obtiene un arreglo con las organizaciones registradas
@@ -940,7 +961,7 @@ Vue.mixin({
          */
         async getInstitutions(id) {
             const vm = this;
-            let institution_id = (typeof(id)!=="undefined")?'/'+id:'';
+            let institution_id = (typeof (id) !== "undefined") ? '/' + id : '';
             const url = vm.setUrl(`get-institutions${institution_id}`);
             vm.institutions = [];
             await axios.get(url).then(response => {
@@ -958,7 +979,7 @@ Vue.mixin({
          */
         async getCurrencies(id) {
             const vm = this;
-            let currency_id = (typeof(id)!=="undefined")?'/'+id:'';
+            let currency_id = (typeof (id) !== "undefined") ? '/' + id : '';
             const url = vm.setUrl(`get-currencies${currency_id}`);
             vm.currencies = [];
             await axios.get(url).then(response => {
@@ -966,7 +987,7 @@ Vue.mixin({
             }).catch(error => {
                 console.error(error);
             });
-            if(!vm.record || !vm.record.id){
+            if (!vm.record || !vm.record.id) {
                 if (vm.record) {
                     vm.record.currency_id = vm.currencies.filter((currency) => {
                         return currency.default == true;
@@ -1008,7 +1029,7 @@ Vue.mixin({
          */
         async getDefaultCurrencies(id) {
             const vm = this;
-            let currency_id = (typeof(id)!=="undefined")?'/'+id:'';
+            let currency_id = (typeof (id) !== "undefined") ? '/' + id : '';
             const url = vm.setUrl(`get-default-currencies${currency_id}`);
             vm.currencies = [];
             await axios.get(url).then(response => {
@@ -1027,14 +1048,14 @@ Vue.mixin({
         async getDepartments(id) {
             let vm = this;
             vm.departments = [];
-            if (typeof(vm.record.institution_id) !== "undefined" && vm.record.institution_id !== '') {
+            if (typeof (vm.record.institution_id) !== "undefined" && vm.record.institution_id !== '') {
                 await axios.get(`/get-departments/${vm.record.institution_id}`).then(response => {
                     /** Obtiene los departamentos */
-                    vm.departments = (typeof(id) === "undefined" || !id)
-                                     ? response.data
-                                     : response.data.filter((department) => {
-                                        return department.id === "" || department.id === id;
-                                     });
+                    vm.departments = (typeof (id) === "undefined" || !id)
+                        ? response.data
+                        : response.data.filter((department) => {
+                            return department.id === "" || department.id === id;
+                        });
                 }).catch(error => {
                     console.error(error);
                 });
@@ -1050,7 +1071,7 @@ Vue.mixin({
             const url = vm.setUrl(`/list/deductions`);
             await axios.get(url).then(response => {
                 vm.deductions = response.data.records;
-                if (typeof(vm.tmpDeductions)!=="undefined") {
+                if (typeof (vm.tmpDeductions) !== "undefined") {
                     vm.tmpDeductions = response.data.records;
                 }
             }).catch(error => {
@@ -1067,7 +1088,7 @@ Vue.mixin({
         async getMaritalStatus(id) {
             const vm = this;
             vm.marital_status = [];
-            var marital_status_id = (typeof(id)!=="undefined")?'/'+id:'';
+            var marital_status_id = (typeof (id) !== "undefined") ? '/' + id : '';
             const url = vm.setUrl(`/get-marital-status${marital_status_id}`);
             await axios.get(url).then(response => {
                 vm.marital_status = response.data;
@@ -1085,7 +1106,7 @@ Vue.mixin({
         async getProfessions(id) {
             const vm = this;
             vm.professions = [];
-            var profession_id = (typeof(id)!=="undefined")?'/'+id:'';
+            var profession_id = (typeof (id) !== "undefined") ? '/' + id : '';
             const url = vm.setUrl(`/get-professions${profession_id}`);
             await axios.get(url).then(response => {
                 vm.professions = response.data;
@@ -1098,7 +1119,7 @@ Vue.mixin({
          *
          * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
          */
-        addPhone: function() {
+        addPhone: function () {
             const vm = this;
             vm.record.phones.push({
                 type: '',
@@ -1106,8 +1127,8 @@ Vue.mixin({
                 number: '',
                 extension: ''
             });
-            setTimeout(function(args) {
-                $('.phone-row').each(function(index) {
+            setTimeout(function (args) {
+                $('.phone-row').each(function (index) {
                     if (index === (vm.record.phones.length - 1)) {
                         let select2 = $(this).find('.select2');
                         select2.select2({});
@@ -1116,8 +1137,8 @@ Vue.mixin({
                             'data-toggle': 'tooltip'
                         });
                         select2.tooltip({ delay: { hide: 100 } });
-                        select2.on('shown.bs.tooltip', function() {
-                            setTimeout(function() {
+                        select2.on('shown.bs.tooltip', function () {
+                            setTimeout(function () {
                                 select2.tooltip('hide');
                             }, 1500);
                         });
@@ -1136,7 +1157,7 @@ Vue.mixin({
          * @param  {integer}      index Indice del elemento a eliminar
          * @param  {object|array} el    Elemento del cual se va a eliminar un elemento
          */
-        removeRow: function(index, el) {
+        removeRow: function (index, el) {
             $('.tooltip:last').remove();
             el.splice(index, 1);
         },
@@ -1149,15 +1170,15 @@ Vue.mixin({
          * @param  {string} model        Nombre del modelo al cual asignar el valor del switch
          * @param  {string} other_model  Nombre de otro modelo al cual asignar el valor del switch
          */
-        switchHandler: function(elName, model, other_model) {
+        switchHandler: function (elName, model, other_model) {
             /** Si no se ha indicado el modelo se asigna como valor por defecto el del nombre del elemento */
-            var model = (typeof(model) !== "undefined") ? model: elName;
+            var model = (typeof (model) !== "undefined") ? model : elName;
             /** Si se ha especificado otro modelo al cual asignar el valor */
-            var other_model = (typeof(other_model) !== "undefined") ? other_model: null;
+            var other_model = (typeof (other_model) !== "undefined") ? other_model : null;
             let vm = this;
-            $(`input[name=${elName}].bootstrap-switch`).on('switchChange.bootstrapSwitch', function() {
+            $(`input[name=${elName}].bootstrap-switch`).on('switchChange.bootstrapSwitch', function () {
                 var value = ($(this).val().toLowerCase() === "true")
-                            ? true : (($(this).val().toLowerCase() === "false") ? false : $(this).val());
+                    ? true : (($(this).val().toLowerCase() === "false") ? false : $(this).val());
                 /** Asigna el valor del elemento radio o checkbox seleccionado */
                 if (other_model) {
                     /** en caso de asignar el valor a otro objeto de modelo */
@@ -1178,17 +1199,17 @@ Vue.mixin({
          * @param  {string}  text      Texto a mostrar en el tooltip
          * @param  {integer} delayHide Tiempo en milisegundos para ocultar la ventana tooltip
          */
-        switchTooltip: function(elName, text, delayHide) {
-            var delayHide = (typeof(delayHide) !== "undefined") ? delayHide : 200;
+        switchTooltip: function (elName, text, delayHide) {
+            var delayHide = (typeof (delayHide) !== "undefined") ? delayHide : 200;
             $(`input[name=${elName}]`).closest('.bootstrap-switch-wrapper').attr({
-                'title': (typeof(text)!=="undefined")?text:$(this).data('original-title'),
+                'title': (typeof (text) !== "undefined") ? text : $(this).data('original-title'),
                 'data-toggle': 'tooltip'
             }).tooltip({
-                trigger:"hover",
-                delay: {hide: delayHide}
+                trigger: "hover",
+                delay: { hide: delayHide }
             });
         },
-        initUIGuide: function(file) {
+        initUIGuide: function (file) {
             let helpFile = (typeof file === 'string' || typeof file instanceof String) ? file : JSON.stringify(file);
             startGuidedTour(JSON.parse(helpFile));
         },
@@ -1203,7 +1224,8 @@ Vue.mixin({
          */
         async lockScreen() {
             let vm = this;
-            /*if (window.screen_locked) {
+            clearTimeout(vm.lockscreen.timer_timeout);
+            if (window.screen_locked) {
                 $(document.body).addClass('modalBlur');
                 $(".modal-lockscreen").modal('show');
                 return false;
@@ -1213,14 +1235,9 @@ Vue.mixin({
                     if (vm.loadLockScreen) {
                         return;
                     }
-                    // @type {Object} Datos del usuario para el bloqueo de pantalla por inactividad
-                    let response = await axios.get(`${window.app_url}/get-lockscreen-data`);
-                    vm.lockscreen.lock = response.data.lock_screen;
-                    vm.lockscreen.time = response.data.time_lock;
-                    vm.loadLockScreen = true;
                 }
 
-                if (vm.lockscreen.time > 0) {
+                if (vm.lockscreen.time > 0 ) {
                     // Bloquea la pantalla del sistema al no haber actividad por parte del usuario
                     vm.lockscreen.timer_timeout = setTimeout(function() {
                         if (window.screen_locked) {
@@ -1235,38 +1252,8 @@ Vue.mixin({
                             console.warn(error);
                         });
                     }, vm.lockscreen.time * 60000);
-
-
-                    // @type {Array} Eventos que determinan actividad del usuario en la aplicación
-                    var activityEvents = [
-                        'mousedown', 'mousemove', 'keydown',
-                        'scroll'
-                    ];
-
-                    // Reinicia el contador para bloquear la pantalla si el usuario ha estado activo en la
-                    // aplicación
-                    document.addEventListener(activityEvents, function() {
-                        console.log($(".modal-lockscreen").is(':visible'))
-                        if (!$(".modal-lockscreen").is(':visible')) {
-                            clearTimeout(vm.timer_timeout);
-                            window.screen_locked = false;
-                            vm.lockscreen.timer_timeout = setTimeout(function() {
-                                if (window.screen_locked) {
-                                    return;
-                                }
-                                $(document.body).addClass('modalBlur');
-                                $(".modal-lockscreen").modal('show');
-                                window.screen_locked = true;
-                                axios.post(`${window.app_url}/set-lockscreen-data`, {
-                                    lock_screen: true
-                                }).catch(error => {
-                                    console.warn(error);
-                                });
-                            }, vm.lockscreen.time * 60000);
-                        }
-                    }, true);
                 }
-            }*/
+            }
         },
         /**
          * Bloquea la pantalla a solicitud del usuario
@@ -1276,7 +1263,7 @@ Vue.mixin({
         async lockScreenNow() {
             const vm = this;
 
-            vm.lockscreen.timer_timeout = setTimeout(function() {
+            vm.lockscreen.timer_timeout = setTimeout(function () {
                 if (window.screen_locked) {
                     return;
                 }
@@ -1347,21 +1334,11 @@ Vue.mixin({
             const vm = this;
             $(".VueTables__search__input").val('');
             vm.$children.forEach((child) => {
-                if (typeof(child.$el.className) !== "undefined" && child.$el.className.startsWith('VueTables')) {
+                if (typeof (child.$el.className) !== "undefined" && child.$el.className.startsWith('VueTables')) {
                     child._data.query = "";
                 }
             });
         },
-        /*loadRelationalSelect(parent_id, target_url) {
-            var parent_id = (typeof(parent_id) !== "undefined")?parent_id:false;
-            var target_url = (typeof(target_url) !== "undefined")?target_url:false;
-
-            if (parent_id) {
-                axios.get('/' + target_url + '/' + parent_id).then(response => {
-                    this.estates = response.data;
-                });
-            }
-        }*/
         /**
          * Método que actualiza select de HTML con los registros a mostrar
          *
@@ -1369,10 +1346,10 @@ Vue.mixin({
          *
          * @param  {string} url Ruta que obtiene todos los registros solicitados
          */
-         updateSelect(target_element, records) {
+        updateSelect(target_element, records) {
             const vm = this;
             target_element.empty().append('<option value="">Seleccione...</option>');
-            $.each(records, function(index, record) {
+            $.each(records, function (index, record) {
                 target_element.append(
                     `<option value="${record['id']}">${record['name']}</option>`
                 );
@@ -1399,20 +1376,20 @@ Vue.mixin({
                     if (v.__vue__._computedWatchers.filteredData) {
                         for (const [index, value] of v.__vue__._computedWatchers.filteredData.value.entries()) {
                             if (value.created_at < fiscal_years[0].created_at) {
-                                disabledOnes.push({'disabled': true, 'index': index});
+                                disabledOnes.push({ 'disabled': true, 'index': index });
                             } else {
-                                disabledOnes.push({'disabled': false, 'index': index});
+                                disabledOnes.push({ 'disabled': false, 'index': index });
                             }
                         }
 
-                        for (let disabledOne of disabledOnes){
+                        for (let disabledOne of disabledOnes) {
                             if (v.children[1].children[0].children[1].children[disabledOne.index]) {
                                 let table = v.children[1].children[0].children[1].children[disabledOne.index];
                                 let buttonEdit = '';
                                 let buttonDelete = '';
                                 let buttonApprove = '';
 
-                                for (let button of Array.from(table.children[table.children.length-1].children[0].children)) {
+                                for (let button of Array.from(table.children[table.children.length - 1].children[0].children)) {
                                     if (button.firstChild.className.includes('fa fa-edit')) {
                                         buttonEdit = button;
                                     }
@@ -1483,12 +1460,12 @@ Vue.mixin({
         async queryLastFiscalYear() {
             const vm = this;
             await axios.get(`${window.app_url}/fiscal-years/last`)
-            .then(response => {
-                vm.lastYear = response.data.last_year;
-            })
-            .catch(error => {
-                console.error(error);
-            });
+                .then(response => {
+                    vm.lastYear = response.data.last_year;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         },
         setAge(fromDate) {
             const birthdate = moment(fromDate);
@@ -1511,41 +1488,48 @@ Vue.mixin({
         });
         $('.VueTables__limit-field').tooltip();
 
-        // El select2 está interfiriendo con el selector de cantidad de registros
-        // $("[id^=VueTables__limit]").select2();
+        let inputElements = document.querySelectorAll('input');
+        inputElements.forEach(function(element) {
+            if (element.type === 'date' && !element.classList.contains('no-restrict') && !element.classList.contains('fiscal-year-restrict')) {
+                let today = new Date();
+                let dd = today.getDate();
+                let mm = today.getMonth() + 1;
+                let yyyy = today.getFullYear();
+                if(dd<10) {
+                    dd='0'+dd;
+                }
+                if(mm<10) {
+                    mm='0'+mm;
+                }
+                let now = `${yyyy}-${mm}-${dd}`;
+                element.setAttribute('max', now);
+            }
+        });
     },
     async mounted() {
         let vm = this;
-        if ($('.modal-lockscreen').length > 0) {
-            vm.lockScreen();
-            $('.modal-lockscreen').on('hidden.bs.modal', function() {
-                /** Reinicia el valor del campo de la contraseña */
-                $(".modal-lockscreen").find('#password').val('');
-                vm.lockScreen();
-            });
-        }
-        $('.modal').on('hidden.bs.modal', function() {
+        $('.modal').on('hidden.bs.modal', function () {
             $("input[class^='VueTables__search']").val('');
             vm.clearFilters();
         });
-        $('.modal').on('shown.bs.modal', function() {
-            //vm.records = vm.data;
+        $('.modal').on('shown.bs.modal', function () {
+            //
         });
     },
-    updated: function() {
+    updated: function () {
         const vm = this;
-        vm.$nextTick(function() {
-            $("input[type=radio]").each(function() {
+        vm.$nextTick(function () {
+            $("input[type=radio]").each(function () {
                 let title = $(this).attr('title') || $(this).data('original-title');
                 $(this).closest('.bootstrap-switch-wrapper').attr({
                     'title': title,
                     'data-toggle': 'tooltip'
                 }).tooltip({
-                    trigger:"hover",
-                    delay: {hide: 200}
+                    trigger: "hover",
+                    delay: { hide: 200 }
                 });
             });
-            $('.btn-action').tooltip({delay: {hide:100}});
+            $('.btn-action').tooltip({ delay: { hide: 100 } });
         });
     }
 });

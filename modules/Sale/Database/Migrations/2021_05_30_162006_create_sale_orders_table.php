@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class CreateSaleOrdersTable
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -31,7 +29,6 @@ class CreateSaleOrdersTable extends Migration
             $table->string('phone', 200)->comment('Número de teléfono');
             $table->string('description', 200)->comment('Descripción de la actividad económica');
             $table->string('status', 100)->nullable()->comment('Estado de la solicitud')->default('pending');
-            //$table->json('products')->nullable()->comment('Lista de productos');
 
             $table->timestamps();
             $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');

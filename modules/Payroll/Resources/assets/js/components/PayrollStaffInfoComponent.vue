@@ -90,6 +90,16 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
+                                        <strong>Rif:</strong>
+                                        <div class="row" style="margin: 1px 0">
+                                            <span class="col-md-12">
+                                                {{ record.rif ? record.rif : 'NO REGISTRADO' }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
                                         <strong>Género:</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <span class="col-md-12">
@@ -329,6 +339,7 @@
                     payroll_nationality_id: '',
                     id_number: '',
                     passport: '',
+                    rif: '',
                     email: '',
                     birthdate: '',
                     payroll_gender_id: '',
@@ -368,11 +379,11 @@
         methods: {
             /**
              * Método que borra todos los datos del formulario
-             * 
+             *
              * @author  Pablo Sulbarán <dcontreras@cenditel.gob.ve>
              */
             reset() {
-            },  
+            },
         },
     }
 </script>

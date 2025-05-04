@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldsAuthorizedByToAssetDisincorporationsTable
- * @brief [descripción detallada]
+ * @brief Agrega campos adicionales a la tabla asset_disincorporations
  *
- * [descripción corta]
+ * Agrega campos adicionales a la tabla asset_disincorporations
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

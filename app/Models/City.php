@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,12 +9,12 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
 
 /**
- * City
- *
- * Datos de Ciudades
+ * @class City
+ * @brief Datos de Ciudades
  *
  * Gestiona el modelo de datos para las Ciudades
  *
+ * @property string|integer  $id
  * @property string  $name
  * @property integer $estate_id
  *
@@ -52,21 +50,19 @@ class City extends Model implements Auditable
      */
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
-        /**
+    /**
      * Arreglo con las relaciones a cargar por defecto
      *
-     * @var    array
+     * @var    array $with
      */
     protected $with = ['estate'];
 
     /**
      * Método que obtiene el Estado de una Ciudad
      *
-     * @method  estate
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con los registros relacionados al modelo Estate
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function estate()
     {
@@ -74,9 +70,7 @@ class City extends Model implements Auditable
     }
 
     /**
-     * City has many Institutions.
-     *
-     * @method  institutions
+     * Metodo que obtiene las instituciones de una ciudad
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

@@ -131,7 +131,8 @@
                                         <strong>Monto:</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <span class="col-md-12">
-                                                {{ formatToCurrency(parseFloat(record.amount))}}
+                                                {{ record.currency_id ? record.currency.symbol : '' }}
+                                                {{ addDecimals(record.amount) }}
                                             </span>
                                         </div>
                                     </div>
@@ -143,7 +144,7 @@
                                         <strong>Tipo de moneda:</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <span class="col-md-12">
-                                                {{ record.currency_id ? record.currency.symbol + ' - ' + record.currency.name : '' }}
+                                                {{ record.currency_id ? record.currency.name : '' }}
                                             </span>
                                         </div>
                                     </div>
@@ -259,7 +260,7 @@
                                                         Código
                                                     </th>
                                                     <th
-                                                        class="col-3"
+                                                        class="col-2"
                                                         style="border: 1px solid #dee2e6; position: relative;"
                                                     >
                                                         Cuenta
@@ -271,10 +272,16 @@
                                                         Código acción específica
                                                     </th>
                                                     <th
-                                                        class="col-3"
+                                                        class="col-2"
                                                         style="border: 1px solid #dee2e6; position: relative;"
                                                     >
                                                         Descripción
+                                                    </th>
+                                                    <th
+                                                        class="col-2"
+                                                        style="border: 1px solid #dee2e6; position: relative;"
+                                                    >
+                                                        Concepto
                                                     </th>
                                                     <th
                                                         class="col-2"
@@ -300,7 +307,7 @@
                                                     </td>
                                                     <td
                                                         style="border: 1px solid #dee2e6;"
-                                                        class="col-3 text-right"
+                                                        class="col-2 text-right"
                                                     >
                                                         {{ row.budget_account.code }}
                                                     </td>
@@ -312,7 +319,13 @@
                                                     </td>
                                                     <td
                                                         style="border: 1px solid #dee2e6;"
-                                                        class="col-3 text-right"
+                                                        class="col-2 text-right"
+                                                    >
+                                                        {{ row.budget_account.denomination }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #dee2e6;"
+                                                        class="col-2 text-right"
                                                     >
                                                         {{ row.description }}
                                                     </td>
@@ -375,6 +388,10 @@
             }
         },
         methods: {
+            /**
+             * Truncar y redondear una cifra según el número pasado como segundo
+             * parámetro del método toFixed().
+             */
             addDecimals(value) {
                 return parseFloat(value).toFixed(2);
             },

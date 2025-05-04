@@ -7,8 +7,11 @@
                     <th class="text-uppercase" width="50%">
                         CÓDIGO DE CUENTA - DENOMINACIÓN
                     </th>
-                    <th class="text-uppercase" width="20%">DEBE</th>
-                    <th class="text-uppercase" width="20%">HABER</th>
+                    <th class="text-uppercase" width="15%">DEBE</th>
+                    <th class="text-uppercase" width="15%">HABER</th>
+                    <th class="text-uppercase" width="10%">
+                        REFERENCIA BANCARIA
+                    </th>
                     <th class="text-uppercase" width="10%">ACCIÓN</th>
                 </tr>
             </thead>
@@ -41,6 +44,14 @@
                             :step="0.01"
                             v-model="record.assets"
                             @change="CalculateTot()"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            data-toggle="tooltip"
+                            class="form-control input-sm"
+                            v-model="record.bank_reference"
                         />
                     </td>
                     <td>
@@ -103,11 +114,11 @@
                                             data.totAssets.toFixed(
                                                 data.currency.decimal_places
                                             ) &&
-                                            data.totDebit.toFixed(
-                                                data.currency.decimal_places
-                                            ) >= 0
+                                        data.totDebit.toFixed(
+                                            data.currency.decimal_places
+                                        ) >= 0
                                     "
-                                    style="color:#18ce0f;"
+                                    style="color: #18ce0f"
                                 >
                                     <strong>{{
                                         parseFloat(data.totDebit).toFixed(
@@ -118,7 +129,7 @@
                                         )
                                     }}</strong>
                                 </span>
-                                <span v-else style="color:#FF3636;">
+                                <span v-else style="color: #ff3636">
                                     <strong>{{
                                         parseFloat(data.totDebit).toFixed(
                                             data.currency &&
@@ -144,11 +155,11 @@
                                             data.totAssets.toFixed(
                                                 data.currency.decimal_places
                                             ) &&
-                                            data.totAssets.toFixed(
-                                                data.currency.decimal_places
-                                            ) >= 0
+                                        data.totAssets.toFixed(
+                                            data.currency.decimal_places
+                                        ) >= 0
                                     "
-                                    style="color:#18ce0f;"
+                                    style="color: #18ce0f"
                                 >
                                     <strong>{{
                                         parseFloat(data.totAssets).toFixed(
@@ -159,7 +170,7 @@
                                         )
                                     }}</strong>
                                 </span>
-                                <span v-else style="color:#FF3636;">
+                                <span v-else style="color: #ff3636">
                                     <strong>{{
                                         parseFloat(data.totAssets).toFixed(
                                             data.currency &&
@@ -172,12 +183,10 @@
                             </h6>
                         </div>
                     </td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
-        <!--<div class="card-footer text-right">
-      <buttonsDisplay :route_list="app_url + '/accounting/entries'" display="false" />
-    </div>-->
         <div class="card-footer text-right">
             <div class="row">
                 <div class="col-md-3 offset-md-9" id="helpParamButtons">
@@ -239,7 +248,6 @@ export default {
             recordsAccounting: [],
             recordsBudget: [],
             rowsToDelete: [],
-            columns: ["code", "debit", "assets", "id"],
             urlPrevious: `${window.app_url}/accounting/entries`,
             data: {
                 date: "",
@@ -309,6 +317,8 @@ export default {
                     id: this.entries.accounting_accounts[i]
                         .accounting_account_id,
                     entryAccountId: this.entries.accounting_accounts[i].id,
+                    bank_reference:
+                        this.entries.accounting_accounts[i].bank_reference,
                     debit: this.entries.accounting_accounts[i].debit,
                     assets: this.entries.accounting_accounts[i].assets,
                 });
@@ -332,10 +342,10 @@ export default {
 
         /**
          * [validateTotals valida que los totales sean positivos]
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          * @return {boolean}
          */
-        validateTotals: function() {
+        validateTotals: function () {
             return !(
                 this.data.totDebit.toFixed(this.data.currency.decimal_places) >=
                     0 &&
@@ -348,9 +358,9 @@ export default {
         /**
          * Validación de errores
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
-        validateErrors: function() {
+        validateErrors: function () {
             const vm = this;
             /** se cargan los errores */
             var errors = [];
@@ -407,9 +417,9 @@ export default {
         /**
          * Vacia la información del debe y haber de la columna sin cuenta seleccionada
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
-        changeSelectinTable: function(record) {
+        changeSelectinTable: function (record) {
             // si asigna un select en vacio, vacia los valores del debe y haber de esa fila
             if (record.id == "") {
                 record.debit = 0;
@@ -421,7 +431,7 @@ export default {
         /**
          * Establece la cantidad de decimales correspondientes a la moneda que se maneja
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         cualculateLimitDecimal() {
             var res = "0.";
@@ -435,9 +445,9 @@ export default {
         /**
          * Calcula el total del debe y haber del asiento contable
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
-        CalculateTot: function() {
+        CalculateTot: function () {
             this.data.totDebit = 0;
             this.data.totAssets = 0;
 
@@ -487,15 +497,16 @@ export default {
         /**
          * Establece la información base para cada fila de cuentas
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
-        addAccountingAccount: function() {
+        addAccountingAccount: function () {
             if ($("#select2").val() != "") {
                 for (var i = this.accounting_accounts.length - 1; i >= 0; i--) {
                     if (this.accounting_accounts[i].id == $("#select2").val()) {
                         this.recordsAccounting.push({
                             id: $("#select2").val(),
                             entryAccountId: null,
+                            bank_reference: "",
                             debit: 0,
                             assets: 0,
                         });
@@ -508,10 +519,10 @@ export default {
 
         /**
          * [createRecord se valida si el asiento sera actualizado o creado]
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          * @return {[type]} [description]
          */
-        createRecord: function() {
+        createRecord: function () {
             if (this.entries == null) {
                 this.storeEntry();
             } else {
@@ -521,7 +532,7 @@ export default {
 
         /**
          * [storeEntry Guarda la información del asiento contable]
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         storeEntry() {
             const vm = this;
@@ -546,7 +557,7 @@ export default {
                 .then((response) => {
                     vm.loading = false;
                     vm.showMessage("store");
-                    setTimeout(function() {
+                    setTimeout(function () {
                         location.href = vm.urlPrevious;
                     }, 2000);
                 })
@@ -555,11 +566,18 @@ export default {
                     if (typeof error.response != "undefined") {
                         if (error.response.status == 403) {
                             vm.showMessage(
-                                'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
+                                "custom",
+                                "Acceso Denegado",
+                                "danger",
+                                "screen-error",
+                                error.response.data.message
                             );
                         }
 
-                        if (error.response.data.result == false && error.response.status != 403) {
+                        if (
+                            error.response.data.result == false &&
+                            error.response.status != 403
+                        ) {
                             vm.showMessage(
                                 error.response.data.message.type,
                                 error.response.data.message.title,
@@ -588,9 +606,9 @@ export default {
         /**
          * Actualiza la información del asiento contable
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
-        updateRecord: function() {
+        updateRecord: function () {
             const vm = this;
             if (vm.validateErrors()) {
                 return;
@@ -610,7 +628,7 @@ export default {
                 .then(() => {
                     vm.loading = false;
                     vm.showMessage("update");
-                    setTimeout(function() {
+                    setTimeout(function () {
                         location.href = vm.route_list;
                     }, 2000);
                 })
@@ -619,7 +637,11 @@ export default {
                     if (typeof error.response != "undefined") {
                         if (error.response.status == 403) {
                             vm.showMessage(
-                                'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
+                                "custom",
+                                "Acceso Denegado",
+                                "danger",
+                                "screen-error",
+                                error.response.data.message
                             );
                         }
 
@@ -642,9 +664,9 @@ export default {
         /**
          * Elimina la fila de la cuenta y vuelve a calcular el total del asiento
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
-        deleteAccount: function(index, id) {
+        deleteAccount: function (index, id) {
             this.rowsToDelete.push(id);
             this.recordsAccounting.splice(index, 1);
             this.CalculateTot();
@@ -653,9 +675,9 @@ export default {
         /**
          * vacia los valores del debe y del haber de la fila de la cuenta y vuelve a calcular el total del asiento
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
-        clearValues: function(index) {
+        clearValues: function (index) {
             this.recordsAccounting[index].assets = 0.0;
             this.recordsAccounting[index].debit = 0.0;
             this.CalculateTot();

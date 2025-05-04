@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +10,7 @@ use App\Traits\ModelsTrait;
 
 /**
  * @class ProjectTrackingActivityStatus
- * @brief [descripción detallada]
+ * @brief Gestiona la información, procesos, consultas y relaciones asociadas al modelo
  *
  * Gestiona el modelo de datos para los status de las actividades
  *
@@ -29,16 +27,23 @@ class ProjectTrackingActivityStatus extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['color', 'name', 'description'];
 
+    /**
+     * Establece la relación con las tareas o actividades
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function tasks()
     {
         return $this->belongsToMany(ProjectTrackingTask::class);

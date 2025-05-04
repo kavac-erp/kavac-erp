@@ -21,7 +21,8 @@
         </div>
         <div slot="id" slot-scope="props" class="text-center">
             <div class="d-inline-flex">
-                <warehouse-req-info :route_list="app_url + '/warehouse/requests/info/' + props.row.id">
+                <warehouse-req-info :route_list="app_url + '/warehouse/requests/info/' + props.row.id"
+                    :infoid="props.row.id">
                 </warehouse-req-info>
                 <warehouse-request-pending :requestid="props.row.id"
                     v-if="((props.row.delivered == false) && (props.row.state == 'Aprobado'))">

@@ -5,12 +5,10 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 /**
- * @class ChangeFieldAccountingAccountIdToAccountablesTable
- * @brief [descripción detallada]
+ * @class UpdateFieldAccountingAccountIdToAccountablesTable
+ * @brief Ejecuta la migración para agregar el campo accounting_account_id a la tabla accountables
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Oscar Josúe González <ojgonzalez@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -43,7 +41,7 @@ class UpdateFieldAccountingAccountIdToAccountablesTable extends Migration
         Schema::table('accountables', function (Blueprint $table) {
             if (Schema::hasColumn('accountables', 'accountable_id')) {
                 $table->foreignId('accountable_id')
-                      ->change(); 
+                      ->change();
             }
         });
     }

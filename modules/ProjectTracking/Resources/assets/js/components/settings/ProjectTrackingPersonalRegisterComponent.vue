@@ -173,5 +173,5 @@ export default {
 		vm.getPositions();
 	},
 
-}	
+}
 </script>

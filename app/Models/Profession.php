@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +13,10 @@ use App\Traits\ModelsTrait;
  * @brief Datos de Profesiones
  *
  * Gestiona el modelo de datos para las Profesiones
+ *
+ * @property string|integer $id
+ * @property string $name
+ * @property string $acronym
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *

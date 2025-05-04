@@ -1,11 +1,11 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\UploadDocRepository;
@@ -17,6 +17,7 @@ use App\Repositories\UploadDocRepository;
  * Controlador para gestionar Documentos
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -25,9 +26,9 @@ class DocumentController extends Controller
     /**
      * Listado de todos los documentos registrados
      *
-     * @method    index
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function index()
     {
@@ -37,9 +38,9 @@ class DocumentController extends Controller
     /**
      * Muestra el formulario para la creación de documentos
      *
-     * @method    create
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function create()
     {
@@ -48,8 +49,6 @@ class DocumentController extends Controller
 
     /**
      * Registra información de un nuevo documento
-     *
-     * @method    store
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      * @author     William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
@@ -70,31 +69,42 @@ class DocumentController extends Controller
             }
             return response()->json(['result' => true, 'document_ids' => $document_ids], 200);
         }
-        return response()->json(['result' => false, 'message' => __('No se pudo subir el documento')], 200);
+        return response()->json(['result' => false, 'message' => __('No se pudo subir el(los) documento(s)')], 200);
     }
 
     /**
      * Muestra información de un documento
      *
-     * @method    show
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Document    $document    Objeto con información del documento a mostrar
+     *
+     * @return    Response
      */
     public function show(Document $document)
     {
-        //
+        if (!$document->digital_file) {
+            $fileContent = $document->url;
+        } else {
+            $fileContent = $document->digital_file;
+        }
+
+        // Determinar el tipo MIME del archivo
+        $mimeType = mime_content_type($document->url);
+
+        return response($fileContent)
+            ->header('Content-Type', $mimeType)
+            ->header('Content-Disposition', 'attachment; filename="' . $document->file . '.' . $document->extension . '"');
     }
 
     /**
      * Muestra el formulacio con información del documento a actualizar
      *
-     * @method    edit
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Document    $document    Objeto con información del documento a actualizar
+     *
+     * @return    void
      */
     public function edit(Document $document)
     {
@@ -104,12 +114,12 @@ class DocumentController extends Controller
     /**
      * Actualiza la información de un documento
      *
-     * @method    update
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Request     $request     Objeto con información de la petición
      * @param     Document    $document    Objeto con información del documento a actualizar
+     *
+     * @return void
      */
     public function update(Request $request, Document $document)
     {
@@ -118,8 +128,6 @@ class DocumentController extends Controller
 
     /**
      * Elimina un documento
-     *
-     * @method    destroy
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      * @author     William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
@@ -131,7 +139,7 @@ class DocumentController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        /** @var Document Objeto con información del documento a eliminar */
+        // Objeto con información del documento a eliminar
         $document = Document::find($id);
 
         if (is_null($document)) {
@@ -140,7 +148,7 @@ class DocumentController extends Controller
             ], 200);
         }
 
-        /** @var string Ruta del archivo a eliminar */
+        // Ruta del archivo a eliminar
         $file = $document->file;
 
         DB::transaction(function () use ($document, $file, $request) {
@@ -158,8 +166,6 @@ class DocumentController extends Controller
 
     /**
      * Obtiene detalles de un documento
-     *
-     * @method  getDocument
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      * @author  William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>

@@ -15,6 +15,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
  * Controlador para gestionar Periodos de tiempo
  *
  * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -27,11 +28,12 @@ class FrecuencyController extends Controller
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
-
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting.frecuency', ['only' => 'index']);
     }
 
@@ -39,6 +41,7 @@ class FrecuencyController extends Controller
      * Muesta todos los registros de Periodos de tiempo
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
      * @return \Illuminate\Http\JsonResponse con los registros de Periodos de tiempo
      */
     public function index()
@@ -50,7 +53,9 @@ class FrecuencyController extends Controller
      * Valida y registra un nuevo Periodo de tiempo
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @param  \Illuminate\Http\Request  $request
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
      * @return \Illuminate\Http\JsonResponse con mensaje de exito
      */
     public function store(Request $request)
@@ -66,7 +71,7 @@ class FrecuencyController extends Controller
             ]);
         }
 
-        /** @var frecuency Objeto con información del Periodo de tiempo registrado */
+        /* Objeto con información del Periodo de tiempo registrado */
         $frecuency = SaleSettingFrecuency::updateOrCreate([
             'name' => $request->name,
             'days' => $request->days
@@ -79,8 +84,10 @@ class FrecuencyController extends Controller
      * Actualiza la información del Periodo de tiempo
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Modules\Sale\Models\SaleSettingFrecuency  $frecuency
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  \Modules\Sale\Models\SaleSettingFrecuency  $frecuency Datos del período de tiempo
+     *
      * @return \Illuminate\Http\JsonResponse con mensaje de exito
      */
     public function update(Request $request, SaleSettingFrecuency $frecuency)
@@ -101,7 +108,9 @@ class FrecuencyController extends Controller
      * Elimina el Periodo de tiempo
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @param  Modules\Sale\Models\SaleSettingFrecuency  $frecuency
+     *
+     * @param  \Modules\Sale\Models\SaleSettingFrecuency  $frecuency Datos del Periodo de tiempo
+     *
      * @return \Illuminate\Http\JsonResponse con mensaje de exito
      */
     public function destroy(SaleSettingFrecuency $frecuency)
@@ -113,16 +122,12 @@ class FrecuencyController extends Controller
     /**
      * Obtiene las frecuencias
      *
-     * @method getFrecuencies
-     *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
      *
-     * @param
-     *
-     * @return JsonResponse JSON con los datos de los Periodos de tiempo
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getFrecuencies()
     {
-        return response()->json(template_choices('Modules\Sale\Models\SaleSettingFrecuency', 'name', 'days', '', true));
+        return response()->json(template_choices('Modules\Sale\Models\SaleSettingFrecuency', 'name', 'days', false));
     }
 }

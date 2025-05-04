@@ -1,0 +1,7 @@
+<map id="payrollGuardSchemePeriods" name="payrollGuardSchemePeriods">
+<area shape="rect" id="Node000001" title="Obtiene la relación con los periodos de esquemas de guardia." alt="" coords="268,31,475,56"/>
+<area shape="rect" id="Node000002" href="$d3/d2f/classModules_1_1Payroll_1_1Models_1_1PayrollGuardScheme.html#a7ebede10db9a728e6ef6d24c6800215a" title="Obtiene información de los periodos confirmados." alt="" coords="5,5,220,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="254,35,220,31,221,26,254,29"/>
+<area shape="rect" id="Node000003" href="$d3/d2f/classModules_1_1Payroll_1_1Models_1_1PayrollGuardScheme.html#af7ff36f32d36c0da1751b8b0343535a0" title="Obtiene información del estatus del documento." alt="" coords="9,55,217,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="255,57,217,60,217,55,254,52"/>
+</map>

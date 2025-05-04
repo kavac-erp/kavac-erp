@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class UpdateSaleSettingProductsTable
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
  * Elimina los campos code, price, produc type e iva
  *

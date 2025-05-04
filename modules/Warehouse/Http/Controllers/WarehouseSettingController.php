@@ -18,9 +18,9 @@ use App\Repositories\ParameterRepository;
  * Clase que gestiona las solicitudes de los productos de almacén
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseSettingController extends Controller
 {
@@ -30,16 +30,19 @@ class WarehouseSettingController extends Controller
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:warehouse.setting', ['only' => 'index']);
     }
 
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Muestra el listado de las configuraciones de almacén
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -68,17 +71,19 @@ class WarehouseSettingController extends Controller
      * Valida y registra la configuración de los códigos de modulo de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\Redirect
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        /** @var array $codes Arreglo con información de los campos de códigos configurados */
+        /* Arreglo con información de los campos de códigos configurados */
         $codes = $request->input();
-        /** @var boolean $saved Define el estatus verdadero para indicar que no se ha registrado información */
+        /* Define el estatus verdadero para indicar que no se ha registrado información */
         $saved = false;
 
-        /** Reglas de validación para la configuración de códigos */
+        /* Reglas de validación para la configuración de códigos */
         $this->validate($request, [
             'products_code'    => [new CodeSettingRule()],
             'movements_code'   => [new CodeSettingRule()],
@@ -88,7 +93,7 @@ class WarehouseSettingController extends Controller
         ]);
 
         foreach ($codes as $key => $value) {
-            /** @var string $model Define el modelo al cual hace referencia el código */
+            /* Define el modelo al cual hace referencia el código */
             $model = '';
 
             if ($key !== '_token' && !is_null($value)) {
@@ -96,22 +101,22 @@ class WarehouseSettingController extends Controller
                 list($prefix, $digits, $sufix) = CodeSetting::divideCode($value);
 
                 if ($table === "products") {
-                    /** @var string $table Define la tabla asociado a los productos inventariados */
+                    /* Define la tabla asociado a los productos inventariados */
                     $table = "inventory_products";
 
-                    /** @var string $model Define el modelo asociado a los productos inventariados */
+                    /* Define el modelo asociado a los productos inventariados */
                     $model = \Modules\Warehouse\Models\WarehouseInventoryProduct::class;
                 } elseif ($table === "movements") {
-                    /** @var string $model Define el modelo para asociado a los movimientos de almacén */
+                    /* Define el modelo para asociado a los movimientos de almacén */
                     $model = \Modules\Warehouse\Models\WarehouseMovement::class;
                 } elseif ($table === "requests") {
-                    /** @var string $model Define el modelo para asociado a las solicitudes de almacén */
+                    /* Define el modelo para asociado a las solicitudes de almacén */
                     $model = \Modules\Warehouse\Models\WarehouseRequest::class;
                 } elseif ($table === "reports") {
-                    /** @var string $model Define el modelo para asociado a los reportes de almacén */
+                    /* Define el modelo para asociado a los reportes de almacén */
                     $model = \Modules\Warehouse\Models\WarehouseReport::class;
                 } elseif ($table === "inventories") {
-                    /** @var string $model Define el modelo para asociado al inventario de almacenes */
+                    /* Define el modelo para asociado al inventario de almacenes */
                     //$model = \Modules\Warehouse\Models\WarehouseInventory::class;
                 }
 
@@ -134,7 +139,7 @@ class WarehouseSettingController extends Controller
                         ]);
                     }
 
-                    /** @var boolean $saved Define el estado verdadero para indicar que se ha registrado información */
+                    /* Define el estado verdadero para indicar que se ha registrado información */
                     $saved = true;
                 }
             }
@@ -151,8 +156,10 @@ class WarehouseSettingController extends Controller
      * Valida y registra en la configuración del sistema la opcion de multi almacenes
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\Redirect
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function storeParameter(Request $request, ParameterRepository $parameterRepository)
     {
@@ -170,7 +177,8 @@ class WarehouseSettingController extends Controller
      * Muesta todos los registros de los parámetros de configuración del requeridos por el módulo de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueSetting()
     {

@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -12,11 +10,9 @@ use Modules\Sale\Models\PeriodicCostAttribute;
 
 /**
  * @class PeriodicCostAttributeController
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -24,13 +20,9 @@ use Modules\Sale\Models\PeriodicCostAttribute;
 class PeriodicCostAttributeController extends Controller
 {
     /**
-     * [descripción del método]
+     * Listado de registros de atributos para costos fijos
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
@@ -38,13 +30,9 @@ class PeriodicCostAttributeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para crear un nuevo atributo de costo fijo
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -52,15 +40,11 @@ class PeriodicCostAttributeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena un nuevo atributo de costo fijo
      *
-     * @method    store
+     * @param     Request    $request    Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -80,15 +64,11 @@ class PeriodicCostAttributeController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información de un atributo de costo fijo
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -96,15 +76,11 @@ class PeriodicCostAttributeController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario para editar un atributo de costo fijo
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -112,16 +88,12 @@ class PeriodicCostAttributeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza la información de un atributo de costo fijo
      *
-     * @method    update
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -141,15 +113,11 @@ class PeriodicCostAttributeController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina un atributo de costo fijo
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy(PeriodicCostAttribute $attribute)
     {

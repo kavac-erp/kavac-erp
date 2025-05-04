@@ -9,11 +9,9 @@ use \Modules\Warehouse\Models\WarehouseProduct;
 
 /**
  * @class UpdateFieldTaxIdToWarehouseProductsTable
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -39,7 +37,7 @@ class UpdateFieldTaxIdToWarehouseProductsTable extends Migration
             Schema::table('warehouse_products', function (Blueprint $table) {
                 if (Schema::hasColumn('warehouse_products', 'tax_id')) {
                     $products = WarehouseProduct::get()->pluck('tax_id')->toArray();
-                
+
                     foreach ($products as $taxId) {
                         if ($taxId !== null) {
                             $historyId = HistoryTax::where('tax_id', $taxId)->orderBy('id', 'desc')->first()->id;

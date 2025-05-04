@@ -12,14 +12,14 @@ use Illuminate\Database\Eloquent\Model;
  * Gestiona la información por defecto a registrar inicialmente para los datos iniciales del módulo de presupuesto
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetDatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */
@@ -27,11 +27,11 @@ class BudgetDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        /** Seeder para clasificador presupuestario original */
+        /* Seeder para clasificador presupuestario original */
         $this->call(BudgetAccountsTableSeeder::class);
-        /** Seeder para roles y permisos disponibles en el módulo */
+        /* Seeder para roles y permisos disponibles en el módulo */
         $this->call(BudgetRoleAndPermissionsTableSeeder::class);
-        /** Seeder que carga los datos de los tipos y fuentes de financiamiento */
+        /* Seeder que carga los datos de los tipos y fuentes de financiamiento */
         // $this->call(BudgetFinancementTypesAndSourcesTableSeeder::class);
     }
 }

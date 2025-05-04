@@ -1,16 +1,16 @@
 <?php
 
-/** Controladores de uso exclusivo para usuarios administradores */
-
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Institution;
 use App\Models\Setting;
 use App\Models\Parameter;
+use App\Models\Institution;
+use Illuminate\Http\Request;
 use App\Rules\Rif as RifRule;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 
 /**
  * @class InstitutionController
@@ -25,13 +25,15 @@ use Illuminate\Validation\Rule;
  */
 class InstitutionController extends Controller
 {
-    /** @var array Lista de elementos a mostrar */
+    /**
+     * Lista de elementos a mostrar
+     *
+     * @var array $data
+     */
     protected $data = [];
 
     /**
      * Método constructor de la clase
-     *
-     * @method  __construct
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
@@ -46,11 +48,9 @@ class InstitutionController extends Controller
     /**
      * Listado de todos los registros de organismos
      *
-     * @method  index
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return JsonResponse     JSON con el listado de organismos
+     * @return JsonResponse|void     JSON con el listado de organismos
      */
     public function index(Request $request)
     {
@@ -62,8 +62,6 @@ class InstitutionController extends Controller
 
     /**
      * Registra un nuevo organismo
-     *
-     * @method  store
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -98,20 +96,24 @@ class InstitutionController extends Controller
 
         $errorMessages = [
             'rif.required' => __('El R.I.F. es obligatorio.'),
-            'rif.regex' => __('El formato del R.I.F es inválido. Debe estar formado por 10 caracteres, el primer carácter debe ser una letra: J,V,E,G o P (en mayúscula); los otros nueve carácteres deben ser números (X000000000).'),
-            'rif.size' => __('El R.I.F. debe contener 10 carácteres.'),
+            'rif.regex' => __(
+                'El formato del R.I.F es inválido. Debe estar formado por 10 caracteres, ' .
+                'el primer carácter debe ser una letra: J,V,E,G o P (en mayúscula); ' .
+                'los otros nueve caracteres deben ser números. Ej. V000000000.'
+            ),
+            'rif.size' => __('El R.I.F. debe contener 10 caracteres.'),
             'rif.unique' => __('El R.I.F. ya está registrado'),
             'acronym.required' => __('El acrónimo es obligatorio.'),
-            'acronym.max' => __('El acrónimo debe contener un máximo de 100 carácteres.'),
+            'acronym.max' => __('El acrónimo debe contener un máximo de 100 caracteres.'),
             'name.required' => __('El nombre es obligatorio.'),
-            'name.max' => __('El nombre debe contener un máximo de 100 carácteres.'),
+            'name.max' => __('El nombre debe contener un máximo de 100 caracteres.'),
             'business_name.required' => __('La razón social es obligatoria.'),
-            'business_name.max' => __('La razón social debe contener un máximo de 100 carácteres.'),
+            'business_name.max' => __('La razón social debe contener un máximo de 100 caracteres.'),
             'start_operations_date.required' => __('La fecha de inicio de operaciones es obligatoria.'),
             'start_operations_date.date' => __('La fecha de inicio de operaciones no tiene un formato válido.'),
             'legal_address.required' => __('La dirección fiscal es obligatoria.'),
             'postal_code.required' => __('El código postal es obligatorio.'),
-            'postal_code.max' => __('El código postal debe contener un máximo de 10 carácteres.'),
+            'postal_code.max' => __('El código postal debe contener un máximo de 10 caracteres.'),
             'institution_sector_id.required' => __('El sector del organismo es obligatorio.'),
             'institution_type_id.required' => __('El tipo de organismo es obligatorio.'),
             'municipality_id.required' => __('Seleccione un municipio.'),
@@ -128,21 +130,21 @@ class InstitutionController extends Controller
 
         $this->validate($request, $validations, $errorMessages);
 
-        /**
+        /*
          * TODO: Validación para múltiples organizaciones para cuando se establece en verdadero en la configuración de
          * la aplicación
          */
 
-        /** @var integer|null Identificador del logo del organismo a registrar */
+        // Identificador del logo del organismo a registrar
         $logo = (!empty($request->logo_id)) ? $request->logo_id : null;
-        /** @var integer|null Identificador del banner del organismo a registrar */
+        // Identificador del banner del organismo a registrar
         $banner = (!empty($request->banner_id)) ? $request->banner_id : null;
 
-        /** @var Setting Objeto con información de la configuración de la aplicación */
+        // Objeto con información de la configuración de la aplicación
         $setting = Setting::where('active', true)->first();
         $Parameter = Parameter::where('p_key', "multi_institution")->first();
 
-        /** @var array Arreglo con los datos del organismo a registrar */
+        // Arreglo con los datos del organismo a registrar
         $data = [
             'onapre_code' => ($request->onapre_code) ? $request->onapre_code : null,
             'rif' => $request->rif,
@@ -178,10 +180,10 @@ class InstitutionController extends Controller
         }
 
         if (is_null($setting->multi_institution) || !$setting->multi_institution  and !$multi_institution) {
-            // Crea o actualiza información de una organización si la aplicación esta configurada
-            // para el uso de un solo organismo
-
-
+            /*
+             * Crea o actualiza información de una organización si la aplicación esta configurada
+             * para el uso de un solo organismo
+             */
             $data['default'] = true;
             Institution::updateOrCreate(['rif' => $request->rif], $data);
         } else {
@@ -194,18 +196,15 @@ class InstitutionController extends Controller
                 }
             }
 
-
-
             if (!empty($request->institution_id)) {
                 // Si existe el identificador de la organización, se actualizan sus datos
 
-                /** @var Institution Objeto con información de la organización */
+                // Objeto con información de la organización
                 $inst = Institution::find($request->institution_id);
                 $inst->fill($data);
                 $inst->save();
             } else {
                 // Si no existe un identificador de organización, se crea una nueva
-
                 Institution::create($data);
             }
         }
@@ -216,8 +215,6 @@ class InstitutionController extends Controller
 
     /**
      * Obtiene un listado de organismos con id y nombre
-     *
-     * @method  getInstitutions
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -238,8 +235,6 @@ class InstitutionController extends Controller
     /**
      * Obtiene los datos de un organismo
      *
-     * @method  getDetails
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  Institution $institution Objeto con información asociada a un organismo
@@ -248,7 +243,7 @@ class InstitutionController extends Controller
      */
     public function getDetails(Institution $institution)
     {
-        /** @var Institution Objeto con información del organismo del cual se requieren detalles */
+        // Objeto con información del organismo del cual se requieren detalles
         $inst = Institution::where('id', $institution->id)->with(['municipality' => function ($q) {
             return $q->with(['estate' => function ($qq) {
                 return $qq->with('country');

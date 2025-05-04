@@ -3,11 +3,29 @@
         <!-- card-body -->
         <div class="card-body">
             <div class="alert alert-danger" v-if="errors.length > 0">
-                <ul>
-                    <li v-for="(error, index) in errors" :key="index">
-                        {{ error }}
-                    </li>
-                </ul>
+                <div class="container">
+                    <div class="alert-icon">
+                        <i class="now-ui-icons objects_support-17"></i>
+                    </div>
+                    <strong>Cuidado!</strong>
+                    Debe verificar los siguientes errores antes de continuar:
+                    <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                        @click.prevent="errors = []"
+                    >
+                        <span aria-hidden="true">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                        </span>
+                    </button>
+                    <ul>
+                        <li v-for="(error, index) in errors" :key="index">
+                            {{ error }}
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="row">
                 <div class="col-3">
@@ -40,55 +58,79 @@
                 <div class="row col-12">
                     <table
                         class="table table-striped table-hover"
-                        style="margin-left: 2rem;"
+                        style="margin-left: 2rem"
                     >
                         <thead>
                             <tr class="row">
                                 <th
                                     class="col-1"
-                                    style="border: 1px solid #dee2e6; position: relative;"
+                                    style="
+                                        border: 1px solid #dee2e6;
+                                        position: relative;
+                                    "
                                 >
                                     Código de requerimiento
                                 </th>
                                 <th
                                     class="col-2"
-                                    style="border: 1px solid #dee2e6; position: relative;"
+                                    style="
+                                        border: 1px solid #dee2e6;
+                                        position: relative;
+                                    "
                                 >
                                     Nombre
                                 </th>
                                 <th
                                     class="col-2"
-                                    style="border: 1px solid #dee2e6; position: relative;"
+                                    style="
+                                        border: 1px solid #dee2e6;
+                                        position: relative;
+                                    "
                                 >
                                     Especificaciones técnicas
                                 </th>
                                 <th
                                     class="col-1"
-                                    style="border: 1px solid #dee2e6; position: relative;"
+                                    style="
+                                        border: 1px solid #dee2e6;
+                                        position: relative;
+                                    "
                                 >
                                     Unidad de medida
                                 </th>
                                 <th
                                     class="col-1"
-                                    style="border: 1px solid #dee2e6; position: relative;"
+                                    style="
+                                        border: 1px solid #dee2e6;
+                                        position: relative;
+                                    "
                                 >
                                     Cantidad
                                 </th>
                                 <th
                                     class="col-2"
-                                    style="border: 1px solid #dee2e6; position: relative;"
+                                    style="
+                                        border: 1px solid #dee2e6;
+                                        position: relative;
+                                    "
                                 >
                                     Precio unitario sin IVA
                                 </th>
                                 <th
                                     class="col-2"
-                                    style="border: 1px solid #dee2e6; position: relative;"
+                                    style="
+                                        border: 1px solid #dee2e6;
+                                        position: relative;
+                                    "
                                 >
                                     Cantidad * Precio unitario
                                 </th>
                                 <th
                                     class="col-1"
-                                    style="border: 1px solid #dee2e6; position: relative;"
+                                    style="
+                                        border: 1px solid #dee2e6;
+                                        position: relative;
+                                    "
                                 >
                                     IVA
                                 </th>
@@ -96,64 +138,60 @@
                         </thead>
                         <tbody>
                             <tr
-                                v-for="x in purchase_requirement_items"
+                                v-for="(x, index) in purchase_requirement_items"
                                 class="row"
+                                :key="index"
                             >
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-1 text-center"
                                 >
                                     {{ x.requirement_code }}
                                 </td>
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-2"
                                 >
                                     {{ x.name }}
                                 </td>
                                 <td
                                     v-if="x.technical_specifications"
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-2"
                                 >
                                     {{ x.technical_specifications }}
                                 </td>
                                 <td
                                     v-else
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-2 text-left"
-                                >
-                                </td>
+                                ></td>
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-1 text-center"
-                                    v-if="
-                                        x.measurement_unit
-                                    "
+                                    v-if="x.measurement_unit"
                                 >
-                                    {{
-                                        x.measurement_unit.name
-                                    }}
+                                    {{ x.measurement_unit.name }}
                                 </td>
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-1"
                                     v-else
                                 ></td>
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-1 text-center"
                                 >
                                     {{ x.quantity }}
                                 </td>
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-2 text-right"
                                 >
                                     {{ addDecimals(x.unit_price) }}
                                 </td>
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-2 text-right"
                                 >
                                     <span align="right">
@@ -161,14 +199,14 @@
                                     </span>
                                 </td>
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-1 text-center"
                                 >
                                     <span align="right">
                                         {{
-                                            x.history_tax_id ?
-                                            x.history_tax.percentage
-                                            : 0.00
+                                            x.history_tax_id
+                                                ? x.history_tax.percentage
+                                                : 0.0
                                         }}%
                                     </span>
                                 </td>
@@ -177,27 +215,34 @@
                                 v-for="(base, iva) in bases_imponibles"
                                 :key="iva"
                                 class="row"
-                                style="background-color: rgb(242, 242, 242);"
+                                style="background-color: rgb(242, 242, 242)"
                             >
                                 <td
-                                    style="border: 1px solid #dee2e6;"
-                                    class="col-9 text-right">
-                                    <b>Base imponible según alícuota {{ iva * 100 }}%</b>
+                                    style="border: 1px solid #dee2e6"
+                                    class="col-9 text-right"
+                                >
+                                    <b
+                                        >Base imponible según alícuota
+                                        {{ iva * 100 }}%</b
+                                    >
                                 </td>
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-3 text-center"
                                 >
                                     {{ currencyFormat(base) }}
                                 </td>
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-9 text-right"
                                 >
-                                    <b>Monto total del impuesto según alícuota {{ iva * 100 }}%</b>
+                                    <b
+                                        >Monto total del impuesto según alícuota
+                                        {{ iva * 100 }}%</b
+                                    >
                                 </td>
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-3 text-center"
                                 >
                                     {{ currencyFormat(base * iva) }}
@@ -205,7 +250,7 @@
                             </tr>
                             <tr class="row">
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-9"
                                 >
                                     <h6 align="right">
@@ -213,7 +258,7 @@
                                     </h6>
                                 </td>
                                 <td
-                                    style="border: 1px solid #dee2e6;"
+                                    style="border: 1px solid #dee2e6"
                                     class="col-3 text-center"
                                 >
                                     <h6>
@@ -244,9 +289,7 @@
                                         <div class="row">
                                             <div class="col-md-12 pad-top-20">
                                                 <table
-                                                    class="
-                                                        table table-hover table-striped
-                                                    "
+                                                    class="table table-hover table-striped"
                                                     border="1px"
                                                     cellpadding="0px"
                                                     cellspacing="0px"
@@ -254,7 +297,8 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="col-4">
-                                                                Acción Específica
+                                                                Acción
+                                                                Específica
                                                             </th>
                                                             <th class="col-2">
                                                                 Cuenta
@@ -283,30 +327,39 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr
-                                                            v-for="(account,
-                                                            index) in record.accounts"
+                                                            v-for="(
+                                                                account, index
+                                                            ) in record.accounts"
                                                             :key="index"
                                                         >
-                                                            <td class="text-center">
+                                                            <td
+                                                                class="text-center"
+                                                            >
                                                                 {{
                                                                     account.spac_description
                                                                         ? account.spac_description
                                                                         : "Por asignar"
                                                                 }}
                                                             </td>
-                                                            <td class="text-center">
+                                                            <td
+                                                                class="text-center"
+                                                            >
                                                                 {{
                                                                     account.code
                                                                         ? account.code
                                                                         : "Por asignar"
                                                                 }}
                                                             </td>
-                                                            <td class="text-center">
+                                                            <td
+                                                                class="text-center"
+                                                            >
                                                                 {{
                                                                     account.description
                                                                 }}
                                                             </td>
-                                                            <td class="text-center">
+                                                            <td
+                                                                class="text-center"
+                                                            >
                                                                 {{
                                                                     formatToCurrency(
                                                                         account.amount,
@@ -314,15 +367,17 @@
                                                                     )
                                                                 }}
                                                             </td>
-                                                            <td class="text-center">
+                                                            <td
+                                                                class="text-center"
+                                                            >
                                                                 <input
                                                                     type="hidden"
                                                                     name="account_id[]"
                                                                     readonly
                                                                     :value="
                                                                         account.specific_action_id +
-                                                                            '|' +
-                                                                            account.account_id
+                                                                        '|' +
+                                                                        account.account_id
                                                                     "
                                                                 />
                                                                 <input
@@ -339,9 +394,15 @@
                                                                     data-original-title="Editar cuenta presupuestaria"
                                                                     data-toggle="modal"
                                                                     data-target="#add_account"
-                                                                    @click="editAccount(index)"
+                                                                    @click="
+                                                                        editAccount(
+                                                                            index
+                                                                        )
+                                                                    "
                                                                 >
-                                                                    <i class="fa fa-edit"></i>
+                                                                    <i
+                                                                        class="fa fa-edit"
+                                                                    ></i>
                                                                 </a>
 
                                                                 <a
@@ -388,8 +449,9 @@
                                                     data-dismiss="modal"
                                                     aria-label="Close"
                                                 >
-                                                    <span aria-hidden="true"
-                                                    @click="resetAccount"
+                                                    <span
+                                                        aria-hidden="true"
+                                                        @click="resetAccount"
                                                         >×</span
                                                     >
                                                 </button>
@@ -407,8 +469,9 @@
                                                 >
                                                     <ul>
                                                         <li
-                                                            v-for="(error,
-                                                            index) in errors"
+                                                            v-for="(
+                                                                error, index
+                                                            ) in errors"
                                                             :key="index"
                                                         >
                                                             {{ error }}
@@ -417,12 +480,15 @@
                                                 </div>
                                                 <div v-if="!has_budget">
                                                     <div class="row">
-                                                        <div class="col-md-12 mt-4">
+                                                        <div
+                                                            class="col-md-12 mt-4"
+                                                        >
                                                             <div
                                                                 class="form-group is-required"
                                                             >
                                                                 <label
-                                                                    >Codigo de la
+                                                                    >Codigo de
+                                                                    la
                                                                     Cuenta:</label
                                                                 >
                                                                 <input
@@ -438,12 +504,15 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12 mt-4">
+                                                        <div
+                                                            class="col-md-12 mt-4"
+                                                        >
                                                             <div
                                                                 class="form-group is-required"
                                                             >
                                                                 <label
-                                                                    >Concepto de la
+                                                                    >Concepto de
+                                                                    la
                                                                     Cuenta:</label
                                                                 >
                                                                 <input
@@ -463,12 +532,11 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div
-                                                                class="
-                                                                    form-group is-required
-                                                                "
+                                                                class="form-group is-required"
                                                             >
                                                                 <label>
-                                                                    Acción Específica:
+                                                                    Acción
+                                                                    Específica:
                                                                 </label>
                                                                 <select2
                                                                     :options="
@@ -511,7 +579,9 @@
                                                         <div
                                                             class="form-group is-required"
                                                         >
-                                                            <label>Monto:</label>
+                                                            <label
+                                                                >Monto:</label
+                                                            >
                                                             <input
                                                                 type="text"
                                                                 v-input-mask
@@ -564,6 +634,82 @@
             </div>
         </div>
         <!-- Final card-body -->
+        <!-- Modal para agregar Documentos -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="add_document">
+            <div class="modal-dialog vue-crud" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h6>
+                            <i class="fa fa-upload"></i>
+                            Documento
+                        </h6>
+                    </div>
+                    <div class="modal-body">
+                        <div
+                            class="alert alert-danger"
+                            v-if="errors.length > 0"
+                        >
+                            <ul>
+                                <li
+                                    v-for="(error, index) in errors"
+                                    :key="index"
+                                >
+                                    {{ error }}
+                                </li>
+                            </ul>
+                        </div>
+                        <upload-documents
+                            inputLabel="Documento que avala que no hay disponibilidad"
+                            inputTooltip="Seleccione el(los) documento(s) que avala(n) la modificación presupuestaria"
+                            :parentRecord="'documentFiles'"
+                        />
+                        <div
+                            class="col-12 col-md-4"
+                            v-if="
+                                typeof records.documentUrl != 'undefined' &&
+                                records.documentUrl
+                            "
+                        >
+                            <div class="form-group">
+                                <strong>Ver Documento:</strong>
+                                <div class="row" style="margin: 1px 0">
+                                    <a
+                                        :href="showDocument()"
+                                        target="_blank"
+                                        class="btn btn-primary btn-xs btn-icon btn-action btn-tooltip"
+                                        data-toggle="tooltip"
+                                        title="Ver documento que avala la modificación presupuestaria"
+                                    >
+                                        <i
+                                            class="fa fa-file"
+                                            aria-hidden="true"
+                                        ></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            @click="uploadComplete"
+                            class="btn btn-primary btn-sm btn-round btn-modal-save"
+                        >
+                            Completar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- fin modal -->
         <!-- card-footer -->
         <div class="card-footer text-right">
             <button
@@ -572,12 +718,7 @@
                 data-toggle="tooltip"
                 v-has-tooltip
                 :disabled="record.accounts.length == 0"
-                @click="
-                    createRecord(
-                        '/purchase/budgetary_availability',
-                        1
-                    )
-                "
+                @click="createRecord('/purchase/budgetary_availability', 1)"
             >
                 Hay disponibilidad
             </button>
@@ -586,13 +727,7 @@
                 title="No hay disponibilidad"
                 data-toggle="tooltip"
                 v-has-tooltip
-                :disabled="record.accounts.length !== 0"
-                @click="
-                    createRecord(
-                        '/purchase/budgetary_availability',
-                        0
-                    )
-                "
+                @click="continueWithoutAvailability"
             >
                 No hay disponibilidad
             </button>
@@ -605,25 +740,31 @@ export default {
     props: {
         records: {
             type: Object,
-            default: function() {
+            default: function () {
+                return null;
+            },
+        },
+        document_file: {
+            type: Array,
+            default: function () {
                 return null;
             },
         },
         budget_items: {
             type: Array,
-            default: function() {
+            default: function () {
                 return [{ id: "", text: "Seleccione..." }];
             },
         },
         specific_actions: {
             type: Array,
-            default: function() {
+            default: function () {
                 return [{ id: "", text: "Seleccione..." }];
             },
         },
         has_budget: {
             type: Boolean,
-            default: function() {
+            default: function () {
                 return false;
             },
         },
@@ -634,6 +775,7 @@ export default {
                 description: "",
                 date: "",
                 accounts: [],
+                documentFiles: [],
             },
             accounts: [],
             account_id: "",
@@ -702,18 +844,33 @@ export default {
         const vm = this;
         if (vm.records) {
             vm.record = vm.records;
+            if (vm.document_file.length > 0) {
+                vm.records.documentFiles = vm.document_file
+                    ? [vm.document_file[0].id]
+                    : [];
+                vm.records.documentUrl = vm.document_file
+                    ? vm.document_file[0].url
+                    : "";
+            }
             vm.record.accounts = [];
-            vm.record.date = (vm.records.availabilityitem[0]
-                ? (vm.records.availabilityitem[vm.records.availabilityitem.length-1].date
-                    ? vm.records.availabilityitem[vm.records.availabilityitem.length-1].date
-                    : vm.records.relatable[0].purchase_requirement_item.purchase_requirement.date)
-                : vm.format_date(new Date().toString(),'YYYY-MM-DD'));
+            vm.record.date = vm.records.availabilityitem[0]
+                ? vm.records.availabilityitem[
+                      vm.records.availabilityitem.length - 1
+                  ].date
+                    ? vm.records.availabilityitem[
+                          vm.records.availabilityitem.length - 1
+                      ].date
+                    : vm.records.relatable[0].purchase_requirement_item
+                          .purchase_requirement.date
+                : vm.format_date(new Date().toString(), "YYYY-MM-DD");
             vm.record.description = vm.records.availabilityitem[0]
-                ? vm.records.availabilityitem[vm.records.availabilityitem.length-1].description
-                : '';
+                ? vm.records.availabilityitem[
+                      vm.records.availabilityitem.length - 1
+                  ].description
+                : "";
             function get_supplier_price(list, id) {
                 var price = 0;
-                $.each(list, function(index, data) {
+                $.each(list, function (index, data) {
                     if (data.purchase_requirement_item_id == id) {
                         price = data.unit_price;
                         vm.supplier_price_tot += parseFloat(data.unit_price);
@@ -724,15 +881,13 @@ export default {
             }
 
             var newQuotedArray = vm.records.relatable;
-            $.each(newQuotedArray, function(y, item) {
+            $.each(newQuotedArray, function (y, item) {
                 vm.items.push({
-                    code:
-                        item.purchase_requirement_item.purchase_requirement
-                            .code,
+                    code: item.purchase_requirement_item.purchase_requirement
+                        .code,
                     id: item.purchase_requirement_item.id,
                     name: item.purchase_requirement_item.name,
-                    description:
-                        item.purchase_requirement_item.description,
+                    description: item.purchase_requirement_item.description,
                     quantity: item.purchase_requirement_item.quantity,
                     measurement_unit:
                         item.purchase_requirement_item.measurement_unit.acronym,
@@ -742,8 +897,8 @@ export default {
             });
 
             var account = vm.records.availabilityitem;
-            $.each(account, function(y, item) {
-            vm.record.accounts.push({
+            $.each(account, function (y, item) {
+                vm.record.accounts.push({
                     spac_description: item.spac_description,
                     code: item.item_code,
                     description: item.item_name,
@@ -753,21 +908,53 @@ export default {
                     tax_id: "",
                 });
             });
-
         }
     },
     methods: {
+        continueWithoutAvailability() {
+            const vm = this;
+            bootbox.confirm({
+                title: "Disponibilidad presupuestaria",
+                message:
+                    "¿Estás seguro de continuar sin disponibilidad presupuestaria? Esto podría afectar las cuentas destinadas a gastos, lo que significa que podrían excederse los límites presupuestarios establecidos.",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> No',
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Si',
+                    },
+                },
+                callback: function (result) {
+                    if (result) {
+                        $("#add_document").modal("show");
+                    }
+                },
+            });
+        },
+
+        uploadComplete() {
+            const vm = this;
+            vm.loading = true;
+            vm.createRecord("/purchase/budgetary_availability", 1);
+            vm.loading = false;
+        },
+
+        showDocument() {
+            return `${window.app_url}/${this.record.documentUrl}`;
+        },
+
         /**
-        * Método que formatea un número a una cantidad de decimales y lo
-        * redondea redondea.
-        *
-        * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
-        */
+         * Método que formatea un número a una cantidad de decimales y lo
+         * redondea redondea.
+         *
+         * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
+         */
         currencyFormat(number) {
             const vm = this;
-            return (number)
-                ? (number.toFixed(vm.currency.decimal_places))
-                : (number.toFixed(2));
+            return number
+                ? number.toFixed(vm.currency.decimal_places)
+                : number.toFixed(2);
         },
 
         resetAccount() {
@@ -781,7 +968,6 @@ export default {
             vm.specific_action_id = "";
             vm.editIndex = null;
             vm.selected_account_amount = 0;
-
         },
         async getSpecificActionDetail(id) {
             const response = await axios.get(
@@ -820,7 +1006,10 @@ export default {
                     return;
                 }
 
-                if (parseFloat(vm.account_amount) > parseFloat(vm.selected_account_amount)) {
+                if (
+                    parseFloat(vm.account_amount) >
+                    parseFloat(vm.selected_account_amount)
+                ) {
                     vm.showMessage(
                         "custom",
                         "Alerta!",
@@ -854,11 +1043,9 @@ export default {
                             label: '<i class="fa fa-check"></i> Confirmar',
                         },
                     },
-                    callback: function(result) {
+                    callback: function (result) {
                         if (!result) {
-                            $("#add_account")
-                                .find(".close")
-                                .click();
+                            $("#add_account").find(".close").click();
                         }
 
                         vm.specific_action_id = "";
@@ -887,7 +1074,10 @@ export default {
                 return;
             }
 
-            if (parseFloat(vm.account_amount) > parseFloat(vm.selected_account_amount)) {
+            if (
+                parseFloat(vm.account_amount) >
+                parseFloat(vm.selected_account_amount)
+            ) {
                 vm.showMessage(
                     "custom",
                     "Alerta!",
@@ -918,7 +1108,7 @@ export default {
                 vm.record.accounts.push({
                     spac_description: `${specificAction.specificable.code}-${specificAction.code} | ${specificAction.name}`,
                     code: account.code,
-                    description: vm.account_concept,
+                    description: account.denomination,
                     amount: vm.account_amount,
                     specific_action_id: vm.specific_action_id,
                     account_id: vm.account_id,
@@ -927,9 +1117,7 @@ export default {
                     operation: "",
                 });
 
-                $("#add_account")
-                    .find(".close")
-                    .click();
+                $("#add_account").find(".close").click();
 
                 vm.specific_action_id = "";
                 vm.account_id = "";
@@ -959,11 +1147,9 @@ export default {
                             label: '<i class="fa fa-check"></i> Confirmar',
                         },
                     },
-                    callback: function(result) {
+                    callback: function (result) {
                         if (!result) {
-                            $("#add_account")
-                                .find(".close")
-                                .click();
+                            $("#add_account").find(".close").click();
                         }
 
                         vm.specific_action_id = "";
@@ -998,9 +1184,7 @@ export default {
                         console.error(error);
                     });
             } else {
-                $("#add_account")
-                    .find(".close")
-                    .click();
+                $("#add_account").find(".close").click();
                 bootbox.alert(
                     "Debe indicar los datos del compromiso antes de agregar cuentas"
                 );
@@ -1068,15 +1252,18 @@ export default {
                 (account) => account.id == vm.account_id
             );
             if (typeof result[0] !== "undefined") {
-                vm.selected_account_amount = result[0].amount;
+                vm.selected_account_amount = parseFloat(
+                    result[0].amount
+                ).toFixed(result[0].currency.decimal_places);
 
                 if (vm.editIndex != null) {
                     vm.account_amount = vm.record.accounts[vm.editIndex].amount;
-                    return
+                    return;
                 }
-                
-                vm.account_amount = result[0].amount;
 
+                vm.account_amount = parseFloat(result[0].amount).toFixed(
+                    result[0].currency.decimal_places
+                );
             }
         },
         /**
@@ -1128,9 +1315,9 @@ export default {
 
         CalculateQtyPrice(qty_price) {
             return qty_price
-                ? qty_price.toFixed (
-                    this.currency ? this.currency.decimal_places : ""
-                )
+                ? qty_price.toFixed(
+                      this.currency ? this.currency.decimal_places : ""
+                  )
                 : 0;
         },
 
@@ -1141,7 +1328,7 @@ export default {
         /**
          * Establece la cantidad de decimales correspondientes a la moneda que se maneja
          *
-         * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         cualculateLimitDecimal() {
             var res = "0.";
@@ -1154,10 +1341,11 @@ export default {
             return res;
         },
 
-         async editAccount(index) {
+        async editAccount(index) {
             const vm = this;
             vm.editIndex = index;
-            vm.specific_action_id = vm.record.accounts[index].specific_action_id;
+            vm.specific_action_id =
+                vm.record.accounts[index].specific_action_id;
         },
 
         deleteAccount(index) {
@@ -1173,7 +1361,7 @@ export default {
                         label: '<i class="fa fa-check"></i> Confirmar',
                     },
                 },
-                callback: function(result) {
+                callback: function (result) {
                     if (result) {
                         vm.record.accounts.splice(index, 1);
                         vm.accounts = [];
@@ -1187,23 +1375,24 @@ export default {
 
         /**
          * [CalculateTot Calcula el total del debe y haber del asiento contable]
-         * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          * @param  {[type]} r   [información del registro]
          * @param  {[type]} pos [posición del registro]
          */
         CalculateTot(item, pos) {
             const vm = this;
             vm.total = 0;
-             // Objeto para almacenar las bases imponibles según el IVA
+            // Objeto para almacenar las bases imponibles según el IVA
             vm.bases_imponibles = {};
 
             for (let i = vm.record_items.length - 1; i >= 0; i--) {
                 let r = vm.record_items[i];
-                let iva_percentage = r.history_tax_id ?
-                    r.history_tax.percentage / 100 : 0.00;
+                let iva_percentage = r.history_tax_id
+                    ? r.history_tax.percentage / 100
+                    : 0.0;
 
-                r['qty_price'] = r.quantity * r.unit_price;
-                r['qty_iva_price'] = r.quantity * r.unit_price * iva_percentage;
+                r["qty_price"] = r.quantity * r.unit_price;
+                r["qty_iva_price"] = r.quantity * r.unit_price * iva_percentage;
 
                 // Verificar si el porcentaje de IVA ya existe en el objeto
                 // bases_imponibles
@@ -1212,14 +1401,14 @@ export default {
                     vm.bases_imponibles[iva_percentage] = 0;
                 }
                 // Acumular el total para el porcentaje de IVA
-                vm.bases_imponibles[iva_percentage] += r['qty_price'];
-                vm.total += (r['qty_iva_price'] + r['qty_price']);
+                vm.bases_imponibles[iva_percentage] += r["qty_price"];
+                vm.total += r["qty_iva_price"] + r["qty_price"];
             }
         },
 
         /**
          * [getBudgetAvailable Consulta el saldo de la partida presupuestaria]
-         * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          * @return {[type]} [description]
          */
         getBudgetAvailable() {
@@ -1240,7 +1429,7 @@ export default {
          * Reescribe el Método createRecord para cambiar su comportamiento por defecto
          * Método que permite crear o actualizar un registro
          *
-         * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          *
          * @param  {string} url    Ruta de la acción a ejecutar para la creación o actualización de datos
          * @param  {string} state  Respuesta sobre el estado de disponibilidad de la cotizacion.
@@ -1282,53 +1471,53 @@ export default {
         },
     },
     computed: {
-        record_tax: function() {
+        record_tax: function () {
             if (this.records.tax && this.records.tax.histories) {
                 return this.records.tax ? this.records.tax.histories[0] : null;
             }
         },
-        currency_symbol: function() {
+        currency_symbol: function () {
             return this.records.currency ? this.records.currency.symbol : "";
         },
-        currency_decimal_places: function() {
+        currency_decimal_places: function () {
             if (this.records.currency) {
                 return this.records.currency.decimal_places;
             }
         },
-        currency: function() {
+        currency: function () {
             return this.records.currency ? this.records.currency : null;
         },
-        currency_id: function() {
+        currency_id: function () {
             return this.records.currency ? this.records.currency.id : null;
         },
-        contracting_department: function() {
+        contracting_department: function () {
             if (this.records.purchase_requirements.contrating_department) {
                 return this.records.purchase_requirements.contrating_department
                     .name;
             }
         },
-        user_department: function() {
+        user_department: function () {
             if (this.records.purchase_requirements.user_department) {
                 return this.records.purchase_requirements.user_department.name;
             }
         },
-        purchase_supplier_object: function() {
+        purchase_supplier_object: function () {
             if (this.records.purchase_requirements.purchase_supplier_object) {
                 return this.records.purchase_requirements
                     .purchase_supplier_object.name;
             }
         },
-        fiscal_year: function() {
+        fiscal_year: function () {
             if (this.records.purchase_requirements.fiscal_year) {
                 return this.records.purchase_requirements.fiscal_year.year;
             }
         },
-        description: function() {
+        description: function () {
             if (this.records.purchase_requirements.description) {
                 return this.records.purchase_requirements.description;
             }
         },
-        purchase_requirement: function() {
+        purchase_requirement: function () {
             if (this.records.purchase_requirement) {
                 var r = [];
                 r.push(this.records.purchase_requirement);
@@ -1336,25 +1525,40 @@ export default {
             }
             return [];
         },
-        purchase_requirement_items: function() {
+        purchase_requirement_items: function () {
             var pur_req_items = [];
             if (this.records.relatable) {
                 for (var i = 0; i < this.records.relatable.length; i++) {
                     if (this.records.relatable[i].purchase_requirement_item) {
-                        var item = this.records.relatable[i].purchase_requirement_item;
-                        item.tax_percentage = this.records.relatable[i].purchase_requirement_item.history_tax_id ?
-                            this.records.relatable[i].purchase_requirement_item.history_tax.percentage :
-                            0.00;
-                        item.requirement_code = this.records.relatable[i].purchase_requirement_item.purchase_requirement.code;
-                        item.qty_price = this.records.relatable[i].purchase_requirement_item.quantity *
+                        var item =
+                            this.records.relatable[i].purchase_requirement_item;
+                        item.tax_percentage = this.records.relatable[i]
+                            .purchase_requirement_item.history_tax_id
+                            ? this.records.relatable[i]
+                                  .purchase_requirement_item.history_tax
+                                  .percentage
+                            : 0.0;
+                        item.requirement_code =
+                            this.records.relatable[
+                                i
+                            ].purchase_requirement_item.purchase_requirement.code;
+                        item.qty_price =
+                            this.records.relatable[i].purchase_requirement_item
+                                .quantity *
                             this.records.relatable[i].unit_price;
-                        item.qty_iva_price = this.records.relatable[i].purchase_requirement_item.history_tax_id ?
-                            this.records.relatable[i].purchase_requirement_item.quantity *
-                            this.records.relatable[i].purchase_requirement_item.unit_price *
-                            (this.records.relatable[i].purchase_requirement_item.history_tax.percentage / 100) :
-                            0.00;
+                        item.qty_iva_price = this.records.relatable[i]
+                            .purchase_requirement_item.history_tax_id
+                            ? this.records.relatable[i]
+                                  .purchase_requirement_item.quantity *
+                              this.records.relatable[i]
+                                  .purchase_requirement_item.unit_price *
+                              (this.records.relatable[i]
+                                  .purchase_requirement_item.history_tax
+                                  .percentage /
+                                  100)
+                            : 0.0;
                         item.unit_price = this.records.relatable[i].unit_price;
-                        pur_req_items.push(item)
+                        pur_req_items.push(item);
                     }
                 }
             }

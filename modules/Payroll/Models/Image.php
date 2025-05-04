@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Models;
 
 use App\Models\Image as BaseImage;
@@ -23,6 +21,7 @@ class Image extends BaseImage
      * Método que obtiene la imagen asociada a muchos archivos de curso
      *
      * @author William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollCourseFiles()
@@ -34,6 +33,7 @@ class Image extends BaseImage
      * Método que obtiene la imagen asociada a muchos archivos de reconocimiento
      *
      * @author William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollAcknowledgmentFiles()

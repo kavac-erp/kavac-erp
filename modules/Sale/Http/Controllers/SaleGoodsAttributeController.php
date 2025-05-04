@@ -8,7 +8,11 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleGoodsAttribute;
 
 /**
- * Eliminar
+ * @class SaleGoodsAttributeController
+ * @brief Controlador que gestiona los atributos de los bienes
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleGoodsAttributeController extends Controller
 {
@@ -18,31 +22,43 @@ class SaleGoodsAttributeController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         // $this->middleware('permission:sale.setting.attribute');
     }
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Listado de atributos de los bienes
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         return response()->json(['records' => []], 200);
     }
 
+    /**
+     * Lista de atriburos de un bien
+     *
+     * @param integer $id Identificador del bien
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function product($id)
     {
         return response()->json(['records' => SaleGoodsAttribute::where('sale_goods_to_be_traded_id', '=', $id)->get()], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena un nuevo atributo de un bien
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -62,9 +78,12 @@ class SaleGoodsAttributeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza un atributo de un bien
+     *
+     * @param  Request $request Datos de la petición
+     * @param SaleGoodsAttribute $attribute Atributo de un bien
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, SaleGoodsAttribute $attribute)
     {
@@ -83,8 +102,9 @@ class SaleGoodsAttributeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina un atributo de un bien
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(SaleGoodsAttribute $attribute)
     {

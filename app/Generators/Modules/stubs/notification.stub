@@ -1,11 +1,12 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -25,8 +26,6 @@ class $CLASS$ extends Notification
     /**
      * Crea una nueva instancia de la notificación.
      *
-     * @method __construct
-     *
      * @return void
      */
     public function __construct()
@@ -36,8 +35,6 @@ class $CLASS$ extends Notification
 
     /**
      * Obtiene los canales de entrega de las notificaciones
-     *
-     * @method    via
      *
      * @param     mixed    $notifiable    Objeto con información del usuario a notificar
      *
@@ -50,8 +47,6 @@ class $CLASS$ extends Notification
 
     /**
      * Obtiene la representación por correo de la notificación
-     *
-     * @method    toMail
      *
      * @param     mixed    $notifiable    Objeto con información del usuario a notificar
      *
@@ -67,8 +62,6 @@ class $CLASS$ extends Notification
 
     /**
      * Obtiene la representación del arreglo de la notificación
-     *
-     * @method    toArray
      *
      * @param     mixed    $notifiable    Objeto con información del usuario a notificar
      *

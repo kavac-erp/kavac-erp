@@ -1,4 +1,5 @@
 <map id="getStatusPaymentExecuteAttribute" name="getStatusPaymentExecuteAttribute">
-<area shape="rect" id="node1" title="Obtiene el estatus de emisión de pago relacionada a este modelo." alt="" coords="5,5,255,32"/>
-<area shape="rect" id="node2" href="$d9/d5e/classModules_1_1Finance_1_1Models_1_1FinancePayOrder.html#af3b2daf7558762aeb3938a2a468b3004" title="The financePaymentExecute that belong to the FinancePayOrder." alt="" coords="303,5,480,32"/>
+<area shape="rect" id="Node000001" title="Obtiene el estatus de emisión de pago relacionada a este modelo." alt="" coords="5,5,255,31"/>
+<area shape="rect" id="Node000002" href="$d9/d5e/classModules_1_1Finance_1_1Models_1_1FinancePayOrder.html#af3b2daf7558762aeb3938a2a468b3004" title="Obtiene la relación con las ejecuciones de pago." alt="" coords="303,5,480,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="255,15,289,15,289,21,255,21"/>
 </map>

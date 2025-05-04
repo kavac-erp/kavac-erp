@@ -6,9 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class UpdateFieldsToSignprofilesTable
- * @brief [descripción detallada]
- *
- * [descripción corta]
+ * @brief Actualización de campos de la tabla para gestionar firmas de usuarios
  *
  * @author Pedro Buitrago pbuitrago@cenditel.gob.ve
  *

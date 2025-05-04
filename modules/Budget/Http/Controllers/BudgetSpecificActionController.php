@@ -2,20 +2,21 @@
 
 namespace Modules\Budget\Http\Controllers;
 
-use App\Models\DocumentStatus;
 use Illuminate\Http\Request;
+use App\Models\DocumentStatus;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Modules\Budget\Models\BudgetProject;
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Budget\Models\BudgetAccountOpen;
 use Modules\Budget\Models\BudgetSpecificAction;
+use Modules\Budget\Models\BudgetCompromiseDetail;
 use Modules\Budget\Models\BudgetCentralizedAction;
+use Modules\Budget\Models\BudgetModificationAccount;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Budget\Models\BudgetSubSpecificFormulation;
-use Modules\Budget\Models\BudgetModificationAccount;
-use Modules\Budget\Models\BudgetCompromiseDetail;
 
 /**
  * @class BudgetSpecificActionController
@@ -24,48 +25,68 @@ use Modules\Budget\Models\BudgetCompromiseDetail;
  * Clase que gestiona las Acciones Específicas
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetSpecificActionController extends Controller
 {
     use ValidatesRequests;
 
-    /** @var array Arreglo con información de los proyectos registrados */
+    /**
+     * Arreglo con información de los proyectos registrados
+     *
+     * @var array $projects
+     */
     public $projects;
-    /** @var array Arreglo con información de las acciones centralizadas registradas */
+
+    /**
+     * Arreglo con información de las acciones centralizadas registradas
+     *
+     * @var array $centralized_actions
+     */
     public $centralized_actions;
-    /** @var array Arreglo con las reglas de validación sobre los datos de un formulario */
+
+    /**
+     * Arreglo con las reglas de validación sobre los datos de un formulario
+     *
+     * @var array $validate_rules
+     */
     public $validate_rules;
 
-    /** @var array Arreglo con los mensajes de error de cada campo de un formulario */
+    /**
+     * Arreglo con los mensajes de error de cada campo de un formulario
+     *
+     * @var array $validate_messages
+     */
     public $validate_messages;
 
     /**
      * Define la configuración de la clase
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:budget.specificaction.list', ['only' => 'index', 'vueList']);
         $this->middleware('permission:budget.specificaction.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:budget.specificaction.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:budget.specificaction.delete', ['only' => 'destroy']);
 
-        /** @var array Arreglo de opciones de proyectos a representar en la plantilla para su selección */
+        /* Arreglo de opciones de proyectos a representar en la plantilla para su selección */
         $this->projects = template_choices(BudgetProject::class, ['code', '-', 'name'], ['active' => true]);
 
-        /** @var array Arreglo de opciones de acciones centralizadas a representar en la plantilla para su selección */
+        /* Arreglo de opciones de acciones centralizadas a representar en la plantilla para su selección */
         $this->centralized_actions = template_choices(
             BudgetCentralizedAction::class,
             ['code', '-', 'name'],
             ['active' => true]
         );
 
-        /** @var array Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validate_rules = [
             'from_date' => ['required', 'date'],
             'to_date' => ['required', 'date', 'after:from_date'],
@@ -77,7 +98,7 @@ class BudgetSpecificActionController extends Controller
             'centralized_action_id' => ['required_if:project_centralized_action,centralized_action']
         ];
 
-        /** @var array Define los mensajes de error para el formulario */
+        /* Define los mensajes de error para el formulario */
         $this->validate_messages = [
             'from_date.required' => 'El campo fecha de inicio es obligatorio.',
             'from_date.date' => 'El campo fecha de inicio no tiene un formato válido.',
@@ -96,6 +117,7 @@ class BudgetSpecificActionController extends Controller
      * Muestra un listado de acciones específicas
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return Renderable
      */
     public function index()
@@ -107,11 +129,12 @@ class BudgetSpecificActionController extends Controller
      * Muestra el formulario para crear una acción específica
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return Renderable
      */
     public function create()
     {
-        /** @var array Arreglo de opciones a implementar en el formulario */
+        /* Arreglo de opciones a implementar en el formulario */
         $header = [
             'route' => 'budget.specific-actions.store',
             'method' => 'POST',
@@ -119,11 +142,11 @@ class BudgetSpecificActionController extends Controller
             'class' => 'form-horizontal',
         ];
 
-        /** @var array Arreglo de opciones de proyectos a representar en la plantilla para su selección */
+        /* Arreglo de opciones de proyectos a representar en la plantilla para su selección */
         $projects = $this->projects;
         $projects_date = BudgetProject::get();
         $centralized_actions_date = BudgetCentralizedAction::get();
-        /** @var array Arreglo de opciones de acciones centralizadas a representar en la plantilla para su selección */
+        /* Arreglo de opciones de acciones centralizadas a representar en la plantilla para su selección */
         $centralized_actions = $this->centralized_actions;
 
         return view('budget::specific_actions.create-edit-form', compact(
@@ -139,14 +162,16 @@ class BudgetSpecificActionController extends Controller
      * Registra información de la acción específica
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
-     * @return Renderable
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
         $this->validate($request, $this->validate_rules, $this->validate_messages);
 
-        /** @var object Crea una acción específica */
+        /* Crea una acción específica */
         $budgetSpecificAction = new BudgetSpecificAction([
             'from_date' => $request->from_date,
             'to_date' => $request->to_date,
@@ -156,13 +181,11 @@ class BudgetSpecificActionController extends Controller
             'active' => ($request->active !== null),
         ]);
 
-        // dd($budgetSpecificAction);
-
         if ($request->project_centralized_action === "project") {
-            /** @var object Objeto que contiene información de un proyecto */
+            /* Objeto que contiene información de un proyecto */
             $pry_acc = BudgetProject::find($request->project_id);
         } elseif ($request->project_centralized_action === "centralized_action") {
-            /** @var object Objeto que contiene información de una acción centralizada */
+            /* Objeto que contiene información de una acción centralizada */
             $pry_acc = BudgetCentralizedAction::find($request->centralized_action_id);
         }
         $pry_acc->specificActions()->save($budgetSpecificAction);
@@ -175,6 +198,7 @@ class BudgetSpecificActionController extends Controller
      * Muestra información de una acción específica
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return Renderable
      */
     public function show()
@@ -186,15 +210,17 @@ class BudgetSpecificActionController extends Controller
      * Muestra el formulario para la edición de una acción específica
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $id Identificador de la acción específica a modificar
+     *
      * @return Renderable
      */
     public function edit($id)
     {
-        /** @var object Objeto con información de la acción específica a modificar */
+        /* Objeto con información de la acción específica a modificar */
         $BudgetSpecificAction = BudgetSpecificAction::find($id);
 
-        /** @var array Arreglo de opciones a implementar en el formulario */
+        /* Arreglo de opciones a implementar en el formulario */
         $header = [
             'route' => [
                 'budget.specific-actions.update',
@@ -203,11 +229,11 @@ class BudgetSpecificActionController extends Controller
             'method' => 'PUT',
             'role' => 'form'
         ];
-        /** @var object Objeto con datos del modelo a modificar */
+        /* Objeto con datos del modelo a modificar */
         $model = $BudgetSpecificAction;
-        /** @var array Arreglo de opciones de proyectos a representar en la plantilla para su selección */
+        /* Arreglo de opciones de proyectos a representar en la plantilla para su selección */
         $projects = $this->projects;
-        /** @var array Arreglo de opciones de acciones centralizadas a representar en la plantilla para su selección */
+        /* Arreglo de opciones de acciones centralizadas a representar en la plantilla para su selección */
         $centralized_actions = $this->centralized_actions;
 
         $projects_date = BudgetProject::get();
@@ -227,9 +253,11 @@ class BudgetSpecificActionController extends Controller
      * Actualiza información de la acción específica
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
+     *
+     * @param  Request $request Datos de la petición
      * @param  integer $id Identificador de la acción específica a modificar
-     * @return Renderable
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -253,16 +281,16 @@ class BudgetSpecificActionController extends Controller
         );
 
         if ($request->project_centralized_action === "project") {
-            /** @var object Objeto que contiene información de un proyecto */
+            /* Objeto que contiene información de un proyecto */
             $pry_acc = BudgetProject::find($request->project_id);
             $specificable_type = BudgetProject::class;
         } elseif ($request->project_centralized_action === "centralized_action") {
-            /** @var object Objeto que contiene información de una acción centralizada */
+            /* Objeto que contiene información de una acción centralizada */
             $pry_acc = BudgetCentralizedAction::find($request->centralized_action_id);
             $specificable_type = BudgetCentralizedAction::class;
         }
 
-        /** @var object Objeto con información de la acción específica a modificar */
+        /* Objeto con información de la acción específica a modificar */
         $budgetSpecificAction = BudgetSpecificAction::find($id);
         $budgetSpecificAction->fill($request->all());
         $budgetSpecificAction->specificable_type = $specificable_type;
@@ -276,12 +304,14 @@ class BudgetSpecificActionController extends Controller
      * Elimina una acción específica
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $id Identificador de la acción específica a eliminar
-     * @return Renderable
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /** @var object Objeto con información de la acción específica a eliminar */
+        /* Objeto con información de la acción específica a eliminar */
         $budgetSpecificAction = BudgetSpecificAction::find($id);
 
         if ($budgetSpecificAction) {
@@ -295,13 +325,15 @@ class BudgetSpecificActionController extends Controller
      * Obtiene listado de registros
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @param  [boolean] $active Filtrar por estatus del registro, valores permitidos true o false,
-     *                           este parámetro es opcional.
+     *
+     * @param  boolean $active Filtrar por estatus del registro, valores permitidos true o false,
+     *                         este parámetro es opcional.
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function vueList($active = null)
     {
-        /** @var object Objeto con información de las acciones específicas registradas */
+        /* Objeto con información de las acciones específicas registradas */
         $specificActions = ($active !== null)
             ? BudgetSpecificAction::where('active', $active)->with(['specificable', 'subSpecificFormulations'])->get()
             : BudgetSpecificAction::with(['specificable', 'subSpecificFormulations'])->get();
@@ -332,27 +364,29 @@ class BudgetSpecificActionController extends Controller
      * Obtiene las acciones específicas registradas
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  string  $type   Identifica si la acción a buscar es por proyecto o acción centralizada
      * @param  integer $id     Identificador de la acción centralizada a buscar, este parámetro es opcional
      * @param  string  $source Fuente de donde se realiza la consulta
-     * @return JSON        JSON con los datos de las acciones específicas
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSpecificActions($type, $id, $source = null)
     {
-        /** @var array Arreglo con información de las acciones específicas */
+        /* Arreglo con información de las acciones específicas */
         $data = [['id' => '', 'text' => 'Seleccione...']];
         $specificActions = [];
 
         if ($type === "Project") {
-            /** @var object Objeto con las acciones específicas asociadas a un proyecto */
+            /* Objeto con las acciones específicas asociadas a un proyecto */
             $specificActions = BudgetProject::find($id)->specificActions()->where('active', true)->get();
         } elseif ($type == "CentralizedAction") {
-            /** @var object Objeto con las acciones específicas asociadas a una acción centralizada */
+            /* Objeto con las acciones específicas asociadas a una acción centralizada */
             $specificActions = BudgetCentralizedAction::find($id)->specificActions()->where('active', true)->get();
         }
 
         foreach ($specificActions as $specificAction) {
-            /** @var object Objeto que determina si la acción específica ya fue formulada para el último presupuesto */
+            /* Objeto que determina si la acción específica ya fue formulada para el último presupuesto */
             $existsFormulation = BudgetSubSpecificFormulation::where([
                 'budget_specific_action_id' => $specificAction->id,
                 'assigned' => true
@@ -382,11 +416,13 @@ class BudgetSpecificActionController extends Controller
      * Obtiene todas las acciones específicas agrupadas por Proyectos y Acciones Centralizadas
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param string $formulated_year Año de formulación por el cual filtrar la información
      * @param boolean $formulated     Indica si se debe validar con una formulación de presupuesto
      * @param  integer $institutionId Identificador de la institución
      * @param string $selDate         Fecha en la cual se esta realizando la consulta
-     * @return JSON                   JSON con los datos de las acciones específicas
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getGroupAllSpecificActions(
         $formulated_year = '',
@@ -398,15 +434,15 @@ class BudgetSpecificActionController extends Controller
             try {
                 $formulated_year = Crypt::decrypt($formulated_year);
             } catch (DecryptException $e) {
-                //
+                Log::error($e->getMessage());
             }
         }
-        /** @var array Arreglo que contiene las acciones específicas agrupadas por proyectos */
+        /* Arreglo que contiene las acciones específicas agrupadas por proyectos */
         $dataProjects = ['text' => 'Proyectos', 'children' => []];
-        /** @var array Arreglo que contiene las acciones específicas agrupadas por acciones centralizadas */
+        /* Arreglo que contiene las acciones específicas agrupadas por acciones centralizadas */
         $dataCentralizedActions = ['text' => 'Acciones Centralizadas', 'children' => []];
 
-        /** @var array Arreglo que contiene las acciones específicas */
+        /* Arreglo que contiene las acciones específicas */
         $data = [['id' => '', 'text' => 'Seleccione...']];
 
         $budgetSpecificAction = BudgetSpecificAction::has('specificable');
@@ -419,13 +455,13 @@ class BudgetSpecificActionController extends Controller
             )->where('to_date', '<=', $selDate);
         }
 
-        /** @var object Objeto que contiene información de las acciones específicas */
+        /* Objeto que contiene información de las acciones específicas */
         $budgetSpecificAction = ($formulated_year)
             ? $budgetSpecificAction->whereYear('from_date', $formulated_year)
             ->orWhereYear('to_date', $formulated_year)
             : $budgetSpecificAction;
 
-        /** @var Object Objeto con información de las acciones específicas a consultar */
+        /* Objeto con información de las acciones específicas a consultar */
         $budgetSpecificAction = (is_null($institutionId))
             ? $budgetSpecificAction
             : $budgetSpecificAction->whereHas('specificable', function ($q) use ($institutionId) {
@@ -439,7 +475,7 @@ class BudgetSpecificActionController extends Controller
         $withoutFormulations = false;
         $hasFormulations = false;
 
-        /** Agrega las acciones específicas para cada grupo */
+        /* Agrega las acciones específicas para cada grupo */
         foreach ($sp_accs as $sp_acc) {
             $filter = (!is_null($formulated) && $formulated) ? BudgetSubSpecificFormulation::where(
                 [
@@ -465,16 +501,16 @@ class BudgetSpecificActionController extends Controller
             }
         }
 
-        /** Si el grupo Proyectos contiene registros los agrega a la lista */
+        /* Si el grupo Proyectos contiene registros los agrega a la lista */
         if (count($dataProjects['children']) > 0) {
             array_push($data, $dataProjects);
         }
-        /** Si el grupo Acciones Centralizadas contiene registros los agrega a la lista */
+        /* Si el grupo Acciones Centralizadas contiene registros los agrega a la lista */
         if (count($dataCentralizedActions['children']) > 0) {
             array_push($data, $dataCentralizedActions);
         }
 
-        /** Si existen proyectos o acciones centralizadas y el arreglo tiene el texto 'sin formulaciones' se elimina del arreglo */
+        /* Si existen proyectos o acciones centralizadas y el arreglo tiene el texto 'sin formulaciones' se elimina del arreglo */
         if (($key = array_search('Sin formulaciones registradas', array_column($data, 'text'))) !== false) {
             array_splice($data, $key, 1);
         }
@@ -486,8 +522,10 @@ class BudgetSpecificActionController extends Controller
      * Obtiene detalles de una acción específica
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $id Identificar de la acción específica de la cual se requiere información
-     * @return JSON        JSON con los datos de la acción específica
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getDetail($id)
     {
@@ -499,15 +537,13 @@ class BudgetSpecificActionController extends Controller
     /**
      * Listado de cuentas presupuestarias aperturadas para una acción específica
      *
-     * @method    getOpenedAccounts
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      * @author     Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
      * @param     integer              $specificActionId    Identificador de la acción específica
      * @param     string               $selDate             Fecha a partir de la cual buscar las cuentas aperturadas
      *
-     * @return    JsonResponse         Objeto con información de las cuentas aperturadas
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function getOpenedAccounts($specificActionId, $selDate)
     {
@@ -601,6 +637,13 @@ class BudgetSpecificActionController extends Controller
 
         foreach ($accounts as $key => $account) {
             if ($key > 0) {
+                $accounts[$key]['amount'] = number_format(
+                    $account['amount'],
+                    $account['currency']->decimal_places,
+                    ".",
+                    ""
+                );
+
                 $accounts[$key]['text'] = $account['budgetAccount']->code . ' - ' .
                     $account['budgetAccount']->denomination . ' (' .
                     $account['currency']->symbol . " " .
@@ -625,14 +668,12 @@ class BudgetSpecificActionController extends Controller
     /**
      * Listado de cuentas presupuestarias aperturadas para una acción específica
      *
-     * @method    getOpenedTaxAccounts
-     *
      * @author     Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
      * @param     integer              $specificActionId    Identificador de la acción específica
      * @param     string               $selDate             Fecha a partir de la cual buscar las cuentas aperturadas
      *
-     * @return    JsonResponse         Objeto con información de las cuentas aperturadas
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function getOpenedTaxAccounts($specificActionId, $selDate)
     {
@@ -732,7 +773,6 @@ class BudgetSpecificActionController extends Controller
         foreach ($accounts as $account) {
             $records[] = $account;
         }
-
         return response()->json(['result' => true, 'records' => $records], 200);
     }
 
@@ -741,11 +781,9 @@ class BudgetSpecificActionController extends Controller
      *
      * @author José Briceño <josejorgebriceno9@gmail.com>
      *
-     * @method getAccountCompromisedAmout
+     * @param object $account_id Objeto con información de la cuenta
      *
-     * @param int $account_id
-     *
-     * @return Float Monto del compromiso para la cuenta presupuestaria con 'id' $account_id
+     * @return float Monto del compromiso para la cuenta presupuestaria con 'id' $account_id
      *
      */
 
@@ -772,12 +810,9 @@ class BudgetSpecificActionController extends Controller
      * @author José Briceño <josejorgebriceno9@gmail.com>
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @method getAccountCompromisedTaxAmount
+     * @param object $account_id Objeto con información de la cuenta
      *
-     * @param int $account_id
-     *
-     * @return Float Monto del compromiso para la cuenta presupuestaria con 'id' $account_id
-     *
+     * @return float Monto del compromiso para la cuenta presupuestaria con 'id' $account_id
      */
 
     public function getAccountCompromisedTaxAmount(object $accout_id)

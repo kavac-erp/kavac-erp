@@ -1,0 +1,7 @@
+<map id="regenerateCert" name="regenerateCert">
+<area shape="rect" id="Node000001" title="Genera un nuevo certificado P12." alt="" coords="120,31,240,56"/>
+<area shape="rect" id="Node000002" href="$de/dab/classModules_1_1DigitalSignature_1_1Http_1_1Controllers_1_1DigitalSignatureController.html#a9ef485163104597c12185b53cdacf638" title="Almacena el certificado del firmante." alt="" coords="11,5,66,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,33,66,25,67,20,107,28"/>
+<area shape="rect" id="Node000003" href="$de/dab/classModules_1_1DigitalSignature_1_1Http_1_1Controllers_1_1DigitalSignatureController.html#afdc1029c759eec7e6241e0265b43551a" title="Actualiza el certificado del firmante." alt="" coords="5,55,72,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="107,58,73,64,72,59,106,53"/>
+</map>

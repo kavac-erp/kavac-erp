@@ -1,0 +1,7 @@
+<map id="saleChargeMoneyValidate" name="saleChargeMoneyValidate">
+<area shape="rect" id="Node000001" title="Validacion de los datos." alt="" coords="120,31,312,56"/>
+<area shape="rect" id="Node000002" href="$dd/d1e/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleChargeMoneyController.html#a9ef485163104597c12185b53cdacf638" title="Almacena un nuevo cargo de dinero." alt="" coords="11,5,66,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,31,66,24,67,19,114,26"/>
+<area shape="rect" id="Node000003" href="$dd/d1e/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleChargeMoneyController.html#affb03cc19897a1800a0f411264d6c7cc" title="Actualiza la información de un cargo de dinero." alt="" coords="5,55,72,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="109,61,73,66,72,60,108,55"/>
+</map>

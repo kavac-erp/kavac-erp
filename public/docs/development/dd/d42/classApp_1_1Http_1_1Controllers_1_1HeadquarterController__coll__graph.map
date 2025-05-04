@@ -1,4 +1,5 @@
 <map id="HeadquarterController" name="HeadquarterController">
-<area shape="rect" id="node1" title="Gestiona información de las sedes." alt="" coords="5,131,172,267"/>
-<area shape="rect" id="node2" href="$d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="45,5,132,83"/>
+<area shape="rect" id="Node000001" title="Gestiona información de las sedes." alt="" coords="5,119,164,284"/>
+<area shape="rect" id="Node000002" href="$d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="45,5,124,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,84,87,118,82,118,82,84"/>
 </map>

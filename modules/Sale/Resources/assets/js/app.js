@@ -266,7 +266,7 @@ Vue.component('sale-bill-rejected-list', () => import(
 );
 
 /**
- * Componente para mostrar un listado de las facturas emitidas por 
+ * Componente para mostrar un listado de las facturas emitidas por
  pagos de anticipo
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
@@ -529,7 +529,7 @@ Vue.component('sale-report-payment', () => import(
 /*
  * Componente para gestionar la creación de los reportes de solicitud de servicios
  *
- * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>>
+ * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>>
  */
 Vue.component('sale-report-service-requests', () => import(
     /* webpackChunkName: "sale-report-service-requests" */
@@ -615,7 +615,7 @@ Vue.mixin({
 				vm.sale_descount_method = response.data;
 			});
 		},
-		
+
 		/**
 		 * Obtiene los datos de las formas de pago
 		 *
@@ -868,7 +868,7 @@ Vue.mixin({
         /**
         * Abre una nueva ventana en el navegador
         *
-        * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+        * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
         * @param  {string} url para la nueva ventana
         * @param  {string} type tipo de ventana que se desea abrir
         * @return {boolean} Devuelve falso si no se ha indicado alguna información requerida

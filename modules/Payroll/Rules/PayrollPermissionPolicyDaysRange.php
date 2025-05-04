@@ -3,29 +3,32 @@
 namespace Modules\Payroll\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Date;
 use Modules\Payroll\Models\PayrollPermissionPolicy;
 
 class PayrollPermissionPolicyDaysRange implements Rule
 {
     /**
          * Rango minimo para solicitar permiso
+         *
          * @var   integer   $day_min
          */
         protected $day_min;
 
         /**
          * Rango máximo
+         *
          * @var    integer    $day_max
          */
         protected $day_max;
 
         /**
-         *
+         * Crea una nueva instancia de la regla
          *
          * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
          *
-         * @param     integer    $day_min
-         * @param     integer    $day_max
+         * @param     integer|string|Date    $day_min Fecha mínima
+         * @param     integer|string|Date    $day_max Fecha máxima
          *
          * @return    void
          */
@@ -38,8 +41,9 @@ class PayrollPermissionPolicyDaysRange implements Rule
     /**
      * Determina si pasa la regla de validación
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param  string  $attribute Atributo a verificar
+     * @param  mixed  $value Valor a verificar
+     *
      * @return bool
      */
     public function passes($attribute, $value)

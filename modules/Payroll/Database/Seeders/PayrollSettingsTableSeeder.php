@@ -2,16 +2,24 @@
 
 namespace Modules\Payroll\Database\Seeders;
 
-use Doctrine\DBAL\Schema\Index;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Modules\Payroll\Models\Parameter;
 
+/**
+ * @class PayrollSettingsTableSeeder
+ * @brief Carga los datos de la configuración inicial del módulo de Talento Humano
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PayrollSettingsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */
@@ -56,10 +64,7 @@ class PayrollSettingsTableSeeder extends Seeder
 
         //Sí el nombre != 'Numero de lunes del mes' se agrega este parametro a la tabla.
         if (!$parameter_name) {
-             /**
-             * Objeto asociado al modelo Parameter
-             * @var Object $parameter
-             */
+             /* Objeto asociado al modelo Parameter */
             $payrollParameter = [
                 'id'             => $index + 1,
                 'name'           => 'Numero de lunes del mes',

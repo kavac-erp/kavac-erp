@@ -9,11 +9,6 @@
                     <span> {{ format_date(props.row.payment_date) }}</span>
                 </div>
                 <div slot="id" slot-scope="props">
-                    <!-- <button class="btn btn-primary btn-xs btn-icon btn-action" data-toggle="tooltip"
-                        @click="generateTextFile(props.row)" title="Generar reporte del registro" data-placement="bottom"
-                        type="button">
-                        <i class="fa fa-file-excel-o"></i>
-                    </button> -->
                     <button class="btn btn-warning btn-xs btn-icon btn-action" data-toggle="tooltip"
                         @click="editForm(props.row.id)" title="Modificar registro" data-placement="bottom" type="button">
                         <i class="fa fa-edit"></i>
@@ -64,10 +59,6 @@ export default {
     },
 
     methods: {
-
-        /**
-         * 
-         */
         async editRecord(id) {
             try {
                 await axios({
@@ -79,10 +70,6 @@ export default {
             }
 
         },
-
-        /**
-         * 
-         */
         async getRecords() {
             const vm = this;
             try {
@@ -95,7 +82,6 @@ export default {
                 console.log(error);
             }
         },
-
         /**
          * Método que envia la petición para generar el archivo de texto
          */

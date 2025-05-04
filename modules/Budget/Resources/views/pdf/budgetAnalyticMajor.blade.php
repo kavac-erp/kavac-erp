@@ -4,10 +4,6 @@
             <td width="25%" style="font-weight: bold;">Expresado en:</td>
             <td width="75%">{{ $currencySymbol }}</td>
         </tr>
-        {{-- <tr>
-            <td width="25%" style="font-weight: bold;">Código de la institución:</td>
-            <td width="75%">{{ $institution['onapre_code'] }}</td>
-        </tr> --}}
         <tr>
             <td width="25%" style="font-weight: bold;">Institución:</td>
             <td width="75%">{{ $institution['name'] }}</td>
@@ -47,31 +43,15 @@
         $caused = 0;
         $paid = 0;
         $real = 0;
+        $count = 1;
     @endphp
     @foreach ($records as $budgetAccounts)
-        <table cellspacing="0" cellpadding="4" style="font-size: 7rem;" align="center">
-            <tr>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">
-                    {{ $budgetAccounts['specific_action_name'] }}
-                </th>
-            </tr>
-        </table>
-        <table cellspacing="0" cellpadding="4" style="font-size: 7rem;" align="center">
-            <tr>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Fecha</th>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Código</th>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Denominación</th>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Detalle</th>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Asignado</th>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Aumento</th>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Disminución</th>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Actual</th>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Comprometido</th>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Causado</th>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Pagado</th>
-                <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Disponible</th>
-            </tr>
-        </table>
+        <tr>
+            <th colspan="12" rowspan="1" scope="rowgroup" style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">
+                {{ $budgetAccounts['specific_action_name'] }}
+            </th>
+        </tr>
+
         @if (count($budgetAccounts[0]) < 0)
             @php
                 break;
@@ -85,6 +65,25 @@
                 return $codeOne > $codeTwo;
             });
         @endphp
+        @if ($count == 1)
+           <thead>
+               <tr>
+                   <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Fecha</th>
+                   <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Código</th>
+                   <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Denominación</th>
+                   <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Detalle</th>
+                   <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Asignado</th>
+                   <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Aumento</th>
+                   <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Disminución</th>
+                   <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Modificado</th>
+                   <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Comprometido</th>
+                   <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Causado</th>
+                   <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Pagado</th>
+                   <th style="border: solid 1px #000; font-weight: bold;" bgcolor="#D3D3D3">Disponible</th>
+               </tr>
+           </thead>
+        @endif
+
         @foreach ($budgetAccounts[0] as $budgetAccount)
             @php
                 $compromised_des = join(',', $budgetAccount['compromised_descriptions'] ?? []);
@@ -94,6 +93,7 @@
                 $styles = $specific === '00' ? 'font-weight: bold;' : '';
             @endphp
             @if ($budgetAccount['self_amount'] > 0 || $budgetAccount['self_available'] > 0)
+            <tbody>
                 <tr>
                     <td style="border: solid 1px #808080; {{ $styles }}">
                         {{ date_format(new DateTime($budgetAccount['date'] ?? $budgetAccount['created_at']), 'd-m-Y') }}</td>
@@ -139,39 +139,39 @@
                     <tr>
                         <td style="border: solid 1px #808080; {{ $styles }}">
                             {{ date_format(new DateTime($modification['date']), 'd-m-Y') }}</td>
-        
+
                         <td style="border: solid 1px #808080; {{ $styles }}">
                             {{ $budgetAccount['budgetAccount']['code'] ?? $budgetAccount['code'] }}</td>
-        
+
                         <td style="border: solid 1px #808080; {{ $styles }}">
                             {{ $budgetAccount['budgetAccount']['denomination'] ?? $budgetAccount['denomination'] }}</td>
-        
+
                         <td style="border: solid 1px #808080; {{ $styles }}">
                             {!! $modification['increment_descriptions'] ?? $modification['decrement_descriptions'] !!}
                         </td>
-        
+
                         <td style="border: solid 1px #808080; {{ $styles }}">
                             {{ number_format(0, 2, ',', '.') }}</td>
-        
+
                         <td style="border: solid 1px #808080; {{ $styles }}">
                             {{ number_format($modification['increment'] ?? 0, 2, ',', '.') }}</td>
-        
+
                         <td style="border: solid 1px #808080; {{ $styles }}">
                             {{ number_format($modification['decrement'] ?? 0, 2, ',', '.') }}</td>
-        
+
                         <td style="border: solid 1px #808080; {{ $styles }}">
                             {{ number_format($modification['current'], 2, ',', '.') }}
                         </td>
-        
+
                         <td style="border: solid 1px #808080; {{ $styles }}">
                             {{ number_format($modification['compromised'] ?? 0, 2, ',', '.') }}</td>
-        
+
                         <td style="border: solid 1px #808080; {{ $styles }}">
                             {{ number_format($modification['caused'], 2, ',', '.') }}</td>
-        
+
                         <td style="border: solid 1px #808080; {{ $styles }}">
                             {{ number_format($modification['paid'], 2, ',', '.') }}</td>
-        
+
                         <td style="border: solid 1px #808080; {{ $styles }}">
                             {{ number_format($modification['self_available'], 2, ',', '.') }}</td>
                     </tr>
@@ -191,9 +191,11 @@
                     $increment += $budgetAccount['increment_total'];
                     $decrement += $budgetAccount['decrement_total'];
                 }
+                $count++;
             @endphp
         @endforeach
     @endforeach
+    </tbody>
 </table>
 
 <table cellspacing="0" cellpadding="1" border="1" style="font-weight: bold; font-size: 8rem">

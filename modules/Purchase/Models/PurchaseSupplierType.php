@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos para los tipos de proveedores
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PurchaseSupplierType extends Model implements Auditable
 {
@@ -26,16 +26,21 @@ class PurchaseSupplierType extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista de atributos para la gestión de fechas
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * Lista de atributos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = ['name'];
 
     /**
-     * City has many PurchaseSuppliers.
+     * Establece la relación con los proveedores
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -45,7 +50,7 @@ class PurchaseSupplierType extends Model implements Auditable
     }
 
     /**
-     * PurchaseSupplierType has many PurchaseRequirements.
+     * Establece la relación con los requerimientos de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

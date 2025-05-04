@@ -1,7 +1,5 @@
 <?php
 
-/** Reglas de validación personalizadas */
-
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
@@ -22,8 +20,6 @@ class Rif implements Rule
     /**
      * Crea una nueva instancia de la regla de validación.
      *
-     * @method  __construct
-     *
      * @return void
      */
     public function __construct()
@@ -32,9 +28,7 @@ class Rif implements Rule
     }
 
     /**
-     * Determinar si la regla de validación pasa.
-     *
-     * @method  passes
+     * Determinar si la regla de validación es correcta.
      *
      * @param  string  $attribute
      * @param  mixed  $value
@@ -47,9 +41,7 @@ class Rif implements Rule
     }
 
     /**
-     * Obtener el mensaje de error de validación.
-     *
-     * @method  message
+     * Obtiene el mensaje de error de validación.
      *
      * @return string
      */

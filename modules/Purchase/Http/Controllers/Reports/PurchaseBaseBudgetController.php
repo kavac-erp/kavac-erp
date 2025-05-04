@@ -28,6 +28,8 @@ class PurchaseBaseBudgetController extends Controller
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -37,15 +39,13 @@ class PurchaseBaseBudgetController extends Controller
     /**
      * Genera el reporte de presupuesto base para su visualización
      *
-     * @method    generatePdf
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    void
      */
     public function generatePdf($id)
     {
-        $user = Auth()->user();
+        $user = auth()->user();
         $profileUser = $user->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
@@ -53,10 +53,7 @@ class PurchaseBaseBudgetController extends Controller
             $institution = Institution::where('active', true)->where('default', true)->first();
         }
 
-        /**
-         * [$pdf base para generar el pdf]
-         * @var [Modules\Accounting\Pdf\Pdf]
-         */
+        /* base para generar el pdf */
         $pdf = new ReportRepository();
 
         $record = PurchaseBaseBudget::with(
@@ -78,9 +75,7 @@ class PurchaseBaseBudgetController extends Controller
             'secondSignature.payrollStaff'
         )->find($id);
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definicion de las caracteristicas generales de la página pdf */
         $pdf->setConfig(
             [
                 'institution' => Institution::first(),
@@ -90,7 +85,7 @@ class PurchaseBaseBudgetController extends Controller
         );
 
         $pdf->setHeader(
-            'Reporte de Presupuesto Base ' . ($requirement->code ?? '')
+            'Reporte de Presupuesto Base ' . ((isset($requirement) ? $requirement['code'] : '') ?? '')
         );
         $pdf->setFooter();
         $pdf->setBody('purchase::pdf.base-budget', true, [

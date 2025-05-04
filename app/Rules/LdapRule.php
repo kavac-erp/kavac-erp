@@ -3,8 +3,6 @@
 namespace App\Rules;
 
 use App\Models\User;
-use App\Models\Profile;
-use App\Models\Institution;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Validation\Rule;
 use Carbon\Carbon;
@@ -22,6 +20,11 @@ use Carbon\Carbon;
  */
 class LdapRule implements Rule
 {
+    /**
+     * Mensaje de error
+     *
+     * @var string $errorMessage
+     */
     protected $errorMessage;
 
     /**
@@ -39,12 +42,13 @@ class LdapRule implements Rule
      *
      * @param  string  $attribute
      * @param  mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
     {
         if (!config('auth.active_directory.enabled', false)) {
-            /** Si no se ha definido la autenticación a través de directorio activo */
+            /* Si no se ha definido la autenticación a través de directorio activo */
             return true;
         }
         $username = $value;
@@ -54,12 +58,12 @@ class LdapRule implements Rule
         try {
             $bind = ldap_bind($ds, $username . config('auth.active_directory.dn'), request()->password);
         } catch (\Throwable $th) {
-            /** Excepción que se ejecuta si la autenticación con el Directorio Activo falla */
+            /* Excepción que se ejecuta si la autenticación con el Directorio Activo falla */
             $this->errorMessage = 'Las credenciales de acceso suministradas no son válidas';
             return false;
         }
 
-        /** Condición que evalua si el usuario existe */
+        /* Condición que evalua si el usuario existe */
         if ($bind) {
             $search = ldap_search($ds, config('auth.active_directory.base_dn'), "uid=$username");
             $entry = ldap_first_entry($ds, $search);
@@ -68,7 +72,7 @@ class LdapRule implements Rule
 
             $user = User::where('email', $userEmail)->first();
             if (!$user) {
-                /**
+                /*
                  * Si el usuario no está registrado dentro de la aplicación se denega el acceso aún cuando exista en
                  * el Directorio Activo para evitar acceso no autorizado dentro del sistema
                  */
@@ -77,13 +81,13 @@ class LdapRule implements Rule
             }
 
             if (!Hash::check(request()->password, $user->password)) {
-                /** Si la contraseña es distina a la configurada en el directorio activo la actualiza en la aplicación */
+                /* Si la contraseña es distina a la configurada en el directorio activo la actualiza en la aplicación */
                 $user->update([
                     'password' => Hash::make(request()->password),
                 ]);
             }
             if ($user->email_verified_at === null) {
-                /** Verifica, por defecto, al usuario dentro de la aplicación */
+                /* Verifica, por defecto, al usuario dentro de la aplicación */
                 $user->update([
                     'email_verified_at' => Carbon::now(),
                 ]);

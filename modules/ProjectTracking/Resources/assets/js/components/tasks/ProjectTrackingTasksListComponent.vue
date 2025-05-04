@@ -96,39 +96,39 @@ export default {
             let index = vm.records.findIndex(obj => { return obj.id == param })
             return index + 1
         },
-                    /**
-             * Método que borra un registro de la tabla
-             * 
-             * @author  Pedro Contreras <pdrocont@gmail.com>
-             */
-             deleteRecord(id, index) {
-                const vm = this;
+        /**
+ * Método que borra un registro de la tabla
+ * 
+ * @author  Pedro Contreras <pdrocont@gmail.com>
+ */
+        deleteRecord(id, index) {
+            const vm = this;
 
-                bootbox.confirm({
-                    title: "¿Eliminar registro?",
-                    message: "¿Está seguro de eliminar este registro?",
-                    buttons: {
-                        cancel: {
-                            label: '<i class="fa fa-times"></i> Cancelar'
-                        },
-                        confirm: {
-                            label: '<i class="fa fa-check"></i> Confirmar'
-                        }
+            bootbox.confirm({
+                title: "¿Eliminar registro?",
+                message: "¿Está seguro de eliminar este registro?",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Cancelar'
                     },
-                    callback: async function (result) {
-                        if (result) {
-                            vm.loading = true;
-
-                            await axios.delete(`${window.app_url}/projecttracking/tasks/delete/${id}`).then(response => {
-                                vm.records.splice(index, 1);
-                                vm.showMessage('destroy');
-                                vm.loading = false;
-                            });
-                        }
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Confirmar'
                     }
-                });
-                
-            }
+                },
+                callback: async function (result) {
+                    if (result) {
+                        vm.loading = true;
+
+                        await axios.delete(`${window.app_url}/projecttracking/tasks/delete/${id}`).then(response => {
+                            vm.records.splice(index, 1);
+                            vm.showMessage('destroy');
+                            vm.loading = false;
+                        });
+                    }
+                }
+            });
+
+        }
     },
 
     mounted() {

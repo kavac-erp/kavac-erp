@@ -11,11 +11,10 @@ use Modules\Asset\Models\AssetCategory;
  * @class AssetCategoriesTableSeeder
  * @brief Inicializa Categorias Generales
  *
- *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetCategoriesTableSeeder extends Seeder
 {
@@ -23,6 +22,7 @@ class AssetCategoriesTableSeeder extends Seeder
      * Método que registra los valores iniciales de Categorias Generales de un Bien
      *
      * @author  Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function run()

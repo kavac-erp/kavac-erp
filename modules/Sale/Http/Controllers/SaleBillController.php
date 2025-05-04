@@ -25,24 +25,25 @@ use Modules\Sale\Notifications\BillApproved;
  * Clase que gestiona las facturas del módulo de comercialización
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
-
 class SaleBillController extends Controller
 {
     use ValidatesRequests;
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -50,22 +51,24 @@ class SaleBillController extends Controller
      * Define la configuración de la clase
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.bill.list', ['only' => 'index']);
         $this->middleware('permission:sale.bill.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:sale.bill.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:sale.bill.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'type_person'          => ['required'],
             'sale_form_payment_id' => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'type_person.required'          => 'El campo tipo de persona es obligatorio.',
             'sale_form_payment_id.required' => 'El campo forma de cobro es obligatorio.',
@@ -81,7 +84,8 @@ class SaleBillController extends Controller
      * Muestra un listado de las facturas registradas
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return Renderable
+     *
+     * @return \Illuminate\View\View
      */
 
     public function index()
@@ -93,7 +97,8 @@ class SaleBillController extends Controller
      * Muestra el formulario para registrar una nueva factura
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return Renderable
+     *
+     * @return \Illuminate\View\View
      */
 
     public function create()
@@ -105,8 +110,10 @@ class SaleBillController extends Controller
      * Valida y registra una nueva factura
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function store(Request $request)
@@ -185,18 +192,13 @@ class SaleBillController extends Controller
                                 'measurement_unit_id'        => $product['measurement_unit_id'],
                                 'value'                      => $product['value'],
                                 'product_type'               => $product['product_type'],
-                                'quantity'                   => $product['quantity'],
                             ]);
                         } else {
-                            /** Si la exitencia del producto es menor que lo que se solicita
-                             *  se revierten los cambios
-                             */
+                            /* Si la exitencia del producto es menor que lo que se solicita se revierten los cambios */
                             DB::rollback();
                         }
                     } else {
-                        /** Si no existe el registro en inventario
-                         *  se revierten los cambios
-                         */
+                        /* Si no existe el registro en inventario se revierten los cambios */
                         DB::rollback();
                     }
                 } else {
@@ -210,7 +212,6 @@ class SaleBillController extends Controller
                         'sale_list_subservices_id'   => $product['sale_list_subservices_id'],
                         'value'                      => $product['value'],
                         'product_type'               => $product['product_type'],
-                        'quantity'                   => $product['quantity'],
                     ]);
                 }
             }
@@ -234,9 +235,11 @@ class SaleBillController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
+     * Muestra información de una factura
+     *
+     * @param integer $id Identificador de la factura
+     *
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
@@ -244,9 +247,11 @@ class SaleBillController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
+     * Muestra el formulario para editar una factura
+     *
+     * @param integer $id Identificador de la factura
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -255,10 +260,12 @@ class SaleBillController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
+     * Actualización de la información de una factura
+     *
+     * @param Request $request Datos de la petición
+     * @param integer $id Identificador de la factura
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -297,7 +304,7 @@ class SaleBillController extends Controller
 
         $update = now();
 
-        /** Se agregan los nuevos elementos a la solicitud */
+        /* Se agregan los nuevos elementos a la solicitud */
         foreach ($request->sale_bill_products as $product) {
             if ($product['product_type'] == 'Producto') {
                 $inventory_product = SaleWarehouseInventoryProduct::find($product['sale_warehouse_inventory_product_id']);
@@ -312,19 +319,14 @@ class SaleBillController extends Controller
                             'history_tax_id'             => $product['history_tax_id'],
                             'measurement_unit_id'        => $product['measurement_unit_id'],
                             'value'                      => $product['value'],
-                            'product_type'               => $product['product_type'],
-                            'quantity'                   => $product['quantity'],
+                            'product_type'               => $product['product_type']
                         ]);
                     } else {
-                        /** Si la exitencia del producto es menor que lo que se solicita
-                         *  se revierten los cambios
-                         */
+                        /* Si la exitencia del producto es menor que lo que se solicita se revierten los cambios */
                         DB::rollback();
                     }
                 } else {
-                    /** Si no existe el registro en inventario
-                     *  se revierten los cambios
-                     */
+                    /* Si no existe el registro en inventario se revierten los cambios */
                     DB::rollback();
                 }
             } else {
@@ -337,13 +339,12 @@ class SaleBillController extends Controller
                     'sale_goods_to_be_traded_id' => $product['sale_goods_to_be_traded_id'],
                     'sale_list_subservices_id'   => $product['sale_list_subservices_id'],
                     'value'                      => $product['value'],
-                    'product_type'               => $product['product_type'],
-                    'quantity'                   => $product['quantity'],
+                    'product_type'               => $product['product_type']
                 ]);
             }
         }
 
-        /** Se eliminan los demas elementos de la solicitud */
+        /* Se eliminan los demas elementos de la solicitud */
         $sale_bill_products = SaleBillInventoryProduct::where(
             'sale_bill_id',
             $sale_bills->id
@@ -361,11 +362,12 @@ class SaleBillController extends Controller
      * Confirma la aprobación de una factura
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  Integer $id Identificador único de la factura
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id Identificador único de la factura
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-
     public function approvedBill(Request $request, $id)
     {
         $sale_bills = SaleBill::find($id);
@@ -377,7 +379,7 @@ class SaleBillController extends Controller
         })->get();
 
         foreach ($users as $user) {
-            $user->notify(new BillApproved(Auth::user(), $user, $sale_bills));
+            $user->notify(new BillApproved(auth()->user(), $user, $sale_bills));
         };
 
         $bill_inventory_products = $sale_bills->SaleBillInventoryProduct;
@@ -400,9 +402,11 @@ class SaleBillController extends Controller
      * Rechaza la aprobación de una factura
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  Integer $id Identificador único de la factura
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id Identificador único de la factura
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function rejectedBill(Request $request, $id)
     {
@@ -420,9 +424,11 @@ class SaleBillController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
+     * Elimina la factura
+     *
+     * @param integer $id Identificador de la factura
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -435,8 +441,10 @@ class SaleBillController extends Controller
      * Vizualiza información de una solicitud de almacén
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  Integer $id Identificador único de la solicitud de almacén
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único de la solicitud de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueInfo($id)
     {
@@ -456,6 +464,7 @@ class SaleBillController extends Controller
      * Obtiene un listado de las facturas registradas
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse Objeto con los registros a mostrar
      */
     public function vueList()
@@ -475,6 +484,7 @@ class SaleBillController extends Controller
      * Obtiene un listado de las facturas aprobadas
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse Objeto con los registros a mostrar
      */
     public function vueApprovedList()
@@ -494,6 +504,7 @@ class SaleBillController extends Controller
      * Obtiene un listado de las facturas rechazadas
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse Objeto con los registros a mostrar
      */
     public function vueRejectedList()
@@ -514,6 +525,7 @@ class SaleBillController extends Controller
      * de facturas
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse Objeto con los registros a mostrar
      */
     public function getBillProduct($product, $id)
@@ -533,7 +545,8 @@ class SaleBillController extends Controller
      * Muestra una lista de los productos aprobados en el almacen
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return Array con los productos
+     *
+     * @return array con los productos
      */
     public function getBillInventoryProducts()
     {

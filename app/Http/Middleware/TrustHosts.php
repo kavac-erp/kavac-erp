@@ -1,7 +1,5 @@
 <?php
 
-/** Middlewares base de la aplicación */
-
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Middleware\TrustHosts as Middleware;
@@ -16,8 +14,6 @@ class TrustHosts extends Middleware
 {
     /**
      * Obtiene los patrones de servidores en los que se debe confiar.
-     *
-     * @method  hosts
      *
      * @return array
      */

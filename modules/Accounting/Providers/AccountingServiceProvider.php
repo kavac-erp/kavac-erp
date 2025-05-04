@@ -2,22 +2,41 @@
 
 namespace Modules\Accounting\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Modules\Accounting\Console\Command\DeleteEntry;
+use Modules\Accounting\Console\Command\EntryDocumentStatusAprove;
+use Modules\Accounting\Console\Command\CreateReverceAccountingAccountforPayOrders;
 
+/**
+ * @class AccountingServiceProvider
+ * @brief Clase que gestiona los proveedores de servicios del módulo de Contabilidad
+ *
+ * Gestiona los proveedores de servicios del módulo de Contabilidad
+ *
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AccountingServiceProvider extends ServiceProvider
 {
     /**
+     * Nombre del modulo
+     *
      * @var string $moduleName
      */
     protected $moduleName = 'Accounting';
 
     /**
+     * Nombre del modulo en minisculas
+     *
      * @var string $moduleNameLower
      */
     protected $moduleNameLower = 'accounting';
 
     /**
-     * Boot the application events.
+     * Inicializa los eventos del módulo de contabilidad
      *
      * @return void
      */
@@ -28,10 +47,11 @@ class AccountingServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->registerCommands();
     }
 
     /**
-     * Register the service provider.
+     * Registra el proveedor de servicio
      *
      * @return void
      */
@@ -41,7 +61,7 @@ class AccountingServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register config.
+     * Registra la configuración
      *
      * @return void
      */
@@ -57,7 +77,7 @@ class AccountingServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register views.
+     * Registra las vistas
      *
      * @return void
      */
@@ -75,7 +95,7 @@ class AccountingServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register translations.
+     * Registra las traducciones
      *
      * @return void
      */
@@ -91,7 +111,7 @@ class AccountingServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register an additional directory of factories.
+     * Registra un directorio adicional para los factory
      *
      * @return void
      */
@@ -103,7 +123,7 @@ class AccountingServiceProvider extends ServiceProvider
     }
 
     /**
-     * Get the services provided by the provider.
+     * Obtiene los proveedores de servicios
      *
      * @return array
      */
@@ -112,14 +132,36 @@ class AccountingServiceProvider extends ServiceProvider
         return [];
     }
 
+    /**
+     * Obtiene las rutas de las carpetas de vistas
+     *
+     * @return array
+     */
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (\Config::get('view.paths') as $path) {
+        foreach (Config::get('view.paths') as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }
         }
         return $paths;
+    }
+
+    /**
+     * Registra los comandos del módulo de contabilidad
+     *
+     * @return void
+     */
+    public function registerCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            // Registrar comandos solo si se está ejecutando en la consola
+            $this->commands([
+                CreateReverceAccountingAccountforPayOrders::class,
+                EntryDocumentStatusAprove::class,
+                DeleteEntry::class,
+            ]);
+        }
     }
 }

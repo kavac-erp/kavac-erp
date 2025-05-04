@@ -1,7 +1,5 @@
 <?php
 
-/** Gestión de eventos del sistema */
-
 namespace App\Listeners;
 
 use Illuminate\Auth\Events\Failed;
@@ -26,8 +24,6 @@ class RecordFailedLoginAttempt
     /**
      * Crea el detector de eventos.
      *
-     * @method  __contruct
-     *
      * @return void
      */
     public function __construct()
@@ -38,17 +34,15 @@ class RecordFailedLoginAttempt
     /**
      * Gestiona el evento.
      *
-     * @method  handle
-     *
      * @param  Failed  $event
      *
      * @return void
      */
     public function handle(Failed $event)
     {
-        /** @var string Establece la fecha y hora en la que fue bloqueado el usuario */
-        /**$event->user->blocked_at = date('Y-m-d H:i:s');
-        $event->user->save();*/
+        // Establece la fecha y hora en la que fue bloqueado el usuario
+        /*$event->user->blocked_at = date('Y-m-d H:i:s');
+        $event->user->save();
 
         $blackListIp = Parameter::where(['p_key' => 'black_list_ip'])->first();
         $myIp = request()->ip();
@@ -67,13 +61,13 @@ class RecordFailedLoginAttempt
             }
         }
 
-        //$event->user->notify(new UserBlocked(User::find($event->user->id)));
+        $event->user->notify(new UserBlocked(User::find($event->user->id), $myIp));
 
-        /** Registra el evento de intento fallido */
+        // Registra el evento de intento fallido
         FailedLoginAttempt::record(
             $event->credentials['username'],
             request()->ip(),
             $event->user
-        );
+        );*/
     }
 }

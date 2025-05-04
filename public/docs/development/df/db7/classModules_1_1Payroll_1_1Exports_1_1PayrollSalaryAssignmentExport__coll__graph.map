@@ -1,4 +1,5 @@
 <map id="PayrollSalaryAssignmentExport" name="PayrollSalaryAssignmentExport">
-<area shape="rect" id="node1" title="Clase que gestiona los objetos exportados del modelo de asignaciones salariales." alt="" coords="5,160,232,296"/>
-<area shape="rect" id="node2" href="$df/dfd/classApp_1_1Exports_1_1DataExport.html" title="Permite la exportación de datos." alt="" coords="46,5,191,112"/>
+<area shape="rect" id="Node000001" title="Clase que gestiona los objetos exportados del modelo de asignaciones salariales." alt="" coords="5,159,224,304"/>
+<area shape="rect" id="Node000002" href="$df/dfd/classApp_1_1Exports_1_1DataExport.html" title="Permite la exportación de datos." alt="" coords="46,5,183,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,125,117,158,112,158,112,125"/>
 </map>

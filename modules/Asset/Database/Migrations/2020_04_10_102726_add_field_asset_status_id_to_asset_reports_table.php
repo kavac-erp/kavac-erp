@@ -11,6 +11,7 @@ use Illuminate\Database\Migrations\Migration;
  * Gestiona la creación o eliminación del campo  asset_status_id de la tabla asset_reports
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -20,6 +21,7 @@ class AddFieldAssetStatusIdToAssetReportsTable extends Migration
      * Método que ejecuta las migraciones
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    void
      */
     public function up()
@@ -38,6 +40,7 @@ class AddFieldAssetStatusIdToAssetReportsTable extends Migration
      * Método que elimina las migraciones
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    void
      */
     public function down()

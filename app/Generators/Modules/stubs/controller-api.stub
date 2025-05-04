@@ -1,10 +1,11 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $CLASS_NAMESPACE$;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -22,8 +23,6 @@ class $CLASS$ extends Controller
     /**
      * [descripción del método]
      *
-     * @method    index
-     *
      * @author    [nombre del autor] [correo del autor]
      *
      * @return    Response    [descripción de los datos devueltos]
@@ -35,8 +34,6 @@ class $CLASS$ extends Controller
 
     /**
      * [descripción del método]
-     *
-     * @method    store
      *
      * @author    [nombre del autor] [correo del autor]
      *
@@ -52,8 +49,6 @@ class $CLASS$ extends Controller
     /**
      * [descripción del método]
      *
-     * @method    show
-     *
      * @author    [nombre del autor] [correo del autor]
      *
      * @param     integer    $id    Identificador del registro
@@ -67,8 +62,6 @@ class $CLASS$ extends Controller
 
     /**
      * [descripción del método]
-     *
-     * @method    update
      *
      * @author    [nombre del autor] [correo del autor]
      *
@@ -84,8 +77,6 @@ class $CLASS$ extends Controller
 
     /**
      * [descripción del módulo]
-     *
-     * @method    destroy
      *
      * @author    [nombre del autor] [correo del autor]
      *

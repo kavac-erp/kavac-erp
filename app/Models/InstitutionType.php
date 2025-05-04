@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +13,9 @@ use App\Traits\ModelsTrait;
  * @brief Datos de los tipos de las Organizaciones
  *
  * Gestiona el modelo de datos para los tipos de Organizaciones
+ *
+ * @property string $name
+ * @property string $acronym
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -51,11 +52,9 @@ class InstitutionType extends Model implements Auditable
     /**
      * Método que obtiene las organizaciones asociadas a un tipo
      *
-     * @method  institutions
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con los registros relacionados al modelo InstitutionType
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function institutions()
     {

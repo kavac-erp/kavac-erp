@@ -174,7 +174,6 @@ export default {
     async created() {
         const vm = this;
         vm.record.message = "Solicitud Prosupuestaria Numero " + vm.id;
-        // vm.record.message = "<a style='color: #0783f0;' href="+url+" >Solicitud Prosupuestaria Numero "+vm.id+" </a> "
     },
 };
 </script>

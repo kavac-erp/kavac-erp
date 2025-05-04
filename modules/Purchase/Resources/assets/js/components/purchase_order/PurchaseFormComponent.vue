@@ -525,14 +525,12 @@ export default {
 
         /**
          * [CalculateTot Calcula el total del debe y haber del asiento contable]
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          * @param  {[type]} r   [información del registro]
          * @param  {[type]} pos [posición del registro]
          */
         CalculateTot(item, pos) {
             const vm = this;
-            // console.log(item)
-            // vm.record_items[pos] = item;
 
             vm.sub_total = 0;
             vm.tax_value = 0;
@@ -552,7 +550,7 @@ export default {
         /**
          * Establece la cantidad de decimales correspondientes a la moneda que se maneja
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         cualculateLimitDecimal() {
             const vm = this;
@@ -568,17 +566,11 @@ export default {
 
         createRecord() {
 
-            // if (id == 'acta_inicio' || id == 'invitation_bussiness') {
-            //     $('#status_'+id).show('slow');
-            //     return;
-            // }
-
             /** Se obtiene y da formato para enviar el archivo a la ruta */
             const vm = this;
             var formData = new FormData();
             let route = vm.route_list;
-            // var inputFile = document.querySelector('#'+id);
-            // formData.append("file", inputFile.files[0]);
+
             formData.append("purchase_supplier_id", vm.purchase_supplier_id);
             formData.append("currency_id", vm.currency_id);
             formData.append("subtotal", vm.sub_total);
@@ -593,7 +585,6 @@ export default {
                 }).then(response => {
                     vm.showMessage('store');
                     vm.loading = false;
-                    //location.href = vm.route_list;
                     location.href = `${window.app_url}${route}`;
                 }).catch(error => {
                     if (typeof(error.response) !== "undefined") {
@@ -618,7 +609,6 @@ export default {
                 }).then(response => {
                     vm.showMessage('update');
                     vm.loading = false;
-                    //location.href = vm.route_list;
                     location.href = `${window.app_url}${route}`;
 
                 }).catch(error => {

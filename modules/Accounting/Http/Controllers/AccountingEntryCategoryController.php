@@ -3,9 +3,10 @@
 namespace Modules\Accounting\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Accounting\Models\AccountingEntryCategory;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
  * @class AccountingEntryCategoryController
@@ -13,10 +14,10 @@ use Modules\Accounting\Models\AccountingEntryCategory;
  *
  * Clase que gestiona las categorias de asientos contables
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AccountingEntryCategoryController extends Controller
 {
@@ -25,16 +26,25 @@ class AccountingEntryCategoryController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:accounting.setting.category.store', ['only' => ['store']]);
         $this->middleware('permission:accounting.setting.category.update', ['only' => ['update']]);
         $this->middleware('permission:accounting.setting.category.delete', ['only' => 'destroy']);
     }
 
+    /**
+     * Listado de categorías de cuentas contables
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return JsonResponse
+     */
     public function index()
     {
         return response()->json(['records' => AccountingEntryCategory::orderBy('name')->get()], 200);
@@ -43,9 +53,11 @@ class AccountingEntryCategoryController extends Controller
     /**
      * Crea una nueva categorias de origen de asiento contable
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
-     * @return Response
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+
+     * @param  Request $request Datos de la petición realizada
+
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -56,9 +68,7 @@ class AccountingEntryCategoryController extends Controller
 
         $institution = get_institution();
 
-        /**
-         * almacenar la información para el nuevo registro
-         */
+        /* almacenar la información para el nuevo registro */
         AccountingEntryCategory::create([
                                         'name'           => $request->name,
                                         'acronym'        => $request->acronym,
@@ -73,10 +83,12 @@ class AccountingEntryCategoryController extends Controller
     /**
      * Actualiza los datos de la categoria de origen
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+
+     * @param  Request $request Datos de la petición realizada
      * @param  integer $id      Identificador de la categoria de origen a modificar
-     * @return Response
+
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -84,10 +96,7 @@ class AccountingEntryCategoryController extends Controller
             'name'    => ['required', 'string'],
             'acronym' => ['required', 'string'],
         ]);
-        /**
-         * [$record contine el registro de conversión a editar]
-         * @var AccountingEntryCategory
-         */
+        /* contine el registro de conversión a editar */
         $record          = AccountingEntryCategory::find($id);
         $record->name    = $request['name'];
         $record->acronym = $request['acronym'];
@@ -102,17 +111,17 @@ class AccountingEntryCategoryController extends Controller
     /**
      * Elimina una categoria de origen de asiento contable
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+
      * @param  integer $id Identificador de la categoria de origen a eliminar
-     * @return Response
+
+     * @return JsonResponse
      */
     public function destroy($id)
     {
         $category = AccountingEntryCategory::with('accountingEntries')->find($id);
         if ($category) {
-            /**
-             * validar si no esta relacionada con algun asiento es permitido eliminarla
-             */
+            /* validar si no esta relacionada con algun asiento es permitido eliminarla */
             if (count($category->accountingEntries) > 0) {
                 return response()->json([
                     'error'   => true,
@@ -131,6 +140,7 @@ class AccountingEntryCategoryController extends Controller
      * Obtiene los datos de las entidades bancarias
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+
      * @return \Illuminate\Http\JsonResponse Devuelve un JSON con listado de las entidades bancarias
      */
     public function getCategories()

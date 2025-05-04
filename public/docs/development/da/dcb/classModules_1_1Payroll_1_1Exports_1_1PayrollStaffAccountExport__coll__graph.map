@@ -1,0 +1,5 @@
+<map id="PayrollStaffAccountExport" name="PayrollStaffAccountExport">
+<area shape="rect" id="Node000001" title="Clase que exporta el listado de datos contables del personal." alt="" coords="5,159,188,284"/>
+<area shape="rect" id="Node000002" href="$df/dfd/classApp_1_1Exports_1_1DataExport.html" title="Permite la exportación de datos." alt="" coords="28,5,165,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,124,99,158,94,158,94,124"/>
+</map>

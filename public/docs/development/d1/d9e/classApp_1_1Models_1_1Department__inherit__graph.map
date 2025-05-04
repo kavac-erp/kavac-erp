@@ -1,3 +1,11 @@
 <map id="Department" name="Department">
-<area shape="rect" id="node1" title="Datos de las Unidades, Departamentos o Dependencias." alt="" coords="5,5,133,171"/>
+<area shape="rect" id="Node000001" title="Datos de las Unidades, Departamentos o Dependencias." alt="" coords="285,5,405,191"/>
+<area shape="rect" id="Node000002" href="$d2/dde/classModules_1_1Accounting_1_1Models_1_1Department.html" title="Clase que extiende la clase Department de la aplicación base." alt="" coords="5,249,97,314"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="274,142,111,241,97,251,94,246,109,236,272,138"/>
+<area shape="rect" id="Node000003" href="$de/db0/classModules_1_1Budget_1_1Models_1_1Department.html" title="Modelo que extiende las funcionalidades del modelo base Department." alt="" coords="122,239,327,324"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="279,203,255,240,250,237,274,200"/>
+<area shape="rect" id="Node000004" href="$dd/dfa/classModules_1_1Payroll_1_1Models_1_1Department.html" title="Datos de departamento." alt="" coords="351,239,581,324"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="415,199,440,237,436,240,410,202"/>
+<area shape="rect" id="Node000005" href="$d6/d33/classModules_1_1Purchase_1_1Models_1_1Department.html" title="Extension de la clase Department de la aplicación base." alt="" coords="605,239,860,324"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="418,131,645,236,643,241,416,136"/>
 </map>

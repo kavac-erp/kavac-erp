@@ -1,0 +1,13 @@
+<map id="boot" name="boot">
+<area shape="rect" id="Node000001" title="Carga los eventos del módulo." alt="" coords="5,80,56,105"/>
+<area shape="rect" id="Node000002" href="$de/d63/classModules_1_1DigitalSignature_1_1Providers_1_1DigitalSignatureServiceProvider.html#ae3b55e0b197cd07e04673b8ddded82e8" title="Registra la configuración." alt="" coords="123,5,236,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="46,78,71,58,103,40,118,33,120,38,105,44,74,63,49,82"/>
+<area shape="rect" id="Node000003" href="$de/d63/classModules_1_1DigitalSignature_1_1Providers_1_1DigitalSignatureServiceProvider.html#a5fd4226764c7b498b81958b2ba9077ad" title="Registra un directorio adicional para los factories." alt="" coords="114,55,245,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="56,86,100,78,101,83,57,91"/>
+<area shape="rect" id="Node000004" href="$de/d63/classModules_1_1DigitalSignature_1_1Providers_1_1DigitalSignatureServiceProvider.html#a09835f90ad36479b364740905741e627" title="Registra las traducciones." alt="" coords="104,104,255,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="57,94,91,100,90,105,56,99"/>
+<area shape="rect" id="Node000005" href="$de/d63/classModules_1_1DigitalSignature_1_1Providers_1_1DigitalSignatureServiceProvider.html#ace230673c353d46a0058ca73134fbc2c" title="Registra las vistas." alt="" coords="124,153,235,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="50,103,105,138,123,146,121,151,103,143,47,108"/>
+<area shape="rect" id="Node000006" href="$de/d63/classModules_1_1DigitalSignature_1_1Providers_1_1DigitalSignatureServiceProvider.html#adc56d9e43fa6bac8221c211d690efe97" title="Obtiene los directorios de vista del módulo de firma electrónica." alt="" coords="303,153,488,179"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="235,163,289,163,289,169,235,169"/>
+</map>

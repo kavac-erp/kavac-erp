@@ -31,6 +31,7 @@ use App\Models\DocumentStatus;
  * Clase que gestiona las desincorporaciones de bienes institucionales
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -38,20 +39,33 @@ class AssetDisincorporationController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
     protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
     /**
      * Define la configuración de la clase
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
         $this->middleware('permission:asset.desincorporation.download', ['only' => 'managePdf']);
         $this->middleware('permission:asset.disincorporation.index', ['only' => 'index']);
         $this->middleware('permission:asset.disincorporation.create', ['only' => 'create']);
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->validateRules = [
             'date' => ['required'],
             'asset_disincorporation_motive_id' => ['required'],
@@ -62,7 +76,7 @@ class AssetDisincorporationController extends Controller
             'produced_by_id' => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'date.required' => 'El campo fecha de desincorporación es obligatorio.',
             'asset_disincorporation_motive_id.required' => 'El campo motivo de la desincorporación es obligatorio.',
@@ -81,6 +95,7 @@ class AssetDisincorporationController extends Controller
      * Muestra un listado de las Ddsincorporaciones de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    Renderable
      */
     public function index()
@@ -92,6 +107,7 @@ class AssetDisincorporationController extends Controller
      * Muestra el formulario para registrar una nueva desincorporación de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    Renderable
      */
     public function create()
@@ -103,7 +119,10 @@ class AssetDisincorporationController extends Controller
      * Valida y registra una nueva desincorporación de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
+     * @param     \App\Repositories\UploadImageRepository $upImage    Repositorio para la gestión de imagenes
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar)
      */
     public function store(Request $request, UploadImageRepository $upImage, UploadDocRepository $upDoc)
@@ -133,20 +152,13 @@ class AssetDisincorporationController extends Controller
             $codeSetting->field
         );
 
-        // $user_profile = Profile::where('user_id', auth()->user()->id)->first();
-        // $institution_id = isset($user_profile->institution_id)
-        // ? $user_profile->institution_id
-        // : null;
         $user_id = auth()->user()->id;
         $institution = Institution::where(['active' => true, 'default' => true])->first();
         $institution_id = isset($institution->id) ? $institution->id : null;
 
         $documentStatus = DocumentStatus::where('action', 'PR')->first();
 
-        /* Objeto asociado al modelo AssetDisincorporation
-         *
-         * @var Object $disincorporation
-         */
+        /* Objeto asociado al modelo AssetDisincorporation */
         $disincorporation = AssetDisincorporation::create([
             'code' => $code,
             'date' => $request->date,
@@ -171,7 +183,7 @@ class AssetDisincorporationController extends Controller
             ]);
         }
 
-        /** Se guardan los docmentos, según sea el tipo (imágenes y/o documentos)*/
+        /* Se guardan los docmentos, según sea el tipo (imágenes y/o documentos)*/
         $documentFormat = ['doc', 'docx', 'pdf', 'odt'];
         $imageFormat = ['jpeg', 'jpg', 'png'];
 
@@ -204,7 +216,9 @@ class AssetDisincorporationController extends Controller
      * Muestra el formulario para desincorporar un bien institucional
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     Integer                          $id    Identificador único del bien a desincorporar
+     *
+     * @param     integer                          $id    Identificador único del bien a desincorporar
+     *
      * @return    Renderable    Objeto con los registros a mostrar
      */
     public function assetDisassign($id)
@@ -217,7 +231,9 @@ class AssetDisincorporationController extends Controller
      * Muestra el formulario para actualizar la información de las desincorporaciones de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     Integer                          $id    Identificador único de la desincorporación a editar
+     *
+     * @param     integer                          $id    Identificador único de la desincorporación a editar
+     *
      * @return    Renderable    Objeto con los datos a mostrar
      */
     public function edit($id)
@@ -226,6 +242,13 @@ class AssetDisincorporationController extends Controller
         return view('asset::disincorporations.create', compact('disincorporation'));
     }
 
+    /**
+     * Muestra el documento registrado
+     *
+     * @param mixed $filename Archivo a mostrar
+     *
+     * @return mixed|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function showDocuments($filename)
     {
         if (Storage::disk('pictures')->exists($filename)) {
@@ -237,6 +260,14 @@ class AssetDisincorporationController extends Controller
         return response()->download($file, $filename, [], 'inline');
     }
 
+    /**
+     * Gestiona la petición de un documento de desincorporación
+     *
+     * @param integer $id Identificador de la desincorporación
+     * @param boolean|null $all Determina si se obtiene toda la información
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function getDisincorporationRequestDocuments($id, $all = null)
     {
         $AssetDisincorporation = AssetDisincorporation::where(['id' => $id])
@@ -264,8 +295,10 @@ class AssetDisincorporationController extends Controller
      * Actualiza la información de las desincorporaciones de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @param     Integer                          $id         Identificador único de la desincorporación
+     * @param     integer                          $id         Identificador único de la desincorporación
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function update(Request $request, $id)
@@ -276,7 +309,6 @@ class AssetDisincorporationController extends Controller
         $disincorporation = AssetDisincorporation::where(['id' => $id])
             ->with('documents', 'images')->first();
 
-        //$disincorporation = AssetDisincorporation::find($id);
         $this->validate($request, [
             'date' => ['required'],
             'asset_disincorporation_motive_id' => ['required'],
@@ -295,7 +327,7 @@ class AssetDisincorporationController extends Controller
         $disincorporation->produced_by_id = $request->produced_by_id;
         $disincorporation->save();
 
-        /** Se eliminan los demas elementos de la solicitud */
+        /* Se eliminan los demas elementos de la solicitud */
         $assets_disincorporation = AssetDisincorporationAsset::where('asset_disincorporation_id', $disincorporation->id)
             ->get();
 
@@ -307,7 +339,7 @@ class AssetDisincorporationController extends Controller
             $asset_disincorporation->delete();
         }
 
-        /** Se agregan los nuevos elementos a la solicitud */
+        /* Se agregan los nuevos elementos a la solicitud */
         foreach ($request->assets as $asset_id) {
             $asset = Asset::find($asset_id);
             $asset->asset_status_id = 11;
@@ -318,7 +350,7 @@ class AssetDisincorporationController extends Controller
             ]);
         }
 
-        /** Se guardan los docmentos, según sea el tipo (imágenes y/o documentos)*/
+        /* Se guardan los docmentos, según sea el tipo (imágenes y/o documentos)*/
         $documentFormat = ['doc', 'docx', 'pdf', 'odt'];
         $imageFormat = ['jpeg', 'jpg', 'png'];
 
@@ -365,6 +397,7 @@ class AssetDisincorporationController extends Controller
      * Elimina una desincorporación de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Modules\Asset\Models\AssetDisincorporation    $disincorporation    Datos de la desincorporación
      *                                                                                de un bien
      * @return    \Illuminate\Http\JsonResponse                  Objeto con los registros a mostrar
@@ -388,7 +421,7 @@ class AssetDisincorporationController extends Controller
      * Vizualiza la información de la desincorporación de un bien institucional
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     Integer                          $id    Identificador único de la desincorporación
+     * @param     integer                          $id    Identificador único de la desincorporación
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function vueInfo($id)
@@ -427,6 +460,13 @@ class AssetDisincorporationController extends Controller
         return response()->json(['records' => $disincorporation], 200);
     }
 
+    /**
+     * Carga la información de la desincorporación de un bien
+     *
+     * @param string $ids
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function loadInfo($ids)
     {
         $ids = explode(',', $ids);
@@ -464,6 +504,7 @@ class AssetDisincorporationController extends Controller
      * Otiene un listado de las desincorporaciones registradas
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function vueList(Request $request)
@@ -473,7 +514,7 @@ class AssetDisincorporationController extends Controller
         ? $user_profile->institution_id
         : null;
 
-        if (Auth()->user()->isAdmin()) {
+        if (auth()->user()->isAdmin()) {
             $assetDisincorporations = AssetDisincorporation::query()
             ->search($request->query('query'))
             ->with(
@@ -502,7 +543,8 @@ class AssetDisincorporationController extends Controller
      * Otiene un listado de los motivos de las desincorporaciones registradas
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return    Array    Array con los registros a mostrar
+     *
+     * @return    array    Array con los registros a mostrar
      */
     public function getAssetDisincorporationMotives()
     {
@@ -513,9 +555,11 @@ class AssetDisincorporationController extends Controller
      * Método que genera el archivo del acta en formato pdf
      *
      * @author    Francisco J. P. Ruiz <javierrupe19@gmail.com>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @param     Integer                          $id         Identificador único de la asignación
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     * @param     integer                          $id         Identificador único de la asignación
+     *
+     * @return    \Illuminate\Http\JsonResponse|void    Objeto con los registros a mostrar
      */
     public function managePdf($id)
     {
@@ -582,28 +626,20 @@ class AssetDisincorporationController extends Controller
 
         $user_profile = $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
         $is_admin = $user_profile == null || $user_profile['institution_id'] == null ? true : false;
-        /**
-         * [$pdf base para generar el pdf]
-         */
+        /*base para generar el pdf */
         $pdf = new ReportRepository();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definicion de las caracteristicas generales de la página pdf */
         $institution = null;
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definicion de las caracteristicas generales de la página pdf */
         if ($is_admin) {
             $institution = Institution::find($disincorporation['institution_id']);
         } else {
             $institution = Institution::find($user_profile['institution_id']);
         }
 
-        /*
-         *  Definición del Nombre y ruta del acata en pdf
-         */
+        /* Definición del Nombre y ruta del acata en pdf */
         $filename = 'reporte-de-desincorporacion-de-bienes-' . $data['code'] . '.pdf';
 
         $pdf->setConfig([
@@ -625,31 +661,32 @@ class AssetDisincorporationController extends Controller
             'pdf' => $pdf,
             'request' => $data,
         ]);
-
-        //return response()->json(['result' => true, 'redirect' => route('asset.disincorporation.index')], 200);
     }
 
     /**
      * Método que permite descargar el archivo del acta en pdf
      *
      * @author    Francisco J. P. Ruiz <javierrupe19@gmail.com>
-     * @param       $code   Código único del registro
-     * @param     Integer                          $id         Identificador único de la asignación
+     *
+     * @param     string  $code   Código único del registro
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function download($code)
     {
         return response()->download(storage_path('reports/' . 'reporte-de-desincorporacion-de-bienes-' . $code . '.pdf'));
     }
+
     /**
      * Método que permite cambiar el estatus de la desincorporación (document_status)
      *
      * @author    manuel Zambrano <mazbrano@cenditel.gob.ve>
-     * @param      integer $id   id del registro a actualizar
-     * @param      Request $request        Identificador único de la asignación
-     * @return    integer valor de retorno que indica si se actualizó el registro
+     *
+     * @param      Request $request     Identificador único de la asignación
+     * @param      integer $id          id del registro a actualizar
+     *
+     * @return    integer|void valor de retorno que indica si se actualizó el registro
      */
-
     public function changeDocumentStatus(Request $request, $id)
     {
         $action = $request->action;

@@ -1,7 +1,5 @@
 <?php
 
-/** Gestión la importación de datos */
-
 namespace App\Imports;
 
 use Illuminate\Support\Collection;
@@ -10,9 +8,10 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 /**
- * Imports - Gestión la estructura de datos del sistema a importar
+ * @class DataImports
+ * @brief Gestión de la estructura de datos del sistema para la información a importar
  *
- * @package  Imports
+ * Permite exportar datos del sistema
  *
  * @author   Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -25,8 +24,6 @@ class DataImport implements ToCollection, WithHeadingRow
 
     /**
      * Colección de registros a importar
-     *
-     * @method    collection
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

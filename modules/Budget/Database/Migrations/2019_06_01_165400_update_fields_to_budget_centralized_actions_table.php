@@ -4,10 +4,21 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class UpdateFieldsToBudgetCentralizedActionsTable
+ * @brief Actualiza los tipos de dato de los campos de la tabla budget_centralized_actions
+ *
+ * Gestiona la creación o eliminación de la tabla de cuentas presupuestarias
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class UpdateFieldsToBudgetCentralizedActionsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -30,7 +41,7 @@ class UpdateFieldsToBudgetCentralizedActionsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -18,11 +16,9 @@ use Modules\Payroll\Models\PayrollTimeSheetPending;
 
 /**
  * @class PayrollTimeSheetParameterController
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -31,52 +27,67 @@ class PayrollTimeSheetParameterController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
     protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
     /**
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:payroll.time_sheet_parameter.index', ['only' => 'index']);
-        $this->middleware('permission:payroll.time_sheet_parameter.create', ['only' => ['store']]);
-        $this->middleware('permission:payroll.time_sheet_parameter.edit', ['only' => ['update']]);
-        $this->middleware('permission:payroll.time_sheet_parameter.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:payroll.timesheetparameter.index', ['only' => 'index']);
+        $this->middleware('permission:payroll.timesheetparameter.create', ['only' => ['store']]);
+        $this->middleware('permission:payroll.timesheetparameter.edit', ['only' => ['update']]);
+        $this->middleware('permission:payroll.timesheetparameter.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'code' => ['required', 'unique:payroll_time_sheet_parameters,code'],
             'name' => ['required'],
             'time_parameters' => ['required'],
-            'payment_types' => ['required']
+            'time_parameters.*.id' => ['exists:parameters,id'],
+            'payment_types' => ['required'],
+            'payment_types.*.id' => ['exists:payroll_payment_types,id']
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'code.required'        => 'El campo código es obligatorio.',
             'code.unique'          => 'El campo código ya ha sido registrado.',
             'name.required' => 'El campo nombre es obligatorio.',
             'time_parameters.required' => 'El campo parámetros es obligatorio.',
-            'payment_types.required' => 'El campo tipos de pago es obligatorio.'
+            'time_parameters.*.id.exists' => 'El campo parámetros no existe.',
+            'payment_types.required' => 'El campo tipos de nómina es obligatorio.',
+            'payment_types.*.id.exists' => 'El campo tipos de nómina no existe.'
         ];
     }
 
     /**
-     * [descripción del método]
+     * Muestra todos los registros de parámetros de tiempo
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         return response()->json(['records' => PayrollTimeSheetParameter::query()
+            ->whereHas('payrollParameterTimeSheetParameters.parameter')
+            ->whereHas('payrollPaymentTypeTimeSheetParameters.payrollPaymentType')
             ->with([
                 'payrollParameterTimeSheetParameters.parameter',
                 'payrollPaymentTypeTimeSheetParameters.payrollPaymentType'
@@ -85,13 +96,9 @@ class PayrollTimeSheetParameterController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para crear un nuevo registro de parámetro de tiempo
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -99,21 +106,17 @@ class PayrollTimeSheetParameterController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Valida y registra un nuevo parámetro de tiempo
      *
-     * @method    store
+     * @param     Request    $request    Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $this->validate($request, $this->validateRules, $this->messages);
 
-        DB::transaction(function () use ($request) {
+        $payrollTimeSheetParameter = DB::transaction(function () use ($request) {
             $payrollTimeSheetParameter = PayrollTimeSheetParameter::create([
                 'code' => $request->code,
                 'name' => $request->name,
@@ -134,20 +137,18 @@ class PayrollTimeSheetParameterController extends Controller
                 ]);
             }
 
-            return response()->json(['record' => $payrollTimeSheetParameter, 'message' => 'Success'], 200);
+            return $payrollTimeSheetParameter;
         });
+
+        return response()->json(['record' => $payrollTimeSheetParameter, 'message' => 'Success'], 200);
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información de un parámetro de tiempo
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -155,15 +156,11 @@ class PayrollTimeSheetParameterController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario para editar un parámetro de tiempo
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -171,16 +168,12 @@ class PayrollTimeSheetParameterController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza los datos de un parámetro de tiempo
      *
-     * @method    update
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -218,21 +211,16 @@ class PayrollTimeSheetParameterController extends Controller
                     'payroll_payment_type_id' => $type['id']
                 ]);
             }
-
-            return response()->json(['message' => 'Success'], 200);
         });
+        return response()->json(['message' => 'Success'], 200);
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina un parámetro de tiempo
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -272,6 +260,11 @@ class PayrollTimeSheetParameterController extends Controller
         return response()->json(['record' => $payrollTimeSheetParameter, 'message' => 'Success'], 200);
     }
 
+    /**
+     * Obtiene los parámetros de la hoja de tiempo
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getPayrollTimeSheetParameters()
     {
         $parameters = PayrollTimeSheetParameter::query()

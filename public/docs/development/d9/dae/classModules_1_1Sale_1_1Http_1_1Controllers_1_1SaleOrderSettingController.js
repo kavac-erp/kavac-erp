@@ -22,5 +22,5 @@ var classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleOrderSettingController =
     [ "show", "d9/dae/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleOrderSettingController.html#ae4914d07a9bbe4aede7a5dea759f6287", null ],
     [ "store", "d9/dae/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleOrderSettingController.html#a9ef485163104597c12185b53cdacf638", null ],
     [ "update", "d9/dae/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleOrderSettingController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
-    [ "$status_list", "d9/dae/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleOrderSettingController.html#a172f462d4a64f5c1a197682858da1848", null ]
+    [ "$status_list", "d9/dae/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleOrderSettingController.html#ad27b1fd341741106ec625f09b1402198", null ]
 ];

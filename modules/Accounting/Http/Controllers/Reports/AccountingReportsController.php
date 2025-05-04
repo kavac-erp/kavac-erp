@@ -8,38 +8,38 @@ use Modules\Accounting\Models\AccountingAccount;
 use Modules\Accounting\Models\AccountingEntry;
 
 /**
- * @class AccountingReportPdfCheckupBalanceController
+ * @class AccountingReportsController
  * @brief Controlador para el manejo de las vistas y consulta segun el tipo de reporte a generar
  *
  * Clase que gestiona el manejo de las vistas y consulta segun el tipo de reporte a generar
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @copyright <a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *                LICENCIA DE SOFTWARE CENDITEL</a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AccountingReportsController extends Controller
 {
     /**
      * Define la configuración de la clase
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:accounting.report.accountingbooks', ['only' => ['accountingBooks']]);
         $this->middleware('permission:accounting.report.financestatements', ['only' => ['financeStatements']]);
     }
+
     /**
-     * Display a listing of the resource.
+     * Vista en la que se genera el reporte del libro contable
+     *
      * @return Renderable
      */
     public function accountingBooks()
     {
-        /**
-         * [$records lista de cuentas patrimoniales]
-         * @var array
-         */
+        /* lista de cuentas patrimoniales */
         $records          = [];
 
         $yearOld          = $this->calcualteYearOld();
@@ -54,9 +54,8 @@ class AccountingReportsController extends Controller
                 'id'   => '0',
                 'text' =>  "Seleccione...",
             ]);
-        /**
-         * se realiza la busqueda de manera ordenada en base al codigo
-         */
+
+        /* se realiza la busqueda de manera ordenada en base al codigo */
         foreach (
             AccountingAccount::orderBy('group', 'ASC')
                                     ->orderBy('subgroup', 'ASC')
@@ -79,12 +78,10 @@ class AccountingReportsController extends Controller
                 ]);
             }
         }
-        /**
-         * se convierte array a JSON
-         */
+
+        /* se convierte array a JSON */
         $records_auxiliar = json_encode($records_auxiliar);
         $records          = json_encode($records);
-        // $currencies       = json_encode(template_choices('App\Models\Currency', ['symbol', '-', 'name'], [], true));
 
         return view('accounting::reports.accounting_books', compact(
             'yearOld',
@@ -92,27 +89,21 @@ class AccountingReportsController extends Controller
             'records_auxiliar',
         ));
     }
+
     /**
-     * Display a listing of the resource.
+     * Vista en la que se genera el reporte de estados financieros
+     *
      * @return Renderable
      */
     public function financeStatements()
     {
         $yearOld = $this->calcualteYearOld();
 
-        /**
-         * [$type_report_1 tipo de reporte que abrira]
-         * @var string
-         */
+        /* tipo de reporte que abrira */
         $type_report_1 = 'BalanceSheet';
 
-        /**
-         * [$type_report_2 tipo de reporte que abrira]
-         * @var string
-         */
+        /* tipo de reporte que abrira */
         $type_report_2 = 'StateOfResults';
-
-        // $currencies = json_encode(template_choices('App\Models\Currency', ['symbol', '-', 'name'], [], true));
 
         return view('accounting::reports.finance_statements', compact(
             'yearOld',
@@ -121,20 +112,20 @@ class AccountingReportsController extends Controller
         ));
     }
 
+    /**
+     * Obtiene el año mas antiguo del reporte
+     *
+     * @return integer|string
+     */
     public function calcualteYearOld()
     {
-        /**
-         * [$entries almacena el registro de asiento contable mas antiguo]
-         * @var AccountingEntry
-         */
+        /* almacena el registro de asiento contable mas antiguo */
         $entries = AccountingEntry::where('approved', true)->orderBy('from_date', 'ASC')->first();
         if ($entries === null) {
             return date('Y');
         }
-        /**
-         * [$yearOld determinara el año mas antiguo para el filtrado]
-         * @var string
-         */
+
+        /* determinara el año mas antiguo para el filtrado */
         $yearOld = explode('-', $entries['from_date'])[0];
 
         return $yearOld;

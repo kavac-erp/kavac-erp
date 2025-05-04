@@ -25,18 +25,18 @@
             </td>
         </tr>
     @endif
-    
+
     <tr>
         <td colspan="3">&nbsp;</td>
     </tr>
-    
+
     <tr>
         <td colspan="3">
             <strong>Organización: </strong>{{$request['institution']}}
         </td>
-        
+
     </tr>
-    
+
     <tr>
         <td colspan="3">
             <strong>Ubicación Geográfica/Física </strong>
@@ -103,11 +103,11 @@
             </td>
         </tr>
     @endif
-    
+
     <tr>
         <td colspan="3">&nbsp;</td>
     </tr>
-    
+
     <tr>
         <td colspan="3">
             @if ($request['action'] == 'Asignación')
@@ -378,7 +378,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                     <tr>
                         <td align="center">
                             {{ $asset['asset']['asset_details']['code'] ?
@@ -492,10 +492,6 @@
             </td>
         </tr>
     @endif
-    
-    
-</table>
-    
 
-    
-    
+
+</table>

@@ -319,7 +319,7 @@
                     active: '',
                     payroll_staff_id: '',
                 },
-                
+
                 errors:         [],
                 records:        [],
                 payroll_staffs: [],
@@ -368,7 +368,7 @@
             },
 
             show_info(id) {
-                const vm = this;    
+                const vm = this;
                 axios.get(`${window.app_url}/payroll/employments/${id}`).then(response => {
                     vm.record = response.data.record;
                     const formatted_start_date = vm.convertDate(vm.record.start_date);
@@ -396,16 +396,16 @@
                     $('#payroll_contract_type').text(`${vm.record.payroll_contract_type.name}`);
                     $('#payroll_gender').text(`${vm.record.payroll_staff.payroll_gender.name}`);
                     $('#payroll_disability').text(
-                        (vm.record.payroll_staff.payroll_disability) 
-                        ? (`${vm.record.payroll_staff.payroll_disability.name}`) 
+                        (vm.record.payroll_staff.payroll_disability)
+                        ? (`${vm.record.payroll_staff.payroll_disability.name}`)
                         : ' '
                     );
                     $('#payroll_blood_type').text(`${vm.record.payroll_staff.payroll_blood_type.name}`);
                     vm.record.payroll_staff.social_security ? $('#social_security').text(`${vm.record.payroll_staff.social_security}`) :
                     $('#social_security').text('');
                     $('#payroll_license_degree').text(
-                        (vm.record.payroll_staff.payroll_license_degree) 
-                        ? (`${vm.record.payroll_staff.payroll_license_degree.name}`) 
+                        (vm.record.payroll_staff.payroll_license_degree)
+                        ? (`${vm.record.payroll_staff.payroll_license_degree.name}`)
                         : ' '
                     );
                     $('#payroll_nationality').text(`${vm.record.payroll_staff.payroll_nationality.name}`);
@@ -437,19 +437,19 @@
                     if (typeof(error.response) != "undefined") {
                         if (error.response.status == 403) {
                             vm.showMessage(
-                                'custom', 
-                                'Acceso Denegado', 
-                                'danger', 
-                                'screen-error', 
+                                'custom',
+                                'Acceso Denegado',
+                                'danger',
+                                'screen-error',
                                 error.response.data.message
-                            ); 
+                            );
                         }
                         console.log("error");
                     }
                     vm.loading = false;
                 });
             },
-            
+
             /**
              * Método que permite realizar las busquedas y filtrado de los
              * registros de la tabla.

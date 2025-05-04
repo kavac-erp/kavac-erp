@@ -71,7 +71,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="payroll_ari_register in record.payroll_ari_registers" class="text-center">
+                            <tr v-for="(payroll_ari_register, index) in record.payroll_ari_registers" :key="index" class="text-center">
                                 <td>
                                     {{ (payroll_ari_register.percetage * 100).toFixed(2) + '%' }}
                                 </td>

@@ -8,6 +8,7 @@ var classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTas
     [ "show", "d4/dd3/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTaskController.html#ae4914d07a9bbe4aede7a5dea759f6287", null ],
     [ "store", "d4/dd3/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTaskController.html#a9ef485163104597c12185b53cdacf638", null ],
     [ "update", "d4/dd3/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTaskController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
+    [ "validateDateInRange", "d4/dd3/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTaskController.html#a2830100ada07577a9310695c987eda2f", null ],
     [ "vueInfo", "d4/dd3/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTaskController.html#a33c93a58e2d349e7e235a94a1691a76d", null ],
     [ "vueList", "d4/dd3/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTaskController.html#aca78b35dd9df5b11e63e88796cf08c66", null ]
 ];

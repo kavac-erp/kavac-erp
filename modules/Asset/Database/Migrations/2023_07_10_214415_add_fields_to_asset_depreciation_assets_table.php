@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldsToAssetDepreciationAssetsTable
- * @brief [descripción detallada]
+ * @brief Agrega campos a la tabla asset_depreciation_assets
  *
- * [descripción corta]
+ * Agrega campos a la tabla asset_depreciation_assets
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

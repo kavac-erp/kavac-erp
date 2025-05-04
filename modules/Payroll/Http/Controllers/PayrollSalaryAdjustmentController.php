@@ -3,20 +3,25 @@
 namespace Modules\Payroll\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Modules\Payroll\Models\PayrollSalaryAdjustment;
-use Modules\Payroll\Models\PayrollSalaryTabulatorScale;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Payroll\Imports\SalaryAdjustmentImport;
+use Modules\Payroll\Models\PayrollHistorySalaryAdjustment;
+use Modules\Payroll\Models\PayrollSalaryAdjustment;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Modules\Payroll\Exports\PayrollSalaryAdjustmentExport;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
- * @class      PayrollSalaryAdjustmentController
- * @brief      Controlador de ajustes en tablas salariales
+ * @class PayrollSalaryAdjustmentController
+ * @brief Controlador de ajustes en tablas salariales
  *
  * Clase que gestiona los ajustes en tablas salariales
  *
- * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ * @author  Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -26,41 +31,53 @@ class PayrollSalaryAdjustmentController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
     /**
      * Define la configuración de la clase
      *
-     * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+     * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:payroll.salary-adjustments.list', ['only' => 'index']);
-        $this->middleware('permission:payroll.salary-adjustments.create', ['only' => 'store']);
-        $this->middleware('permission:payroll.salary-adjustments.edit', ['only' => 'update']);
-        $this->middleware('permission:payroll.salary-adjustments.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:payroll.salary.adjustments.list', ['only' => 'index']);
+        $this->middleware('permission:payroll.salary.adjustments.create', ['only' => 'store']);
+        $this->middleware('permission:payroll.salary.adjustments.edit', ['only' => 'update']);
+        $this->middleware('permission:payroll.salary.adjustments.delete', ['only' => 'destroy']);
+        $this->middleware('permission:payroll.salary.adjustments.import', ['only' => 'import']);
+        $this->middleware('permission:payroll.salary.adjustments.export', ['only' => 'export']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'created_at'                  => ['required'],
             'increase_of_date'            => ['required'],
+            'end_increase_date'           =>
+            [
+                'nullable',
+                'after_or_equal:increase_of_date'
+            ],
             'payroll_salary_tabulator_id' => ['required'],
             'increase_of_type'            => ['required']
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'created_at.required'                  => 'El campo fecha de generación es obligatorio.',
             'increase_of_date.required'            => 'El campo fecha del aumento es obligatorio.',
+            'end_increase_date.after_or_equal'     => 'El campo fecha de culminación debe ser igual o después de la fecha de aumento',
             'payroll_salary_tabulator_id.required' => 'El campo tabulador salarial es obligatorio.',
             'increase_of_type.required'            => 'El campo tipo de aumento es obligatorio.'
         ];
@@ -69,11 +86,9 @@ class PayrollSalaryAdjustmentController extends Controller
     /**
      * Muestra todos los registros de ajustes en tablas salariales
      *
-     * @method    index
-     *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return    Renderable    Muestra los datos organizados en una tabla
+     * @return \Illuminate\View\View    Muestra los datos organizados en una tabla
      */
     public function index()
     {
@@ -83,9 +98,9 @@ class PayrollSalaryAdjustmentController extends Controller
     /**
      * Muestra el formulario para registrar un nuevo ajuste en las tablas salariales
      *
-     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     * @author Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Renderable
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -95,63 +110,63 @@ class PayrollSalaryAdjustmentController extends Controller
     /**
      * Muestra el formulario de actualización de ajuste en las tablas salariales
      *
-     * @method    edit
-     *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param     integer    $id    Identificador del registro
+     * @param integer $id Identificador del registro
      *
-     * @return    Renderable    Vista con el formulario y el objeto a actualizar
+     * @return \Illuminate\View\View    Vista con el formulario y el objeto a actualizar
      */
     public function edit($id)
     {
-        $payrollSalaryAdjustment = PayrollSalaryAdjustment::with('payrollSalaryTabulator')->find($id);
+        $payrollSalaryAdjustment = PayrollSalaryAdjustment::with(
+            [
+            'payrollSalaryTabulator',
+            'payrollHistorySalaryAdjustments'  => function ($query) {
+                return $query->orderBy('created_at', 'desc');
+            }
+            ]
+        )->find($id);
         return view('payroll::salary_adjustments.create', compact('payrollSalaryAdjustment'));
     }
 
     /**
      * Valida y registra una nueva nómina de sueldos
      *
-     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
+     * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param     \Illuminate\Http\Request         $request    Datos de la petición
+     * @param \Illuminate\Http\Request $request Datos de la petición
      *
-     * @return    \Illuminate\Http\JsonResponse                Objeto con los registros a mostrar
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $this->validate($request, $this->validateRules, $this->messages);
 
-        DB::transaction(function () use ($request) {
-            /**
-             * Objeto asociado al modelo PayrollSalaryTabulator
-             * @var Object $salaryTabulator
-             */
-            $salaryTabulator = PayrollSalaryAdjustment::create([
-                'increase_of_date'                   => $request->input('increase_of_date'),
-                'increase_of_type'                   => $request->input('increase_of_type'),
-                'value'                              => $request->input('value'),
-                'payroll_salary_tabulator_id'        => $request->input('payroll_salary_tabulator_id')
-            ]);
+        DB::transaction(
+            function () use ($request) {
+                $value = ($request->increase_of_type == 'different') ? 0.00 : $request->value;
+                $scale_values = ($request->increase_of_type == 'different') ? json_encode($request->scale_values) : null;
 
-            if ($salaryTabulator) {
-                /** Se agregan las escalas del tabulador salarial */
-                foreach ($request->payroll_salary_tabulator['payroll_salary_tabulator_scales'] as $payrollScale) {
-                    foreach ($request->scale_values as $scale_value) {
-                        /**
-                         * Objeto asociado al modelo PayrollSalaryTabulatorScale
-                         * @var Object $salaryTabulatorScale
-                         */
-                        $salaryTabulatorScale = PayrollSalaryTabulatorScale::where('payroll_salary_tabulator_id', $request->payroll_salary_tabulator_id)->where('id', $scale_value['id'])->first();
+                /* Objeto con información del ajuste salarial registrado */
+                $payrollSalaryAdjustment = PayrollSalaryAdjustment::create(
+                    [
+                    'increase_of_type'                   => $request->input('increase_of_type'),
+                    'value'                              => $value,
+                    'payroll_salary_tabulator_id'        => $request->input('payroll_salary_tabulator_id')
+                    ]
+                );
 
-                        $valueScale = $scale_value['value'];
-                        $salaryTabulatorScale->value = (float)$valueScale;
-                        $salaryTabulatorScale->save();
-                    }
-                }
+                PayrollHistorySalaryAdjustment::create(
+                    [
+                    'increase_of_date'               => $request->input('increase_of_date'),
+                    'end_increase_date'              => $request->input('end_increase_date'),
+                    'salary_values'                  => $scale_values,
+                    'payroll_salary_adjustment_id'      => $payrollSalaryAdjustment->id,
+                    ]
+                );
             }
-        });
+        );
 
         $request->session()->flash('message', ['type' => 'store']);
         return response()->json(['redirect' => route('payroll.salary-adjustments.index')], 200);
@@ -160,45 +175,37 @@ class PayrollSalaryAdjustmentController extends Controller
     /**
      * Valida y actualiza un ajuste en tablas salariales
      *
-     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param     \Illuminate\Http\Request         $request    Datos de la petición
+     * @param \Illuminate\Http\Request $request Datos de la petición
      *
-     * @return    \Illuminate\Http\JsonResponse                Objeto con los registros a mostrar
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
         $this->validate($request, $this->validateRules, $this->messages);
 
-        DB::transaction(function () use ($request, $id) {
-            /**
-             * Objeto asociado al modelo PayrollSalaryTabulator
-             * @var Object $salaryTabulator
-             */
-            $salaryTabulator = PayrollSalaryAdjustment::with('payrollSalaryTabulator')->find($id);
-            $salaryTabulator->increase_of_date            = $request->increase_of_date;
-            $salaryTabulator->increase_of_type            = $request->increase_of_type;
-            $salaryTabulator->value                       = $request->value;
-            $salaryTabulator->payroll_salary_tabulator_id = $request->payroll_salary_tabulator_id;
-            $salaryTabulator->save();
+        DB::transaction(
+            function () use ($request, $id) {
+                $value = ($request->increase_of_type == 'different') ? 0.00 : $request->value;
+                $scale_values = ($request->increase_of_type == 'different') ? json_encode($request->scale_values) : null;
 
-            if ($salaryTabulator) {
-                /** Se agregan las escalas del tabulador salarial */
-                foreach ($request->payroll_salary_tabulator['payroll_salary_tabulator_scales'] as $payrollScale) {
-                    foreach ($request->scale_values as $scale_value) {
-                        /**
-                         * Objeto asociado al modelo PayrollSalaryTabulatorScale
-                         * @var Object $salaryTabulatorScale
-                         */
-                        $salaryTabulatorScale = PayrollSalaryTabulatorScale::where('payroll_salary_tabulator_id', $request->payroll_salary_tabulator_id)->where('id', $scale_value['id'])->first();
-
-                        $valueScale = $scale_value['value'];
-                        $salaryTabulatorScale->value = (float)$valueScale;
-                        $salaryTabulatorScale->save();
-                    }
-                }
+                /* Objeto asociado al modelo PayrollSalaryAdjustment */
+                $payrollSalaryAdjustment = PayrollSalaryAdjustment::find($id);
+                $payrollSalaryAdjustment->increase_of_type            = $request->increase_of_type;
+                $payrollSalaryAdjustment->value                       = $value;
+                $payrollSalaryAdjustment->payroll_salary_tabulator_id = $request->payroll_salary_tabulator_id;
+                $payrollSalaryAdjustment->save();
+                $payrollSalaryAdjustment->payrollHistorySalaryAdjustments()->create(
+                    [
+                    'increase_of_date'               => $request->increase_of_date,
+                    'end_increase_date'              => $request->end_increase_date,
+                    'salary_values'                  => $scale_values,
+                    'payroll_salary_adjustment_id'      => $payrollSalaryAdjustment->id,
+                    ]
+                );
             }
-        });
+        );
 
         $request->session()->flash('message', ['type' => 'update']);
         return response()->json(['redirect' => route('payroll.salary-adjustments.index')], 200);
@@ -207,47 +214,117 @@ class PayrollSalaryAdjustmentController extends Controller
     /**
      * Elimina un registro
      *
-     * @method    destroy
-     *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param     integer    $id    Identificador del registro
+     * @param integer $id Identificador del registro
      *
-     * @return    Renderable    Json con mensaje de confirmación de la operación
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $salaryAdjustment = PayrollSalaryAdjustment::find($id);
+        $salaryAdjustment->payrollHistorySalaryAdjustments()->delete();
         $salaryAdjustment->delete();
 
-        return response()->json(['record' => $salaryAdjustment, 'message' => 'Success'], 200);
+        return response()->json(['message' => 'destroy'], 200);
     }
 
     /**
      * Muestra los ajustes en tabuladores salariales registrados
      *
-     * @method    VueList
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
-     *
-     * @return    Renderable    Json con los ajustes en tabuladores salariales
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueList()
     {
-        return response()->json(['records' => PayrollSalaryAdjustment::with('payrollSalaryTabulator')->get()], 200);
+        return response()->json(
+            ['records' => PayrollSalaryAdjustment::with(
+                [
+                'payrollSalaryTabulator',
+                'payrollHistorySalaryAdjustments' => function ($query) {
+                    return $query->orderBy('created_at', 'desc');
+                }
+                ]
+            )->get()],
+            200
+        );
     }
 
     /**
      * Muestra los ajustes en tabuladores salariales registrados
      *
-     * @method    VueList
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
-     *
-     * @return    Renderable    Json con los ajustes en tabuladores salariales
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueInfo($id)
     {
-        return response()->json(['record' => PayrollSalaryAdjustment::with('payrollSalaryTabulator')->find($id)], 200);
+        return response()->json(
+            ['record' => PayrollSalaryAdjustment::with(
+                [
+                'payrollSalaryTabulator',
+                'payrollHistorySalaryAdjustments' => function ($query) {
+                    return $query->orderBy('created_at', 'desc');
+                }
+                ]
+            )->find($id)],
+            200
+        );
+    }
+
+    /**
+     * Listado de ajustes salariales registrados para select de vue
+     *
+     * @author Fabian Palmera <fpalmera@cenditel.gob.ve>
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getLastSalaryAdjustment($salary_adjustment_id)
+    {
+        return response()->json(
+            [
+            'record' => PayrollHistorySalaryAdjustment::where('payroll_salary_adjustment_id', $salary_adjustment_id)
+                ->orderBy('created_at', 'DESC')->first()
+            ]
+        );
+    }
+
+    /**
+     * Método para realizar carga masiva de datos del ajuste en tablas salariales
+     *
+     * @author Fabián Palmera <fapalmera@cenditel.gob.ve>
+     *
+     * @param Request $request Datos de la petición
+     *
+     * @return void
+     */
+    public function import(Request $request)
+    {
+        request()->validate(
+            [
+            'file' => 'required|mimes:xlx,xls,xlsx'
+            ]
+        );
+
+        $data['filePath'] = $request->file('file')->store('/tmp');
+
+        $import = new SalaryAdjustmentImport();
+        $import->import($data['filePath']);
+        if ($import->failures()->isNotEmpty()) {
+            return response()->json(['errors' => $import->failures()], 422);
+        }
+    }
+
+    /**
+     * Método para realizar exportación de planilla del ajuste en tablas salariales
+     *
+     * @author Fabián Palmera <fapalmera@cenditel.gob.ve>
+     *
+     * @return BinaryFileResponse    Objeto que permite descargar el archivo con la información a ser exportada
+     */
+    public function export()
+    {
+        return Excel::download(new PayrollSalaryAdjustmentExport(), 'registros_ajuste_salario.xlsx');
     }
 }

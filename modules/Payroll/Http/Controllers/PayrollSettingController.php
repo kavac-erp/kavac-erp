@@ -11,18 +11,35 @@ use App\Models\CodeSetting;
 use App\Models\Institution;
 use Modules\Payroll\Models\Parameter;
 
+/**
+ * @class PayrollSettingController
+ * @brief Controlador de Configuración general en el módulo de Talento Humano
+ *
+ * Clase que gestiona los registros de Configuración general en el módulo de Talento Humano
+ *
+ * @author Henry Paredes <henryp2804@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PayrollSettingController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:payroll.setting.index', ['only' => ['index', 'vueList']]);
     }
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Muestra todos los registros de configuración del módulo de Talento Humano
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -48,22 +65,25 @@ class PayrollSettingController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar una nueva configuración
+     *
+     * @return void
      */
     public function create()
     {
-        //return view('budget::create');
+        //
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Redirect
+     * Almacena la nueva configuración
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        /** Reglas de validación para la configuración de códigos */
+        /* Reglas de validación para la configuración de códigos */
         $this->validate(
             $request,
             [
@@ -83,49 +103,49 @@ class PayrollSettingController extends Controller
             ]
         );
 
-        /** @var array Arreglo con información de los campos de códigos configurados */
+        /* Arreglo con información de los campos de códigos configurados */
         $codes = $request->input();
-        /** @var boolean Define el estatus falso para indicar que no se ha registrado información */
+        /* Define el estatus falso para indicar que no se ha registrado información */
         $saved = false;
 
         foreach ($codes as $key => $value) {
-            /** @var string Define el campo model a emplear en la generación del código */
+            /* Define el campo model a emplear en la generación del código */
             $model = '';
 
             if ($key !== '_token' && !is_null($value)) {
                 list($prefix, $digits, $sufix) = CodeSetting::divideCode($value);
-                /** @var string Define el campo field */
+                /* Define el campo field */
                 $field = "code";
 
                 if ($key === "staffs_code") {
-                    /** @var string Define el campo model para asociarlo al personal */
+                    /* Define el campo model para asociarlo al personal */
                     $model = \Modules\Payroll\Models\PayrollStaff::class;
-                    /** @var string Define el campo table para asociarlo al personal */
+                    /* Define el campo table para asociarlo al personal */
                     $table = "staffs";
                 } elseif ($key === "salary_scales_code") {
-                    /** @var string Define el campo model para asociarlo a los escalafones salariales */
+                    /* Define el campo model para asociarlo a los escalafones salariales */
                     $model = \Modules\Payroll\Models\PayrollSalaryScale::class;
-                    /** @var string Define el campo table para asociarlo a los escalafones salariales */
+                    /* Define el campo table para asociarlo a los escalafones salariales */
                     $table = "salary_scales";
                 } elseif ($key === "salary_tabulators_code") {
-                    /** @var string Define el campo model para asociarlo a los tabuladores salariales */
+                    /* Define el campo model para asociarlo a los tabuladores salariales */
                     $model = \Modules\Payroll\Models\PayrollSalaryTabulator::class;
-                    /** @var string Define el campo table para asociarlo a los tabuladores salariales */
+                    /* Define el campo table para asociarlo a los tabuladores salariales */
                     $table = "salary_tabulators";
                 } elseif ($key === "vacation_requests_code") {
-                    /** @var string Define el campo model para asociarlo a las solicitudes de vacaciones */
+                    /* Define el campo model para asociarlo a las solicitudes de vacaciones */
                     $model = \Modules\Payroll\Models\PayrollVacationRequest::class;
-                    /** @var string Define el campo table para asociarlo a las solicitudes de vacaciones */
+                    /* Define el campo table para asociarlo a las solicitudes de vacaciones */
                     $table = "vacation_requests";
                 } elseif ($key === "benefits_requests_code") {
-                    /** @var string Define el campo model para asociarlo a las solicitudes de prestaciones */
+                    /* Define el campo model para asociarlo a las solicitudes de prestaciones */
                     $model = \Modules\Payroll\Models\PayrollBenefitsRequest::class;
-                    /** @var string Define el campo table para asociarlo a las solicitudes de prestaciones */
+                    /* Define el campo table para asociarlo a las solicitudes de prestaciones */
                     $table = "benefits_requests";
                 } elseif ($key === "payrolls_code") {
-                    /** @var string Define el campo model para asociarlo a las solicitudes de prestaciones */
+                    /* Define el campo model para asociarlo a las solicitudes de prestaciones */
                     $model = \Modules\Payroll\Models\Payroll::class;
-                    /** @var string Define el campo table para asociarlo a las solicitudes de prestaciones */
+                    /* Define el campo table para asociarlo a las solicitudes de prestaciones */
                     $table = "payrolls";
                 }
 
@@ -147,7 +167,7 @@ class PayrollSettingController extends Controller
                     ]);
                 }
 
-                /** @var boolean Define el estatus verdadero para indicar que se ha registrado información */
+                /* Define el estatus verdadero para indicar que se ha registrado información */
                 $saved = true;
             }
         }

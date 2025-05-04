@@ -3,7 +3,7 @@
 		<div class="card-body">
 			<div class="alert alert-danger" v-if="errors.length > 0">
 				<ul>
-					<li v-for="error in errors">{{ error }}</li>
+					<li v-for="(error, index) in errors" :key="index">{{ error }}</li>
 				</ul>
 			</div>
 			<h3 class="h6">Filtros</h3>
@@ -141,7 +141,7 @@
 						}} <br>
 					</span>
 					<span>
-						<div v-for="att in props.row.warehouse_product_values">
+						<div v-for="(att, index) in props.row.warehouse_product_values" :key="index">
 							<b>{{att.warehouse_product_attribute.name +": "}}</b> {{ att.value}} <br>
 						</div>
 						<b>Valor:</b> {{props.row.unit_value}} {{(props.row.currency)?props.row.currency.acronym:''}}
@@ -157,7 +157,7 @@
 						<b>Solicitados:</b> {{ quantityProductRequests(props.row.code) }}
 						<br>
 						<b>Disponible para solicitar:</b> {{ numberDecimal(props.row.real - quantityProductRequests(props.row.code),2)  }}
-					</span> 
+					</span>
 				</div>
 			</v-client-table>
 		</div>
@@ -306,7 +306,7 @@
 	    	},
 	    	/**
 		     * Devuelve un numero decimal con un numero de decimales especifico
-		     * 
+		     *
 		     * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
 		     */
 		    numberDecimal(num, dec) {
@@ -336,7 +336,6 @@
 			this.getInstitutions();
 			this.getWarehouseProducts();
 			this.getWarehouses();
-			//this.loadInventoryProduct('inventory-products');
 
             // Selecciona la organización por defecto
             setTimeout(() => vm.record.institution_id = vm.institution_id, 2000);

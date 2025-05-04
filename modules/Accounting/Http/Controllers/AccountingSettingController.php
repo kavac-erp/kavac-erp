@@ -2,29 +2,31 @@
 
 namespace Modules\Accounting\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Modules\Accounting\Models\AccountingEntry;
-use Modules\Accounting\Models\AccountingAccount;
+use App\Models\Profile;
+use App\Models\Receiver;
+use App\Models\Parameter;
 use App\Models\CodeSetting;
 use App\Models\Institution;
-use App\Models\Source;
-use App\Models\Receiver;
-use App\Models\Profile;
-use App\Models\Parameter;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
+use Illuminate\Contracts\Support\Renderable;
 use App\Rules\CodeSetting as CodeSettingRule;
+use Modules\Accounting\Models\AccountingEntry;
+use Modules\Accounting\Models\AccountingAccount;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
- * @class AccountingConfigurationCategoryController
+ * @class AccountingSettingController
  * @brief Controlador de las configuracion de codigo del modulo
  *
  * Clase que gestiona las configuracion de codigo del modulo
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @copyright <a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *                LICENCIA DE SOFTWARE CENDITEL</a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AccountingSettingController extends Controller
 {
@@ -33,16 +35,19 @@ class AccountingSettingController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:accounting.setting.index', ['only' => 'index']);
     }
 
     /**
      * Muestra la vista la configuración del modulo
+     *
      * @return Renderable
      */
     public function index()
@@ -52,10 +57,8 @@ class AccountingSettingController extends Controller
         $refCode      = $codeSettings->where('table', 'accounting_entries')
                                 ->first();
         $accounting_accounts = [];
-        $accounting_accounts[null] = "Seleccione...";
-        /**
-         * se realiza la busqueda de manera ordenada en base al codigo
-         */
+        $accounting_accounts[''] = "Seleccione...";
+        /* se realiza la busqueda de manera ordenada en base al código */
         foreach (
             AccountingAccount::with('parent')->orderBy('group', 'ASC')
                                     ->orderBy('subgroup', 'ASC')
@@ -74,42 +77,35 @@ class AccountingSettingController extends Controller
         return view('accounting::settings.index', compact('refCode', 'parameter', 'accounting_accounts'));
     }
 
+    /**
+     * Código a registrar
+     *
+     * @return Response
+     */
     public function codeStore(Request $request)
     {
-        /** Reglas de validación para la configuración de códigos */
+        /* Reglas de validación para la configuración de códigos */
         $this->validate($request, [
             'entries_reference' => [new CodeSettingRule()]
         ]);
 
         $institution = get_institution();
 
-        /**
-         * [$codes información de los campos de códigos configurados]
-         * @var array
-         */
+        /* información de los campos de códigos configurados */
         $codes = $request->input();
 
-        /**
-         * [$saved Define el estatus verdadero para indicar que no se ha registrado información]
-         * @var boolean
-         */
+        /* Define el estatus verdadero para indicar que no se ha registrado información */
         $saved = false;
 
         foreach ($codes as $key => $value) {
-            /**
-             * [$model Define el modelo al cual hace referencia el código]
-             * @var string
-             */
+            /* Define el modelo al cual hace referencia el código */
             $model = '';
 
             if ($key !== '_token' && !is_null($value)) {
                 list($table, $field) = explode("_", $key);
                 list($prefix, $digits, $sufix) = CodeSetting::divideCode($value);
 
-                /**
-                 * [$model define el modelo asociado a asientos contables]
-                 * @var string
-                 */
+                /* define el modelo asociado a asientos contables */
                 $model = AccountingEntry::class;
 
                 $codeSetting = CodeSetting::where([
@@ -130,10 +126,7 @@ class AccountingSettingController extends Controller
                     ]);
                 }
 
-                /**
-                 * [$saved Define el estatus verdadero para indicar que se ha registrado información]
-                 * @var boolean
-                 */
+                /* Define el estatus verdadero para indicar que se ha registrado información */
                 $saved = true;
             }
         }
@@ -145,6 +138,13 @@ class AccountingSettingController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Genera código de referencia
+     *
+     * @param Request $request Datos de la petición
+     *
+     * @return JsonResponse
+     */
     public function generateReferenceCode(Request $request)
     {
         $institution = get_institution();
@@ -173,13 +173,17 @@ class AccountingSettingController extends Controller
         return response()->json(['code' => $code], 200);
     }
 
+    /**
+     * Actualiza parámetros de la institución
+     *
+     * @param Request $request Datos de la petición
+     *
+     * @return Response
+     */
     public function updateInstitutionParameters(Request $request)
     {
         //Gestiona el formulario de Configuración de la Edad Laboral Permitida
         if ($request->p_key == 'institution_account') {
-            /**$institution = Parameter::where([
-                'required_by' => 'accounting', 'p_key' => $request->p_key
-            ])->first();*/
             $this->validate(
                 $request,
                 [
@@ -205,7 +209,7 @@ class AccountingSettingController extends Controller
                 [
                     'receiverable_type' => Institution::class,
                     'receiverable_id' => $institution->id,
-                    'associateable_type' => \Modules\Accounting\Models\AccountingAccount::class,
+                    'associateable_type' => AccountingAccount::class,
                     'associateable_id' => $request->p_value
                 ],
                 [

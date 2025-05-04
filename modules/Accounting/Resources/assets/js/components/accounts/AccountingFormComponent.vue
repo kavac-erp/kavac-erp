@@ -194,6 +194,7 @@ export default {
         return {
             accRecords: [],
             record_select: "",
+            isEdit: false,
             record: {
                 id: "",
                 code: "",
@@ -216,9 +217,11 @@ export default {
     },
     created() {
         EventBus.$on("register:account", (data) => {
+            this.isEdit = false;
             this.createRecord(data);
         });
         EventBus.$on("load:data-account-form", (data) => {
+            this.isEdit = true;
             if (data == null) {
                 this.reset(false);
             } else {
@@ -260,12 +263,13 @@ export default {
         /**
          * Limpia los valores de las variables del formulario
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         reset(resetRecords = true) {
             if (resetRecords) {
                 this.record_select = [];
             }
+            this.isEdit= false;
             this.record = {
                 id: "",
                 group: "",
@@ -295,7 +299,7 @@ export default {
         /**
          * Valida que los campos del código sean validos
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          * @return {boolean} retorna falso si algun campo no cumple el formato correspondiente
          */
         FormatCode() {
@@ -318,7 +322,7 @@ export default {
          * Envia la información a ser almacenada de la cuenta patrimonial
          * en caso de que se este actualizando la cuenta, se envia la información a la ruta para ser actualizada
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         createRecord(url) {
             const vm = this;
@@ -438,13 +442,16 @@ export default {
         /**
          * Obtiene el código disponible para la subcuenta y carga la información en el formulario
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         record_select(res, ant) {
             const vm = this;
             if (res != "" && res != ant) {
                 /** Esta validacion es para el caso de cargar datos en el formulario
-            evitando que realize la consulta axios */
+                evitando que realize la consulta axios */
+                if (vm.isEdit) {
+                    return;
+                }
                 if (typeof res == "number") {
                     return;
                 }
@@ -465,15 +472,15 @@ export default {
                             exist: account.exist,
                             type: account.type,
                         };
-                        if (data.type == "resource") {
+                        if (account.type == "resource") {
                             this.record.ingres = true;
                             this.record.egress = false;
                         }
-                        if (data.type == "egress") {
+                        if (account.type == "egress") {
                             this.record.egress = true;
                             this.record.ingres = false;
                         }
-                        if (data.type == "") {
+                        if (account.type == "") {
                             this.record.egress = false;
                             this.record.ingres = false;
                         }

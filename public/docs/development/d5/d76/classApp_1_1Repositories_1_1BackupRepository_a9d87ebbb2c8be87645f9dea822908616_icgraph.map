@@ -1,0 +1,5 @@
+<map id="restore" name="restore">
+<area shape="rect" id="Node000001" title="Ejecuta la acción necesaria para restaurar los datos a partir de un respaldo." alt="" coords="236,20,304,45"/>
+<area shape="rect" id="Node000002" href="$d4/d83/classApp_1_1Http_1_1Controllers_1_1Admin_1_1BackupController.html#a56d2a110ea6181db1a06ce0418b01a5a" title="Método que ejecuta la acción para la restauración de la base de datos a partir de un respaldo." alt="" coords="5,5,188,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,35,188,35,188,30,222,30"/>
+</map>

@@ -19,7 +19,7 @@
                         </span>
                     </button>
                     <ul>
-                        <li v-for="error in errors">{{ error }}</li>
+                        <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                     </ul>
                 </div>
             </div>
@@ -135,7 +135,7 @@
                         }} <br>
                     </span>
                     <span>
-                        <div v-for="att in props.row.warehouse_product_values">
+                        <div v-for="(att, index) in props.row.warehouse_product_values" :key="index">
                             <b>{{ att.warehouse_product_attribute.name + ":" }}</b> {{ att.value }}
                         </div>
                         <b>Valor:</b> {{ props.row.unit_value }} {{ (props.row.currency) ? props.row.currency.name : '' }}
@@ -156,30 +156,21 @@
                 </div>
                 <div slot="requested" slot-scope="props">
                     <div>
-                        <!--<input type="text" class="form-control table-form input-sm" data-toggle="tooltip" min=0
-                            :max="props.row.real - quantityProductRequests(props.row.code)"
+                        <input
+                            type="text" class="form-control table-form input-sm"
+                            data-toggle="tooltip" min=0
                             v-input-mask data-inputmask="
-                                    'alias': 'numeric',
-                                    'allowMinus': 'false',
-                                    'digits': 2"
-                            :id="'request_product_' + props.row.id" onfocus="this.select()" @input="selectElement(props.row.id);
-                            validateInput(props.row.exist, props.row.reserved, props.row.id)"
-                            v-model="input_values[props.row.id]">-->
-                            <input
-                                type="text" class="form-control table-form input-sm"
-                                data-toggle="tooltip" min=0
-                                v-input-mask data-inputmask="
-                                    'alias': 'numeric',
-                                    'allowMinus': 'false',
-                                    'digits': 2"
-                                :id="'request_product_' + props.row.id"
-                                onfocus="this.select()"
-                                @input="
-                                    selectElement(props.row.id);
-                                    validateInput(props.row.real, props.row.code, props.row.id)
-                                "
-                                v-model="input_values[props.row.id]"
-                            >
+                                'alias': 'numeric',
+                                'allowMinus': 'false',
+                                'digits': 2"
+                            :id="'request_product_' + props.row.id"
+                            onfocus="this.select()"
+                            @input="
+                                selectElement(props.row.id);
+                                validateInput(props.row.real, props.row.code, props.row.id)
+                            "
+                            v-model="input_values[props.row.id]"
+                        >
                     </div>
                 </div>
             </v-client-table>
@@ -189,8 +180,8 @@
                 <div class="col-md-3 offset-md-9" id="helpParamButtons">
                     <button
                         type="button"
-                        @click=" reset()
-                        "class="btn btn-default btn-icon btn-round"
+                        @click="reset()"
+                        class="btn btn-default btn-icon btn-round"
                         v-has-tooltip
                         title="Borrar datos del formulario"
                     >
@@ -362,19 +353,6 @@ export default {
                 checkbox.click();
             }
         },
-
-        /*validateInput(exist, reserved, id) {
-            const vm = this;
-            vm.errors = [];
-
-            let value = document.getElementById("request_product_" + id).value;
-
-            if ((exist - reserved < value)) {
-                vm.errors.push('El valor es mayor a la existencia en almacén');
-            }
-            return;
-        },*/
-
         /**
          * Validad que la cantidad de la solicitud de producto sea menor o igual
          * a la disponible.

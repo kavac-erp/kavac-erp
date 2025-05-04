@@ -185,7 +185,12 @@
                                                             @click="
                                                                 addDocument(
                                                                     source.id
-                                                                )
+                                                                );
+                                                                currencySymbol(
+                                                                    source.budget_compromise_details[0].budget_sub_specific_formulation ?
+                                                                    source.budget_compromise_details[0].budget_sub_specific_formulation.currency.id :
+                                                                    source.sourceable.currency_id
+                                                                );
                                                             "
                                                             data-dismiss="modal"
                                                         >
@@ -762,6 +767,8 @@ export default {
             total: 0,
             totalTax: 0,
             currency_symbol: "",
+            currency_symbol_tmp: "",
+            pre_comp: false,
 
             /**
              * Campos temporales para agregar documentos al compromiso
@@ -871,7 +878,7 @@ export default {
                     vm.record.accounting_account_id =
                         editData.receiver.associateable_id;
                 }, 1000);
-                
+
                 vm.enableFields = true;
                 vm.disableSource = editData.sourceable_type === "Modules\\Payroll\\Models\\Payroll"
                                     || editData.sourceable_type === "Modules\\Purchase\\Models\\PurchaseDirectHire";
@@ -887,10 +894,6 @@ export default {
                 vm.specific_action_id =
                     word.budget_sub_specific_formulation.budget_specific_action_id;
                 vm.account_id = word.budget_account_id;
-                
-                // vm.account_concept = word.description;
-                // vm.account_amount = word.amount;
-                // vm.account_tax_id = word.tax_id;
 
                 await vm
                     .getSpecificActionDetail(
@@ -961,7 +964,20 @@ export default {
 
                 await vm.calculateTot();
                 await vm.calculateTotalTax();
-                await vm.currencySymbol();
+
+                // Consultar la moneda asociada al compromiso.
+                if (
+                    editData.budget_compromise_details &&
+                    editData.budget_compromise_details.length > 0 &&
+                    editData.budget_compromise_details[0]
+                        .budget_sub_specific_formulation
+                ) {
+                    await vm.currencySymbol(editData.budget_compromise_details[0]
+                        .budget_sub_specific_formulation.currency_id);
+                } else {
+                    // Tomar la moneda configurada por defecto en el sistema.
+                    await vm.currencySymbol();
+                }
             });
         },
 
@@ -970,7 +986,7 @@ export default {
          *
          * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
          */
-         calculateTot() {
+        calculateTot() {
             const vm = this;
             vm.total = 0;
 
@@ -987,7 +1003,7 @@ export default {
          *
          * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
          */
-         calculateTotalTax() {
+        calculateTotalTax() {
             const vm = this;
             vm.totalTax = 0;
 
@@ -999,18 +1015,49 @@ export default {
             return vm.totalTax;
         },
 
-        currencySymbol() {
+        /**
+         * Obtener el símbolo de la moneda asociada al precomprimiso
+         * seleccionado en el modal de Documento Origen.
+         *
+         * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
+         */
+        currencySymbol(id) {
             const vm = this;
             vm.currency_symbol = "";
-            axios.get(`${window.app_url}/get-currencies/{currency_id?}`).then(response => {
-            vm.currencies = response.data;
-            const defaultCurrency = vm.currencies.find(currency => currency.default == true);
-                if (defaultCurrency) {
-                    vm.currency_symbol = defaultCurrency.text.split(" - ")[0];
-                }
-            });
-            return vm.currency_symbol;
+
+            if (id) {
+                axios.get(`${window.app_url}/currencies/info/` + id).then(response => {
+                    if (response.data.result) {
+                        vm.loading = true;
+                        const currency = response.data.currency;
+                        vm.currency_symbol = currency.symbol;
+                        vm.currency_symbol_tmp = currency.symbol;
+                    } else {
+                        console.log("Error en la respuesta de la información de la moneda");
+                    }
+                    vm.loading = false;
+                    return vm.currency_symbol;
+                })
+                .catch(error => {
+                    console.error("Error obteniendo la información de la moneda:", error);
+                    vm.loading = false;
+                });
+            } else {
+                /*
+                Si no se pasa el id de la moneda se muestra el símbolo de la
+                moneda por defecto configurada.
+                */
+                axios.get(`${window.app_url}/get-currencies/{currency_id?}`).then(response => {
+                vm.currencies = response.data;
+                const defaultCurrency = vm.currencies.find(currency => currency.default == true);
+                    if (defaultCurrency) {
+                        vm.currency_symbol = defaultCurrency.text.split(" - ")[0];
+                    }
+                });
+                return vm.currency_symbol;
+            }
         },
+
         /**
          * Elimina una cuenta del listado de cuentas agregadas
          *
@@ -1021,7 +1068,7 @@ export default {
             let vm = this;
             bootbox.confirm({
                 title: "Eliminar cuenta?",
-                message: `Esta seguro de eliminar esta cuenta del compromiso actual?`,
+                message: `¿Está seguro de eliminar esta cuenta del compromiso actual?`,
                 buttons: {
                     cancel: {
                         label: '<i class="fa fa-times"></i> Cancelar',
@@ -1034,13 +1081,14 @@ export default {
                     if (result) {
                         let budget_tax_key = vm.record.accounts[index].budget_tax_key;
                         vm.record.accounts.splice(index, 1);
-                        // vm.record.tax_accounts.splice(index, 1);
+
                         vm.record.tax_accounts = vm.record.tax_accounts.filter(
                             (item) => item.budget_tax_key != budget_tax_key
                         );
                         vm.calculateTot();
                         vm.calculateTotalTax();
-                        vm.currencySymbol();
+
+                        vm.currency_symbol = vm.currency_symbol_tmp;
                     }
                 },
             });
@@ -1069,13 +1117,19 @@ export default {
             vm.account_original =
                 vm.record.accounts[vm.editIndex]["account_id"];
             vm.account_amount_original =
-                vm.record.accounts[vm.editIndex]["amount"];
+                vm.record.accounts[vm.editIndex]["account_amount_original"];
             vm.specific_action_id =
                 vm.record.accounts[vm.editIndex]["specific_action_id"];
             vm.old_acc_id =
 
             vm.record.accounts[vm.editIndex]["id"] ??
                 vm.record.accounts[vm.editIndex]["old_acc_id"];
+
+            if (!vm.account_id) {
+                vm.pre_comp = true;
+            } else {
+                vm.pre_comp = false;
+            }
 
             let index_tax = vm.record.tax_accounts.findIndex(
                 (tax_account) => tax_account.budget_tax_key == vm.record.accounts[vm.editIndex]["budget_tax_key"]
@@ -1247,9 +1301,6 @@ export default {
                     return;
                 }
 
-                // let amountEdit = vm.record.accounts[vm.editIndex]["amountEdit"];
-                // vm.record.accounts.splice(vm.editIndex, 1);
-
                 //se Reescriben los datos de las cuentas presupuestarias de gastos si esta ha sido modificada
                 vm.record.accounts[vm.editIndex]["spac_description"] = `${specificAction.specificable.code}-${specificAction.code} | ${specificAction.name}`;
                 vm.record.accounts[vm.editIndex]["code"] = account.code;
@@ -1291,7 +1342,7 @@ export default {
                                 "account_amount_original"
                             ];
                         if (vm.tax_accounts.length > 0) {
-                            // vm.record.tax_accounts.splice(index, 1);
+
                             vm.record.tax_accounts = vm.record.tax_accounts.filter(
                                 (item) => item.budget_tax_key != budget_tax_key
                             );
@@ -1377,7 +1428,8 @@ export default {
                 vm.editIndex = null;
                 await vm.calculateTot();
                 await vm.calculateTotalTax();
-                await vm.currencySymbol();
+
+                vm.currency_symbol = vm.currency_symbol_tmp;
             } else {
                 if (
                     Number(vm.account_amount) >
@@ -1529,6 +1581,8 @@ export default {
                     }
                 }
 
+                vm.pre_comp = false;
+
                 await vm.calculateTot();
                 await vm.calculateTotalTax();
                 await vm.currencySymbol();
@@ -1574,6 +1628,7 @@ export default {
          */
         async addDocument(sourceId) {
             const vm = this;
+            vm.loading = true;
             vm.enableFields = false;
             vm.record.compromised_manual = false;
             vm.record.receiver = "";
@@ -1582,6 +1637,7 @@ export default {
             vm.record.accounts = [];
             vm.record.tax_accounts = [];
             vm.arrayKeys = [];
+
             vm.record.documentToCompromise = JSON.parse(
                 JSON.stringify(
                     vm.document_sources.filter((doc) => {
@@ -1626,7 +1682,7 @@ export default {
                         await vm
                         .getAccountDetail(detail.budget_account_id)
                         .then((word) => (account = word.record));
-                    
+
                         detail.spac_description = `${specificAction.specificable.code}-${specificAction.code} | ${specificAction.name}`;
                         detail.code = account.code;
                         vm.disableSourceEdit = true;
@@ -1672,11 +1728,16 @@ export default {
 
                     vm.record.accounts.push(detail);
                 });
-                
+
                 await vm.calculateTot();
                 await vm.calculateTotalTax();
-                await vm.currencySymbol();
+                await vm.currencySymbol(
+                    vm.record.documentToCompromise.sourceable ?
+                    vm.record.documentToCompromise.sourceable.currency_id :
+                    ''
+                );
             }
+            vm.loading = false;
         },
 
         /**
@@ -1687,13 +1748,12 @@ export default {
          */
         generateUnitKey() {
             const vm = this;
-            let key = vm.arrayKeys.length > 0 ? vm.arrayKeys[vm.arrayKeys.length - 1] : 1;//(Date.now() + parseInt(Math.random() * 1000)).toString().substr(7);
+            let key = vm.arrayKeys.length > 0 ? vm.arrayKeys[vm.arrayKeys.length - 1] : 1;
 
             while (vm.arrayKeys.indexOf(key) !== -1) {
-                // key = (Date.now() + parseInt(Math.random() * 1000)).toString().substr(7);
                 key ++;
             }
-            vm.arrayKeys.push(key); 
+            vm.arrayKeys.push(key);
             return key;
         },
         /**
@@ -1784,7 +1844,6 @@ export default {
                         vm.record.accounts[vm.editIndex]["account_id"];
                 }
             }
-            // vm.isDisable();
 
             vm.loading = false;
         },
@@ -1862,10 +1921,6 @@ export default {
          * @method     getDocumentSources
          *
          * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-         *
-         * @license   [description]
-         *
-         * @return     {[type]}              [description]
          */
         getDocumentSources() {
             let vm = this;
@@ -2154,7 +2209,7 @@ export default {
 
             vm.record.has_tax_account = 0;
 
-            if (typeof editIndex != "undefined") {
+            if (typeof editIndex != "undefined" && vm.pre_comp == false) {
                 vm.record.specific_action_id = vm.specific_action_id;
                 vm.record.account_amount = parseFloat(vm.account_amount);
                 vm.record.account_id = vm.account_id;

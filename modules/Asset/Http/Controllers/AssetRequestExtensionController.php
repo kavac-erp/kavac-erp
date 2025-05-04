@@ -1,7 +1,5 @@
 <?php
 
-/**Revisar */
-
 namespace Modules\Asset\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -11,7 +9,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Auth;
 use Modules\Asset\Models\AssetRequestExtension;
 use Modules\Asset\Models\AssetRequest;
-use Modules\Asset\Rules\DateExtension;
 
 /**
  * @class      AssetRequestExtensionController
@@ -20,6 +17,7 @@ use Modules\Asset\Rules\DateExtension;
  * Clase que gestiona las prorrogas de entrega solicitadas
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -27,9 +25,16 @@ class AssetRequestExtensionController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return    void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:asset.request.extension', ['only' => 'store']);
         $this->middleware('permission:asset.request.extension.approved', ['only' => 'approved']);
         $this->middleware('permission:asset.request.extension.rejected', ['only' => 'rejected']);
@@ -38,6 +43,7 @@ class AssetRequestExtensionController extends Controller
      * Muestra un listado de las solicitudes de de prorroga de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function index()
@@ -49,7 +55,9 @@ class AssetRequestExtensionController extends Controller
      * Valida y registra una nueva prorroga
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function store(Request $request)
@@ -73,7 +81,8 @@ class AssetRequestExtensionController extends Controller
     }
 
     /**
-     * Show the specified resource.
+     * Muestra una solicitud de prorroga
+     *
      * @return Renderable
      */
     public function show()
@@ -82,7 +91,8 @@ class AssetRequestExtensionController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para actualización de datos de la solicitud de prorroga
+     *
      * @return Renderable
      */
     public function edit()
@@ -91,28 +101,39 @@ class AssetRequestExtensionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza la información de una solicitud de prorroga
+     *
      * @param  Request $request
-     * @return Renderable
+     *
+     * @return void
      */
     public function update(Request $request)
     {
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Renderable
+     * Elimina una solicitud de prorroga
+     *
+     * @return void
      */
     public function destroy()
     {
     }
 
+    /**
+     * Listado de solicitudes de prorroga
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function vuePendingList()
     {
-        $assetRequestExtension = AssetRequestExtension::with('user', 'assetRequest')->where('state', 'Pendiente')->get();
+        $assetRequestExtension = AssetRequestExtension::with('user', 'assetRequest')->where(
+            'state',
+            'Pendiente'
+        )->get();
         $asset_request_exten_code = [];
         foreach ($assetRequestExtension as $assetRequestExten) {
-            $assetRequestExten->code = $assetRequestExten->assetRequest->code;
+            $assetRequestExten['code'] = $assetRequestExten->assetRequest->code;
             array_push($asset_request_exten_code, $assetRequestExten);
         }
 
@@ -124,6 +145,16 @@ class AssetRequestExtensionController extends Controller
         );
     }
 
+    /**
+     * Aprueba una solicitud de prorroga
+     *
+     * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     * @param mixed $id id de la solicitud
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function approved(Request $request, $id)
     {
         $request_prorroga = AssetRequestExtension::find($id);
@@ -139,6 +170,14 @@ class AssetRequestExtensionController extends Controller
         return response()->json(['result' => true, 'redirect' => route('asset.request.index')], 200);
     }
 
+    /**
+     * Rechaza una solicitud de prorroga
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     * @param mixed $id id de la solicitud
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function rejected(Request $request, $id)
     {
         $asset_request = AssetRequestExtension::find($id);

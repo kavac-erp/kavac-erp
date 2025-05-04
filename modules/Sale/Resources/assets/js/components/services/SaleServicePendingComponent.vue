@@ -38,7 +38,7 @@
                                         </span>
                                     </button>
                                     <ul>
-                                        <li v-for="error in errors">{{ error }}</li>
+                                        <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                                         </span>
                                     </button>
                                     <ul>
-                                        <li v-for="error in errors">{{ error }}</li>
+                                        <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
                 };
             },
             /**
-             * Método que carga los trabajadores registrados para el select 
+             * Método que carga los trabajadores registrados para el select
              *
              * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
              */

@@ -1,9 +1,10 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -20,8 +21,6 @@ class $NAME$ extends Seeder
 {
     /**
      * Ejecuta los seeds de la base de datos
-     *
-     * @method run
      *
      * @return void     [descripción de los datos devueltos]
      */

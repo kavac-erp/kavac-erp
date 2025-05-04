@@ -22,24 +22,6 @@
                 <div class="col-md-12">
                     <strong>Filtros</strong>
                 </div>
-                <!--div class="col-md-4">
-                    <div class="form-group">
-                        <label>Desde:</label>
-                        <input id="start_date" type="month"
-                               name="start_date"
-                               class="form-control input-sm"
-                               v-model="record.start_date">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Hasta:</label>
-                        <input id="end_date" type="month"
-                               name="end_date"
-                               class="form-control input-sm"
-                               v-model="record.end_date">
-                    </div>
-                </div-->
                 <!-- trabajador -->
                 <div class="col-md-4">
                     <div class="form-group is-required">
@@ -89,14 +71,14 @@
                     </span>
                 </div>
                 <div slot="vacation_period" slot-scope="props">
-                    <div v-for="period in props.row.periods">
+                    <div v-for="(period, index) in props.row.periods" :key="index">
                         <span> {{ period.text }} </span>
                     </div>
                 </div>
                 <div slot="id" slot-scope="props" class="text-center">
-                    <button @click="createReport(props.row.id, 'vacation-requests', $event)" 
-                            class="btn btn-primary btn-xs btn-icon btn-action" 
-                            title="Generar reporte" data-toggle="tooltip" 
+                    <button @click="createReport(props.row.id, 'vacation-requests', $event)"
+                            class="btn btn-primary btn-xs btn-icon btn-action"
+                            title="Generar reporte" data-toggle="tooltip"
                             type="button">
                         <i class="fa fa-file-pdf-o"></i>
                     </button>
@@ -155,12 +137,12 @@
                     if (typeof(error.response) != "undefined") {
                         if (error.response.status == 403) {
                         vm.showMessage(
-                            'custom', 
-                            'Acceso Denegado', 
-                            'danger', 
-                            'screen-error', 
+                            'custom',
+                            'Acceso Denegado',
+                            'danger',
+                            'screen-error',
                             error.response.data.message
-                        ); 
+                        );
                     }
                         console.log("error");
                     }
@@ -191,7 +173,7 @@
                 if (vm.record.payroll_staff_id == '') {
                     vm.errors.push("Debe seleccionar un Trabajador.");
                 }
-                
+
                 for (var index in vm.record) {
                     fields[index] = vm.record[index];
                 }
@@ -217,7 +199,7 @@
                 });
             }
         },
-        created() { 
+        created() {
             const vm = this;
             vm.table_options.headings = {
                 'payroll_staff':            'Trabajador',

@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.9.1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>KAVAC: Referencia de la Clase Controller</title>
+<title>KAVAC: Referencia de la clase Controller</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -17,7 +17,7 @@
 <script type="text/javascript" src="../../search/searchdata.js"></script>
 <script type="text/javascript" src="../../search/search.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
   $(document).ready(function() { init_search(); });
 /* @license-end */
 </script>
@@ -29,21 +29,17 @@
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr style="height: 56px;">
+ <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../logo-doc.png"/></td>
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">KAVAC
-   &#160;<span id="projectnumber">v1.0.4</span>
+  <td id="projectalign">
+   <div id="projectname">KAVAC<span id="projectnumber">&#160;v1.0.5</span>
    </div>
    <div id="projectbrief">Sistema de Gestión Organizacional</div>
   </td>
-   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
-          <img id="MSearchSelect" src="../../search/mag_sel.svg"
-               onmouseover="return searchBox.OnSearchSelectShow()"
-               onmouseout="return searchBox.OnSearchSelectHide()"
-               alt=""/>
-          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Buscar" accesskey="S"
                onfocus="searchBox.OnSearchFieldFocus(true)" 
                onblur="searchBox.OnSearchFieldFocus(false)" 
                onkeyup="searchBox.OnSearchFieldChange(event)"/>
@@ -57,10 +53,10 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Generado por Doxygen 1.9.1 -->
+<!-- Generado por Doxygen 1.9.8 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-var searchBox = new SearchBox("searchBox", "../../search",false,'Buscar','.html');
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
 /* @license-end */
 </script>
 </div><!-- top -->
@@ -75,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Buscar','.html'
   </div>
 </div>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(document).ready(function(){initNavTree('d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html','../../'); initResizable(); });
 /* @license-end */
 </script>
@@ -89,84 +85,139 @@ $(document).ready(function(){initNavTree('d8/d70/classApp_1_1Http_1_1Controllers
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
-<iframe src="javascript:void(0)" frameborder="0" 
-        name="MSearchResults" id="MSearchResults">
-</iframe>
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
 </div>
 
 <div class="header">
-  <div class="headertitle">
-<div class="title">Referencia de la Clase Controller</div>  </div>
+  <div class="headertitle"><div class="title">Referencia de la clase Controller</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>Controlador principal del framework del cual extienden los demás controladores.  
  <a href="../../d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html#details">Más...</a></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Diagrama de herencias de Controller</div>
+  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Diagrama de herencia de Controller</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../d1/dab/classApp_1_1Http_1_1Controllers_1_1Controller__inherit__graph.png" border="0" usemap="#aController_inherit__map" alt="Inheritance graph"/></div>
 <map name="aController_inherit__map" id="aController_inherit__map">
-<area shape="rect" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="4362,5,4449,83"/>
-<area shape="rect" href="../../d1/d0e/classApp_1_1Http_1_1Controllers_1_1Admin_1_1AppManagementController.html" title="Gestiona los procesos, registros, etc., de la aplicación, de uso exclusivo para el administrador." alt="" coords="5,233,203,325"/>
-<area shape="rect" href="../../d4/d83/classApp_1_1Http_1_1Controllers_1_1Admin_1_1BackupController.html" title="Gestiona información de respaldo." alt="" coords="227,241,360,318"/>
-<area shape="rect" href="../../d7/d9e/classApp_1_1Http_1_1Controllers_1_1Admin_1_1InstitutionController.html" title="Gestiona información de Organizaciones." alt="" coords="384,226,536,333"/>
-<area shape="rect" href="../../d1/d5f/classApp_1_1Http_1_1Controllers_1_1Admin_1_1LogController.html" title="Controlador de Eventos Log." alt="" coords="560,241,669,318"/>
-<area shape="rect" href="../../d2/dad/classApp_1_1Http_1_1Controllers_1_1Admin_1_1ModuleController.html" title="Controlador para la gestión de los módulos de la aplicación." alt="" coords="693,219,835,340"/>
-<area shape="rect" href="../../d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController.html" title="Gestiona información de configuración general." alt="" coords="859,241,991,318"/>
-<area shape="rect" href="../../d5/d84/classApp_1_1Http_1_1Controllers_1_1Auth_1_1ForgotPasswordController.html" title="Gestiona el olvido de contraseña." alt="" coords="1015,241,1203,318"/>
-<area shape="rect" href="../../de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html" title="Gestiona información de autenticación." alt="" coords="1227,131,1474,428"/>
-<area shape="rect" href="../../d5/d17/classApp_1_1Http_1_1Controllers_1_1Auth_1_1RegisterController.html" title="Gestiona información de registro de usuarios." alt="" coords="1498,226,1638,333"/>
-<area shape="rect" href="../../d9/d21/classApp_1_1Http_1_1Controllers_1_1Auth_1_1ResetPasswordController.html" title="Gestiona el reinicio de contraseñas." alt="" coords="1663,241,1847,318"/>
-<area shape="rect" href="../../d5/d9d/classApp_1_1Http_1_1Controllers_1_1Auth_1_1UserController.html" title="Gestiona información de usuarios." alt="" coords="1871,167,2070,391"/>
-<area shape="rect" href="../../dc/d8c/classApp_1_1Http_1_1Controllers_1_1Auth_1_1VerificationController.html" title="Gestiona la verificación de usuarios." alt="" coords="2094,241,2253,318"/>
-<area shape="rect" href="../../d0/df3/classApp_1_1Http_1_1Controllers_1_1CityController.html" title="Controlador de Ciudades." alt="" coords="2277,211,2398,347"/>
-<area shape="rect" href="../../da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html" title="Controlador para el cierre de ejercicio." alt="" coords="2422,167,2621,391"/>
-<area shape="rect" href="../../dc/d2e/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearSettingController.html" title="Controlador de configuraciones para el cierre de ejercicio." alt="" coords="2645,219,2877,340"/>
-<area shape="rect" href="../../dd/d8a/classApp_1_1Http_1_1Controllers_1_1CommonController.html" title="Gestiona información de común de la aplicación." alt="" coords="2901,211,3091,347"/>
-<area shape="rect" href="../../dd/d0a/classApp_1_1Http_1_1Controllers_1_1CountryController.html" title="Gestiona información de Países." alt="" coords="3115,219,3253,340"/>
-<area shape="rect" href="../../d3/dac/classApp_1_1Http_1_1Controllers_1_1CurrencyController.html" title="Gestiona información de Monedas." alt="" coords="3277,197,3462,362"/>
-<area shape="rect" href="../../da/d3b/classApp_1_1Http_1_1Controllers_1_1DashboardController.html" title="Gestiona información del Panel de Control." alt="" coords="3486,241,3642,318"/>
-<area shape="rect" href="../../d3/d32/classApp_1_1Http_1_1Controllers_1_1DeductionController.html" title="Gestiona información de las deducciones y/o retenciones." alt="" coords="3667,219,3819,340"/>
-<area shape="rect" href="../../d9/dae/classApp_1_1Http_1_1Controllers_1_1DepartmentController.html" title="Gestiona información de Departamentos." alt="" coords="3843,211,4007,347"/>
-<area shape="rect" href="../../d5/db0/classApp_1_1Http_1_1Controllers_1_1Dev_1_1DevelopmentController.html" title="Controlador para utilidades de desarrollo." alt="" coords="4031,241,4206,318"/>
-<area shape="rect" href="../../dc/dc5/classApp_1_1Http_1_1Controllers_1_1DocumentController.html" title="Gestiona información de Documentos." alt="" coords="4230,197,4383,362"/>
-<area shape="rect" href="../../dd/d1e/classApp_1_1Http_1_1Controllers_1_1DocumentStatusController.html" title="Gestiona información de los estatus de documentos." alt="" coords="4408,219,4603,340"/>
-<area shape="rect" href="../../dd/d33/classApp_1_1Http_1_1Controllers_1_1EstateController.html" title="Gestiona información de Estados." alt="" coords="4627,219,4754,340"/>
-<area shape="rect" href="../../dc/d3c/classApp_1_1Http_1_1Controllers_1_1ExchangeRateController.html" title="Gestiona información de tipos de cambio de monedas." alt="" coords="4779,219,4957,340"/>
-<area shape="rect" href="../../da/db7/classApp_1_1Http_1_1Controllers_1_1FiscalYearController.html" title="Gestiona información del año fiscal." alt="" coords="4982,175,5133,384"/>
-<area shape="rect" href="../../d4/ddf/classApp_1_1Http_1_1Controllers_1_1HeadquarterController.html" title="Gestiona información de las sedes." alt="" coords="5157,211,5323,347"/>
-<area shape="rect" href="../../d4/d5c/classApp_1_1Http_1_1Controllers_1_1ImageController.html" title="Gestiona información de Imágenes." alt="" coords="5347,241,5474,318"/>
-<area shape="rect" href="../../db/dac/classApp_1_1Http_1_1Controllers_1_1InstitutionSectorController.html" title="Gestiona información de los sectores de Organizaciones." alt="" coords="5498,211,5691,347"/>
-<area shape="rect" href="../../d3/da7/classApp_1_1Http_1_1Controllers_1_1InstitutionTypeController.html" title="Gestiona información de los tipos de Organizaciones." alt="" coords="5715,211,5898,347"/>
-<area shape="rect" href="../../da/d57/classApp_1_1Http_1_1Controllers_1_1MaritalStatusController.html" title="Gestiona información de Estados Civiles." alt="" coords="5923,219,6096,340"/>
-<area shape="rect" href="../../d3/d7b/classApp_1_1Http_1_1Controllers_1_1MeasurementUnitController.html" title="Gestiona información de las unidades de medida." alt="" coords="6120,219,6323,340"/>
-<area shape="rect" href="../../d5/d6f/classApp_1_1Http_1_1Controllers_1_1MunicipalityController.html" title="Gestiona información de Municipios." alt="" coords="6347,219,6514,340"/>
-<area shape="rect" href="../../dc/d5a/classApp_1_1Http_1_1Controllers_1_1NotificationSettingController.html" title="Gestiona información para la configuración de notificaciones del sistema." alt="" coords="6538,197,6745,362"/>
-<area shape="rect" href="../../da/d56/classApp_1_1Http_1_1Controllers_1_1ParameterController.html" title="Gestiona información para la configuración de parámetros del sistema." alt="" coords="6769,226,6922,333"/>
-<area shape="rect" href="../../dc/df9/classApp_1_1Http_1_1Controllers_1_1ParishController.html" title="Gestiona información de Parroquias." alt="" coords="6947,219,7072,340"/>
-<area shape="rect" href="../../de/d2c/classApp_1_1Http_1_1Controllers_1_1ProfessionController.html" title="Gestiona información de Profesiones." alt="" coords="7096,211,7251,347"/>
-<area shape="rect" href="../../d7/d25/classApp_1_1Http_1_1Controllers_1_1ProfileController.html" title="Gestiona información de Perfiles de usuario." alt="" coords="7275,241,7402,318"/>
-<area shape="rect" href="../../da/d07/classApp_1_1Http_1_1Controllers_1_1ReceiverController.html" title="Gestiona información de receptores." alt="" coords="7427,189,7576,369"/>
-<area shape="rect" href="../../d6/d1c/classApp_1_1Http_1_1Controllers_1_1ReportController.html" title="Gestiona información de reportes de la aplicación." alt="" coords="7601,226,7730,333"/>
-<area shape="rect" href="../../d4/da0/classApp_1_1Http_1_1Controllers_1_1RequiredDocumentController.html" title="Gestiona información de documentos requeridos." alt="" coords="7755,219,7965,340"/>
-<area shape="rect" href="../../d3/d5a/classApp_1_1Http_1_1Controllers_1_1Services_1_1LocatesController.html" title="Gestiona información de servicios de localización." alt="" coords="7990,204,8149,355"/>
-<area shape="rect" href="../../dc/dc4/classApp_1_1Http_1_1Controllers_1_1Services_1_1MessageController.html" title="Gestiona los mensajes del sistema." alt="" coords="8173,241,8317,318"/>
-<area shape="rect" href="../../d2/d85/classApp_1_1Http_1_1Controllers_1_1Services_1_1NotificationsController.html" title="Gestiona información de las notificaciones." alt="" coords="8341,226,8509,333"/>
-<area shape="rect" href="../../de/d81/classApp_1_1Http_1_1Controllers_1_1TaxController.html" title="Gestiona información de Impuestos." alt="" coords="8533,197,8701,362"/>
-<area shape="rect" href="../../d3/d67/classApp_1_1Http_1_1Controllers_1_1TaxUnitController.html" title="Gestiona información de Unidades Tributarias (U.T.)" alt="" coords="8726,226,8861,333"/>
+<area shape="rect" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="4374,5,4453,71"/>
+<area shape="rect" href="../../d1/d0e/classApp_1_1Http_1_1Controllers_1_1Admin_1_1AppManagementController.html" title="Gestiona los procesos, registros, etc., de la aplicación, de uso exclusivo para el administrador." alt="" coords="5,229,195,414"/>
+<area shape="poly" title=" " alt="" coords="4360,42,3522,48,2138,61,1435,72,827,85,392,102,264,111,208,121,181,142,159,169,142,199,128,229,123,227,137,196,155,166,178,138,206,116,263,106,392,96,827,80,1435,67,2138,56,3522,42,4360,37"/>
+<area shape="rect" href="../../d4/d83/classApp_1_1Http_1_1Controllers_1_1Admin_1_1BackupController.html" title="Gestiona información de respaldo." alt="" coords="219,249,344,394"/>
+<area shape="poly" title=" " alt="" coords="4360,42,3547,47,2213,60,1536,70,951,84,533,101,410,110,357,121,331,147,312,179,299,214,290,249,285,248,294,213,307,177,327,143,355,116,410,105,533,95,951,78,1536,65,2213,54,3547,42,4360,37"/>
+<area shape="rect" href="../../d7/d9e/classApp_1_1Http_1_1Controllers_1_1Admin_1_1InstitutionController.html" title="Gestiona información de Organizaciones." alt="" coords="368,249,512,394"/>
+<area shape="poly" title=" " alt="" coords="4361,42,3579,48,2301,62,1653,72,1094,85,694,102,576,111,525,121,498,147,477,179,462,214,452,249,447,248,457,212,472,176,494,143,523,116,575,106,694,96,1094,80,1653,67,2301,56,3579,42,4360,37"/>
+<area shape="rect" href="../../d1/d5f/classApp_1_1Http_1_1Controllers_1_1Admin_1_1LogController.html" title="Controlador de Eventos Log." alt="" coords="536,289,637,354"/>
+<area shape="poly" title=" " alt="" coords="4360,42,3601,47,2365,61,1739,71,1199,85,813,101,699,111,651,121,633,137,620,157,601,202,592,249,589,289,583,288,586,248,596,201,615,154,629,134,648,116,698,106,812,96,1198,79,1739,66,2365,55,3601,42,4360,37"/>
+<area shape="rect" href="../../d2/dad/classApp_1_1Http_1_1Controllers_1_1Admin_1_1ModuleController.html" title="Controlador para la gestión de los módulos de la aplicación." alt="" coords="661,229,795,414"/>
+<area shape="poly" title=" " alt="" coords="4360,42,3630,48,2447,63,1848,74,1332,87,963,103,855,112,808,121,785,143,766,169,753,199,743,229,738,228,748,197,762,167,781,139,805,116,854,106,963,97,1332,82,1848,68,2447,58,3630,43,4360,37"/>
+<area shape="rect" href="../../d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController.html" title="Gestiona información de configuración general." alt="" coords="819,269,943,374"/>
+<area shape="poly" title=" " alt="" coords="4360,42,3656,49,2522,64,1950,74,1457,88,1104,103,1000,112,956,121,927,151,906,189,894,230,887,269,882,268,889,229,902,187,922,148,953,116,1000,107,1104,98,1456,82,1950,69,2522,58,3656,43,4360,37"/>
+<area shape="rect" href="../../d5/d84/classApp_1_1Http_1_1Controllers_1_1Auth_1_1ForgotPasswordController.html" title="Gestiona el olvido de contraseña." alt="" coords="967,289,1147,354"/>
+<area shape="poly" title=" " alt="" coords="4360,42,3706,41,2658,47,2125,56,1661,71,1471,81,1320,92,1214,106,1180,113,1160,121,1140,137,1122,156,1094,202,1076,248,1065,289,1060,288,1071,247,1090,199,1118,153,1136,133,1157,116,1178,108,1213,100,1320,87,1471,75,1660,66,2125,51,2658,42,3706,36,4360,36"/>
+<area shape="rect" href="../../de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html" title="Gestiona información de autenticación." alt="" coords="1171,119,1410,524"/>
+<area shape="poly" title=" " alt="" coords="4360,42,3755,44,2794,54,2307,63,1882,77,1570,96,1472,108,1422,121,1412,128,1409,123,1420,116,1472,103,1570,91,1882,72,2307,58,2794,48,3755,39,4360,37"/>
+<area shape="rect" href="../../d5/d17/classApp_1_1Http_1_1Controllers_1_1Auth_1_1RegisterController.html" title="Gestiona información de registro de usuarios." alt="" coords="1434,269,1566,374"/>
+<area shape="poly" title=" " alt="" coords="4360,42,3783,42,2872,50,2411,59,2010,74,1847,83,1717,94,1626,107,1597,114,1580,121,1550,151,1529,190,1515,231,1507,269,1502,268,1510,229,1524,187,1546,148,1577,116,1595,109,1625,101,1716,89,1847,78,2010,68,2411,54,2872,45,3782,37,4360,36"/>
+<area shape="rect" href="../../d9/d21/classApp_1_1Http_1_1Controllers_1_1Auth_1_1ResetPasswordController.html" title="Gestiona el reinicio de contraseñas." alt="" coords="1591,289,1767,354"/>
+<area shape="poly" title=" " alt="" coords="4360,42,3820,45,2976,55,2549,65,2179,79,1907,97,1823,108,1780,121,1760,137,1742,156,1715,202,1697,249,1687,289,1681,288,1692,247,1710,199,1738,153,1756,133,1777,116,1822,103,1907,92,2178,73,2549,59,2975,50,3819,39,4360,37"/>
+<area shape="rect" href="../../d5/d9d/classApp_1_1Http_1_1Controllers_1_1Auth_1_1UserController.html" title="Gestiona información de usuarios." alt="" coords="1791,189,1991,454"/>
+<area shape="poly" title=" " alt="" coords="4361,42,3862,47,3092,59,2704,69,2367,82,2120,100,2043,110,2004,121,1968,151,1940,190,1936,187,1964,148,2001,116,2042,105,2119,94,2366,77,2704,64,3092,53,3862,41,4360,37"/>
+<area shape="rect" href="../../dc/d8c/classApp_1_1Http_1_1Controllers_1_1Auth_1_1VerificationController.html" title="Gestiona la verificación de usuarios." alt="" coords="2015,289,2166,354"/>
+<area shape="poly" title=" " alt="" coords="4360,42,3893,47,3180,59,2822,69,2511,82,2285,100,2214,110,2179,121,2160,137,2143,157,2119,202,2104,248,2097,289,2091,288,2099,247,2114,200,2139,154,2156,133,2176,116,2213,105,2284,94,2511,77,2822,64,3180,53,3893,41,4360,37"/>
+<area shape="rect" href="../../d0/df3/classApp_1_1Http_1_1Controllers_1_1CityController.html" title="Controlador de Ciudades." alt="" coords="2190,239,2303,404"/>
+<area shape="poly" title=" " alt="" coords="4360,42,3918,47,3250,59,2916,69,2626,83,2415,100,2350,110,2317,121,2294,145,2276,174,2264,206,2256,239,2251,238,2259,205,2271,172,2289,141,2315,116,2349,105,2415,95,2626,78,2916,64,3250,54,3918,41,4360,37"/>
+<area shape="rect" href="../../da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html" title="Controlador para el cierre de ejercicio." alt="" coords="2328,179,2517,464"/>
+<area shape="poly" title=" " alt="" coords="4360,43,3959,50,3363,65,3065,76,2807,89,2619,104,2560,112,2531,121,2500,147,2475,180,2471,177,2496,143,2528,116,2559,107,2618,98,2807,83,3065,70,3362,60,3959,45,4360,37"/>
+<area shape="rect" href="../../dc/d2e/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearSettingController.html" title="Controlador de configuraciones para el cierre de ejercicio." alt="" coords="2541,239,2765,404"/>
+<area shape="poly" title=" " alt="" coords="4360,42,4020,42,3521,50,3269,60,3046,74,2875,94,2816,107,2779,121,2748,144,2722,174,2701,206,2684,240,2679,237,2696,204,2718,171,2744,141,2776,116,2814,102,2874,89,3046,69,3269,54,3521,45,4020,37,4360,36"/>
+<area shape="rect" href="../../dd/d8a/classApp_1_1Http_1_1Controllers_1_1CommonController.html" title="Gestiona información común de la aplicación." alt="" coords="2789,249,2971,394"/>
+<area shape="poly" title=" " alt="" coords="4360,42,4058,43,3624,53,3406,63,3213,77,3066,96,3016,108,2984,121,2954,147,2931,179,2913,214,2899,249,2894,248,2908,212,2926,176,2950,143,2981,116,3014,103,3065,91,3213,71,3405,57,3623,48,4058,38,4360,37"/>
+<area shape="rect" href="../../dd/d0a/classApp_1_1Http_1_1Controllers_1_1CountryController.html" title="Gestiona información de Países." alt="" coords="2995,249,3125,394"/>
+<area shape="poly" title=" " alt="" coords="4360,42,4087,44,3700,54,3507,64,3337,78,3208,97,3165,108,3138,121,3111,147,3092,179,3079,214,3070,249,3065,248,3074,213,3087,177,3107,144,3134,116,3163,103,3207,92,3337,73,3507,59,3700,49,4087,39,4360,37"/>
+<area shape="rect" href="../../d3/dac/classApp_1_1Http_1_1Controllers_1_1CurrencyController.html" title="Gestiona información de Monedas." alt="" coords="3149,219,3326,424"/>
+<area shape="poly" title=" " alt="" coords="4360,43,4125,49,3804,62,3644,72,3505,85,3398,102,3362,111,3339,121,3315,141,3296,165,3267,220,3262,217,3291,162,3312,137,3336,116,3360,106,3397,96,3504,80,3644,67,3803,57,4125,43,4360,38"/>
+<area shape="rect" href="../../da/d3b/classApp_1_1Http_1_1Controllers_1_1DashboardController.html" title="Gestiona información del Panel de Control." alt="" coords="3350,289,3498,354"/>
+<area shape="poly" title=" " alt="" coords="4360,44,4160,51,3893,66,3762,76,3647,89,3560,104,3530,112,3512,121,3493,137,3477,157,3453,202,3438,249,3430,289,3425,288,3433,247,3448,200,3473,154,3489,134,3509,116,3529,107,3559,99,3646,84,3761,71,3892,61,4160,46,4360,38"/>
+<area shape="rect" href="../../d3/d32/classApp_1_1Http_1_1Controllers_1_1DeductionController.html" title="Gestiona información de las deducciones y/o retenciones." alt="" coords="3523,249,3667,394"/>
+<area shape="poly" title=" " alt="" coords="4360,45,4194,54,3980,71,3786,93,3718,107,3680,121,3654,147,3633,180,3618,215,3608,249,3603,248,3613,213,3628,177,3649,144,3677,116,3716,101,3785,88,3980,66,4194,49,4360,39"/>
+<area shape="rect" href="../../d9/dae/classApp_1_1Http_1_1Controllers_1_1DepartmentController.html" title="Gestiona información de Departamentos." alt="" coords="3691,239,3847,404"/>
+<area shape="poly" title=" " alt="" coords="4361,43,4241,49,4093,61,4020,71,3954,85,3899,101,3860,121,3835,145,3815,175,3800,207,3788,239,3783,238,3795,205,3810,172,3831,142,3857,117,3897,96,3952,79,4019,66,4093,56,4241,43,4360,38"/>
+<area shape="rect" href="../../d5/db0/classApp_1_1Http_1_1Controllers_1_1Dev_1_1DevelopmentController.html" title="Controlador para utilidades de desarrollo." alt="" coords="3871,289,4038,354"/>
+<area shape="poly" title=" " alt="" coords="4360,48,4281,58,4190,74,4106,95,4074,107,4051,121,4016,159,3991,204,3973,250,3963,289,3958,288,3968,248,3986,202,4012,156,4048,117,4072,103,4105,90,4188,69,4280,53,4360,42"/>
+<area shape="rect" href="../../dc/dc5/classApp_1_1Http_1_1Controllers_1_1DocumentController.html" title="Gestiona información de Documentos." alt="" coords="4062,219,4207,424"/>
+<area shape="poly" title=" " alt="" coords="4362,52,4290,76,4254,95,4222,121,4203,142,4187,167,4163,220,4158,218,4182,164,4199,139,4218,117,4251,91,4288,71,4360,47"/>
+<area shape="rect" href="../../dd/d1e/classApp_1_1Http_1_1Controllers_1_1DocumentStatusController.html" title="Gestiona información de los estatus de documentos." alt="" coords="4232,249,4419,394"/>
+<area shape="poly" title=" " alt="" coords="4402,85,4350,249,4345,247,4397,83"/>
+<area shape="rect" href="../../dd/d33/classApp_1_1Http_1_1Controllers_1_1EstateController.html" title="Gestiona información de Estados." alt="" coords="4443,249,4562,394"/>
+<area shape="poly" title=" " alt="" coords="4430,83,4482,247,4477,249,4425,85"/>
+<area shape="rect" href="../../dc/d3c/classApp_1_1Http_1_1Controllers_1_1ExchangeRateController.html" title="Gestiona información de tipos de cambio de monedas." alt="" coords="4587,219,4776,424"/>
+<area shape="poly" title=" " alt="" coords="4467,53,4523,78,4551,96,4577,117,4615,164,4645,217,4641,220,4611,167,4573,121,4548,100,4520,83,4465,58"/>
+<area shape="rect" href="../../da/db7/classApp_1_1Http_1_1Controllers_1_1FiscalYearController.html" title="Gestiona información del año fiscal." alt="" coords="4801,179,4943,464"/>
+<area shape="poly" title=" " alt="" coords="4467,42,4549,52,4644,68,4731,89,4765,102,4790,117,4816,144,4836,177,4831,180,4812,148,4786,121,4763,107,4729,94,4643,73,4548,57,4466,47"/>
+<area shape="rect" href="../../d4/ddf/classApp_1_1Http_1_1Controllers_1_1HeadquarterController.html" title="Gestiona información de las sedes." alt="" coords="4967,239,5126,404"/>
+<area shape="poly" title=" " alt="" coords="4467,38,4584,44,4728,57,4800,67,4865,80,4919,96,4958,117,4984,142,5005,172,5021,205,5032,238,5027,239,5016,207,5000,175,4980,145,4954,121,4917,101,4864,85,4799,72,4728,62,4583,49,4466,43"/>
+<area shape="rect" href="../../d4/d5c/classApp_1_1Http_1_1Controllers_1_1ImageController.html" title="Gestiona información de Imágenes." alt="" coords="5150,269,5269,374"/>
+<area shape="poly" title=" " alt="" coords="4467,39,4631,49,4843,65,5034,88,5102,101,5140,116,5170,149,5190,188,5202,230,5209,268,5203,269,5197,231,5185,190,5165,152,5137,121,5100,106,5033,93,4842,70,4631,54,4466,45"/>
+<area shape="rect" href="../../da/d3e/classApp_1_1Http_1_1Controllers_1_1InstitutionController.html" title="Gestiona información de Organizaciones." alt="" coords="5292,279,5441,364"/>
+<area shape="poly" title=" " alt="" coords="4466,38,4660,46,4916,61,5152,84,5235,99,5264,107,5283,116,5301,133,5317,151,5340,194,5355,238,5364,278,5359,279,5350,240,5335,196,5312,154,5297,136,5280,121,5262,112,5234,104,5151,90,4916,67,4659,52,4466,44"/>
+<area shape="rect" href="../../db/dac/classApp_1_1Http_1_1Controllers_1_1InstitutionSectorController.html" title="Gestiona información de los sectores de Organizaciones." alt="" coords="5466,239,5651,404"/>
+<area shape="poly" title=" " alt="" coords="4466,38,4694,44,5004,58,5158,68,5293,81,5396,97,5432,106,5455,116,5484,141,5507,171,5526,204,5540,238,5535,240,5521,207,5503,174,5480,145,5452,121,5430,111,5395,102,5292,87,5157,74,5004,63,4693,49,4466,43"/>
+<area shape="rect" href="../../d3/da7/classApp_1_1Http_1_1Controllers_1_1InstitutionTypeController.html" title="Gestiona información de los tipos de Organizaciones." alt="" coords="5675,239,5850,404"/>
+<area shape="poly" title=" " alt="" coords="4467,37,4735,40,5113,52,5301,62,5467,76,5593,93,5637,104,5665,116,5694,141,5716,171,5734,204,5746,238,5741,240,5729,207,5712,174,5690,145,5663,121,5636,109,5592,99,5466,81,5300,67,5112,57,4735,46,4467,42"/>
+<area shape="rect" href="../../da/d57/classApp_1_1Http_1_1Controllers_1_1MaritalStatusController.html" title="Gestiona información de Estados Civiles." alt="" coords="5875,239,6040,404"/>
+<area shape="poly" title=" " alt="" coords="4466,36,4772,37,5213,46,5434,56,5630,70,5780,90,5831,102,5864,116,5892,141,5914,171,5931,204,5943,238,5938,239,5926,207,5909,174,5888,145,5861,121,5829,107,5779,95,5629,75,5434,61,5213,51,4772,43,4466,42"/>
+<area shape="rect" href="../../d3/d7b/classApp_1_1Http_1_1Controllers_1_1MeasurementUnitController.html" title="Gestiona información de las unidades de medida." alt="" coords="6064,249,6259,394"/>
+<area shape="poly" title=" " alt="" coords="4466,36,4807,36,5307,43,5560,52,5784,67,5956,88,6015,101,6053,116,6085,143,6110,176,6130,212,6145,247,6140,249,6125,214,6106,179,6081,147,6051,121,6014,106,5955,93,5784,72,5560,58,5307,48,4807,41,4466,42"/>
+<area shape="rect" href="../../d5/d6f/classApp_1_1Http_1_1Controllers_1_1MunicipalityController.html" title="Gestiona información de Municipios." alt="" coords="6283,249,6442,394"/>
+<area shape="poly" title=" " alt="" coords="4467,37,4862,44,5451,59,5744,70,5998,82,6184,98,6242,107,6272,116,6302,143,6324,176,6341,212,6352,248,6347,249,6336,214,6320,179,6298,147,6269,121,6240,112,6183,103,5998,88,5744,75,5451,64,4862,49,4466,43"/>
+<area shape="rect" href="../../dc/d5a/classApp_1_1Http_1_1Controllers_1_1NotificationSettingController.html" title="Gestiona información para la configuración de notificaciones del sistema." alt="" coords="6466,229,6665,414"/>
+<area shape="poly" title=" " alt="" coords="4466,37,4896,44,5545,58,5870,68,6151,82,6357,97,6422,106,6456,116,6484,139,6507,166,6526,196,6541,227,6536,230,6521,199,6503,169,6480,142,6453,121,6421,112,6357,103,6151,87,5869,74,5545,63,4896,49,4466,43"/>
+<area shape="rect" href="../../da/d56/classApp_1_1Http_1_1Controllers_1_1ParameterController.html" title="Gestiona información para la configuración de parámetros del sistema." alt="" coords="6689,269,6834,374"/>
+<area shape="poly" title=" " alt="" coords="4466,37,4938,41,5661,53,6024,63,6339,76,6569,94,6641,104,6679,116,6711,148,6734,187,6749,229,6758,268,6753,269,6744,231,6729,190,6707,151,6676,121,6640,110,6569,99,6339,82,6024,68,5661,58,4938,46,4466,42"/>
+<area shape="rect" href="../../dc/df9/classApp_1_1Http_1_1Controllers_1_1ParishController.html" title="Gestiona información de Parroquias." alt="" coords="6859,249,6976,394"/>
+<area shape="poly" title=" " alt="" coords="4466,37,4970,39,5749,49,6141,59,6482,73,6730,92,6808,103,6848,116,6875,144,6894,177,6907,213,6915,248,6909,249,6902,214,6889,179,6871,147,6845,121,6807,108,6730,97,6481,78,6141,64,5749,55,4970,44,4466,42"/>
+<area shape="rect" href="../../de/d2c/classApp_1_1Http_1_1Controllers_1_1ProfessionController.html" title="Gestiona información de Profesiones." alt="" coords="7000,239,7147,404"/>
+<area shape="poly" title=" " alt="" coords="4466,37,4996,39,5821,49,6237,59,6599,73,6864,91,6946,103,6989,116,7016,141,7037,171,7052,204,7063,238,7058,239,7047,206,7032,174,7012,145,6987,121,6945,108,6863,97,6599,78,6237,64,5821,54,4996,44,4466,42"/>
+<area shape="rect" href="../../d7/d25/classApp_1_1Http_1_1Controllers_1_1ProfileController.html" title="Gestiona información de Perfiles de usuario." alt="" coords="7171,289,7290,354"/>
+<area shape="poly" title=" " alt="" coords="4466,37,5028,37,5910,45,6355,55,6743,69,6900,78,7026,89,7114,102,7143,109,7160,116,7179,134,7195,154,7216,200,7228,248,7232,288,7227,289,7222,249,7211,202,7190,157,7175,137,7157,121,7141,114,7113,107,7026,94,6900,83,6743,74,6355,60,5910,50,5028,42,4466,42"/>
+<area shape="rect" href="../../da/d07/classApp_1_1Http_1_1Controllers_1_1ReceiverController.html" title="Gestiona información de receptores." alt="" coords="7313,219,7455,424"/>
+<area shape="poly" title=" " alt="" coords="4467,36,5055,37,5983,44,6454,54,6863,68,7029,77,7162,88,7256,101,7286,109,7304,116,7327,137,7345,162,7359,189,7370,217,7365,219,7354,191,7341,164,7323,140,7301,121,7284,114,7255,107,7162,94,7029,83,6862,73,6453,59,5983,50,5055,42,4467,42"/>
+<area shape="rect" href="../../d6/d1c/classApp_1_1Http_1_1Controllers_1_1ReportController.html" title="Gestiona información de reportes de la aplicación." alt="" coords="7479,269,7601,374"/>
+<area shape="poly" title=" " alt="" coords="4467,37,5096,45,6093,61,6595,72,7028,85,7336,100,7427,108,7468,116,7499,148,7520,187,7533,229,7539,268,7534,269,7527,230,7515,189,7495,151,7465,121,7427,113,7336,105,7028,90,6595,77,6093,66,5096,50,4467,43"/>
+<area shape="rect" href="../../d4/da0/classApp_1_1Http_1_1Controllers_1_1RequiredDocumentController.html" title="Gestiona información de documentos requeridos." alt="" coords="7625,249,7828,394"/>
+<area shape="poly" title=" " alt="" coords="4467,36,5110,37,6140,44,6663,53,7120,68,7306,77,7455,88,7560,101,7594,108,7615,116,7647,143,7673,175,7694,212,7709,247,7704,249,7689,214,7669,178,7643,146,7612,121,7592,114,7559,106,7454,94,7305,83,7119,73,6663,59,6140,49,5110,42,4467,42"/>
+<area shape="rect" href="../../d3/d5a/classApp_1_1Http_1_1Controllers_1_1Services_1_1LocatesController.html" title="Gestiona información de servicios de localización." alt="" coords="7853,239,8003,404"/>
+<area shape="poly" title=" " alt="" coords="4466,37,5164,44,6286,60,6853,70,7342,83,7692,99,7795,107,7841,116,7869,141,7890,171,7905,204,7917,237,7911,239,7901,206,7885,174,7865,144,7839,121,7794,112,7691,104,7342,89,6853,76,6286,65,5163,49,4466,42"/>
+<area shape="rect" href="../../dc/dc4/classApp_1_1Http_1_1Controllers_1_1Services_1_1MessageController.html" title="Gestiona los mensajes del sistema." alt="" coords="8028,289,8164,354"/>
+<area shape="poly" title=" " alt="" coords="4466,37,5196,43,6378,58,6975,69,7491,82,7860,98,7969,106,8017,116,8037,133,8053,154,8076,200,8090,247,8096,288,8091,289,8085,248,8071,202,8049,156,8033,137,8015,121,7968,112,7859,103,7491,87,6975,74,6377,63,5196,49,4466,42"/>
+<area shape="rect" href="../../d2/d85/classApp_1_1Http_1_1Controllers_1_1Services_1_1NotificationsController.html" title="Gestiona información de las notificaciones." alt="" coords="8188,239,8348,404"/>
+<area shape="poly" title=" " alt="" coords="4467,37,5225,43,6460,58,7086,68,7626,82,8012,97,8126,106,8177,116,8205,141,8227,171,8243,204,8255,238,8250,239,8238,206,8222,174,8201,144,8175,121,8126,112,8012,103,7626,87,7086,74,6460,63,5225,48,4466,42"/>
+<area shape="rect" href="../../de/d81/classApp_1_1Http_1_1Controllers_1_1TaxController.html" title="Gestiona información de Impuestos." alt="" coords="8372,219,8532,424"/>
+<area shape="poly" title=" " alt="" coords="4466,37,5258,43,6555,56,7213,67,7781,80,8187,97,8308,106,8361,116,8385,137,8405,161,8420,189,8432,217,8427,219,8416,191,8401,164,8382,140,8359,121,8307,111,8187,102,7781,86,7212,72,6555,62,5258,48,4466,42"/>
+<area shape="rect" href="../../d3/d67/classApp_1_1Http_1_1Controllers_1_1TaxUnitController.html" title="Gestiona información de Unidades Tributarias (U.T.)" alt="" coords="8557,249,8683,394"/>
+<area shape="poly" title=" " alt="" coords="4467,37,5293,41,6652,54,7341,64,7937,78,8363,95,8489,105,8527,110,8545,116,8573,143,8593,177,8607,213,8616,248,8610,249,8602,214,8589,179,8569,147,8543,121,8525,116,8489,110,8363,100,7937,83,7341,70,6652,59,5293,47,4467,42"/>
 </map>
 </div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="../../closed.png" alt="+"/> Diagrama de colaboración para Controller:</div>
+  <img id="dynsection-1-trigger" src="../../closed.png" alt="+"/> Diagrama de colaboración de Controller:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../d4/d71/classApp_1_1Http_1_1Controllers_1_1Controller__coll__graph.png" border="0" usemap="#aController_coll__map" alt="Collaboration graph"/></div>
 <map name="aController_coll__map" id="aController_coll__map">
-<area shape="rect" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="5,5,92,83"/>
+<area shape="rect" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="5,5,84,71"/>
 </map>
 </div>
 <a name="details" id="details"></a><h2 class="groupheader">Descripción detallada</h2>
@@ -174,8 +225,8 @@ $(document).ready(function(){initNavTree('d8/d70/classApp_1_1Http_1_1Controllers
 <p>Controlador principal</p>
 <dl class="section author"><dt>Autor</dt><dd><a class="el" href="../../db/d99/namespaceLaravel.html" title="Laravel - A PHP Framework For Web Artisans.">Laravel</a> Framework </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="../../da/d82/Controller_8php_source.html#l00020">20</a> del archivo <a class="el" href="../../da/d82/Controller_8php_source.html">Controller.php</a>.</p>
-</div><hr/>La documentación para esta clase fue generada a partir del siguiente fichero:<ul>
+<p class="definition">Definición en la línea <a class="el" href="../../da/d82/Controller_8php_source.html#l00018">18</a> del archivo <a class="el" href="../../da/d82/Controller_8php_source.html">Controller.php</a>.</p>
+</div><hr/>La documentación de esta clase está generada del siguiente archivo:<ul>
 <li><a class="el" href="../../da/d82/Controller_8php_source.html">Controller.php</a></li>
 </ul>
 </div><!-- contents -->
@@ -184,7 +235,7 @@ $(document).ready(function(){initNavTree('d8/d70/classApp_1_1Http_1_1Controllers
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>App</b></li><li class="navelem"><b>Http</b></li><li class="navelem"><b>Controllers</b></li><li class="navelem"><a class="el" href="../../d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html">Controller</a></li>
-    <li class="footer">Generado el Sábado, 4 de Noviembre de 2023 16:16:43 para KAVAC por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

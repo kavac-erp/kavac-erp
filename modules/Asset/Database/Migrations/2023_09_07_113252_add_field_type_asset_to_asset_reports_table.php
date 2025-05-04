@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldTypeAssetToAssetReportsTable
- * @brief [descripción detallada]
+ * @brief Migración para agregar el campo type_asset a la tabla asset_reports
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

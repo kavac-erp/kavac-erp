@@ -1,7 +1,5 @@
 <?php
 
-/** Middlewares base de la aplicación */
-
 namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
@@ -17,14 +15,14 @@ class VerifyCsrfToken extends Middleware
     /**
      * Indica si la cookie XSRF-TOKEN debe establecerse en la respuesta.
      *
-     * @var bool
+     * @var bool $addHttpCookie
      */
     protected $addHttpCookie = true;
 
     /**
      * Las URL que deben excluirse de la verificación CSRF.
      *
-     * @var array
+     * @var array $except
      */
     protected $except = [
         'unlockscreen'

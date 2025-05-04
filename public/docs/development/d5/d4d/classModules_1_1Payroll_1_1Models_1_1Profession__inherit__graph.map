@@ -1,0 +1,5 @@
+<map id="Profession" name="Profession">
+<area shape="rect" id="Node000001" title="Extiende del modelo de Profession de la aplicación base." alt="" coords="5,159,176,224"/>
+<area shape="rect" id="Node000002" href="$d4/d55/classApp_1_1Models_1_1Profession.html" title="Datos de Profesiones." alt="" coords="49,5,132,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,124,93,159,88,159,88,124"/>
+</map>

@@ -1,8 +1,9 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Illuminate\Support\ServiceProvider;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -20,21 +21,19 @@ class $CLASS$ extends ServiceProvider
     /**
      * Indica el nombre del modulo
      *
-     * @var string $moduleName Nombre del módulo
+     * @var string $moduleName
      */
     protected $moduleName = '$MODULE$';
 
     /**
      * Indica el nombre del módulo en minúsculas
      *
-     * @var string $moduleNameLower Nombre del módulo en minúsculas
+     * @var string $moduleNameLower
      */
     protected $moduleNameLower = '$LOWER_NAME$';
 
     /**
      * Inicia los eventos del módulo en la aplicación.
-     *
-     * @method boot
      *
      * @return void
      */
@@ -50,8 +49,6 @@ class $CLASS$ extends ServiceProvider
     /**
      * Registra el proveedor de servicios del módulo.
      *
-     * @method register
-     *
      * @return void
      */
     public function register()
@@ -61,8 +58,6 @@ class $CLASS$ extends ServiceProvider
 
     /**
      * Registra la configuración del módulo.
-     *
-     * @method registerConfig
      *
      * @return void
      */
@@ -78,8 +73,6 @@ class $CLASS$ extends ServiceProvider
 
     /**
      * Registra las vistas del módulo.
-     *
-     * @method registerViews
      *
      * @return void
      */
@@ -99,8 +92,6 @@ class $CLASS$ extends ServiceProvider
     /**
      * Registra las traducciones del módulo.
      *
-     * @method registerTranslations
-     *
      * @return void
      */
     public function registerTranslations()
@@ -117,8 +108,6 @@ class $CLASS$ extends ServiceProvider
     /**
      * Registra directorios adicionales para los factories del módulo.
      *
-     * @method registerFactories
-     *
      * @return void
      */
     public function registerFactories()
@@ -131,8 +120,6 @@ class $CLASS$ extends ServiceProvider
     /**
      * Obtiene los servicios proporcionados por el proveedor.
      *
-     * @method provides
-     *
      * @return array
      */
     public function provides()
@@ -142,8 +129,6 @@ class $CLASS$ extends ServiceProvider
 
     /**
      * Obtiene las rutas de los módulos
-     *
-     * @method    getPublishableViewPaths
      *
      * @author    [Nombre del autor] [correo del autor]
      *

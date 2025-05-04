@@ -1,0 +1,8 @@
+<map id="getAccountParents" name="getAccountParents">
+<area shape="rect" id="Node000001" title="Método para buscar las cuentas padre de una formulación." alt="" coords="208,29,351,55"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="303,18,296,11,279,8,265,10,258,15,256,20,260,28,256,30,251,21,253,11,263,5,279,3,299,6,307,15"/>
+<area shape="rect" id="Node000002" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a5c0379fc68799a3f32447bd6760dcd02" title="Genera el reporte en pdf de estado de resultados." alt="" coords="117,29,160,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="194,45,161,45,161,39,194,39"/>
+<area shape="rect" id="Node000003" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a23d7453ab9e51eca5ab50a38ce4a84c0" title="Genera el reporte en hojade calculo de estado de resultados." alt="" coords="5,29,69,55"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="103,45,70,45,70,39,103,39"/>
+</map>

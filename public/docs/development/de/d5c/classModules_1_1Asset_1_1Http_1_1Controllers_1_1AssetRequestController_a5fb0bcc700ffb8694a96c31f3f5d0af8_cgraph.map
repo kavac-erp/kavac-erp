@@ -1,0 +1,9 @@
+<map id="store" name="store">
+<area shape="rect" id="Node000001" title="Valida y registra una nueva solicitud de bienes institucionales." alt="" coords="5,45,60,70"/>
+<area shape="rect" id="Node000002" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#a722186532257dcbec79866616e82e115" title="Instrucciones para verificar y subir un documento a la ruta indicada en el servidor." alt="" coords="116,5,323,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,50,102,43,103,48,61,55"/>
+<area shape="rect" id="Node000003" href="$d8/d99/classApp_1_1Repositories_1_1UploadImageRepository.html#a01c7d99692e9d1d3dde729a9372885ba" title="Instrucciones para verificar y subir una imagen a la ruta indicada en el servidor." alt="" coords="108,69,331,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="61,59,95,65,94,70,60,65"/>
+<area shape="rect" id="Node000004" href="$d8/d99/classApp_1_1Repositories_1_1UploadImageRepository.html#a39a17d15acae0f6320bf0213a38ffe0f" title="Verifica que el tamaño de la imagen corresponda con el mínimo y máximo permitido." alt="" coords="379,69,601,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="331,87,365,87,365,92,331,92"/>
+</map>

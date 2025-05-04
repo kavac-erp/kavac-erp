@@ -1,11 +1,10 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DocumentStatus;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -15,6 +14,7 @@ use Illuminate\Support\Facades\Cache;
  * Controlador para gestionar los estatus de documentos
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -23,13 +23,11 @@ class DocumentStatusController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:document.status.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:document.status.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:document.status.delete', ['only' => 'destroy']);
@@ -38,8 +36,6 @@ class DocumentStatusController extends Controller
 
     /**
      * Listado con todos los estatus de los documentos
-     *
-     * @method    index
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -53,8 +49,6 @@ class DocumentStatusController extends Controller
 
     /**
      * Registra un nuevo estatus de documento
-     *
-     * @method    store
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -81,7 +75,7 @@ class DocumentStatusController extends Controller
             'action.unique' => __('La acción ya ha sido registrada')
         ]);
 
-        /** @var DocumentStatus Objeto con los datos del estatus de documentos creado */
+        // Objeto con los datos del estatus de documentos creado
         $documentStatus = DocumentStatus::create([
             'name' => $request->name,
             'description' => $request->description,
@@ -94,8 +88,6 @@ class DocumentStatusController extends Controller
 
     /**
      * Actualiza la información del estatus de documento
-     *
-     * @method    update
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -127,8 +119,6 @@ class DocumentStatusController extends Controller
 
     /**
      * Elimina el estatus de documento
-     *
-     * @method    destroy
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

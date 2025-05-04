@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class UpdateFieldsToPayrollEmploymentsTable
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -31,7 +29,7 @@ class UpdateFieldsToPayrollEmploymentsTable extends Migration
                     $table->dropForeign(['payroll_staff_id']);
                 }
             });
-            
+
             Schema::table('payroll_employments', function (Blueprint $table) {
                 if (Schema::hasColumn('payroll_employments', 'payroll_staff_id')) {
                     $table->foreign('payroll_staff_id')->references('id')->on('payroll_staffs')->unique()->comment('Identificador del dato personal')->constrained()->onDelete('cascade')->onUpdate('cascade');
@@ -54,7 +52,7 @@ class UpdateFieldsToPayrollEmploymentsTable extends Migration
                     $table->dropForeign(['payroll_staff_id']);
                 }
             });
-            
+
             Schema::table('payroll_employments', function (Blueprint $table) {
                 if (Schema::hasColumn('payroll_employments', 'payroll_staff_id')) {
                     $table->foreign('payroll_staff_id')->references('id')->on('payroll_staffs')->unique()->comment('Identificador del dato personal')->constrained()->onUpdate('cascade')->onDelete('restrict');

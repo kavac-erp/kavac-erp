@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class CreateCitizenServiceEffectTypesTable
- * @brief [descripción detallada]
+ * @brief Crea la tabla de tipos de impactos para las solicitudes de servicio
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Yenifer Ramírez <yramirez@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -30,7 +28,7 @@ class CreateCitizenServiceEffectTypesTable extends Migration
 
                 $table->string('name')->comment('Nombre del tipo de impacto');
                 $table->string('description')->nullable()->comment('Descripción del tipo de impacto');
-                
+
                 $table->timestamps();
                 $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');
             });

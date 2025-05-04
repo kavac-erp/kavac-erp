@@ -2,34 +2,31 @@
 
 namespace Modules\Budget\Http\Controllers;
 
-use App\Models\CodeSetting;
-use App\Models\DocumentStatus;
 use App\Models\Tax;
-use App\Models\Receiver;
 use App\Models\Source;
+use App\Models\Receiver;
 use App\Models\FiscalYear;
-use App\Models\Profile;
-use App\Repositories\ReportRepository;
-use App\Rules\DateBeforeFiscalYear;
-use Modules\Budget\Models\Institution;
-use Modules\Budget\Models\Currency;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Models\HistoryTax;
+use App\Models\CodeSetting;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Models\DocumentStatus;
+use Illuminate\Validation\Rule;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
-use Modules\Budget\Http\Controllers\BudgetSpecificActionController;
-use Modules\Budget\Models\BudgetAccountOpen;
-use Modules\Budget\Models\BudgetCompromise;
-use Modules\Budget\Models\BudgetCompromiseDetail;
-use Modules\Budget\Models\BudgetSpecificAction;
-use Modules\Budget\Models\BudgetStage;
-use Modules\Accounting\Models\AccountingEntry;
-use Modules\Accounting\Models\AccountingEntryable;
-use Modules\Accounting\Models\AccountingEntryAccount;
-use Modules\Accounting\Models\AccountingEntryCategory;
+use App\Rules\DateBeforeFiscalYear;
+use Illuminate\Support\Facades\Log;
 use Nwidart\Modules\Facades\Module;
+use App\Repositories\ReportRepository;
+use Modules\Budget\Models\BudgetStage;
+use Modules\Budget\Models\Institution;
+use Modules\Budget\Models\BudgetCompromise;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Budget\Models\BudgetAccountOpen;
+use Modules\Budget\Models\BudgetSpecificAction;
+use Modules\Budget\Models\BudgetCompromiseDetail;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class BudgetCompromiseController extends Controller
 {
@@ -38,14 +35,14 @@ class BudgetCompromiseController extends Controller
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
      *
-     * @var Array $validateRules
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
      *
-     * @var Array $messages
+     * @var array $messages
      */
     protected $messages;
 
@@ -53,12 +50,12 @@ class BudgetCompromiseController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /**
-         * Define las reglas de validación para el formulario
-         * */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'institution_id' => ['required'],
             'compromised_at' => ['required', 'date'],
@@ -71,20 +68,12 @@ class BudgetCompromiseController extends Controller
                     DocumentStatus::where('action', 'AN')->first()->id
                 )
             ],
-            /*
-            'source_document' => [
-                'required',
-                'unique_with:budget_compromises,document_number,document_status_id,created_at'
-            ],
-            */
             'description' => ['required'],
             'accounts.*.account_id' => ['required'],
             'accounts.*.specific_action_id' => ['required'],
         ];
 
-        /**
-         * Define los mensajes de validación para las reglas del formulario
-         * */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'institution_id.required' => 'El campo institución es obligatorio.',
             'compromised_at.required' => 'El campo fecha es obligatorio.',
@@ -95,9 +84,7 @@ class BudgetCompromiseController extends Controller
             // 'accounts.*.specific_action_id.required' => 'El campo acción específica es obligatorio',
             // 'accounts.*.account_id.required' => 'El campo cuenta es obligatorio',
         ];
-        /**
-         * Establece permisos de acceso para cada método del controlador
-         */
+        /* Establece permisos de acceso para cada método del controlador */
         $this->middleware('permission:budget.compromise.index', ['only' => 'index']);
         $this->middleware('permission:budget.compromise.store', ['only' => 'store']);
         $this->middleware('permission:budget.compromise.update', ['only' => 'update']);
@@ -107,7 +94,7 @@ class BudgetCompromiseController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Muestra la lista de compromisos
      *
      * @return Renderable
      */
@@ -117,7 +104,7 @@ class BudgetCompromiseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear un nuevo compromiso
      *
      * @return Renderable
      */
@@ -127,11 +114,11 @@ class BudgetCompromiseController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena información del compromiso
      *
-     * @param Request $request Datos de la petición HTTP
+     * @param Request $request Datos de la petición
      *
-     * @return Renderable
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -149,8 +136,8 @@ class BudgetCompromiseController extends Controller
         }
 
         for ($i = 0; $i < count($request->input('accounts')); $i++) {
-            $this->messages['accounts.' . $i . '.account_id.required'] = 'El campo cuenta con ID: '. $request->input('accounts.' . $i . '.budget_tax_key') . ' es obligatorio.';
-            $this->messages['accounts.' . $i . '.specific_action_id.required'] = 'El campo acción específica con ID: '. $request->input('accounts.' . $i . '.budget_tax_key') . ' es obligatorio.';
+            $this->messages['accounts.' . $i . '.account_id.required'] = 'El campo cuenta con ID: ' . $request->input('accounts.' . $i . '.budget_tax_key') . ' es obligatorio.';
+            $this->messages['accounts.' . $i . '.specific_action_id.required'] = 'El campo acción específica con ID: ' . $request->input('accounts.' . $i . '.budget_tax_key') . ' es obligatorio.';
         }
 
         $this->validate($request, $this->validateRules, $this->messages);
@@ -207,18 +194,10 @@ class BudgetCompromiseController extends Controller
 
         DB::transaction(
             function () use ($request, $code, $codeStage, $compromisedYear, $existAccounting) {
-                /**
-                 * Proceso de transacción para obtener estado del documento
-                 *
-                 * @var Object Estado inicial del compromiso establecido a PROCESADO//Por Aprobar
-                 * */
+                /* Proceso de transacción para obtener estado del documento. Estado inicial del compromiso establecido a PROCESADO / Por Aprobar */
                 $documentStatus = DocumentStatus::withTrashed()->where('action', 'PR')->first();
 
-                /**
-                 * Obtener datos del compromiso
-                 *
-                 * @var Object Datos del compromiso
-                 * */
+                /* Datos del compromiso */
                 $compromise = BudgetCompromise::create(
                     [
                         'document_number' => $request->source_document,
@@ -257,20 +236,17 @@ class BudgetCompromiseController extends Controller
 
                 $total = 0;
                 $totalEdit = 0;
-                /**
-                 * Gestiona los ítems del compromiso
-                 * */
+                /* Gestiona los ítems del compromiso */
                 foreach ($request->accounts as $account) {
                     $spac = BudgetSpecificAction::find($account['specific_action_id']);
                     $formulation = $spac->subSpecificFormulations()->where('year', $compromisedYear)->first();
                     $tax = (isset($account['account_tax_id']) || isset($account['tax_id']))
                     ? Tax::find($account['account_tax_id'] ?? $account['tax_id'])
                     : new Tax();
-                    $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new Tax();
+                    $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new HistoryTax();
                     $taxAmount = ($account['amount'] * (($taxHistory) ? $taxHistory->percentage : 0)) / 100;
 
-                    $compromise->budgetCompromiseDetails()->create(
-                        [
+                    $compromise->budgetCompromiseDetails()->create([
                         'description' => $account['description'],
                         'amount' => $account['amount'],
                         'tax_amount' => $taxAmount,
@@ -278,8 +254,7 @@ class BudgetCompromiseController extends Controller
                         'budget_account_id' => $account['account_id'],
                         'budget_sub_specific_formulation_id' => $formulation->id,
                         'budget_tax_key' => $account['budget_tax_key'],
-                        ]
-                    );
+                    ]);
                     $total += ($account['amount'] + $taxAmount);
                     $totalEdit = ($account['amount'] + $taxAmount);
 
@@ -296,8 +271,7 @@ class BudgetCompromiseController extends Controller
                     $spac = BudgetSpecificAction::find($taxAccount['specific_action_id']);
                     $formulation = $spac->subSpecificFormulations()->where('year', $compromisedYear)->first();
 
-                    $compromise->budgetCompromiseDetails()->create(
-                        [
+                    $compromise->budgetCompromiseDetails()->create([
                         'description' => $taxAccount['description'],
                         'amount' => $taxAccount['amount'],
                         'tax_amount' => $taxAccount['amount'],
@@ -305,8 +279,7 @@ class BudgetCompromiseController extends Controller
                         'budget_account_id' => $taxAccount['account_id'],
                         'budget_sub_specific_formulation_id' => $formulation->id,
                         'budget_tax_key' => $taxAccount['budget_tax_key'],
-                        ]
-                    );
+                    ]);
 
                     $total += $taxAccount['amount'];
                     $totalEdit = $taxAccount['amount'];
@@ -320,14 +293,12 @@ class BudgetCompromiseController extends Controller
                     }
                 }
 
-                $compromise->budgetStages()->create(
-                    [
+                $compromise->budgetStages()->create([
                     'code' => $code,
                     'registered_at' => $request->compromised_at,
                     'type' => 'COM',
                     'amount' => $total,
-                    ]
-                );
+                ]);
                 $request->session()->flash('message', ['type' => 'store']);
             }
         );
@@ -336,23 +307,28 @@ class BudgetCompromiseController extends Controller
     }
 
     /**
-     * Show the specified resource.
+     * Obtiene los detalles de un compromiso
      *
-     * @return Renderable
+     * @return JsonResponse
      */
-    public function show()
+    public function show($id)
     {
-        //return view('budget::show');
+        $budget_compromise = BudgetCompromise::find($id);
+
+        return response()->json([
+            'result' => true,
+            'budget_compromise' => $budget_compromise,
+        ], 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @author Francisco Escala <fescala@cenditel.gob.ve>
+     *
      * @param $id Identificador del registro
      *
      * @return Renderable
-     *
-     * @author Francisco Escala
      */
     public function edit($id)
     {
@@ -375,7 +351,7 @@ class BudgetCompromiseController extends Controller
         ->find($id);
 
         if (!$budgetCompromise) {
-            return abort(403);
+            abort(403);
         }
 
         if (Module::has('Finance') && Module::isEnabled('Finance')) {
@@ -386,7 +362,7 @@ class BudgetCompromiseController extends Controller
                 ->first();
 
             if ($payOrder) {
-                return abort(403);
+                abort(403);
             }
         }
 
@@ -402,13 +378,13 @@ class BudgetCompromiseController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza los datos de un compromiso
      *
-     * @param Request $request Datos de la petición HTTP
+     * @author Francisco Escala <fescala@cenditel.gob.ve>
      *
-     * @author Francisco Escala
+     * @param Request $request Datos de la petición
      *
-     * @return Renderable
+     * @return JsonResponse
      */
     public function update(Request $request)
     {
@@ -446,16 +422,14 @@ class BudgetCompromiseController extends Controller
 
         $this->validateRules['source_document'] = [
             'required',
-            // 'unique:budget_compromises,document_number,' . $budget->id
-            Rule::unique('budget_compromises', 'document_number')
-            ->whereNot(
+            Rule::unique('budget_compromises', 'document_number')->whereNot(
                 'document_status_id',
                 DocumentStatus::where('action', 'AN')->first()->id
             )->ignore($budget->id)
         ];
         for ($i = 0; $i < count($request->input('accounts')); $i++) {
-            $this->messages['accounts.' . $i . '.account_id.required'] = 'El campo cuenta con ID: '. $request->input('accounts.' . $i . '.budget_tax_key') . ' es obligatorio.';
-            $this->messages['accounts.' . $i . '.specific_action_id.required'] = 'El campo acción específica con ID: '. $request->input('accounts.' . $i . '.budget_tax_key') . ' es obligatorio.';
+            $this->messages['accounts.' . $i . '.account_id.required'] = 'El campo cuenta con ID: ' . $request->input('accounts.' . $i . '.budget_tax_key') . ' es obligatorio.';
+            $this->messages['accounts.' . $i . '.specific_action_id.required'] = 'El campo acción específica con ID: ' . $request->input('accounts.' . $i . '.budget_tax_key') . ' es obligatorio.';
         }
         $this->validate($request, $this->validateRules, $this->messages);
 
@@ -496,9 +470,7 @@ class BudgetCompromiseController extends Controller
         $total = 0;
         $totalEdit = 0;
 
-        /**
-         * Gestiona los ítems del compromiso
-         * */
+        /* Gestiona los ítems del compromiso */
         $deleted = BudgetCompromiseDetail::where('budget_compromise_id', $request->id)->delete();
 
         foreach ($request->accounts as $account) {
@@ -507,7 +479,7 @@ class BudgetCompromiseController extends Controller
             $tax = (isset($account['account_tax_id']) || isset($account['tax_id']))
             ? Tax::find($account['account_tax_id'] ?? $account['tax_id'])
             : new Tax();
-            $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new Tax();
+            $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new HistoryTax();
             $taxAmount = ($account['amount'] * (($taxHistory) ? $taxHistory->percentage : 0)) / 100;
 
             $budget->budgetCompromiseDetails()->Create(
@@ -723,19 +695,15 @@ class BudgetCompromiseController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina el compromiso de presupuesto
      *
      * @param $id Identificador del registro
      *
-     * @return Renderable
+     * @return JsonResponse
      */
     public function destroy($id)
     {
-        /**
-         * Búsqueda compromiso de presupuesto y año de compromiso
-         *
-         * @var object Objeto con información del compromiso a eliminar
-         * */
+        /* Objeto con información del compromiso a eliminar */
         $budgetCompromise = BudgetCompromise::with('budgetStages')->find($id);
         $compromisedYear = explode("-", $budgetCompromise->compromised_at)[0];
 
@@ -746,7 +714,7 @@ class BudgetCompromiseController extends Controller
             )->first();
 
             if ($payOrder) {
-                return abort(403);
+                abort(403);
             }
         }
 
@@ -783,11 +751,10 @@ class BudgetCompromiseController extends Controller
             if ($budgetCompromise->sourceable_type != '' && $budgetCompromise->sourceable_type != null) {
                 $budgetCompromise->budgetStages[0]['type'] = 'PRE';
                 $budgetCompromise->budgetStages[0]->save();
-                $budgetCompromiseDetailsDelete = BudgetCompromiseDetail::where('budget_compromise_id', $id)->delete();
             } else {
                 $budgetCompromise->delete();
-                $budgetCompromiseDetailsDelete = BudgetCompromiseDetail::where('budget_compromise_id', $id)->delete();
             }
+            BudgetCompromiseDetail::where('budget_compromise_id', $id)->delete();
         }
 
         return response()->json(['record' => $budgetCompromise, 'message' => 'Success'], 200);
@@ -797,7 +764,8 @@ class BudgetCompromiseController extends Controller
      * Obtiene los registros a mostrar en listados de componente Vue
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @return \Illuminate\Http\JsonResponse Devuelve un JSON con la información de las formulaciones
+     *
+     * @return JsonResponse
      */
     public function vueList(Request $request)
     {
@@ -847,6 +815,8 @@ class BudgetCompromiseController extends Controller
                     $record->exist_pay_order = true;
                     $record->status_pay_order = $payOrder->status_aux;
                 }
+
+                $record->is_banking_movement = $this->isBankingMovementApproved($record);
             }
         }
 
@@ -864,34 +834,48 @@ class BudgetCompromiseController extends Controller
     /**
      * Obtiene las fuentes de documentos que aún no han sido comprometidos, solo (PRE)comprometidos y/o (PRO)gramados
      *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param integer $institution_id Identificador de la institución
      * @param string  $year           Año de ejercicio económico
      *
-     * @method getDocumentSources
-     *     *
-     * @return \Illuminate\Http\JsonResponse    Devuelve un JSON con la información de registros por comprometer
-     *
-     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     * @return JsonResponse|Response
      */
     public function getDocumentSources($institution_id, $year)
     {
-        /**
-         * Obtener fuentes de documentos
-         *
-         * @var object Obtiene todos los registros de fuentes de documentos que aún no han sido comprometidos
-         * */
-        $compromises = BudgetCompromise::where('institution_id', $institution_id)->with(
+        /* Obtiene todos los registros de fuentes de documentos que aún no han sido comprometidos */
+        $compromises = BudgetCompromise::query()
+        ->where('institution_id', $institution_id)
+        ->whereHas(
+            'budgetStages',
+            function ($query) {
+                $query->where('type', 'PRE');
+            }
+        )
+        ->with(
             [
             'budgetCompromiseDetails.budgetSubSpecificFormulation',
             'sourceable',
             'budgetStages',
             ]
-        )->whereHas(
-            'budgetStages',
-            function ($query) {
-                $query->where('type', 'PRE');
+        )
+        ->get()
+        ->filter(function ($compromise) {
+            if (Module::has('Payroll') && Module::isEnabled('Payroll')) {
+                if ($compromise->sourceable_type == "Modules\Payroll\Models\Payroll") {
+                    $payroll = \Modules\Payroll\Models\Payroll::where([
+                        "id" => $compromise->sourceable_id,
+                        'code' => $compromise->document_number,
+                    ])->first();
+
+                    if ($payroll && $payroll->payrollPaymentPeriod && $payroll->payrollPaymentPeriod->availability_status == 'AP' && $payroll->payrollPaymentPeriod->payment_status == 'generated') {
+                        return true;
+                    }
+                    return false;
+                }
             }
-        )->get();
+            return true;
+        })->values();
 
         return response(['records' => $compromises], 200);
     }
@@ -899,26 +883,16 @@ class BudgetCompromiseController extends Controller
     /**
      * Valida que el monto de las cuentas no excendan el monto existente
      *
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @param Request $request campos que provienen del formulario
      *
-     * @method validateMaxAmount
-     * *
-     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * *
-     * @return \Illuminate\Http\JsonResponse    Devuelve un JSON con la información de registros por agregar
+     * @return Response
      */
     public function validateMaxAmount(Request $request)
     {
-        $tax = (isset($request->tax_account_id))
-        ? Tax::find($request->tax_account_id)
-        : new Tax();
-        $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new Tax();
-        $taxAmount = ($request->account_amount * (($taxHistory) ? $taxHistory->percentage : 0)) / 100;
-
-        $accountAmount = $request->tax_account_id
-            ? (float)$request->account_amount + (float)$taxAmount : $request->account_amount;
-
         $usedAmount = 0;
+        $totalAccountAmount = $request->account_amount_original + $request->selected_account_amount;
 
         if (count($request->use_accounts) > 0) {
             foreach ($request->use_accounts as $account) {
@@ -948,7 +922,7 @@ class BudgetCompromiseController extends Controller
                 $tax = (isset($request->tax_account_id))
                 ? Tax::find($request->tax_account_id)
                 : new Tax();
-                $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new Tax();
+                $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new HistoryTax();
                 $taxAmountEdit = ((float)$request->account_amount_original
                     * (($taxHistory) ? $taxHistory->percentage : 0)) / 100;
             }
@@ -957,9 +931,15 @@ class BudgetCompromiseController extends Controller
                 $amountEdit = $request->use_accounts[$request->editIndex]['amount'];
             }
         }
-        $usedAmount = (float)$usedAmount - (float)$amountEdit - (float)$taxAmountEdit;
 
-        if ((float)$usedAmount + (float)$accountAmount > (float)$request->selected_account_amount) {
+        $usedAmount = (float)$usedAmount - (float)$amountEdit - (float)$taxAmountEdit;
+        $amount = (float)$request->account_amount + (float)$usedAmount;
+
+        if (is_numeric($request->id) && is_numeric($request->editIndex)) {
+            $amount = (float)$request->account_amount;
+        }
+
+        if ((string)$amount > (string)$totalAccountAmount) {
             return response(['result' => 'error'], 422);
         }
 
@@ -969,20 +949,18 @@ class BudgetCompromiseController extends Controller
     /**
      * Valida que el monto de las cuentas de impuestos no excendan el monto existente
      *
-     * @param Request $request campos que provienen del formulario
-     *
-     * @method validateMaxTaxAmount
-     *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return \Illuminate\Http\JsonResponse    Devuelve un JSON con la información de registros por agregar
+     * @param Request $request campos que provienen del formulario
+     *
+     * @return Response
      */
     public function validateMaxTaxAmount(Request $request)
     {
         $tax = (isset($request->tax_account_id))
         ? Tax::find($request->tax_account_id)
         : new Tax();
-        $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new Tax();
+        $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new HistoryTax();
         $taxAmount = ($request->account_amount * (($taxHistory) ? $taxHistory->percentage : 0)) / 100;
         $usedAmount = 0;
 
@@ -1001,7 +979,7 @@ class BudgetCompromiseController extends Controller
                 $tax = (isset($request->tax_account_id))
                 ? Tax::find($request->tax_account_id)
                 : new Tax();
-                $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new Tax();
+                $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new HistoryTax();
                 $taxAmountEdit = ((float)$request->account_amount_original
                     * (($taxHistory) ? $taxHistory->percentage : 0)) / 100;
             }
@@ -1018,13 +996,11 @@ class BudgetCompromiseController extends Controller
     /**
      * Genera el reporte de compromiso base para su visualización
      *
-     * @param $id Identificador del registro
-     *
-     * @method pdf
-     *
      * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @param $id Identificador del registro
+     *
+     * @return void
      */
     public function pdf($id)
     {
@@ -1037,15 +1013,12 @@ class BudgetCompromiseController extends Controller
         $documentStatus = DocumentStatus::where('action', 'AN')->first(); //Estatus del documento Anulado
         $records = BudgetCompromise::with(
             [
-            //'budgetCompromiseDetails.budgetAccount',
             'budgetCompromiseDetails' => function ($query) use ($documentStatus) {
                 $query
                     ->where('document_status_id', null)
                     ->orWhere('document_status_id', $documentStatus->id)
                     ->with(['budgetAccount', 'tax', 'budgetSubSpecificFormulation']);
             },
-            // 'budgetCompromiseDetails.budgetSubSpecificFormulation',
-            // 'budgetCompromiseDetails.tax',
             'budgetStages',
             'documentStatus',
             'institution'
@@ -1078,9 +1051,9 @@ class BudgetCompromiseController extends Controller
     /**
      * Método que permite anular un compromiso
      *
-     * @param \Illuminate\Http\Request $request Datos de la petición HTTP
-     *
      * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
      *
      * @return void
      */
@@ -1096,13 +1069,17 @@ class BudgetCompromiseController extends Controller
         ];
         $this->validate($request, $validate_rules, $messages);
 
+
         try {
-            /**
-             * Obtener compromiso correspondiente a cada estado del presupuesto
-             *
-             * @var object Objeto con información del compromiso a Anular
-             * */
+            /* Objeto con información del compromiso a Anular */
             $compromise = BudgetCompromise::with('budgetStages')->find($request->id);
+
+            // Se verifica que la fecha de anulación no sea menor a las fecha del aprobación
+            if ($request->canceled_at < date_format($compromise->compromised_at, 'Y-m-d')) {
+                $errors[0] = ["La fecha de anulación no puede ser menor a la fecha de aprobación ("
+                . date_format($compromise->compromised_at, 'd/m/Y') . ")"];
+                return response()->json(['result' => true, 'errors' => $errors], 422);
+            }
 
             $isFinance = Module::has('Finance') && Module::isEnabled('Finance');
             $isPayroll = Module::has('Payroll') && Module::isEnabled('Payroll');
@@ -1119,12 +1096,9 @@ class BudgetCompromiseController extends Controller
                     if (isset($compromise)) {
                         $documentStatusAN = DocumentStatus::where('action', 'AN')->first();
                         $compromisedYear = explode("-", $compromise->compromised_at)[0];
-                        /**
-                         * Se verifica que el compromiso no sea un aporte de nómina
-                         * de lo contrario no podrá ser anulado
-                        */
+                        /* Se verifica que el compromiso no sea un aporte de nómina de lo contrario no podrá ser anulado */
                         $CodePayroll = $isPayroll
-                        ? \App\Models\CodeSetting::where(
+                        ? CodeSetting::where(
                             "model",
                             \Modules\Payroll\Models\Payroll::class
                         )->first()
@@ -1133,19 +1107,14 @@ class BudgetCompromiseController extends Controller
                         $regexPattern = '/^AP - \\d+' . $CodePayroll?->format_prefix . '/';
 
                         if (!preg_match($regexPattern, $compromise->document_number)) {
-                            /**
-                             * Se buscan todas las BudgetStage (etapas presupuestarias)
-                             * pertenecintes al compromiso. (COMprometido)
-                             */
+                            /* Se buscan todas las BudgetStage (etapas presupuestarias)pertenecintes al compromiso. (COMprometido) */
                             BudgetStage::query()
                                 ->where(
                                     'budget_compromise_id',
                                     $compromise->id
                                 )->where('type', 'COM')->delete();
 
-                            /**
-                             * Se buscan los ítems del compromiso
-                             * */
+                            /* Se buscan los ítems del compromiso */
                             $budgetCompromiseDetails = BudgetCompromiseDetail::query()
                                 ->where(
                                     [
@@ -1192,18 +1161,12 @@ class BudgetCompromiseController extends Controller
                                 $budgetCompromiseDetail->save();
                             }
                         } else {
-                            // $errors[0] = "El compromiso perteneciente a un aporte de nómina, no puede ser anulado.";
                             throw new \Exception(
                                 'El compromiso perteneciente a un aporte de nómina, no puede ser anulado.'
                             );
-                            /* return response()->json([
-                                'message' => 'The given data was invalid.', 'errors' => $errors
-                            ], 422); */
                         }
 
-                        /**
-                         *  Se Cambia el estatus de la orden de compra sí existe
-                        */
+                        /* Se Cambia el estatus de la orden de compra sí existe */
                         if ($isPurchase) {
                             $purchaseOrder = (isset($compromise->sourceable_type)
                             && $compromise->sourceable_type
@@ -1222,9 +1185,7 @@ class BudgetCompromiseController extends Controller
                             }
                         }
 
-                        /**
-                         * Se Cambia el estatus de la Nómina sí existe
-                         * */
+                        /* Se Cambia el estatus de la Nómina sí existe */
                         if ($isPayroll) {
                             $payroll = \Modules\Payroll\Models\Payroll::query()
                                 ->where(
@@ -1250,9 +1211,98 @@ class BudgetCompromiseController extends Controller
                             }
                         }
 
-                        /**
-                         * Se cambia el status del documento del compromiso a 'AN'ulado
-                         * */
+                        /* Se Anula el movimiento bancario si existe*/
+                        if (
+                            $isFinance
+                            && $compromise->compromiseable_type == \Modules\Finance\Models\FinanceBankingMovement::class
+                        ) {
+                            /* Buscar los movimientos bancarios, actualizar el concepto del movimiento,
+                            y cambiar el estatus a anulado */
+                            $bankingMovement = \Modules\Finance\Models\FinanceBankingMovement::query()
+                            ->where(
+                                'id',
+                                $compromise->compromiseable_id
+                            )->where(
+                                'code',
+                                $compromise->document_number
+                            )->where(
+                                'document_status_id',
+                                '!=',
+                                $documentStatusAN->id
+                            )->first();
+
+                            if ($bankingMovement) {
+                                /*
+                                 * Se buscan todas las BudgetStage (etapas presupuestarias)
+                                 * pertenecintes al compromiso. (CAUsado y PAGado)
+                                 */
+                                BudgetStage::query()
+                                ->where(
+                                    'budget_compromise_id',
+                                    $compromise->id
+                                )->where('type', 'CAU')->delete();
+
+                                BudgetStage::query()
+                                ->where(
+                                    'budget_compromise_id',
+                                    $compromise->id
+                                )->where('type', 'PAG')->delete();
+
+                                $bankingMovement->concept = 'Anulado: '
+                                . $bankingMovement->concept
+                                . '. (' . $request->description . ')';
+                                $bankingMovement->document_status_id = $documentStatusAN->id;
+                                $bankingMovement->save();
+                            }
+
+                            if (Module::has('Accounting') && Module::isEnabled('Accounting')) {
+                                /* Reverso de Asiento contable del Movimiento Bancario */
+                                $accountEntry = \Modules\Accounting\Models\AccountingEntry::query()
+                                ->where('reference', $bankingMovement->code)
+                                ->orWhere('reference', $bankingMovement->reference)
+                                ->first();
+
+                                if ($accountEntry) {
+                                    $accountEntryNew = \Modules\Accounting\Models\AccountingEntry::create([
+                                        'from_date' => $request->canceled_at,
+                                        'reference' => $accountEntry->reference,
+                                        'concept' => 'Anulación: ' . $accountEntry->concept,
+                                        'observations' => $request->description,
+                                        'accounting_entry_category_id' => $accountEntry->accounting_entry_category_id,
+                                        'institution_id' => $accountEntry->institution_id,
+                                        'currency_id' => $accountEntry->currency_id,
+                                        'tot_debit' => $accountEntry->tot_assets,
+                                        'tot_assets' => $accountEntry->tot_debit,
+                                        'approved' => false,
+                                    ]);
+
+                                    $accountingItems = \Modules\Accounting\Models\AccountingEntryAccount::query()
+                                    ->where(
+                                        'accounting_entry_id',
+                                        $accountEntry->id,
+                                    )->get();
+
+                                    foreach ($accountingItems as $account) {
+                                        /* Se crea la relación de cuenta a ese asiento */
+                                        \Modules\Accounting\Models\AccountingEntryAccount::create([
+                                            'accounting_entry_id' => $accountEntryNew->id,
+                                            'accounting_account_id' => $account['accounting_account_id'],
+                                            'debit' => $account['assets'],
+                                            'assets' => $account['debit'],
+                                        ]);
+                                    }
+
+                                    /* Crea la relación entre el asiento contable y el movimiento bancario*/
+                                    \Modules\Accounting\Models\AccountingEntryable::create([
+                                        'accounting_entry_id' => $accountEntryNew->id,
+                                        'accounting_entryable_type' => \Modules\Finance\Models\FinanceBankingMovement::class,
+                                        'accounting_entryable_id' => $bankingMovement->id,
+                                    ]);
+                                }
+                            }
+                        }
+
+                        /* Se cambia el status del documento del compromiso a 'AN'ulado */
                         $compromise->document_status_id = $documentStatusAN->id;
                         $compromise->description = "Proceso Anulado: "
                         . $compromise->description . ". "
@@ -1262,6 +1312,7 @@ class BudgetCompromiseController extends Controller
                 }
             );
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $message = str_replace("\n", "", $e->getMessage());
             if (strpos($message, 'ERROR') !== false && strpos($message, 'DETAIL') !== false) {
                 $pattern = '/ERROR:(.*?)DETAIL/';
@@ -1290,19 +1341,17 @@ class BudgetCompromiseController extends Controller
          * Método que permite anular las emisiones, las ordenes
          * de pago y los compromisios de los aportes de nómina
          *
-         * @param String $code        Código
-         * @param String $date        Fecha
-         * @param String $description Descripción
-         *
          * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
+         *
+         * @param string $code        Código
+         * @param string $date        Fecha
+         * @param string $description Descripción
          *
          * @return void
          */
     public function cancelContribution($code, $date, $description)
     {
-        /**
-         * Se buscan todas las ordenes de pago asociadas a este compromiso
-         * */
+        /* Se buscan todas las ordenes de pago asociadas a este compromiso */
         //Status del documento ANulado
         $documentStatusAN = DocumentStatus::where('action', 'AN')->first();
         // Patrón de la expresión regular relacionada con el código de nómina
@@ -1325,19 +1374,14 @@ class BudgetCompromiseController extends Controller
             foreach ($compromiseContribution as $compContribution) {
                 $compromisedYear = explode("-", $compContribution->compromised_at)[0];
 
-                /**
-                 * Se buscan todas las etapas presupuestarias
-                 */
+                /* Se buscan todas las etapas presupuestarias */
 
                 //Etapa relacionada con la emisión de pago
                 $paymentExecuteBugetStages = BudgetStage::query()
-                    ->where(
-                        [
+                    ->where([
                         'budget_compromise_id'  => $compContribution->id,
                         'stageable_type'        => \Modules\Finance\Models\FinancePaymentExecute::class,
-                        //'stageable_id'          => $financePaymentExecute->id
-                        ]
-                    )
+                    ])
                     ->where('type', 'PAG')->get() ?? null;
 
                 //Se realiza todo el proceso de anulación para las emisiones de pago
@@ -1353,50 +1397,44 @@ class BudgetCompromiseController extends Controller
                             $financePaymentExecute->description = $description;
                             $financePaymentExecute->document_status_id = $documentStatusAN->id;
 
-                            /**
-                             * Se eliminan las retenciones asociadas a la emisión de pago
-                             * */
+                            /* Se eliminan las retenciones asociadas a la emisión de pago */
                             $financePaymentExecute->financePaymentDeductions()->delete();
-                            /**
-                             * Se guadan los cambios en la emisión de pago
-                             * */
+                            /* Se guadan los cambios en la emisión de pago */
                             $financePaymentExecute->save();
 
                             if ($isAccounting) {
                                 /**
                                  * Reverso de Asiento contable de la emisión de pago
                                  */
-                                $accountEntry = AccountingEntry::where(
+                                $accountEntry = \Modules\Accounting\Models\AccountingEntry::where(
                                     'reference',
                                     $financePaymentExecute->code
                                 )->first();
-                                $accountEntryNew = AccountingEntry::create(
+                                $accountEntryNew = \Modules\Accounting\Models\AccountingEntry::create(
                                     [
-                                    'from_date' => $date,
-                                    // Código de la ejecución de pago como referencia
-                                    'reference' => $financePaymentExecute->code,
-                                    'concept' => 'Anulación: ' . $accountEntry->concept ,
-                                    'observations' => $description,
-                                    'accounting_entry_category_id' => $accountEntry->accounting_entry_category_id,
-                                    'institution_id' => $accountEntry->institution_id,
-                                    'currency_id' => $accountEntry->currency_id,
-                                    'tot_debit' => $accountEntry->tot_assets,
-                                    'tot_assets' => $accountEntry->tot_debit,
-                                    'approved' => false,
+                                        'from_date' => $date,
+                                        // Código de la ejecución de pago como referencia
+                                        'reference' => $financePaymentExecute->code,
+                                        'concept' => 'Anulación: ' . $accountEntry->concept ,
+                                        'observations' => $description,
+                                        'accounting_entry_category_id' => $accountEntry->accounting_entry_category_id,
+                                        'institution_id' => $accountEntry->institution_id,
+                                        'currency_id' => $accountEntry->currency_id,
+                                        'tot_debit' => $accountEntry->tot_assets,
+                                        'tot_assets' => $accountEntry->tot_debit,
+                                        'approved' => false,
                                     ]
                                 );
 
-                                $accountingItems = AccountingEntryAccount::query()
+                                $accountingItems = \Modules\Accounting\Models\AccountingEntryAccount::query()
                                     ->where(
                                         'accounting_entry_id',
                                         $accountEntry->id,
                                     )->get();
 
                                 foreach ($accountingItems as $account) {
-                                    /**
-                                     * Se crea la relación de cuenta a ese asiento
-                                     */
-                                    AccountingEntryAccount::create(
+                                    /* Se crea la relación de cuenta a ese asiento */
+                                    \Modules\Accounting\Models\AccountingEntryAccount::create(
                                         [
                                         'accounting_entry_id' => $accountEntryNew->id,
                                         'accounting_account_id' => $account['accounting_account_id'],
@@ -1406,14 +1444,12 @@ class BudgetCompromiseController extends Controller
                                     );
                                 }
 
-                                /**
-                                 * Crea la relación entre el asiento contable y el registro de emisión de pago
-                                 * */
-                                AccountingEntryable::create(
+                                /* Crea la relación entre el asiento contable y el registro de emisión de pago */
+                                \Modules\Accounting\Models\AccountingEntryable::create(
                                     [
-                                    'accounting_entry_id' => $accountEntryNew->id,
-                                    'accounting_entryable_type' => FinancePaymentExecute::class,
-                                    'accounting_entryable_id' => $financePaymentExecute->id,
+                                        'accounting_entry_id' => $accountEntryNew->id,
+                                        'accounting_entryable_type' => \Modules\Finance\Models\FinancePaymentExecute::class,
+                                        'accounting_entryable_id' => $financePaymentExecute->id,
                                     ]
                                 );
                             }
@@ -1456,9 +1492,8 @@ class BudgetCompromiseController extends Controller
                 $payOrderBugetStages = BudgetStage::query()
                     ->where(
                         [
-                        'budget_compromise_id'  => $compContribution->id,
-                        'stageable_type'        => \Modules\Finance\Models\FinancePayOrder::class,
-                        // 'stageable_id'          => $pay_order->id
+                            'budget_compromise_id'  => $compContribution->id,
+                            'stageable_type'        => \Modules\Finance\Models\FinancePayOrder::class,
                         ]
                     )
                     ->where('type', 'CAU')->get();
@@ -1480,36 +1515,32 @@ class BudgetCompromiseController extends Controller
                             $financePayOrder->save();
 
                             if ($isAccounting) {
-                                /**
-                                 * Reverso de Asiento contable de la orden de pago
-                                 */
-                                $accountEntry = AccountingEntry::where('reference', $financePayOrder->code)->first();
-                                $accountEntryNew = AccountingEntry::create(
+                                /* Reverso de Asiento contable de la orden de pago */
+                                $accountEntry = \Modules\Accounting\Models\AccountingEntry::where('reference', $financePayOrder->code)->first();
+                                $accountEntryNew = \Modules\Accounting\Models\AccountingEntry::create(
                                     [
-                                    'from_date' => $date,
-                                    // Código de la ejecución de pago como referencia
-                                    'reference' => $financePayOrder->code,
-                                    'concept' => 'Anulación: ' . $accountEntry->concept ,
-                                    'observations' => $description,
-                                    'accounting_entry_category_id' => $accountEntry->accounting_entry_category_id,
-                                    'institution_id' => $accountEntry->institution_id,
-                                    'currency_id' => $accountEntry->currency_id,
-                                    'tot_debit' => $accountEntry->tot_assets,
-                                    'tot_assets' => $accountEntry->tot_debit,
-                                    'approved' => false,
+                                        'from_date' => $date,
+                                        // Código de la ejecución de pago como referencia
+                                        'reference' => $financePayOrder->code,
+                                        'concept' => 'Anulación: ' . $accountEntry->concept ,
+                                        'observations' => $description,
+                                        'accounting_entry_category_id' => $accountEntry->accounting_entry_category_id,
+                                        'institution_id' => $accountEntry->institution_id,
+                                        'currency_id' => $accountEntry->currency_id,
+                                        'tot_debit' => $accountEntry->tot_assets,
+                                        'tot_assets' => $accountEntry->tot_debit,
+                                        'approved' => false,
                                     ]
                                 );
 
-                                $accountingItems = AccountingEntryAccount::query()
+                                $accountingItems = \Modules\Accounting\Models\AccountingEntryAccount::query()
                                     ->where(
                                         'accounting_entry_id',
                                         $accountEntry->id,
                                     )->get();
                                 foreach ($accountingItems as $account) {
-                                    /**
-                                     * Se crea la relación de cuenta a ese asiento
-                                     */
-                                    AccountingEntryAccount::create(
+                                    /* Se crea la relación de cuenta a ese asiento */
+                                    \Modules\Accounting\Models\AccountingEntryAccount::create(
                                         [
                                         'accounting_entry_id' => $accountEntryNew->id,
                                         'accounting_account_id' => $account['accounting_account_id'],
@@ -1519,14 +1550,12 @@ class BudgetCompromiseController extends Controller
                                     );
                                 }
 
-                                /**
-                                 * Crea la relación entre el asiento contable y el registro de orden de pago
-                                 * */
-                                AccountingEntryable::create(
+                                /* Crea la relación entre el asiento contable y el registro de orden de pago */
+                                \Modules\Accounting\Models\AccountingEntryable::create(
                                     [
-                                    'accounting_entry_id' => $accountEntryNew->id,
-                                    'accounting_entryable_type' => FinancePayOrder::class,
-                                    'accounting_entryable_id' => $financePayOrder->id,
+                                        'accounting_entry_id' => $accountEntryNew->id,
+                                        'accounting_entryable_type' => \Modules\Finance\Models\FinancePayOrder::class,
+                                        'accounting_entryable_id' => $financePayOrder->id,
                                     ]
                                 );
                             }
@@ -1535,9 +1564,9 @@ class BudgetCompromiseController extends Controller
                             BudgetStage::query()
                                 ->where(
                                     [
-                                    'budget_compromise_id'  => $compContribution->id,
-                                    'stageable_type'        => \Modules\Finance\Models\FinancePayOrder::class,
-                                    'stageable_id'          => $financePayOrder->id
+                                        'budget_compromise_id'  => $compContribution->id,
+                                        'stageable_type'        => \Modules\Finance\Models\FinancePayOrder::class,
+                                        'stageable_id'          => $financePayOrder->id
                                     ]
                                 )
                                 ->where('type', 'CAU')->delete();
@@ -1552,9 +1581,7 @@ class BudgetCompromiseController extends Controller
                         $compContribution->id,
                     )->where('type', 'COM')->delete();
 
-                /**
-                 * Se buscan los ítems del compromiso
-                 * */
+                /* Se buscan los ítems del compromiso */
                 $budgetCompromiseDetails = BudgetCompromiseDetail::query()
                     ->where(
                         [
@@ -1616,20 +1643,16 @@ class BudgetCompromiseController extends Controller
     /**
      * Método para cambiar el estado de una emisión de pago a Pagado 'PA'
      *
-     * @param \Illuminate\Http\Request $request Datos de la petición HTTP
+     * @param \Illuminate\Http\Request $request Datos de la petición
      *
-     * @return void
+     * @return JsonResponse
      */
     public function approveBudgetCompromise(Request $request)
     {
         try {
             DB::transaction(
                 function () use ($request) {
-                    /**
-                     * Obtener conmpromiso para aprobación
-                     *
-                     * @var object Objeto con información del compromiso a eliminar
-                     * */
+                    /* Objeto con información del compromiso a eliminar */
                     $budgetCompromise = BudgetCompromise::with('budgetStages')->find($request->id);
 
                     if (!isset($budgetCompromise)) {
@@ -1641,6 +1664,7 @@ class BudgetCompromiseController extends Controller
                 }
             );
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $message = str_replace("\n", "", $e->getMessage());
             if (strpos($message, 'ERROR') !== false && strpos($message, 'DETAIL') !== false) {
                 $pattern = '/ERROR:(.*?)DETAIL/';
@@ -1663,5 +1687,29 @@ class BudgetCompromiseController extends Controller
             );
         }
         return response()->json(['message' => 'Success'], 200);
+    }
+
+    /**
+     * Verifica si el compromiso dado está relacionado con un movimiento bancario
+     * con estatus de aprobado en el módulo de finanzas.
+     *
+     * @param $compromise El compromiso a verificar
+     *
+     * @return bool
+     */
+    private function isBankingMovementApproved($compromise)
+    {
+        if (
+            $compromise
+            && ($compromise->compromiseable_type == \Modules\Finance\Models\FinanceBankingMovement::class)
+            && Module::has('Finance')
+            && Module::isEnabled('Finance')
+        ) {
+            return \Modules\Finance\Models\FinanceBankingMovement::query()
+            ->where('id', $compromise->compromiseable_id)
+            ->where('document_status_id', DocumentStatus::where('action', 'AP')->first()->id)
+            ->exists();
+        }
+        return false;
     }
 }

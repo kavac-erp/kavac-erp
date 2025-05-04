@@ -1,0 +1,7 @@
+<map id="salePaymentMethodeValidate" name="salePaymentMethodeValidate">
+<area shape="rect" id="Node000001" title="Validacion de los datos." alt="" coords="120,31,336,56"/>
+<area shape="rect" id="Node000002" href="$d3/dff/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentMethodController.html#a9ef485163104597c12185b53cdacf638" title="Valida y registra un nuevo método de pago." alt="" coords="11,5,66,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,31,66,24,67,19,119,26"/>
+<area shape="rect" id="Node000003" href="$d3/dff/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentMethodController.html#affb03cc19897a1800a0f411264d6c7cc" title="Actualiza la información del metodo de pago." alt="" coords="5,55,72,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="115,60,73,66,72,61,114,55"/>
+</map>

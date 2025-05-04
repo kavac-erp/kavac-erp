@@ -1,20 +1,25 @@
 {
-    "version": "1.0.4",
+    "version": "1.0.5",
     "name": "Sale",
     "alias": "sale",
     "name_es": "Comercialización",
     "description": "Gestión de ventas",
     "long_description": "",
-    "authors": [],
+    "authors": [
+        {
+            "name": "Ing. Roldan Vargas",
+            "email": ["rvargas@cenditel.gob.ve", "roldandvg@gmail.com"]
+        }
+    ],
     "icon": {
-        "name": "",
+        "name": "ion-document-text",
         "color": "#0073b7"
     },
+    "logo": "sale-logo.png",
     "keywords": [],
     "active": 1,
     "order": 10,
     "priority": 10,
-    "logo": "sale-logo.png",
     "providers": [
         "Modules\\Sale\\Providers\\SaleServiceProvider"
     ],

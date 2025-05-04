@@ -4,7 +4,6 @@ namespace Modules\Asset\Exports\Sheets;
 
 use App\Models\Currency;
 use App\Models\Department;
-use App\Models\Gender;
 use App\Models\Headquarter;
 use App\Models\Institution;
 use App\Models\MeasurementUnit;
@@ -23,19 +22,43 @@ use Modules\Asset\Models\AssetSubcategory;
 use Modules\Asset\Repositories\AssetParametersRepository;
 use Modules\Purchase\Models\PurchaseSupplier;
 
+/**
+ * @class SemovienteValidationSheetExport
+ * @brief Gestiona la exportación de datos de semovientes en el módulo de bienes
+ *
+ * @author Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SemovienteValidationSheetExport implements
     FromCollection,
     WithEvents,
     WithHeadings,
     WithTitle
 {
+    /**
+     * Gestiona los parámetros de bienes
+     *
+     * @var AssetParametersRepository $params
+     */
     protected $params;
 
+    /**
+     * Metodo que define el nombre de la hoja de semovientes
+     *
+     * @return string
+     */
     public function title(): string
     {
         return 'validation';
     }
 
+    /**
+     * Metodo que define la colección de datos a exportar
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function collection(): Collection
     {
         $this->params = new AssetParametersRepository();
@@ -59,7 +82,9 @@ class SemovienteValidationSheetExport implements
             return $item['id'] !== '';
         }), 'text');
         $measurementUnits = MeasurementUnit::query()->select('name')->get()->toBase()->pluck('name')->toArray();
-        $genders = Gender::query()->select('name')->get()->toBase()->pluck('name')->toArray();
+        $genders = array_column(array_filter($this->params->loadGendersData(), function ($item) {
+            return $item['id'] !== '';
+        }), 'text');
         $categories = AssetCategory::query()->select('name')->get()->toBase()->pluck('name')->toArray();
         $subCategories = AssetSubcategory::query()->select('name')->get()->toBase()->pluck('name')->toArray();
         $specificCategories = AssetSpecificCategory::query()->select('name')->get()->toBase()->pluck('name')->toArray();
@@ -117,6 +142,11 @@ class SemovienteValidationSheetExport implements
         ));
     }
 
+    /**
+     * Metodo que define los encabezados de la hoja de semovientes
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return [
@@ -138,9 +168,14 @@ class SemovienteValidationSheetExport implements
         ];
     }
 
+    /**
+     * Metodo que define los eventos de la hoja de semovientes
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
-        /** @todo Instrucciones para ocultar la hoja de validaciones
+        /* @todo Instrucciones para ocultar la hoja de validaciones
          * Descomentar cuando este verificada la hoja
          */
         return [

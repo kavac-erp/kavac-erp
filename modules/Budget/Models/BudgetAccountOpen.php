@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos para las cuentas formuladas en presupuesto
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetAccountOpen extends Model implements Auditable
 {
@@ -26,16 +26,16 @@ class BudgetAccountOpen extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista de campos para la gestión de fechas
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * The attributes that are mass assignable.
+     * Lista de campos del modelo
      *
-     * @var array
+     * @var array $fillable
      */
     protected $fillable = [
         'jan_amount', 'feb_amount', 'mar_amount', 'apr_amount', 'may_amount', 'jun_amount',
@@ -45,16 +45,17 @@ class BudgetAccountOpen extends Model implements Auditable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Lista de campos ocultos
      *
-     * @var array
+     * @var array $hidden
      */
     protected $hidden = ['created_at', 'updated_at'];
 
     /**
-     * BudgetAccountOpen belongs to BudgetAccount.
+     * Establece la relación con la cuenta presupuestaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function budgetAccount()
@@ -63,9 +64,10 @@ class BudgetAccountOpen extends Model implements Auditable
     }
 
     /**
-     * BudgetAccountOpen belongs to BudgetSubSpecificFormulation.
+     * Establece la relacion con la formulación por sub especifica
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function subSpecificFormulation()

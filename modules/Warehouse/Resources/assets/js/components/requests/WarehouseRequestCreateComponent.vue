@@ -14,7 +14,7 @@
 						</span>
 					</button>
 					<ul>
-						<li v-for="error in errors">{{ error }}</li>
+						<li v-for="(error, index) in errors" :key="index">{{ error }}</li>
 					</ul>
 				</div>
 			</div>
@@ -111,7 +111,7 @@
 					<span>
 						<b> {{ (props.row.warehouse_product) ?
 							props.row.warehouse_product.name + ': ' : ''
-						}} </b> 
+						}} </b>
 						{{ (props.row.warehouse_product) ?
 							prepareText(props.row.warehouse_product.description)
 							: ''
@@ -124,7 +124,7 @@
 						}} <br>
 					</span>
 					<span>
-						<div v-for="att in props.row.warehouse_product_values">
+						<div v-for="(att, index) in props.row.warehouse_product_values" :key="index">
 							<b>{{ att.warehouse_product_attribute.name + ":" }}</b> {{ att.value }}<br>
 						</div>
 						<b>Valor:</b> {{ props.row.unit_value }} {{ (props.row.currency) ? props.row.currency.name : '' }}
@@ -146,22 +146,14 @@
 				</div>
 				<div slot="requested" slot-scope="props">
 					<div>
-						<!--<input type="text" class="form-control table-form input-sm" data-toggle="tooltip" min=0
-							v-input-mask data-inputmask="
-                                    'alias': 'numeric',
-                                    'allowMinus': 'false',
-                                    'digits': 2"
-							@input="selectElement(props.row.id); validateInput(props.row.exist, props.row.reserved, props.row.id)"
-							:id="'request_product_' + props.row.id" onfocus="this.select()"
-							v-model="input_values[props.row.id]"> -->
-							<input type="text" class="form-control table-form input-sm" data-toggle="tooltip" min=0
-							v-input-mask data-inputmask="
-                                    'alias': 'numeric',
-                                    'allowMinus': 'false',
-                                    'digits': 2"
-							@input="selectElement(props.row.id); validateInput(props.row.real, props.row.code, props.row.id)"
-							:id="'request_product_' + props.row.id" onfocus="this.select()"
-							v-model="input_values[props.row.id]">
+						<input type="text" class="form-control table-form input-sm" data-toggle="tooltip" min=0
+						v-input-mask data-inputmask="
+								'alias': 'numeric',
+								'allowMinus': 'false',
+								'digits': 2"
+						@input="selectElement(props.row.id); validateInput(props.row.real, props.row.code, props.row.id)"
+						:id="'request_product_' + props.row.id" onfocus="this.select()"
+						v-model="input_values[props.row.id]">
 					</div>
 				</div>
 			</v-client-table>
@@ -211,10 +203,10 @@ export default {
 			productsQuantity: [],
 			enableInput: false,
 			columns: [
-				'check', 
-				'code', 
-				'description', 
-				'inventory', 
+				'check',
+				'code',
+				'description',
+				'inventory',
 				'requested',
 			],
 			errors: [],
@@ -240,9 +232,9 @@ export default {
 					'requested': 'Cantidad solicitada'
 				},
 				sortable: [
-					'code', 
-					'description', 
-					'inventory', 
+					'code',
+					'description',
+					'inventory',
 					'requested',
 				],
 				filterable: [
@@ -260,7 +252,7 @@ export default {
 	},
 	created() {
 		this.getBudgetProjects();
-		this.getBudgetCentralizedActions(); 
+		this.getBudgetCentralizedActions();
 		//this.initForm('/warehouse/requests/vue-list-products');
 		this.initForm('/warehouse/requests/vue-list-products/' + this.requestid);
 	},
@@ -331,21 +323,9 @@ export default {
 				checkbox.click();
 			}
 		},
-		/*validateInput(exist, reserved, id) {
-			const vm = this;
-			vm.errors = [];
-
-			let value = document.getElementById("request_product_" + id).value;
-
-			if ((exist - reserved < value)) {
-				vm.errors.push('El valor es mayor a la existencia en almacén');
-
-			}
-			return;
-		},*/
 		/**
-	     * Validad que la cantidad de la solicitud de producto sea menor o igual a la disponible. 
-	     * 
+	     * Validad que la cantidad de la solicitud de producto sea menor o igual a la disponible.
+	     *
 	     * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
 	     */
 		validateInput(real, code, id) {
@@ -367,8 +347,8 @@ export default {
 		},
 
 		/**
-	     * Busca si el código del producto esta en la lista de productos que tiene problema de validación (solicitud > disponible para solicitar) 
-	     * 
+	     * Busca si el código del producto esta en la lista de productos que tiene problema de validación (solicitud > disponible para solicitar)
+	     *
 	     * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
 	     */
 		searchCode(code) {
@@ -385,8 +365,8 @@ export default {
 		},
 
 		/**
-	     * Busca si el código del producto esta en la lista de productos que tiene problema de validación (solicitud > disponible para solicitar) para ser eliminado 
-	     * 
+	     * Busca si el código del producto esta en la lista de productos que tiene problema de validación (solicitud > disponible para solicitar) para ser eliminado
+	     *
 	     * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
 	     */
 		deleteCode(code) {
@@ -397,7 +377,7 @@ export default {
 	      				vm.validateValue.splice(index,1);
 	      			}
 	      		});
-	      	}	
+	      	}
 		},
 
 		async initForm(url) {
@@ -433,7 +413,7 @@ export default {
 						budget_specific_action: fields.budget_specific_action,
 						budget_specific_action_id: '',
 						warehouse_products: fields.warehouse_inventory_product_requests,
-						request_date: fields.request_date ? vm.format_date(fields.request_date, 'YYYY-MM-DD') : 
+						request_date: fields.request_date ? vm.format_date(fields.request_date, 'YYYY-MM-DD') :
 							vm.format_date(fields.created_at, 'YYYY-MM-DD'),
 					};
 					$.each(fields.warehouse_inventory_product_requests, function (index, campo) {
@@ -474,7 +454,7 @@ export default {
 
 		/**
 	     * Devuelve la cantidad solicitadas de un producto especifico
-	     * 
+	     *
 	     * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
 	     */
 	    quantityProductRequests(Codeproduct) {
@@ -491,7 +471,7 @@ export default {
 	    },
 	    /**
 	     * Devuelve un numero decimal con un numero de decimales especifico
-	     * 
+	     *
 	     * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
 	     */
 	    numberDecimal(num, dec) {

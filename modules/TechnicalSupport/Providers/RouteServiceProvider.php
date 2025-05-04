@@ -8,16 +8,14 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * The module namespace to assume when generating URLs to actions.
+     * El namespace del controlador del módulo
      *
      * @var string
      */
     protected $moduleNamespace = 'Modules\TechnicalSupport\Http\Controllers';
 
     /**
-     * Called before routes are registered.
-     *
-     * Register any model bindings or pattern based filters.
+     * Se invoca antes de las rutas que fueron registradas.
      *
      * @return void
      */
@@ -27,7 +25,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the routes for the application.
+     * Define las rutas del módulo de bienes
      *
      * @return void
      */
@@ -39,9 +37,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
+     * Define las rutas "web" del módulo
      *
      * @return void
      */
@@ -53,9 +49,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
+     * Define las rutas de API del módulo
      *
      * @return void
      */

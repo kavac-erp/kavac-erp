@@ -1,10 +1,9 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Notifications\SystemNotification;
 
 /**
@@ -20,13 +19,15 @@ use App\Notifications\SystemNotification;
  */
 class SystemNotificationController extends Controller
 {
-    /** @var object|array Objeto o arreglo con información del o los usuarios a los cuales enviar una notificación */
+    /**
+     * Objeto o arreglo con información del o los usuarios a los cuales enviar una notificación
+     *
+     * @var object|array $toUser
+     */
     protected $toUser;
 
     /**
      * Método constructor del controlador de notificaciones del sistema
-     *
-     * @method     __construct(object $toUser)
      *
      * @param  object  $toUser Objeto con información del usuario al cual enviar una notificación
      *
@@ -39,8 +40,6 @@ class SystemNotificationController extends Controller
 
     /**
      * Método que envía notificaciones del sistema a usuarios
-     *
-     * @method     send(Request $request)
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

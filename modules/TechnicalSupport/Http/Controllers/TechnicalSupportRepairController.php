@@ -17,9 +17,8 @@ use Modules\TechnicalSupport\Models\TechnicalSupportRequestRepair;
  * Clase que gestiona las reparaciones de bienes institucionales
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class TechnicalSupportRepairController extends Controller
 {
@@ -32,7 +31,7 @@ class TechnicalSupportRepairController extends Controller
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         //$this->middleware('permission:technicalsupport.repairs', ['only' => 'index', 'update']);
     }
 

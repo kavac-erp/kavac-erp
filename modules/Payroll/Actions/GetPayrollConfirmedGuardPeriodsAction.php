@@ -7,20 +7,45 @@ namespace Modules\Payroll\Actions;
 use Modules\Payroll\Models\PayrollGuardSchemePeriod;
 use Modules\Payroll\Models\PayrollTimeSheetParameter;
 
+/**
+ * @class GetPayrollConceptParameters
+ * @brief Acciones para los períodos de guardia confirmados
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 final class GetPayrollConfirmedGuardPeriodsAction
 {
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
+        //
     }
 
+    /**
+     * Invoca la acción para obtener los períodos de guardia confirmados.
+     *
+     * @param string $fromDate Fecha de inicio del período.
+     * @param string $toDate Fecha de fin del período.
+     * @param mixed $payrollSupervisedGroupId Identificador del grupo supervisado de nómina.
+     * @param mixed $payrollTimeSheetParameterId Identificador del parámetro de hoja de tiempo de nómina.
+     * @param mixed $instituionId Identificador de la institución.
+     *
+     * @return array|null Arreglo con la información de los períodos de guardia confirmados.
+     */
     public function invoke(
         string $fromDate,
         string $toDate,
         $payrollSupervisedGroupId,
         $payrollTimeSheetParameterId,
         $instituionId
-    ): ?array
-    {
+    ): ?array {
         $parameters = PayrollTimeSheetParameter::query()
             ->find($payrollTimeSheetParameterId)
             ->payrollParameterTimeSheetParameters
@@ -87,7 +112,7 @@ final class GetPayrollConfirmedGuardPeriodsAction
         }, null);
 
         return [
-            'confirmed' => array_keys(array_filter($confirmed, function($value) {
+            'confirmed' => array_keys(array_filter($confirmed, function ($value) {
                 return $value === true;
             })),
             'result' => $result

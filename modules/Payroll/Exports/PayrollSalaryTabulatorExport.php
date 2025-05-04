@@ -2,34 +2,38 @@
 
 namespace Modules\Payroll\Exports;
 
-use Maatwebsite\Excel\Concerns\WithHeadings;        # Agregar Cabecera
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;      # AutoEspaciar Columnas
-use Maatwebsite\Excel\Concerns\WithEvents;          # Registrar Evento
-use Maatwebsite\Excel\Events\AfterSheet;            # Modificar Fuentes y Tamaño
-use Maatwebsite\Excel\Concerns\WithCustomStartCell; # Indicar la celda en la que debe comenzar (solo FromCollection)
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Illuminate\Database\Eloquent\Collection;
 use Modules\Payroll\Models\PayrollSalaryTabulatorScale;
 use Modules\Payroll\Models\PayrollSalaryTabulator;
 
 /**
  * @class PayrollSalaryTabulatorExport
- *
- * Clase que gestiona los objetos exportados del modelo de tabuladores salariales
+ * @brief Clase que gestiona los objetos exportados del modelo de tabuladores salariales
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollSalaryTabulatorExport extends \App\Exports\DataExport implements
     WithHeadings,
-    ShouldAutoSize,
-    WithEvents,
-    WithCustomStartCell
+    ShouldAutoSize
 {
+    /**
+     * Identificador del tabulador salarial
+     *
+     * @var integer $payrollSalaryTabulatorId
+     */
     protected $payrollSalaryTabulatorId;
 
-    public function __contruct($model = null)
+    /**
+     * Método constructor de la clase
+     *
+     * @param mixed $model
+     */
+    public function __construct($model = null)
     {
         $this->model = $model;
     }
@@ -37,33 +41,25 @@ class PayrollSalaryTabulatorExport extends \App\Exports\DataExport implements
     /**
      * Establece el identificador del tabulador salarial
      *
-     * @param Integer $salaryTabulatorId Identificador único del tabuldor salarial
+     * @param integer $salaryTabulatorId Identificador único del tabuldor salarial
      */
     public function setSalaryTabulatorId(int $salaryTabulatorId)
     {
         $this->payrollSalaryTabulatorId = $salaryTabulatorId;
     }
 
-
     /**
-     * Establece la celda en la que se debe comenzar a escribir el archivo a exportar
+     * Genera el listado de tabuladores salariales
      *
-     * @return string Celda de inicio de escritura
+     * @return \Illuminate\Support\Collection|void
      */
-    public function startCell(): string
-    {
-        return 'B5';
-    }
-
-    /**
-    * @return \Illuminate\Support\Collection
-    */
     public function collection()
     {
         $payrollSalaryTabulator = PayrollSalaryTabulator::where('id', $this->payrollSalaryTabulatorId)->first();
         $fields  = [];
         $records = [];
         if ($payrollSalaryTabulator) {
+            $payrollSalaryAdjustments = $payrollSalaryTabulator->payrollSalaryAdjustments();
             $payrollSalaryTabulatorScales = PayrollSalaryTabulatorScale::where([
                 'payroll_salary_tabulator_id' => $this->payrollSalaryTabulatorId
             ])->with([
@@ -71,27 +67,46 @@ class PayrollSalaryTabulatorExport extends \App\Exports\DataExport implements
                 'payrollHorizontalScale',
                 'payrollVerticalScale'
             ])->get();
-            foreach ($payrollSalaryTabulatorScales as $payrollSalaryTabulatorScale) {
-                if (
-                    ($payrollSalaryTabulator->payroll_horizontal_salary_scale_id > 0)
-                    && ($payrollSalaryTabulator->payroll_vertical_salary_scale_id > 0)
-                ) {
-                    $horizontalScale = $payrollSalaryTabulatorScale->payrollHorizontalScale;
-                    $verticalScale = $payrollSalaryTabulatorScale->payrollVerticalScale;
-                    $fields[$horizontalScale->name . '-' . $verticalScale->name] = $payrollSalaryTabulatorScale->value;
-                } elseif ($payrollSalaryTabulator->payroll_horizontal_salary_scale_id > 0) {
-                    $horizontalScale = $payrollSalaryTabulatorScale->payrollHorizontalScale;
-                    $fields[$horizontalScale->name] = $payrollSalaryTabulatorScale->value;
-                } elseif ($payrollSalaryTabulator->payroll_vertical_salary_scale_id > 0) {
-                    $verticalScale = $payrollSalaryTabulatorScale->payrollVerticalScale;
-                    $fields[$verticalScale->name] = $payrollSalaryTabulatorScale->value;
-                }
+
+            $salary_collection = $payrollSalaryAdjustments->get();
+            if ($salary_collection->isNotEmpty()) {
+                $payrollSalaryAdjustments = $payrollSalaryAdjustments->orderBy('created_at', 'desc')->get();
+                $payrollHistorySalaryAdjustments =
+                    $payrollSalaryAdjustments[0]
+                    ->payrollHistorySalaryAdjustments()
+                    ->orderBy('created_at', 'desc')->get();
+
+                $salary_values = json_decode($payrollHistorySalaryAdjustments[0]->salary_values);
             }
 
-            if (
-                ($payrollSalaryTabulator->payroll_horizontal_salary_scale_id > 0)
-                && ($payrollSalaryTabulator->payroll_vertical_salary_scale_id > 0)
-            ) {
+            $count = 0;
+            $type = $salary_collection->isNotEmpty() ? $payrollSalaryAdjustments[0]->increase_of_type : null;
+
+            foreach ($payrollSalaryTabulatorScales as $payrollSalaryTabulatorScale) {
+                if (($payrollSalaryTabulator->payroll_horizontal_salary_scale_id > 0) && ($payrollSalaryTabulator->payroll_vertical_salary_scale_id > 0)) {
+                    $horizontalScale = $payrollSalaryTabulatorScale->payrollHorizontalScale;
+                    $verticalScale = $payrollSalaryTabulatorScale->payrollVerticalScale;
+                    $fields[$horizontalScale->name . '-' . $verticalScale->name] =
+                        isset($payrollSalaryAdjustments) && ($type == 'different') && isset($payrollHistorySalaryAdjustments) ?
+                            $salary_values[$count]->value :
+                            $payrollSalaryTabulatorScale->value;
+                } elseif ($payrollSalaryTabulator->payroll_horizontal_salary_scale_id > 0) {
+                    $horizontalScale = $payrollSalaryTabulatorScale->payrollHorizontalScale;
+                    $fields[$horizontalScale->name] =
+                        isset($payrollSalaryAdjustments) && ($type == 'different') && isset($payrollHistorySalaryAdjustments) ?
+                            $salary_values[$count]->value :
+                            $payrollSalaryTabulatorScale->value;
+                } elseif ($payrollSalaryTabulator->payroll_vertical_salary_scale_id > 0) {
+                    $verticalScale = $payrollSalaryTabulatorScale->payrollVerticalScale;
+                    $fields[$verticalScale->name] =
+                    isset($payrollSalaryAdjustments) && ($type == 'different') && isset($payrollHistorySalaryAdjustments) ?
+                        $salary_values[$count]->value :
+                        $payrollSalaryTabulatorScale->value;
+                }
+                $count++;
+            }
+
+            if (($payrollSalaryTabulator->payroll_horizontal_salary_scale_id > 0) && ($payrollSalaryTabulator->payroll_vertical_salary_scale_id > 0)) {
                 $payrollHorizontalSalaryScale = $payrollSalaryTabulator->payrollHorizontalSalaryScale;
                 $payrollVerticalSalaryScale = $payrollSalaryTabulator->payrollVerticalSalaryScale;
 
@@ -148,24 +163,5 @@ class PayrollSalaryTabulatorExport extends \App\Exports\DataExport implements
         } else {
             return [];
         }
-    }
-
-    public function registerEvents(): array
-    {
-        $payrollSalaryTabulator = PayrollSalaryTabulator::where('id', $this->payrollSalaryTabulatorId)
-            ->with(['institution' => function ($query) {
-                $query->with('banner')->get();
-            }])->first();
-        $payrollSalaryTabulator_banner = $payrollSalaryTabulator->institution->banner->file ?? '';
-        return [
-            AfterSheet::class => function (AfterSheet $event) use ($payrollSalaryTabulator_banner) {
-                $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-                $drawing->setName('institution_banner');
-                $drawing->setDescription('Banner Institucional');
-                $drawing->setPath(storage_path() . '/pictures/' . $payrollSalaryTabulator_banner);
-                $drawing->setCoordinates('B1');
-                $drawing->setWorksheet($event->sheet->getDelegate());
-            },
-        ];
     }
 }

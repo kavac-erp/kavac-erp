@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Models;
 
 use App\Models\Profile;
@@ -11,6 +9,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Date;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
@@ -32,6 +31,7 @@ class PayrollEmployment extends Model implements Auditable
 
     /**
      * Lista de atributos de relacion consultados automáticamente
+     *
      * @var array $with
      */
     protected $with = [
@@ -47,12 +47,14 @@ class PayrollEmployment extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -72,12 +74,22 @@ class PayrollEmployment extends Model implements Auditable
         'worksheet_code'
     ];
 
+    /**
+     * Atributos personalizados a agregar en las consultas
+     *
+     * @var array $appends
+     */
     protected $appends = [
         'startDateApn',
         'payrollPosition',
         'payroll_position_id'
     ];
 
+    /**
+     * Metodo que obtiene la fecha de inicio en la Administración Pública Nacional (APN)
+     *
+     * @return Date|string
+     */
     public function getStartDateApnAttribute()
     {
         if (!is_numeric($this->years_apn) && $this->years_apn != '') {
@@ -94,6 +106,7 @@ class PayrollEmployment extends Model implements Auditable
      * Método que obtiene el dato laboral del trabajador que está asociada a muchas organizaciones
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollOrganizations()
@@ -105,6 +118,7 @@ class PayrollEmployment extends Model implements Auditable
      * Método que obtiene el dato laboral del trabajador asociado a un dato personal del mismo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollStaff()
@@ -116,6 +130,7 @@ class PayrollEmployment extends Model implements Auditable
      * Método que obtiene el dato laboral del trabajador asociado a un tipo de inactividad
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollInactivityType()
@@ -127,6 +142,7 @@ class PayrollEmployment extends Model implements Auditable
      * Método que obtiene el dato laboral del trabajador asociado a un tipo de cargo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollPositionType()
@@ -138,6 +154,7 @@ class PayrollEmployment extends Model implements Auditable
      * Método que obtiene el dato laboral del trabajador asociado a un cargo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function getPayrollPositionAttribute()
@@ -161,6 +178,7 @@ class PayrollEmployment extends Model implements Auditable
      * Método que obtiene el id del cargo asociado a un trabajador
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function getPayrollPositionIdAttribute()
@@ -185,12 +203,17 @@ class PayrollEmployment extends Model implements Auditable
      *
      * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany|\Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollPositions()
     {
         if (Schema::hasTable('payroll_employment_payroll_position')) {
-            return $this->belongsToMany(PayrollPosition::class, 'payroll_employment_payroll_position');
+            return $this->belongsToMany(
+                PayrollPosition::class,
+                'payroll_employment_payroll_position',
+                'payroll_employment_id',
+                'payroll_position_id'
+            );
         }
         return $this->belongsTo(PayrollPosition::class);
     }
@@ -199,6 +222,7 @@ class PayrollEmployment extends Model implements Auditable
      * Método que obtiene el dato laboral del trabajador asociado a un cargo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollCoordination()
@@ -210,6 +234,7 @@ class PayrollEmployment extends Model implements Auditable
      * Método que obtiene el dato laboral del trabajador asociado a un departamento
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function department()
@@ -221,6 +246,7 @@ class PayrollEmployment extends Model implements Auditable
      * Método que obtiene el dato laboral del trabajador asociado a un tipo de personal
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollStaffType()
@@ -232,6 +258,7 @@ class PayrollEmployment extends Model implements Auditable
      * Método que obtiene el dato laboral del trabajador asociado a un tipo de contrato
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollContractType()
@@ -243,6 +270,7 @@ class PayrollEmployment extends Model implements Auditable
      * Método que obtiene los trabajos anteriores asociados al trabajador
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function payrollPreviousJob()
@@ -255,7 +283,7 @@ class PayrollEmployment extends Model implements Auditable
      *
      * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
      *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function profile()
     {
@@ -266,21 +294,46 @@ class PayrollEmployment extends Model implements Auditable
      * Método que obtiene los trabajos anteriores asociados al trabajador
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function purchaseDirectHires()
     {
-        return (Module::has('Purchase') && Module::isEnabled('Purchase')) ? $this->hasMany(\Modules\Purchase\Models\PurchaseDirectHire::class) : null;
+        return (
+            Module::has('Purchase') && Module::isEnabled('Purchase')
+        ) ? $this->hasMany(\Modules\Purchase\Models\PurchaseDirectHire::class) : null;
     }
 
     /**
      * Método que obtiene los trabajos anteriores asociados al trabajador
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function purchaseBaseBudget()
     {
-        return (Module::has('Purchase') && Module::isEnabled('Purchase')) ? $this->hasMany(\Modules\Purchase\Models\PurchaseBaseBudget::class) : null;
+        return (
+            Module::has('Purchase') && Module::isEnabled('Purchase')
+        ) ? $this->hasMany(\Modules\Purchase\Models\PurchaseBaseBudget::class) : null;
+    }
+
+    /**
+     * Scope para buscar y filtrar datos de personal
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query Objeto con la consulta
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query)
+    {
+        return $query->when(request('query'), function ($query) {
+            $search = request('query');
+            $query->whereHas('payrollStaff', function ($query) use ($search) {
+                $query->where('first_name', 'ilike', '%' . $search . '%')
+                    ->orWhere('last_name', 'ilike', '%' . $search . '%')
+                    ->orWhere('id_number', 'ilike', '%' . $search . '%')
+                    ->orWhere('email', 'ilike', '%' . $search . '%');
+            });
+        });
     }
 }

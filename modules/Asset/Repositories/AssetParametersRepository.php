@@ -5,55 +5,71 @@ namespace Modules\Asset\Repositories;
 /**
  * @class      AssetParametersRepository
  * @brief      Gestiona los parámetros requeridos para el registro de biene
+ *
+ * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetParametersRepository
 {
     /**
      * Arreglo con los registros de los parámetros
-     * @var Array $parameters
+     *
+     * @var array $parameters
      */
     protected $parameters;
 
     /**
      * Arreglo con los registros de los colores
-     * @var Array $colors
+     *
+     * @var array $colors
      */
     protected $colors;
 
     /**
      * Arreglo con los registros de los tipos de ganado
-     * @var Array $cattleTypes
+     *
+     * @var array $cattleTypes
      */
     protected $cattleTypes;
 
     /**
      * Arreglo con los registros de los propósitos del semoviente
-     * @var Array $purposes
+     *
+     * @var array $purposes
      */
     protected $purposes;
 
     /**
      * Arreglo con los registros de los estado de ocupación del terreno
-     * @var Array $occupancyStatus
+     *
+     * @var array $occupancyStatus
      */
     protected $occupancyStatus;
 
     /**
      * Arreglo con los registros de casos de uso del terreno
-     * @var Array $assetUseFunctions
+     *
+     * @var array $assetUseFunctions
      */
     protected $assetUseFunctions;
 
     /**
      * Arreglo con los registros de los géneros para el terreno
-     * @var Array $genders
+     *
+     * @var array $genders
      */
     protected $genders;
 
+    /**
+     * Crea una nueva instancia de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Define los valores de colores a emplear en el formulario */
+        /* Define los valores de colores a emplear en el formulario */
         $this->colors = [
             ["id" => '', "text" => "Seleccione..."],
             ["id" => 1,  "text" => "Negro"],
@@ -102,7 +118,7 @@ class AssetParametersRepository
             ["id" => 44, "text" => "Negro / Naranja"],
         ];
 
-        /** Define los valores de tipos de ganado a emplear en el formulario */
+        /* Define los valores de tipos de ganado a emplear en el formulario */
         $this->cattleTypes = [
             ["id" => '', "text" => "Seleccione..."],
             ["id" => 1, "text" => "Vacunos"],
@@ -115,7 +131,7 @@ class AssetParametersRepository
             ["id" => 8, "text" => "Otro tipo"],
         ];
 
-        /** Define los valores de propositos del semoviente a emplear en el formulario */
+        /* Define los valores de propositos del semoviente a emplear en el formulario */
         $this->purposes = [
             ["id" => '', "text" => "Seleccione..."],
             ["id" => 1, "text" => "Engorde"],
@@ -125,7 +141,7 @@ class AssetParametersRepository
             ["id" => 5, "text" => "Otro propósito"],
         ];
 
-        /** Define los valores de estado de ocupación a emplear en el formulario */
+        /* Define los valores de estado de ocupación a emplear en el formulario */
         $this->occupancyStatus = [
             ["id" => '', "text" => "Seleccione..."],
             ["id" => 1, "text" => "Ocupado"],
@@ -133,14 +149,14 @@ class AssetParametersRepository
             ["id" => 3, "text" => "Desocupado"],
         ];
 
-        /** Define los valores de los géneros en semovientes a emplear en el formulario */
+        /* Define los valores de los géneros en semovientes a emplear en el formulario */
         $this->genders = [
             ["id" => '', "text" => "Seleccione..."],
             ["id" => 1, "text" => "Macho"],
             ["id" => 2, "text" => "Hembra"],
         ];
 
-        /** Define los valores de casos de uso a emplear en el formulario */
+        /* Define los valores de casos de uso a emplear en el formulario */
         $this->assetUseFunctions = [
             ["id" => '', "text" => "Seleccione..."],
             ["id" => 1, "text" => "Residencial"],
@@ -153,7 +169,7 @@ class AssetParametersRepository
             ["id" => 8, "text" => "Industrial"],
         ];
 
-        /** Define los campos de la configuración de parámetros a emplear en el formulario */
+        /* Define los campos de la configuración de parámetros a emplear en el formulario */
         $this->parameters = [
             "muebles" => [
                 [
@@ -200,14 +216,14 @@ class AssetParametersRepository
                     'name' => 'acquisition_value',
                     'type' => 'text',
                     'required' => true,
-                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2"
+                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2, 'groupSeparator': '.', 'radixPoint': ','"
                 ],
                 [
                     'label' => 'Valor residual',
                     'name' => 'residual_value',
                     'type' => 'text',
                     'required' => true,
-                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2"
+                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2, 'groupSeparator': '.', 'radixPoint': ','"
                 ],
                 [
                     'label' => 'Años de vida útil',
@@ -252,7 +268,7 @@ class AssetParametersRepository
                     'label' => 'RIF del comodatario',
                     'name' => 'rif',
                     'type' => 'text',
-                    'required' => true,
+                    'required' => false,
                     'mask' => null
                 ],
                 [
@@ -309,14 +325,14 @@ class AssetParametersRepository
                     'label' => 'Fecha de inicio del contrato',
                     'name' => 'contract_start_date',
                     'type' => 'date',
-                    'required' => true,
+                    'required' => false,
                     'mask' => null
                 ],
                 [
                     'label' => 'Fecha de fin del contrato',
                     'name' => 'contract_end_date',
                     'type' => 'date',
-                    'required' => true,
+                    'required' => false,
                     'mask' => null
                 ],
                 [
@@ -465,7 +481,7 @@ class AssetParametersRepository
                     'name' => 'acquisition_value',
                     'type' => 'text',
                     'required' => true,
-                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2"
+                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2, 'groupSeparator': '.', 'radixPoint': ','"
                 ],
             ],
             "vehiculos" => [
@@ -534,14 +550,14 @@ class AssetParametersRepository
                     'name' => 'acquisition_value',
                     'type' => 'text',
                     'required' => true,
-                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2"
+                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2, 'groupSeparator': '.', 'radixPoint': ','"
                 ],
                 [
                     'label' => 'Valor residual',
                     'name' => 'residual_value',
                     'type' => 'text',
                     'required' => true,
-                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2"
+                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2, 'groupSeparator': '.', 'radixPoint': ','"
                 ],
                 [
                     'label' => 'Años de vida útil',
@@ -586,7 +602,7 @@ class AssetParametersRepository
                     'label' => 'RIF del comodatario',
                     'name' => 'rif',
                     'type' => 'text',
-                    'required' => true,
+                    'required' => false,
                     'mask' => null
                 ],
                 [
@@ -643,14 +659,14 @@ class AssetParametersRepository
                     'label' => 'Fecha de inicio del contrato',
                     'name' => 'contract_start_date',
                     'type' => 'date',
-                    'required' => true,
+                    'required' => false,
                     'mask' => null
                 ],
                 [
                     'label' => 'Fecha de fin del contrato',
                     'name' => 'contract_end_date',
                     'type' => 'date',
-                    'required' => true,
+                    'required' => false,
                     'mask' => null
                 ],
                 [
@@ -799,7 +815,7 @@ class AssetParametersRepository
                     'name' => 'acquisition_value',
                     'type' => 'text',
                     'required' => true,
-                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2"
+                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2, 'groupSeparator': '.', 'radixPoint': ','"
                 ],
             ],
             "semovientes" => [
@@ -881,7 +897,7 @@ class AssetParametersRepository
                     'name' => 'acquisition_value',
                     'type' => 'text',
                     'required' => true,
-                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2"
+                    'mask' => "'alias': 'numeric', 'allowMinus': 'false', 'digits': 2, 'groupSeparator': '.', 'radixPoint': ','"
                 ],
             ],
         ];
@@ -890,44 +906,40 @@ class AssetParametersRepository
     /**
      * Listado de parámetros
      *
-     * @method    loadParametersData
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Array      Devuelve un arreglo con todas las opciones correspondientes
+     * @return    array      Devuelve un arreglo con todas las opciones correspondientes
      */
     public function loadParametersData($type)
     {
         return $this->parameters[$type] ?? null;
     }
 
- /**
+    /**
      * Listado de todos los parametros
-     *
-     * @method    loadAllParameters
      *
      * @author   Fabian Palmera <fabianp@cenditel.gob.ve>
      *
+     * @return    array      Devuelve un arreglo con todas las opciones correspondientes
      */
     public function loadAllParameters()
     {
         return [
             'colors' => $this->colors,
-            'types' => $this->cattleTypes,
+            'cattle_types' => $this->cattleTypes,
             'purposes' => $this->purposes,
             'occupancy_status' => $this->occupancyStatus,
             'use_functions' => $this->assetUseFunctions,
-            'genders' => $this->genders
+            'genders' => $this->genders,
         ];
     }
+
     /**
      * Listado de colores
      *
-     * @method    loadColorsData
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Array      Devuelve un arreglo con todas las opciones correspondientes
+     * @return    array      Devuelve un arreglo con todas las opciones correspondientes
      */
     public function loadColorsData()
     {
@@ -937,11 +949,9 @@ class AssetParametersRepository
     /**
      * Listado de tipos de ganado
      *
-     * @method    loadCattleTypesData
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Array      Devuelve un arreglo con todas las opciones correspondientes
+     * @return    array      Devuelve un arreglo con todas las opciones correspondientes
      */
     public function loadCattleTypesData()
     {
@@ -951,11 +961,9 @@ class AssetParametersRepository
     /**
      * Listado de propositos del semoviente
      *
-     * @method    loadPurposesData
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Array      Devuelve un arreglo con todas las opciones correspondientes
+     * @return    array      Devuelve un arreglo con todas las opciones correspondientes
      */
     public function loadPurposesData()
     {
@@ -965,11 +973,9 @@ class AssetParametersRepository
     /**
      * Listado de estado de ocupación del terreno
      *
-     * @method    loadOccupancyStatusData
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Array      Devuelve un arreglo con todas las opciones correspondientes
+     * @return    array      Devuelve un arreglo con todas las opciones correspondientes
      */
     public function loadOccupancyStatusData()
     {
@@ -979,11 +985,9 @@ class AssetParametersRepository
     /**
      * Listado de estado de ocupación del terreno
      *
-     * @method    loadAssetUseFunctionsData
-     *
      * @author   Fabian Palmera <fabianp@cenditel.gob.ve>
      *
-     * @return    Array      Devuelve un arreglo con todas las opciones correspondientes
+     * @return    array      Devuelve un arreglo con todas las opciones correspondientes
      */
     public function loadAssetUseFunctionsData()
     {
@@ -993,11 +997,9 @@ class AssetParametersRepository
     /**
      * Listado de los géneros para semovientes
      *
-     * @method    loadAssetGendersData
-     *
      * @author   Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      *
-     * @return    Array      Devuelve un arreglo con todas las opciones correspondientes
+     * @return    array      Devuelve un arreglo con todas las opciones correspondientes
      */
     public function loadGendersData()
     {

@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class CreatePurchaseCompromisesTable
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -32,9 +30,9 @@ class CreatePurchaseCompromisesTable extends Migration
                 $table->string('code', 20)->unique()->comment("Código único que identifica el compromiso");
                 $table->foreignId('document_status_id')->nullable()->constrained('document_status')
                       ->onDelete('restrict')->onUpdate('cascade');
-                /** Relación para los beneficiarios del compromiso */
+                /* Relación para los beneficiarios del compromiso */
                 $table->morphs('compromiseable');
-                /** Relación para los documentos de origen que generan el compromiso */
+                /* Relación para los documentos de origen que generan el compromiso */
                 $table->nullableMorphs('sourceable');
 
                 $table->string('document_number')->unique()->comment(

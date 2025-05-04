@@ -1,0 +1,9 @@
+<map id="calculateOperation" name="calculateOperation">
+<area shape="rect" id="Node000001" title="Realiza la conversión de saldo." alt="" coords="236,31,381,56"/>
+<area shape="rect" id="Node000002" href="$d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html#a172d5221f9a5d7bbcbcea178e7d878dc" title="Vista en la que se genera el reporte en pdf." alt="" coords="131,5,174,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,32,174,24,175,19,223,27"/>
+<area shape="rect" id="Node000004" href="$d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html#a23c281813aa2f3d73fe2c7089b2b7f03" title="Vista en la que se genera el reporte en pdf." alt="" coords="117,55,188,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="223,59,189,65,188,59,222,54"/>
+<area shape="rect" id="Node000003" href="$d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html#a23d7453ab9e51eca5ab50a38ce4a84c0" title="Genera el reporte en hoja de cálculo de Mayor Analítico." alt="" coords="5,5,69,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="118,21,70,21,70,15,118,15"/>
+</map>

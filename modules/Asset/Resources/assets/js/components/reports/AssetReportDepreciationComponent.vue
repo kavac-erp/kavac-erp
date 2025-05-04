@@ -57,7 +57,7 @@
                 </div>
                 <div class="row align-items-end">
                     <div class="col-md-2 form-group">
-                        <button type="button" aria-label="Search" title="Buscar"
+                        <button type="button" aria-label="Buscar" title="Buscar"
                             class="btn btn-info btn-icon btn-xs-responsive px-3" @click="filterRecords()">
                             <i class="fa fa-search"></i>
                         </button>
@@ -70,14 +70,16 @@
                     <h6 class="card-title text-uppercase">Registro</h6>
                 </div>
                 <div class="colunm justify-content-center">
-                    <v-client-table :columns="columns" :data="records" :options="table_options" ref="ClientTable">
-                        <div slot="acquisition_value" slot-scope="props">
+                    <v-client-table :columns="columns" :data="records" :options="table_options">
+
+                        <!--                         <div slot="id" slot-scope="props">
                             {{ props.row.acquisition_value.name }} {{ " " + props.row.currency.symbol + "." }}
                         </div>
                         <div slot="acummulated_depreciation" slot-scope="props">
-                            {{ lastDepreciation(props.row.depreciation).acumulated_amount }} {{ " " + props.row.currency.symbol
+                            {{ lastDepreciation(props.row.depreciation).acumulated_amount }} {{ " " +
+                                props.row.currency.symbol
                                 + "." }}
-                        </div>
+                        </div> -->
                     </v-client-table>
                 </div>
             </div>
@@ -103,23 +105,23 @@ export default {
             institutions: [],
             records: [],
             columns: [
-                'asset_institutional_code.name',
-                'asset_subcategory.name',
-                'asset_specific_category.name',
-                'acquisition_date.name',
+                'asset_institutional_code',
+                'asset_subcategory',
+                'asset_specific_category',
+                'acquisition_date',
                 'acquisition_value',
-                'depresciation_years.name',
-                'acummulated_depreciation',
+                'depresciation_years',
+                'acumulated_depreciation',
             ],
             table_options: {
                 headings: {
-                    'asset_institutional_code.name': 'Código interno',
-                    'asset_subcategory.name': 'Subcategoría',
-                    'asset_specific_category.name': 'Categoría específica',
-                    'acquisition_date.name': 'Fecha de compra',
+                    'asset_institutional_code': 'Código interno',
+                    'asset_subcategory': 'Subcategoría',
+                    'acumulated_depreciation.asset_specific_category': 'Categoría específica',
+                    'acquisition_date': 'Fecha de compra',
                     'acquisition_value': 'Valor de compra',
-                    'depresciation_years.name': 'Años de vida util',
-                    'acummulated_depreciation': 'Depreciación acumulada',
+                    'depresciation_years': 'Años de vida util',
+                    'acumulated_depreciation': 'Depreciación acumulada',
                 },
                 sortable: [],
                 columnsClasses: {
@@ -164,11 +166,11 @@ export default {
                 code: '',
             };
         },
-        loadAssets(url, fields) {
+        async loadAssets(url, fields) {
             const vm = this;
-            axios.post(url, fields).then(response => {
+            await axios.post(url, fields).then(response => {
                 if (typeof (response.data.records) !== "undefined") {
-                    vm.records = response.data.records;
+                    vm.records = response.data.records[0]['acumulated_depreciation'];
                 }
             });
         },
@@ -205,16 +207,17 @@ export default {
             vm.loading = false;
             vm.reset();
         },
-        filterRecords() {
+        async filterRecords() {
             const vm = this;
             var url = `${window.app_url}/asset/registers/search/code`;
+
             var fields = {};
 
             if (vm.record.type_report == 'specific') {
                 fields = {
                     code: vm.record.code
                 }
-                vm.loadAssets(url, fields);
+                await vm.loadAssets(url, fields);
             }
         },
         lastDepreciation(depreciations) {

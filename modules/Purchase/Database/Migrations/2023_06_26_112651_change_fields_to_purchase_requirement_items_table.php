@@ -8,11 +8,9 @@ use Nwidart\Modules\Facades\Module;
 
 /**
  * @class ChangeFieldsToPurchaseRequirementItemsTable
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -46,8 +44,8 @@ class ChangeFieldsToPurchaseRequirementItemsTable extends Migration
             $products = PurchaseRequirementItem::with('warehouseProduct')->get();
             foreach ($products as $product) {
                 if ($product->warehouseProduct) {
-                    $product->history_tax_id = $product->warehouseProduct->history_tax_id;
-                    $product->measurement_unit_id = $product->warehouseProduct->measurement_unit_id;
+                    $product['history_tax_id'] = $product->warehouseProduct->history_tax_id;
+                    $product['measurement_unit_id'] = $product->warehouseProduct->measurement_unit_id;
                     $product->save();
                 }
             }

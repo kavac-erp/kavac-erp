@@ -18,7 +18,7 @@
 
 @section('modules-js')
     @if(Module::has('Accounting'))
-        @permission('close_fiscal_year.entries')
+        @permission('closefiscalyear.entries')
             {!! Html::script(mix('modules/accounting/js/shared.js'), [], Request::secure()) !!}
         @endpermission
     @endif

@@ -12,10 +12,6 @@
         </div>
         <div slot="id" slot-scope="props" class="text-center">
             <div class="d-inline-flex">
-                <!--sale-bill-info
-                    :route_list="'/sale/bills/info/'+ props.row.id">
-                </sale-bill-info-->
-
                 <button @click="editForm(props.row.id)"
                         class="btn btn-warning btn-xs btn-icon btn-action"
                         title="Modificar registro" data-toggle="tooltip" type="button"

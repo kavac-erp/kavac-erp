@@ -15,6 +15,17 @@ use Modules\Accounting\Models\AccountingEntryAccount;
 use Modules\Accounting\Models\Institution;
 use Nwidart\Modules\Facades\Module;
 
+/**
+ * @class AccountingManageEntries
+ * @brief Gestiona los procesos de los asientos contables
+ *
+ * Realiza el proceso de asientos contables
+ *
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AccountingManageEntries implements ShouldQueue
 {
     use Dispatchable;
@@ -25,14 +36,14 @@ class AccountingManageEntries implements ShouldQueue
     /**
      * Arreglo que contiene la información asociada a la solicitud
      *
-     * @var Array $data
+     * @var array $data
      */
     protected $data;
 
     /**
      * int que contiene la información asociada a la solicitud
      *
-     * @var int $institution
+     * @var integer $institution
      */
     protected $institution_id;
 
@@ -40,7 +51,7 @@ class AccountingManageEntries implements ShouldQueue
      * Variable que contiene el tiempo de espera para la ejecución del trabajo,
      * si no se quiere limite de tiempo, se define en 0
      *
-     * @var Integer $timeout
+     * @var integer $timeout
      */
     public $timeout = 0;
 
@@ -56,7 +67,7 @@ class AccountingManageEntries implements ShouldQueue
     }
 
     /**
-     * Execute the job.
+     * Ejecuta el trabajo
      *
      * @return void
      */
@@ -64,9 +75,7 @@ class AccountingManageEntries implements ShouldQueue
     {
         $created_at = now();
         $newEntries = AccountingEntry::where('reference', $this->data['reference'])->first();
-        /**
-         * Para actualizar
-         */
+        /* Para actualizar */
         if ($newEntries) {
             $newEntries->concept = $this->data['concept'];
             $newEntries->observations = $this->data['observations'];
@@ -78,9 +87,7 @@ class AccountingManageEntries implements ShouldQueue
             $newEntries->from_date = $this->data['date'];
             $newEntries->save();
         } else {
-            /**
-             * Para crear
-             */
+            /* Para crear */
             $newEntries = AccountingEntry::create([
                 'from_date' => $this->data['date'],
                 'reference' => ($this->data['reference']) ??
@@ -103,13 +110,14 @@ class AccountingManageEntries implements ShouldQueue
         }
 
         foreach ($this->data['accountingAccounts'] as $account) {
-            /**
+            /*
              * Se crea la relación de cuenta a ese asiento si ya existe existe lo actualiza,
              * de lo contrario crea el nuevo registro de cuenta
              */
             AccountingEntryAccount::create([
                 'accounting_entry_id' => $newEntries->id,
                 'accounting_account_id' => $account['id'],
+                'bank_reference' => $account['bank_reference'] ?? null,
                 'debit' => $account['debit'],
                 'assets' => $account['assets'],
             ]);
@@ -135,9 +143,11 @@ class AccountingManageEntries implements ShouldQueue
     }
 
     /**
-     * [generateCodeAvailable genera el código disponible]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @return string [código que se asignara]
+     * Genera el código disponible
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return string
      */
     public function generateCodeAvailable()
     {

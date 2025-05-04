@@ -28,20 +28,31 @@
 									<input type="hidden" v-model="record.id">
 			                    </div>
 							</div>
-							<div class="col-12 col-md-2">
-								<div class="form-group is-required">
-									<label>Símbolo:</label>
-									<input type="text" placeholder="Símbolo" data-toggle="tooltip"
-										   title="Indique el símbolo de la moneda (requerido)"
-										   class="form-control input-sm" v-model="record.symbol" v-is-text>
-			                    </div>
-							</div>
 							<div class="col-12 col-md-4">
 								<div class="form-group is-required">
 									<label>Nombre:</label>
 									<input type="text" placeholder="Nombre de la moneda" data-toggle="tooltip"
-										   title="Infique el nombre de la moneda (requerido)"
+										   title="Indique el nombre de la moneda (requerido)"
 										   class="form-control input-sm" v-model="record.name" v-is-text>
+			                    </div>
+							</div>
+							<div class="col-12 col-md-4">
+								<div class="form-group is-required">
+									<label>Nombre en plural:</label>
+									<input type="text" placeholder="Nombre de la moneda en plural" data-toggle="tooltip"
+										   title="Indique el nombre de la moneda en plural (requerido)"
+										   class="form-control input-sm" v-model="record.plural_name" v-is-text>
+			                    </div>
+							</div>
+							<div class="col-12 col-md-2">
+								<div class="form-group is-required">
+									<label>Símbolo:</label>
+									<input
+										type="text" placeholder="Símbolo" data-toggle="tooltip"
+										title="Indique el símbolo de la moneda (requerido). Ejemplo: Bs., $, €, £, ₽, o en su defecto, las siglas de la moneda. Ejemplo: USD, EUR, GBP, etc."
+										class="form-control input-sm" v-model="record.symbol"
+										onpaste="return false;" v-has-symbols
+									>
 			                    </div>
 							</div>
 							<div class="col-12 col-md-2">
@@ -53,32 +64,30 @@
 										   min="2">
 								</div>
 							</div>
-						</div>
-						<div class="row">
 							<div class="col-12 col-md-2">
 								<div class="form-group is-required">
 									<label>Por defecto:</label>
-									<div class="custom-control custom-switch" data-toggle="tooltip" 
-										 title="Indique si es la moneda por defecto en la aplicación">
-										<input type="checkbox" class="custom-control-input" 
-											   id="defaultCurrency" v-model="record.default" :value="true">
+									<div class="custom-control custom-switch" data-toggle="tooltip"
+											title="Indique si es la moneda por defecto en la aplicación">
+										<input type="checkbox" class="custom-control-input"
+												id="defaultCurrency" v-model="record.default" :value="true">
 										<label class="custom-control-label" for="defaultCurrency"></label>
 									</div>
-			                    </div>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
 	                	<div class="form-group">
-	                		<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+	                		<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('currencies')" 
+							<button type="button" @click="createRecord('currencies')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -121,6 +130,7 @@
 					symbol: '',
 					default: false,
 					name: '',
+					plural_name: '',
 					decimal_places: 0,
 				},
 				errors: [],
@@ -141,7 +151,8 @@
 					country_id: '',
 					symbol: '',
 					default: false,
-					name: ''
+					name: '',
+					plural_name: '',
 				};
 			},
 		},
@@ -165,7 +176,7 @@
 		},
 		mounted() {
 			const vm = this;
-			
+
 			$("#add_currency").on('show.bs.modal', function() {
 				vm.getCountries();
 			});

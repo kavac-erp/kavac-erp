@@ -15,6 +15,7 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos de las políticas de prestaciones
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -26,12 +27,14 @@ class PayrollBenefitsPolicy extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var    array    $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var    array    $fillable
      */
     protected $fillable = [
@@ -43,6 +46,7 @@ class PayrollBenefitsPolicy extends Model implements Auditable
 
     /**
      * Lista de atributos de relacion consultados automaticamente
+     *
      * @var    array    $with
      */
     protected $with = ['institution'];

@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class UpdateCompromiseableFieldsToBudgetCompromisesTable
- * @brief [descripción detallada]
+ * @brief Actualiza los tipos de datos de los campos 'compromiseable_type' y 'compromiseable_id' de la tabla 'budget_compromises'
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

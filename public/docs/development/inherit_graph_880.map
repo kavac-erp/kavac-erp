@@ -1,6 +1,9 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d2/d9e/interfaceApp_1_1Repositories_1_1Contracts_1_1ReportInterface.html" title="Interfaz para la gestión de reportes." alt="" coords="5,56,128,83"/>
-<area shape="rect" id="node2" href="$db/d2b/classApp_1_1Repositories_1_1ReportRepository.html" title="Gestiona los reportes de la aplicación." alt="" coords="190,5,325,32"/>
-<area shape="rect" id="node3" href="$dc/d5e/classModules_1_1DigitalSignature_1_1Repositories_1_1ReportRepositorySign.html" title="Gestiona los reportes de la aplicación." alt="" coords="176,56,339,83"/>
-<area shape="rect" id="node4" href="$da/ddf/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1Base_1_1ReportRepository.html" title="Gestiona los reportes de la aplicación." alt="" coords="190,107,325,133"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$de/d44/classApp_1_1Models_1_1Parish.html" title="Datos de Parroquias." alt="" coords="5,55,67,80"/>
+<area shape="rect" id="Node000001" href="$d8/d9b/classModules_1_1CitizenService_1_1Models_1_1Parish.html" title="Extiende del modelo Parish de la aplicación base." alt="" coords="115,5,176,31"/>
+<area shape="poly" id="edge94_Node000000_Node000001" title=" " alt="" coords="76,46,115,28,117,33,78,51"/>
+<area shape="rect" id="Node000002" href="$d3/d6c/classModules_1_1Payroll_1_1Models_1_1Parish.html" title="Modelo que extiende las funcionalidades del modelo base Parish." alt="" coords="115,55,176,80"/>
+<area shape="poly" id="edge95_Node000000_Node000002" title=" " alt="" coords="80,65,114,65,114,70,80,70"/>
+<area shape="rect" id="Node000003" href="$d2/d72/classModules_1_1Sale_1_1Models_1_1Parish.html" title="Extiende de la clase Parish de la aplicación base." alt="" coords="115,104,176,129"/>
+<area shape="poly" id="edge96_Node000000_Node000003" title=" " alt="" coords="78,83,117,101,115,106,76,88"/>
 </map>

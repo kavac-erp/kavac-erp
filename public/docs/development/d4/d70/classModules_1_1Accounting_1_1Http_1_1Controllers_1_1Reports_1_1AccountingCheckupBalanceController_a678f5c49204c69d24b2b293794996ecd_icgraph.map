@@ -1,0 +1,21 @@
+<map id="setConvertions" name="setConvertions">
+<area shape="rect" id="Node000001" title="Establece las conversiones." alt="" coords="808,79,928,104"/>
+<area shape="rect" id="Node000002" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a67f6fd263661bf21f4157f0d63040ba2" title="Calcula la suma de los saldos de la cuenta en los asientos contables aprobados." alt="" coords="649,29,760,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="811,77,747,57,749,52,813,72"/>
+<area shape="rect" id="Node000008" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a569216b76d007ddf616af4b24e1a701c" title="Genera el reporte del balance de comprobación." alt="" coords="671,79,738,104"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="794,94,738,94,738,89,794,89"/>
+<area shape="rect" id="Node000009" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a1ce8253e8a1ac0aedaff3fe67caf3acf" title="Genera el reporte firmado." alt="" coords="657,128,752,153"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="813,111,749,130,747,125,811,106"/>
+<area shape="rect" id="Node000003" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a982221830ce3a62a918b698196654233" title="Consulta y formatea las cuentas en un rango determinado y las almacena en variables en el controlador..." alt="" coords="483,29,601,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="636,45,602,45,602,39,636,39"/>
+<area shape="rect" id="Node000004" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a57455bb46bddda149ebb5968c2a10a76" title="Calcula los saldos iniciales de cada cuenta en el rango dado, y lo alamcena." alt="" coords="236,29,435,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="469,45,435,45,435,39,469,39"/>
+<area shape="rect" id="Node000005" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a5c0379fc68799a3f32447bd6760dcd02" title="Vista en la que se genera el reporte en pdf de balance de comprobación." alt="" coords="131,5,174,31"/>
+<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="484,29,434,19,359,14,285,13,174,19,174,14,285,8,360,9,435,14,485,23"/>
+<area shape="rect" id="Node000007" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a23c281813aa2f3d73fe2c7089b2b7f03" title="Vista en la que se genera el reporte en pdf de balance de comprobación." alt="" coords="117,55,188,80"/>
+<area shape="poly" id="edge8_Node000003_Node000007" title=" " alt="" coords="485,61,435,70,366,75,298,76,188,73,188,67,298,71,366,70,434,65,484,55"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="225,30,174,23,175,18,226,25"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="230,59,188,65,188,60,230,54"/>
+<area shape="rect" id="Node000006" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a23d7453ab9e51eca5ab50a38ce4a84c0" title="Genera el reporte en hojade cálculo de balance general." alt="" coords="5,5,69,31"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="118,21,70,21,70,15,118,15"/>
+</map>

@@ -105,6 +105,16 @@
                 >
                     <i class="fa fa-eye"></i>
                 </button>
+                <a
+                    class="btn btn-primary btn-xs btn-icon"
+                    title="Imprimir registro"
+                    data-toggle="tooltip"
+                    target="_blank"
+                    :href="budget_transfers_pdf + props.row.id"
+                    v-has-tooltip
+                >
+                    <i class="fa fa-print"></i>
+                </a>
                 <button
                     v-if="
                         props.row.status === 'PE'
@@ -174,6 +184,7 @@
                 records: [],
                 lastYear: "",
                 tmpRecords: [],
+                budget_transfers_pdf: `${window.app_url}/budget/transfers/pdf/`,
                 columns: [
                     'approved_at',
                     'code',

@@ -1,3 +1,3 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d6/d04/classAddFieldPayrollPaymentTypeIdToPayrollBenefitsPoliciesTable.html" title="Agrega el campo tipo de pago de nómina a la tabla de políticas de prestaciones." alt="" coords="5,5,235,47"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d3/de7/classAddFieldInstitutionIdToAccountingEntryCategoriesTable.html" title="Ejecuta la migración para agregar el campo institution_id a la tabla accounting_entry_categories." alt="" coords="5,5,248,45"/>
 </map>

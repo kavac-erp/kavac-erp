@@ -22,11 +22,11 @@
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
                                     data-dismiss="modal">
                                 Cerrar
                             </button>
-                            <button type="button" @click="storeRecord('asset/depreciations')" 
+                            <button type="button" @click="storeRecord('asset/depreciations')"
                                     class="btn btn-primary btn-sm btn-round btn-modal-save">
                                 Guardar
                             </button>
@@ -43,7 +43,7 @@
         data() {
             return {
                 record: {
-                    // 
+                    //
                 },
                 execution_year: '',
                 exist_accounting: false,
@@ -83,15 +83,6 @@
             async storeRecord(url) {
                 const vm = this;
                 await vm.createRecord(url);
-
-                if (vm.errors.length == 0) {
-                    $('#asset-depreciations').modal('hide');
-
-                    const timeOpen = setTimeout(reload, 1000);
-                    function reload () {
-                        window.location.reload();
-                    }
-                }
             },
 
             /**

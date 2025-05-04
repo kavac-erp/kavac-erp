@@ -2,17 +2,10 @@
 
 namespace Modules\Sale\Http\Controllers\Reports;
 
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Repositories\ReportRepository;
-use App\Models\CodeSetting;
-use App\Models\Profile;
 use App\Models\Institution;
 use Modules\Sale\Models\SaleBill;
-use Modules\Sale\Models\SaleBillInventoryProduct;
-use Modules\Sale\Models\SaleWarehouseInventoryProduct;
-use Auth;
 
 /**
  * @class SaleBillController
@@ -21,8 +14,9 @@ use Auth;
  * Clase que gestiona de la emision de una factura
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve | exodiadaniel@gmail.com>
- * @copyright <a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *                LICENCIA DE SOFTWARE CENDITEL</a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleBillController extends Controller
 {
@@ -30,21 +24,23 @@ class SaleBillController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve | exodiadaniel@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
     }
 
         /**
      * vista en la que se genera la emisión de la factura en pdf
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve | exodiadaniel@gmail.com>
-     * @param Int $id id de la factura
+     *
+     * @param integer $id id de la factura
     */
     public function pdf($id)
     {
-
         // Validar acceso para el registro
 
         $is_admin = auth()->user()->isAdmin();
@@ -56,35 +52,21 @@ class SaleBillController extends Controller
                                 $q->with('saleSettingProduct');
                             }]);
         }])->find($id);
-        // if (!$is_admin && $user_profile && $user_profile['institution']) {
-        //  // )->where('institution_id', $user_profile['institution']['id'])->find($id);
-        // } else {
-        //  $requirement = AccountingEntry::with(
-        //      'accountingAccounts.account.accountConverters.budgetAccount',
-        //      'currency'
-        //  )->find($id);
-        // }
 
         if (!auth()->user()->isAdmin()) {
-            if ($requirement && $requirement->queryAccess($user_profile['institution']['id'])) {
+            $user_profile = auth()->user()?->profile;
+            if (isset($requirement) && $requirement && $requirement->queryAccess($user_profile['institution']['id'])) {
                 return view('errors.403');
             }
         }
 
-        /**
-         * [$pdf base para generar el pdf]
-         * @var [Modules\Accounting\Pdf\Pdf]
-         */
+        /* base para generar el pdf */
         $pdf = new ReportRepository();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definicion de las caracteristicas generales de la página pdf */
         $institution = null;
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definicion de las caracteristicas generales de la página pdf */
         if (auth()->user()->isAdmin()) {
             $institution = Institution::first();
         } else {

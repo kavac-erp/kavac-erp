@@ -14,20 +14,33 @@ use Illuminate\Database\Eloquent\Model;
  * Gestiona los parámetros por defecto a implementar en la aplicación
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class ParametersTableSeeder extends Seeder
 {
+    /**
+     * Contador de parámetros cargados
+     *
+     * @var int $count
+     */
     protected $count;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->count = 0;
     }
 
     /**
-     * Run the database seeds.
+     * Ejecuta los seeers de base de datos
      *
      * @return void
      */

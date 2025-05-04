@@ -11,23 +11,37 @@ use Illuminate\Contracts\Validation\Rule;
  * Gestiona las reglas de validación de los requerimientos de las escalas de un escalafón salarial
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollScaleRequirements implements Rule
 {
-    /** String Define el atributo que fallo la validación */
+    /**
+     * Define el atributo que fallo la validación
+     *
+     * @var string $attribute
+     */
     protected $attribute;
-    /** String Define si el escalafón salarial es validado por grado de instrucción o por cargo */
+
+    /**
+     * Define si el escalafón salarial es validado por grado de instrucción o por cargo
+     *
+     * @var string $group_by_clasification
+     */
     protected $group_by_clasification;
-    /** String Define si el escalafón salarial es validado por eperiencia laboral o antiguedad */
+
+    /**
+     * Define si el escalafón salarial es validado por eperiencia laboral o antiguedad
+     *
+     * @var string $group_by_years
+     */
     protected $group_by_years;
 
     /**
      * Crea una nueva instancia de la regla.
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function __construct($group_by_years = null, $group_by_clasification = null)
@@ -39,8 +53,9 @@ class PayrollScaleRequirements implements Rule
     /**
      * Determina si la regla de validación es correcta.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param  string  $attribute Atributo a verificar
+     * @param  mixed  $value Valor del atributo a verificar
+     *
      * @return bool
      */
     public function passes($attribute, $value)

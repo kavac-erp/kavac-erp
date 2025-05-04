@@ -13,11 +13,7 @@ return [
     */
 
     'failed' => 'Estas credenciales no coinciden con nuestros registros. Tiene :attempts intento(s) mas.',
-    //'throttle' => 'Demasiados intentos de acceso. Por favor intente nuevamente en :seconds segundos.',
-    'throttle' => <<<EOT
-        Demasiados intentos de acceso.
-        Por medidas de seguridad su usuario ha sido bloqueado.
-    EOT,
+    'throttle' => 'Demasiados intentos de acceso. Por medidas de seguridad su usuario ha sido bloqueado.',
     'register' => [
         'register_title' => 'Register',
         'or_label' => 'or',

@@ -268,9 +268,9 @@
         mounted() {
             const vm = this;
 
-            $("#PayrollTimeSheetInfo").on('show.bs.modal', function() {
-                vm.getPayrollSupervisedGroups(vm.record.id, 'active');
-                vm.getPayrollTimeSheetParameters().then(() => {
+            $("#PayrollTimeSheetInfo").on('show.bs.modal', async function() {
+                await vm.getPayrollSupervisedGroups(vm.record.id, 'active');
+                await vm.getPayrollTimeSheetParameters().then(() => {
                     vm.setTimeSheetColumns();
                     vm.setTimeSheetData();
                 });

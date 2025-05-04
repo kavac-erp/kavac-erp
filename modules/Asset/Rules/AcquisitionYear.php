@@ -11,17 +11,21 @@ use Illuminate\Contracts\Validation\Rule;
  * Gestiona las reglas de validación de el año de adquisición de un bien
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AcquisitionYear implements Rule
 {
-    /** Integer Define el año maximo de adquisición */
+    /**
+     * Define el año maximo de adquisición
+     *
+     * @var integer $year
+     */
     protected $year;
 
     /**
-     * Create a new rule instance.
+     * Crea una nueva instancia de la clase
      *
      * @return void
      */
@@ -31,10 +35,11 @@ class AcquisitionYear implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Determina si la regla de validación se cumple
      *
      * @param  string  $attribute
      * @param  mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
@@ -45,7 +50,7 @@ class AcquisitionYear implements Rule
     }
 
     /**
-     * Get the validation error message.
+     * Obtiene el mensaje de validación.
      *
      * @return string
      */

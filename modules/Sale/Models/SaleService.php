@@ -2,12 +2,13 @@
 
 namespace Modules\Sale\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 use Modules\Sale\Models\SaleGoodsToBeTraded;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class SaleService
@@ -28,12 +29,14 @@ class SaleService extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['code', 'organization', 'description',
@@ -41,6 +44,7 @@ class SaleService extends Model implements Auditable
 
     /**
      * Lista de atributos que deben ser asignados a tipos nativos.
+     *
      * @var array
      */
     protected $casts = [
@@ -49,6 +53,7 @@ class SaleService extends Model implements Auditable
 
     /**
      * Lista de atributos personalizados obtenidos por defecto
+     *
      * @var array $appends
      */
     protected $appends = [
@@ -60,7 +65,7 @@ class SaleService extends Model implements Auditable
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return    $data
+     * @return    array
      */
     public function getSaleGoodsAttribute()
     {
@@ -82,8 +87,8 @@ class SaleService extends Model implements Auditable
      * Método que obtiene los requerimientos de la solicitud de servicios
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany Objeto con el registro relacionado al modelo
-     * saleTypeGood
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleServiceRequirement()
     {
@@ -94,8 +99,8 @@ class SaleService extends Model implements Auditable
      * Método que obtiene los registros del modelo de clientes
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo Objeto con el registro relacionado al modelo
-     * saleTypeGood
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleClient()
     {
@@ -106,8 +111,8 @@ class SaleService extends Model implements Auditable
      * Método que obtiene los registros del modelo de bienes a comercializar
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo Objeto con el registro relacionado al modelo
-     * saleTypeGood
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleGoodsToBeTraded()
     {
@@ -118,20 +123,22 @@ class SaleService extends Model implements Auditable
      * Método que obtiene la lista de trabajadores almacenados en el modulo payroll
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * PayrollStaff
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollStaff()
     {
-        return $this->belongsTo(\Modules\Payroll\Models\PayrollStaff::class);
+        return (
+            Module::has('Payroll') && Module::isEnabled('Payroll')
+        ) ? $this->belongsTo(\Modules\Payroll\Models\PayrollStaff::class) : null;
     }
 
     /**
      * Método que obtiene los requerimientos de la solicitud de servicios
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany Objeto con el registro relacionado al modelo
-     * SaleTechnicalProposal
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleTechnicalProposal()
     {

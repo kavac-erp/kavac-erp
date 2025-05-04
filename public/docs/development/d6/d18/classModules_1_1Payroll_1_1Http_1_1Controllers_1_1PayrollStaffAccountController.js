@@ -10,7 +10,7 @@ var classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffAccountControl
     [ "show", "d6/d18/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffAccountController.html#ae4914d07a9bbe4aede7a5dea759f6287", null ],
     [ "store", "d6/d18/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffAccountController.html#a9ef485163104597c12185b53cdacf638", null ],
     [ "update", "d6/d18/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffAccountController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
-    [ "vueList", "d6/d18/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffAccountController.html#aca78b35dd9df5b11e63e88796cf08c66", null ],
-    [ "$messages", "d6/d18/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffAccountController.html#a21a183f927a6d243fe6b4ba3a6c4d4c8", null ],
-    [ "$validateRules", "d6/d18/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffAccountController.html#a15ad824a86b12cbf9a2bca2423720a7d", null ]
+    [ "vueList", "d6/d18/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffAccountController.html#aeda203833835d6a44406bfdbd50b431b", null ],
+    [ "$messages", "d6/d18/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffAccountController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f", null ],
+    [ "$validateRules", "d6/d18/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffAccountController.html#a19db8a4aa08742d71b20bee403d09b5d", null ]
 ];

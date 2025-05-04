@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.9.1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>KAVAC: Referencia de la Clase SettingController</title>
+<title>KAVAC: Referencia de la clase SettingController</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -17,7 +17,7 @@
 <script type="text/javascript" src="../../search/searchdata.js"></script>
 <script type="text/javascript" src="../../search/search.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
   $(document).ready(function() { init_search(); });
 /* @license-end */
 </script>
@@ -29,21 +29,17 @@
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr style="height: 56px;">
+ <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../logo-doc.png"/></td>
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">KAVAC
-   &#160;<span id="projectnumber">v1.0.4</span>
+  <td id="projectalign">
+   <div id="projectname">KAVAC<span id="projectnumber">&#160;v1.0.5</span>
    </div>
    <div id="projectbrief">Sistema de Gestión Organizacional</div>
   </td>
-   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
-          <img id="MSearchSelect" src="../../search/mag_sel.svg"
-               onmouseover="return searchBox.OnSearchSelectShow()"
-               onmouseout="return searchBox.OnSearchSelectHide()"
-               alt=""/>
-          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Buscar" accesskey="S"
                onfocus="searchBox.OnSearchFieldFocus(true)" 
                onblur="searchBox.OnSearchFieldFocus(false)" 
                onkeyup="searchBox.OnSearchFieldChange(event)"/>
@@ -57,10 +53,10 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Generado por Doxygen 1.9.1 -->
+<!-- Generado por Doxygen 1.9.8 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-var searchBox = new SearchBox("searchBox", "../../search",false,'Buscar','.html');
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
 /* @license-end */
 </script>
 </div><!-- top -->
@@ -75,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Buscar','.html'
   </div>
 </div>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(document).ready(function(){initNavTree('d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController.html','../../'); initResizable(); });
 /* @license-end */
 </script>
@@ -89,49 +85,465 @@ $(document).ready(function(){initNavTree('d0/d95/classApp_1_1Http_1_1Controllers
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
-<iframe src="javascript:void(0)" frameborder="0" 
-        name="MSearchResults" id="MSearchResults">
-</iframe>
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
 </div>
 
 <div class="header">
-  <div class="headertitle">
-<div class="title">Referencia de la Clase SettingController</div>  </div>
+  <div class="summary">
+<a href="#pub-methods">Métodos públicos</a>  </div>
+  <div class="headertitle"><div class="title">Referencia de la clase SettingController</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>Gestiona información de configuración general.  
  <a href="../../d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController.html#details">Más...</a></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Diagrama de herencias de SettingController</div>
+  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Diagrama de herencia de SettingController</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../df/d30/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController__inherit__graph.png" border="0" usemap="#aSettingController_inherit__map" alt="Inheritance graph"/></div>
 <map name="aSettingController_inherit__map" id="aSettingController_inherit__map">
-<area shape="rect" title="Gestiona información de configuración general." alt="" coords="5,131,137,208"/>
-<area shape="rect" href="../../d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="28,5,115,83"/>
+<area shape="rect" title="Gestiona información de configuración general." alt="" coords="5,119,129,224"/>
+<area shape="rect" href="../../d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="28,5,107,71"/>
+<area shape="poly" title=" " alt="" coords="70,85,70,118,65,118,65,85"/>
 </map>
 </div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="../../closed.png" alt="+"/> Diagrama de colaboración para SettingController:</div>
+  <img id="dynsection-1-trigger" src="../../closed.png" alt="+"/> Diagrama de colaboración de SettingController:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../de/d6c/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController__coll__graph.png" border="0" usemap="#aSettingController_coll__map" alt="Collaboration graph"/></div>
 <map name="aSettingController_coll__map" id="aSettingController_coll__map">
-<area shape="rect" title="Gestiona información de configuración general." alt="" coords="5,131,137,208"/>
-<area shape="rect" href="../../d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="28,5,115,83"/>
+<area shape="rect" title="Gestiona información de configuración general." alt="" coords="5,119,129,224"/>
+<area shape="rect" href="../../d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="28,5,107,71"/>
+<area shape="poly" title=" " alt="" coords="70,85,70,118,65,118,65,85"/>
 </map>
 </div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Métodos públicos</h2></td></tr>
+<tr class="memitem:ad9ddd8fd1dbf4de164f1040d655f158f" id="r_ad9ddd8fd1dbf4de164f1040d655f158f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController.html#ad9ddd8fd1dbf4de164f1040d655f158f">edit</a> (Institution $id)</td></tr>
+<tr class="memdesc:ad9ddd8fd1dbf4de164f1040d655f158f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Muestra el formulacio con información del documento a actualizar.  <br /></td></tr>
+<tr class="separator:ad9ddd8fd1dbf4de164f1040d655f158f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a149eb92716c1084a935e04a8d95f7347" id="r_a149eb92716c1084a935e04a8d95f7347"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController.html#a149eb92716c1084a935e04a8d95f7347">index</a> ()</td></tr>
+<tr class="memdesc:a149eb92716c1084a935e04a8d95f7347"><td class="mdescLeft">&#160;</td><td class="mdescRight">Listado de todos los registros de los parámetros de configuración de la aplicación.  <br /></td></tr>
+<tr class="separator:a149eb92716c1084a935e04a8d95f7347"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6da17e5619f81580a652a9c302c19e4" id="r_af6da17e5619f81580a652a9c302c19e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController.html#af6da17e5619f81580a652a9c302c19e4">store</a> (Request $request, <a class="el" href="../../d0/da4/classApp_1_1Repositories_1_1ParameterRepository.html">ParameterRepository</a> $parameterRepository)</td></tr>
+<tr class="memdesc:af6da17e5619f81580a652a9c302c19e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registra los parámetros de configuración de la aplicación.  <br /></td></tr>
+<tr class="separator:af6da17e5619f81580a652a9c302c19e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Descripción detallada</h2>
 <div class="textblock"><p>Gestiona información de configuración general. </p>
 <p>Controlador para gestionar configuraciones</p>
-<dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas <a href="#" onclick="location.href='mai'+'lto:'+'rva'+'rg'+'as@'+'ce'+'ndi'+'te'+'l.g'+'ob'+'.ve'; return false;">rvarg<span style="display: none;">.nosp@m.</span>as@c<span style="display: none;">.nosp@m.</span>endit<span style="display: none;">.nosp@m.</span>el.g<span style="display: none;">.nosp@m.</span>ob.ve</a> | <a href="#" onclick="location.href='mai'+'lto:'+'rol'+'da'+'ndv'+'g@'+'gma'+'il'+'.co'+'m'; return false;">rolda<span style="display: none;">.nosp@m.</span>ndvg<span style="display: none;">.nosp@m.</span>@gmai<span style="display: none;">.nosp@m.</span>l.co<span style="display: none;">.nosp@m.</span>m</a></dd></dl>
+<dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas <a href="#" onclick="location.href='mai'+'lto:'+'rva'+'rg'+'as@'+'ce'+'ndi'+'te'+'l.g'+'ob'+'.ve'; return false;">rvarg<span class="obfuscator">.nosp@m.</span>as@c<span class="obfuscator">.nosp@m.</span>endit<span class="obfuscator">.nosp@m.</span>el.g<span class="obfuscator">.nosp@m.</span>ob.ve</a> | <a href="#" onclick="location.href='mai'+'lto:'+'rol'+'da'+'ndv'+'g@'+'gma'+'il'+'.co'+'m'; return false;">rolda<span class="obfuscator">.nosp@m.</span>ndvg<span class="obfuscator">.nosp@m.</span>@gmai<span class="obfuscator">.nosp@m.</span>l.co<span class="obfuscator">.nosp@m.</span>m</a></dd></dl>
 <dl class="section user"><dt>Licencia:</dt><dd><a href="http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/">LICENCIA DE SOFTWARE CENDITEL</a> </dd></dl>
 
 <p class="definition">Definición en la línea <a class="el" href="../../d5/d7b/SettingController_8php_source.html#l00035">35</a> del archivo <a class="el" href="../../d5/d7b/SettingController_8php_source.html">SettingController.php</a>.</p>
-</div><hr/>La documentación para esta clase fue generada a partir del siguiente fichero:<ul>
+</div><h2 class="groupheader">Documentación de funciones miembro</h2>
+<a id="ad9ddd8fd1dbf4de164f1040d655f158f" name="ad9ddd8fd1dbf4de164f1040d655f158f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9ddd8fd1dbf4de164f1040d655f158f">&#9670;&#160;</a></span>edit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit </td>
+          <td>(</td>
+          <td class="paramtype">Institution&#160;</td>
+          <td class="paramname"><em>$id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Muestra el formulacio con información del documento a actualizar. </p>
+<dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas <a href="#" onclick="location.href='mai'+'lto:'+'rva'+'rg'+'as@'+'ce'+'ndi'+'te'+'l.g'+'ob'+'.ve'; return false;">rvarg<span class="obfuscator">.nosp@m.</span>as@c<span class="obfuscator">.nosp@m.</span>endit<span class="obfuscator">.nosp@m.</span>el.g<span class="obfuscator">.nosp@m.</span>ob.ve</a> | <a href="#" onclick="location.href='mai'+'lto:'+'rol'+'da'+'ndv'+'g@'+'gma'+'il'+'.co'+'m'; return false;">rolda<span class="obfuscator">.nosp@m.</span>ndvg<span class="obfuscator">.nosp@m.</span>@gmai<span class="obfuscator">.nosp@m.</span>l.co<span class="obfuscator">.nosp@m.</span>m</a></dd></dl>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">Institution</td><td class="paramname">$id</td><td>Objeto con información del documento a actualizar </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definición en la línea <a class="el" href="../../d5/d7b/SettingController_8php_source.html#l00169">169</a> del archivo <a class="el" href="../../d5/d7b/SettingController_8php_source.html">SettingController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  170</span>    {</div>
+<div class="line"><span class="lineno">  171</span> </div>
+<div class="line"><span class="lineno">  172</span>        <span class="comment">// Objeto con información de los parámetros activos pertenecientes a la aplicación base</span></div>
+<div class="line"><span class="lineno">  173</span>        $parameters = Parameter::where([</div>
+<div class="line"><span class="lineno">  174</span>            <span class="stringliteral">&#39;active&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;required_by&#39;</span> =&gt; <span class="stringliteral">&#39;core&#39;</span>, <span class="stringliteral">&#39;p_value&#39;</span> =&gt; <span class="stringliteral">&#39;true&#39;</span>,</div>
+<div class="line"><span class="lineno">  175</span>        ])-&gt;get();</div>
+<div class="line"><span class="lineno">  176</span> </div>
+<div class="line"><span class="lineno">  177</span>        <span class="comment">// Parámetro asociado a la gestión de soporte técnico</span></div>
+<div class="line"><span class="lineno">  178</span>        $paramSupport = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">  179</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;support&#39;</span>;</div>
+<div class="line"><span class="lineno">  180</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">  181</span>        <span class="comment">// Parámetro asociado a la gestión de chat</span></div>
+<div class="line"><span class="lineno">  182</span>        $paramChat = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">  183</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;chat&#39;</span>;</div>
+<div class="line"><span class="lineno">  184</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">  185</span>        <span class="comment">// Parámetro asociado a la gestión de notificaciones</span></div>
+<div class="line"><span class="lineno">  186</span>        $paramNotify = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">  187</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;notify&#39;</span>;</div>
+<div class="line"><span class="lineno">  188</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">  189</span>        <span class="comment">// Parámetro asociado a la gestión de banner en reportes</span></div>
+<div class="line"><span class="lineno">  190</span>        $paramReportBanner = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">  191</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;report_banner&#39;</span>;</div>
+<div class="line"><span class="lineno">  192</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">  193</span>        <span class="comment">// Parámetro asociado a la gestión de multiples organismos</span></div>
+<div class="line"><span class="lineno">  194</span>        $paramMultiInstitution = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">  195</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;multi_institution&#39;</span>;</div>
+<div class="line"><span class="lineno">  196</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">  197</span>        <span class="comment">// Parámetro asociado a la gestión de firma electrónica</span></div>
+<div class="line"><span class="lineno">  198</span>        $paramDigitalSign = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">  199</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;digital_sign&#39;</span>;</div>
+<div class="line"><span class="lineno">  200</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">  201</span>        <span class="comment">// Parámetro asociado a la gestión de mantenimiento de la aplicación</span></div>
+<div class="line"><span class="lineno">  202</span>        $paramOnline = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">  203</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;online&#39;</span>;</div>
+<div class="line"><span class="lineno">  204</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">  205</span> </div>
+<div class="line"><span class="lineno">  206</span>        <span class="comment">// Arreglo con atributos del formulario para la configuración de parámetros</span></div>
+<div class="line"><span class="lineno">  207</span>        $header_parameters = [</div>
+<div class="line"><span class="lineno">  208</span>            <span class="stringliteral">&#39;route&#39;</span> =&gt; <span class="stringliteral">&#39;settings.store&#39;</span>, <span class="stringliteral">&#39;method&#39;</span> =&gt; <span class="stringliteral">&#39;POST&#39;</span>, <span class="stringliteral">&#39;role&#39;</span> =&gt; <span class="stringliteral">&#39;form&#39;</span>, <span class="stringliteral">&#39;class&#39;</span> =&gt; <span class="stringliteral">&#39;form&#39;</span>,</div>
+<div class="line"><span class="lineno">  209</span>        ];</div>
+<div class="line"><span class="lineno">  210</span>        <span class="comment">// Objeto con información del organismo. Por defecto el valor es nulo</span></div>
+<div class="line"><span class="lineno">  211</span>        $model_institution = $id;</div>
+<div class="line"><span class="lineno">  212</span> </div>
+<div class="line"><span class="lineno">  213</span>        <span class="comment">// Arreglo con atributos del formulario para la configuración de organismos</span></div>
+<div class="line"><span class="lineno">  214</span>        $header_institution = [</div>
+<div class="line"><span class="lineno">  215</span>            <span class="stringliteral">&#39;route&#39;</span> =&gt; <span class="stringliteral">&#39;institutions.store&#39;</span>, <span class="stringliteral">&#39;method&#39;</span> =&gt; <span class="stringliteral">&#39;POST&#39;</span>, <span class="stringliteral">&#39;role&#39;</span> =&gt; <span class="stringliteral">&#39;form&#39;</span>, <span class="stringliteral">&#39;class&#39;</span> =&gt; <span class="stringliteral">&#39;form&#39;</span>,</div>
+<div class="line"><span class="lineno">  216</span>            <span class="stringliteral">&#39;enctype&#39;</span> =&gt; <span class="stringliteral">&#39;multipart/form-data&#39;</span>,</div>
+<div class="line"><span class="lineno">  217</span>        ];</div>
+<div class="line"><span class="lineno">  218</span> </div>
+<div class="line"><span class="lineno">  219</span>        <span class="comment">// Arreglo con información de los organismos de adscripción</span></div>
+<div class="line"><span class="lineno">  220</span>        $organism_adscripts = (!is_null($model_institution)) ? template_choices(</div>
+<div class="line"><span class="lineno">  221</span>            Institution::class,</div>
+<div class="line"><span class="lineno">  222</span>            <span class="stringliteral">&#39;name&#39;</span>,</div>
+<div class="line"><span class="lineno">  223</span>            [],</div>
+<div class="line"><span class="lineno">  224</span>            <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  225</span>            $model_institution-&gt;id</div>
+<div class="line"><span class="lineno">  226</span>        ) : [<span class="stringliteral">&#39;&#39;</span> =&gt; <span class="stringliteral">&#39;Seleccione...&#39;</span>];</div>
+<div class="line"><span class="lineno">  227</span> </div>
+<div class="line"><span class="lineno">  228</span>        <span class="comment">// Objeto con información de los organismos registrados</span></div>
+<div class="line"><span class="lineno">  229</span>        $institutions = Institution::all();</div>
+<div class="line"><span class="lineno">  230</span>        $canDesactivate = ($institutions-&gt;count()) &gt; 1 ? <span class="keyword">true</span> : false;</div>
+<div class="line"><span class="lineno">  231</span>        <span class="comment">// Objeto con información de los Países registrados</span></div>
+<div class="line"><span class="lineno">  232</span>        $countries = template_choices(Country::class);</div>
+<div class="line"><span class="lineno">  233</span>        <span class="comment">// Objeto con información de los Estados registrados</span></div>
+<div class="line"><span class="lineno">  234</span>        $estates = template_choices(Estate::class);</div>
+<div class="line"><span class="lineno">  235</span>        <span class="comment">// Objeto con información de los Municipios registrados</span></div>
+<div class="line"><span class="lineno">  236</span>        $municipalities = template_choices(Municipality::class);</div>
+<div class="line"><span class="lineno">  237</span>        <span class="comment">// Objeto con información de las Parroquias registradas</span></div>
+<div class="line"><span class="lineno">  238</span>        $parishes = template_choices(Parish::class);</div>
+<div class="line"><span class="lineno">  239</span>        <span class="comment">// Objeto con información de las Ciudades registradas</span></div>
+<div class="line"><span class="lineno">  240</span>        $cities = template_choices(City::class);</div>
+<div class="line"><span class="lineno">  241</span>        <span class="comment">// Objeto con información de los sectores de organismos</span></div>
+<div class="line"><span class="lineno">  242</span>        $sectors = template_choices(InstitutionSector::class);</div>
+<div class="line"><span class="lineno">  243</span>        <span class="comment">// Objeto con información de los tipos de organismos</span></div>
+<div class="line"><span class="lineno">  244</span>        $types = template_choices(InstitutionType::class);</div>
+<div class="line"><span class="lineno">  245</span>        <span class="comment">// Arreglo con los nombres de las redes sociales más comúnes</span></div>
+<div class="line"><span class="lineno">  246</span>        $social_networks = [</div>
+<div class="line"><span class="lineno">  247</span>            <span class="stringliteral">&#39;facebook&#39;</span>, <span class="stringliteral">&#39;twitter&#39;</span>, <span class="stringliteral">&#39;linkedin&#39;</span>, <span class="stringliteral">&#39;instagram&#39;</span>, <span class="stringliteral">&#39;youtube&#39;</span>, <span class="stringliteral">&#39;telegram&#39;</span>,</div>
+<div class="line"><span class="lineno">  248</span>        ];</div>
+<div class="line"><span class="lineno">  249</span> </div>
+<div class="line"><span class="lineno">  250</span>        <span class="keywordflow">return</span> view(<span class="stringliteral">&#39;admin.settings&#39;</span>, compact(</div>
+<div class="line"><span class="lineno">  251</span>            <span class="stringliteral">&#39;header_parameters&#39;</span>,</div>
+<div class="line"><span class="lineno">  252</span>            <span class="stringliteral">&#39;paramSupport&#39;</span>,</div>
+<div class="line"><span class="lineno">  253</span>            <span class="stringliteral">&#39;paramChat&#39;</span>,</div>
+<div class="line"><span class="lineno">  254</span>            <span class="stringliteral">&#39;paramNotify&#39;</span>,</div>
+<div class="line"><span class="lineno">  255</span>            <span class="stringliteral">&#39;paramReportBanner&#39;</span>,</div>
+<div class="line"><span class="lineno">  256</span>            <span class="stringliteral">&#39;paramMultiInstitution&#39;</span>,</div>
+<div class="line"><span class="lineno">  257</span>            <span class="stringliteral">&#39;paramDigitalSign&#39;</span>,</div>
+<div class="line"><span class="lineno">  258</span>            <span class="stringliteral">&#39;paramOnline&#39;</span>,</div>
+<div class="line"><span class="lineno">  259</span>            <span class="stringliteral">&#39;model_institution&#39;</span>,</div>
+<div class="line"><span class="lineno">  260</span>            <span class="stringliteral">&#39;header_institution&#39;</span>,</div>
+<div class="line"><span class="lineno">  261</span>            <span class="stringliteral">&#39;institutions&#39;</span>,</div>
+<div class="line"><span class="lineno">  262</span>            <span class="stringliteral">&#39;countries&#39;</span>,</div>
+<div class="line"><span class="lineno">  263</span>            <span class="stringliteral">&#39;estates&#39;</span>,</div>
+<div class="line"><span class="lineno">  264</span>            <span class="stringliteral">&#39;municipalities&#39;</span>,</div>
+<div class="line"><span class="lineno">  265</span>            <span class="stringliteral">&#39;parishes&#39;</span>,</div>
+<div class="line"><span class="lineno">  266</span>            <span class="stringliteral">&#39;cities&#39;</span>,</div>
+<div class="line"><span class="lineno">  267</span>            <span class="stringliteral">&#39;sectors&#39;</span>,</div>
+<div class="line"><span class="lineno">  268</span>            <span class="stringliteral">&#39;types&#39;</span>,</div>
+<div class="line"><span class="lineno">  269</span>            <span class="stringliteral">&#39;organism_adscripts&#39;</span>,</div>
+<div class="line"><span class="lineno">  270</span>            <span class="stringliteral">&#39;social_networks&#39;</span>,</div>
+<div class="line"><span class="lineno">  271</span>            <span class="stringliteral">&#39;canDesactivate&#39;</span></div>
+<div class="line"><span class="lineno">  272</span>        ));</div>
+<div class="line"><span class="lineno">  273</span>    }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a149eb92716c1084a935e04a8d95f7347" name="a149eb92716c1084a935e04a8d95f7347"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a149eb92716c1084a935e04a8d95f7347">&#9670;&#160;</a></span>index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">index </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Listado de todos los registros de los parámetros de configuración de la aplicación. </p>
+<dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas <a href="#" onclick="location.href='mai'+'lto:'+'rva'+'rg'+'as@'+'ce'+'ndi'+'te'+'l.g'+'ob'+'.ve'; return false;">rvarg<span class="obfuscator">.nosp@m.</span>as@c<span class="obfuscator">.nosp@m.</span>endit<span class="obfuscator">.nosp@m.</span>el.g<span class="obfuscator">.nosp@m.</span>ob.ve</a> | <a href="#" onclick="location.href='mai'+'lto:'+'rol'+'da'+'ndv'+'g@'+'gma'+'il'+'.co'+'m'; return false;">rolda<span class="obfuscator">.nosp@m.</span>ndvg<span class="obfuscator">.nosp@m.</span>@gmai<span class="obfuscator">.nosp@m.</span>l.co<span class="obfuscator">.nosp@m.</span>m</a></dd></dl>
+<dl class="section return"><dt>Devuelve</dt><dd>View Vista para mostrar el listado de configuraciones </dd></dl>
+
+<p class="definition">Definición en la línea <a class="el" href="../../d5/d7b/SettingController_8php_source.html#l00044">44</a> del archivo <a class="el" href="../../d5/d7b/SettingController_8php_source.html">SettingController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   45</span>    {</div>
+<div class="line"><span class="lineno">   46</span>        <span class="comment">// Objeto con información de los parámetros activos pertenecientes a la aplicación base</span></div>
+<div class="line"><span class="lineno">   47</span>        $parameters = Parameter::where([</div>
+<div class="line"><span class="lineno">   48</span>            <span class="stringliteral">&#39;active&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;required_by&#39;</span> =&gt; <span class="stringliteral">&#39;core&#39;</span>, <span class="stringliteral">&#39;p_value&#39;</span> =&gt; <span class="stringliteral">&#39;true&#39;</span>,</div>
+<div class="line"><span class="lineno">   49</span>        ])-&gt;get();</div>
+<div class="line"><span class="lineno">   50</span> </div>
+<div class="line"><span class="lineno">   51</span>        <span class="comment">// Parámetro asociado a la gestión de soporte técnico</span></div>
+<div class="line"><span class="lineno">   52</span>        $paramSupport = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">   53</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;support&#39;</span>;</div>
+<div class="line"><span class="lineno">   54</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">   55</span>        <span class="comment">// Parámetro asociado a la gestión de chat</span></div>
+<div class="line"><span class="lineno">   56</span>        $paramChat = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">   57</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;chat&#39;</span>;</div>
+<div class="line"><span class="lineno">   58</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">   59</span>        <span class="comment">// Parámetro asociado a la gestión de notificaciones</span></div>
+<div class="line"><span class="lineno">   60</span>        $paramNotify = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">   61</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;notify&#39;</span>;</div>
+<div class="line"><span class="lineno">   62</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">   63</span>        <span class="comment">// Parámetro asociado a la gestión de banner en reportes</span></div>
+<div class="line"><span class="lineno">   64</span>        $paramReportBanner = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">   65</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;report_banner&#39;</span>;</div>
+<div class="line"><span class="lineno">   66</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">   67</span>        <span class="comment">// Parámetro asociado a la gestión de multiples organismos</span></div>
+<div class="line"><span class="lineno">   68</span>        $paramMultiInstitution = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">   69</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;multi_institution&#39;</span>;</div>
+<div class="line"><span class="lineno">   70</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">   71</span>        <span class="comment">// Parámetro asociado a la gestión de firma electrónica</span></div>
+<div class="line"><span class="lineno">   72</span>        $paramDigitalSign = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">   73</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;digital_sign&#39;</span>;</div>
+<div class="line"><span class="lineno">   74</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">   75</span>        <span class="comment">// Parámetro asociado a la gestión de mantenimiento de la aplicación</span></div>
+<div class="line"><span class="lineno">   76</span>        $paramOnline = $parameters-&gt;filter(<span class="keyword">function</span> ($param) {</div>
+<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">return</span> $param-&gt;p_key === <span class="stringliteral">&#39;online&#39;</span>;</div>
+<div class="line"><span class="lineno">   78</span>        })-&gt;first();</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>        <span class="comment">// Arreglo con atributos del formulario para la configuración de parámetros</span></div>
+<div class="line"><span class="lineno">   81</span>        $header_parameters = [</div>
+<div class="line"><span class="lineno">   82</span>            <span class="stringliteral">&#39;route&#39;</span> =&gt; <span class="stringliteral">&#39;settings.store&#39;</span>, <span class="stringliteral">&#39;method&#39;</span> =&gt; <span class="stringliteral">&#39;POST&#39;</span>, <span class="stringliteral">&#39;role&#39;</span> =&gt; <span class="stringliteral">&#39;form&#39;</span>, <span class="stringliteral">&#39;class&#39;</span> =&gt; <span class="stringliteral">&#39;form&#39;</span>,</div>
+<div class="line"><span class="lineno">   83</span>        ];</div>
+<div class="line"><span class="lineno">   84</span>        <span class="comment">// Objeto con información del organismo. Por defecto el valor es nulo</span></div>
+<div class="line"><span class="lineno">   85</span>        $model_institution = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   86</span>        <span class="keywordflow">if</span> (is_null($paramMultiInstitution)) {</div>
+<div class="line"><span class="lineno">   87</span>            $model_institution = Institution::where([</div>
+<div class="line"><span class="lineno">   88</span>                <span class="stringliteral">&#39;active&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">   89</span>                <span class="stringliteral">&#39;default&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">   90</span>            ])-&gt;first();</div>
+<div class="line"><span class="lineno">   91</span>        }</div>
+<div class="line"><span class="lineno">   92</span>        <span class="comment">// Arreglo con atributos del formulario para la configuración de organismos</span></div>
+<div class="line"><span class="lineno">   93</span>        $header_institution = [</div>
+<div class="line"><span class="lineno">   94</span>            <span class="stringliteral">&#39;route&#39;</span> =&gt; <span class="stringliteral">&#39;institutions.store&#39;</span>, <span class="stringliteral">&#39;method&#39;</span> =&gt; <span class="stringliteral">&#39;POST&#39;</span>, <span class="stringliteral">&#39;role&#39;</span> =&gt; <span class="stringliteral">&#39;form&#39;</span>, <span class="stringliteral">&#39;class&#39;</span> =&gt; <span class="stringliteral">&#39;form&#39;</span>,</div>
+<div class="line"><span class="lineno">   95</span>            <span class="stringliteral">&#39;enctype&#39;</span> =&gt; <span class="stringliteral">&#39;multipart/form-data&#39;</span>,</div>
+<div class="line"><span class="lineno">   96</span>        ];</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>        <span class="comment">// Arreglo con información de los organismos de adscripción</span></div>
+<div class="line"><span class="lineno">   99</span>        $organism_adscripts = (!is_null($model_institution)) ? template_choices(</div>
+<div class="line"><span class="lineno">  100</span>            Institution::class,</div>
+<div class="line"><span class="lineno">  101</span>            <span class="stringliteral">&#39;name&#39;</span>,</div>
+<div class="line"><span class="lineno">  102</span>            [],</div>
+<div class="line"><span class="lineno">  103</span>            <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  104</span>            $model_institution-&gt;id</div>
+<div class="line"><span class="lineno">  105</span>        ) : [<span class="stringliteral">&#39;&#39;</span> =&gt; <span class="stringliteral">&#39;Seleccione...&#39;</span>];</div>
+<div class="line"><span class="lineno">  106</span> </div>
+<div class="line"><span class="lineno">  107</span>        <span class="comment">// Objeto con información de los organismos registrados</span></div>
+<div class="line"><span class="lineno">  108</span>        $institutions = Institution::all();</div>
+<div class="line"><span class="lineno">  109</span>        $canDesactivate = ($institutions-&gt;count()) &gt; 1 ? <span class="keyword">true</span> : false;</div>
+<div class="line"><span class="lineno">  110</span>        <span class="comment">// Objeto con información de los Países registrados</span></div>
+<div class="line"><span class="lineno">  111</span>        $countries = template_choices(Country::class);</div>
+<div class="line"><span class="lineno">  112</span>        <span class="comment">// Objeto con información de los Estados registrados</span></div>
+<div class="line"><span class="lineno">  113</span>        $estates = template_choices(</div>
+<div class="line"><span class="lineno">  114</span>            ($model_institution) ? Estate::class : collect()</div>
+<div class="line"><span class="lineno">  115</span>        );</div>
+<div class="line"><span class="lineno">  116</span>        <span class="comment">// Objeto con información de los Municipios registrados</span></div>
+<div class="line"><span class="lineno">  117</span>        $municipalities = template_choices(</div>
+<div class="line"><span class="lineno">  118</span>            ($model_institution) ? Municipality::class : collect()</div>
+<div class="line"><span class="lineno">  119</span>        );</div>
+<div class="line"><span class="lineno">  120</span>        <span class="comment">// Objeto con información de las Parroquias registradas</span></div>
+<div class="line"><span class="lineno">  121</span>        $parishes = template_choices(</div>
+<div class="line"><span class="lineno">  122</span>            ($model_institution) ? Parish::class : collect()</div>
+<div class="line"><span class="lineno">  123</span>        );</div>
+<div class="line"><span class="lineno">  124</span>        <span class="comment">// Objeto con información de las Ciudades registradas</span></div>
+<div class="line"><span class="lineno">  125</span>        $cities = template_choices(</div>
+<div class="line"><span class="lineno">  126</span>            ($model_institution) ? City::class : collect()</div>
+<div class="line"><span class="lineno">  127</span>        );</div>
+<div class="line"><span class="lineno">  128</span>        <span class="comment">// Objeto con información de los sectores de organismos</span></div>
+<div class="line"><span class="lineno">  129</span>        $sectors = template_choices(InstitutionSector::class);</div>
+<div class="line"><span class="lineno">  130</span>        <span class="comment">// Objeto con información de los tipos de organismos</span></div>
+<div class="line"><span class="lineno">  131</span>        $types = template_choices(InstitutionType::class);</div>
+<div class="line"><span class="lineno">  132</span>        <span class="comment">// Arreglo con los nombres de las redes sociales más comúnes</span></div>
+<div class="line"><span class="lineno">  133</span>        $social_networks = [</div>
+<div class="line"><span class="lineno">  134</span>            <span class="stringliteral">&#39;facebook&#39;</span>, <span class="stringliteral">&#39;twitter&#39;</span>, <span class="stringliteral">&#39;linkedin&#39;</span>, <span class="stringliteral">&#39;instagram&#39;</span>, <span class="stringliteral">&#39;youtube&#39;</span>, <span class="stringliteral">&#39;telegram&#39;</span>,</div>
+<div class="line"><span class="lineno">  135</span>        ];</div>
+<div class="line"><span class="lineno">  136</span> </div>
+<div class="line"><span class="lineno">  137</span>        <span class="keywordflow">return</span> view(<span class="stringliteral">&#39;admin.settings&#39;</span>, compact(</div>
+<div class="line"><span class="lineno">  138</span>            <span class="stringliteral">&#39;header_parameters&#39;</span>,</div>
+<div class="line"><span class="lineno">  139</span>            <span class="stringliteral">&#39;paramSupport&#39;</span>,</div>
+<div class="line"><span class="lineno">  140</span>            <span class="stringliteral">&#39;paramChat&#39;</span>,</div>
+<div class="line"><span class="lineno">  141</span>            <span class="stringliteral">&#39;paramNotify&#39;</span>,</div>
+<div class="line"><span class="lineno">  142</span>            <span class="stringliteral">&#39;paramReportBanner&#39;</span>,</div>
+<div class="line"><span class="lineno">  143</span>            <span class="stringliteral">&#39;paramMultiInstitution&#39;</span>,</div>
+<div class="line"><span class="lineno">  144</span>            <span class="stringliteral">&#39;paramDigitalSign&#39;</span>,</div>
+<div class="line"><span class="lineno">  145</span>            <span class="stringliteral">&#39;paramOnline&#39;</span>,</div>
+<div class="line"><span class="lineno">  146</span>            <span class="stringliteral">&#39;model_institution&#39;</span>,</div>
+<div class="line"><span class="lineno">  147</span>            <span class="stringliteral">&#39;header_institution&#39;</span>,</div>
+<div class="line"><span class="lineno">  148</span>            <span class="stringliteral">&#39;institutions&#39;</span>,</div>
+<div class="line"><span class="lineno">  149</span>            <span class="stringliteral">&#39;countries&#39;</span>,</div>
+<div class="line"><span class="lineno">  150</span>            <span class="stringliteral">&#39;estates&#39;</span>,</div>
+<div class="line"><span class="lineno">  151</span>            <span class="stringliteral">&#39;municipalities&#39;</span>,</div>
+<div class="line"><span class="lineno">  152</span>            <span class="stringliteral">&#39;parishes&#39;</span>,</div>
+<div class="line"><span class="lineno">  153</span>            <span class="stringliteral">&#39;cities&#39;</span>,</div>
+<div class="line"><span class="lineno">  154</span>            <span class="stringliteral">&#39;sectors&#39;</span>,</div>
+<div class="line"><span class="lineno">  155</span>            <span class="stringliteral">&#39;types&#39;</span>,</div>
+<div class="line"><span class="lineno">  156</span>            <span class="stringliteral">&#39;organism_adscripts&#39;</span>,</div>
+<div class="line"><span class="lineno">  157</span>            <span class="stringliteral">&#39;social_networks&#39;</span>,</div>
+<div class="line"><span class="lineno">  158</span>            <span class="stringliteral">&#39;canDesactivate&#39;</span></div>
+<div class="line"><span class="lineno">  159</span>        ));</div>
+<div class="line"><span class="lineno">  160</span>    }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="af6da17e5619f81580a652a9c302c19e4" name="af6da17e5619f81580a652a9c302c19e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6da17e5619f81580a652a9c302c19e4">&#9670;&#160;</a></span>store()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">store </td>
+          <td>(</td>
+          <td class="paramtype">Request&#160;</td>
+          <td class="paramname"><em>$request</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d0/da4/classApp_1_1Repositories_1_1ParameterRepository.html">ParameterRepository</a>&#160;</td>
+          <td class="paramname"><em>$parameterRepository</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registra los parámetros de configuración de la aplicación. </p>
+<dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas <a href="#" onclick="location.href='mai'+'lto:'+'rva'+'rg'+'as@'+'ce'+'ndi'+'te'+'l.g'+'ob'+'.ve'; return false;">rvarg<span class="obfuscator">.nosp@m.</span>as@c<span class="obfuscator">.nosp@m.</span>endit<span class="obfuscator">.nosp@m.</span>el.g<span class="obfuscator">.nosp@m.</span>ob.ve</a> | <a href="#" onclick="location.href='mai'+'lto:'+'rol'+'da'+'ndv'+'g@'+'gma'+'il'+'.co'+'m'; return false;">rolda<span class="obfuscator">.nosp@m.</span>ndvg<span class="obfuscator">.nosp@m.</span>@gmai<span class="obfuscator">.nosp@m.</span>l.co<span class="obfuscator">.nosp@m.</span>m</a></dd></dl>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">Request</td><td class="paramname">$request</td><td>Objeto con información de la petición</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>RedirectResponse Redirecciona al usuario a la página del listado de configuraciones </dd></dl>
+
+<p class="definition">Definición en la línea <a class="el" href="../../d5/d7b/SettingController_8php_source.html#l00284">284</a> del archivo <a class="el" href="../../d5/d7b/SettingController_8php_source.html">SettingController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  285</span>    {</div>
+<div class="line"><span class="lineno">  286</span>        <span class="comment">// Arreglo con los parámetros a registrar</span></div>
+<div class="line"><span class="lineno">  287</span>        $parameters = [<span class="stringliteral">&#39;support&#39;</span>, <span class="stringliteral">&#39;chat&#39;</span>, <span class="stringliteral">&#39;notify&#39;</span>, <span class="stringliteral">&#39;report_banner&#39;</span>, <span class="stringliteral">&#39;multi_institution&#39;</span>, <span class="stringliteral">&#39;digital_sign&#39;</span>, <span class="stringliteral">&#39;online&#39;</span>];</div>
+<div class="line"><span class="lineno">  288</span>        <span class="comment">// Arreglo con los tipos de mensaje a mostrar</span></div>
+<div class="line"><span class="lineno">  289</span>        $msgType = [<span class="stringliteral">&#39;type&#39;</span> =&gt; <span class="stringliteral">&#39;store&#39;</span>];</div>
+<div class="line"><span class="lineno">  290</span> </div>
+<div class="line"><span class="lineno">  291</span>        <span class="keywordflow">foreach</span> ($parameters as $parameter) {</div>
+<div class="line"><span class="lineno">  292</span>            $parameterRepository-&gt;updateOrCreate(</div>
+<div class="line"><span class="lineno">  293</span>                [<span class="stringliteral">&#39;p_key&#39;</span> =&gt; $parameter, <span class="stringliteral">&#39;required_by&#39;</span> =&gt; <span class="stringliteral">&#39;core&#39;</span>],</div>
+<div class="line"><span class="lineno">  294</span>                [<span class="stringliteral">&#39;p_value&#39;</span> =&gt; (!is_null($request-&gt;$parameter)) ? <span class="stringliteral">&#39;true&#39;</span> : <span class="stringliteral">&#39;false&#39;</span>]</div>
+<div class="line"><span class="lineno">  295</span>            );</div>
+<div class="line"><span class="lineno">  296</span> </div>
+<div class="line"><span class="lineno">  297</span>            <span class="keywordflow">if</span> ($parameter === <span class="stringliteral">&quot;online&quot;</span>) {</div>
+<div class="line"><span class="lineno">  298</span>                <span class="keywordflow">if</span> (is_null($request-&gt;$parameter)) {</div>
+<div class="line"><span class="lineno">  299</span>                    Artisan::call(<span class="stringliteral">&#39;up&#39;</span>);</div>
+<div class="line"><span class="lineno">  300</span>                    $msgType = [</div>
+<div class="line"><span class="lineno">  301</span>                        <span class="stringliteral">&#39;type&#39;</span> =&gt; <span class="stringliteral">&#39;other&#39;</span>,</div>
+<div class="line"><span class="lineno">  302</span>                        <span class="stringliteral">&#39;text&#39;</span> =&gt; __(</div>
+<div class="line"><span class="lineno">  303</span>                            <span class="stringliteral">&#39;El sistema esta actualmente en línea, &#39;</span> .</div>
+<div class="line"><span class="lineno">  304</span>                            <span class="stringliteral">&#39;todos los usuarios pueden acceder a la aplicación&#39;</span></div>
+<div class="line"><span class="lineno">  305</span>                        ),</div>
+<div class="line"><span class="lineno">  306</span>                    ];</div>
+<div class="line"><span class="lineno">  307</span>                    <span class="comment">// Título del mensaje</span></div>
+<div class="line"><span class="lineno">  308</span>                    $title = config(<span class="stringliteral">&#39;app.name&#39;</span>) . <span class="stringliteral">&#39; - &#39;</span> . __(<span class="stringliteral">&#39;En línea&#39;</span>);</div>
+<div class="line"><span class="lineno">  309</span>                    <span class="comment">// Descripión del mensaje</span></div>
+<div class="line"><span class="lineno">  310</span>                    $description = __(</div>
+<div class="line"><span class="lineno">  311</span>                        <span class="stringliteral">&#39;Se ha reestablecido el acceso a la aplicación. &#39;</span> .</div>
+<div class="line"><span class="lineno">  312</span>                        <span class="stringliteral">&#39;Puede acceder en cualquier momento&#39;</span></div>
+<div class="line"><span class="lineno">  313</span>                    );</div>
+<div class="line"><span class="lineno">  314</span>                    <span class="comment">// Objeto con información de los usuarios del sistema</span></div>
+<div class="line"><span class="lineno">  315</span>                    $users = User::all();</div>
+<div class="line"><span class="lineno">  316</span>                    <span class="keywordflow">foreach</span> ($users as $user) {</div>
+<div class="line"><span class="lineno">  317</span>                        $user-&gt;notify(<span class="keyword">new</span> AppNotification($title, <span class="stringliteral">&#39;&#39;</span>, $description, <span class="keyword">true</span>));</div>
+<div class="line"><span class="lineno">  318</span>                    }</div>
+<div class="line"><span class="lineno">  319</span>                } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  320</span>                    <span class="comment">// Hash generado para acceder a la aplicación después de colocarla en mantenimiento</span></div>
+<div class="line"><span class="lineno">  321</span>                    $secretHash = generate_hash(36, <span class="keyword">false</span>, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  322</span>                    Artisan::call(<span class="stringliteral">&#39;down&#39;</span>, [<span class="stringliteral">&#39;--secret&#39;</span> =&gt; $secretHash]);</div>
+<div class="line"><span class="lineno">  323</span>                    $msgType = [</div>
+<div class="line"><span class="lineno">  324</span>                        <span class="stringliteral">&#39;type&#39;</span> =&gt; <span class="stringliteral">&#39;other&#39;</span>,</div>
+<div class="line"><span class="lineno">  325</span>                        <span class="stringliteral">&#39;text&#39;</span> =&gt; __(</div>
+<div class="line"><span class="lineno">  326</span>                            <span class="stringliteral">&#39;El sistema esta actualmente en mantenimiento, &#39;</span> .</div>
+<div class="line"><span class="lineno">  327</span>                            <span class="stringliteral">&#39;solo puede acceder a la aplicación desde el enlace proporcionado&#39;</span></div>
+<div class="line"><span class="lineno">  328</span>                        ),</div>
+<div class="line"><span class="lineno">  329</span>                    ];</div>
+<div class="line"><span class="lineno">  330</span>                    <span class="comment">// Objeto con información del rol administrador</span></div>
+<div class="line"><span class="lineno">  331</span>                    $roleAdmin = Role::where(<span class="stringliteral">&#39;slug&#39;</span>, <span class="stringliteral">&#39;admin&#39;</span>)-&gt;first();</div>
+<div class="line"><span class="lineno">  332</span>                    <span class="keywordflow">if</span> ($roleAdmin &amp;&amp; !$roleAdmin-&gt;users-&gt;isEmpty()) {</div>
+<div class="line"><span class="lineno">  333</span>                        <span class="comment">// Título del mensaje</span></div>
+<div class="line"><span class="lineno">  334</span>                        $title = config(<span class="stringliteral">&#39;app.name&#39;</span>) . <span class="stringliteral">&#39; - &#39;</span> . __(<span class="stringliteral">&#39;Configuración en modo mantenimiento&#39;</span>);</div>
+<div class="line"><span class="lineno">  335</span>                        <span class="comment">// Descripción del mensaje</span></div>
+<div class="line"><span class="lineno">  336</span>                        $description = __(</div>
+<div class="line"><span class="lineno">  337</span>                            <span class="stringliteral">&#39;Se ha configurado la aplicación en modo mantenimiento. &#39;</span> .</div>
+<div class="line"><span class="lineno">  338</span>                            <span class="stringliteral">&#39;Para poder acceder bajo esta modalidad es necesario que acceda a la siguiente URL: &#39;</span></div>
+<div class="line"><span class="lineno">  339</span>                        ) . config(<span class="stringliteral">&#39;app.url&#39;</span>) . <span class="charliteral">&#39;/&#39;</span> . $secretHash;</div>
+<div class="line"><span class="lineno">  340</span>                        <span class="keywordflow">foreach</span> ($roleAdmin-&gt;users as $user) {</div>
+<div class="line"><span class="lineno">  341</span>                            $user-&gt;notify(<span class="keyword">new</span> AppNotification($title, <span class="stringliteral">&#39;&#39;</span>, $description, <span class="keyword">true</span>));</div>
+<div class="line"><span class="lineno">  342</span>                        }</div>
+<div class="line"><span class="lineno">  343</span>                    }</div>
+<div class="line"><span class="lineno">  344</span>                }</div>
+<div class="line"><span class="lineno">  345</span>            }</div>
+<div class="line"><span class="lineno">  346</span>        }</div>
+<div class="line"><span class="lineno">  347</span> </div>
+<div class="line"><span class="lineno">  348</span>        $request-&gt;session()-&gt;flash(<span class="stringliteral">&#39;message&#39;</span>, $msgType);</div>
+<div class="line"><span class="lineno">  349</span>        <span class="keywordflow">return</span> redirect()-&gt;route(<span class="stringliteral">&#39;settings.index&#39;</span>);</div>
+<div class="line"><span class="lineno">  350</span>    }</div>
+</div><!-- fragment -->
+<p class="reference">Hace referencia a <a class="el" href="../../d4/db6/ParameterRepository_8php_source.html#l00030">ParameterRepository\updateOrCreate()</a>.</p>
+<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="../../closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="../../d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController_af6da17e5619f81580a652a9c302c19e4_cgraph.png" border="0" usemap="#ad0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController_af6da17e5619f81580a652a9c302c19e4_cgraph" alt=""/></div>
+<map name="ad0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController_af6da17e5619f81580a652a9c302c19e4_cgraph" id="ad0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController_af6da17e5619f81580a652a9c302c19e4_cgraph">
+<area shape="rect" title="Registra los parámetros de configuración de la aplicación." alt="" coords="5,13,60,38"/>
+<area shape="rect" href="../../d0/da4/classApp_1_1Repositories_1_1ParameterRepository.html#ad5b30a024a75ccc3125b5af5ac963e48" title="Actualiza o registra un parámetro de configuración." alt="" coords="108,5,311,45"/>
+<area shape="poly" title=" " alt="" coords="60,23,94,23,94,28,60,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>La documentación de esta clase está generada del siguiente archivo:<ul>
 <li><a class="el" href="../../d5/d7b/SettingController_8php_source.html">SettingController.php</a></li>
 </ul>
 </div><!-- contents -->
@@ -139,8 +551,8 @@ $(document).ready(function(){initNavTree('d0/d95/classApp_1_1Http_1_1Controllers
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>App</b></li><li class="navelem"><b>Http</b></li><li class="navelem"><b>Controllers</b></li><li class="navelem"><a class="el" href="../../d5/d9b/namespaceApp_1_1Http_1_1Controllers_1_1Admin.html">Admin</a></li><li class="navelem"><a class="el" href="../../d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController.html">SettingController</a></li>
-    <li class="footer">Generado el Sábado, 4 de Noviembre de 2023 16:16:43 para KAVAC por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="navelem"><b>App</b></li><li class="navelem"><b>Http</b></li><li class="navelem"><b>Controllers</b></li><li class="navelem"><b>Admin</b></li><li class="navelem"><a class="el" href="../../d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController.html">SettingController</a></li>
+    <li class="footer">Generado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

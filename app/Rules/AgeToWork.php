@@ -1,7 +1,5 @@
 <?php
 
-/** Reglas de validación personalizadas */
-
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
@@ -29,8 +27,6 @@ class AgeToWork implements Rule
     /**
      * Recibe por parámetro la edad laboral permitida
      *
-     * @method  __construct
-     *
      * @param integer   $age    Edad de la persona
      *
      * @return void
@@ -42,8 +38,6 @@ class AgeToWork implements Rule
 
     /**
      * Determina si la regla de validación es correcta
-     *
-     * @method  passes
      *
      * @param  string  $attribute
      * @param  mixed  $value
@@ -57,8 +51,6 @@ class AgeToWork implements Rule
 
     /**
      * Obtiene el mensaje de error de validación
-     *
-     * @method  message
      *
      * @return string
      */

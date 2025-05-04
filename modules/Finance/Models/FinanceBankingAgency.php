@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos para las agencias bancarias
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class FinanceBankingAgency extends Model implements Auditable
 {
@@ -26,21 +26,27 @@ class FinanceBankingAgency extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista de atributos para la gestión de fechas
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * Lista de campos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = [
         'name', 'direction', 'headquarters', 'contact_person', 'contact_email',
         'finance_bank_id', 'city_id'
     ];
 
     /**
-     * FinanceBankingAgency belongs to Bank.
+     * Obtiene la relación con la entidad bancaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function financeBank()
@@ -49,9 +55,10 @@ class FinanceBankingAgency extends Model implements Auditable
     }
 
     /**
-     * FinanceBankingAgency morphs many city.
+     * Obtiene la ciudad en la que se encuentra la agencia bancaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function city()
@@ -60,9 +67,10 @@ class FinanceBankingAgency extends Model implements Auditable
     }
 
     /**
-     * FinanceBankingAgency has many FinanceBankAccount.
+     * Obtiene todas las cuentas bancarias aperturadas en la agencia
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function bankAccounts()
@@ -74,6 +82,7 @@ class FinanceBankingAgency extends Model implements Auditable
      * Obtiene todos los número telefónicos asociados a la agencia bancaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function phones()

@@ -1,25 +1,26 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Http\Controllers;
 
-use App\Notifications\SystemNotification;
-use Illuminate\Contracts\Support\Renderable;
+use App\Models\FiscalYear;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Routing\Controller;
-use App\Models\User;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\DB;
+use App\Rules\DateBeforeFiscalYear;
+use Modules\Payroll\Models\Profile;
+use Illuminate\Support\Facades\Storage;
+use Modules\Payroll\Models\Institution;
+use Modules\Payroll\Models\PayrollStaff;
+use App\Notifications\SystemNotification;
+use Modules\Payroll\Models\PayrollPosition;
+use Illuminate\Contracts\Support\Renderable;
 use Modules\Payroll\Models\PayrollEmployment;
 use Modules\Payroll\Models\PayrollPreviousJob;
-use Modules\Payroll\Models\PayrollStaff;
-use Modules\Payroll\Models\PayrollPosition;
-use Modules\Payroll\Models\Profile;
-use Modules\Payroll\Models\Institution;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
-use Modules\Payroll\Jobs\PayrollExportNotification;
 use Modules\Payroll\Models\PayrollSupervisedGroup;
+use Modules\Payroll\Jobs\PayrollExportNotification;
+use Modules\Payroll\Imports\Staff\RegisterStaffImport;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Payroll\Models\PayrollSupervisedGroupStaff;
 
 /**
@@ -29,40 +30,50 @@ use Modules\Payroll\Models\PayrollSupervisedGroupStaff;
  * Clase que gestiona los datos laborales
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollEmploymentController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación de formulario
+     *
+     * @var array $rules
+     */
     protected $rules;
+
+    /**
+     * Attributos de la validación
+     *
+     * @var array $attributes
+     */
     protected $attributes;
 
     /**
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:payroll.employments.list', ['only' => ['index', 'vueList']]);
         $this->middleware('permission:payroll.employments.create', ['only' => 'store']);
         $this->middleware('permission:payroll.employments.edit', ['only' => ['create', 'update']]);
         $this->middleware('permission:payroll.employments.delete', ['only' => 'destroy']);
+        $this->middleware('permission:payroll.employments.import', ['only' => 'import']);
+        $this->middleware('permission:payroll.employments.export', ['only' => 'export']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->rules = [
             //'years_apn' => ['max:2'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['nullable', 'date'],
-            /*'institution_email.*' => [
-                'nullable',
-                'email',
-                'unique:payroll_employments,institution_email'
-            ],*/
+            'start_date' => ['required', 'date', new DateBeforeFiscalYear('Fecha de ingreso')],
+            'end_date' => ['nullable', 'date', new DateBeforeFiscalYear('Fecha de egreso')],
             'function_description' => ['nullable'],
             'payroll_position_type_id' => ['required'],
             'payroll_position_id' => ['required',],
@@ -95,7 +106,7 @@ class PayrollEmploymentController extends Controller
             ],
         ];
 
-        /** Define los atributos para los campos personalizados */
+        /* Define los atributos para los campos personalizados */
         $this->attributes = [
             'years_apn' => 'años en otras instituciones públicas',
             'start_date' => 'fecha de ingreso a la institución',
@@ -120,11 +131,9 @@ class PayrollEmploymentController extends Controller
     /**
      * Muestra todos los registros de datos laborales
      *
-     * @method    index
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve>
      *
-     * @return    Renderable    Muestra los datos organizados en una tabla
+     * @return    \Illuminate\View\View    Muestra los datos organizados en una tabla
      */
     public function index()
     {
@@ -134,11 +143,9 @@ class PayrollEmploymentController extends Controller
     /**
      * Muestra el formulario de registro de datos laborales
      *
-     * @method    create
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve>
      *
-     * @return    Renderable    Vista con el formulario
+     * @return    \Illuminate\View\View    Vista con el formulario
      */
     public function create()
     {
@@ -148,94 +155,39 @@ class PayrollEmploymentController extends Controller
     /**
      * Valida y registra un nuevo dato laboral
      *
-     * @method    store
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve>
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param     object    Request    $request    Objeto con información de la petición
+     * @param     Request    $request    Datos de la petición
      *
-     * @return    Renderable    Json: result en verdadero y redirect con la url a donde ir
+     * @return    \Illuminate\Http\JsonResponse    Json: result en verdadero y redirect con la url a donde ir
      */
     public function store(Request $request)
     {
-        /* Validación de que no pueda registrarse un nuevo trabajador si no hay
-        * cargos disponibles */
+        $institution = Institution::whereId($request->institution_id)->first();
 
-        /* Obtener el valor de number_positions_assigned del PayrollPosition
-        relacionado */
-        $position = PayrollPosition::find($request->payroll_position_id);
-        $numberPositionsAssigned = $position->number_positions_assigned
-            ? $position->number_positions_assigned : 0;
-
-        // Contar cuántos registros de PayrollEmployment ya están relacionados con el cargo
-        // $existingEmploymentsCount = $position->payrollEmployments()->count();
-
-        /* Contar cuántos registros de PayrollEmployment ya están relacionados
-        con el cargo y tienen active true */
-        $existingEmploymentsCount = $position->payrollEmployments()
-            ->wherePivot('active', true)
-            ->count();
-
-        if ($numberPositionsAssigned - $existingEmploymentsCount <= 0) {
-            $positionAvailableValidation = true;
-            $this->validate(
-                $request,
-                [
-                    'payroll_position_id' => [
-                        Rule::when(
-                            $positionAvailableValidation,
-                            function ($attribute, $value, $fail) {
-                                if ($value) {
-                                    $fail(
-                                        'No hay disponibilidad de asignación para el cargo seleccionado'
-                                    );
-                                }
-                            }
-                        ),
-                    ],
-                ],
-            );
-        } else {
-            $positionAvailableValidation = false;
-        }
-
-        $request->institution_id ? $institution = Institution::whereId(
-            $request->institution_id
-        )->first() : $this->rules[
-            'institution_id'
-        ] = [
-            'required'
-        ];
-
-        $this->rules[
-            'payroll_staff_id'
-        ] = [
+        $this->rules['payroll_staff_id'] = [
             'required',
             'unique:payroll_employments,payroll_staff_id'
         ];
 
-        if ($request->start_date) {
-            $this->rules[
-                'start_date'
-            ] = [
-                'after_or_equal:' . $institution->start_operations_date
-            ];
-        }
+        if (isset($institution)) {
+            if ($request->start_date) {
+                $this->rules['start_date'] = [
+                    'after_or_equal:' . $institution->start_operations_date
+                ];
+            }
 
-        if ($request->end_date) {
-            $this->rules[
-                'start_date'
-            ] = [
-                'before:end_date',
-                'after_or_equal:' . $institution->start_operations_date
-            ];
+            if ($request->end_date) {
+                $this->rules['start_date'] = [
+                    'before:end_date',
+                    'after_or_equal:' . $institution->start_operations_date
+                ];
 
-            $this->rules[
-                'end_date'
-            ] = [
-                'after:start_date'
-            ];
+                $this->rules['end_date'] = [
+                    'after:start_date'
+                ];
+            }
         }
 
         if (!$request->active) {
@@ -262,8 +214,39 @@ class PayrollEmploymentController extends Controller
                 ],
             );
         }
-
         $this->validate($request, $this->rules, [], $this->attributes);
+
+        /* Obtener el valor de number_positions_assigned del PayrollPosition
+        relacionado */
+        $position = PayrollPosition::find($request->payroll_position_id);
+        $numberPositionsAssigned = $position->number_positions_assigned
+            ? $position->number_positions_assigned : 0;
+
+        /* Contar cuántos registros de PayrollEmployment ya están relacionados
+        con el cargo y tienen active true */
+        $existingEmploymentsCount = $position->payrollEmployments()
+            ->wherePivot('active', true)
+            ->count();
+
+        if ($numberPositionsAssigned - $existingEmploymentsCount <= 0) {
+            $positionAvailableValidation = true;
+            $this->validate(
+                $request,
+                [
+                    'payroll_position_id' => [
+                        $positionAvailableValidation ? function ($attribute, $value, $fail) {
+                            if ($value) {
+                                $fail(
+                                    'No hay disponibilidad de asignación para el cargo seleccionado'
+                                );
+                            }
+                        } : [],
+                    ],
+                ],
+            );
+        } else {
+            $positionAvailableValidation = false;
+        }
 
         $payrollEmployment = PayrollEmployment::create([
             'payroll_staff_id' => $request->payroll_staff_id,
@@ -330,13 +313,11 @@ class PayrollEmploymentController extends Controller
     /**
      * Muestra los datos de un dato laboral en específico
      *
-     * @method    show
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    Json con el dato laboral
+     * @return    \Illuminate\Http\JsonResponse    Json con el dato laboral
      */
     public function show($id)
     {
@@ -369,13 +350,11 @@ class PayrollEmploymentController extends Controller
     /**
      * Muestra el formulario de actualización de dato laboral
      *
-     * @method    edit
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    Vista con el formulario y el objeto a actualizar
+     * @return    \Illuminate\View\View    Vista con el formulario y el objeto a actualizar
      */
     public function edit($id)
     {
@@ -386,62 +365,57 @@ class PayrollEmploymentController extends Controller
     /**
      * Actualiza el dato laboral
      *
-     * @method    update
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve>
      *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    Json con la redirección y mensaje de confirmación de la operación
+     * @return    \Illuminate\Http\JsonResponse    Json con la redirección y mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
     {
         $payrollEmployment = PayrollEmployment::with('payrollPreviousJob')->find($id);
 
-        /* Validación de que no pueda actualizar un nuevo trabajador si no hay
-        * cargos disponibles */
+        /* Validación de que no pueda actualizar un nuevo trabajador si no hay cargos disponibles */
 
         /* Obtener el valor de number_positions_assigned del PayrollPosition
         relacionado */
         $position = PayrollPosition::find($request->payroll_position_id);
-        $numberPositionsAssigned = $position->number_positions_assigned;
+        if ($position) {
+            $numberPositionsAssigned = $position->number_positions_assigned;
 
-        /* Contar cuántos registros de PayrollEmployment ya están relacionados
-        con el cargo y tienen active true */
-        $existingEmploymentsCount = $position->payrollEmployments()
-            ->wherePivot('active', true)
-            ->count();
+            /* Contar cuántos registros de PayrollEmployment ya están relacionados
+            con el cargo y tienen active true */
+            $existingEmploymentsCount = $position->payrollEmployments()
+                ->wherePivot('active', true)
+                ->count();
 
-        /* Se valida si el cargo que se está actualizando en la tabla intermedia
-        // ya está asociado al usuario que se esta actualizando. */
-        $match = $payrollEmployment->payrollPositions()->where(
-            'payroll_position_id',
-            $request->payroll_position_id
-        )->exists();
+            /* Se valida si el cargo que se está actualizando en la tabla intermedia ya está asociado al usuario que se esta actualizando. */
+            $match = $payrollEmployment->payrollPositions()->where(
+                'payroll_position_id',
+                $request->payroll_position_id
+            )->exists();
 
-        if (!$match) {
-            if ($numberPositionsAssigned - $existingEmploymentsCount <= 0) {
-                $positionAvailableValidation = true;
-                $this->validate(
-                    $request,
-                    [
-                        'payroll_position_id' => [
-                            Rule::when(
-                                $positionAvailableValidation,
-                                function ($attribute, $value, $fail) {
+            if (!$match) {
+                if ($numberPositionsAssigned - $existingEmploymentsCount <= 0) {
+                    $positionAvailableValidation = true;
+                    $this->validate(
+                        $request,
+                        [
+                            'payroll_position_id' => [
+                                $positionAvailableValidation ? function ($attribute, $value, $fail) {
                                     if ($value) {
                                         $fail(
                                             'No hay disponibilidad de asignación para el cargo seleccionado'
                                         );
                                     }
-                                }
-                            ),
+                                } : [],
+                            ],
                         ],
-                    ],
-                );
-            } else {
-                $positionAvailableValidation = false;
+                    );
+                } else {
+                    $positionAvailableValidation = false;
+                }
             }
         }
 
@@ -454,21 +428,11 @@ class PayrollEmploymentController extends Controller
             $this->attributes
         );
 
-        $this->rules[
-            'payroll_staff_id'
-        ] = [
+        $this->rules['payroll_staff_id'] = [
             'required',
             'unique:payroll_employments,payroll_staff_id,'
                 . $payrollEmployment->id
         ];
-
-        /*$this->rules[
-            'institution_email'
-        ] = [
-            'required',
-            'unique:payroll_employments,institution_email,'
-                . $payrollEmployment->id, 'email'
-        ];*/
 
         if ($request->worksheet_code) {
             $this->rules['worksheet_code'] =
@@ -482,9 +446,7 @@ class PayrollEmploymentController extends Controller
         }
 
         if ($request->institution_email) {
-            $this->rules[
-                'institution_email'
-            ] = [
+            $this->rules['institution_email'] = [
                 'email',
                 'unique:payroll_employments,institution_email,'
                     . $payrollEmployment->id
@@ -492,16 +454,15 @@ class PayrollEmploymentController extends Controller
         }
 
         if ($request->start_date) {
-            $this->rules[
-                'start_date'
-            ] = [
-                'after_or_equal:' . $institution->start_operations_date
+            $this->rules['start_date'] = [
+                'after_or_equal:' . $institution->start_operations_date,
+                new DateBeforeFiscalYear('Fecha de egreso')
             ];
         }
 
         if ($request->end_date) {
-            $this->rules['start_date'] = ['before:end_date'];
-            $this->rules['end_date'] = ['after:start_date'];
+            $this->rules['start_date'] = ['before:end_date', new DateBeforeFiscalYear('Fecha de egreso')];
+            $this->rules['end_date'] = ['after:start_date', new DateBeforeFiscalYear('Fecha de egreso')];
         }
 
         if (!$request->active) {
@@ -546,8 +507,8 @@ class PayrollEmploymentController extends Controller
                         new SystemNotification(
                             'Aviso',
                             $payrollEmployment->payrollStaff->full_name
-                            . ' se ha colocado como inactivo,'
-                            . 'por favor actualice su grupo de supervisados.'
+                                . ' se ha colocado como inactivo,'
+                                . 'por favor actualice su grupo de supervisados.'
                         )
                     );
                 }
@@ -568,8 +529,8 @@ class PayrollEmploymentController extends Controller
                             new SystemNotification(
                                 'Aviso',
                                 $payrollEmployment->payrollStaff->full_name
-                                . ' se ha colocado como inactivo,' .
-                                'por favor actualice su grupo de supervisados.'
+                                    . ' se ha colocado como inactivo,' .
+                                    'por favor actualice su grupo de supervisados.'
                             )
                         );
                     }
@@ -585,7 +546,7 @@ class PayrollEmploymentController extends Controller
         $payrollEmployment
             ->payroll_inactivity_type_id = (!$request->active)
             ? $request->payroll_inactivity_type_id : null;
-            $payrollEmployment->institution_email = (!is_null($request->institution_email))
+        $payrollEmployment->institution_email = (!is_null($request->institution_email))
             ? $request->institution_email : null;
         $payrollEmployment->function_description = $request->function_description;
         $payrollEmployment->payroll_position_type_id = $request->payroll_position_type_id;
@@ -650,9 +611,32 @@ class PayrollEmploymentController extends Controller
     }
 
     /**
+     * Realiza la acción necesaria para importar los datos Laborales
+     *
+     * @author    Francisco Escala
+     *
+     * @param    \Illuminate\Http\Request  $request    Objeto con la información de la petición
+     *
+     * @return    \Illuminate\Http\JsonResponse    Objeto que permite descargar el archivo con la información a ser exportada
+     */
+    public function import(Request $request)
+    {
+        $filePath = $request->file('file')->store('', 'temporary');
+        $fileErrorsPath = 'import' . uniqid() . '.errors';
+        Storage::disk('temporary')->put($fileErrorsPath, '');
+        $import = new RegisterStaffImport($filePath, 'temporary', auth()->user()->id, $fileErrorsPath);
+
+        $import->import();
+
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
      * Exportar registros
      *
      * @author  Francisco Escala <fescala@cenditel.gob.ve>
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function export()
     {
@@ -662,9 +646,10 @@ class PayrollEmploymentController extends Controller
             'Datos Laborales',
         );
 
-        request()->session()->flash('message', ['type' => 'other', 'title' => '¡Éxito!',
+        request()->session()->flash('message', [
+            'type' => 'other', 'title' => '¡Éxito!',
             'text' => 'Su solicitud esta en proceso, esto puede tardar unos ' .
-            'minutos. Se le notificara al terminar la operación',
+                'minutos. Se le notificara al terminar la operación',
             'icon' => 'screen-ok',
             'class' => 'growl-primary'
         ]);
@@ -675,13 +660,11 @@ class PayrollEmploymentController extends Controller
     /**
      * Elimina el dato laboral
      *
-     * @method    destroy
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    Json con mensaje de confirmación de la operación
+     * @return    \Illuminate\Http\JsonResponse    Json con mensaje de confirmación de la operación
      */
     public function destroy($id)
     {
@@ -711,80 +694,85 @@ class PayrollEmploymentController extends Controller
     /**
      * Muestra los datos laborales registrados
      *
-     * @method    VueList
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve>
      *
-     * @return    Renderable    Json con los datos laborales del trabajador
+     * @return    \Illuminate\Http\JsonResponse    Json con los datos laborales del trabajador
      */
-    public function vueList()
+    public function vueList(Request $request)
     {
         $records = PayrollEmployment::query()
-        ->select('*', DB::raw("CASE WHEN active THEN 'SI' ELSE 'NO' END AS is_active"))
-        ->with([
-            'payrollStaff' => function ($query) {
-                $query->select(
-                    'id',
-                    'first_name',
-                    'last_name',
-                    'id_number',
-                    'email'
-                )
-                ->without(
-                    'payrollEmployment',
-                    'payrollSocioeconomic',
-                    'payrollFinancial',
-                    'payrollProfessional',
-                    'payrollStaffUniformSize'
-                );
-            },
-            'payrollInactivityType',
-            'payrollPositionType' => function ($query) {
-                $query->select('id', 'name', 'description');
-            },
-            'payrollPositions' => function ($query) {
-                $query->select('name', 'description', 'responsible');
-            },
-            'payrollCoordination',
-            'payrollStaffType' => function ($query) {
-                $query->select('id', 'name', 'description');
-            },
-            'department' => function ($query) {
-                $query->select('id', 'name', 'institution_id')->with([
-                    'institution' => function ($query) {
-                        $query->select('id', 'acronym', 'name');
-                    }
-                ]);
-            },
-            'payrollContractType' => function ($query) {
-                $query->select('id', 'name');
-            },
-            'payrollPreviousJob' => function ($query) {
-                $query->select(
-                    'id',
-                    'organization_name',
-                    'organization_phone',
-                    'payroll_sector_type_id',
-                    'payroll_staff_type_id',
-                    'previous_position',
-                    'start_date',
-                    'end_date',
-                    'payroll_employment_id'
-                )->with([
-                    'payrollPosition',
-                    'payrollStaffType' => function ($q) {
-                        $q->select('id', 'name', 'description');
-                    },
-                    'payrollSectorType' => function ($q) {
-                        $q->select('id', 'name');
-                    }
-                ]);
-            }
-        ])->get()->makeHidden(['created_at', 'updated_at', 'deleted_at', 'payrollPosition']);
+            ->select('*', DB::raw("CASE WHEN active THEN 'SI' ELSE 'NO' END AS is_active"))
+            ->with([
+                'payrollStaff' => function ($query) {
+                    $query->select(
+                        'id',
+                        'first_name',
+                        'last_name',
+                        'id_number',
+                        'email'
+                    )
+                        ->without(
+                            'payrollEmployment',
+                            'payrollSocioeconomic',
+                            'payrollFinancial',
+                            'payrollProfessional',
+                            'payrollStaffUniformSize'
+                        );
+                },
+                'payrollInactivityType',
+                'payrollPositionType' => function ($query) {
+                    $query->select('id', 'name', 'description');
+                },
+                'payrollPositions' => function ($query) {
+                    $query->select('name', 'description', 'responsible');
+                },
+                'payrollCoordination',
+                'payrollStaffType' => function ($query) {
+                    $query->select('id', 'name', 'description');
+                },
+                'department' => function ($query) {
+                    $query->select('id', 'name', 'institution_id')->with([
+                        'institution' => function ($query) {
+                            $query->select('id', 'acronym', 'name');
+                        }
+                    ]);
+                },
+                'payrollContractType' => function ($query) {
+                    $query->select('id', 'name');
+                },
+                'payrollPreviousJob' => function ($query) {
+                    $query->select(
+                        'id',
+                        'organization_name',
+                        'organization_phone',
+                        'payroll_sector_type_id',
+                        'payroll_staff_type_id',
+                        'previous_position',
+                        'start_date',
+                        'end_date',
+                        'payroll_employment_id'
+                    )->with([
+                        'payrollPosition',
+                        'payrollStaffType' => function ($q) {
+                            $q->select('id', 'name', 'description');
+                        },
+                        'payrollSectorType' => function ($q) {
+                            $q->select('id', 'name');
+                        }
+                    ]);
+                }
+            ])
+            ->search($request->get('query'))
+            ->paginate($request->get('limit'));
+
+        $currentFiscalYear = FiscalYear::select('year')
+            ->where(['active' => true, 'closed' => false])
+            ->orderBy('year', 'desc')->first();
 
         return response()->json(
             [
-                'records' => $records
+                'data' => $records->items(),
+                'count' => $records->total(),
             ],
             200
         );

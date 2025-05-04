@@ -4,5 +4,5 @@ var classModules_1_1ProjectTracking_1_1Providers_1_1RouteServiceProvider =
     [ "map", "de/d29/classModules_1_1ProjectTracking_1_1Providers_1_1RouteServiceProvider.html#a7f35c814c022f4191d359b5dc139d35b", null ],
     [ "mapApiRoutes", "de/d29/classModules_1_1ProjectTracking_1_1Providers_1_1RouteServiceProvider.html#ad400e7ca0cea76b9680eeb68b55ea0e0", null ],
     [ "mapWebRoutes", "de/d29/classModules_1_1ProjectTracking_1_1Providers_1_1RouteServiceProvider.html#ac887962db9a9a8f344572bd205a02165", null ],
-    [ "$moduleNamespace", "de/d29/classModules_1_1ProjectTracking_1_1Providers_1_1RouteServiceProvider.html#a764aebcb4917185e8adb3fc0a6794d5b", null ]
+    [ "$moduleNamespace", "de/d29/classModules_1_1ProjectTracking_1_1Providers_1_1RouteServiceProvider.html#a51bd15a2812bb6a14d5e73a8227a2ce2", null ]
 ];

@@ -15,6 +15,7 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de opciones a asignar en concepto conceptos
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -26,48 +27,35 @@ class PayrollConceptAssignOption extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
-    protected $fillable = ['payroll_concept_id', 'key', 'value', 'applicable_type', 'applicable_id'];
+    protected $fillable = ['key', 'value', 'applicable_type', 'applicable_id'];
 
     /**
-     * Método que obtine la información del concepto asociado al registro
-     *
-     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     *
-     * @return    \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function payrollConcept()
-    {
-        return $this->belongsTo(PayrollConcept::class);
-    }
-
-    /**
-     * PayrollConceptAssignOption belongs to PayrollVacationPolicy.
+     * Obtiene la relación con la política de vacaciones
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollVacationPolicy()
     {
-        // belongsTo(RelatedModel, foreignKey = payrollVacationPolicy_id, keyOnRelatedModel = id)
         return $this->belongsTo(PayrollVacationPolicy::class);
     }
 
     /**
-     * File morphs to models in applicable_type.
+     * Obtiene la relación morfológica con otros modelos que se relacionen con la asignación de conceptos
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function applicable()
     {
-        // morphTo($name = applicable, $type = applicable_type, $id = applicable_id)
-        // requires applicable_type and applicable_id fields on $this->table
         return $this->morphTo();
     }
 }

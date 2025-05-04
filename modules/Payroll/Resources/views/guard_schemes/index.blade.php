@@ -34,10 +34,10 @@
                         route_edit="{{ url('payroll/guard-schemes/{id}/edit') }}"
                         route_show="{{ url('payroll/guard-schemes/show/{id}') }}"
                         route_list="{{ url('payroll/guard-schemes/vue-list') }}"
-                        approve_permission="{{ Auth()->user()->hasPermission('payroll.guard-scheme.approve') }}"
-                        confirm_permission="{{ Auth()->user()->hasPermission('payroll.guard-scheme.confirm') }}"
-                        index_permission="{{ Auth()->user()->hasPermission('payroll.guard-scheme.index') }}"
-                        request_review_permission="{{ Auth()->user()->hasPermission('payroll.guard-scheme.request-review') }}">
+                        approve_permission="{{ auth()->user()->hasPermission('payroll.guard.scheme.approve') }}"
+                        confirm_permission="{{ auth()->user()->hasPermission('payroll.guard.scheme.confirm') }}"
+                        index_permission="{{ auth()->user()->hasPermission('payroll.guard.scheme.index') }}"
+                        request_review_permission="{{ auth()->user()->hasPermission('payroll.guard.scheme.request.review') }}">
                     </payroll-guard-scheme-list>
                 </div>
             </div>

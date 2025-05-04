@@ -27,11 +27,12 @@
                     </h6>
                     <div class="card-btns">
                         @include('buttons.previous', ['route' => url()->previous()])
+                        @include('buttons.new', ['route' => route('finance.conciliation.create')])
                         @include('buttons.minimize')
                     </div>
                 </div>
                 <div class="card-body">
-                    <finance-conciliation></finance-conciliation>
+                    <finance-conciliation-list route_edit='{{ url('finance/conciliation/{id}/edit') }}'></finance-conciliation-list>
                 </div>
             </div>
         </div>

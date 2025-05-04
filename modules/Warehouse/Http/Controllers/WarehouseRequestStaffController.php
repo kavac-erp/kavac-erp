@@ -3,7 +3,6 @@
 namespace Modules\Warehouse\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\DB;
@@ -19,28 +18,44 @@ use Modules\Warehouse\Models\WarehouseRequest;
  * Clase que gestiona las solicitudes de los trabajadores al almacén
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseRequestStaffController extends Controller
 {
     use ValidatesRequests;
 
     /**
+     * Reglas de validación
+     *
+     * @var array $validationRules
+     */
+    protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
+    protected $messages;
+
+    /**
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:warehouse.request.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:warehouse.request.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:warehouse.request.delete', ['only' => 'destroy']);
 
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'warehouse_products.*' => ['required'],
             'department_id'        => ['required'],
@@ -51,7 +66,7 @@ class WarehouseRequestStaffController extends Controller
         ];
 
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
 
             'department_id.required'       => 'El campo "Departamento" es obligatorio',
@@ -67,7 +82,8 @@ class WarehouseRequestStaffController extends Controller
      * Muestra el formulario para registrar una nueva solicitud de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return Renderable
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -79,8 +95,10 @@ class WarehouseRequestStaffController extends Controller
      * Valida y registra una nueva solicitud de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -141,15 +159,11 @@ class WarehouseRequestStaffController extends Controller
                             'new_exist' => $exist_real - $product['requested'],
                         ]);
                     } else {
-                        /** Si la exitencia del producto es menor que lo que se solicita
-                         *  se revierten los cambios
-                         */
+                        /* Si la exitencia del producto es menor que lo que se solicita se revierten los cambios */
                         DB::rollback();
                     }
                 } else {
-                    /** Si no existe el registro
-                     *  se revierten los cambios
-                     */
+                    /* Si no existe el registro se revierten los cambios */
                     DB::rollback();
                 }
             }
@@ -176,8 +190,10 @@ class WarehouseRequestStaffController extends Controller
      * Muestra el formulario para editar una solicitud de  almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @return Renderable
+     *
+     * @param  integer $id Identificador único del ingreso de almacén
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -190,9 +206,11 @@ class WarehouseRequestStaffController extends Controller
      * Actualiza la información de las solicitudes de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @param  Integer $id Identificador único de la solicitud de almacén
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id Identificador único de la solicitud de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -224,7 +242,7 @@ class WarehouseRequestStaffController extends Controller
 
             $update = now();
 
-            /** Se agregan los nuevos elementos a la solicitud */
+            /* Se agregan los nuevos elementos a la solicitud */
             foreach ($request->warehouse_products as $product) {
                 $inventory_product = WarehouseInventoryProduct::find($product['id']);
                 if (!is_null($inventory_product)) {
@@ -249,20 +267,16 @@ class WarehouseRequestStaffController extends Controller
                             ]);
                         }
                     } else {
-                        /** Si la exitencia del producto es menor que lo que se solicita
-                         *  se revierten los cambios
-                         */
+                        /* Si la exitencia del producto es menor que lo que se solicita se revierten los cambios */
                         DB::rollback();
                     }
                 } else {
-                    /** Si no existe el registro en inventario
-                     *  se revierten los cambios
-                     */
+                    /* Si no existe el registro en inventario se revierten los cambios */
                     DB::rollback();
                 }
             };
 
-            /** Se eliminan los demas elementos de la solicitud */
+            /* Se eliminan los demas elementos de la solicitud */
             $warehouse_request_products = WarehouseInventoryProductRequest::where(
                 'warehouse_request_id',
                 $warehouse_request->id
@@ -280,8 +294,10 @@ class WarehouseRequestStaffController extends Controller
      * Vizualiza información de una solicitud de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único de la solicitud de almacén
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único de la solicitud de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueInfo($id)
     {
@@ -304,6 +320,7 @@ class WarehouseRequestStaffController extends Controller
      * Obtiene un listado de las solicitudes de almacén registradas
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse Objeto con los registros a mostrar
      */
     public function vueList()

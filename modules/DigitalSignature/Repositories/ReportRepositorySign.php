@@ -1,7 +1,5 @@
 <?php
 
-/** Repositorio del modulo DigitalSignature  */
-
 namespace Modules\DigitalSignature\Repositories;
 
 use Carbon\Carbon;
@@ -14,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Modules\DigitalSignature\Models\User;
 use Modules\DigitalSignature\Helpers\Helper;
 use App\Repositories\Contracts\ReportInterface;
-use Illuminate\Contracts\Encryption\DecryptException;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @class ReportRepositorySign
@@ -29,49 +27,138 @@ use Illuminate\Contracts\Encryption\DecryptException;
  */
 class ReportRepositorySign implements ReportInterface
 {
-    /** @var string Establece la orientación de la página, los posibles valores son P o L */
+    /**
+     * Establece la orientación de la página, los posibles valores son P o L
+     *
+     * @var string $orientation
+     */
     private $orientation;
-    /** @var string Establece la unidad de medida a implementar en el reporte */
+
+    /**
+     * Establece la unidad de medida a implementar en el reporte
+     *
+     * @var string $units
+     */
     private $units;
-    /** @var string Establece el formato de la página (A4, Letter, ...) */
+
+    /**
+     * Establece el formato de la página (A4, Letter, ...)
+     *
+     * @var string $format
+     */
     private $format;
-    /** @var string Establece el tipo de fuente a usar en el reporte */
+
+    /**
+     * Establece el tipo de fuente a usar en el reporte
+     *
+     * @var string $font
+     */
     private $fontFamily;
-    /** @var array Estilos a implementar en códigos QR a generar */
+
+    /**
+     * Estilos a implementar en códigos QR a generar
+     *
+     * @var array $qrCodeStyle
+     */
     private $qrCodeStyle;
-    /** @var array Estilos a implementar en códigos de barras a generar */
+
+    /**
+     * Estilos a implementar en códigos de barras a generar
+     *
+     * @var array $barCodeStyle
+     */
     private $barCodeStyle;
-    /** @var string Estilos para líneas de separación entre encabezado cuerpo y pie de página */
+
+    /**
+     * Estilos para líneas de separación entre encabezado cuerpo y pie de página
+     *
+     * @var string $lineStyle
+     */
     private $lineStyle;
-    /** @var string URL de verificación del reporte */
+
+    /**
+     * URL de verificación del reporte
+     *
+     * @var string $urlVerify
+     */
     private $urlVerify;
-    /** @var string Fecha en la que se genera el reporte */
+
+    /**
+     * Fecha en la que se genera el reporte
+     *
+     * @var string $reportDate
+     */
     private $reportDate;
-    /** @var object Identificador de la organización que genera el reporte */
+
+    /**
+     * Identificador de la organización que genera el reporte
+     *
+     * @var object $institution
+     */
     private $institution;
-    /** @var string Nombre del archivo a generar con el reporte */
+
+    /**
+     * Nombre del archivo a generar con el reporte
+     *
+     * @var string $filename
+     */
     private $filename;
-    /** @var string Título del reporte */
+
+    /**
+     * Título del reporte
+     *
+     * @var string $title
+     */
     private $title;
-    /** @var string Asunto del reporte */
+
+    /**
+     * Asunto del reporte
+     *
+     * @var string $subject
+     */
     private $subject;
-    /** @var integer Establece el eje de las Y en donde comienza a mostrarse el encabezado del reporte */
+
+    /**
+     * Establece el eje de las Y en donde comienza a mostrarse el encabezado del reporte
+     *
+     * @var integer $headerY
+     */
     private $headerY;
-    /** @var integer Establece el eje de las Y para el texto de subtítulo y fecha del reporte */
+
+    /**
+     * Establece el eje de las Y para el texto de subtítulo y fecha del reporte
+     *
+     * @var integer $headerTextY
+     */
     private $headerTextY;
-    /** @var object Crea y gestiona el objeto PDF */
+
+    /**
+     * Crea y gestiona el objeto PDF
+     *
+     * @var object $pdf
+     */
     private $pdf;
-    /** @var object usuario que firma el documento PDF */
+
+    /**
+     * Usuario que firma el documento PDF
+     *
+     * @var object $auth
+     */
     private $auth;
-    /** @var string Nombre del archivo pdf firmado */
+
+    /**
+     * Nombre del archivo pdf firmado
+     *
+     * @var string $fileNameSign
+     */
     private $fileNameSign;
 
     /**
      * Método constructor de la clase
      *
-     * @method     __construct()
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return     void
      */
     public function __construct()
     {
@@ -81,15 +168,15 @@ class ReportRepositorySign implements ReportInterface
     /**
      * Método que permite establecer la configuración general de los reportes
      *
-     * @method     setConfig(array $params)
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param      array    $params    Parámetros de configuración
+     *
+     * @return     void
      */
     public function setConfig($params = [])
     {
-        $this->reportDate = \Carbon\Carbon::now();
+        $this->reportDate = Carbon::now();
         $this->orientation = $params['orientation'] ?? 'P';
         $this->units = $params['units'] ?? 'mm';
         $this->format = $params['format'] ?? 'LETTER';
@@ -127,8 +214,6 @@ class ReportRepositorySign implements ReportInterface
     /**
      * Método que establece los datos a mostrar en el encabezado del reporte
      *
-     * @method     setHeader(string $title, string $subTitle, boolean $hasQR, boolean $hasBarCode)
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param      string           $title         Título del reporte
@@ -139,6 +224,9 @@ class ReportRepositorySign implements ReportInterface
      * @param      string           $logoAlign     Alineación del logo en el reporte. Los valores posibles son:
      *                                             (L)eft, (R)ight, (C)enter. Valor por defecto es vacio lo cual
      *                                             realiza la alineación en el centro
+     * @param      string           $titleAlign    Alineación del título del reporte. Los valores posibles son: L, C, R
+     *
+     * @return     void
      */
     public function setHeader(
         $title = '',
@@ -168,7 +256,7 @@ class ReportRepositorySign implements ReportInterface
             $parameter = Parameter::where(['p_key' => 'report_banner', 'p_value' => 'true'])->first();
 
             if (!is_null($params->institution->banner)) {
-                /** Imagen del banner de la organización a implementar en el reporte */
+                /* Imagen del banner de la organización a implementar en el reporte */
                 $pdf->Image(
                     storage_path('pictures') . '/' . $params->institution->banner->file,
                     10,
@@ -190,7 +278,7 @@ class ReportRepositorySign implements ReportInterface
                 );
             }
             if (!is_null($params->institution->logo)) {
-                /** Imagen del logotipo de la organización a implementar en el reporte */
+                /* Imagen del logotipo de la organización a implementar en el reporte */
                 $pdf->Image(
                     storage_path('pictures') . '/' . $params->institution->logo->file,
                     10,
@@ -212,7 +300,7 @@ class ReportRepositorySign implements ReportInterface
                 );
             }
             if ($params->hasQR && !is_null($params->urlVerify)) {
-                /** Código QR con enlace de verificación del reporte */
+                /* Código QR con enlace de verificación del reporte */
                 $pdf->write2DBarcode(
                     $params->urlVerify,
                     'QRCODE,H',
@@ -224,9 +312,9 @@ class ReportRepositorySign implements ReportInterface
                     'T'
                 );
             }
-            /** Configuración de la fuente para el título del reporte */
+            /* Configuración de la fuente para el título del reporte */
             $pdf->SetFont($params->fontFamily, 'B', 15);
-            /** Título del reporte */
+            /* Título del reporte */
             $pdf->MultiCell(
                 145,
                 7,
@@ -245,9 +333,9 @@ class ReportRepositorySign implements ReportInterface
                 'T',
                 true
             );
-            /** Configuración de la fuente para la breve descripción del reporte */
+            /* Configuración de la fuente para la breve descripción del reporte */
             $pdf->SetFont($params->fontFamily, 'B', 12);
-            /** Descripción breve del reporte */
+            /* Descripción breve del reporte */
             $pdf->MultiCell(
                 72,
                 4,
@@ -266,7 +354,7 @@ class ReportRepositorySign implements ReportInterface
                 'T',
                 true
             );
-            /** Fecha de emisión del reporte */
+            /* Fecha de emisión del reporte */
             $pdf->MultiCell(
                 72,
                 4,
@@ -285,70 +373,54 @@ class ReportRepositorySign implements ReportInterface
                 'T',
                 true
             );
-            /** Línea de separación entre el encabezado del reporte y el cuerpo */
+            /* Línea de separación entre el encabezado del reporte y el cuerpo */
             $pdf->Line(7, $params->headerY + 15, 205, $params->headerY + 15, $params->lineStyle);
-
-            /*$pdf->write1DBarcode(
-                '123', 'C128', 80, 90, 60, 10, '', $barCodeStyle, 'N'
-            );*/
-            /*$pdf->write1DBarcode('1234567890', 'UPCA', 80, 90, 60, 10, '', $barCodeStyle, 'N');*/
-            /*$pdf->write1DBarcode('1234567890', 'CODABAR', 80, 90, 60, 10, '', $barCodeStyle, 'N');*/
-            /*$pdf->write1DBarcode('1234567890', 'CODE11', 80, 90, 60, 10, '', $barCodeStyle, 'N');*/
-            //$pdf->Text(80, 85, 'PDF417 (ISO/IEC 15438:2006)');
-            //
-            //ESTE DE ACA ABAJO
-            /*$pdf->write2DBarcode(
-                'www.tcpdf.org', 'PDF417,4,6,1,99998,,filename.txt', 80, 90, 60, 15, $barCodeStyle, 'N'
-            );
-            $pdf->Text(80, 85, 'PDF417 (ISO/IEC 15438:2006)');*/
         });
     }
 
     public function setBody($body, $isHTML = true, $htmlParams = [])
     {
-        /** @var string Contenido del reporte */
+        /* Contenido del reporte */
         $htmlContent = $body;
-        /** Configuración sobre el autor del reporte */
+        /* Configuración sobre el autor del reporte */
         $this->pdf->SetAuthor(__('Sistema de Gestión de Recursos - :app', ['app' => config('app.name')]));
-        /** Configuración del título de reporte */
+        /* Configuración del título de reporte */
         $this->pdf->SetTitle($this->title);
-        /** Configuración sobre el asunto del reporte */
+        /* Configuración sobre el asunto del reporte */
         $this->pdf->SetSubject($this->subject);
-        /** Configuración de los márgenes del cuerpo del reporte */
+        /* Configuración de los márgenes del cuerpo del reporte */
         $this->pdf->SetMargins(7, 45, 7);
-        /** Establece si se configura o no las fuentes para sub configuraciones */
+        /* Establece si se configura o no las fuentes para sub configuraciones */
         $this->pdf->SetFontSubsetting(false);
-        /** Configuración de la fuente por defecto del cuerpo del reporte */
+        /* Configuración de la fuente por defecto del cuerpo del reporte */
         $this->pdf->SetFontSize('10px');
-        /**
-         * Configuración que permite realizar un salto de página automático al alcanzar el límite inferior del cuerpo
-         * del reporte
-         */
+        /* Configuración que permite realizar un salto de página automático al alcanzar el límite inferior del cuerpo
+           del reporte */
         $this->pdf->SetAutoPageBreak(true, 15); //PDF_MARGIN_BOTTOM
-        /** Agrega las respectivas páginas del reporte */
+        /* Agrega las respectivas páginas del reporte */
         $this->pdf->AddPage($this->orientation, $this->format);
 
         if ($isHTML) {
             $view = View::make($body, $htmlParams);
             $htmlContent = $view->render();
         }
-        /** Escribre el contenido del reporte */
+        /* Escribre el contenido del reporte */
         $this->pdf->writeHTML($htmlContent, true, false, true, false, '');
-        /** Establece el apuntador del reporte a la última página generada */
+        /* Establece el apuntador del reporte a la última página generada */
         $this->pdf->lastPage();
-        /**
-         * Genera el reporte. Las opciones disponibles son:
-         *
-         * I: Genera el archivo directamente para ser visualizado en el navegador
-         * D: Genera el archivo y forza la descarga del mismo
-         * F: Guarda el archivo generado en la ruta del servidor establecida por defecto
-         * S: Devuelve el documento generado como una cadena de texto
-         * FI: Es equivalente a las opciones F + I
-         * FD: Es equivalente a las opciones F + D
-         * E: Devuelve el documento del tipo mime base64 para ser adjuntado en correos electrónicos
+        /*
+         | Genera el reporte. Las opciones disponibles son:
+         |
+         | I: Genera el archivo directamente para ser visualizado en el navegador
+         | D: Genera el archivo y forza la descarga del mismo
+         | F: Guarda el archivo generado en la ruta del servidor establecida por defecto
+         | S: Devuelve el documento generado como una cadena de texto
+         | FI: Es equivalente a las opciones F + I
+         | FD: Es equivalente a las opciones F + D
+         | E: Devuelve el documento del tipo mime base64 para ser adjuntado en correos electrónicos
          */
 
-        /*Esta activo el modulo de firma electrónica */
+        /* Esta activo el modulo de firma electrónica */
         $isEnableSign = isModuleEnabled('DigitalSignature');
         if ($isEnableSign) {
             error_log("El módulo está activado " . $isEnableSign);
@@ -367,7 +439,6 @@ class ReportRepositorySign implements ReportInterface
                         'filename' => $this->fileNameSign,
                         'file' => $path,
                     );
-                    //$this->pdf->Output($this->fileNameSign, 'I');
                     return $reponse;
                 }
             } else {
@@ -376,7 +447,6 @@ class ReportRepositorySign implements ReportInterface
                     'message' => 'El usuario no tiene certificado de firma almacenado',
                     'path' => '',
                 );
-            //return $reponse;
             }
         } else {
             $reponse = array (
@@ -384,18 +454,17 @@ class ReportRepositorySign implements ReportInterface
                 'message' => 'Modulo de firma desactivado',
                 'path' => '',
             );
-            //return $reponse;
         }
     }
 
     /**
      * Método que firma el reporte PDF
      *
-     * @method     ReportsignFile(string $title, string $subTitle, boolean $hasQR, boolean $hasBarCode)
-     *
      * @author     Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
      *
      * @param      string           $filepath         Dirección del reporte PDF a firmar
+     *
+     * @return     string
      */
     public function reportsignFile($filepath)
     {
@@ -425,6 +494,14 @@ class ReportRepositorySign implements ReportInterface
         return $storePdfSign;
     }
 
+    /**
+     * Establece los datos del pie de página del reporte
+     *
+     * @param boolean $pages Indica si se debe mostrar el número de páginas
+     * @param string $footerText Texto del pie de página
+     *
+     * @return void
+     */
     public function setFooter($pages = true, $footerText = '')
     {
         $fontFamily = $this->fontFamily;
@@ -434,17 +511,17 @@ class ReportRepositorySign implements ReportInterface
         }
 
         $this->pdf->setFooterCallback(function ($pdf) use ($pages, $fontFamily, $footerText, $lineStyle) {
-            /** Posición a 14 mm del borde inferior de la página*/
+            /* Posición a 14 mm del borde inferior de la página*/
             $pdf->SetY(-14);
-            /** Configuración de la fuenta a utilizar */
+            /* Configuración de la fuenta a utilizar */
             $pdf->SetFont($fontFamily, 'I', 8);
             if ($pages) {
-                /** @var string Número de página del reporte */
+                /** Número de página del reporte */
                 $pageNumber = __('Pág. ') . $pdf->getAliasNumPage() . '/' . $pdf->getAliasNbPages();
-                /** Texto a mostrar para el número de página */
+                /* Texto a mostrar para el número de página */
                 $pdf->MultiCell(20, 4, $pageNumber, 0, 'R', false, 0, 185, -8, true, 1, false, true, 1, 'T', true);
             }
-            /** Texto a mostrar en el pie de página del reporte */
+            /* Texto a mostrar en el pie de página del reporte */
             $pdf->MultiCell(
                 198,
                 8,
@@ -463,7 +540,7 @@ class ReportRepositorySign implements ReportInterface
                 'T',
                 true
             );
-            /** Línea de separación entre el cuerpo del reporte y el pie de página */
+            /* Línea de separación entre el cuerpo del reporte y el pie de página */
             $pdf->Line(7, 265, 205, 265, $lineStyle);
         });
     }
@@ -471,14 +548,12 @@ class ReportRepositorySign implements ReportInterface
     /**
      * Descarga un reporte
      *
-     * @method    show
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     string|null    $file    Nombre del archivo a descargar. Este dato es opcional, si no se indica se
      *                                    genera un archivo con la fecha actual del servidor como nombre
      *
-     * @return    Response
+     * @return    BinaryFileResponse
      */
     public function show($file = null)
     {
@@ -490,14 +565,12 @@ class ReportRepositorySign implements ReportInterface
     /**
      * Descarga un reporte
      *
-     * @method    show
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     string|null    $file    Nombre del archivo a descargar. Este dato es opcional, si no se indica se
      *                                    genera un archivo con la fecha actual del servidor como nombre
      *
-     * @return    Response
+     * @return    BinaryFileResponse
      */
     public function showPdfSign($file = null)
     {

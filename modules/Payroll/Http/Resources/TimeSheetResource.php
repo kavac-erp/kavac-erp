@@ -7,10 +7,19 @@ namespace Modules\Payroll\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Payroll\Models\PayrollSupervisedGroup;
 
+/**
+ * @class TimeSheetResource
+ * @brief Representa un recurso para la hoja de tiempo
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class TimeSheetResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transforma el recurso a un arreglo.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
@@ -58,6 +67,12 @@ class TimeSheetResource extends JsonResource
             'updated_at' => $this->resource->updated_at,
         ];
     }
+
+    /**
+     * Obtiene el grupo supervisado de la hoja de tiempo
+     *
+     * @return array|object
+     */
     protected function getPayrollSuperviedGroup(): ?PayrollSupervisedGroup
     {
         $data = $this->resource->payrollSupervisedGroup;

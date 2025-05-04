@@ -15,35 +15,50 @@ use Modules\ProjectTracking\Models\ProjectTrackingPosition;
  * Clase que gestiona los cargos
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class ProjectTrackingPositionController extends Controller
 {
     use ValidatesRequests;
 
     /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
+    protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
+    protected $messages;
+
+    /**
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        {
-            /** Define las reglas de validación para el formulario */
-            $this->validateRules = [
-                'name'                                  => ['required'],
-                'description'                           => ['required'],
-            ];
+        /* Define las reglas de validación para el formulario */
+        $this->validateRules = [
+            'name'                                  => ['required'],
+            'description'                           => ['required'],
+        ];
 
-            /** Define los mensajes de validación para las reglas del formulario */
-            $this->messages = [
-                'name.required'                                  => 'El campo nombre es obligatorio.',
-                'description.required'                           => 'El campo descripción es obligatorio.',
-            ];
-            }
-        /** Establece permisos de acceso para cada método del controlador
+        /* Define los mensajes de validación para las reglas del formulario */
+        $this->messages = [
+            'name.required'                                  => 'El campo nombre es obligatorio.',
+            'description.required'                           => 'El campo descripción es obligatorio.',
+        ];
+
+        /* Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:projecttracking.positions.list', ['only' => 'index']);
         $this->middleware('permission:projecttracking.positions.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:projecttracking.positions.edit', ['only' => ['edit', 'update']]);
@@ -55,6 +70,7 @@ class ProjectTrackingPositionController extends Controller
      * Muestra todos los registros de cargos
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de cargos
      */
     public function index()
@@ -67,9 +83,9 @@ class ProjectTrackingPositionController extends Controller
      * Retorna un json con todos los cargos para ser usado en un componente <select2>
      *
      * @author  Oscar González <xxmaestroyixx@gmail.com>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de cargos
      */
-
     public function getPositions()
     {
         $positionList = ProjectTrackingPosition::all();
@@ -86,9 +102,11 @@ class ProjectTrackingPositionController extends Controller
         }
         return response()->json($positions);
     }
+
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para un nuevo registro de cargo en seguimiento de proyectos
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -99,7 +117,9 @@ class ProjectTrackingPositionController extends Controller
      * Valida y registra un nuevo cargo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
+     *
      * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
@@ -113,8 +133,9 @@ class ProjectTrackingPositionController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un cargo en seguimiento de proyectos
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -122,8 +143,9 @@ class ProjectTrackingPositionController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para la actualización de un cargo en seguimiento de proyectos
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -134,8 +156,10 @@ class ProjectTrackingPositionController extends Controller
      * Actualiza la información del cargo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
      * @param  integer $id                          Identificador del cargo a actualizar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
@@ -155,7 +179,9 @@ class ProjectTrackingPositionController extends Controller
      * Elimina el cargo
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador del cargo a eliminar
+     *
      * @return \Illuminate\Http\JsonResponse    Json: objeto eliminado y mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -169,6 +195,7 @@ class ProjectTrackingPositionController extends Controller
      * Obtiene los cargo registrados
      *
      * @author  Pedro Contreras <pdrocont@gmail.com>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de cargos
      */
     public function getProjectTrackingPositions()

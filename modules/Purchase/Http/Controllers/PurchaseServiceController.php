@@ -1,10 +1,7 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Purchase\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -12,11 +9,9 @@ use Modules\Purchase\Models\PurchaseService;
 
 /**
  * @class PurchaseServiceController
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -27,13 +22,15 @@ class PurchaseServiceController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -41,16 +38,18 @@ class PurchaseServiceController extends Controller
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name' => ['required', 'max:300'],
             'description' => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required' => 'El campo nombre es obligatorio.',
             'name.max' => 'El campo nombre no debe ser mayor que 300 caracteres.',
@@ -59,13 +58,9 @@ class PurchaseServiceController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el listado de servicios de compra
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
@@ -73,13 +68,9 @@ class PurchaseServiceController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para registrar un nuevo servicio de compra
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -87,15 +78,11 @@ class PurchaseServiceController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena un nuevo servicio de compra
      *
-     * @method    store
+     * @param     Request    $request    Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -110,15 +97,11 @@ class PurchaseServiceController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información de un servicio de compra
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -126,15 +109,11 @@ class PurchaseServiceController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario para editar un servicio de compra
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -142,16 +121,12 @@ class PurchaseServiceController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza la información de un servicio de compra
      *
-     * @method    update
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -167,15 +142,11 @@ class PurchaseServiceController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina un servicio de compra
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

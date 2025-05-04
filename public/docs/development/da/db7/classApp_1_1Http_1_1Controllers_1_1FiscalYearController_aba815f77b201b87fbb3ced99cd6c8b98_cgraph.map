@@ -1,0 +1,5 @@
+<map id="getOpened" name="getOpened">
+<area shape="rect" id="Node000001" title="Listado de los años de ejercicio fiscal que aún no han sido cerrados." alt="" coords="5,5,99,31"/>
+<area shape="rect" id="Node000002" href="$da/db7/classApp_1_1Http_1_1Controllers_1_1FiscalYearController.html#af11b93e76be992a269fee640a2513b67" title="Listado de los años de ejercicio fiscal." alt="" coords="147,5,213,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,15,133,15,133,21,99,21"/>
+</map>

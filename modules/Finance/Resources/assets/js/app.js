@@ -27,8 +27,19 @@ Vue.component('finance-bank-reconciliation-files', () => import(
  */
 Vue.component('finance-conciliation', () => import(
     /* webpackChunkName: "finance-conciliation" */
-    './components/FinanceConciliationComponent.vue'
+    './components/conciliacion/FinanceConciliationComponent.vue'
 ));
+
+/**
+ * Componente para listar de conciliación bancaria.
+ *
+ * @author  Juan Rosas <juan.rosasr@gmail.com>
+ */
+Vue.component('finance-conciliation-list', () => import(
+    /* webpackChunkName: "finance-conciliation-list" */
+    './components/conciliacion/FinanceConciliationListComponent.vue'
+));
+
 
 /**
  * Componente para la gestión de agencias bancarias
@@ -164,6 +175,26 @@ Vue.component('finance-bank-movements-create', () => import(
 ));
 
 /**
+ * Componente para visualizar modal de conciliacion bancaria.
+ *
+ * @author  Juan Rosas <juan.rosasr01@gmail.com>
+ */
+Vue.component('finance-conciliacion-show-modal', () => import(
+    /* webpackChunkName: "finance-conciliacion-show-modal" */
+    './components/conciliacion/FinanceConciliationShowComponent.vue'
+));
+
+/**
+ * Componente para la creación de conciliacion bancaria.
+ *
+ * @author  Juan Rosas <juan.rosasr01@gmail.com>
+ */
+Vue.component('finance-conciliacion-form', () => import(
+    /* webpackChunkName: "finance-conciliacion-form" */
+    './components/conciliacion/FinanceConciliationFormComponent.vue'
+));
+
+/**
  * Componente para listar los movimientos bancarios.
  *
  * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
@@ -191,6 +222,16 @@ Vue.component('finance-bank-movements-info', () => import(
 Vue.component('finance-cancel-bank-movements', () => import(
     /* webpackChunkName: "finance-cancel-bank-movements" */
     './components/bank/movements/FinanceCancelBankMovementComponent.vue'
+));
+
+/**
+ * Componente para generar reportes financieros.
+ * 
+ *  @author  Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
+ */
+Vue.component('finance-general-reports', () => import(
+    /* webpackChunkName: "finance-general-reports" */
+    './components/reports/FinanceGeneralReportComponent.vue'
 ));
 
 /**

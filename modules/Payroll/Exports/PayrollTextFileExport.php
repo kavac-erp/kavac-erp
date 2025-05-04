@@ -12,26 +12,129 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Modules\Payroll\Models\PayrollConceptType;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 
+/**
+ * @class PayrollTextFileExport
+ * @brief Clase que exporta el listado de nómina en formato TXT
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PayrollTextFileExport implements FromArray, ShouldAutoSize, WithCustomCsvSettings
 {
     use Exportable;
 
+    /**
+     * Identificador de la nómina
+     *
+     * @var integer $payrollId
+     */
     protected $payrollId;
+
+    /**
+     * Modelo de la nómina
+     *
+     * @var array $model
+     */
     protected $model = [];
+
+    /**
+     * total de la nómina
+     *
+     * @var float|array $total
+     */
     protected $total;
+
+    /**
+     * Número de decimales a mostrar
+     *
+     * @var Parameter $number_decimals
+     */
     protected $number_decimals;
+
+    /**
+     * Función de redondeo a usar
+     *
+     * @var Parameter $round
+     */
     protected $round;
+
+    /**
+     * Configuración de conceptos en cero
+     *
+     * @var Parameter $zero_concept
+     */
     protected $zero_concept;
+
+    /**
+     * Datos de la cuenta bancaria
+     *
+     * @var string $bank_account
+     */
     protected $bank_account;
+
+    /**
+     * Número de archivo
+     *
+     * @var string $file_number
+     */
     protected $file_number;
+
+    /**
+     * Fecha de la nómina
+     *
+     * @var string $date
+     */
     protected $date;
+
+    /**
+     * Bandera
+     *
+     * @var integer $flag
+     */
     protected $flag = 0;
+
+    /**
+     * Monto total de la nómina
+     *
+     * @var float $payroll_total
+     */
     protected $payroll_total = 0.00;
+
+    /**
+     * Modelo de la nómina
+     *
+     * @var Payroll $payroll
+     */
     protected $payroll;
+
+    /**
+     * Resultados para la exportación
+     *
+     * @var array $result
+     */
     protected $result = [];
+
+    /**
+     * Registros de la nómina
+     *
+     * @var array $records
+     */
     protected $records = [];
+
+    /**
+     * Nombre de la función de decimales
+     *
+     * @var Parameter $nameDecimalFunction
+     */
     protected $nameDecimalFunction;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->number_decimals = Parameter::where('p_key', 'number_decimals')->where('required_by', 'payroll')->first();
@@ -40,7 +143,7 @@ class PayrollTextFileExport implements FromArray, ShouldAutoSize, WithCustomCsvS
     /**
      * Establece el identificador del registro de nómina
      *
-     * @param Integer $payrollId Identificador único del tabuldor salarial
+     * @param integer|array $payrollId Identificador único del tabuldor salarial
      */
     public function setPayrollId($payrollId, $bank_account, $file_number, $date)
     {
@@ -51,10 +154,6 @@ class PayrollTextFileExport implements FromArray, ShouldAutoSize, WithCustomCsvS
         foreach ($payrolls as $payroll) {
             $mergedCollection = $mergedCollection->merge($payroll->payrollStaffPayrolls);
         }
-
-        // $mergedCollection = $mergedCollection->unique(function ($payrollStaff) {
-        //     return $payrollStaff->payroll_staff_id;
-        // }, true);
 
         $this->total = [];
         $this->number_decimals = 2;
@@ -85,9 +184,8 @@ class PayrollTextFileExport implements FromArray, ShouldAutoSize, WithCustomCsvS
     /**
      * Establece las columnas que van a ser exportadas
      *
-     * @method    map
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
-     * @param     object    $payroll          Objeto con las propiedades del modelo a exportar
+     *
      * @return    array                       Arreglo con los campos estrictamente a ser exportados
      */
     public function array(): array
@@ -252,7 +350,9 @@ class PayrollTextFileExport implements FromArray, ShouldAutoSize, WithCustomCsvS
             } else {
                 $space_index = array_search(' ', $data);
                 $amount = $data[$space_index - 1];
-                $this->records[$data[2]][$space_index - 1] += $amount;
+                if (array_key_exists($space_index - 1, $this->records[$data[2]])) {
+                    $this->records[$data[2]][$space_index - 1] += $amount;
+                }
             }
         }
 
@@ -267,6 +367,13 @@ class PayrollTextFileExport implements FromArray, ShouldAutoSize, WithCustomCsvS
         return $this->result;
     }
 
+    /**
+     * Construye la cadena de texto a incluir en el archivo a exportar
+     *
+     * @param array $data Arreglo de datos a exportar
+     *
+     * @return void
+     */
     public function buildString($data)
     {
 
@@ -307,9 +414,19 @@ class PayrollTextFileExport implements FromArray, ShouldAutoSize, WithCustomCsvS
     }
 }
 
+/**
+ * Retorna el encabezado de la hoja
+ *
+ * @param float $total Monto total a pagar
+ * @param string $bank_account Cuenta bancaria
+ * @param string $date Fecha
+ * @param string $file_number Número de archivo
+ *
+ * @return string
+ */
 function getHeading($total, $bank_account, $date, $file_number)
 {
-    $user = Auth()->user();
+    $user = auth()->user();
     $profileUser = $user->profile;
     if (($profileUser) && isset($profileUser->institution_id)) {
         $institution = Institution::find($profileUser->institution_id);
@@ -336,6 +453,13 @@ function getHeading($total, $bank_account, $date, $file_number)
     return $heading;
 }
 
+/**
+ * Limpia la cadena de texto
+ *
+ * @param string $text Cadena a limpiar
+ *
+ * @return array|string|null
+ */
 function cleanString($text)
 {
     $utf8 = array(

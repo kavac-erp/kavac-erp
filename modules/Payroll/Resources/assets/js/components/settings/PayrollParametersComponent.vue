@@ -117,7 +117,7 @@
                                     <label slot="off-label"></label>
                                 </p-check>
                             </div>
-                            <!-- ./porcentaje -->      
+                            <!-- ./porcentaje -->
                         </div>
                         <!-- ./valor global -->
 
@@ -136,7 +136,7 @@
                                             <label slot="off-label"></label>
                                         </p-radio>
                                     </div>
-                                    
+
                                     <div class="form-group col-6">
                                         <label for="parameter">¿Parámetro?</label>
                                         <p-radio class="d-block pretty p-switch p-fill p-bigger"
@@ -191,7 +191,7 @@
                             <!-- ./código -->
 
                             <!-- activo -->
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="percentage">¿Activo?</label>
                                 <p-check class="d-block pretty p-switch p-fill p-bigger"
                                          color="success" off-color="text-gray" toggle
@@ -202,6 +202,19 @@
                                 </p-check>
                             </div>
                             <!-- ./activo -->
+
+                            <!-- listar en esquemas -->
+                            <div class="form-group col-md-3">
+                                <label for="percentage">¿Listar en esquemas?</label>
+                                <p-check class="d-block pretty p-switch p-fill p-bigger"
+                                         color="success" off-color="text-gray" toggle
+                                         data-toggle="tooltip"
+                                         title="Indique si el parámetro debe listarse en esquema de guardias (requerido)"
+                                         v-model="record.list_in_schema">
+                                    <label slot="off-label"></label>
+                                </p-check>
+                            </div>
+                            <!-- ./listar en esquemas -->
 
                             <!-- acrónimo -->
                             <div class="col-md-6">
@@ -226,38 +239,39 @@
                                            v-model="record.value_max"
                                            v-input-mask data-inputmask="
                                                 'alias': 'numeric',
-                                                'allowMinus': 'false'
+                                                'allowMinus': 'false',
+                                                'digits': '0'
                                            "
                                     />
                                 </div>
                             </div>
                             <!-- ./valor máximo -->
 
-                            <!-- tipo de excepción -->
+                            <!-- Categorías de hoja de tiempo -->
                             <div class="col-md-6">
                                 <div class="form-group is-required">
-                                    <label for="exception_type">Tipo de excepción</label>
+                                    <label for="exception_type">Categorías de hoja de tiempo</label>
                                     <select2
                                         :options="exception_types"
                                         v-model="record.exception_type">
                                     </select2>
                                 </div>
                             </div>
-                            <!-- ./tipo de excepción -->
+                            <!-- ./Categorías de hoja de tiempo -->
                         </div>
                         <!-- ./variable reiniciable a cero -->
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('payroll/parameters')" 
+							<button type="button" @click="createRecord('payroll/parameters')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -427,14 +441,14 @@
             initUpdate(id, event) {
                 let vm = this;
                 vm.errors = [];
-            
+
                 let recordEdit =  JSON.parse(JSON.stringify(vm.records.filter((rec) => {
                     return rec.id === id;
                 })[0])) || vm.reset();
-                
+
                 vm.record = recordEdit;
                 vm.formula = recordEdit.translate_formula ?? vm.record.formula;
-            
+
                 event.preventDefault();
             },
             /**
@@ -469,13 +483,20 @@
 
                 if (vm.record.parameter_type == 'processed_variable') {
                     vm.variable = '';
+                    vm.record.list_in_schema = '';
                 } else if (vm.record.parameter_type == 'global_value') {
                     vm.variable       = '';
                     vm.record.formula = '';
+                    vm.record.list_in_schema = '';
                 } else if (vm.record.parameter_type == 'resettable_variable') {
                     vm.variable          = '';
                     vm.record.formula    = '';
                     vm.record.percentage = false;
+                    vm.record.list_in_schema = '';
+                }
+
+                if (vm.record.parameter_type == 'time_parameter' && !vm.record.id) {
+                    vm.record.list_in_schema = true;
                 }
             },
             /**
@@ -648,7 +669,7 @@
              */
             isInvalid(elName, model = 'record') {
                 const vm = this;
-                
+
                 if (typeof vm[model][elName] != 'undefined') {
                     let keys = vm[model][elName].indexOf('/0');
                     return (keys > 0) ? 'is-invalid': '';

@@ -25,7 +25,8 @@
 					<div class="card-btns">
 						@include('buttons.previous', ['route' => url()->previous()])
 						@include('buttons.new', ['route' => route('payroll.socioeconomics.create')])
-							{!! Form::button('<i class="fa fa-upload"></i>', [
+						@permission('payroll.socioeconomics.import')
+						{!! Form::button('<i class="fa fa-upload"></i>', [
 							'class'       => 'btn btn-sm btn-primary btn-custom',
 							'data-toggle' => 'tooltip',
 							'type'        => 'button',
@@ -35,6 +36,8 @@
 						<input  id="importFile" name="importFile"
                         type="file" style="display:none"
                         onchange="importData()">
+						@endpermission
+						@permission('payroll.socioeconomics.export')
 						{!! Form::button('<i class="fa fa-download"></i>', [
 							'class'       => 'btn btn-sm btn-primary btn-custom',
 							'data-toggle' => 'tooltip',
@@ -42,6 +45,7 @@
 							'title'       => "Presione para descargar el documento con la información de los registros.",
 							'onclick'     => "exportData()"
 						]) !!}
+						@endpermission
 						@include('buttons.minimize')
 					</div>
 				</div>
@@ -63,7 +67,7 @@
 			location.href = `${window.app_url}/payroll/registers/export/socioeconomics/all`;
 		}
 		function importData() {
-        var url = `${window.app_url}/payroll/registers/import/staffs/all`;
+        	var url = `${window.app_url}/payroll/registers/import/socioeconomics/all`;
             var formData = new FormData();
             var importFile = document.querySelector('#importFile');
             formData.append("file", importFile.files[0]);

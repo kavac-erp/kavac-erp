@@ -3,11 +3,13 @@
 namespace Modules\Purchase\Models;
 
 use App\Traits\ModelsTrait;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Composer\XdebugHandler\Status;
 use Nwidart\Modules\Facades\Module;
-use OwenIt\Auditing\Auditable as AuditableTrait;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class PurchaseRequirement
@@ -16,9 +18,24 @@ use OwenIt\Auditing\Contracts\Auditable;
  * Gestiona el modelo de datos para los requerimientos de compra
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @property integer $id
+ * @property integer $purchase_order_id
+ * @property string $requirement_status
+ * @property string $requirement_type
+ * @property integer $purchase_base_budget_id
+ * @property integer $prepared_by_id
+ * @property integer $reviewed_by_id
+ * @property integer $verified_by_id
+ * @property integer $first_signature_id
+ * @property integer $second_signature_id
+ * @property string  $description
+ * @property string $date
+ * @property integer $contracting_department_id
+ * @property integer $user_department_id
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PurchaseRequirement extends Model implements Auditable
 {
@@ -27,14 +44,24 @@ class PurchaseRequirement extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista de atributos de tipo fecha
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * Lista de relaciones a cargar por defecto con el modelo
+     *
+     * @var array $with
+     */
     protected $with = ['purchaseSupplierObject', 'fiscalYear'];
 
+    /**
+     * Lista de attributos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = [
         'code',
         'description',
@@ -55,7 +82,7 @@ class PurchaseRequirement extends Model implements Auditable
     ];
 
     /**
-     * PurchaseRequirement belongs to FiscalYear.
+     * Establece la relación con el año de ejercicio fiscal
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -65,7 +92,7 @@ class PurchaseRequirement extends Model implements Auditable
     }
 
     /**
-     * PurchaseRequirement belongs to PurchaseSupplierObject.
+     * Establece la relación con el objeto del proveedor
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -75,17 +102,17 @@ class PurchaseRequirement extends Model implements Auditable
     }
 
     /**
-     * PurchaseRequirement belongs to ContratingDepartment.
+     * Establece la relación con la institución
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function institution()
     {
-        return $this->belongsTo('App\Models\Institution', 'institution_id') ?? null;
+        return $this->belongsTo(Institution::class) ?? null;
     }
 
     /**
-     * PurchaseRequirement belongs to ContratingDepartment.
+     * Establece la relación con el departamento que solicita el requerimiento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -95,7 +122,7 @@ class PurchaseRequirement extends Model implements Auditable
     }
 
     /**
-     * PurchaseRequirement belongs to UserDepartment.
+     * Establece la relación con el usuario del departamento que solicita el requerimiento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -105,7 +132,7 @@ class PurchaseRequirement extends Model implements Auditable
     }
 
     /**
-     * PurchaseRequirement has many PurchaseRequirementItems.
+     * Establece la relación con los items de los requerimientos
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -115,28 +142,27 @@ class PurchaseRequirement extends Model implements Auditable
     }
 
     /**
-     * PurchaseRequirement belongs to PurchaseBaseBudget.
+     * Establece la relación con el presupuesto base
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function purchaseBaseBudget()
     {
-        // belongsTo(RelatedModel, foreignKey = purchaseBaseBudget_id, keyOnRelatedModel = id)
         return $this->belongsTo(PurchaseBaseBudget::class);
     }
 
     /**
-     * PurchaseRequirement belongs to PurchaseOrder.
+     * Establece la relación con la orden de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function purchaseOrder()
     {
-        // belongsTo(RelatedModel, foreignKey = purchaseOrder_id, keyOnRelatedModel = id)
         return $this->belongsTo(PurchaseOrder::class);
     }
+
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el empleado que prepara el requerimiento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -150,7 +176,7 @@ class PurchaseRequirement extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el empleado que revisa el requerimiento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -162,8 +188,9 @@ class PurchaseRequirement extends Model implements Auditable
                     'reviewed_by_id'
                 ) : null;
     }
+
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el empleado que verifica el requerimiento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -175,8 +202,9 @@ class PurchaseRequirement extends Model implements Auditable
                     'verified_by_id'
                 ) : null;
     }
+
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Estblece la relación con el empleado que firma, la primera vez, el requerimiento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -188,8 +216,9 @@ class PurchaseRequirement extends Model implements Auditable
                     'first_signature_id'
                 ) : null;
     }
+
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el empleado que firma, la segunda vez, el requerimiento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -205,10 +234,69 @@ class PurchaseRequirement extends Model implements Auditable
     /**
      * Obtiene la fecha del registro para usar en el bloqueo del cierre de ejercicio
      *
-     * @return Date
+     * @return Date|string
      */
     public function getDate()
     {
         return $this->date;
+    }
+
+     /**
+     * Scope para buscar y filtrar datos de requerimientos
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder Objeto con la consulta
+     * @param  string         $search    Cadena de texto a buscar
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $search)
+    {
+        return $query
+            ->whereRaw("TO_CHAR(date, 'DD/MM/YYYY') LIKE '%" . strtoupper($search) . "%'")
+            ->orWhere('code', 'ilike', '%' . $search . '%')
+            ->orWhere('description', 'ilike', '%' . $search . '%')
+            ->orWhere('requirement_type', 'ilike', '%' . $search . '%')
+            ->orWhere('requirement_status', 'ilike', '%' . $this->translateStatus($search) . '%')
+            ->orWhereHas('contratingDepartment', function ($query) use ($search) {
+                $query->where('name', 'ilike', '%' . $search . '%');
+            })->orWhereHas('userDepartment', function ($query) use ($search) {
+                $query->where('name', 'ilike', '%' . $search . '%');
+            });
+    }
+
+    /**
+     * Traduce el estatus del requerimiento
+     *
+     * @param string $search Estatus a traducir
+     *
+     * @return string
+     */
+    private function translateStatus($search)
+    {
+        switch ($search) {
+            case 'WAIT':
+                $status = 'WAIT';
+                break;
+            case 'PROCESSED':
+                $status = 'PROCESADO';
+                break;
+            case 'BOUGHT':
+                $status = 'COMPRADO';
+                break;
+            case 'EN ESPERA':
+                $status = 'WAIT';
+                break;
+            case 'PROCESADO':
+                $status = 'PROCESSED';
+                break;
+            case 'COMPRADO':
+                $status =  'BOUGHT';
+                break;
+            default:
+                $status = 'unknown';
+                break;
+        }
+
+        return $status;
     }
 }

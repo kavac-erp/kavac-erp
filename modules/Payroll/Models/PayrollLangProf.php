@@ -10,16 +10,14 @@ use App\Traits\ModelsTrait;
 
 /**
  * @class PayrollLangProf
- *
  * @brief Datos de la tabla intermedia de trabajadores e idiomas.
  *
  * Gestiona el modelo de datos de la tabla intermedia de trabajadores e idiomas.
  *
  * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
  *
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollLangProf extends Model implements Auditable
 {
@@ -27,6 +25,11 @@ class PayrollLangProf extends Model implements Auditable
     use AuditableTrait;
     use ModelsTrait;
 
+    /**
+     * Nombre de la tabla en la base de datos
+     *
+     * @var string $table
+     */
     protected $table = 'payroll_lang_prof';
 
     /**

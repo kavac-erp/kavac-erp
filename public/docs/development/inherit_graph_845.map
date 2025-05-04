@@ -1,3 +1,5 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController.html" title="Clase para gestionar las contrationes directas." alt="" coords="5,5,216,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d1/d88/classApp_1_1Models_1_1HistoryTax.html" title="Datos de histórico de impuestos." alt="" coords="5,5,96,31"/>
+<area shape="rect" id="Node000001" href="$dd/d3b/classModules_1_1Purchase_1_1Models_1_1HistoryTax.html" title="Modelo que extiende las funcionalidades del modelo base HistoryTax." alt="" coords="144,5,235,31"/>
+<area shape="poly" id="edge88_Node000000_Node000001" title=" " alt="" coords="110,15,144,15,144,21,110,21"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="VerificationController" name="VerificationController">
-<area shape="rect" id="node1" title="Gestiona la verificación de usuarios." alt="" coords="5,131,167,208"/>
-<area shape="rect" id="node2" href="$d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="43,5,129,83"/>
+<area shape="rect" id="Node000001" title="Gestiona la verificación de usuarios." alt="" coords="5,119,156,184"/>
+<area shape="rect" id="Node000002" href="$d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="41,5,120,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,84,83,119,78,119,78,84"/>
 </map>

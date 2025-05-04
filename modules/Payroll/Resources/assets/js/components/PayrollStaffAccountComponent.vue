@@ -37,7 +37,7 @@
                         <select2
                             :options="payroll_staffs"
                             v-model="record.payroll_staff_id"
-                            
+
                         >
                         </select2>
                         <input type="hidden" v-model="record.id">
@@ -93,7 +93,7 @@
                         </v-client-table>
                     </div>
                 </div>
-                
+
             </div>
         </div>
 
@@ -214,7 +214,7 @@
                             }
                         }
                     }
-                    
+
                     if(vm.errors.length > 0){
                         $('html,body').animate({
                             scrollTop: $("#PayrollStaffAccountForm").offset()
@@ -223,7 +223,7 @@
                         return;
                     } else {
                         vm.appendTable(vm.payroll_staffs, vm.accounting_accounts);
-                    } 
+                    }
                 } else if (vm.editIndex >= 0) {
 
                     vm.appendTable(vm.payroll_staffs, vm.accounting_accounts, false, true);
@@ -255,7 +255,7 @@
                     vm.record.accounting_registers = [];
                     vm.records = [];
                 }
-                
+
                 let employer_name;
                 let employer_id;
 
@@ -281,7 +281,7 @@
                     vm.records.splice(vm.editIndex, 1);
                     vm.record.accounting_registers.splice(vm.editIndex, 1);
                 }
-                
+
                 if(edited_payroll_staff_id == vm.edit_payroll_staff_id && edited_accounting_account_id == vm.edit_accounting_account_id) {
                     vm.record.accounting_registers.unshift({
                         payroll_staff: employer_name.split(' - ')[1],
@@ -331,7 +331,7 @@
                 for (let account of vm.record.accounting_registers) {
                     if (vm.old_accounting_account_id == account.accounting_account_id && vm.old_payroll_staff_id == account.payroll_staff_id) {
                         vm.errors.push('El registro a modificar ya esta en el sistema');
-                    }  
+                    }
                 }
 
                 if (vm.record.accounting_registers.length < 1) {
@@ -356,7 +356,7 @@
             async loadForm(id) {
                 const vm = this;
                 vm.payroll_staffs = [];
-                
+
                 let recordEdit ={
                     id: '',
                     payroll_staff_id: '',
@@ -378,7 +378,7 @@
                 await axios.get(`${window.app_url}/payroll/get-staffs/staff-accounts?payroll_staff_id=${recordEdit.payroll_staff_id}`).then(response => {
                     vm.payroll_staffs = response.data;
                 });
-                
+
                 vm.record = recordEdit;
 
                 vm.appendTable(vm.payroll_staffs, vm.accounting_accounts, true);
@@ -388,7 +388,7 @@
                 vm.edit_accounting_account_id = vm.record.accounting_account_id;
                 vm.record.payroll_staff_id = '';
                 vm.record.accounting_account_id = '';
-                
+
             },
         },
         async mounted() {
@@ -405,7 +405,7 @@
         },
 
         created() {
-            
+
             this.table_options.headings = {
                 payroll_staff: 'Trabajador',
                 accounting_account: 'Cuenta patrimonial',

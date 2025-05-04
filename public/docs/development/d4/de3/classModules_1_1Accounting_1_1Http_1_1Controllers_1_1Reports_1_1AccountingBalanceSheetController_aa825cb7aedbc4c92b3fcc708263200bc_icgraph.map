@@ -1,0 +1,6 @@
+<map id="formatDataInArray" name="formatDataInArray">
+<area shape="rect" id="Node000001" title="Sintetiza la información de una cuenta en un array con sus respectivas subcuentas." alt="" coords="124,29,268,55"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="223,19,215,11,196,8,180,10,172,15,170,20,174,28,170,31,164,21,167,11,178,5,196,3,217,6,226,15"/>
+<area shape="rect" id="Node000002" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#a23c281813aa2f3d73fe2c7089b2b7f03" title="Genera el reporte en pdf de balance general." alt="" coords="5,29,76,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="110,45,76,45,76,39,110,39"/>
+</map>

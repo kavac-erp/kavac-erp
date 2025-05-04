@@ -4,10 +4,19 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class ChangeFieldEmailToCitizenServiceRegistersTable
+ * @brief Modifica el tipo de dato de la columna email de la tabla de registros de servicio
+ *
+ * @author Yenifer Ramírez <yramirez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class ChangeFieldEmailToCitizenServiceRegistersTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -21,7 +30,7 @@ class ChangeFieldEmailToCitizenServiceRegistersTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

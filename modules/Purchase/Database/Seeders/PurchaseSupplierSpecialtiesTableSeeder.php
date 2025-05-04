@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Modules\Purchase\Models\PurchaseSupplierSpecialty;
 
+/**
+ * @class PurchaseSupplierSpecialtiesTableSeeder
+ * @brief Información por defecto para datos iniciales de especialidades de proveedores del módulo de compra
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseSupplierSpecialtiesTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */

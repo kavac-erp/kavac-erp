@@ -47,10 +47,6 @@
                         <select2 :options="payroll_staffs" :disabled="(is_admin) ? null : 'disabled'"
                             @input="getPayrollStaffInfo();" v-model="record.payroll_staff_id">
                         </select2>
-                        <!--<select2 :options="payroll_staffs" disabled
-                                 @input="getPayrollStaffInfo()"
-                                 v-model="record.payroll_staff_id">
-                        </select2>-->
                     </div>
                 </div>
                 <!-- ./trabajador -->

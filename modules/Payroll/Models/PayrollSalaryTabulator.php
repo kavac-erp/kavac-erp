@@ -26,12 +26,14 @@ class PayrollSalaryTabulator extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -122,5 +124,17 @@ class PayrollSalaryTabulator extends Model implements Auditable
     public function payrollConcepts()
     {
         return $this->hasMany(PayrollConcept::class);
+    }
+
+    /**
+     * Método que obtiene la información de los ajustes en tablas salariales al tabulador salarial
+     *
+     * @author    Fabian Palmera <fapalmera@cenditel.gob.ve>
+     *
+     * @return    \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function payrollSalaryAdjustments()
+    {
+        return $this->hasMany(PayrollSalaryAdjustment::class);
     }
 }

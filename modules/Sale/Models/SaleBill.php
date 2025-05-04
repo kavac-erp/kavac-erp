@@ -2,13 +2,21 @@
 
 namespace Modules\Sale\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
+use App\Models\Currency;
 use App\Traits\ModelsTrait;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 use Modules\Sale\Models\SaleBillInventoryProduct;
 
+/**
+ * @class SaleBill
+ * @brief Gestiona los datos de las facturas
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleBill extends Model implements Auditable
 {
     use SoftDeletes;
@@ -17,18 +25,21 @@ class SaleBill extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['code', 'state', 'type', 'type_person', 'name', 'id_number', 'rif', 'phone', 'email', 'sale_form_payment_id', 'rejected_reason'];
 
     /**
      * Lista de atributos personalizados obtenidos por defecto
+     *
      * @var array $appends
      */
     protected $appends = [
@@ -40,7 +51,7 @@ class SaleBill extends Model implements Auditable
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return    $data
+     * @return    integer|float
      */
     public function getBillTotalWithoutTaxsAttribute()
     {
@@ -62,7 +73,7 @@ class SaleBill extends Model implements Auditable
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return    $data
+     * @return    integer|float
      */
     public function getBillTaxsAttribute()
     {
@@ -87,7 +98,7 @@ class SaleBill extends Model implements Auditable
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return    $data
+     * @return    integer|float
      */
     public function getBillTotalsAttribute()
     {
@@ -118,7 +129,7 @@ class SaleBill extends Model implements Auditable
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return    $data
+     * @return    array
      */
     public function getSaleBillProductsAttribute()
     {
@@ -165,8 +176,8 @@ class SaleBill extends Model implements Auditable
      * Método que obtiene la lista de clientes del módulo de comercialización
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * SaleClients
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleClient()
     {
@@ -177,8 +188,8 @@ class SaleBill extends Model implements Auditable
      * Método que obtiene la lista de almacenes del módulo de comercialización
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * SaleWarehouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleWarehouse()
     {
@@ -189,8 +200,8 @@ class SaleBill extends Model implements Auditable
      * Método que obtiene la lista de métodos de pago del módulo de comercialización
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * SalePaymentMethod
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleFormPayment()
     {
@@ -201,8 +212,8 @@ class SaleBill extends Model implements Auditable
      * Método que obtiene la lista de descuentos del módulo de comercialización
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * SaleDiscount
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleDiscount()
     {
@@ -213,8 +224,8 @@ class SaleBill extends Model implements Auditable
      * Método que obtiene la lista de productos guardados en el almacén del módulo de comercialización
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * SaleBillInventoryProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleBillInventoryProduct()
     {
@@ -225,11 +236,11 @@ class SaleBill extends Model implements Auditable
      * Método que obtiene las formas de pago almacenadas en el sistema
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * Currency
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency()
     {
-        return $this->belongsTo(\App\Models\Currency::class);
+        return $this->belongsTo(Currency::class);
     }
 }

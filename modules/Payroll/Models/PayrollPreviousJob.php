@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -29,12 +27,14 @@ class PayrollPreviousJob extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -52,6 +52,7 @@ class PayrollPreviousJob extends Model implements Auditable
      * Método que obtiene los cargos registrados en el sistema
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollPosition()
@@ -63,6 +64,7 @@ class PayrollPreviousJob extends Model implements Auditable
      * Método que obtiene los tipos de personal registrados en el sistema
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollStaffType()
@@ -74,6 +76,7 @@ class PayrollPreviousJob extends Model implements Auditable
      * Método que obtiene los tipos de sector registrados en el sistema
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollSectorType()
@@ -85,6 +88,7 @@ class PayrollPreviousJob extends Model implements Auditable
      * Método que obtiene los datos laborales del trabajador
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollEmployment()

@@ -17,9 +17,8 @@ use App\Traits\ModelsTrait;
  *
  * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
  *
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetFinancementSources extends Model implements Auditable
 {
@@ -27,19 +26,35 @@ class BudgetFinancementSources extends Model implements Auditable
     use AuditableTrait;
     use ModelsTrait;
 
+    /**
+     * Indica si se guarda información de fecha y tiempo
+     *
+     * @var boolean $timestamps
+     */
     public $timestamps = true;
 
+    /**
+     * Lista con campos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = [
         'name',
         'budget_financement_type_id',
     ];
 
+    /**
+     * Lista de relaciones a cargar por defecto
+     *
+     * @var array $with
+     */
     protected $with = ['budgetFinancementType'];
 
     /**
      * Las fuentes de financiamiento tiene un tipo de financiamiento.
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function budgetFinancementType()

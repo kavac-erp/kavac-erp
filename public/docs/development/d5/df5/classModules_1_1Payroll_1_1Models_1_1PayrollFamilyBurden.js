@@ -8,5 +8,5 @@ var classModules_1_1Payroll_1_1Models_1_1PayrollFamilyBurden =
     [ "payrollSocioecomic", "d5/df5/classModules_1_1Payroll_1_1Models_1_1PayrollFamilyBurden.html#a40543255a787109276ab8e8293a6c760", null ],
     [ "$dates", "d5/df5/classModules_1_1Payroll_1_1Models_1_1PayrollFamilyBurden.html#a6ed295a3b7371b42773cab86fd367af8", null ],
     [ "$fillable", "d5/df5/classModules_1_1Payroll_1_1Models_1_1PayrollFamilyBurden.html#a13601d3af66d109458e268a3eb4afc49", null ],
-    [ "$with", "d5/df5/classModules_1_1Payroll_1_1Models_1_1PayrollFamilyBurden.html#a575ec3cd45566351149a2d4f1d4bbd58", null ]
+    [ "$with", "d5/df5/classModules_1_1Payroll_1_1Models_1_1PayrollFamilyBurden.html#a3b8033ad34a94c5e640232d8091bd02a", null ]
 ];

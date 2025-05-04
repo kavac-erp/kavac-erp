@@ -66,8 +66,7 @@
                 <span v-else class="text-danger font-weight-bold">NO</span>
             </div>
         </v-client-table>
-        <budget-info-specific-actions ref="SpecificActionInfo">
-        </budget-info-specific-actions>
+        <budget-info-specific-actions ref="SpecificActionInfo"></budget-info-specific-actions>
     </section>
 </template>
 

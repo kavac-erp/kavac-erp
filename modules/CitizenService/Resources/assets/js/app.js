@@ -134,7 +134,7 @@ Vue.mixin({
          * Obtiene las ciudades del Estado seleccionado
          *
          * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-         * @author Ing. Yennifer RRamirez <yramirez@cenditel.gob.ve> 
+         * @author Ing. Yennifer RRamirez <yramirez@cenditel.gob.ve>
          */
         async getCities() {
             const vm = this;
@@ -152,8 +152,6 @@ Vue.mixin({
          * Obtiene los Municipios del Estado seleccionado
          *
          * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-         *
-         * 
          */
         async getMunicipalities() {
             const vm = this;

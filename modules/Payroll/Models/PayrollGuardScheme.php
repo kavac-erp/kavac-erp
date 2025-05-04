@@ -17,12 +17,12 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @class PayrollGuardScheme
- *
  * @brief Datos de esquema de guardias
  *
  * Gestiona el modelo de esquema de guardias
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -35,14 +35,14 @@ final class PayrollGuardScheme extends Model implements Auditable
     /**
      * Lista de atributos para la gestión de fechas
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
      *
-     * @var array
+     * @var array $fillable
      */
     protected $fillable = [
         'from_date', 'to_date', 'payroll_supervised_group_id', 'institution_id', 'data_source'
@@ -60,12 +60,17 @@ final class PayrollGuardScheme extends Model implements Auditable
     /**
      * Lista de atributos que se deben convertir a tipos de pago
      *
-     * @var array
+     * @var array $casts
      */
     protected $casts = [
         'data_source' => 'json'
     ];
 
+    /**
+     * Obtiene información del estatus del documento
+     *
+     * @return array
+     */
     public function getDocumentStatusAttribute()
     {
         $documentDefault = DocumentStatus::query()
@@ -80,7 +85,7 @@ final class PayrollGuardScheme extends Model implements Auditable
         $periods = $this->payrollGuardSchemePeriods()
             ->orderBy('to_date')
             ->get();
-        
+
         if (count($periods) > 0) {
             $lastPeriod = $periods->last();
             return ($lastPeriod->to_date < $this->to_date || 'CE' != $lastPeriod->documentStatus?->action)
@@ -115,6 +120,11 @@ final class PayrollGuardScheme extends Model implements Auditable
         ];
     }
 
+    /**
+     * Obtiene información de los periodos confirmados
+     *
+     * @return array
+     */
     public function getConfirmedPeriodsAttribute()
     {
         $periods = $this->payrollGuardSchemePeriods()
@@ -125,20 +135,22 @@ final class PayrollGuardScheme extends Model implements Auditable
 
         return $periods->filter(function ($periodo) {
                 return $periodo->observations === 'Confirmación total';
-            })->flatMap(function ($periodo) {
-                $fromDate = Carbon::parse($periodo->from_date);
-                $toDate = Carbon::parse($periodo->to_date);
+        })->flatMap(function ($periodo) {
+            $fromDate = Carbon::parse($periodo->from_date);
+            $toDate = Carbon::parse($periodo->to_date);
 
-                return collect(Carbon::parse($fromDate)->range($toDate))->map(function ($date) {
-                    return ucfirst($date->locale('es')->monthName).'-'.$date->day;
-                });
-            })->toArray();
+            return collect(Carbon::parse($fromDate)->range($toDate))->map(function ($date) {
+                return ucfirst($date->locale('es')->monthName) . '-' . $date->day;
+            });
+        })->toArray();
     }
 
     /**
      * Método que obtiene la información del grupo de supervisado
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollSupervisedGroup(): BelongsTo
     {
@@ -149,6 +161,8 @@ final class PayrollGuardScheme extends Model implements Auditable
      * Método que obtiene la información de la institutción asociada al esquema de guardia
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function institution(): BelongsTo
     {
@@ -156,7 +170,7 @@ final class PayrollGuardScheme extends Model implements Auditable
     }
 
     /**
-     * Get all of the payrollGuardSchemePeriods for the PayrollGuardScheme
+     * Obtiene la relación con los periodos de esquemas de guardia
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

@@ -9,31 +9,49 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Payroll\Models\PayrollPermissionPolicy;
 use Modules\Payroll\Rules\PayrollPermissionPolicyDaysRange;
 
+/**
+ * @class PayrollPermissionPolicyController *
+ * @brief Controlador de políticas de permisos
+ *
+ * Clase que gestiona los políticas de permisos
+ *
+ * @author William Páez <wpaez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PayrollPermissionPolicyController extends Controller
 {
     use ValidatesRequests;
 
     /**
-    * Arreglo con las reglas de validación sobre los datos de un formulario
-    * @var Array $validateRules
-    */
+     * Arreglo con las reglas de validación sobre los datos de un formulario
+     *
+     * @var array $validateRules
+     */
     protected $validateRules;
 
-   /**
-    * Arreglo con los mensajes para las reglas de validación
-    * @var Array $messages
-    */
+    /**
+     * Arreglo con los mensajes para las reglas de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
 
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:payroll.permission-policies.create', ['only' => 'store']);
-        $this->middleware('permission:payroll.permission-policies.edit', ['only' => 'update']);
-        $this->middleware('permission:payroll.permission-policies.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:payroll.permission.policies.create', ['only' => 'store']);
+        $this->middleware('permission:payroll.permission.policies.edit', ['only' => 'update']);
+        $this->middleware('permission:payroll.permission.policies.delete', ['only' => 'destroy']);
 
-       /** Define las reglas de validación para el formulario */
+       /* Define las reglas de validación para el formulario */
         $this->validateRules = [
            'name'             => ['required', 'max:100'],
            'anticipation_day' => ['required'],
@@ -43,7 +61,7 @@ class PayrollPermissionPolicyController extends Controller
            'institution_id'   => ['required']
         ];
 
-       /** Define los mensajes de validación para las reglas del formulario */
+       /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
            'name.required'    => 'El campo nombre es obligatorio.',
            'name.max'         => 'El campo nombre no debe contener más de 100 caracteres.',
@@ -56,9 +74,11 @@ class PayrollPermissionPolicyController extends Controller
         ];
     }
     /**
+     * Listado de políticas de permisos
+     *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * Display a listing of the resource.
-     * @return Renderable
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -66,21 +86,23 @@ class PayrollPermissionPolicyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar una nueva política de permiso
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
         return view('payroll::create');
     }
 
-    /**
-     *
+    /**     *
      * Valida y registra un nuevo tipo de permiso
+     *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
+     *
+     * @param Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -109,9 +131,11 @@ class PayrollPermissionPolicyController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
+     * Muestra información de un tipo de permiso
+     *
+     * @param integer $id identificador del tipo de permiso
+     *
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
@@ -119,9 +143,11 @@ class PayrollPermissionPolicyController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
+     * Muestra el formulario para actualizar la información de un tipo de permiso
+     *
+     * @param integer $id identificador del tipo de permiso
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -130,11 +156,13 @@ class PayrollPermissionPolicyController extends Controller
 
     /**
      * Actualiza la información del tipo de permiso
+     *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
+     *
+     * @param Request $request Datos de la petición
+     * @param integer $id identificador del tipo de permiso
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -142,10 +170,17 @@ class PayrollPermissionPolicyController extends Controller
         $validateRules  = $this->validateRules;
         $validateRules  = array_replace(
             $validateRules,
-            ['name'           => ['required', 'max:100', 'unique:payroll_permission_policies,name,' . $payrollPermissionPolicy->id]]
+            ['name' => ['required', 'max:100', 'unique:payroll_permission_policies,name,' . $payrollPermissionPolicy->id]]
         );
         $validateRules  = array_merge(
-            ['id' => [new PayrollPermissionPolicyDaysRange($request->input('time_min'), $request->input('time_max'))]],
+            [
+                'id' => [
+                    new PayrollPermissionPolicyDaysRange(
+                        $request->input('time_min'),
+                        $request->input('time_max')
+                    )
+                ]
+            ],
             $validateRules
         );
 
@@ -166,10 +201,12 @@ class PayrollPermissionPolicyController extends Controller
 
     /**
      * Elimina el tipo de permiso
+     *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
+     *
+     * @param integer $id identificador del tipo de permiso
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function destroy($id)
@@ -179,6 +216,11 @@ class PayrollPermissionPolicyController extends Controller
         return response()->json(['record' => $payrollPermissionPolicy, 'message' => 'Success'], 200);
     }
 
+    /**
+     * Obtiene un listado de políticas de permisos
+     *
+     * @return array
+     */
     public function getPermissionPolicies()
     {
         $records = PayrollPermissionPolicy::where('active', true)->get();

@@ -11,7 +11,6 @@ use Illuminate\Routing\Controller;
 use Modules\Payroll\Models\Payroll;
 use Modules\Payroll\Models\PayrollConcept;
 use Modules\Purchase\Models\PurchaseBaseBudget;
-use Nwidart\Modules\Facades\Module;
 
 /**
  * @class BudgetaryAvailabilityController
@@ -22,20 +21,20 @@ use Nwidart\Modules\Facades\Module;
  *
  * @author Argenis Osorio <aosorio@cenditel.gob.ve>
  *
- * @copyright <a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *                LICENCIA DE SOFTWARE CENDITEL
- *            </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetaryAvailabilityController extends Controller
 {
     /**
      * Método que envía los datos a la plantilla del reporte PDF.
      *
-     * @method pdf
-     *
      * @author Argenis Osorio <aosorio@cenditel.gob.ve>
      *
      * @param $id del registro
+     * @param $module Módulo a verificar para ser agregado al reporte
+     *
+     * @return void
      */
     public function pdf($id, $module)
     {
@@ -145,9 +144,7 @@ class BudgetaryAvailabilityController extends Controller
             }
         }
 
-        /**
-         * [$pdf Base para generar el pdf]
-         */
+        /* Base para generar el pdf */
         $pdf = new ReportRepository();
 
         $pdf->setConfig(

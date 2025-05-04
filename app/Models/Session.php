@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -22,8 +20,6 @@ class Session extends Model
 {
     /**
      * Método que obtiene los datos de sessión del usuario autenticado
-     *
-     * @method  getSessionData
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

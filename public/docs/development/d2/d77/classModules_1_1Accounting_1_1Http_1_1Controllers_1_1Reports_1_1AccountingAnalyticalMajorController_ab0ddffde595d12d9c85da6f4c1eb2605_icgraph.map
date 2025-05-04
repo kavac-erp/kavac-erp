@@ -1,0 +1,13 @@
+<map id="calculateExchangeRates" name="calculateExchangeRates">
+<area shape="rect" id="Node000001" title="Encuentra los tipos de cambio." alt="" coords="260,80,441,105"/>
+<area shape="rect" id="Node000002" href="$d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html#a172d5221f9a5d7bbcbcea178e7d878dc" title="Vista en la que se genera el reporte en pdf." alt="" coords="143,5,186,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="304,77,185,29,187,24,306,72"/>
+<area shape="rect" id="Node000004" href="$d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html#a23c281813aa2f3d73fe2c7089b2b7f03" title="Vista en la que se genera el reporte en pdf." alt="" coords="129,55,200,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="246,81,200,75,200,69,247,76"/>
+<area shape="rect" id="Node000005" href="$d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html#aeb0343f3f8d2a4854fd4862083ba63e8" title="Verifica las conversiones monetarias de un reporte de mayor analítico." alt="" coords="131,104,198,129"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="247,109,199,115,198,110,246,103"/>
+<area shape="rect" id="Node000006" href="$d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html#a423bfd4ab22800df6cc6e687ae5af403" title="Verifica las conversiones monetarias de un reporte de mayor analítico." alt="" coords="117,153,212,179"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="306,113,199,156,197,151,304,108"/>
+<area shape="rect" id="Node000003" href="$d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html#a23d7453ab9e51eca5ab50a38ce4a84c0" title="Genera el reporte en hoja de cálculo de Mayor Analítico." alt="" coords="5,5,69,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="130,21,69,21,69,15,130,15"/>
+</map>

@@ -1,24 +1,19 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\JsonResponse;
 use Modules\ProjectTracking\Models\ProjectTrackingActivity;
-use Modules\ProjectTracking\Models\ProjectTrackingProjectType;
-use Modules\ProjectTracking\Models\ProjectTrackingTypeProducts;
 
 /**
  * @class ProjectTrackingActivitysController
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -29,13 +24,15 @@ class ProjectTrackingActivitysController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -43,46 +40,46 @@ class ProjectTrackingActivitysController extends Controller
      * Define la configuración de la clase
      *
      * @author    Pedro Buitragp <pbuitrago@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'orden'                               => ['required'],
             'name_activity'                       => ['required'],
             'project_tracking_project_types_id'   => ['required'],
+            'project_tracking_type_products_id' => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
-            'name.required'                               => 'El campo nombre del proceso es obligatorio.',
+            'name_activity.required'                               => 'El campo nombre de la actividad  es obligatorio.',
             'orden.required'                              => 'El campo orden es obligatorio.',
             'project_tracking_project_types_id.required'  => 'El campo tipo de Proyecto es obligatorio.',
+            'project_tracking_type_products_id.required' => 'El campo tipo de producto es obligatorio.',
         ];
-    }
-    /**
-     * [descripción del método]
-     *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
-     */
-    public function index()
-    {
-        //return view('projecttracking::index');
-        return response()->json(['records' => ProjectTrackingActivity::all()], 200);
     }
 
     /**
-     * [descripción del método]
+     * Retorna una lista de todas las actividades
      *
-     * @method    create
+     * @author    Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
      *
-     * @author    [nombre del autor] [correo del autor]
+     * @return    JsonResponse    Devuelve todas las actividades registradas
+     */
+    public function index(): JsonResponse
+    {
+        return response()->json([
+            'records' => ProjectTrackingActivity::all(),
+        ], 200);
+    }
+
+    /**
+     * Muestra el formulario para crear una nueva actividad
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -90,17 +87,16 @@ class ProjectTrackingActivitysController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    store
+     * Almacena una nueva actividad
      *
      * @author    Pedro Buitrago <pbuitrago@cednditel.gob.ve>
+     * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
      *
-     * @param     object    Request    $request    Objeto con información de la petición
+     * @param     Request    $request    Datos de la petición
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    JsonResponse    Actividad creada
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $this->validate($request, $this->validateRules, $this->messages);
 
@@ -116,15 +112,11 @@ class ProjectTrackingActivitysController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra la información de una actividad
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -132,15 +124,13 @@ class ProjectTrackingActivitysController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario de edición de una actividad
      *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -148,18 +138,17 @@ class ProjectTrackingActivitysController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    update
+     * Actualiza la información de una actividad
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
+     * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
      *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    JsonResponse    Actividad actualizada
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): JsonResponse
     {
         $this->validate($request, $this->validateRules, $this->messages);
         $product = ProjectTrackingActivity::find($request->input('id'));
@@ -173,17 +162,16 @@ class ProjectTrackingActivitysController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
+     * Elimina una actividad
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
+     * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    JsonResponse    Actividad eliminada
      */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         $product = ProjectTrackingActivity::find($id);
         $product->delete();
@@ -193,13 +181,12 @@ class ProjectTrackingActivitysController extends Controller
     /**
      * Retorna un json con todas las actividades para ser usado en un componente <select2>
      *
-     * @method    getActivities
-     *
      * @author    Pedro Contreras <pdrocont@gmail.com>
+     * @author    Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
-    public function getActivities()
+    public function getActivities(): JsonResponse
     {
         $activitiesList = ProjectTrackingActivity::all();
         $activities = [];
@@ -213,6 +200,61 @@ class ProjectTrackingActivitysController extends Controller
                 'text' => $activity->name_activity
             ]);
         }
-        return response()->json($activities);
+        return response()->json($activities, 200);
+    }
+
+    /**
+     * Obtiene las actividades por tipo de producto
+     *
+     * @param integer $product_type_id Identificador del tipo de producto
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getActivityesByProductType($product_type_id): JsonResponse
+    {
+        $activitiesList = ProjectTrackingActivity::query()
+            ->filterActivityesByProductType($product_type_id)
+            ->get();
+        $activities = [];
+        array_push($activities, [
+            'id' => '',
+            'text' => 'Seleccione...',
+        ]);
+        foreach ($activitiesList as $activity) {
+            array_push($activitiesList, [
+                'id' => $activity->id,
+                'text' => $activity->name_activity,
+            ]);
+        }
+        return response()->json($activities, 200);
+    }
+
+    /**
+     * Obtiene las actividades por tipos de productos
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     * @param string $product_type_ids Identificadores de los tipos de productos
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getActivityesByProductTypes(Request $request, ?string $product_type_ids): JsonResponse
+    {
+        $productTypeIdArray = explode(',', $product_type_ids);
+        $activitiesList = [];
+        $activitiesList = ProjectTrackingActivity::query()
+            ->filterActivityesByProductTypes($productTypeIdArray)
+            ->get();
+        $activities = [];
+        array_push($activities, [
+            'id' => '',
+            'text' => 'Seleccione...',
+        ]);
+        foreach ($activitiesList as $activity) {
+            $activities[] = [
+                'id' => $activity->id,
+                'text' => $activity->name_activity,
+            ];
+        }
+        return response()->json($activities, 200);
     }
 }

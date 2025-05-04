@@ -10,8 +10,6 @@
     * Método que cambia el formato de visualización de la fecha a
     * dd/mm/yyyy.
     *
-    * @method convertDate
-    *
     * @author Natanael Rojo <rojonatanael99@gmail.com>
     *
     * @param {dateString} dateString fecha ha ser fornateada

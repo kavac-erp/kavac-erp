@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +13,9 @@ use App\Traits\ModelsTrait;
  * @brief Datos de contactos
  *
  * Gestiona el modelo de datos para los contactos
+ *
+ * @property string  $name
+ * @property string  $email
  *
  * @author     Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
  *
@@ -42,9 +43,7 @@ class Contact extends Model implements Auditable
     protected $fillable = ['name', 'email'];
 
     /**
-     * Contact morphs to models in contactable_type.
-     *
-     * @method  contactable
+     * Método que permite obtener la relación con el registro de contacto a través del campo morfológico contactable
      *
      * @author     Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *

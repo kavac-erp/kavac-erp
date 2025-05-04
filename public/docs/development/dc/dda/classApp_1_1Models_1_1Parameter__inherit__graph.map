@@ -1,3 +1,5 @@
 <map id="Parameter" name="Parameter">
-<area shape="rect" id="node1" title="Datos de configuración de parámetros de la aplicación." alt="" coords="5,5,95,97"/>
+<area shape="rect" id="Node000001" title="Datos de configuración de parámetros de la aplicación." alt="" coords="79,5,161,91"/>
+<area shape="rect" id="Node000002" href="$d6/dd3/classModules_1_1Payroll_1_1Models_1_1Parameter.html" title="Datos de configuración de parámetros de la aplicación." alt="" coords="5,139,235,204"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,104,123,138,117,138,117,104"/>
 </map>

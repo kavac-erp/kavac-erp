@@ -1,13 +1,12 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use App\Traits\ModelsTrait;
+use Nwidart\Modules\Facades\Module;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
@@ -16,6 +15,7 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  *
  * Gestiona el modelo de datos para las Unidades, Departamentos o Dependencias
  *
+ * @property  string|integer  $id
  * @property  string  $name
  * @property  string  $acronym
  * @property  string  $hierarchy
@@ -39,7 +39,7 @@ class Department extends Model implements Auditable
     /**
      * Lista de relaciones a incorporar en las consultas
      *
-     * @var    array
+     * @var    array $with
      */
     protected $with = ['institution'];
 
@@ -78,9 +78,7 @@ class Department extends Model implements Auditable
     ];
 
     /**
-     * Department belongs to Parent.
-     *
-     * @method  parent
+     * Método que obtiene el departamento adscrito a otro departamento
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -92,9 +90,7 @@ class Department extends Model implements Auditable
     }
 
     /**
-     * Department has many Childrens.
-     *
-     * @method  childrens
+     * Método que obtiene todos los departamentos adscritos a un departamento
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -106,9 +102,7 @@ class Department extends Model implements Auditable
     }
 
     /**
-     * Department belongs to Institution.
-     *
-     * @method  institution
+     * Método que obtiene la institución a la que pertenece el departamento
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -128,6 +122,7 @@ class Department extends Model implements Auditable
      */
     public function coordination()
     {
-        return $this->hasMany(PayrollCoordination::class);
+        return (Module::has('Payroll') && Module::isEnabled('Payroll'))
+                ? $this->hasMany(\Modules\Payroll\Models\PayrollCoordination::class) : [];
     }
 }

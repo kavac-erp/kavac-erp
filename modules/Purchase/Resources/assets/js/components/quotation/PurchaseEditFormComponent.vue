@@ -130,7 +130,7 @@
                             }}
                         </div>
                         <div slot="quantity" slot-scope="props">
-                            <input 
+                            <input
                                 type="text"
                                 min="0"
                                 :id="'requirement_item_quantity_' + props.row.id"
@@ -295,25 +295,24 @@ export default {
                 return null;
             },
         },
-
-    tax_units: {
-        type: Object,
-        default: function () {
-        return null;
+        tax_units: {
+            type: Object,
+            default: function () {
+            return null;
+            },
         },
-    },
-    record_budgets: {
-        type: Array,
-        default: function () {
-        return [];
+        record_budgets: {
+            type: [Array, Object],
+            default: function () {
+            return [];
+            },
         },
-    },
-    suppliers: {
-        type: Array,
-        default: function () {
-        return [];
+        suppliers: {
+            type: Array,
+            default: function () {
+            return [];
+            },
         },
-    },
     },
     data() {
         return {
@@ -390,6 +389,7 @@ export default {
                 Invitación_de_la_empresa: null,
                 Proforma_o_Cotización: null,
             },
+            base_budget_id: "",
         };
     },
     created() {
@@ -437,28 +437,36 @@ export default {
     mounted() {
         const vm = this;
         localStorage.clear();
-        vm.copy_record = vm.record_budgets;
-        vm.record_base_budgets = vm.record_budgets;
+
+        let record_bugets_arr = vm.record_budgets
+
+        if (!Array.isArray(vm.record_budgets)) {
+            record_bugets_arr = Object.values(vm.record_budgets);
+        }
+
+        vm.copy_record = record_bugets_arr;
+        vm.record_base_budgets = record_bugets_arr;
         vm.filterRelatable = [];
         var prices = [];
         var quantities = [];
         vm.record_base_budgets.forEach((element) => {
-            //items sin cotizacion
+            // Items sin cotización
             var newArray = element.relatable.filter(function (el) {
-                if(el.purchase_requirement_item != null) {                     
+                if (el.purchase_requirement_item != null) {
                     return el.purchase_requirement_item.Quoted == null ;
                 }
             });
-            //lista de items cotizados por la misma cotizacion a editar no por otra     cotizacion
+            /* Lista de items cotizados por la misma cotizacion a editar no por
+            otra cotizacion*/
             var newQuotedArray = element.relatable.filter(function (el) {
-                if(el.purchase_requirement_item != null){
-
+                if (el.purchase_requirement_item != null) {
                     return (
                         el.purchase_requirement_item.Quoted != null &&
                         el.purchase_requirement_item.Quoted.relatable_id == vm.record_edit.id
                     );
                 }
             });
+
             if (newQuotedArray.length > 0) {
                 vm.referenceSameQuotedItemList[element.id] = newQuotedArray;
                 element.quoted = true;
@@ -466,13 +474,13 @@ export default {
                 element.quoted = false;
             }
 
-            //lista de items        con otras cotizaciones
+            // Lista de items con otras cotizaciones
             var otherQuotedItems = element.relatable.filter(function (el) {
-                if(el.purchase_requirement_item != null){
-
+                if (el.purchase_requirement_item != null) {
                     return (
                         el.purchase_requirement_item.Quoted != null &&
-                        el.purchase_requirement_item.Quoted.relatable_id != vm.record_edit.id
+                        el.purchase_requirement_item.Quoted.relatable_id
+                            != vm.record_edit.id
                     );
                 }
             });
@@ -483,11 +491,10 @@ export default {
                 vm.otherQuotedItemList[element.id] = false;
             }
 
-            // Lista de items disponibles o cotizados por la misma cotizacion a
-            // editar no por otra       cotizacion
+            /* Lista de items disponibles o cotizados por la misma cotizacion a
+            editar no por otra cotizacion */
             var newQuotedArrayAvalible = element.relatable.filter(function (el) {
-                if(el.purchase_requirement_item != null){
-
+                if (el.purchase_requirement_item != null) {
                     if (el.purchase_requirement_item.Quoted == null) {
                         return el.purchase_requirement_item.Quoted == null;
                     } else {
@@ -521,11 +528,15 @@ export default {
                 = vm.record_edit.relatable[i].quantity;
         }
 
-        //nueva edit
+        // Obtener el ID del requerimiento.
+        vm.base_budget_id = vm.record_base_budgets.length > 0
+            ? vm.record_base_budgets[0].id : [];
+
         vm.record_base_budgets.forEach((element) => {
             if (this.record_edit) {
                 this.recordCheck(element, true);
             }
+
             var actual_record = element;
             var record = element;
             for (var i = 0; i < record.relatable.length; i++) {
@@ -576,8 +587,9 @@ export default {
                 vm.record_items = vm.record_items.concat(record.relatable);
             }
         });
-        // Refinamos los items includos en recor_base para que solo esten los
-        // que fueron contizados
+
+        /* Refinamos los items incluídos en recor_base para que solo esten los
+        que fueron contizados */
         var onlyQuoted = [];
         vm.record_base_budgets.forEach((element) => {
             const newItems = element.relatable.filter(function (item) {
@@ -608,6 +620,26 @@ export default {
             vm.total = 0;
             vm.getCurrencies();
             this.$refs.purchaseShowError.reset();
+        },
+
+        /**
+         * Obtiene un arreglo con las monedas registradas
+         *
+         * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+         *
+         * @param  {integer} id Identificador de la moneda a buscar, este parámetro es opcional
+         */
+        async getCurrencies(id) {
+            const vm = this;
+            let currency_id = (typeof (id) !== "undefined") ? '/' + id : '';
+            const url = vm.setUrl(`get-currencies${currency_id}`);
+            vm.currencies = [];
+            await axios.get(url).then(response => {
+                vm.currencies = response.data;
+            }).catch(error => {
+                console.error(error);
+            });
+            vm.currency_id = vm.record_edit.currency_id;
         },
 
         /**
@@ -741,7 +773,7 @@ export default {
             var quoted = vm.indexOfQuoted(vm.item_list_final_quoted, id);
 
             if (quoted != -1) {
-                //borrar items de la lista
+                // Borrar items de la lista
                 const to_delete = [id];
                 const newItems = vm.item_list_final_quoted.filter(function (item) {
                     return !to_delete.includes(item);
@@ -789,16 +821,16 @@ export default {
             }
             else {
                 // De no encontrarse los items entre los previamente cotizados
-                // se agrega a la lista
+                // Se agrega a la lista
                 vm.item_list_final_quoted.push(id);
-                // se agrega a la lista final de no estar presente
+                // Se agrega a la lista final de no estar presente
                 if (np == -1) {
                     var pos = vm.indexOf(vm.base_budget_list, record.relatable_id);
                     vm.base_budget_list[pos].relatable.push(record);
                 } else {
                     var indexA = np[0];
                     var indexb = np[1];
-                    //de encontrarse se sobre escribe
+                    // De encontrarse se sobre escribe
                     vm.base_budget_list[indexA].relatable[indexb] = record;
                 }
             }
@@ -830,7 +862,7 @@ export default {
                     record.relatable[i].name = record.relatable[i].purchase_requirement_item.name;
                     record.relatable[i].id = record.relatable[i].purchase_requirement_item.id;
                     record.relatable[i].requirement_id = record.relatable[i].purchase_requirement_item.purchase_requirement.id;
-                    record.relatable[i].quantity = quantities ? 
+                    record.relatable[i].quantity = quantities ?
                     (quantities[record.relatable[i].id] > 0
                     ?  quantities[record.relatable[i].id]
                     :record.relatable[i].purchase_requirement_item.quantity)
@@ -918,7 +950,7 @@ export default {
 
         /**
          * [CalculateTot Calcula el total del debe y haber del asiento contable]
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          * @param       {[type]} r       [información del registro]
          * @param       {[type]} pos [posición del registro]
          */
@@ -930,7 +962,7 @@ export default {
                     if (np != -1) {
                         var indexA = np[0];
                         var indexb = np[1];
-                        //de encontrarse se sobre escribe
+                        // De encontrarse se sobre escribe
                         vm.base_budget_list[indexA].relatable[indexb] = item;
                     }
                 }
@@ -968,7 +1000,7 @@ export default {
         /**
          * Establece la cantidad de decimales correspondientes a la moneda que se maneja
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         cualculateLimitDecimal() {
             var res = "0.";
@@ -981,162 +1013,205 @@ export default {
             return res;
         },
 
+        /**
+         * Método que permite crear o actualizar un registro
+         *
+         * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+         *
+         */
         createRecord() {
-            /** Se obtiene y da formato para enviar el archivo a la ruta */
+            /* Se obtiene y da formato para enviar el archivo a la ruta */
             const vm = this;
             var stop = false;
             var formData = new FormData();
-            for (var i = 0; i < vm.base_budget_list.length; i++) {
-                var relatable = JSON.parse(
-                    localStorage.getItem(vm.base_budget_list[i].id) || "[]"
-                );
-                //va a ser igual?
 
-                vm.base_budget_list[i].relatable.forEach((element) => {
-                    if (element["unit_price"] == 0) {
+            /* Validación de que el total de la Cotización sea mayor que 0 */
+            if (vm.total == 0) {
+                vm.showMessage(
+                    "custom",
+                    "Error",
+                    "danger",
+                    "screen-error",
+                    "El Total de la cotización no puede ser cero"
+                );
+                stop = true;
+            } else {
+                /* Validación de que el total de la Cotización sea menor o igual que
+                el total del Presupuesto base asociado */
+                axios.get("/purchase/base_budget/" + vm.base_budget_id)
+                .then((response) => {
+                    var query_total = parseFloat(response.data.records.subtotal);
+
+                    if (parseFloat(vm.total.toFixed(2)) > query_total.toFixed(2)) {
                         vm.showMessage(
                             "custom",
                             "Error",
                             "danger",
                             "screen-error",
-                            "Imposible realizar la cotizacion el item " +
-                                element.purchase_requirement_item.name +
-                                ". tiene un precio de 0 ."
+                            "El total de la Cotización no puede ser mayor que el"
+                            + " total del Presupuesto base asociado"
                         );
                         stop = true;
-                    }
-                });
-
-                if (stop) {
-                    return;
-                }
-
-                if (vm.otherQuotedItemList[vm.base_budget_list[i].id]) {
-                    // Si el item pose una cotizacion distinta a la que en este
-                    // momento esta editandoce
-                    if (vm.base_budget_list[i].relatable.length == relatable.length) {
-                        vm.base_budget_list[i].status = "QUOTED";
                     } else {
-                        vm.base_budget_list[i].status = "PARTIALLY_QUOTED";
-                    }
-                }
-                else {
-                    // No pose cotizacion fuera de esta o no posee cotizacion
-                    if (vm.base_budget_list[i].relatable.length == relatable.length) {
-                        vm.base_budget_list[i].status = "QUOTED";
-                    }
-                    else {
-                        vm.base_budget_list[i].status = "PARTIALLY_QUOTED";
-                    }
-                }
-            }
-            if (vm.files["Acta_de_inicio"]) {
-                formData.append(
-                    "file_1",
-                    vm.files["Acta_de_inicio"],
-                    vm.files["Acta_de_inicio"] ? vm.files["Acta_de_inicio"].name : ""
-                );
-            }
+                        for (var i = 0; i < vm.base_budget_list.length; i++) {
+                            var relatable = JSON.parse(
+                                localStorage.getItem(vm.base_budget_list[i].id) || "[]"
+                            );
 
-            if (vm.files["Invitación_de_la_empresa"]) {
-                formData.append(
-                    "file_2",
-                    vm.files["Invitación_de_la_empresa"],
-                    vm.files["Invitación_de_la_empresa"]
-                        ? vm.files["Invitación_de_la_empresa"].name
-                        : ""
-                );
-            }
+                            vm.base_budget_list[i].relatable.forEach((element) => {
+                                if (element["unit_price"] == 0) {
+                                    vm.showMessage(
+                                        "custom",
+                                        "Error",
+                                        "danger",
+                                        "screen-error",
+                                        "Imposible realizar la cotizacion el item " +
+                                            element.purchase_requirement_item.name +
+                                            ". tiene un precio de 0 ."
+                                    );
+                                    stop = true;
+                                }
+                            });
 
-            if (vm.files["Proforma_o_Cotización"]) {
-                formData.append(
-                    "file_3",
-                    vm.files["Proforma_o_Cotización"],
-                    vm.files["Proforma_o_Cotización"]
-                        ? vm.files["Proforma_o_Cotización"].name
-                        : ""
-                );
-            }
+                            if (stop) {
+                                return;
+                            }
 
-            formData.append("purchase_supplier_id", vm.purchase_supplier_id);
-            formData.append("date", vm.record.date);
-            formData.append("currency_id", vm.currency_id);
-            formData.append("subtotal", vm.sub_total);
-            if (vm.base_budget_list_deleted.length > 0) {
-                formData.append(
-                    "vm.base_budget_list_deleted",
-                    JSON.stringify(vm.base_budget_list_deleted)
-                );
-            }
-            formData.append("base_budget_list", JSON.stringify(vm.base_budget_list));
-            formData.append("record_items", JSON.stringify(vm.record_items));
-            vm.loading = true;
-
-            if (!vm.record_edit) {
-                axios
-                    .post("/purchase/quotation", formData, {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                        },
-                    })
-                    .then((response) => {
-                        vm.showMessage("store");
-                        vm.loading = false;
-                        location.href = vm.route_list;
-                    })
-                    .catch((error) => {
-                        vm.errors = [];
-                        if (typeof error.response != "undefined") {
-                            for (var index in error.response.data.errors) {
-                                if (error.response.data.errors[index]) {
-                                    vm.errors.push(error.response.data.errors[index][0]);
+                            if (vm.otherQuotedItemList[vm.base_budget_list[i].id]) {
+                                // Si el item pose una cotizacion distinta a la que en este
+                                // momento esta editandoce
+                                if (vm.base_budget_list[i].relatable.length == relatable.length) {
+                                    vm.base_budget_list[i].status = "QUOTED";
+                                } else {
+                                    vm.base_budget_list[i].status = "PARTIALLY_QUOTED";
+                                }
+                            } else {
+                                // No pose cotizacion fuera de esta o no posee cotizacion
+                                if (vm.base_budget_list[i].relatable.length == relatable.length) {
+                                    vm.base_budget_list[i].status = "QUOTED";
+                                }
+                                else {
+                                    vm.base_budget_list[i].status = "PARTIALLY_QUOTED";
                                 }
                             }
                         }
-                        vm.$refs.purchaseShowError.refresh();
-                        vm.loading = false;
-                    });
-            }
-            else {
-                /* Hacer un for verificar si esta en la lista con otros
-                cotizados para agregar un campo a manera de saber que no se
-                puede colocar status por cotizar
-                */
-                vm.base_budget_list_deleted.forEach((element) => {
-                    var relatable = JSON.parse(localStorage.getItem(element.id) || "[]");
-                    if (
-                        typeof vm.referenceSameQuotedItemList[element.id] != "undefined"
-                    ) {
-                        element.relatable = vm.referenceSameQuotedItemList[element.id];
-                    } else {
-                        element.relatable = relatable;
-                    }
-                    vm.delete_list.push(element);
-                });
 
-                formData.append("list_to_delete", JSON.stringify(vm.delete_list));
+                        if (vm.files["Acta_de_inicio"]) {
+                            formData.append(
+                                "file_1",
+                                vm.files["Acta_de_inicio"],
+                                vm.files["Acta_de_inicio"] ? vm.files["Acta_de_inicio"].name : ""
+                            );
+                        }
 
-                axios.post("/purchase/quotation/" + vm.record_edit.id, formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((response) => {
-                    vm.showMessage("update");
-                    vm.loading = false;
-                    location.href = vm.route_list;
-                })
-                .catch((error) => {
-                    vm.errors = [];
-                    if (typeof error.response != "undefined") {
-                        for (var index in error.response.data.errors) {
-                            if (error.response.data.errors[index]) {
-                                vm.errors.push(error.response.data.errors[index][0]);
-                            }
+                        if (vm.files["Invitación_de_la_empresa"]) {
+                            formData.append(
+                                "file_2",
+                                vm.files["Invitación_de_la_empresa"],
+                                vm.files["Invitación_de_la_empresa"]
+                                    ? vm.files["Invitación_de_la_empresa"].name
+                                    : ""
+                            );
+                        }
+
+                        if (vm.files["Proforma_o_Cotización"]) {
+                            formData.append(
+                                "file_3",
+                                vm.files["Proforma_o_Cotización"],
+                                vm.files["Proforma_o_Cotización"]
+                                    ? vm.files["Proforma_o_Cotización"].name
+                                    : ""
+                            );
+                        }
+
+                        formData.append("purchase_supplier_id", vm.purchase_supplier_id);
+                        formData.append("date", vm.record.date);
+                        formData.append("currency_id", vm.currency_id);
+                        formData.append("subtotal", vm.sub_total);
+
+                        if (vm.base_budget_list_deleted.length > 0) {
+                            formData.append(
+                                "vm.base_budget_list_deleted",
+                                JSON.stringify(vm.base_budget_list_deleted)
+                            );
+                        }
+
+                        formData.append("base_budget_list", JSON.stringify(vm.base_budget_list));
+                        formData.append("record_items", JSON.stringify(vm.record_items));
+                        vm.loading = true;
+
+                        if (!vm.record_edit) {
+                            console.log("!vm.record_edit) {");
+                            axios
+                                .post("/purchase/quotation", formData, {
+                                    headers: {
+                                        "Content-Type": "multipart/form-data",
+                                    },
+                                })
+                                .then((response) => {
+                                    vm.showMessage("store");
+                                    vm.loading = false;
+                                    location.href = vm.route_list;
+                                })
+                                .catch((error) => {
+                                    vm.errors = [];
+                                    if (typeof error.response != "undefined") {
+                                        for (var index in error.response.data.errors) {
+                                            if (error.response.data.errors[index]) {
+                                                vm.errors.push(error.response.data.errors[index][0]);
+                                            }
+                                        }
+                                    }
+                                    vm.$refs.purchaseShowError.refresh();
+                                    vm.loading = false;
+                                });
+                        }
+                        else {
+                            /* Hacer un for verificar si esta en la lista con otros
+                            cotizados para agregar un campo a manera de saber que no se
+                            puede colocar status por cotizar
+                            */
+                            vm.base_budget_list_deleted.forEach((element) => {
+                                var relatable = JSON.parse(localStorage.getItem(element.id) || "[]");
+                                if (
+                                    typeof vm.referenceSameQuotedItemList[element.id] != "undefined"
+                                ) {
+                                    element.relatable = vm.referenceSameQuotedItemList[element.id];
+                                } else {
+                                    element.relatable = relatable;
+                                }
+                                vm.delete_list.push(element);
+                            });
+
+                            formData.append("list_to_delete", JSON.stringify(vm.delete_list));
+
+                            axios.post("/purchase/quotation/" + vm.record_edit.id, formData, {
+                                headers: {
+                                    "Content-Type": "multipart/form-data",
+                                },
+                            })
+                            .then((response) => {
+                                vm.showMessage("update");
+                                vm.loading = false;
+                                location.href = vm.route_list;
+                            })
+                            .catch((error) => {
+                                vm.errors = [];
+                                if (typeof error.response != "undefined") {
+                                    for (var index in error.response.data.errors) {
+                                        if (error.response.data.errors[index]) {
+                                            vm.errors.push(error.response.data.errors[index][0]);
+                                        }
+                                    }
+                                }
+                                vm.$refs.purchaseShowError.refresh();
+                                vm.loading = false;
+                            });
                         }
                     }
-                    vm.$refs.purchaseShowError.refresh();
-                    vm.loading = false;
+                })
+                .catch((error) => {
+                    console.error("Error al obtener los datos:", error);
                 });
             }
         },
@@ -1173,7 +1248,6 @@ export default {
                     .then((response) => {
                         this.record.purchase_supplier_object = response.data;
                         this.record.purchase_supplier_id = res;
-                        console.log(this.record.purchase_supplier_object, this.record.purchase_supplier_id);
                     });
             }
         },

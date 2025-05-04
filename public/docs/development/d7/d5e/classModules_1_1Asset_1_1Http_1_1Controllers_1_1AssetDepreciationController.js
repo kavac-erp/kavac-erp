@@ -2,6 +2,7 @@ var classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDepreciationController 
 [
     [ "__construct", "d7/d5e/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDepreciationController.html#a095c5d389db211932136b53f25f39685", null ],
     [ "approve", "d7/d5e/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDepreciationController.html#aca28d0cd4375269279bd3880a4035c00", null ],
+    [ "cancel", "d7/d5e/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDepreciationController.html#a8a571aa581f29da8bb447ac5a044abf3", null ],
     [ "create", "d7/d5e/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDepreciationController.html#a435e7d7525d4bcd0ed5e34a469f3adf6", null ],
     [ "destroy", "d7/d5e/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDepreciationController.html#a726fa8a4b4b187b9ca32ba427aac8137", null ],
     [ "edit", "d7/d5e/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDepreciationController.html#a459ed16587e3a50b39b672c7e473abc5", null ],

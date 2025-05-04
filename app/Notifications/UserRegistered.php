@@ -1,7 +1,5 @@
 <?php
 
-/** Notificaciones de la aplicación */
-
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -25,25 +23,57 @@ class UserRegistered extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    /** @var User Objeto con información del usuario registrado */
+    /**
+     * Objeto con información del usuario registrado
+     *
+     * @var User $user
+     */
     public $user;
-    /** @var string Contraseña generada del usuario registrado  */
+
+    /**
+     * Contraseña generada del usuario registrado
+     *
+     * @var string $password
+     */
     public $password;
-    /** @var string Título de la notificación */
+
+    /**
+     * Título de la notificación
+     *
+     * @var string $notifyTitle
+     */
     public $notifyTitle;
-    /** @var string Mensaje de la notificación */
+
+    /**
+     * Mensaje de la notificación
+     *
+     * @var string $notifyMessage
+     */
     public $notifyMessage;
-    /** @var boolean Indica si el usuario esta registrado y la notificación se debe a la generación de nuevas credenciales de acceso */
+
+    /**
+     * Indica si el usuario esta registrado y la notificación se debe a la generación de nuevas credenciales de acceso
+     *
+     * @var boolean $isRegistered
+     */
     public $isRegistered;
-    /** @var integer Número máximo de intentos */
+
+    /**
+     * Número máximo de intentos
+     *
+     * @var integer $tries
+     */
     public $tries = 5;
-    /** @var integer Tiempo máximo de espera en segundos */
+
+    /**
+     * Tiempo máximo de espera en segundos
+     *
+     * @var integer $timeout
+     */
     public $timeout = 300;
 
     /**
-     * Create a new notification instance.
-     *
-     * @method  __construct
+     * Crea una nueva instancia de la notificación.
      *
      * @return void
      */
@@ -57,9 +87,7 @@ class UserRegistered extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the notification's delivery channels.
-     *
-     * @method  via
+     * Gestiona el mecanismo de notificación
      *
      * @param  mixed  $notifiable
      *
@@ -71,7 +99,7 @@ class UserRegistered extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the mail representation of the notification.
+     * Gestiona la notificación por correo
      *
      * @method  toMail
      *
@@ -97,7 +125,7 @@ class UserRegistered extends Notification implements ShouldQueue
                             ->greeting($greeting)
                             ->line($message);
         if (!config('auth.active_directory.enabled', false)) {
-            /** Si el método de autenticación es a través de la configuración por defecto, se le envía las credenciales al usuario  */
+            // Si el método de autenticación es a través de la configuración por defecto, se le envía las credenciales al usuario
             $mailMessage->line(__('**Usuario:** :username', ['username' => $this->user->username]))
                         ->line(__('**Contraseña:** :password', ['password' => $this->password]));
         }
@@ -111,9 +139,7 @@ class UserRegistered extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the array representation of the notification.
-     *
-     * @method  toArray
+     * Gestiona la notificación de la aplicación
      *
      * @param  mixed  $notifiable
      *
@@ -129,9 +155,7 @@ class UserRegistered extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the array representation of the notification.
-     *
-     * @method  toDatabase
+     * Gestiona la notificación de la base de datos
      *
      * @param  mixed  $notifiable
      *

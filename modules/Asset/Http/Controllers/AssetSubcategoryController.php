@@ -18,6 +18,7 @@ use Nwidart\Modules\Facades\Module;
  * Clase que gestiona las Subcategorias de bienes
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -25,7 +26,18 @@ class AssetSubcategoryController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
     protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
     /**
@@ -33,12 +45,14 @@ class AssetSubcategoryController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:asset.setting.subcategory');
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'asset_type_id'     => ['required'],
             'asset_category_id' => ['required'],
@@ -47,7 +61,7 @@ class AssetSubcategoryController extends Controller
                                     Rule::unique('asset_subcategories')],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'code.required'              => 'El campo código de la subcategoría es obligatorio.',
             'code.max'                   => 'El campo código de la subcategoría no debe contener más de 10 caracteres.',
@@ -63,6 +77,7 @@ class AssetSubcategoryController extends Controller
      * Muestra un listado de las subcategorias de una categoria general de los bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function index()
@@ -78,7 +93,9 @@ class AssetSubcategoryController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function store(Request $request)
@@ -113,11 +130,7 @@ class AssetSubcategoryController extends Controller
         $this->validate($request, $validateRules, $validateMessages);
 
 
-        /**
-         * Objeto asociado al modelo AssetSubcategory
-         *
-         * @var Object $subcategory
-         */
+        /* Objeto asociado al modelo AssetSubcategory */
         $subcategory = AssetSubcategory::create([
             'name' => $request->input('name'),
             'code' => $request->input('code'),
@@ -138,8 +151,10 @@ class AssetSubcategoryController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request                  $request        Datos de la petición
      * @param     \Modules\Asset\Models\AssetSubcategory    $subcategory    Datos de la subcategoria
+     *
      * @return    \Illuminate\Http\JsonResponse             Objeto con los registros a mostrar
      */
     public function update(Request $request, AssetSubcategory $subcategory)
@@ -148,11 +163,22 @@ class AssetSubcategoryController extends Controller
         $validateRules  = $this->validateRules;
         $validateRules  = array_replace(
             $validateRules,
-            ['name' => ['required', 'regex:/^[a-zA-ZÁ-ÿ\s]*$/u', 'max:100',
-                            Rule::unique('asset_subcategories')->ignore($subcategory->id)]]
+            [
+                'name' => [
+                    'required', 'regex:/^[a-zA-ZÁ-ÿ\s]*$/u', 'max:100',
+                    Rule::unique('asset_subcategories')->ignore($subcategory->id)
+                ]
+            ]
         );
         $validateRules  = array_merge(
-            ['id' => [new AssetSubcategoryUnique($request->input('asset_category_id'), $request->input('code'))]],
+            [
+                'id' => [
+                    new AssetSubcategoryUnique(
+                        $request->input('asset_category_id'),
+                        $request->input('code')
+                    )
+                ]
+            ],
             $validateRules
         );
 
@@ -196,7 +222,9 @@ class AssetSubcategoryController extends Controller
      * Elimina la subcategoria de un bien institucional
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Modules\Asset\Models\AssetSubcategory    $subcategory    Datos de la subcategoria
+     *
      * @return    \Illuminate\Http\JsonResponse             Objeto con los registros a mostrar
      */
     public function destroy(AssetSubcategory $subcategory)
@@ -209,8 +237,10 @@ class AssetSubcategoryController extends Controller
      * Obtiene el listado de subcategorias de un bien  institucional
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     \Modules\Asset\Models\AssetSubcategory    $subcategory    Datos de la subcategoria
-     * @return    \Illuminate\Http\JsonResponse             Objeto con los registros a mostrar
+     *
+     * @param     integer    $category_id    Identificador de la categoría
+     *
+     * @return    array
      */
     public function getSubcategories($category_id = null)
     {
@@ -230,6 +260,18 @@ class AssetSubcategoryController extends Controller
             : [];
     }
 
+    /**
+     * Obtiene el listado de subcategorias de bienes
+     *
+     * @param string $model Clase del modelo
+     * @param string|array $fields Campos a mostrar
+     * @param string|array $filters Filtros de la consulta
+     * @param boolean $vuejs Indica si es para Vuejs
+     * @param integer|null $except_id Identificador del registro a excluir
+     * @param array $others Otras columnas
+     *
+     * @return array
+     */
     public function templateChoices($model, $fields = 'name', $filters = [], $vuejs = false, $except_id = null, $others = [])
     {
         $records = (is_object($model)) ? $model : $model::all();
@@ -245,7 +287,7 @@ class AssetSubcategoryController extends Controller
             }
         }
 
-        /** Inicia la opción vacia por defecto */
+        /* Inicia la opción vacia por defecto */
         $options = ($vuejs) ? [['id' => '', 'text' => 'Seleccione...']] : ['' => 'Seleccione...'];
 
         foreach ($records as $rec) {
@@ -261,7 +303,7 @@ class AssetSubcategoryController extends Controller
             }
 
             if (is_null($except_id) || $except_id !== $rec->id) {
-                /**
+                /*
                  * Carga el listado según el tipo de plantilla en el cual se va a implementar
                  * (normal o con VueJS)
                  */

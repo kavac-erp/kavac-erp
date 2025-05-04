@@ -1,7 +1,5 @@
 <?php
 
-/** Middlewares base de la aplicación */
-
 namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\TrimStrings as Middleware;
@@ -17,7 +15,7 @@ class TrimStrings extends Middleware
     /**
      * Los nombres de los atributos a los que no deben eliminarse espacios.
      *
-     * @var array
+     * @var array $except
      */
     protected $except = [
         'password',

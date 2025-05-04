@@ -86,7 +86,12 @@
         </li>
         <li>
             <a href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="Gestiona las solicitudes de vacaciones, prestaciones y constancias.">Solicitudes</a>
-            <ul class="submenu" style="{!! display_submenu(['vacation-requests', 'benefits-requests', 'permission-requests']) !!}">
+            <ul class="submenu" style="{!! display_submenu(['vacation-requests', 'benefits-requests', 'permission-requests', 'arc']) !!}">
+                <li class="{!! set_active_menu(['payroll.arc.index']) !!}">
+                    <a href="{{ route('payroll.arc.index') }}" data-toggle="tooltip" data-placement="right" title="Solicitud de la planilla ARC">
+                        Solicitud de ARC
+                    </a>
+                </li>
                 <li class="{!! set_active_menu(['payroll.vacation-requests.index']) !!}">
                     <a href="{{ route('payroll.vacation-requests.index') }}">Solicitud de vacaciones</a>
                 </li>
@@ -143,6 +148,26 @@
                <li title="Relación de conceptos" data-toggle="tooltip" data-placement="right" class="{!! set_active_menu('payroll.reports.relationship-concepts') !!}">
                     <a href="{{ route('payroll.reports.relationship-concepts') }}">
                         Relación de conceptos
+                    </a>
+                </li>
+                <li title="Relación de conceptos" data-toggle="tooltip" data-placement="right" class="{!! set_active_menu('payroll.reports.workers-by-payroll') !!}">
+                    <a href="{{ route('payroll.reports.workers-by-payroll') }}">
+                        Reporte de trabajadores por nómina
+                    </a>
+                </li>
+                <li title="Reporte hoja de tiempo" data-toggle="tooltip" data-placement="right" class="{!! set_active_menu('payroll.reports.time-sheets') !!}">
+                    <a href="{{ route('payroll.reports.time-sheets') }}">
+                        Reporte de hoja de tiempo
+                    </a>
+                </li>
+                <li title="Carga familiar" data-toggle="tooltip" data-placement="right" class="{!! set_active_menu('payroll.reports.family-burden') !!}">
+                    <a href="{{ route('payroll.reports.family-burden') }}">
+                        Reporte de carga familiar
+                    </a>
+                </li>
+                <li title="Reporte de recibos de pago" data-toggle="tooltip" data-placement="right" class="{!! set_active_menu('payroll.reports.payment-receipts') !!}">
+                    <a href="{{ route('payroll.reports.payment-receipts') }}">
+                        Recibos de pago
                     </a>
                 </li>
             </ul>

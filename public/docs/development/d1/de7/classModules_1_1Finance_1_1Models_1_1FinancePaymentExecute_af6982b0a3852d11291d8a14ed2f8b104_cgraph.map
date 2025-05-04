@@ -1,4 +1,5 @@
 <map id="getIsDeductionAttribute" name="getIsDeductionAttribute">
-<area shape="rect" id="node1" title="Verifica si el registro esde una retención." alt="" coords="5,5,183,32"/>
-<area shape="rect" id="node2" href="$d1/de7/classModules_1_1Finance_1_1Models_1_1FinancePaymentExecute.html#ae067e2f8f63d48d02a812b05b3271271" title="The financePayOrders that belong to the FinancePaymentExecute." alt="" coords="231,5,365,32"/>
+<area shape="rect" id="Node000001" title="Verifica si el registro es de una retención." alt="" coords="5,5,183,31"/>
+<area shape="rect" id="Node000002" href="$d1/de7/classModules_1_1Finance_1_1Models_1_1FinancePaymentExecute.html#ae067e2f8f63d48d02a812b05b3271271" title="Obtiene la relación con las órdenes de pago." alt="" coords="231,5,365,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,15,217,15,217,21,183,21"/>
 </map>

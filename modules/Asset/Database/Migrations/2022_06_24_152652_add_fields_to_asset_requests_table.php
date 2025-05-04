@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldsToAssetRequestsTable
- * @brief [descripción detallada]
+ * @brief Agrega campos adicionales a la tabla asset_requests
  *
- * [descripción corta]
+ * Agrega campos adicionales a la tabla asset_requests
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Francisco J. P. Ruiz <javierrupe19@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

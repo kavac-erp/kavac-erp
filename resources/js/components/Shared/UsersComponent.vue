@@ -5,18 +5,18 @@
         data() {
             return {
                 record: {
-
+                    //
                 }
             }
         },
         methods: {
-
+            //
         },
         created() {
-
+            //
         },
         mounted() {
-            
+            //
         }
     };
 </script>

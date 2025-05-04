@@ -8,11 +8,11 @@ use Modules\Asset\Models\AssetBook;
 
 /**
  * @class CreateAssetBooksTable
- * @brief [descripción detallada]
+ * @brief Crea la tabla para registrar los libros de bienes
  *
- * [descripción corta]
+ * Crea la tabla para registrar los libros de bienes
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -37,7 +37,7 @@ class CreateAssetBooksTable extends Migration
             $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');
         });
 
-        /**
+        /*
          * Se consultan los registros de la tabla Asset con los registros anteriores,
          * para tomar los montos actuales y agregarlo a los libros.
          */

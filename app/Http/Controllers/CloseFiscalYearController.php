@@ -9,7 +9,7 @@ use App\Models\CodeSetting;
 use App\Models\FiscalYear;
 use App\Models\Parameter;
 use App\Models\Institution;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class CloseFiscalYearController
@@ -18,26 +18,29 @@ use Illuminate\Support\Facades\Validator;
  * Clase que gestiona para el cierre de ejercicio
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class CloseFiscalYearController extends Controller
 {
+    /**
+     * Método constructor de la clase
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     */
     public function __construct()
     {
-        /**
-         * Establece permisos de acceso para cada método del controlador
-         */
-        $this->middleware('permission:close_fiscal_year.list', ['only' => ['index', 'vueList']]);
-        $this->middleware('permission:close_fiscal_year.create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:close_fiscal_year.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:closefiscalyear.list', ['only' => ['index', 'vueList']]);
+        $this->middleware('permission:closefiscalyear.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:closefiscalyear.delete', ['only' => 'destroy']);
     }
 
     /**
-     * Display a listing of the resource.
+     * Muestra la vista con la lista de registros
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -52,7 +55,7 @@ class CloseFiscalYearController extends Controller
             ->orderBy('year', 'desc')
             ->first();
 
-        if (isset($fiscalYear)) {
+        if ($fiscalYear) {
             $fiscalYear = $fiscalYear->year;
         }
 
@@ -60,31 +63,27 @@ class CloseFiscalYearController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra la vista para crear asientos contables de cierre de ejercicio fiscal
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|void
      */
     public function createEntries()
     {
         if (Module::has('Accounting') && Module::isEnabled('Accounting')) {
-            $accountingController = app(\Modules\Accounting\Http\Controllers\AccountingEntryController::class);
+            $accountingController = (new \Modules\Accounting\Http\Controllers\AccountingEntryController());
 
             $currency = Currency::where('default', true)->orderBy('id', 'ASC')->first();
 
-            $currencies = json_encode(template_choices('App\Models\Currency', ['symbol', '-', 'name'], [], true));
+            $currencies = json_encode(
+                template_choices('App\Models\Currency', ['symbol', '-', 'name'], [], true)
+            );
 
             $institutions = json_encode($accountingController->getInstitutionAvailables('Seleccione...'));
 
-            /**
-             * [$AccountingAccounts almacena las cuentas pratrimoniales]
-             * @var json
-             */
+            /// almacena las cuentas pratrimoniales
             $AccountingAccounts = $accountingController->getGroupAccountingAccount();
 
-            /**
-             * [$categories contendra las categorias]
-             * @var array
-             */
+            // listado de las categorias de cuentas contables
             $categories = [];
             array_push($categories, [
                 'id'      => '',
@@ -100,9 +99,7 @@ class CloseFiscalYearController extends Controller
                 ]);
             }
 
-            /**
-             * se convierte array a JSON
-             */
+            // Conversión de arrays a JSON
             $categories = json_encode($categories);
             $currency   = json_encode($currency);
 
@@ -117,10 +114,11 @@ class CloseFiscalYearController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena los asientos contables de cierre de ejercicio fiscal
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -137,77 +135,106 @@ class CloseFiscalYearController extends Controller
                 'inventory_closing' => $ifExistWarehouse ? 'accepted' : 'nullable',
             ],
             [
-                'account_analysis.accepted' => 'El campo análisis de cuenta es obligatorio',
-                'adjustment_entries.accepted' => 'El campo asientos de ajustes es obligatorio',
-                'depreciation.accepted' => 'El campo depreciación es obligatorio',
-                'inventory_closing.accepted' => 'El campo cierre de inventario es obligatorio',
+                'account_analysis.accepted' => __('El campo análisis de cuenta es obligatorio'),
+                'adjustment_entries.accepted' => __('El campo asientos de ajustes es obligatorio'),
+                'depreciation.accepted' => __('El campo depreciación es obligatorio'),
+                'inventory_closing.accepted' => __('El campo cierre de inventario es obligatorio'),
             ]
         );
 
-        if (Module::has('Accounting') && Module::isEnabled('Accounting')) {
-            $institution = $this->getInstitutionAvailable();
+        $institution = $this->getInstitutionAvailable();
 
+        if (Module::has('Accounting') && Module::isEnabled('Accounting')) {
             $codeSetting = CodeSetting::where('table', 'entries')->where('module', 'base')->first();
 
             if (!isset($codeSetting)) {
                 $request->session()->flash('message', [
-                    'type' => 'other', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'growl-danger',
-                    'text' => 'Debe configurar previamente el formato para el código a generar',
+                    'type' => 'other',
+                    'title' => __('Alerta'),
+                    'icon' => 'screen-error',
+                    'class' => 'growl-danger',
+                    'text' => __('Debe configurar previamente el formato para el código a generar'),
                 ]);
-                return response()->json(['result' => false, 'redirect' => route('close-fiscal-year.settings.index')], 200);
+                return response()->json([
+                    'result' => false,
+                    'redirect' => route('close-fiscal-year.settings.index')
+                ], 200);
             }
 
-            $currentFiscalYear = FiscalYear::where(['active' => true, 'closed' => false, 'institution_id' => $institution->id])
-                                           ->orderBy('year', 'desc')->first();
+            $currentFiscalYear = FiscalYear::where([
+                'active' => true, 'closed' => false, 'institution_id' => $institution->id
+            ])->orderBy('year', 'desc')->first();
 
             if (isset($currentFiscalYear) && isset($currentFiscalYear->entries)) {
                 $errors = [
                     'fiscal_year_unique' => [
-                        0 => 'Ya se ha realizado el cierre para el año fiscal en curso, debe aprobarlo antes de hacer un nuevo cierre.'
+                        0 => __(
+                            'Ya se ha realizado el cierre para el año fiscal en curso, ' .
+                            'debe aprobarlo antes de hacer un nuevo cierre.'
+                        )
                     ]
                 ];
 
-                return response()->json(['message' => 'The given data was invalid.','errors' => $errors], 422);
+                return response()->json([
+                    'message' => __('Los datos suministrados son inválidos.'),
+                    'errors' => $errors
+                ], 422);
             }
 
             if ($this->getEntryAccounts('resource') == false || $this->getEntryAccounts('egress') == false) {
                 $request->session()->flash('message', [
                     'type' => 'other', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'growl-danger',
-                    'text' => 'Debe configurar previamente la cuenta asociada al resultado del ejercicio',
+                    'text' => __('Debe configurar previamente la cuenta asociada al resultado del ejercicio'),
                 ]);
-                return response()->json(['result' => false, 'redirect' => route('close-fiscal-year.settings.index')], 200);
+                return response()->json([
+                    'result' => false,
+                    'redirect' => route('close-fiscal-year.settings.index')
+                ], 200);
             }
 
             $entriesId = [];
 
-            $accountEntryResource = $this->storeEntries($this->getEntryAccounts('resource'), 'resource', $currentFiscalYear->year);
+            $accountEntryResource = $this->storeEntries(
+                $this->getEntryAccounts('resource'),
+                'resource',
+                $currentFiscalYear->year
+            );
             array_push($entriesId, $accountEntryResource->id);
 
-            $accountEntryEgress = $this->storeEntries($this->getEntryAccounts('egress'), 'egress', $currentFiscalYear->year);
+            $accountEntryEgress = $this->storeEntries(
+                $this->getEntryAccounts('egress'),
+                'egress',
+                $currentFiscalYear->year
+            );
             array_push($entriesId, $accountEntryEgress->id);
 
             $currentFiscalYear->entries = $entriesId;
             $currentFiscalYear->save();
-
-            return response()->json(['result' => true, 'message' => 'Success']);
         } else {
-            $institution = $this->getInstitutionAvailable();
-            $currentFiscalYear = FiscalYear::where(['active' => true, 'closed' => false, 'institution_id' => $institution->id])
-                                           ->orderBy('year', 'desc')->first();
+            $currentFiscalYear = FiscalYear::where([
+                'active' => true, 'closed' => false, 'institution_id' => $institution->id
+            ])->orderBy('year', 'desc')->first();
             $currentFiscalYear->active = false;
             $currentFiscalYear->closed = true;
             $currentFiscalYear->save();
-
-            return response()->json(['result' => true, 'message' => 'Success']);
         }
+        return response()->json(['result' => true, 'message' => 'Success']);
     }
 
+    /**
+     * Genera el código de registro para el cierre de ejercicio
+     *
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return array|string
+     */
     public function generateCodeAvailable()
     {
         $codeSetting = CodeSetting::where('table', 'entries')->where('module', 'base')->first();
 
-        $currentFiscalYear = FiscalYear::select('year')
-                                    ->where(['active' => true, 'closed' => false])->orderBy('year', 'desc')->first();
+        $currentFiscalYear = FiscalYear::select('year')->where([
+            'active' => true, 'closed' => false
+        ])->orderBy('year', 'desc')->first();
 
         $code  = generate_registration_code(
             $codeSetting->format_prefix,
@@ -222,6 +249,13 @@ class CloseFiscalYearController extends Controller
         return $code;
     }
 
+    /**
+     * Obtiene los datos de la organización
+     *
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return Institution Devuelve información de la organización
+     */
     public function getInstitutionAvailable()
     {
         if (isset(auth()->user()->profile) && isset(auth()->user()->profile->institution_id)) {
@@ -233,10 +267,21 @@ class CloseFiscalYearController extends Controller
         return $institution;
     }
 
+    /**
+     * Obtiene información de las cuentas contables
+     *
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @param  string $type Nombre del campo a consultar
+     *
+     * @return array|boolean Devuelve un arreglo con los datos de las cuentas contables
+     */
     public function getEntryAccounts($type)
     {
         $institution = $this->getInstitutionAvailable();
-        $accounts = \Modules\Accounting\Models\AccountingEntryAccount::with(['account', 'entries'])->whereHas('account', function ($query) use ($type) {
+        $accounts = \Modules\Accounting\Models\AccountingEntryAccount::with([
+            'account', 'entries'
+        ])->whereHas('account', function ($query) use ($type) {
             $query->where($type, true);
         })->whereHas('entries', function ($q) use ($institution) {
             $q->where('approved', true)->where('institution_id', $institution->id);
@@ -286,6 +331,17 @@ class CloseFiscalYearController extends Controller
         return $entryAccounts;
     }
 
+    /**
+     * Almacena los asientos contables de cierre de ejercicio
+     *
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @param  array $entryAccounts Arreglo de asientos contables
+     * @param  string $type Nombre del campo a consultar
+     * @param  string $fiscalYear Año de ejercicio fiscal
+     *
+     * @return object Objeto con información del asiento contable de cierre de ejercicio creado
+     */
     public function storeEntries($entryAccounts, $type, $fiscalYear)
     {
         $parameter = Parameter::where('p_key', 'close_fiscal_year_account')->first();
@@ -304,7 +360,7 @@ class CloseFiscalYearController extends Controller
         $accountEntry = \Modules\Accounting\Models\AccountingEntry::create([
             'from_date'                      => $entryDate,
             'reference'                      => $code,
-            'concept'                        => 'Cierre de ejercicio',
+            'concept'                        => __('Cierre de ejercicio'),
             'observations'                   => null,
             'accounting_entry_category_id'   => $accountingCategory->id,
             'institution_id'                 => $institution->id,
@@ -320,9 +376,7 @@ class CloseFiscalYearController extends Controller
                 $realAmount = $realAmount < 0 ? $realAmount * -1 : $realAmount;
 
                 if ($type == 'resource') {
-                    /**
-                     * crea el nuevo registro de cuenta
-                     */
+                    // crea el nuevo registro de cuenta
                     \Modules\Accounting\Models\AccountingEntryAccount::create([
                         'accounting_entry_id' => $accountEntry->id,
                         'accounting_account_id' => $account['accounting_account_id'],
@@ -330,9 +384,7 @@ class CloseFiscalYearController extends Controller
                         'assets' => 0,
                     ]);
                 } else {
-                    /**
-                     * crea el nuevo registro de cuenta
-                     */
+                    // crea el nuevo registro de cuenta
                     \Modules\Accounting\Models\AccountingEntryAccount::create([
                         'accounting_entry_id' => $accountEntry->id,
                         'accounting_account_id' => $account['accounting_account_id'],
@@ -341,9 +393,7 @@ class CloseFiscalYearController extends Controller
                     ]);
                 }
             } else {
-                /**
-                 * crea el nuevo registro de cuenta
-                 */
+                // crea el nuevo registro de cuenta
                 \Modules\Accounting\Models\AccountingEntryAccount::create([
                     'accounting_entry_id' => $accountEntry->id,
                     'accounting_account_id' => $account['accounting_account_id'],
@@ -360,6 +410,7 @@ class CloseFiscalYearController extends Controller
      * Obtiene los registros a mostrar en listados de componente Vue
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+     *
      * @return \Illuminate\Http\JsonResponse Devuelve un JSON con la información de los cierres de año fiscal
      */
     public function vueList()
@@ -396,6 +447,7 @@ class CloseFiscalYearController extends Controller
      * Aprueba el cierre de año fiscal
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+     *
      * @return \Illuminate\Http\JsonResponse Devuelve un JSON con la información de los cierres de año fiscal
      */
     public function approve($id)
@@ -418,7 +470,7 @@ class CloseFiscalYearController extends Controller
                 ['year' => (int)$closeFiscalYear->year + 1],
                 [
                     'active' => true,
-                    'observations' => 'Ejercicio económico de ' . $institution->acronym,
+                    'observations' => __('Ejercicio económico de ') . $institution->acronym,
                     'closed' => false,
                 ]
             );
@@ -426,8 +478,8 @@ class CloseFiscalYearController extends Controller
             return response()->json(['message' => 'Success'], 200);
         } else {
             return response()->json(['result' => false, 'message' => [
-                'type' => 'custom', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'danger',
-                'text' => 'Debe tener instalado el módulo de contabilidad para acceder a esta funcionalidad',
+                'type' => 'custom', 'title' => __('Alerta'), 'icon' => 'screen-error', 'class' => 'danger',
+                'text' => __('Debe tener instalado el módulo de contabilidad para acceder a esta funcionalidad'),
             ]], 403);
         }
     }
@@ -435,11 +487,9 @@ class CloseFiscalYearController extends Controller
     /**
      * Elimina un cierre que no fue aprobado
      *
-     * @method  destroy
-     *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
      *
-     * @param  id  $id    id del registro a eliminar
+     * @param  string|integer  $id    id del registro a eliminar
      *
      * @return JsonResponse     JSON con información del resultado de la eliminación
      */
@@ -451,8 +501,8 @@ class CloseFiscalYearController extends Controller
 
             if ($entry->approved == true) {
                 return response()->json(['result' => false, 'message' => [
-                    'type' => 'custom', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'danger',
-                    'text' => 'No puede eliminar un cierre ya aprobado previamente',
+                    'type' => 'custom', 'title' => __('Alerta'), 'icon' => 'screen-error', 'class' => 'danger',
+                    'text' => __('No puede eliminar un cierre ya aprobado previamente'),
                 ]], 403);
             }
 
@@ -464,8 +514,8 @@ class CloseFiscalYearController extends Controller
             return response()->json(['message' => 'Success'], 200);
         } else {
             return response()->json(['result' => false, 'message' => [
-                'type' => 'custom', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'danger',
-                'text' => 'Debe tener instalado el módulo de contabilidad para acceder a esta funcionalidad',
+                'type' => 'custom', 'title' => __('Alerta'), 'icon' => 'screen-error', 'class' => 'danger',
+                'text' => __('Debe tener instalado el módulo de contabilidad para acceder a esta funcionalidad'),
             ]], 403);
         }
     }
@@ -475,6 +525,7 @@ class CloseFiscalYearController extends Controller
      * de institución y año fiscal
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+     *
      * @return \Illuminate\Http\JsonResponse Devuelve un JSON con la información de los cierres de año fiscal
      */
     public function searchCloseFiscalYear(Request $request)
@@ -486,8 +537,8 @@ class CloseFiscalYearController extends Controller
                 'institution_id' => 'required',
             ],
             [
-                'fiscal_year.required' => 'El campo año fiscal es obligatorio',
-                'institution_id.required' => 'El campo organización es obligatorio',
+                'fiscal_year.required' => __('El campo año fiscal es obligatorio'),
+                'institution_id.required' => __('El campo organización es obligatorio'),
             ]
         );
 

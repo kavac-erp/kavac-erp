@@ -1,7 +1,5 @@
 <?php
 
-/** Proveedores de servicios generales del sistema */
-
 namespace App\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
@@ -22,8 +20,6 @@ class RouteServiceProvider extends ServiceProvider
      * La ruta a la ruta "inicio" para su aplicación.
      *
      * Esto es utilizado por la autenticación de Laravel para redirigir a los usuarios después de iniciar sesión.
-     *
-     * @var string
      */
     public const HOME = '/';
 
@@ -32,14 +28,12 @@ class RouteServiceProvider extends ServiceProvider
      *
      * Cuando esté presente, las declaraciones de ruta del controlador tendrán automáticamente el prefijo de este espacio de nombres.
      *
-     * @var string|null
+     * @var string|null $namespace
      */
     protected $namespace = 'App\Http\Controllers';
 
     /**
      * Defina los enlaces de su modelo de ruta, los filtros de patrón, etc..
-     *
-     * @method  boot
      *
      * @return void
      */
@@ -57,14 +51,14 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 
-            /** Rutas generales para la gestión de módulos */
+            // Rutas generales para la gestión de módulos
             Route::middleware('web')->namespace($this->namespace)->group(base_path('routes/module.php'));
 
-            /** Rutas para la gestión esclusiva del administrador de la aplicación */
+            // Rutas para la gestión esclusiva del administrador de la aplicación
             Route::middleware('web')->namespace($this->namespace)->group(base_path('routes/admin.php'));
 
             if ((config('app.debug') || config('app.debug') === "true") && env('TEST_URL', false)) {
-                /** Rutas para pruebas de desarrollo */
+                // Rutas para pruebas de desarrollo
                 Route::middleware('web')->namespace($this->namespace)->group(base_path('routes/test.php'));
             }
         });
@@ -72,8 +66,6 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Configurar los limitadores de velocidad para la aplicación.
-     *
-     * @method  configureRateLimiting
      *
      * @return void
      */

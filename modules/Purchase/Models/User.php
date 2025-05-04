@@ -2,13 +2,19 @@
 
 namespace Modules\Purchase\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\User as BaseTax;
 
+/**
+ * @class User
+ * @brief Extiende del modelo de usuario de la aplicación base
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class User extends BaseTax
 {
     /**
-     * Currency has many PurchasePlan.
+     * Establece la relación con el plan de compras
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

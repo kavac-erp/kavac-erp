@@ -2,29 +2,27 @@
 
 namespace Modules\Accounting\Http\Controllers;
 
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use Modules\Accounting\Exports\AccountingAccountExport;
-use Modules\Accounting\Imports\AccountingAccountImport;
-// use App\Imports\DataImport;
-// use Maatwebsite\Excel\HeadingRowImport;
 use Modules\Accounting\Models\AccountingAccount;
 use Modules\Accounting\Models\AccountingEntryAccount;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat\Wizard\Accounting;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Modules\Accounting\Exports\AccountingAccountExport;
+use Modules\Accounting\Imports\AccountingAccountImport;
 
 /**
- * Clase que gestiona las Cuentas patrimoniales
- *
  * @class AccountingAccountController
  * @brief Controlador de Cuentas patrimoniales
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+ * Clase que gestiona las Cuentas patrimoniales
  *
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *             LICENCIA DE SOFTWARE CENDITEL</a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 
 class AccountingAccountController extends Controller
@@ -34,13 +32,11 @@ class AccountingAccountController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      */
     public function __construct()
     {
-        /**
-         * Establece permisos de acceso para cada método del controlador
-         */
+        /* Establece permisos de acceso para cada método del controlador */
         $this->middleware('permission:accounting.account.list', ['only' => 'index']);
         $this->middleware(
             'permission:accounting.account.create',
@@ -57,8 +53,11 @@ class AccountingAccountController extends Controller
     }
 
     /**
-     * [index Muestra un listado de cuentas patrimoniales]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * Muestra un listado de cuentas patrimoniales
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return JsonResponse
      */
     public function index()
     {
@@ -66,10 +65,13 @@ class AccountingAccountController extends Controller
     }
 
     /**
-     * [store Crea una nueva cuenta patrimonial]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
-     * @return [Json] [informacion de la operacion y listado de los registros actualizados]
+     * Crea una nueva cuenta patrimonial
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param  Request $request Datos de la petición realizada
+     *
+     * @return JsonResponse información de la operacion y listado de los registros actualizados
      */
     public function store(Request $request)
     {
@@ -89,7 +91,7 @@ class AccountingAccountController extends Controller
 
         DB::transaction(function () use ($request) {
 
-            /** @var object Objeto que contiene los datos de la cuenta ya registrada si existe */
+            /* Objeto que contiene los datos de la cuenta ya registrada si existe */
             $accountingAccount = AccountingAccount::where('group', $request->group)
                 ->where('subgroup', $request->subgroup)
                 ->where('item', $request->item)
@@ -99,12 +101,12 @@ class AccountingAccountController extends Controller
                 ->where('institutional', $request->institutional)
                 ->where('active', true)->first();
 
-            /**
+            /*
              * Si la cuenta a registrar ya existe en la base de datos y la nueva cuenta se indica como activa,
              * se desactiva la cuenta anterior
              */
             if ($accountingAccount && $request->active !== null) {
-                /** @var boolean define si la cuenta esta activa */
+                /* define si la cuenta esta activa */
                 $accountingAccount->active = false;
                 $accountingAccount->save();
 
@@ -149,7 +151,7 @@ class AccountingAccountController extends Controller
                 }
             }
 
-            /** @var Object Datos de la cuenta padre si aplica */
+            /* Datos de la cuenta padre si aplica */
             $parent = AccountingAccount::getParent(
                 $request->group,
                 $request->subgroup,
@@ -160,8 +162,7 @@ class AccountingAccountController extends Controller
                 $request->institutional
             );
 
-            /**   determina si la cuenta es madre */
-
+            /*   determina si la cuenta es madre */
             if ($parent) {
                 Accountingaccount::create([
                     'group' => $request->group,
@@ -181,7 +182,7 @@ class AccountingAccountController extends Controller
                     : (isset($request->type) ? ($request->type == 'E') : null),
                     'inactivity_date' => (!$request->active) ? date('Y-m-d') : null,
                     'parent_id' => ($parent) ? $parent->id : null,
-                    'original' => $request->original,
+                    'original' => $request->original ?? false,
                 ]);
             } else {
                 //caso tipo de cuenta 1.1.1.01.02.01.001 -> no tiene padre
@@ -753,11 +754,14 @@ class AccountingAccountController extends Controller
     }
 
     /**
-     * [update Actualiza los datos de la cuenta patrimonial]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
+     * Actualiza los datos de la cuenta patrimonial
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param  Request $request Datos de la petición realizada
      * @param  integer $id      Identificador de la cuenta patrimonial a modificar
-     * @return [Json] [informacion de la operacion y listado de los registros actualizados]
+     *
+     * @return JsonResponse información de la operacion y listado de los registros actualizados
      */
     public function update(Request $request, $id)
     {
@@ -776,7 +780,7 @@ class AccountingAccountController extends Controller
         ]);
 
         DB::transaction(function () use ($request, $id) {
-            /** @var Object Datos de la cuenta padre si aplica */
+            /* Datos de la cuenta padre si aplica */
             $parent = AccountingAccount::getParent(
                 $request->group,
                 $request->subgroup,
@@ -786,7 +790,7 @@ class AccountingAccountController extends Controller
                 $request->subspecific,
                 $request->institutional
             );
-            /** @var Object Datos de la cuenta patrimonial a modificar */
+            /* Datos de la cuenta patrimonial a modificar */
             $account = AccountingAccount::find($id);
             $data = $request->all();
             $data['original'] = $request->original ?? false;
@@ -805,17 +809,17 @@ class AccountingAccountController extends Controller
     }
 
     /**
-     * [destroy Elimina una cuenta patrimonial]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * Elimina una cuenta patrimonial
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @param  integer $id Identificador de la cuenta patrimonial a eliminar
-     * @return [Json] [informacion de la operacion y listado de los registros actualizados]
+     *
+     * @return JsonResponse información de la operacion y listado de los registros actualizados
      */
     public function destroy($id)
     {
-        /**
-         * [$AccountingAccount datos de la cuenta presupuestaria a eliminar]
-         * @var [Modules\Accounting\Models\AccountingAccount]
-         */
+        /* datos de la cuenta presupuestaria a eliminar */
         $AccountingAccount = AccountingAccount::with('accountable')->find($id);
 
         if ($AccountingAccount) {
@@ -838,67 +842,46 @@ class AccountingAccountController extends Controller
     }
 
     /**
-     * [getChildrenAccount desc]
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param [integer] $parent_id Identificador de la cuenta padre de la cual se va a generar el nuevo código
-     * @return [Json] [datos del nuevo código generado]
+     * Obtiene información de las cuentas hijas
+     *
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param integer $parent_id Identificador de la cuenta padre de la cual se va a generar el nuevo código
+     *
+     * @return JsonResponse
      */
     public function getChildrenAccount($parent_id)
     {
-        /**
-         * [$parent información de la cuenta presupuestaria de nivel superior]
-         * @var [Modules\Accounting\Models\AccountingAccount]
-         */
+        /* información de la cuenta presupuestaria de nivel superior */
         $parent = AccountingAccount::find($parent_id);
 
-        /**
-         * [$subgroup valor del campo subgroup]
-         * @var [string]
-         */
+        /* valor del campo subgroup */
         $subgroup = $parent->subgroup;
 
-        /**
-         * [$item valor del campo item]
-         * @var [string]
-         */
+        /* valor del campo item */
         $item = $parent->item;
 
-        /**
-         * [$generic valor del campo generic]
-         * @var [string]
-         */
+        /* valor del campo generic */
         $generic = $parent->generic;
-        /**
-         * [$specific valor del campo specific]
-         * @var [string]
-         */
+
+        /* valor del campo specific */
         $specific = $parent->specific;
-        /**
-         * [$subspecific valor del campo subspecific]
-         * @var [string]
-         */
+
+        /* valor del campo subspecific */
         $subspecific = $parent->subspecific;
-        /**
-         * [$institutional valor del campo institutional]
-         * @var [string]
-         */
+
+        /* valor del campo institutional */
         $institutional = $parent->institutional;
 
         if ($parent->subgroup === "0") {
-            /**
-             * [$currentSubgroup almacena registro]
-             * @var [Modules\Accounting\Models\AccountingAccount]
-             */
+            /* almacena registro */
             $currentSubgroup = AccountingAccount::where(['group' => $parent->group])
                 ->orderBy('subgroup', 'desc')->first();
 
             $subgroup = (strlen(intval($currentSubgroup->subgroup)) < 2 && intval($currentSubgroup->subgroup) < 9)
             ? (intval($currentSubgroup->subgroup) + 1) : $currentSubgroup->subgroup;
         } elseif ($parent->item === "0") {
-            /**
-             * [$currentItem almacena registro]
-             * @var [Modules\Accounting\Models\AccountingAccount]
-             */
+            /* almacena registro */
             $currentItem = AccountingAccount::where(
                 [
                     'group' => $parent->group,
@@ -909,10 +892,7 @@ class AccountingAccountController extends Controller
             $item = (strlen(intval($currentItem->item)) < 2 && intval($currentItem->item) < 9)
             ? (intval($currentItem->item) + 1) : $currentItem->item;
         } elseif ($parent->generic === "00") {
-            /**
-             * [$currentGeneric almacena registro]
-             * @var [Modules\Accounting\Models\AccountingAccount]
-             */
+            /* almacena registro */
             $currentGeneric = AccountingAccount::where(
                 [
                     'group' => $parent->group,
@@ -925,10 +905,7 @@ class AccountingAccountController extends Controller
             ? (intval($currentGeneric->generic) + 1) : $currentGeneric->generic;
             $generic = (strlen($generic) === 1) ? "0$generic" : $generic;
         } elseif ($parent->specific === "00") {
-            /**
-             * [$currentSpecific almacena registro]
-             * @var [Modules\Accounting\Models\AccountingAccount]
-             */
+            /* almacena registro */
             $currentSpecific = AccountingAccount::where(
                 [
                     'group' => $parent->group,
@@ -942,10 +919,7 @@ class AccountingAccountController extends Controller
             ? (intval($currentSpecific->specific) + 1) : $currentSpecific->specific;
             $specific = (strlen($specific) === 1) ? "0$specific" : $specific;
         } elseif ($parent->subspecific === "00") {
-            /**
-             * [$currentSubSpecific almacena registro]
-             * @var [Modules\Accounting\Models\AccountingAccount]
-             */
+            /* almacena registro */
             $currentSubSpecific = AccountingAccount::where(
                 [
                     'group' => $parent->group,
@@ -961,10 +935,7 @@ class AccountingAccountController extends Controller
             ? (intval($currentSubSpecific->subspecific) + 1) : $currentSubSpecific->subspecific;
             $subspecific = (strlen($subspecific) === 1) ? "0$subspecific" : $subspecific;
         } elseif ($parent->institutional === "000") {
-            /**
-             * [$currentInstitutional almacena registro]
-             * @var [Modules\Accounting\Models\AccountingAccount]
-             */
+            /* almacena registro */
             $currentInstitutional = AccountingAccount::where(
                 [
                     'group' => $parent->group,
@@ -1000,10 +971,7 @@ class AccountingAccountController extends Controller
             ]
         )->first();
 
-        /**
-         * [$account informacion de la cuenta]
-         * @var array
-         */
+        /* información de la cuenta */
         $account = [
             'code' => (string) $parent->group . '.' . (string) $subgroup . '.' .
             (string) $item . '.' . (string) $generic . '.' .
@@ -1021,16 +989,15 @@ class AccountingAccountController extends Controller
     }
 
     /**
-     * [getAccounts obtiene los registros de las cuentas patrimoniales]
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @return Array con la información de las cuentas formateada
+     * Obtiene los registros de las cuentas patrimoniales
+     *
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return AccountingAccount|\Illuminate\Database\Eloquent\Collection|array con la información de las cuentas formateada
      */
     public function getAccounts()
     {
-        /**
-         * [$records arreglo que almacenara la lista de cuentas patrimoniales]
-         * @var array
-         */
+        /* arreglo que almacenara la lista de cuentas patrimoniales */
         $records = AccountingAccount::with('parent')->orderBy('group', 'ASC')
             ->orderBy('subgroup', 'ASC')
             ->orderBy('item', 'ASC')
@@ -1055,10 +1022,13 @@ class AccountingAccountController extends Controller
 
         return $records;
     }
+
     /**
-     * [createAccounts crea una cuenta con los parametros recibidos]
-     * @author
-     * @return Array con la información de las cuentas formateada
+     * Crea una cuenta con los parametros recibidos
+     *
+     * @author Francisco Escala <fescala@cenditel.gob.ve>
+     *
+     * @return AccountingAccount con la información de las cuentas formateada
      */
     public function createAccounts(
         $group,
@@ -1075,7 +1045,7 @@ class AccountingAccountController extends Controller
         $parent,
         $original
     ) {
-        $records = Accountingaccount::firstOrCreate([
+        $records = AccountingAccount::firstOrCreate([
             'group' => $group,
             'subgroup' => $subgroup,
             'item' => $item,
@@ -1099,10 +1069,13 @@ class AccountingAccountController extends Controller
 
         return $records;
     }
+
     /**
-     * [fatherMaker crea las cuentas madres de una cuenta con los parametros recibidos]
-     * @author
-     * @return Array con la información de las cuentas formateada
+     * Crea las cuentas madres de una cuenta con los parametros recibidos
+     *
+     * @author Francisco Escala <fescala@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function fatherMaker($data)
     {
@@ -1139,10 +1112,11 @@ class AccountingAccountController extends Controller
     }
 
     /**
-     * [import Lee las filas de un archivo de hoja de calculo]
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * Lee las filas de un archivo de hoja de calculo
      *
-     * @return     object           Objeto que permite descargar el archivo con la información a ser importada
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return     JsonResponse           Objeto que permite descargar el archivo con la información a ser importada
      */
     public function import(Request $request)
     {
@@ -1154,7 +1128,8 @@ class AccountingAccountController extends Controller
     /**
      * Realiza la acción necesaria para exportar los datos
      *
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @return    object    Objeto que permite descargar el archivo con la información a ser exportada
      */
     public function export()
@@ -1163,23 +1138,19 @@ class AccountingAccountController extends Controller
     }
 
     /**
-     * [validatedErrors Verifica los posibles errores que se pueden presentar en las filas de archivo y
-     * agrega un mensaje del error para el usuario]
+     * Verifica los posibles errores que se pueden presentar en las filas de archivo y
+     * agrega un mensaje del error para el usuario
      *
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @return [Array] [errores en caso de existir]
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return array
      */
     public function validatedErrors($record, $currentRow)
     {
-        /**
-         * [$errors almecena los errores en el array]
-         * @var array
-         */
+        /* almecena los errores en el array */
         $errors = [];
 
-        /**
-         * Se valida el formato y que el valor sea entero en el rango de min 0 y max 9
-         */
+        /* Se valida el formato y que el valor sea entero en el rango de min 0 y max 9 */
         if (!ctype_digit($record['subgrupo'])) {
             array_push($errors, 'La columna subgrupo en la fila ' . $currentRow .
                 ' debe ser entero y no debe contener caracteres ni simbolos.');
@@ -1190,9 +1161,7 @@ class AccountingAccountController extends Controller
                 ' no cumple con el formato valido, Número entero entre 0 y 9.');
         }
 
-        /**
-         * Se valida el formato y que el valor sea entero en el rango de min 0 y max 9
-         */
+        /* Se valida el formato y que el valor sea entero en el rango de min 0 y max 9 */
         if (!ctype_digit($record['rubro'])) {
             array_push($errors, 'La columna rubro en la fila ' . $currentRow .
                 ' debe ser entero y no debe contener caracteres ni simbolos.');
@@ -1202,9 +1171,7 @@ class AccountingAccountController extends Controller
                 ' no cumple con el formato valido, Número entero entre 0 y 9.');
         }
 
-        /**
-         * Se valida el formato y que el valor sea entero en el rango de min 0 y max 99
-         */
+        /* Se valida el formato y que el valor sea entero en el rango de min 0 y max 99 */
         if (!ctype_digit($record['n_cuenta_orden'])) {
             array_push($errors, 'La columna n_cuenta_orden en la fila ' . $currentRow .
                 ' debe ser entero y no debe contener caracteres ni simbolos.');
@@ -1214,9 +1181,7 @@ class AccountingAccountController extends Controller
                 ' no cumple con el formato valido, Número entero entre 0 y 99.');
         }
 
-        /**
-         * Se valida el formato y que el valor sea entero en el rango de min 0 y max 99
-         */
+        /* Se valida el formato y que el valor sea entero en el rango de min 0 y max 99 */
         if (!ctype_digit($record['n_subcuenta_primer_orden'])) {
             array_push($errors, 'La columna n_subcuenta_primer_orden en la fila ' . $currentRow .
                 ' debe ser entero y no debe contener caracteres ni simbolos.');
@@ -1226,9 +1191,7 @@ class AccountingAccountController extends Controller
                 ' no cumple con el formato valido, Número entero entre 0 y 99.');
         }
 
-        /**
-         * Se valida el formato y que el valor sea entero en el rango de min 0 y max 99
-         */
+        /* Se valida el formato y que el valor sea entero en el rango de min 0 y max 99 */
         if (!ctype_digit($record['n_subcuenta_segundo_orden'])) {
             array_push($errors, 'La columna n_subcuenta_segundo_orden en la fila ' . $currentRow .
                 ' debe ser entero y no debe contener caracteres ni simbolos.');
@@ -1238,9 +1201,7 @@ class AccountingAccountController extends Controller
                 ' no cumple con el formato valido, Número entero entre 0 y 99.');
         }
 
-        /**
-         * Se valida que el valor en la columna de activa
-         */
+        /* Se valida que el valor en la columna de activa */
         if (strtolower($record['activa']) != 'si' && strtolower($record['activa']) != 'no') {
             array_push($errors, 'La columna activa en la fila ' . $currentRow .
                 ' no cumple con el formato valido, SI ó NO.');

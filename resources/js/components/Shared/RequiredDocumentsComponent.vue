@@ -27,7 +27,7 @@
                                 </div>
                                 <strong>Cuidado!</strong> Debe verificar los siguientes errores antes de continuar:
                                 <ul>
-                                    <li v-for="error in errors">{{ error }}</li>
+                                    <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -135,7 +135,7 @@
             }
         },
         props: ['module', 'model', 'title', 'name_component', 'short_name_component', 'typedoc'],
-        
+
         methods: {
             /**
              * Método que borra todos los datos del formulario
@@ -173,7 +173,7 @@
             vm.type_docs = [
                 { "id": "", "text": "Seleccione..." },
                 { "id": "Proveedor", "text": "Proveedor" },
-                { "id": "Compra", "text": "Compra" }, 
+                { "id": "Compra", "text": "Compra" },
             ];
         }
     };

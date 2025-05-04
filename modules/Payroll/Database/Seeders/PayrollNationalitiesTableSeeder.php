@@ -10,13 +10,12 @@ use Modules\Payroll\Models\Country as BaseCountry;
 
 /**
  * @class PayrollNationalitiesTableSeeder
- * @brief Inicializar las nacionalidades
- *
+ * @brief Carga los datos de las nacionalidades
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollNationalitiesTableSeeder extends Seeder
 {
@@ -24,6 +23,7 @@ class PayrollNationalitiesTableSeeder extends Seeder
      * Método que registra los valores de las nacionalidades
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return void
      */
     public function run()

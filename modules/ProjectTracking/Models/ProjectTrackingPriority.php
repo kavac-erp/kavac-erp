@@ -27,6 +27,7 @@ class ProjectTrackingPriority extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
@@ -40,6 +41,11 @@ class ProjectTrackingPriority extends Model implements Auditable
         'name', 'description'
     ];
 
+    /**
+     * Establece la relación con las tareas
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function tasks()
     {
         return $this->belongsToMany(ProjectTrackingTask::class);

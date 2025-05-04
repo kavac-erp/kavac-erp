@@ -27,6 +27,7 @@ class PayrollSectorType extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
@@ -42,6 +43,7 @@ class PayrollSectorType extends Model implements Auditable
      * PayrollSectorType tiene muchos PayrollOrganization
      *
      * @author William Páez <wpaezs@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollOrganizations()

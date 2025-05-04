@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use App\Traits\ModelsTrait;
@@ -16,6 +14,9 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * @brief Datos de los estados civiles
  *
  * Gestiona el modelo de datos para los estados civiles
+ *
+ * @property string $id
+ * @property string $name
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -65,6 +66,7 @@ class MaritalStatus extends Model implements Auditable
      */
     public function payrolls()
     {
-        return (Module::has('Payroll')) ? $this->hasMany(\Modules\Payroll\Models\PayrollStaff::class) : [];
+        return (Module::has('Payroll') && Model::isEnabled('Payroll'))
+                ? $this->hasMany(\Modules\Payroll\Models\PayrollStaff::class) : [];
     }
 }

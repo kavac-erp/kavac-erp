@@ -125,7 +125,7 @@
                             >
                                 <td class="text-center">
                                     {{
-                                        index + 1 
+                                        index + 1
                                     }}
                                 </td>
                                 <td class="text-center">
@@ -195,14 +195,12 @@
                         ></select2>
                     </div>
                 </div>
-                <div class="col-md-4" id="helpFinanceDocumentNumber">
+                <div class="col-md-4" id="helpFinanceDocumentNumber" v-if="record.documentType == 'M'">
                     <div class="form-group is-required">
                         <label for="" class="control-label">Nro. de Documento (solo para órdenes manuales)</label>
-                        <!--<select2 :options="documentNumbers" v-model="record.document_number"/>-->
                         <span class="d-inline" data-toggle="tooltip"
                             title="Indique un Nro. de documento para las órdenes manuales">
-                            <input type="text" class="form-control input-sm" v-model="record.document_number"
-                                :disabled="record.documentType != 'M'">
+                            <input type="text" class="form-control input-sm" v-model="record.document_number">
                         </span>
                     </div>
                 </div>
@@ -225,64 +223,10 @@
                         </span>
                     </div>
                 </div>
-                <!-- <div class="col-md-4" id="helpFinancePartialPay">
-                    <div class="form-group is-required">
-                        <label for="" class="control-label">Pago Parcial</label>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="partial" v-model="record.is_partial"
-                                :value="true" :disabled="record.documentType == 'M'">
-                            <label class="custom-control-label" for="partial"></label>
-                        </div>
-                    </div>
-                </div> -->
-                <div class="col-md-4" id="helpFinanceAmountPayable">
-                    <div class="form-group is-required">
-                        <label for="" class="control-label">Monto a Pagar</label>
-                        <input type="text" class="form-control input-sm"
-                            v-model="record.amount" disabled>
-                    </div>
-                </div>
             </div>
             <div class="row">
-                <div class="col-12 mt-4 mb-4">
-                    <h6>Datos Bancarios</h6>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4" id="helpFinancePaymentMethod">
-                    <div class="form-group is-required">
-                        <label for="" class="control-label">Método de Pago</label>
-                        <span class="select2">
-                            <select2 :disabled="record.is_payroll_contribution"
-                                :options="paymentMethods"
-                                v-model="record.finance_payment_method_id" />
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-4" id="helpFinanceBank">
-                    <div class="form-group is-required">
-                        <label for="" class="control-label">Banco</label>
-                        <span class="select2">
-                            <select2 :options="banks"
-                                @input="getBankAccounts"
-                                v-model="record.finance_bank_id"
-                                :disabled="record.is_payroll_contribution" />
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-4" id="helpFinanceAccountNumber">
-                    <div class="form-group is-required">
-                        <label for="" class="control-label">Nro. de Cuenta</label>
-                        <span class="select2">
-                            <select2 :options="accounts"
-                                v-model="record.finance_bank_account_id"
-                                :disabled="record.is_payroll_contribution">
-                            </select2>
-                        </span>
-                    </div>
-                </div>
                 <div class="col-12" id="helpFinanceObservation">
-                    <div class="form-group is-required">
+                    <div class="form-group">
                         <label for="" class="control-label">Observación</label>
                         <span class="d-inline" data-toggle="tooltip"
                             title="Indique una observación para la orden de pago">
@@ -354,14 +298,15 @@ export default {
                 { 'id': 'PR', 'text': 'Presupuestario' },
                 { 'id': 'NP', 'text': 'No presupuestario' }
             ],
-            documentTypes: [
+            allDocumentTypes: [
                 { 'id': '', 'text': 'Seleccione...' },
-                { 'id': 'C', 'text': 'Cotización' },
-                { 'id': 'M', 'text': 'Manual' },
-                { 'id': 'R', 'text': 'Reintegro' },
-                { 'id': 'P', 'text': 'Compromiso presupuestario' },
-                { 'id': 'O', 'text': 'Otro' }
+                { 'id': 'P', 'text': 'Compromiso Presupuestario', 'type': 'PR' },
+                { 'id': 'M', 'text': 'Manual', 'type': 'NP' },
+                { 'id': 'C', 'text': 'Orden de Compra/Servicio', 'type': 'PR'},
+                { 'id': 'T', 'text': 'Retenciones', 'type': 'NP' },
+                { 'id': 'O', 'text': 'Otro', 'type': 'PR' }
             ],
+            documentTypes: [],
             documentSources: [
                 { 'id': '', 'text': 'Seleccione...' }
             ],
@@ -396,9 +341,6 @@ export default {
             autoAccounting: [],
             accounting_accounts: [],
             institutions: [],
-            paymentMethods: [],
-            banks: [],
-            accounts: [],
             displayedMessage: false,
             enableInput: false,
             recordsAccounting: [],
@@ -424,20 +366,11 @@ export default {
                     decimal_places: 0,
                 },
             },
+            currency_id_tmp: '',
         }
     },
     watch: {
-        // record: {
-        //     deep: true,
-        //     handler: function (newValue, oldValue) {
-        //         const vm = this;
-        //         if (vm.record.source_amount && (vm.record.is_partial == '' || vm.record.is_partial == false || vm.record.documentType == 'M')) {
-        //             vm.record.amount = vm.record.source_amount;
-        //         }
-        //         vm.enableInput = (vm.accounting.currency.symbol);
-        //     }
-        // },
-        'record.amount' : function (newValue, oldValue) {
+        'record.source_amount' : function (newValue, oldValue) {
             const vm = this;
             if (newValue) {vm.sendEntryData(vm.sendData)};
         },
@@ -448,19 +381,19 @@ export default {
         'record.type' : function (newValue, oldValue) {
             const vm = this;
             if (newValue == 'NP') {
-                vm.documentTypes.filter( item => item.id == 'T').length > 0 
-                ? null
-                : vm.documentTypes.push({ 'id': 'T', 'text': 'Retenciones' });
+                vm.documentTypes = vm.allDocumentTypes.filter(doc => (!doc.id || doc.type == 'NP'));
             } else if (newValue != oldValue) {
-                vm.documentTypes = vm.documentTypes.filter( item => item.id != 'T' );
+                vm.documentTypes = vm.allDocumentTypes.filter(doc => (!doc.id || doc.type == 'PR'));
                 vm.getReceivers();
             }
         },
 
         'record.documentType' : function (newValue, oldValue) {
             const vm = this;
-            newValue == 'T' && vm.getAccountingAccounts(); 
+            (newValue == 'T' || newValue == 'M') && vm.getAccountingAccounts();
         }
+    },
+    computed: {
     },
     methods: {
         /**
@@ -493,9 +426,41 @@ export default {
                                     entryData.push(data);
                                 }
                             }
-    
+
                             if (doc.currency) {
-                                currency_id = doc.currency.id;
+                                vm.loading = true;
+                                // Obtener el id del comprimiso seleccionado.
+                                if (vm.record && vm.record.budget_compromise_id !== undefined) {
+                                    axios.get(`${window.app_url}/budget/compromises/` + vm.record.budget_compromise_id)
+                                        .then(response => {
+                                            if (response.data) {
+                                                // Obtener el registro de la orden de compra asociada al compromiso.
+                                                return axios.get(`${window.app_url}/purchase/direct_hire/show-direct-hire-currency/`
+                                                    + response.data.budget_compromise.document_number);
+                                            } else {
+                                                console.log("Error en la respuesta de la información");
+                                                throw new Error("Error en la respuesta de la información");
+                                                vm.loading = false;
+                                            }
+                                        })
+                                        .then(response => {
+                                            if (response.data) {
+                                                vm.currency_id_tmp = response.data.record.currency_id;
+                                                // Pasarle el id de la moneda al componente de asientos contables.
+                                                vm.$refs.accountingEntryGenerator.changeCurrency(vm.currency_id_tmp);
+                                            } else {
+                                                console.log("Error en la respuesta de la información");
+                                                vm.loading = false;
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error("Error obteniendo la información:", error);
+                                            vm.loading = false;
+                                        });
+                                } else {
+                                    currency_id = doc.currency.id;
+                                    vm.loading = false;
+                                }
                             }
                         }
                     }
@@ -509,7 +474,7 @@ export default {
                             is_retention: false,
                         };
                         entryData.push(data);
-                    } else{
+                    } else {
                         for (let receiver of vm.receivers) {
                         if (receiver.id != '') {
                             for (let child of receiver.children) {
@@ -521,7 +486,7 @@ export default {
                                         account: child.accounting_account_id,
                                         is_retention: false,
                                     };
-    
+
                                     entryData.push(data);
                                 }
                             }
@@ -529,11 +494,19 @@ export default {
                     }
                     }
                     vm.$refs.accountingEntryGenerator.chargeAccounts(entryData);
-                    vm.$refs.accountingEntryGenerator.changeCurrency(currency_id);
+                    if (vm.currency_id_tmp != '') {
+                        vm.$refs.accountingEntryGenerator.changeCurrency(vm.currency_id_tmp);
+                    } else {
+                        vm.$refs.accountingEntryGenerator.changeCurrency(currency_id);
+                    }
                 }
-    
+
                 if (vm.record.documentType == 'M') {
-                    vm.$refs.accountingEntryGenerator.changeCurrency(vm.accounting.currency.id);
+                    if (vm.currency_id_tmp != '') {
+                        vm.$refs.accountingEntryGenerator.changeCurrency(vm.currency_id_tmp);
+                    } else {
+                        vm.$refs.accountingEntryGenerator.changeCurrency(vm.accounting.currency.id);
+                    }
                 }
             }
         },
@@ -566,7 +539,7 @@ export default {
         },
         /**
          * Obtiene un listado de documentos a los cuales ordenar un pago
-         * 
+         *
          * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
          */
         async getSourceDocuments(withoutLoader = false) {
@@ -577,10 +550,6 @@ export default {
                 !vm.record.documentType ||
                 vm.record.documentType == 'M'
             ) {
-                /*vm.showMessage(
-                    'custom', 'Alerta!', 'warning', 'screen-error', 
-                    'Debe indicar todos los datos de la órden'
-                );*/
                 return false;
             }
             if (vm.record.documentType == 'T' && (!vm.record.month || !vm.record.period)) {
@@ -609,16 +578,9 @@ export default {
                     period: vm.record.period,
                 }
             ).then(response => {
-                
+
                 vm.documentSources = response.data.records;
-                
-                // if (vm.documentSources.length == 1 || response.data.records.length == 1) {
-                //     vm.documentSources = response.data.records;
-                // } else if (vm.documentSources.length > 1) {
-                //     if (vm.documentSources[1]['budget_compromise_id'] != response.data.records[1]['budget_compromise_id']) {
-                //         vm.documentSources = response.data.records;
-                //     }
-                // }
+
             }).catch(error => {
                 console.error(error);
             });
@@ -641,7 +603,7 @@ export default {
 
         /**
          * Establece los datos del compromiso si existen
-         * 
+         *
          * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
          */
         setCompromise(edit = true) {
@@ -653,14 +615,14 @@ export default {
                         (ds) => parseInt(ds.id) === parseInt(vm.record.document_sourceable_id)
                     )[0] || '';
                     let sourceable_id = '';
-    
+
                     vm.receivers.forEach(receiver => {
                         if (receiver.children) {
                             receiver.children.forEach(rec => {
                                 const foundReceiver = rec.associateables.find(
                                     r => documentSource && documentSource.receiver && r === documentSource.receiver.id
                                 );
-    
+
                                 if (foundReceiver) {
                                     sourceable_id = rec.id;
                                 }
@@ -668,7 +630,6 @@ export default {
                         }
                     });
 
-                    
                     if(vm.record.documentType == 'T' && documentSource && documentSource.receiver && documentSource.receiver.description) {
                         vm.searchReceivers(documentSource.receiver.description);
 
@@ -699,27 +660,27 @@ export default {
                             this.accounting && this.accounting.currency ?
                             this.accounting.currency.decimal_places : 2
                         ) : 0;
+                    vm.record.concept = (documentSource) ? documentSource.description : '';
                     vm.record.amount = (documentSource) ?
                         parseFloat(documentSource.budget_total_amount).toFixed(
                             this.accounting && this.accounting.currency ?
                             this.accounting.currency.decimal_places : 2
                         ) : 0;
                 }
-                // vm.sendEntryData(vm.sendData);
             }
         },
 
         /**
          * Agrega decimales al monto
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         addDecimals(value) {
             return parseFloat(value).toFixed(this.accounting.currency.decimal_places);
         },
         /**
          * Establece los datos de la orden de pago a generar
-         * 
+         *
          * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
          */
         async createRecord() {
@@ -840,16 +801,17 @@ export default {
             let vm = this;
             vm.sendData = false;
             let editData = JSON.parse(vm.edit_object);
+
             vm.eraseEdit = false;
             vm.eraseDeductionData = false;
             vm.inputEdit = true;
             vm.record.id = editData.id;
-            vm.record.ordered_at = editData.ordered_at;
+            vm.record.ordered_at = vm.format_date(editData.ordered_at, 'YYYY-MM-DD');
             vm.record.type = editData.type;
             setTimeout(() => {
                 vm.record.documentType = editData.document_type;
             }, 1000);
-            
+
             vm.record.observations = editData.observations;
             vm.record.source_amount = vm.currencyFormat(
                 editData.source_amount,
@@ -865,8 +827,6 @@ export default {
             );
             vm.record.institution_id = editData.institution_id;
             vm.record.name_sourceable_id = vm.record.documentType != 'T' ? editData.name_sourceable_id : null;
-            vm.record.finance_payment_method_id = editData.finance_payment_method_id;
-            vm.record.finance_bank_id = editData.finance_bank_account.finance_banking_agency.finance_bank_id;
             vm.record.budget_compromise_id = editData.budget_compromise_id;
             vm.record.is_partial = editData.is_partial;
             vm.record.document_number = editData.document_number;
@@ -875,8 +835,6 @@ export default {
             vm.record.month = editData.month;
             vm.record.period = editData.period;
             vm.record.is_payroll_contribution = editData.is_payroll_contribution;
-
-            await vm.getBankAccounts();
 
             if (vm.record.documentType == 'M') {
                 vm.accounting.currency.id = editData.currency_id;
@@ -964,7 +922,7 @@ export default {
             if (vm.record.receiver.accounting_account_id) {
                 vm.record.accounting_account_id =
                     vm.record.receiver.accounting_account_id;
-                vm.record.name_sourceable_id = 
+                vm.record.name_sourceable_id =
                     vm.record.receiver.id;
             } else {
                 vm.record.accounting_account_id = "";
@@ -989,7 +947,7 @@ export default {
                 vm.record.finance_payment_method_id = '';
                 vm.record.finance_bank_id = '';
                 vm.record.finance_bank_account_id = '';
-                vm.record.budget_compromise_id = '', //Solo es para identificar el compromiso de existi;
+                vm.record.budget_compromise_id = '', //Solo es para identificar el compromiso de existir;
                 vm.record.is_partial = false;
                 vm.record.document_number = '';
                 vm.record.concept = '';
@@ -1011,18 +969,13 @@ export default {
         resetInfoDoc() {
             const vm = this;
             if (vm.eraseEdit) {
-                // vm.record.observations = '';
                 vm.record.source_amount = 0;
                 vm.record.amount = 0;
                 vm.record.document_sourceable_id = '';
                 vm.record.name_sourceable_id = '';
-                // vm.record.finance_payment_method_id = '';
-                // vm.record.finance_bank_id = '';
-                // vm.record.finance_bank_account_id = '';
-                vm.record.budget_compromise_id = '', //Solo es para identificar el compromiso de existi;
+                vm.record.budget_compromise_id = '', //Solo es para identificar el compromiso de existir;
                 vm.record.is_partial = false;
                 vm.record.document_number = '';
-                // vm.record.concept = '';
                 vm.recordsAccounting = [];
                 vm.$refs.accountingEntryGenerator.data.totAssets = 0;
                 vm.$refs.accountingEntryGenerator.data.totDebit = 0;
@@ -1110,8 +1063,6 @@ export default {
         const vm = this;
         vm.loading = true;
         await vm.getInstitutions();
-        await vm.getPaymentMethods();
-        await vm.getBanks();
         await vm.getReceivers();
         await vm.getCurrencies();
 

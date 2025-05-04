@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldsAuthorizedSignaturesToPurchaseBaseBudgetsTables
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -21,11 +19,12 @@ class AddFieldsAuthorizedSignaturesToPurchaseBaseBudgetsTables extends Migration
      * Método que ejecuta las migraciones
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
+     *
      * @return    void
      */
     public function up()
     {
-       
+
         if (Schema::hasTable('purchase_base_budgets')) {
             Schema::table('purchase_base_budgets', function (Blueprint $table) {
                 if (!Schema::hasColumn('purchase_base_budgets', 'prepared_by_id')) {
@@ -47,7 +46,7 @@ class AddFieldsAuthorizedSignaturesToPurchaseBaseBudgetsTables extends Migration
                     $table->foreignId('first_signature_id')->nullable()
                         ->constrained('payroll_employments')->onUpdate('cascade')->comment('Firmado por');
                 }
-                        
+
                 if (!Schema::hasColumn('purchase_base_budgets', 'second_signature_id')) {
                     $table->foreignId('second_signature_id')->nullable()
                         ->constrained('payroll_employments')->onUpdate('cascade')->comment('Firmado por');
@@ -60,6 +59,7 @@ class AddFieldsAuthorizedSignaturesToPurchaseBaseBudgetsTables extends Migration
      * Método que elimina las migraciones
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
+     *
      * @return    void
      */
     public function down()

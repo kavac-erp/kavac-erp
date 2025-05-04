@@ -1,7 +1,5 @@
 <?php
 
-/** Gestión de correos del sistema */
-
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
@@ -20,25 +18,44 @@ use Illuminate\Queue\SerializesModels;
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
-class SystemMail extends Mailable
+class SystemMail extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
 
+    /**
+     * Asunto del mensaje
+     *
+     * @var string $subjectMsg
+     */
     public $subjectMsg;
+
+    /**
+     * Cuerpo del mensaje
+     *
+     * @var string $messageText
+     */
     public $messageText;
+
+    /**
+     * Email del remitente
+     *
+     * @var string $fromEmail
+     */
     public $fromEmail;
+    public $attachmentFiles;
 
     /**
      * Crea una nueva instancia del mensaje
      *
      * @return void
      */
-    public function __construct($subject, $message, $from = null)
+    public function __construct($subject, $message, $from = null, $attachmentFiles = [])
     {
         $this->subjectMsg = $subject;
         $this->messageText = $message;
         $this->fromEmail = $from ?? config('mail.from.address');
+        $this->attachmentFiles = $attachmentFiles;
     }
 
     /**
@@ -48,6 +65,15 @@ class SystemMail extends Mailable
      */
     public function build()
     {
-        return $this->from($this->fromEmail)->subject($this->subjectMsg)->markdown('emails.email');
+        $email = $this->from($this->fromEmail)->subject($this->subjectMsg)->markdown('emails.email');
+
+        foreach ($this->attachmentFiles as $file) {
+            $email->attach($file['path'], [
+                'as' => $file['name'],
+                'mime' => $file['mime'],
+            ]);
+        }
+
+        return $email;
     }
 }

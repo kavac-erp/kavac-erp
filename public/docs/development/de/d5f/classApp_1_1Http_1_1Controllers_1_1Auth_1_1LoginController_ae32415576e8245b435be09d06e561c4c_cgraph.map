@@ -1,4 +1,5 @@
 <map id="validateLogin" name="validateLogin">
-<area shape="rect" id="node1" title="Valida la petición de acceso del usuario." alt="" coords="5,5,116,32"/>
-<area shape="rect" id="node2" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a7475524fbb2e38dd6c9f7a6661b0bb81" title="Obtiene el campo usado como nombre de usuario para el acceso a la aplicación, usado por el controlado..." alt="" coords="164,5,251,32"/>
+<area shape="rect" id="Node000001" title="Valida la petición de acceso del usuario." alt="" coords="5,5,116,31"/>
+<area shape="rect" id="Node000002" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a7475524fbb2e38dd6c9f7a6661b0bb81" title="Obtiene el campo usado como nombre de usuario para el acceso a la aplicación." alt="" coords="164,5,251,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,15,150,15,150,21,116,21"/>
 </map>

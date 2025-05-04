@@ -2,9 +2,12 @@
 
 namespace Modules\Sale\Models;
 
+use App\Models\Currency;
+use App\Models\HistoryTax;
+use App\Models\MeasurementUnit;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
@@ -14,9 +17,9 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * Gestiona el modelo de datos del inventario de los productos almacenables
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleWarehouseInventoryProduct extends Model implements Auditable
 {
@@ -43,8 +46,8 @@ class SaleWarehouseInventoryProduct extends Model implements Auditable
      * Método que obtiene el producto registrado
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleSettingProduct()
     {
@@ -55,8 +58,8 @@ class SaleWarehouseInventoryProduct extends Model implements Auditable
      * Método que obtiene los valores de los atributos del producto registrado
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * WarehouseProductValue
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleWarehouseProductValues()
     {
@@ -67,19 +70,20 @@ class SaleWarehouseInventoryProduct extends Model implements Auditable
      * Método que obtiene la moneda en que se expresa el valor del producto
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Currency
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency()
     {
-        return $this->belongsTo(\App\Models\Currency::class);
+        return $this->belongsTo(Currency::class);
     }
 
     /**
      * Método que obtiene el almacen donde esta inventariado el producto
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * SaleWarehouseInstitutionWarehouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleWarehouseInstitutionWarehouse()
     {
@@ -90,8 +94,8 @@ class SaleWarehouseInventoryProduct extends Model implements Auditable
      * Método que obtiene las reglas de almacenamiento del producto en el inventario
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseInventoryRule
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function saleWarehouseInventoryRule()
     {
@@ -102,32 +106,32 @@ class SaleWarehouseInventoryProduct extends Model implements Auditable
      * Método que obtiene la unidad de medida
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * MeasurementUnit
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function measurementUnit()
     {
-        return $this->belongsTo(\App\Models\MeasurementUnit::class);
+        return $this->belongsTo(MeasurementUnit::class);
     }
 
     /**
      * Método que obtiene los porcentajes de impuestos almacenados en el sistema
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * HistoryTax
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function historyTax()
     {
-        return $this->belongsTo(\App\Models\HistoryTax::class);
+        return $this->belongsTo(HistoryTax::class);
     }
 
     /**
      * Método que obtiene el registro en el inventario del producto movilizado
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * SaleWarehouseInventoryProductMovement
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleWarehouseInventoryProductMovement()
     {

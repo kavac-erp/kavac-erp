@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class ChangeFieldToPayrollNationalitiesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -25,7 +25,7 @@ class ChangeFieldToPayrollNationalitiesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

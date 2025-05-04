@@ -1,0 +1,5 @@
+<map id="map" name="map">
+<area shape="rect" id="Node000001" title="Establece las columnas que van a ser exportadas." alt="" coords="5,5,56,31"/>
+<area shape="rect" id="Node000002" href="$da/d23/classModules_1_1Asset_1_1Exports_1_1AssetExport.html#a6fc876475bd51b3483b443f365c68e3b" title="Obtiene el valor del arreglo de selección." alt="" coords="104,5,229,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="56,15,90,15,90,21,56,21"/>
+</map>

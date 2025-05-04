@@ -11,22 +11,35 @@ use Modules\Sale\Models\SaleClientsEmail;
 use Modules\Sale\Models\SaleClientsPhone;
 use App\Rules\Rif as RifRule;
 
+/**
+ * @class SaleClientsController
+ * @brief Controlador que gestiona los clientes
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleClientsController extends Controller
 {
     use ValidatesRequests;
 
-    /** @var array Lista de elementos a mostrar */
+    /**
+     * Lista de elementos a mostrar en select
+     *
+     * @var array $data
+     */
     protected $data = [];
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -34,13 +47,15 @@ class SaleClientsController extends Controller
      * Define la configuración de la clase
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting.client', ['only' => 'index']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'type_person_juridica'       => ['required'],
             'country_id'                 => ['required'],
@@ -53,7 +68,7 @@ class SaleClientsController extends Controller
             'sale_clients_phone'         => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'rif.required'                        => 'El campo rif es obligatorio.',
             'rif.unique'                          => 'El campo rif ya ha sido registrado.',
@@ -78,8 +93,9 @@ class SaleClientsController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Muestra el listado de clientes
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -87,9 +103,11 @@ class SaleClientsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena un nuevo cliente
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -149,8 +167,9 @@ class SaleClientsController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un cliente
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -158,8 +177,9 @@ class SaleClientsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar un cliente
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -167,13 +187,15 @@ class SaleClientsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza la información de un cliente
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        /** @var object Datos del cliente email y phone */
+        /* Datos del cliente email y phone */
         $client = SaleClient::with('saleClientsEmail', 'saleClientsPhone')->find($id);
 
         $this->validate($request, $this->validateRules, $this->messages);
@@ -244,15 +266,14 @@ class SaleClientsController extends Controller
      * Elimina un cliente registrado en el sistema
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  $id Identificador único del cliente
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del cliente
+     *
+     * @return \Illuminate\Http\JsonResponse|void
      */
     public function destroy($id)
     {
-        /**
-         * Objeto con la información asociada al modelo sustrato
-         * @var Object $forestClimates
-         */
+        /* Objeto con la información asociada al modelo sustrato */
         $client = SaleClient::find($id);
         if ($client) {
             $client->delete();
@@ -264,17 +285,18 @@ class SaleClientsController extends Controller
      * Muestra una lista de los tipos de bienes
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function getSaleClientsRif()
     {
         $records = [];
-        $saleClient = SaleClient::orderBy('id', 'ASC')->get();
+        $saleClients = SaleClient::orderBy('id', 'ASC')->get();
 
         array_push($records, ['id' => '', 'text' => 'Seleccione...']);
 
-        foreach ($saleClient as $saleClient) {
+        foreach ($saleClients as $saleClient) {
             if ($saleClient->type_person_juridica == 'Natural') {
                 array_push($records, [
                     'id'            => $saleClient->id,
@@ -294,6 +316,7 @@ class SaleClientsController extends Controller
      * Obtiene los clientes registrados
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de los productos
      */
     public function getSaleClient($id)

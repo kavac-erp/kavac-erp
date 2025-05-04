@@ -17,6 +17,15 @@ use Modules\Payroll\Models\PayrollFinancial;
 use Modules\Payroll\Models\PayrollStaff;
 use Maatwebsite\Excel\Validators\Failure;
 
+/**
+ * @class FinancialStaffImport
+ * @brief Importa un archivo de datos financieros del personal
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class FinancialStaffImport implements
     ToModel,
     WithValidation,
@@ -28,18 +37,25 @@ class FinancialStaffImport implements
     use SkipsErrors;
     use SkipsFailures;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @param string $fileErrosPath Ruta donde se guardan los archivos de errores
+     *
+     * @return void
+     */
     public function __construct(
         protected string $fileErrosPath,
-    ){
-
+    ) {
     }
 
     /**
-     * @param array $row
+     * Modelo para importar datos
+     *
+     * @param array $row Arreglo de columnas a importar
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-
     public function model(array $row)
     {
         DB::transaction(function () use ($row) {
@@ -53,6 +69,14 @@ class FinancialStaffImport implements
         });
     }
 
+    /**
+     * Preparar los datos para ser importados (validaciones)
+     *
+     * @param array $data Arreglo con los datos
+     * @param integer $index Indice de la fila
+     *
+     * @return array
+     */
     public function prepareForValidation($data, $index)
     {
         if (isset($data["cedula_de_identidad"]) && !is_null($data["cedula_de_identidad"]) && $data["cedula_de_identidad"] != "" && $data["cedula_de_identidad"] != "null" && $data["cedula_de_identidad"] != null) {
@@ -95,6 +119,11 @@ class FinancialStaffImport implements
         return $data;
     }
 
+    /**
+     * Callback de error de validación
+     *
+     * @param object $failures Arreglo columnas que fallaron en la validación
+     */
     public function onFailure(Failure ...$failures)
     {
         foreach ($failures as $failure) {
@@ -109,6 +138,11 @@ class FinancialStaffImport implements
         }
     }
 
+    /**
+     * Reglas de validación
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -136,6 +170,11 @@ class FinancialStaffImport implements
         ];
     }
 
+    /**
+     * Mensajes personalizados de validación
+     *
+     * @return array
+     */
     public function customValidationMessages()
     {
         return [

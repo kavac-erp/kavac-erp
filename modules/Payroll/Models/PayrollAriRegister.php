@@ -10,11 +10,9 @@ use App\Traits\ModelsTrait;
 
 /**
  * @class PayrollAriRegister
- * @brief [descripción detallada]
+ * @brief Datos de registros de ARI
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -27,18 +25,22 @@ class PayrollAriRegister extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['payroll_staff_id', 'from_date', 'to_date', 'percetage'];
 
     /**
      * Trabajador asociado al registro ARI
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollStaff()
     {

@@ -1,20 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Finance\Http\Controllers\Reports\FinanceReportsController;
 use Modules\Finance\Http\Controllers\FinanceController;
 use Modules\Finance\Http\Controllers\FinanceBankController;
 use Modules\Finance\Http\Controllers\FinancePayOrderController;
 use Modules\Finance\Http\Controllers\FinanceCheckBookController;
+use Modules\Finance\Http\Controllers\FinanceMovementsController;
 use Modules\Finance\Http\Controllers\FinanceAccountTypeController;
 use Modules\Finance\Http\Controllers\FinanceBankAccountController;
+use Modules\Finance\Http\Controllers\FinanceConciliationController;
 use Modules\Finance\Http\Controllers\FinanceBankingAgencyController;
 use Modules\Finance\Http\Controllers\FinancePaymentExecuteController;
 use Modules\Finance\Http\Controllers\FinancePaymentMethodsController;
 use Modules\Finance\Http\Controllers\FinanceSettingBankReconciliationFilesController;
-use Modules\Finance\Http\Controllers\FinanceConciliationController;
-use Modules\Finance\Http\Controllers\FinanceMovementsController;
-use Modules\Finance\Models\FinancePaymentExecute;
-use Modules\Finance\Models\FinancePayOrder;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,32 +33,32 @@ Route::group([
     Route::get('/', [FinanceController::class, 'index'])->name('finance.index');
 
     Route::group(['middleware' => 'permission:finance.setting.create'], function () {
-        /** Ruta de acceso a parámetros de configuración del módulo */
+        /* Ruta de acceso a parámetros de configuración del módulo */
         Route::get('settings', [FinanceController::class, 'setting'])->name('finance.setting.index');
         Route::post('settings', [FinanceController::class, 'store'])->name('finance.setting.store');
-        /** Rutas para la gestión de entidades bancarias */
+        /* Rutas para la gestión de entidades bancarias */
         Route::resource('banks', FinanceBankController::class, ['as' => 'finance']);
-        /** Rutas para la gestión de agencias bancarias */
+        /* Rutas para la gestión de agencias bancarias */
         Route::resource('banking-agencies', FinanceBankingAgencyController::class, ['as' => 'finance']);
-        /** Rutas para la gestión de tipos de cuentas bancarias */
+        /* Rutas para la gestión de tipos de cuentas bancarias */
         Route::resource('account-types', FinanceAccountTypeController::class, ['as' => 'finance']);
-        /** Rutas para la gestión de cuentas bancarias */
+        /* Rutas para la gestión de cuentas bancarias */
         Route::resource('bank-accounts', FinanceBankAccountController::class, ['as' => 'finance']);
-        /** Rutas para la gestión de chequeras */
+        /* Rutas para la gestión de chequeras */
         Route::resource('check-books', FinanceCheckBookController::class, ['as' => 'finance', 'except' => ['edit']]);
 
         Route::get('get-bank-account/{bank_id}', [FinanceCheckBookController::class, 'getBanksAccounts']);
 
         Route::get('check-books/edit/{id}', [FinanceCheckBookController::class, 'edit'])->name('finance.edit');
-        /** Rutas para la gestión de los métodos de pago */
+        /* Rutas para la gestión de los métodos de pago */
         Route::resource('payment_methods', FinancePaymentMethodsController::class, ['as' => 'finance']);
-        /** Rutas para la gestión de la configuración de archivos de conciliación bancaria */
+        /* Rutas para la gestión de la configuración de archivos de conciliación bancaria */
         Route::resource('setting-bank-reconciliation-files', FinanceSettingBankReconciliationFilesController::class, ['as' => 'finance']);
     });
 
     Route::post('deductions-to-pay', [FinanceController::class, 'getDeductionsToPay'])->name('finance.setting.get-deductions-to-pay');
 
-    /** Ruta para la gestión de Finanzas > Banco > Ordenes de pago */
+    /* Ruta para la gestión de Finanzas > Banco > Ordenes de pago */
     Route::get(
         'pay-orders/list/get-receivers',
         [FinancePayOrderController::class, 'getPayOrderReceivers']
@@ -78,7 +77,7 @@ Route::group([
         [FinancePayOrderController::class, 'getSourceDocuments']
     );
 
-    /** Ruta para la gestión de Finanzas > Banco > Emisiones de pago */
+    /* Ruta para la gestión de Finanzas > Banco > Emisiones de pago */
     Route::get(
         'payment-execute/list/get-receivers',
         [FinancePaymentExecuteController::class, 'getPayOrderReceivers']
@@ -86,21 +85,30 @@ Route::group([
     Route::get('payment-execute/vue-list', [FinancePaymentExecuteController::class, 'vueList'])
         ->name('finance.payment-execute.vuelist');
     Route::get('payment-execute/pdf/{financePaymentExecute}', [FinancePaymentExecuteController::class, 'pdf']);
+    Route::post('payment-execute/iva/pdf/{financePaymentExecute}', [FinancePaymentExecuteController::class, 'pdfIvaRegister']);
+    Route::get('payment-execute/iva/pdf/{financePaymentExecute}', [FinancePaymentExecuteController::class, 'pdfIva']);
     Route::post('payment-execute/change-document-status', [FinancePaymentExecuteController::class, 'changeDocumentStatus'])
         ->name('finance.payment-execute.change-document-status');
     Route::post('payment-execute/cancel', [FinancePaymentExecuteController::class, 'cancelPaymentExecute'])
         ->name('finance.payment-execute.cancel');
     Route::resource('payment-execute', FinancePaymentExecuteController::class, ['as' => 'finance']);
+    Route::get('payment-execute/bank/get-bank-accounting-account-id', [FinancePaymentExecuteController::class, 'getBankAccountingAccountId']);
 
-    /** Ruta para la gestión de Finanzas > Banco > Movimientos */
+    /* Ruta para la gestión de Finanzas > Banco > Movimientos */
     Route::get('movements/vue-list', [FinanceMovementsController::class, 'vueList']);
+    Route::get('movements/vue-list-by-account/{institution_id}/{currency_id}/{account_id}/{startDate}/{endDate}', [FinanceMovementsController::class, 'vueListByAccount']);
     Route::get('movements/vue-info/{id}', [FinanceMovementsController::class, 'vueInfo']);
     Route::get('movements/edit/{id}', [FinanceMovementsController::class, 'edit']);
     Route::post('movements/change-document-status', [FinanceMovementsController::class, 'changeDocumentStatus']);
     Route::post('movements/cancel-movements', [FinanceMovementsController::class, 'cancelMovements']);
+    Route::get('movements/budget-accounting-accounts/{budget_account_id}', [FinanceMovementsController::class, 'getBudgetAccountingAccount']);
     Route::resource('movements', FinanceMovementsController::class, ['as' => 'finance']);
 
-    /** Ruta para la gestión de Finanzas > Banco > Conciliación */
+    /* Ruta para la gestión de Finanzas > Banco > Conciliación */
+    Route::get('conciliation/movements/vue-list-by-account/{institution_id}/{currency_id}/{account_id}/{startDate}/{endDate}', [FinanceConciliationController::class, 'vueListMovementsByAccount']);
+    Route::get('conciliation/vueList', [FinanceConciliationController::class, 'vueList']);
+    Route::get('conciliation/pdf/{id}', [FinanceConciliationController::class, 'pdf']);
+    Route::post('conciliation/approve/{id}', [FinanceConciliationController::class, 'approve']);
     Route::resource('conciliation', FinanceConciliationController::class, ['as' => 'finance']);
     Route::get('get-institution', [FinanceConciliationController::class, 'getInstitution']);
 
@@ -115,4 +123,11 @@ Route::group([
     Route::get('voucher-design', function () {
         return view('finance::vouchers.design');
     })->name('finance.voucher.design');
+
+    /* Rutas para generar reportes de finanzas */
+    Route::get('payment-reports', [FinanceReportsController::class, 'create'])->name('finance.payment-reports.create');
+    Route::get('payment-reports/get-document-status-list', [FinanceReportsController::class, 'getDocumentStatusList']);
+    Route::post('payment-reports/payment-execute/pdf', [FinanceReportsController::class, 'pdfPaymentExecutes']);
+    Route::post('payment-reports/pay-order/pdf', [FinanceReportsController::class, 'pdfPayOrders']);
+    Route::post('payment-reports/banking-movements/pdf', [FinanceReportsController::class, 'pdfBankingMovements']);
 });

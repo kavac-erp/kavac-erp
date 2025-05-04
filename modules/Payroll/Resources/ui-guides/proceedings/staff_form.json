@@ -29,6 +29,11 @@
         "position" : "right"
     },
     {
+        "element" : "#helpStaffRif",
+        "intro" : "Parámetro que establece el rif del personal",
+        "position" : "right"
+    },
+    {
         "element" : "#helpStaffEmail",
         "intro" : "Parámetro que establece el correo electrónico del personal",
         "position" : "right"

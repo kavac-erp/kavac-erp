@@ -8,15 +8,16 @@ El Manual de Documentación del sistema KAVAC a nivel de usuario tiene como obje
 
 ## Módulo de Compras
 
-El sistema KAVAC siendo un sistema ERP (Enterprise Resource Planning) incluye el módulo de compras con el objetivo de automatizar los procesos de compra que se llevan a cabo dentro de una organización, permitiendo de esta forma optimizar la gestión de compra, identificar requerimientos, establecer criterios para la toma de decisiones y llevar a acabo el manejo, control y seguimiento de recursos. Facilitando el flujo de trabajo del equipo administrativo encargado del área de compras en una institución u organización. 
+El sistema KAVAC siendo un sistema ERP (Enterprise Resource Planning) incluye el módulo de **Compras** con el objetivo de automatizar los procesos de compra que se llevan a cabo dentro de una organización, permitiendo de esta forma optimizar la gestión de compra, identificar requerimientos, establecer criterios para la toma de decisiones y llevar a acabo el manejo, control y seguimiento de recursos. Facilitando el flujo de trabajo del equipo administrativo encargado del área de compras en una institución u organización. 
+
 Los usuarios encargados de la provisión de materiales y/o servicios de la organización usuaria son gestionados a través de la sección **Proveedores** del módulo de compras. A través de esta sección se realizan consultas de los registros de proveedores, mejorando el rendimiento de la cadena de suministro en la organización.
 
-A través del apartado **Requerimientos** se lleva a cabo la gestión de requerimientos de adquisisión de insumos de una organización, incluyendo detalles del presupuesto base. 
+A través del apartado **Requerimientos** se lleva a cabo la gestión de requerimientos de adquisición de insumos de una organización, incluyendo detalles del presupuesto base. 
 
-En los apartados  de **Cotizaciones** y **Orden de compras**, se lleva a cabo el proceso de selección del proveedor que será el encargado de ejecutar la compras, una vez cargada esta información se procede a cargar la Orden de compras, que representa el comprobante para poder adquirir los productos. 
+En los apartados  de **Cotizaciones** y **Orden de compras**, se lleva a cabo el proceso de selección del proveedor que será el encargado de ejecutar la compras, una vez cargada esta información se procede a cargar la orden de compras, que representa el comprobante para poder adquirir los productos. 
+
 
 ## Sobre los usuarios
-
 
 Los usuarios que interactúan en este módulo, serán todos aquellos usuarios con roles y permisos sobre el módulo de compras, previamente gestionados por el usuario con el rol de administrador. Para conocer más sobre la gestión de roles y permisos visite el **Manual de Documentación del Sistema KAVAC**.
 
@@ -25,13 +26,14 @@ Los usuarios que interactúan en este módulo, serán todos aquellos usuarios co
 
 - Gestión de proveedores.
 
-- Gestión de requerimientos.
-
 - Gestión de planes de compra.
 
-- Realización de órdenes de compra.
+- Gestión de requerimientos.
 
-- Registro de cotizaciones.
+- Gestión de cotizaciones.
+
+- Gestión de órdenes de compra/servicios.
+
 
 ## Licencia
 
@@ -47,48 +49,60 @@ Nombre del producto: KAVAC ‘Sistema de Gestión de Recursos’
 
    **Analistas**
 
- Analistas Activos
-
-- Mariangel Molero (mmolero@cenditel.gob.ve) 
-- Kleivymar Montilla (kmontilla@cenditel.gob.ve)
-- María Auxiliadora Morales (mmorales@cenditel.gob.ve)
-- Ramón Gil (rgil@cenditel.gob.ve) 
-- Hildayra Colmenares (hcolmenares@cenditel.gob.ve)
+ Analistas activos
  
- Analistas Inactivos
-
+- Mariangel Molero (mmolero@cenditel.gob.ve)
+- María Morales (mmorales@cenditel.gob.ve) 
+- Kleivymar Montilla (kmontilla@cenditel.gob.ve)
+- Hildayra Colmenares (hcolmenares@cenditel.gob.ve)
+- Alberto Gil (rgil@cenditel.gob.ve)
+- Reina Castellanos (recastellanos@cenditel.gob.ve)
+- Dianicht Monsalve (dsmonsalve@cenditel.gob.ve)
+- Yazmín Fajardo (yfajardo@cenditel.gob.ve)
+ 
+ 
+ Analistas inactivos
 
 - Luis Ramírez (lgramirez@cenditel.gob.ve) 
 - Marilyn Caballero (mcaballero@cenditel.gob.ve) 
 - Julie Vera (jvera@cenditel.gob.ve)
 - María Laura Gonzalez (mgonzalez@cenditel.gob.ve)
 - Francisco Berbesi (fberbesi@cenditel.gob.ve)
- 
-   
+
+
    **Desarrolladores**
 
-Desarrolladores Activos
+Desarrolladores activos
 
-- Henry Paredes (henryp2804@gmail.com) 
-- Juan Rosas (jrosas@cenditel.gob.ve) 
-- Yennifer Ramírez (yramirez@cenditel.gob.ve) 
-- Pedro Buitrago (pbuitrago@cenditel.gob.ve) 
-- Angelo Osorio (adosorio@cenditel.gob.ve) 
-- Daniel Contreras (dcontreras@cenditel.gob.ve) 
-- Miguel Narváez (mnarvaez@cenditel.gob.ve) 
+- Henry Paredes (hparedes@cenditel.gob.ve)
+- Daniel Contreras (dcontreras@cenditel.gob.ve)
+- Juan Rosas (jrosas@cenditel.gob.ve)
 - Argenis Osorio (aosorio@cenditel.gob.ve)
-- Francisco Ruiz (fruiz@cenditel.gob.ve)
-- Francisco Escala (fescala@cenditel.gob.ve)
-- José Briceño (jbriceno@cenditel.gob.ve)
-- Pedro Contreras (pcontreras@cenditel.gob.ve)
-- Oscar Josue González (ojgonzalez@cenditel.gob.ve)
-- Juan Vizcarrondo (jvizcarrondo@cenditel.gob.ve)
-      
-Desarrolladores Inactivos
+- Yennifer Ramírez (yramirez@cenditel.gob.ve)
+- Francisco Peña (fjpena@cenditel.gob.ve)
+- Francisco Escala (fjescala@cenditel.gob.ve)
+- José Briceño (jjbriceyno@cenditel.gob.ve) 
+- Óscar Josué González (ojgonzalez@cenditel.gob.ve)
+- Pedro Contreras (pmcontreras@cenditel.gob.ve)
+- Manuel Zambrano (mazambrano@cenditel.gob.ve)
+- Fabián Palmera (fmpalmera@cenditel.gob.ve)
+- Natanael Rojo (narojo@cenditel.gob.ve) 
 
+
+Desarrolladores inactivos
+  
+- Pedro Buitrago (pbuitrago@cenditel.gob.ve)
+- Angelo Osorio (adosorio@cenditel.gob.ve)
+- Juan Vizcarrondo (jvizcarrondo@cenditel.gob.ve)
+- Miguel Narváez (mnarvaez@cenditel.gob.ve)
 - William Paéz (wpaez@cenditel.gob.ve) 
 - José Puentes (jpuentes@cenditel.gob.ve) 
 
+
+   **Analistas de documentación**
+
+- Daniel Quintero (dquintero@cenditel.gob.ve)
+- Santiago Roca (sroca@cenditel.gob.ve)
 
    **Director de Desarrollo (2018-2019)**
 
@@ -97,10 +111,6 @@ Desarrolladores Inactivos
    **Director de Desarrollo (2020)**
    
 - Laura Colina (lcolina@cenditel.gob.ve)
-
-   **Colaborador**
-
-- Santiago Roca (sroca@cenditel.gob.ve)
 
 
 Licencia Combinada de Software y Contenidos de la Fundación CENDITEL (2015)  
@@ -117,3 +127,7 @@ Cada vez que copie y distribuya este producto debe acompañarlo de una copia de 
 [Licencia de Contenidos](http://conocimientolibre.cenditel.gob.ve/licencias/)
 
 ![Screenshot](img/licencia.png)
+
+
+
+

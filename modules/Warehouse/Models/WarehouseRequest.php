@@ -2,12 +2,13 @@
 
 namespace Modules\Warehouse\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
-use Module;
 use App\Traits\ModelsTrait;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class WarehouseRequest
@@ -16,9 +17,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos para las solicitudes de los productos del almacén
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseRequest extends Model implements Auditable
 {
@@ -47,8 +48,8 @@ class WarehouseRequest extends Model implements Auditable
      * Método que obtiene la institución que realiza la solicitud
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * Institution
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function institution()
     {
@@ -59,8 +60,8 @@ class WarehouseRequest extends Model implements Auditable
      * Método que obtiene el departamento o dependencia que realiza la solicitud
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * Department
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function department()
     {
@@ -71,34 +72,36 @@ class WarehouseRequest extends Model implements Auditable
      * Método que obtiene la acción Específica
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return Array|\Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     *         BudgetSpecificAction
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function budgetSpecificAction()
     {
-        return (Module::has('Budget'))
-               ? $this->belongsTo(\Modules\Budget\Models\BudgetSpecificAction::class) : [];
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->belongsTo(\Modules\Budget\Models\BudgetSpecificAction::class) : [];
     }
 
     /**
      * Método que obtiene el trabajador asociado a la solicitud
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return Array|\Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     *         PayrollStaff
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollStaff()
     {
-        return (Module::has('Payroll'))
-               ? $this->belongsTo(\Modules\Payroll\Models\PayrollStaff::class) : [];
+        return (
+            Module::has('Payroll') && Module::isEnabled('Payroll')
+        ) ? $this->belongsTo(\Modules\Payroll\Models\PayrollStaff::class) : [];
     }
 
     /**
      * Método que obtiene los productos asociados a la solicitud
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     *         WarehouseInventoryProductRequest
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function warehouseInventoryProductRequests()
     {

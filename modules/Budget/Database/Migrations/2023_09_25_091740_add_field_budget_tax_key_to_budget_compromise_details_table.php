@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldBudgetTaxKeyToBudgetCompromiseDetailsTable
- * @brief [descripción detallada]
+ * @brief Agrega el campo 'budget_tax_key' a la tabla 'budget_compromise_details'
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Francisco J. P. Ruiz <fpenya@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

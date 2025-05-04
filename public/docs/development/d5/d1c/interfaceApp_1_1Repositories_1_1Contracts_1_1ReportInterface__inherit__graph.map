@@ -1,5 +1,17 @@
 <map id="ReportInterface" name="ReportInterface">
-<area shape="rect" id="node1" title="Interfaz para la gestión de reportes." alt="" coords="11,5,134,112"/>
-<area shape="rect" id="node2" href="$db/d2b/classApp_1_1Repositories_1_1ReportRepository.html" title="Gestiona los reportes de la aplicación." alt="" coords="5,175,140,443"/>
-<area shape="rect" id="node3" href="$dc/d5e/classModules_1_1DigitalSignature_1_1Repositories_1_1ReportRepositorySign.html" title="Gestiona los reportes de la aplicación." alt="" coords="165,160,327,457"/>
+<area shape="rect" id="Node000001" title="Interfaz para la gestión de reportes." alt="" coords="513,5,627,111"/>
+<area shape="rect" id="Node000002" href="$db/d2b/classApp_1_1Repositories_1_1ReportRepository.html" title="Gestiona los reportes de la aplicación." alt="" coords="5,229,132,594"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="500,70,406,83,301,103,206,129,170,144,145,161,119,192,100,230,95,227,114,189,142,157,168,139,204,124,299,97,405,78,499,65"/>
+<area shape="rect" id="Node000003" href="$db/d24/classModules_1_1Asset_1_1Pdf_1_1AssetReport.html" title="Gestiona los reportes del módulo de bienes." alt="" coords="156,199,293,624"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="499,71,451,82,400,100,350,126,307,161,277,200,273,197,303,157,347,121,398,95,450,77,498,66"/>
+<area shape="rect" id="Node000004" href="$d5/d47/classModules_1_1CitizenService_1_1Pdf_1_1CitizenServiceReport.html" title="Gestiona los reportes de la oficina de atención al ciudadano." alt="" coords="317,159,468,664"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="510,123,483,160,470,183,466,180,478,157,506,119"/>
+<area shape="rect" id="Node000005" href="$dc/d5e/classModules_1_1DigitalSignature_1_1Repositories_1_1ReportRepositorySign.html" title="Gestiona los reportes de la aplicación." alt="" coords="493,209,647,614"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="573,124,573,209,567,209,567,124"/>
+<area shape="rect" id="Node000006" href="$da/ddf/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1Base_1_1ReportRepository.html" title="Gestiona los reportes de la aplicación." alt="" coords="672,229,799,594"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="635,120,662,157,693,227,688,229,657,160,631,123"/>
+<area shape="rect" id="Node000007" href="$da/d92/classModules_1_1Sale_1_1Pdf_1_1SaleReport.html" title="Gestiona los reportes del módulo de comercialización." alt="" coords="823,159,960,664"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="642,69,685,81,731,99,775,124,813,157,824,170,820,174,809,161,772,129,728,104,683,86,640,74"/>
+<area shape="rect" id="Node000008" href="$d5/dff/classModules_1_1Warehouse_1_1Pdf_1_1WarehouseReport.html" title="Gestiona los reportes del módulo de almacén." alt="" coords="984,159,1121,664"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="641,66,730,80,828,100,916,125,950,140,974,157,986,168,982,172,971,161,948,145,914,130,827,105,729,85,641,71"/>
 </map>

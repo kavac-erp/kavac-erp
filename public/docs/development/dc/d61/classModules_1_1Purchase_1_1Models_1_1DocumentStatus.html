@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.9.1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>KAVAC: Referencia de la Clase DocumentStatus</title>
+<title>KAVAC: Referencia de la clase DocumentStatus</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -17,7 +17,7 @@
 <script type="text/javascript" src="../../search/searchdata.js"></script>
 <script type="text/javascript" src="../../search/search.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
   $(document).ready(function() { init_search(); });
 /* @license-end */
 </script>
@@ -29,21 +29,17 @@
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr style="height: 56px;">
+ <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../logo-doc.png"/></td>
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">KAVAC
-   &#160;<span id="projectnumber">v1.0.4</span>
+  <td id="projectalign">
+   <div id="projectname">KAVAC<span id="projectnumber">&#160;v1.0.5</span>
    </div>
    <div id="projectbrief">Sistema de Gestión Organizacional</div>
   </td>
-   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
-          <img id="MSearchSelect" src="../../search/mag_sel.svg"
-               onmouseover="return searchBox.OnSearchSelectShow()"
-               onmouseout="return searchBox.OnSearchSelectHide()"
-               alt=""/>
-          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Buscar" accesskey="S"
                onfocus="searchBox.OnSearchFieldFocus(true)" 
                onblur="searchBox.OnSearchFieldFocus(false)" 
                onkeyup="searchBox.OnSearchFieldChange(event)"/>
@@ -57,10 +53,10 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Generado por Doxygen 1.9.1 -->
+<!-- Generado por Doxygen 1.9.8 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-var searchBox = new SearchBox("searchBox", "../../search",false,'Buscar','.html');
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
 /* @license-end */
 </script>
 </div><!-- top -->
@@ -75,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Buscar','.html'
   </div>
 </div>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(document).ready(function(){initNavTree('dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html','../../'); initResizable(); });
 /* @license-end */
 </script>
@@ -89,9 +85,16 @@ $(document).ready(function(){initNavTree('dc/d61/classModules_1_1Purchase_1_1Mod
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
-<iframe src="javascript:void(0)" frameborder="0" 
-        name="MSearchResults" id="MSearchResults">
-</iframe>
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
 </div>
 
 <div class="header">
@@ -99,77 +102,83 @@ $(document).ready(function(){initNavTree('dc/d61/classModules_1_1Purchase_1_1Mod
 <a href="#pub-methods">Métodos públicos</a> &#124;
 <a href="#pro-static-methods">Métodos protegidos estáticos</a> &#124;
 <a href="#pro-attribs">Atributos protegidos</a>  </div>
-  <div class="headertitle">
-<div class="title">Referencia de la Clase DocumentStatus</div>  </div>
+  <div class="headertitle"><div class="title">Referencia de la clase DocumentStatus</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Modelo que extiende las funcionalidades del modelo base <a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus.">DocumentStatus</a>.  
+<p>Modelo que extiende las funcionalidades del modelo base DocumentStatus.  
  <a href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html#details">Más...</a></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Diagrama de herencias de DocumentStatus</div>
+  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Diagrama de herencia de DocumentStatus</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../db/d06/classModules_1_1Purchase_1_1Models_1_1DocumentStatus__inherit__graph.png" border="0" usemap="#aDocumentStatus_inherit__map" alt="Inheritance graph"/></div>
 <map name="aDocumentStatus_inherit__map" id="aDocumentStatus_inherit__map">
-<area shape="rect" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus." alt="" coords="5,5,257,112"/>
+<area shape="rect" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus." alt="" coords="5,199,248,304"/>
+<area shape="rect" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html" title="Datos de estatus de documentos." alt="" coords="56,5,197,151"/>
+<area shape="poly" title=" " alt="" coords="129,164,129,199,124,199,124,164"/>
 </map>
 </div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="../../closed.png" alt="+"/> Diagrama de colaboración para DocumentStatus:</div>
+  <img id="dynsection-1-trigger" src="../../closed.png" alt="+"/> Diagrama de colaboración de DocumentStatus:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../dd/dea/classModules_1_1Purchase_1_1Models_1_1DocumentStatus__coll__graph.png" border="0" usemap="#aDocumentStatus_coll__map" alt="Collaboration graph"/></div>
 <map name="aDocumentStatus_coll__map" id="aDocumentStatus_coll__map">
-<area shape="rect" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus." alt="" coords="5,5,257,112"/>
+<area shape="rect" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus." alt="" coords="5,199,248,304"/>
+<area shape="rect" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html" title="Datos de estatus de documentos." alt="" coords="56,5,197,151"/>
+<area shape="poly" title=" " alt="" coords="129,164,129,199,124,199,124,164"/>
 </map>
 </div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Métodos públicos</h2></td></tr>
-<tr class="memitem:ad4f062e07ab5ba9dd1a922f901640cb6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html#ad4f062e07ab5ba9dd1a922f901640cb6">budgetCompromise</a> ()</td></tr>
-<tr class="memdesc:ad4f062e07ab5ba9dd1a922f901640cb6"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus.">DocumentStatus</a> has many <a class="el" href="../../d2/d0d/classModules_1_1Purchase_1_1Models_1_1BudgetCompromise.html" title="Extension de la clase BudgetCompromise del modulo de presupuesto.">BudgetCompromise</a>.  <a href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html#ad4f062e07ab5ba9dd1a922f901640cb6">Más...</a><br /></td></tr>
+<tr class="memitem:ad4f062e07ab5ba9dd1a922f901640cb6" id="r_ad4f062e07ab5ba9dd1a922f901640cb6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html#ad4f062e07ab5ba9dd1a922f901640cb6">budgetCompromise</a> ()</td></tr>
+<tr class="memdesc:ad4f062e07ab5ba9dd1a922f901640cb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Establece la relación con los compromisos presupuestarios del módulo de presupuesto si esta presente.  <br /></td></tr>
 <tr class="separator:ad4f062e07ab5ba9dd1a922f901640cb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6545e47146f2f66caaae9909e28f4ab7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html#a6545e47146f2f66caaae9909e28f4ab7">budgetModifications</a> ()</td></tr>
-<tr class="memdesc:a6545e47146f2f66caaae9909e28f4ab7"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus.">DocumentStatus</a> has many BudgetModifications.  <a href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html#a6545e47146f2f66caaae9909e28f4ab7">Más...</a><br /></td></tr>
+<tr class="memitem:a6545e47146f2f66caaae9909e28f4ab7" id="r_a6545e47146f2f66caaae9909e28f4ab7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html#a6545e47146f2f66caaae9909e28f4ab7">budgetModifications</a> ()</td></tr>
+<tr class="memdesc:a6545e47146f2f66caaae9909e28f4ab7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Establece la relación con las modificaciones presupuestarias del módulo de presupuesto si esta presente.  <br /></td></tr>
 <tr class="separator:a6545e47146f2f66caaae9909e28f4ab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6b2f1229cf2736754c1f809a6535582"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html#ae6b2f1229cf2736754c1f809a6535582">budgetSubSpecificFormulations</a> ()</td></tr>
-<tr class="memdesc:ae6b2f1229cf2736754c1f809a6535582"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus.">DocumentStatus</a> has many BudgetSubSpecificFormulations.  <a href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html#ae6b2f1229cf2736754c1f809a6535582">Más...</a><br /></td></tr>
+<tr class="memitem:ae6b2f1229cf2736754c1f809a6535582" id="r_ae6b2f1229cf2736754c1f809a6535582"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html#ae6b2f1229cf2736754c1f809a6535582">budgetSubSpecificFormulations</a> ()</td></tr>
+<tr class="memdesc:ae6b2f1229cf2736754c1f809a6535582"><td class="mdescLeft">&#160;</td><td class="mdescRight">Establece la relación con las formulaciones presupuestarias del módulo de presupuesto si esta presente.  <br /></td></tr>
 <tr class="separator:ae6b2f1229cf2736754c1f809a6535582"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4065c4b0be84da8918b26ba9ae6f00ce" id="r_a4065c4b0be84da8918b26ba9ae6f00ce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a4065c4b0be84da8918b26ba9ae6f00ce">scopeGetStatus</a> ($query, $status, $operator=null)</td></tr>
+<tr class="memdesc:a4065c4b0be84da8918b26ba9ae6f00ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene el estatus del documento según los filtros indicados.  <br /></td></tr>
+<tr class="separator:a4065c4b0be84da8918b26ba9ae6f00ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-static-methods" name="pro-static-methods"></a>
 Métodos protegidos estáticos</h2></td></tr>
-<tr class="memitem:a1c673073300a0bd31d4a668fe4439191"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a1c673073300a0bd31d4a668fe4439191">boot</a> ()</td></tr>
-<tr class="memdesc:a1c673073300a0bd31d4a668fe4439191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ejecuta acciones generales del modelo.  <a href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a1c673073300a0bd31d4a668fe4439191">Más...</a><br /></td></tr>
+<tr class="memitem:a1c673073300a0bd31d4a668fe4439191" id="r_a1c673073300a0bd31d4a668fe4439191"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a1c673073300a0bd31d4a668fe4439191">boot</a> ()</td></tr>
+<tr class="memdesc:a1c673073300a0bd31d4a668fe4439191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ejecuta acciones generales del modelo.  <br /></td></tr>
 <tr class="separator:a1c673073300a0bd31d4a668fe4439191"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Atributos protegidos</h2></td></tr>
-<tr class="memitem:a6ed295a3b7371b42773cab86fd367af8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a6ed295a3b7371b42773cab86fd367af8">$dates</a> = ['deleted_at']</td></tr>
-<tr class="memdesc:a6ed295a3b7371b42773cab86fd367af8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lista de atributos para la gestión de fechas.  <a href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a6ed295a3b7371b42773cab86fd367af8">Más...</a><br /></td></tr>
+<tr class="memitem:a6ed295a3b7371b42773cab86fd367af8" id="r_a6ed295a3b7371b42773cab86fd367af8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a6ed295a3b7371b42773cab86fd367af8">$dates</a> = ['deleted_at']</td></tr>
+<tr class="memdesc:a6ed295a3b7371b42773cab86fd367af8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lista de atributos para la gestión de fechas.  <br /></td></tr>
 <tr class="separator:a6ed295a3b7371b42773cab86fd367af8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13601d3af66d109458e268a3eb4afc49"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a13601d3af66d109458e268a3eb4afc49">$fillable</a> = ['name', 'description', 'color', 'action']</td></tr>
-<tr class="memdesc:a13601d3af66d109458e268a3eb4afc49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lista de atributos que pueden ser asignados masivamente.  <a href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a13601d3af66d109458e268a3eb4afc49">Más...</a><br /></td></tr>
+<tr class="memitem:a13601d3af66d109458e268a3eb4afc49" id="r_a13601d3af66d109458e268a3eb4afc49"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a13601d3af66d109458e268a3eb4afc49">$fillable</a> = ['name', 'description', 'color', 'action']</td></tr>
+<tr class="memdesc:a13601d3af66d109458e268a3eb4afc49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lista de atributos que pueden ser asignados masivamente.  <br /></td></tr>
 <tr class="separator:a13601d3af66d109458e268a3eb4afc49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2fea3b5f0fc46082dae25ed3e20d294b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a2fea3b5f0fc46082dae25ed3e20d294b">$hidden</a> = ['created_at', 'updated_at', 'deleted_at']</td></tr>
-<tr class="memdesc:a2fea3b5f0fc46082dae25ed3e20d294b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Oculta los campos de fechas de creación, actualización y eliminación.  <a href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a2fea3b5f0fc46082dae25ed3e20d294b">Más...</a><br /></td></tr>
+<tr class="memitem:a2fea3b5f0fc46082dae25ed3e20d294b" id="r_a2fea3b5f0fc46082dae25ed3e20d294b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a2fea3b5f0fc46082dae25ed3e20d294b">$hidden</a> = ['created_at', 'updated_at', 'deleted_at']</td></tr>
+<tr class="memdesc:a2fea3b5f0fc46082dae25ed3e20d294b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Oculta los campos de fechas de creación, actualización y eliminación.  <br /></td></tr>
 <tr class="separator:a2fea3b5f0fc46082dae25ed3e20d294b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adab5438224e48204d162e89b273b36b3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#adab5438224e48204d162e89b273b36b3">$table</a> = 'document_status'</td></tr>
-<tr class="memdesc:adab5438224e48204d162e89b273b36b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de la tabla a usar en la base de datos.  <a href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#adab5438224e48204d162e89b273b36b3">Más...</a><br /></td></tr>
+<tr class="memitem:adab5438224e48204d162e89b273b36b3" id="r_adab5438224e48204d162e89b273b36b3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dec/classApp_1_1Models_1_1DocumentStatus.html#adab5438224e48204d162e89b273b36b3">$table</a> = 'document_status'</td></tr>
+<tr class="memdesc:adab5438224e48204d162e89b273b36b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de la tabla a usar en la base de datos.  <br /></td></tr>
 <tr class="separator:adab5438224e48204d162e89b273b36b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Descripción detallada</h2>
-<div class="textblock"><p>Modelo que extiende las funcionalidades del modelo base <a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus.">DocumentStatus</a>. </p>
-<p>Modelo que extiende las funcionalidades del modelo base <a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus.">DocumentStatus</a></p>
-<dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas <a href="#" onclick="location.href='mai'+'lto:'+'rva'+'rg'+'as@'+'ce'+'ndi'+'te'+'l.g'+'ob'+'.ve'; return false;">rvarg<span style="display: none;">.nosp@m.</span>as@c<span style="display: none;">.nosp@m.</span>endit<span style="display: none;">.nosp@m.</span>el.g<span style="display: none;">.nosp@m.</span>ob.ve</a> | <a href="#" onclick="location.href='mai'+'lto:'+'rol'+'da'+'ndv'+'g@'+'gma'+'il'+'.co'+'m'; return false;">rolda<span style="display: none;">.nosp@m.</span>ndvg<span style="display: none;">.nosp@m.</span>@gmai<span style="display: none;">.nosp@m.</span>l.co<span style="display: none;">.nosp@m.</span>m</a> </dd></dl>
-<dl class="section user"><dt>Licencia:</dt><dd>LICENCIA DE SOFTWARE CENDITEL  </dd></dl>
+<div class="textblock"><p>Modelo que extiende las funcionalidades del modelo base DocumentStatus. </p>
+<p>Modelo que extiende las funcionalidades del modelo base DocumentStatus</p>
+<dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas <a href="#" onclick="location.href='mai'+'lto:'+'rva'+'rg'+'as@'+'ce'+'ndi'+'te'+'l.g'+'ob'+'.ve'; return false;">rvarg<span class="obfuscator">.nosp@m.</span>as@c<span class="obfuscator">.nosp@m.</span>endit<span class="obfuscator">.nosp@m.</span>el.g<span class="obfuscator">.nosp@m.</span>ob.ve</a> | <a href="#" onclick="location.href='mai'+'lto:'+'rol'+'da'+'ndv'+'g@'+'gma'+'il'+'.co'+'m'; return false;">rolda<span class="obfuscator">.nosp@m.</span>ndvg<span class="obfuscator">.nosp@m.</span>@gmai<span class="obfuscator">.nosp@m.</span>l.co<span class="obfuscator">.nosp@m.</span>m</a></dd></dl>
+<dl class="section user"><dt>Licencia:</dt><dd><a href="http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/">LICENCIA DE SOFTWARE CENDITEL</a> </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html#l00020">20</a> del archivo <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html">modules/Purchase/Models/DocumentStatus.php</a>.</p>
-</div><h2 class="groupheader">Documentación de las funciones miembro</h2>
-<a id="a1c673073300a0bd31d4a668fe4439191"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c673073300a0bd31d4a668fe4439191">&#9670;&nbsp;</a></span>boot()</h2>
+<p class="definition">Definición en la línea <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html#l00019">19</a> del archivo <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html">modules/Purchase/Models/DocumentStatus.php</a>.</p>
+</div><h2 class="groupheader">Documentación de funciones miembro</h2>
+<a id="a1c673073300a0bd31d4a668fe4439191" name="a1c673073300a0bd31d4a668fe4439191"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c673073300a0bd31d4a668fe4439191">&#9670;&#160;</a></span>boot()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -195,17 +204,17 @@ Atributos protegidos</h2></td></tr>
 <dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas &lt;roldandvg at gmail.com&gt; | &lt;rvargas at cenditel.gob.ve&gt;</dd></dl>
 <dl class="section return"><dt>Devuelve</dt><dd>void </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html#l00071">71</a> del archivo <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html">app/Models/DocumentStatus.php</a>.</p>
-<div class="fragment"><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        parent::boot();</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        self::setCacheEvents(<span class="stringliteral">&#39;document_status&#39;</span>);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
+<p class="definition">Definición en la línea <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html#l00069">69</a> del archivo <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html">app/Models/DocumentStatus.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   70</span>    {</div>
+<div class="line"><span class="lineno">   71</span>        parent::boot();</div>
+<div class="line"><span class="lineno">   72</span> </div>
+<div class="line"><span class="lineno">   73</span>        self::setCacheEvents(<span class="stringliteral">&#39;document_status&#39;</span>);</div>
+<div class="line"><span class="lineno">   74</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="ad4f062e07ab5ba9dd1a922f901640cb6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4f062e07ab5ba9dd1a922f901640cb6">&#9670;&nbsp;</a></span>budgetCompromise()</h2>
+<a id="ad4f062e07ab5ba9dd1a922f901640cb6" name="ad4f062e07ab5ba9dd1a922f901640cb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4f062e07ab5ba9dd1a922f901640cb6">&#9670;&#160;</a></span>budgetCompromise()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -219,18 +228,20 @@ Atributos protegidos</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus.">DocumentStatus</a> has many <a class="el" href="../../d2/d0d/classModules_1_1Purchase_1_1Models_1_1BudgetCompromise.html" title="Extension de la clase BudgetCompromise del modulo de presupuesto.">BudgetCompromise</a>. </p>
+<p>Establece la relación con los compromisos presupuestarios del módulo de presupuesto si esta presente. </p>
 <dl class="section return"><dt>Devuelve</dt><dd>\Illuminate\Database\Eloquent\Relations\HasMany </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html#l00049">49</a> del archivo <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html">modules/Purchase/Models/DocumentStatus.php</a>.</p>
-<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">return</span> $this-&gt;hasMany(BudgetCompromise::class);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
+<p class="definition">Definición en la línea <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html#l00054">54</a> del archivo <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html">modules/Purchase/Models/DocumentStatus.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   55</span>    {</div>
+<div class="line"><span class="lineno">   56</span>        <span class="keywordflow">return</span> (</div>
+<div class="line"><span class="lineno">   57</span>            Module::has(<span class="stringliteral">&#39;Budget&#39;</span>) &amp;&amp; Module::isEnabled(<span class="stringliteral">&#39;Budget&#39;</span>)</div>
+<div class="line"><span class="lineno">   58</span>        ) ? $this-&gt;hasMany(BudgetCompromise::class) : [];</div>
+<div class="line"><span class="lineno">   59</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a6545e47146f2f66caaae9909e28f4ab7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6545e47146f2f66caaae9909e28f4ab7">&#9670;&nbsp;</a></span>budgetModifications()</h2>
+<a id="a6545e47146f2f66caaae9909e28f4ab7" name="a6545e47146f2f66caaae9909e28f4ab7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6545e47146f2f66caaae9909e28f4ab7">&#9670;&#160;</a></span>budgetModifications()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -244,19 +255,21 @@ Atributos protegidos</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus.">DocumentStatus</a> has many BudgetModifications. </p>
-<dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas <a href="#" onclick="location.href='mai'+'lto:'+'rva'+'rg'+'as@'+'ce'+'ndi'+'te'+'l.g'+'ob'+'.ve'; return false;">rvarg<span style="display: none;">.nosp@m.</span>as@c<span style="display: none;">.nosp@m.</span>endit<span style="display: none;">.nosp@m.</span>el.g<span style="display: none;">.nosp@m.</span>ob.ve</a> | <a href="#" onclick="location.href='mai'+'lto:'+'rol'+'da'+'ndv'+'g@'+'gma'+'il'+'.co'+'m'; return false;">rolda<span style="display: none;">.nosp@m.</span>ndvg<span style="display: none;">.nosp@m.</span>@gmai<span style="display: none;">.nosp@m.</span>l.co<span style="display: none;">.nosp@m.</span>m</a> </dd></dl>
+<p>Establece la relación con las modificaciones presupuestarias del módulo de presupuesto si esta presente. </p>
+<dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas <a href="#" onclick="location.href='mai'+'lto:'+'rva'+'rg'+'as@'+'ce'+'ndi'+'te'+'l.g'+'ob'+'.ve'; return false;">rvarg<span class="obfuscator">.nosp@m.</span>as@c<span class="obfuscator">.nosp@m.</span>endit<span class="obfuscator">.nosp@m.</span>el.g<span class="obfuscator">.nosp@m.</span>ob.ve</a> | <a href="#" onclick="location.href='mai'+'lto:'+'rol'+'da'+'ndv'+'g@'+'gma'+'il'+'.co'+'m'; return false;">rolda<span class="obfuscator">.nosp@m.</span>ndvg<span class="obfuscator">.nosp@m.</span>@gmai<span class="obfuscator">.nosp@m.</span>l.co<span class="obfuscator">.nosp@m.</span>m</a></dd></dl>
 <dl class="section return"><dt>Devuelve</dt><dd>\Illuminate\Database\Eloquent\Relations\HasMany </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html#l00039">39</a> del archivo <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html">modules/Purchase/Models/DocumentStatus.php</a>.</p>
-<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">return</span> $this-&gt;hasMany(BudgetModification::class);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
+<p class="definition">Definición en la línea <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html#l00042">42</a> del archivo <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html">modules/Purchase/Models/DocumentStatus.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>    {</div>
+<div class="line"><span class="lineno">   44</span>        <span class="keywordflow">return</span> (</div>
+<div class="line"><span class="lineno">   45</span>            Module::has(<span class="stringliteral">&#39;Budget&#39;</span>) &amp;&amp; Module::isEnabled(<span class="stringliteral">&#39;Budget&#39;</span>)</div>
+<div class="line"><span class="lineno">   46</span>        ) ? $this-&gt;hasMany(\Modules\Budget\Models\BudgetModification::class) : [];</div>
+<div class="line"><span class="lineno">   47</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="ae6b2f1229cf2736754c1f809a6535582"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6b2f1229cf2736754c1f809a6535582">&#9670;&nbsp;</a></span>budgetSubSpecificFormulations()</h2>
+<a id="ae6b2f1229cf2736754c1f809a6535582" name="ae6b2f1229cf2736754c1f809a6535582"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6b2f1229cf2736754c1f809a6535582">&#9670;&#160;</a></span>budgetSubSpecificFormulations()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -270,20 +283,84 @@ Atributos protegidos</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html" title="Modelo que extiende las funcionalidades del modelo base DocumentStatus.">DocumentStatus</a> has many BudgetSubSpecificFormulations. </p>
-<dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas <a href="#" onclick="location.href='mai'+'lto:'+'rva'+'rg'+'as@'+'ce'+'ndi'+'te'+'l.g'+'ob'+'.ve'; return false;">rvarg<span style="display: none;">.nosp@m.</span>as@c<span style="display: none;">.nosp@m.</span>endit<span style="display: none;">.nosp@m.</span>el.g<span style="display: none;">.nosp@m.</span>ob.ve</a> | <a href="#" onclick="location.href='mai'+'lto:'+'rol'+'da'+'ndv'+'g@'+'gma'+'il'+'.co'+'m'; return false;">rolda<span style="display: none;">.nosp@m.</span>ndvg<span style="display: none;">.nosp@m.</span>@gmai<span style="display: none;">.nosp@m.</span>l.co<span style="display: none;">.nosp@m.</span>m</a> </dd></dl>
+<p>Establece la relación con las formulaciones presupuestarias del módulo de presupuesto si esta presente. </p>
+<dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas <a href="#" onclick="location.href='mai'+'lto:'+'rva'+'rg'+'as@'+'ce'+'ndi'+'te'+'l.g'+'ob'+'.ve'; return false;">rvarg<span class="obfuscator">.nosp@m.</span>as@c<span class="obfuscator">.nosp@m.</span>endit<span class="obfuscator">.nosp@m.</span>el.g<span class="obfuscator">.nosp@m.</span>ob.ve</a> | <a href="#" onclick="location.href='mai'+'lto:'+'rol'+'da'+'ndv'+'g@'+'gma'+'il'+'.co'+'m'; return false;">rolda<span class="obfuscator">.nosp@m.</span>ndvg<span class="obfuscator">.nosp@m.</span>@gmai<span class="obfuscator">.nosp@m.</span>l.co<span class="obfuscator">.nosp@m.</span>m</a></dd></dl>
 <dl class="section return"><dt>Devuelve</dt><dd>\Illuminate\Database\Eloquent\Relations\HasMany </dd></dl>
 
 <p class="definition">Definición en la línea <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html#l00028">28</a> del archivo <a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html">modules/Purchase/Models/DocumentStatus.php</a>.</p>
-<div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">return</span> $this-&gt;hasMany(BudgetSubSpecificFormulation::class);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }</div>
+<div class="fragment"><div class="line"><span class="lineno">   29</span>    {</div>
+<div class="line"><span class="lineno">   30</span>        <span class="keywordflow">return</span> (</div>
+<div class="line"><span class="lineno">   31</span>            Module::has(<span class="stringliteral">&#39;Budget&#39;</span>) &amp;&amp; Module::isEnabled(<span class="stringliteral">&#39;Budget&#39;</span>)</div>
+<div class="line"><span class="lineno">   32</span>        ) ? $this-&gt;hasMany(\Modules\Budget\Models\BudgetSubSpecificFormulation::class) : [];</div>
+<div class="line"><span class="lineno">   33</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
-<h2 class="groupheader">Documentación de los campos</h2>
-<a id="a6ed295a3b7371b42773cab86fd367af8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ed295a3b7371b42773cab86fd367af8">&#9670;&nbsp;</a></span>$dates</h2>
+<a id="a4065c4b0be84da8918b26ba9ae6f00ce" name="a4065c4b0be84da8918b26ba9ae6f00ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4065c4b0be84da8918b26ba9ae6f00ce">&#9670;&#160;</a></span>scopeGetStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">scopeGetStatus </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$query</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$status</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$operator</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Obtiene el estatus del documento según los filtros indicados. </p>
+<dl class="section author"><dt>Autor</dt><dd>Ing. Roldan Vargas <a href="#" onclick="location.href='mai'+'lto:'+'rva'+'rg'+'as@'+'ce'+'ndi'+'te'+'l.g'+'ob'+'.ve'; return false;">rvarg<span class="obfuscator">.nosp@m.</span>as@c<span class="obfuscator">.nosp@m.</span>endit<span class="obfuscator">.nosp@m.</span>el.g<span class="obfuscator">.nosp@m.</span>ob.ve</a> | <a href="#" onclick="location.href='mai'+'lto:'+'rol'+'da'+'ndv'+'g@'+'gma'+'il'+'.co'+'m'; return false;">rolda<span class="obfuscator">.nosp@m.</span>ndvg<span class="obfuscator">.nosp@m.</span>@gmai<span class="obfuscator">.nosp@m.</span>l.co<span class="obfuscator">.nosp@m.</span>m</a></dd></dl>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">object</td><td class="paramname">$query</td><td>Objeto que contiene la consulta del modelo </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$status</td><td>Estatus por el cual filtrar la información </td></tr>
+    <tr><td class="paramtype">string&#160;|&#160;null</td><td class="paramname">$operator</td><td>Operador por el cual se va a filtrar los datos, el valor por defecto es '='</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>DocumentStatus Consulta filtrada </dd></dl>
+
+<p class="definition">Definición en la línea <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html#l00087">87</a> del archivo <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html">app/Models/DocumentStatus.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   88</span>    {</div>
+<div class="line"><span class="lineno">   89</span>        <span class="comment">// Define el operador por el cual filtrar la consulta, si no se indica el valor por defecto es &#39;=&#39;</span></div>
+<div class="line"><span class="lineno">   90</span>        $operator = (!is_null($operator)) ? $operator : <span class="stringliteral">&quot;=&quot;</span>;</div>
+<div class="line"><span class="lineno">   91</span> </div>
+<div class="line"><span class="lineno">   92</span>        <span class="keywordflow">return</span> $query-&gt;where(<span class="stringliteral">&#39;action&#39;</span>, $operator, $status)-&gt;first();</div>
+<div class="line"><span class="lineno">   93</span>    }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Documentación de campos</h2>
+<a id="a6ed295a3b7371b42773cab86fd367af8" name="a6ed295a3b7371b42773cab86fd367af8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ed295a3b7371b42773cab86fd367af8">&#9670;&#160;</a></span>$dates</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -304,12 +381,12 @@ Atributos protegidos</h2></td></tr>
 
 <p>Lista de atributos para la gestión de fechas. </p>
 
-<p class="definition">Definición en la línea <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html#l00048">48</a> del archivo <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html">app/Models/DocumentStatus.php</a>.</p>
+<p class="definition">Definición en la línea <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html#l00046">46</a> del archivo <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html">app/Models/DocumentStatus.php</a>.</p>
 
 </div>
 </div>
-<a id="a13601d3af66d109458e268a3eb4afc49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13601d3af66d109458e268a3eb4afc49">&#9670;&nbsp;</a></span>$fillable</h2>
+<a id="a13601d3af66d109458e268a3eb4afc49" name="a13601d3af66d109458e268a3eb4afc49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13601d3af66d109458e268a3eb4afc49">&#9670;&#160;</a></span>$fillable</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -330,12 +407,12 @@ Atributos protegidos</h2></td></tr>
 
 <p>Lista de atributos que pueden ser asignados masivamente. </p>
 
-<p class="definition">Definición en la línea <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html#l00055">55</a> del archivo <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html">app/Models/DocumentStatus.php</a>.</p>
+<p class="definition">Definición en la línea <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html#l00053">53</a> del archivo <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html">app/Models/DocumentStatus.php</a>.</p>
 
 </div>
 </div>
-<a id="a2fea3b5f0fc46082dae25ed3e20d294b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2fea3b5f0fc46082dae25ed3e20d294b">&#9670;&nbsp;</a></span>$hidden</h2>
+<a id="a2fea3b5f0fc46082dae25ed3e20d294b" name="a2fea3b5f0fc46082dae25ed3e20d294b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fea3b5f0fc46082dae25ed3e20d294b">&#9670;&#160;</a></span>$hidden</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -356,12 +433,12 @@ Atributos protegidos</h2></td></tr>
 
 <p>Oculta los campos de fechas de creación, actualización y eliminación. </p>
 
-<p class="definition">Definición en la línea <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html#l00062">62</a> del archivo <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html">app/Models/DocumentStatus.php</a>.</p>
+<p class="definition">Definición en la línea <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html#l00060">60</a> del archivo <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html">app/Models/DocumentStatus.php</a>.</p>
 
 </div>
 </div>
-<a id="adab5438224e48204d162e89b273b36b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adab5438224e48204d162e89b273b36b3">&#9670;&nbsp;</a></span>$table</h2>
+<a id="adab5438224e48204d162e89b273b36b3" name="adab5438224e48204d162e89b273b36b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adab5438224e48204d162e89b273b36b3">&#9670;&#160;</a></span>$table</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -382,11 +459,11 @@ Atributos protegidos</h2></td></tr>
 
 <p>Nombre de la tabla a usar en la base de datos. </p>
 
-<p class="definition">Definición en la línea <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html#l00041">41</a> del archivo <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html">app/Models/DocumentStatus.php</a>.</p>
+<p class="definition">Definición en la línea <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html#l00039">39</a> del archivo <a class="el" href="../../dd/d30/app_2Models_2DocumentStatus_8php_source.html">app/Models/DocumentStatus.php</a>.</p>
 
 </div>
 </div>
-<hr/>La documentación para esta clase fue generada a partir del siguiente fichero:<ul>
+<hr/>La documentación de esta clase está generada del siguiente archivo:<ul>
 <li><a class="el" href="../../d8/d8c/modules_2Purchase_2Models_2DocumentStatus_8php_source.html">modules/Purchase/Models/DocumentStatus.php</a></li>
 </ul>
 </div><!-- contents -->
@@ -394,8 +471,8 @@ Atributos protegidos</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>Modules</b></li><li class="navelem"><b>Purchase</b></li><li class="navelem"><a class="el" href="../../dd/dcd/namespaceModules_1_1Purchase_1_1Models.html">Models</a></li><li class="navelem"><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html">DocumentStatus</a></li>
-    <li class="footer">Generado el Sábado, 4 de Noviembre de 2023 16:16:46 para KAVAC por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="navelem"><b>Modules</b></li><li class="navelem"><b>Purchase</b></li><li class="navelem"><b>Models</b></li><li class="navelem"><a class="el" href="../../dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html">DocumentStatus</a></li>
+    <li class="footer">Generado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

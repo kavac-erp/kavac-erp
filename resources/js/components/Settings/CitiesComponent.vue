@@ -37,7 +37,7 @@
                                 <div class="form-group" v-show="editCities == 'true'">
                                     <label>Estados:</label>
                                     <select class="form-control select2 pb-2" v-model="record.estate_id">
-                                        <option :value="ste.id" :selected="ste.id == record.estate_id" 
+                                        <option :value="ste.id" :selected="ste.id == record.estate_id"
 												v-for="ste in estates" :key="ste.id">
                                                 {{ ste.text }}
                                         </option>
@@ -148,7 +148,7 @@
              */
             initUpdate(id, event) {
                 let vm = this;
-                vm.editCities = 'true'; 
+                vm.editCities = 'true';
                 vm.errors = [];
                 let recordEdit = JSON.parse(JSON.stringify(vm.records.filter((rec) => {
                     return rec.id === id;
@@ -162,7 +162,7 @@
             }
 		},
 		created() {
-			this.editCities = 'false'; 
+			this.editCities = 'false';
 			this.table_options.headings = {
 				'estate.name': 'Estado',
 				'name': 'Ciudad',
@@ -178,7 +178,7 @@
 		},
 		mounted() {
 			const vm = this;
-			vm.editCities = 'false'; 
+			vm.editCities = 'false';
 			$("#add_city").on('show.bs.modal', function() {
 				vm.getCountries();
 			});

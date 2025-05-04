@@ -15,9 +15,9 @@ use Modules\Payroll\Models\PayrollSectorType;
  * Clase que gestiona los tipos de sector
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 
 class PayrollSectorTypeController extends Controller
@@ -28,10 +28,12 @@ class PayrollSectorTypeController extends Controller
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         /*$this->middleware('permission:payroll.sector.types.list', ['only' => 'index']);*/
         $this->middleware('permission:payroll.sector.types.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.sector.types.edit', ['only' => ['edit', 'update']]);
@@ -42,6 +44,7 @@ class PayrollSectorTypeController extends Controller
      * Muestra todos los registros de tipos de sector
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de los tipos de sector
      */
     public function index()
@@ -50,8 +53,9 @@ class PayrollSectorTypeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar un nuevo tipo de sector
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -62,7 +66,9 @@ class PayrollSectorTypeController extends Controller
      * Valida y registra un nuevo tipo de sector
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
+     *
      * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
@@ -76,8 +82,9 @@ class PayrollSectorTypeController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información del tipo de sector
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -85,8 +92,9 @@ class PayrollSectorTypeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar el tipo de sector
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -97,8 +105,10 @@ class PayrollSectorTypeController extends Controller
      * Actualiza la información del tipo de sector
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
      * @param  integer $id                          Identificador del tipo de sector a actualizar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con mensaje de confirmación de la operación
      */
     public function update(Request $request)
@@ -117,7 +127,9 @@ class PayrollSectorTypeController extends Controller
      * Elimina el tipo de sector
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador del tipo de sector a eliminar
+     *
      * @return \Illuminate\Http\JsonResponse    Json con mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -131,6 +143,7 @@ class PayrollSectorTypeController extends Controller
      * Obtiene los tipos de sector
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de los tipos de sector
      */
     public function getPayrollSectorTypes()

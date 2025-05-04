@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos de talento humano de base de datos */
-
 namespace Modules\Payroll\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Illuminate\Validation\Rules\In;
 
 /**
  * @class PayrollRelationship
@@ -29,13 +28,25 @@ class PayrollRelationship extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'description'];
+
+    /**
+     * Método que obtiene el ID del parentesco de tipo Hijo(a)
+     *
+     * @return int ID
+     */
+    public static function scopeChildrenId()
+    {
+        return self::where('name', 'Hijo(a)')->value('id');
+    }
 }

@@ -2,42 +2,111 @@
 
 namespace Modules\Purchase\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use App\Models\Country;
-use App\Models\Estate;
-use App\Models\RequiredDocument;
 use App\Models\Phone;
+use App\Models\Estate;
 use App\Models\Contact;
-use App\Repositories\UploadDocRepository;
+use App\Models\Country;
+use Illuminate\Http\Request;
 use App\Rules\Rif as RifRule;
-use Modules\Purchase\Models\PurchaseDocumentRequiredDocument;
+use App\Models\RequiredDocument;
+use Modules\Purchase\Models\City;
+use Illuminate\Routing\Controller;
+use Nwidart\Modules\Facades\Module;
+use App\Repositories\UploadDocRepository;
+use Modules\Purchase\Models\PurchaseSupplier;
+use Modules\Purchase\Models\PurchaseSupplierType;
 use Modules\Purchase\Models\PurchaseSupplierBranch;
 use Modules\Purchase\Models\PurchaseSupplierObject;
 use Modules\Purchase\Models\PurchaseSupplierSpecialty;
-use Modules\Purchase\Models\PurchaseSupplierType;
-use Modules\Purchase\Models\PurchaseSupplier;
-use Modules\Purchase\Models\City;
-use Modules\Accounting\Models\AccountingAccount;
-use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Modules\Purchase\Models\PurchaseDocumentRequiredDocument;
 
+/**
+ * @class PurchaseSupplierController
+ * @brief Gestiona los procesos para los registros de proveedores
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseSupplierController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Listado de Paises
+     *
+     * @var array $countries
+     */
     protected $countries;
+
+    /**
+     * Listado de Estados
+     *
+     * @var array $estates
+     */
     protected $estates;
+
+    /**
+     * Listado de Ciudades
+     *
+     * @var array $cities
+     */
     protected $cities;
+
+    /**
+     * Listado de Proveedores
+     *
+     * @var array $supplier
+     */
     protected $supplier;
+
+    /**
+     * Listado de tipos de proveedores
+     *
+     * @var array $supplier_types
+     */
     protected $supplier_types;
+
+    /**
+     * Listado de ramas de proveedores
+     *
+     * @var array $supplier_branches
+     */
     protected $supplier_branches;
+
+    /**
+     * Listado de especialidades de proveedores
+     *
+     * @var array $supplier_specialties
+     */
     protected $supplier_specialties;
+
+    /**
+     * Listado de objetos de proveedores
+     *
+     * @var array $supplier_objects
+     */
     protected $supplier_objects;
+
+    /**
+     * Listado de requerimientos de documentos
+     *
+     * @var array $requiredDocuments
+     */
     protected $requiredDocuments;
+
+    /**
+     * Listado de cuentas contables
+     *
+     * @var array $accounting_accounts
+     */
     protected $accounting_accounts;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('permission:purchase.supplier.list', ['only' => 'index', 'vueList']);
@@ -53,12 +122,14 @@ class PurchaseSupplierController extends Controller
         $this->supplier_types = template_choices(PurchaseSupplierType::class);
         $this->supplier_branches = template_choices(PurchaseSupplierBranch::class);
         $this->supplier_specialties = template_choices(PurchaseSupplierSpecialty::class);
-        $this->accounting_accounts = template_choices(
-            AccountingAccount::class,
+        $this->accounting_accounts = (
+            Module::has('Accounting') && Module::isEnabled('Accounting')
+        ) ? template_choices(
+            \Modules\Accounting\Models\AccountingAccount::class,
             ['code', '-', 'denomination' ],
             ['active' => 't'],
             false
-        );
+        ) : ['' => 'Seleccione...'];
 
         $supplier_objects = ['Bienes' => [], 'Obras' => [], 'Servicios' => []];
         $assets = $works = $services = [];
@@ -73,8 +144,9 @@ class PurchaseSupplierController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Muestra el listado de proveedores
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -82,8 +154,9 @@ class PurchaseSupplierController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar un nuevo proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -93,51 +166,57 @@ class PurchaseSupplierController extends Controller
             'role' => 'form',
             'enctype' => 'multipart/form-data'
         ];
-        $accountings = AccountingAccount::where(['active' => true])
-            ->orderBy('group')
-            ->orderBy('subgroup')
-            ->orderBy('item')
-            ->orderBy('generic')
-            ->orderBy('specific')
-            ->orderBy('subspecific')
-            ->orderBy('institutional')
-            ->toBase()->get();
-            $options = ['' => 'Seleccione...'];
-        /** @var Array Arreglo con el listado de opciones de cuentas patrimoniales a seleccionar */
-        foreach ($accountings as $rec) {
-            $options[$rec->id] = "{$rec->group}.{$rec->subgroup}.{$rec->item}.{$rec->generic}.{$rec->specific}.{$rec->subspecific}.{$rec->institutional} - {$rec->denomination}";
+
+        /* Arreglo con el listado de opciones de cuentas patrimoniales a seleccionar */
+        $options = ['' => 'Seleccione...'];
+
+        if (Module::has('Accounting') && Module::isEnabled('Accounting')) {
+            $accountings = \Modules\Accounting\Models\AccountingAccount::where(['active' => true])
+                ->orderBy('group')
+                ->orderBy('subgroup')
+                ->orderBy('item')
+                ->orderBy('generic')
+                ->orderBy('specific')
+                ->orderBy('subspecific')
+                ->orderBy('institutional')
+                ->toBase()->get();
+
+            foreach ($accountings as $rec) {
+                $options[$rec->id] = "{$rec->group}.{$rec->subgroup}.{$rec->item}.{$rec->generic}.{$rec->specific}.{$rec->subspecific}.{$rec->institutional} - {$rec->denomination}";
+            }
         }
         return view('purchase::suppliers.create-edit-form', [
-            'countries' => $this->countries, 'estates' => $this->estates, 'cities' => $this->cities,
-            'supplier_types' => $this->supplier_types, 'supplier_objects' => $this->supplier_objects,
-            'supplier_branches' => $this->supplier_branches, 'supplier_specialties' => $this->supplier_specialties,
-            'header' => $header, 'requiredDocuments' => $this->requiredDocuments,
+            'countries' => $this->countries,
+            'estates' => $this->estates,
+            'cities' => $this->cities,
+            'supplier_types' => $this->supplier_types,
+            'supplier_objects' => $this->supplier_objects,
+            'supplier_branches' => $this->supplier_branches,
+            'supplier_specialties' => $this->supplier_specialties,
+            'header' => $header,
+            'requiredDocuments' => $this->requiredDocuments,
             'accounting_accounts' => $options
         ]);
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Almacena un nuevo proveedor
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, UploadDocRepository $upDoc)
     {
-        /**
-         * Validación de que el rif que viene por $request sea único en la base
-         * de datos tomando en cuenta mayúsculas y minúsculas.
-         *
-         * @author    Argenis Osorio <aosorio@cenditel.gob.ve>
-         *
+        /*
+         | Validación de que el rif que viene por $request sea único en la base
+         | de datos tomando en cuenta mayúsculas y minúsculas.
          */
         $rifSupplier = PurchaseSupplier::whereRaw("LOWER(rif) = ?", strtolower($request->rif))->first();
 
-        /**
-         * Validación de que el rif que viene por $request y el tipo de persona
-         * coincidan.
-         *
-         * @author    Argenis Osorio <aosorio@cenditel.gob.ve>
-         *
+        /*
+         | Validación de que el rif que viene por $request y el tipo de persona
+         | coincidan.
          */
         $primeraLetraRif = '';
         if ($request->rif) {
@@ -162,14 +241,15 @@ class PurchaseSupplierController extends Controller
                 'required',
                 'size:10',
                 new RifRule(),
-                Rule::when($rifSupplier, function ($attribute, $value, $fail) {
+                $rifSupplier ? function ($attribute, $value, $fail) {
                     $fail('El campo rif ya ha sido registrado.');
-                }),
-                Rule::when($validateTypePersonRif === false, function ($attribute, $value, $fail) {
+                } : [],
+                !$validateTypePersonRif ? function ($attribute, $value, $fail) {
                     $fail('El tipo de persona y el rif introducido no coinciden.');
-                }),
+                } : [],
             ],
             'name'                           => ['required'],
+            'file_number'                    => ['required', 'unique:purchase_suppliers,file_number'],
             'purchase_supplier_type_id'      => ['required'],
             'purchase_supplier_object_id'    => ['required'],
             'purchase_supplier_branch_id'    => ['required'],
@@ -193,6 +273,8 @@ class PurchaseSupplierController extends Controller
             'company_type.required'                   => 'El campo tipo de empresa es obligatorio.',
             'rif.required'                            => 'El campo rif es obligatorio.',
             'name.required'                           => 'El campo nombre es obligatorio.',
+            'file_number.required'                    => 'El campo número de expediente es obligatorio.',
+            'file_number.unique'                      => 'El número de expediente ya ha sido registrado.',
             'purchase_supplier_type_id.required'      => 'El campo denominación comercial es obligatorio.',
             'purchase_supplier_object_id.required'    => 'El campo objeto principal es obligatorio.',
             'purchase_supplier_branch_id.required'    => 'El campo rama es obligatorio.',
@@ -207,9 +289,7 @@ class PurchaseSupplierController extends Controller
             'empty_phone_info.required'               => 'Los campos de nùmeros telefònicos son obligatorios.',
         ];
 
-        /**
-         * Se verifica que no tenga informaciòn en los campos de nùmeros telefònicos
-         */
+        /* Se verifica que no tenga información en los campos de nùmeros telefónicos */
         if (array_key_exists("phone_type", $request->all())) {
             foreach ($request->phone_type as $key => $value) {
                 if (!$value || !$request->phone_area_code[$key] || !$request->phone_number[$key]) {
@@ -220,9 +300,7 @@ class PurchaseSupplierController extends Controller
             }
         }
 
-        /**
-         * Se verifica que no tenga informaciòn en los campos de contacto
-         */
+        /* Se verifica que no tenga información en los campos de contacto */
         if (array_key_exists("contact_names", $request->all())) {
             foreach ($request->contact_names as $key => $value) {
                 if (!$value || !$request->contact_emails[$key]) {
@@ -235,19 +313,16 @@ class PurchaseSupplierController extends Controller
 
         $this->validate($request, $rules, $messages);
 
-        //$supplier = PurchaseSupplier::first();
         $supplier = PurchaseSupplier::create([
             'person_type'                    => $request->person_type,
             'company_type'                   => $request->company_type,
             'rif'                            => $request->rif,
             'code'                           => generate_code(PurchaseSupplier::class, 'code'),
             'name'                           => $request->name,
+            'file_number'                    => $request->file_number,
             'direction'                      => $request->direction,
             'website'                        => $request->website ?? null,
             'active'                         => $request->active ? true : false,
-            // 'purchase_supplier_object_id'    => $request->purchase_supplier_object_id,
-            //'purchase_supplier_branch_id'    => $request->purchase_supplier_branch_id,
-            //'purchase_supplier_specialty_id' => $request->purchase_supplier_specialty_id,
             'purchase_supplier_type_id'      => $request->purchase_supplier_type_id,
             'accounting_account_id'          => $request->accounting_account_id,
             'country_id'                     => $request->country_id,
@@ -258,17 +333,17 @@ class PurchaseSupplierController extends Controller
             'social_purpose'                 => $request->social_purpose,
         ]);
 
-        /** sincroniza la relacion en la tabla pivote de purchase_object_supplier **/
+        /* sincroniza la relacion en la tabla pivote de purchase_object_supplier */
         $supplier->purchaseSupplierObjects()->sync($request->purchase_supplier_object_id);
 
-        /** sincroniza la relacion en la tabla pivote de purchase_branch_supplier **/
+        /* sincroniza la relacion en la tabla pivote de purchase_branch_supplier */
         $supplier->purchaseSupplierBranch()->sync($request->purchase_supplier_branch_id);
 
-        /** sincroniza la relacion en la tabla pivote de purchase_specialty_supplier **/
+        /* sincroniza la relacion en la tabla pivote de purchase_specialty_supplier */
         $supplier->purchaseSupplierSpecialty()->sync($request->purchase_supplier_specialty_id);
 
 
-        /** Registros asociados a contactos */
+        /* Registros asociados a contactos */
         if ($request->contact_names && !empty($request->contact_names)) {
             foreach ($request->contact_names as $key => $contact) {
                 $supplier->contacts()->save(new Contact([
@@ -278,7 +353,7 @@ class PurchaseSupplierController extends Controller
             }
         }
 
-        /** Asociación de números telefónicos */
+        /* Asociación de números telefónicos */
         if ($request->phone_type && !empty($request->phone_type)) {
             foreach ($request->phone_type as $key => $phone_type) {
                 $supplier->phones()->save(new Phone([
@@ -290,25 +365,21 @@ class PurchaseSupplierController extends Controller
             }
         }
 
-        /** Registro y asociación de documentos */
+        /* Registro y asociación de documentos */
         $documentFormat = ['doc', 'docx', 'pdf', 'odt'];
         if ($request->file('docs')) {
             foreach ($request->file('docs') as $key => $file) {
                 $extensionFile = $file->getClientOriginalExtension();
 
                 if (in_array($extensionFile, $documentFormat)) {
-                    /**
-                     * Se guarda el archivo y se almacena
-                     */
+                    /* Se guarda el archivo y se almacena */
                     $upDoc->uploadDoc(
                         $file,
                         'documents',
                         PurchaseSupplier::class,
                         $supplier->id
                     );
-                    /**
-                     * Se almacena la relacion entre documentos y documentos requeridos en tabla pivote
-                     */
+                    /* Se almacena la relacion entre documentos y documentos requeridos en tabla pivote */
                     if ($upDoc->getDocStored()) {
                         PurchaseDocumentRequiredDocument::create([
                             'document_id' => $upDoc->getDocStored()->id,
@@ -323,8 +394,9 @@ class PurchaseSupplierController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un proveedor
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -336,24 +408,25 @@ class PurchaseSupplierController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Obtiene un listado de proveedores
+     *
+     * @return array
      */
     public function showall()
     {
         return template_choices(PurchaseSupplier::class, 'name', '', true);
     }
+
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar un proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
         $model = PurchaseSupplier::with('documents.purchaseDocumentRequiredDocument')->find($id);
-        /**
-         * Variable para almacenar los identificadores de documentos existentes
-         * para habilitar su descarga
-        */
+        /* Variable para almacenar los identificadores de documentos existentes
+        para habilitar su descarga */
         $docs_to_download = [];
 
         foreach ($model->documents as $doc) {
@@ -384,21 +457,30 @@ class PurchaseSupplierController extends Controller
         ];
 
         return view('purchase::suppliers.create-edit-form', [
-            'countries' => $this->countries, 'estates' => $this->estates, 'cities' => $this->cities,
-            'supplier_types' => $this->supplier_types, 'supplier_objects' => $this->supplier_objects,
-            'supplier_branches' => $this->supplier_branches, 'supplier_specialties' => $this->supplier_specialties,
+            'countries' => $this->countries,
+            'estates' => $this->estates,
+            'cities' => $this->cities,
+            'supplier_types' => $this->supplier_types,
+            'supplier_objects' => $this->supplier_objects,
+            'supplier_branches' => $this->supplier_branches,
+            'supplier_specialties' => $this->supplier_specialties,
             'model_supplier_branches' => $purchase_supplier_branch,
             'model_supplier_specialties' => $purchase_supplier_specialty,
-            'header' => $header, 'requiredDocuments' => $this->requiredDocuments, 'model' => $model,
-            'model_supplier_objects' => $purchase_supplier_objects, 'docs_to_download' => $docs_to_download,
+            'header' => $header,
+            'requiredDocuments' => $this->requiredDocuments,
+            'model' => $model,
+            'model_supplier_objects' => $purchase_supplier_objects,
+            'docs_to_download' => $docs_to_download,
             'accounting_accounts' => $this->accounting_accounts
         ]);
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza la información de un proveedor
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, UploadDocRepository $upDoc, $id)
     {
@@ -407,6 +489,7 @@ class PurchaseSupplierController extends Controller
             'company_type'                   => ['required'],
             'rif'                            => ['required', 'size:10', new RifRule(), 'unique:purchase_suppliers,rif,' . $id],
             'name'                           => ['required'],
+            'file_number'                    => ['required', 'unique:purchase_suppliers,file_number,' . $id],
             'purchase_supplier_type_id'      => ['required'],
             'purchase_supplier_object_id'    => ['required'],
             'purchase_supplier_branch_id'    => ['required'],
@@ -430,6 +513,8 @@ class PurchaseSupplierController extends Controller
             'company_type.required'                   => 'El campo tipo de empresa es obligatorio.',
             'rif.required'                            => 'El campo rif es obligatorio.',
             'name.required'                           => 'El campo nombre es obligatorio.',
+            'file_number.required'                    => 'El campo número de expediente es obligatorio.',
+            'file_number.unique'                      => 'El número de expediente ya se encuentra registrado.',
             'purchase_supplier_type_id.required'      => 'El campo denominación comercial es obligatorio.',
             'purchase_supplier_object_id.required'    => 'El campo objeto principal es obligatorio.',
             'purchase_supplier_branch_id.required'    => 'El campo rama es obligatorio.',
@@ -443,9 +528,7 @@ class PurchaseSupplierController extends Controller
             'empty_phone_info.required'               => 'Los campos de nùmeros telefònicos son obligatorios.',
         ];
 
-        /**
-         * Se verifica que no tenga informaciòn en los campos de nùmeros telefònicos
-         */
+        /* Se verifica que no tenga informaciòn en los campos de nùmeros telefònicos */
         if (array_key_exists("phone_type", $request->all())) {
             foreach ($request->phone_type as $key => $value) {
                 if (!$value || !$request->phone_area_code[$key] || !$request->phone_number[$key]) {
@@ -456,9 +539,7 @@ class PurchaseSupplierController extends Controller
             }
         }
 
-        /**
-         * Se verifica que no tenga informaciòn en los campos de contacto
-         */
+        /* Se verifica que no tenga informaciòn en los campos de contacto */
         if (array_key_exists("contact_names", $request->all())) {
             foreach ($request->contact_names as $key => $value) {
                 if (!$value || !$request->contact_emails[$key]) {
@@ -473,14 +554,12 @@ class PurchaseSupplierController extends Controller
         $supplier->person_type                    = $request->person_type;
         $supplier->company_type                   = $request->company_type;
         $supplier->rif                            = $request->rif;
-        $supplier->code                           = $supplier->code;
+        $supplier->code                           = $request->code ?? $supplier->code;
         $supplier->name                           = $request->name;
+        $supplier->file_number                    = $request->file_number;
         $supplier->direction                      = $request->direction;
         $supplier->website                        = $request->website ?? null;
         $supplier->active                         = $request->active ? true : false;
-        //$supplier->purchase_supplier_object_id    = $request->purchase_supplier_object_id;
-        //$supplier->purchase_supplier_branch_id    = $request->purchase_supplier_branch_id;
-        //$supplier->purchase_supplier_specialty_id = $request->purchase_supplier_specialty_id;
         $supplier->purchase_supplier_type_id      = $request->purchase_supplier_type_id;
         $supplier->accounting_account_id          = $request->accounting_account_id;
         $supplier->country_id                     = $request->country_id;
@@ -491,19 +570,19 @@ class PurchaseSupplierController extends Controller
         $supplier->social_purpose                 = $request->social_purpose;
         $supplier->save();
 
-        /** sincroniza la relacion en la tabla pivote de purchase_object_supplier **/
+        /* sincroniza la relacion en la tabla pivote de purchase_object_supplier */
         $supplier->purchaseSupplierObjects()->sync($request->purchase_supplier_object_id);
 
-        /** sincroniza la relacion en la tabla pivote de purchase_branch_supplier **/
+        /* sincroniza la relacion en la tabla pivote de purchase_branch_supplier */
         $supplier->purchaseSupplierBranch()->sync($request->purchase_supplier_branch_id);
 
-        /** sincroniza la relacion en la tabla pivote de purchase_specialty_supplier **/
+        /* sincroniza la relacion en la tabla pivote de purchase_specialty_supplier */
         $supplier->purchaseSupplierSpecialty()->sync($request->purchase_supplier_specialty_id);
 
-        /** Se elimina la relacion de proveedor con los contactos anteriores **/
+        /* Se elimina la relacion de proveedor con los contactos anteriores */
         $supp_contacts = $supplier->contacts()->forceDelete();
 
-        /** Registros asociados a contactos */
+        /* Registros asociados a contactos */
         if ($request->contact_names && !empty($request->contact_names)) {
             foreach ($request->contact_names as $key => $contact) {
                 $supplier->contacts()->save(new Contact([
@@ -513,10 +592,10 @@ class PurchaseSupplierController extends Controller
             }
         }
 
-        /** Se elimina la relacion de proveedor con los telefonos anteriores **/
+        /* Se elimina la relacion de proveedor con los telefonos anteriores */
         $supp_ph = $supplier->phones()->forceDelete();
 
-        /** Asociación de números telefónicos */
+        /* Asociación de números telefónicos */
         if ($request->phone_type && !empty($request->phone_type)) {
             foreach ($request->phone_type as $key => $phone_type) {
                 $supplier->phones()->save(new Phone([
@@ -528,7 +607,7 @@ class PurchaseSupplierController extends Controller
             }
         }
 
-        /** Se elimina la relacion y los documentos previos **/
+        /* Se elimina la relacion y los documentos previos */
         $supp_docs = $supplier->documents()->with('purchaseDocumentRequiredDocument')->get();
         if (count($supp_docs) > 0) {
             foreach ($supp_docs as $doc) {
@@ -549,25 +628,21 @@ class PurchaseSupplierController extends Controller
             }
         }
 
-        /** Registro y asociación de documentos */
+        /* Registro y asociación de documentos */
         $documentFormat = ['doc', 'docx', 'pdf', 'odt'];
         if ($request->file('docs')) {
             foreach ($request->file('docs') as $key => $file) {
                 $extensionFile = $file->getClientOriginalExtension();
 
                 if (in_array($extensionFile, $documentFormat)) {
-                    /**
-                     * Se guarda el archivo y se almacena
-                     */
+                    /* Se guarda el archivo y se almacena */
                     $upDoc->uploadDoc(
                         $file,
                         'documents',
                         PurchaseSupplier::class,
                         $supplier->id
                     );
-                    /**
-                     * Se almacena la relacion entre documentos y documentos requeridos en tabla pivote
-                     */
+                    /* Se almacena la relacion entre documentos y documentos requeridos en tabla pivote */
                     if ($upDoc->getDocStored()) {
                         PurchaseDocumentRequiredDocument::create([
                             'document_id' => $upDoc->getDocStored()->id,
@@ -582,15 +657,13 @@ class PurchaseSupplierController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Renderable
+     * Elimina un proveedor
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(UploadDocRepository $upDoc, $id)
     {
-        /**
-         * Objeto con la información asociada al modelo PurchaseSupplier
-         * @var Object $supplier
-         */
+        /* Objeto con la información asociada al modelo PurchaseSupplier */
         $supplier = PurchaseSupplier::with('purchaseOrder')->find($id);
 
         if ($supplier && count($supplier->purchaseOrder) > 0) {
@@ -600,7 +673,7 @@ class PurchaseSupplierController extends Controller
             ], 200);
         }
         if ($supplier) {
-            /** Se elimina la relacion de proveedor con los contactos anteriores **/
+            /* Se elimina la relacion de proveedor con los contactos anteriores */
             $supp_contacts = $supplier->contacts()->get();
             if (count($supp_contacts) > 0) {
                 foreach ($supp_contacts as $value) {
@@ -608,7 +681,7 @@ class PurchaseSupplierController extends Controller
                 }
             }
 
-            /** Se elimina la relacion de proveedor con los telefonos anteriores **/
+            /* Se elimina la relacion de proveedor con los telefonos anteriores */
             $supp_ph = $supplier->phones()->get();
             if (count($supp_ph) > 0) {
                 foreach ($supp_ph as $value) {
@@ -616,7 +689,7 @@ class PurchaseSupplierController extends Controller
                 }
             }
 
-            /** Se elimina la relacion y los documentos previos **/
+            /* Se elimina la relacion y los documentos previos */
             $supp_docs = $supplier->documents()->get();
             if (count($supp_docs) > 0) {
                 foreach ($supp_docs as $doc) {
@@ -630,46 +703,34 @@ class PurchaseSupplierController extends Controller
             }
             $supplier->delete();
         }
-        return response()->json(['records' => PurchaseSupplier::orderBy('id')->get(),
-        'message' => 'Success'], 200);
+        return response()->json([
+            'records' => PurchaseSupplier::orderBy('id')->get(),
+            'message' => 'Success'
+        ], 200);
     }
 
     /**
-     * Obtiene listado de registros
+     * Obtiene listado de registros de proveedores
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function vueList()
     {
-        return response()->json(['records' => PurchaseSupplier::all()], 200);
+        $suppliers = PurchaseSupplier::orderBy('file_number')->orderBy('name')->get();
+        return response()->json(['records' => $suppliers], 200);
     }
 
     /**
      * Migración de los datos Rama y Especialización a las tablas pivotes
      *
      * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
-     * @return
+     *
+     * @return void
      */
     public function dataMigratePivote()
     {
-        /*$purchaseSuppliers = PurchaseSupplier::orderBy('id')->get();
-        foreach ($purchaseSuppliers as $purchaseSupplier)
-        {
-            if($purchaseSupplier->purchase_supplier_branch_id != null) {
-                $purchaseSupplier->purchaseSupplierBranch()->sync($purchaseSupplier->purchase_supplier_branch_id);
-                $supplierBranch = PurchaseSupplier::find($purchaseSupplier->id);
-                $supplierBranch->purchase_supplier_branch_id = null;
-                $supplierBranch->save();
-            }
-            if($purchaseSupplier->purchase_supplier_specialty_id != null) {
-                $purchaseSupplier->purchaseSupplierSpecialty()->sync($purchaseSupplier->purchase_supplier_specialty_id);
-                $supplierSpecialty = PurchaseSupplier::find($purchaseSupplier->id);
-                $supplierSpecialty->purchase_supplier_specialty_id = null;
-                $supplierSpecialty->save();
-            }
-        }
-        return response()->json([
-                'message'=>'Success'], 200); */
+        //
     }
 }

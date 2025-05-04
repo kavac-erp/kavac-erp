@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-client-table :columns="columns" :data="records" :options="table_options" ref="tableResults">
+        <v-server-table :columns="columns" :data="records" :options="table_options" :url="route_list" ref="tableResults">
             <div slot="payroll_staff" slot-scope="props" class="text-center">
                 {{ props.row.payroll_staff.first_name + ' ' +  props.row.payroll_staff.last_name }}
             </div>
@@ -29,7 +29,7 @@
                 <span v-if="props.row.active" class="text-success font-weight-bold">SI</span>
                 <span v-else class="text-danger font-weight-bold">NO</span>
             </div>
-        </v-client-table>
+        </v-server-table>
         <payroll-staff-account-info
             ref="staffAccountInfo">
         </payroll-staff-account-info>
@@ -66,10 +66,6 @@
                 'payroll_staff.id_number',
                 'accounting_account'
             ];
-        },
-
-        mounted() {
-            this.initRecords(this.route_list, '');
         },
 
         methods: {

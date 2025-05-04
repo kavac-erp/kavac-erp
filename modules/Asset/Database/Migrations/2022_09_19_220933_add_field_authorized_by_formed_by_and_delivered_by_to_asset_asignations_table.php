@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldAuthorizedByFormedByAndDeliveredByToAssetAsignationsTable
- * @brief [descripción detallada]
+ * @brief Agrega campos authorized_by_id, formed_by_id y delivered_by_id a la tabla asset_asignations
  *
- * [descripción corta]
+ * Agrega campos authorized_by_id, formed_by_id y delivered_by_id a la tabla asset_asignations
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

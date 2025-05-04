@@ -1,10 +1,11 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $CLASS_NAMESPACE$;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -22,8 +23,6 @@ class $CLASS$ extends Controller
     /**
      * [descripción del método]
      *
-     * @method    index
-     *
      * @author    [nombre del autor] [correo del autor]
      *
      * @return    Renderable    [descripción de los datos devueltos]
@@ -36,8 +35,6 @@ class $CLASS$ extends Controller
     /**
      * [descripción del método]
      *
-     * @method    create
-     *
      * @author    [nombre del autor] [correo del autor]
      *
      * @return    Renderable    [descripción de los datos devueltos]
@@ -49,8 +46,6 @@ class $CLASS$ extends Controller
 
     /**
      * [descripción del método]
-     *
-     * @method    store
      *
      * @author    [nombre del autor] [correo del autor]
      *
@@ -66,8 +61,6 @@ class $CLASS$ extends Controller
     /**
      * [descripción del método]
      *
-     * @method    show
-     *
      * @author    [nombre del autor] [correo del autor]
      *
      * @param     integer    $id    Identificador del registro
@@ -82,10 +75,6 @@ class $CLASS$ extends Controller
     /**
      * [descripción del método]
      *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
      * @param     integer    $id    Identificador del registro
      *
      * @return    Renderable    [descripción de los datos devueltos]
@@ -97,8 +86,6 @@ class $CLASS$ extends Controller
 
     /**
      * [descripción del método]
-     *
-     * @method    update
      *
      * @author    [nombre del autor] [correo del autor]
      *
@@ -114,8 +101,6 @@ class $CLASS$ extends Controller
 
     /**
      * [descripción del método]
-     *
-     * @method    destroy
      *
      * @author    [nombre del autor] [correo del autor]
      *

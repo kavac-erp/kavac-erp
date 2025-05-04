@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldsPurchaseTypeIdDueDateAndHiringNumberToPurchaseDirectHiresTable
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -28,9 +26,9 @@ class AddFieldsPurchaseTypeIdDueDateAndHiringNumberToPurchaseDirectHiresTable ex
             Schema::table('purchase_direct_hires', function (Blueprint $table) {
                 if (!Schema::hasColumn('purchase_direct_hires', 'purchase_type_id')) {
                     /*
-                    * -----------------------------------------------------------------------
-                    * Clave foránea a la relación con modalidades de compra
-                    * -----------------------------------------------------------------------
+                    | -----------------------------------------------------------------------
+                    | Clave foránea a la relación con modalidades de compra
+                    | -----------------------------------------------------------------------
                     */
                     $table->foreignId('purchase_type_id')->nullable()->constrained()->onDelete('restrict')->onUpdate('cascade');
                 }

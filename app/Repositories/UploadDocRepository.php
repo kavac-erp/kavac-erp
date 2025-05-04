@@ -1,13 +1,12 @@
 <?php
 
-/** Repositorios del sistema */
-
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
 use App\Models\Document;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @class UploadDocRepository
@@ -22,21 +21,43 @@ use App\Models\Document;
  */
 class UploadDocRepository
 {
-    /** @var string Nombre del documento */
+    /**
+     * Nombre del documento
+     *
+     * @var string $doc_name
+     */
     private $doc_name;
-    /** @var string extensión del documento */
+
+    /**
+     * extensión del documento
+     *
+     * @var string $doc_extension
+     */
     private $doc_extension;
-    /** @var Document Objeto con información del documento registrado */
+
+    /**
+     * Objeto con información del documento registrado
+     *
+     * @var Document $doc_stored
+     */
     private $doc_stored;
-    /** @var array Listado de tipos de documentos permitidos para subir */
+
+    /**
+     * Listado de tipos de documentos permitidos para subir
+     *
+     * @var array $allowed_upload
+     */
     private $allowed_upload = [];
-    /** @var string Mensaje de error */
+
+    /**
+     * Mensaje de error
+     *
+     * @var string $error_msg
+     */
     private $error_msg = '';
 
     /**
      * Instrucciones para verificar y subir un documento a la ruta indicada en el servidor
-     *
-     * @method  uploadDoc
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -63,7 +84,6 @@ class UploadDocRepository
         $checkAllowed = false,
         $archive_number = null
     ) {
-        // dd($file->getError());
         if (!$file->getError()) {
             $this->doc_extension = strtolower($file->getClientOriginalExtension());
             $this->doc_name = ($originalName) ?
@@ -79,19 +99,26 @@ class UploadDocRepository
                 if ($upload) {
                     // Procedimiento para guardar el documento en la tabla respectiva,
                     // incluyendo al documento mismo que DEBE ser almacenado en la base de datos
-                    $this->doc_stored = Document::create([
-                        'code' => $code ?? generate_code(Document::class, 'code'),
-                        'file' => $this->doc_name,
-                        'url' => ($public_url)
-                                 ? 'public/documents/' . $this->doc_name
-                                 : 'storage/documents/' . $this->doc_name,
-                        'signs' => ($sign && isset($signCrypt))
-                                   ? $signCrypt : null,
-                        'documentable_type' => $model,
-                        'documentable_id' => $model_id,
-                        'archive_number' => $archive_number
-                    ]);
-                    return true;
+                    try {
+                        $this->doc_stored = Document::create([
+                            'code' => $code ?? generate_code(Document::class, 'code'),
+                            'file' => $this->doc_name,
+                            'url' => ($public_url)
+                                     ? 'public/documents/' . $this->doc_name
+                                     : 'storage/documents/' . $this->doc_name,
+                            'signs' => ($sign && isset($signCrypt))
+                                       ? $signCrypt : null,
+                            //'digital_file' => mb_convert_encoding(file_get_contents($file->getRealPath()), 'UTF-8'), //Guarda el contenido del documento en BD
+                            'documentable_type' => $model,
+                            'documentable_id' => $model_id,
+                            'archive_number' => $archive_number,
+                            'extension' => $this->doc_extension
+                        ]);
+                        return true;
+                    } catch (\Exception $e) {
+                        $this->error_msg = __('Error al subir el archivo, verifique e intente de nuevo');
+                        Log::error($e->getMessage());
+                    }
                 } else {
                     $this->error_msg = __('Error al subir el archivo, verifique e intente de nuevo');
                 }
@@ -115,8 +142,6 @@ class UploadDocRepository
     /**
      * Obtiene el nombre del documento
      *
-     * @method  getDocName
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return string Retorna el nombre del documento
@@ -128,8 +153,6 @@ class UploadDocRepository
 
     /**
      * Obtiene la extensión del documento
-     *
-     * @method  getDocExtension
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -143,8 +166,6 @@ class UploadDocRepository
     /**
      * Obtiene el mensaje de error a mostrar al usuario
      *
-     * @method  getErrorMessage
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return string Devuelve un mensaje con el error si existe, en caso contrario retorna una cadena vacia
@@ -157,8 +178,6 @@ class UploadDocRepository
     /**
      * Obtiene el objeto del documento guardado
      *
-     * @method  getDocStored
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return object Devuelve el objeto del documento guardado
@@ -170,8 +189,6 @@ class UploadDocRepository
 
     /**
      * Verifica la existencia de un documento y lo elimina del disco
-     *
-     * @method  deleteDoc
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

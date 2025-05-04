@@ -52,8 +52,8 @@
                                         <span class="col-md-12" id="payroll_staff">
                                             {{
                                                 record.payroll_staff
-                                                ? record.payroll_staff.first_name + ' ' + record.payroll_staff.last_name
-                                                : 'No definido'
+                                                    ? record.payroll_staff.first_name + ' ' + record.payroll_staff.last_name
+                                                    : 'No definido'
                                             }}
                                         </span>
                                     </div>
@@ -66,8 +66,8 @@
                                     <strong>Año del período vacacional:</strong>
                                     <div class="row" style="margin: 1px 0">
                                         <p class="col-md-12" id="vacation_period_year"
-                                            v-for="period in record.vacation_period_year">
-                                            <span>{{ period.text }}</span>
+                                            v-for="(period, index) in record.vacation_period_year" :key="index">
+                                            <span>{{ period.text }} : {{ period.pending_days ? "Dias pendientes " + period.pending_days : "Sin dias pendientes" }}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -100,11 +100,29 @@
                             <!-- ./días solicitados -->
                             <div class="col-md-4" v-if="record.status != 'pending'">
                                 <div class="form-group">
-                                    <div v-if="record.status == 'approved'"><strong>Fecha de reincorporación:</strong></div>
-                                    <div v-else><strong>Motivo del rechazo</strong></div>
-                                    <div class="row" style="margin: 1px 0">
-                                        <span class="col-md-12" id="days_requested" v-html="record.status_parameters">
-                                        </span>
+                                    <div v-if="record.status == 'approved'"><strong>Fecha de reincorporación:</strong>
+                                        <div class="row" style="margin: 1px 0">
+                                            <span class="col-md-12" id="days_requested" v-html="format_date(record.status_parameters, 'DD-MM-YYYY')">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="record.status == 'suspended'"><strong>Motivo de suspensión:</strong>
+                                        <div class="row" style="margin: 1px 0">
+                                            <span class="col-md-12" id="days_requested" v-html="record.status_parameters">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="record.status == 'rescheduled'"><strong>En replanificación</strong>
+                                        <!-- <div class="row" style="margin: 1px 0">
+                                            <span class="col-md-12" id="days_requested" v-html="format_date(record.end_date, 'DD-MM-YYYY')">
+                                            </span>
+                                        </div> -->
+                                    </div>
+                                    <div v-else><strong>Motivo del rechazo</strong>
+                                        <div class="row" style="margin: 1px 0">
+                                            <span class="col-md-12" id="days_requested" v-html="record.status_parameters">
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -113,7 +131,8 @@
 
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" data-dismiss="modal">
+                        <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
+                            data-dismiss="modal">
                             Cerrar
                         </button>
                     </div>

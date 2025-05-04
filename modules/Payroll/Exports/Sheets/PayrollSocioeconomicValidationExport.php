@@ -15,17 +15,36 @@ use Modules\Payroll\Models\PayrollScholarshipType;
 use Modules\Payroll\Models\PayrollRelationship;
 use App\Models\Gender;
 
+/**
+ * @class PayrollSocioeconomicValidationExport
+ * @brief Exporta la hoja de validaciones de los datos socioeconomicos del personal
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PayrollSocioeconomicValidationExport implements
     FromCollection,
     WithEvents,
     WithHeadings,
     WithTitle
 {
+    /**
+     * Establece el tiúlo de la hoja
+     *
+     * @return string
+     */
     public function title(): string
     {
         return 'validation';
     }
 
+    /**
+     * Colección de datos a exportar
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function collection(): Collection
     {
         $PayrollScholarshipType = PayrollScholarshipType::query()->select('name')->get()->pluck('name')->toArray();
@@ -65,14 +84,25 @@ class PayrollSocioeconomicValidationExport implements
         ));
     }
 
+    /**
+     * Encabezados de la hoja
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return ['Estado civil', 'Nivel de escolaridad', 'Discapacidad', 'Desicion','tipo de beca','Parentesco','Genero' ];
     }
 
+    /**
+     * Registro de eventos de la hoja
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
-        /** @todo Instrucciones para ocultar la hoja de validaciones
+        /**
+         * @todo Instrucciones para ocultar la hoja de validaciones
          * Descomentar cuando este verificada la hoja
          */
         return [

@@ -37,12 +37,12 @@ final class PayrollExceptionTypeController extends Controller
         protected array $validateRules = [],
         protected array $messages = [],
     ) {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:payroll.exception.types.create', ['only' => ['store']]);
         $this->middleware('permission:payroll.exception.types.edit', ['only' => ['update']]);
         $this->middleware('permission:payroll.exception.types.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'        => ['required', 'max:100', 'unique:payroll_exception_types,name'],
             'description' => ['nullable', 'max:200'],
@@ -51,7 +51,7 @@ final class PayrollExceptionTypeController extends Controller
             'value_max'   => ['nullable', 'integer'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required' => 'El campo nombre es obligatorio.',
             'sign.required_with' => 'El campo signo es requerido si se indica el inside sobre.',
@@ -61,11 +61,9 @@ final class PayrollExceptionTypeController extends Controller
     /**
      * Muestra todos los registros de tipos de excepciones
      *
-     * @method    index
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    JsonResponse    Json con los datos de los tipos de excepciones
+     * @return    \Illuminate\Http\JsonResponse    Json con los datos de los tipos de excepciones
      */
     public function index()
     {
@@ -85,19 +83,16 @@ final class PayrollExceptionTypeController extends Controller
     /**
      * Valida y registra un nuevo tipo de excepción
      *
-     * @method store
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param Request $request Objeto con información de la petición
+     * @param Request $request Datos de la petición
      *
-     * @return JsonResponse Json con objeto guardado y mensaje de confirmación de la operación
+     * @return \Illuminate\Http\JsonResponse Json con objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
     {
         $this->validate($request, $this->validateRules, $this->messages);
 
-        /** @var PayrollExceptionType $exceptionType */
         $exceptionType = PayrollExceptionType::create([
             'name'        => $request->name,
             'description' => $request->description,
@@ -112,14 +107,12 @@ final class PayrollExceptionTypeController extends Controller
     /**
      * Actualiza la información de un tipo de excepción
      *
-     * @method update
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param Request $request Objeto con datos de la petición
+     * @param Request $request Datos de la petición
      * @param PayrollExceptionType $exceptionType Registro de tipo de excepción
      *
-     * @return JsonResponse Json con mensaje de confirmación de la operación
+     * @return \Illuminate\Http\JsonResponse Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, PayrollExceptionType $exceptionType)
     {
@@ -143,17 +136,14 @@ final class PayrollExceptionTypeController extends Controller
     /**
      * Elimina un registro de tipo de excepción
      *
-     * @method destroy
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @param PayrollExceptionType $exceptionType Registro de tipo de excepción
      *
-     * @return JsonResponse Registro de tipo de excepción eliminado
+     * @return \Illuminate\Http\JsonResponse Registro de tipo de excepción eliminado
      */
     public function destroy(PayrollExceptionType $exceptionType)
     {
-        /** @var Parameter $parameters */
         $parameters = Parameter::query()
             ->where(
                 [
@@ -189,7 +179,7 @@ final class PayrollExceptionTypeController extends Controller
     /**
      * Obtiene los tipos de excepciones de jornada laboral registradas
      *
-     * @return JsonResponse Listado con los datos de los tipos de excepciones de jornada laboral
+     * @return \Illuminate\Http\JsonResponse Listado con los datos de los tipos de excepciones de jornada laboral
      */
     public function getPayrollExceptionTypes()
     {

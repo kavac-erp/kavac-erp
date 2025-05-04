@@ -1,11 +1,10 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
-use App\Models\InstitutionSector;
 use Illuminate\Http\Request;
+use App\Models\InstitutionSector;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class InstitutionSectorController
@@ -14,6 +13,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar sectores de Organizaciones
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -22,13 +22,11 @@ class InstitutionSectorController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:institution.sector.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:institution.sector.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:institution.sector.delete', ['only' => 'destroy']);
@@ -37,8 +35,6 @@ class InstitutionSectorController extends Controller
 
     /**
      * Muesta todos los registros de los sectores de organizaciones
-     *
-     * @method  index
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -51,8 +47,6 @@ class InstitutionSectorController extends Controller
 
     /**
      * Registra un nuevo sector de organización
-     *
-     * @method  store
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -72,7 +66,7 @@ class InstitutionSectorController extends Controller
             ]);
         }
 
-        /** @var InstitutionSector Objeto con información del sector de organizaciones */
+        // Objeto con información del sector de organizaciones
         $institutionSector = InstitutionSector::updateOrCreate([
             'name' => $request->name
         ]);
@@ -82,8 +76,6 @@ class InstitutionSectorController extends Controller
 
     /**
      * Actualiza la información del sector de organización
-     *
-     * @method  update
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -107,8 +99,6 @@ class InstitutionSectorController extends Controller
     /**
      * Elimina un sector de organización
      *
-     * @method  destroy
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  InstitutionSector  $institutionSector    Objeto con información del sector organizaciones a eliminar
@@ -125,8 +115,10 @@ class InstitutionSectorController extends Controller
      * Consulta un sector específico
      *
      * @author  Angelo Osorio <adosorio@cenditel.gob.ve> | <danielking.321@gmail.com>
+     *
      * @param \Illuminate\Http\Request $request Datos de la petición
      * @param $id ID del sector
+     *
      * @return \Illuminate\Http\JsonResponse con el resultado de la petición
      */
     public function getSector(Request $request, $id)

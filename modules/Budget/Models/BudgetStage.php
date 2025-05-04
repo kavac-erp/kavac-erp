@@ -20,9 +20,9 @@ use App\Traits\ModelsTrait;
  * Pagado = PAG
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetStage extends Model implements Auditable
 {
@@ -32,20 +32,31 @@ class BudgetStage extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at', 'registered_at'];
 
     /**
-     * Lista de atributos que pueden ser asignados masivamente
+     * Lista con campos del modelo
+     *
      * @var array $fillable
      */
-    protected $fillable = ['code', 'registered_at', 'type', 'amount', 'budget_compromise_id', 'stageable_type', 'stageable_id'];
+    protected $fillable = [
+        'code',
+        'registered_at',
+        'type',
+        'amount',
+        'budget_compromise_id',
+        'stageable_type',
+        'stageable_id'
+    ];
 
     /**
-     * BudgetStage morphs to models in stageable_type.
+     * Establece la relación morfológica con los estatus presupuestarios
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function stageable()
@@ -54,7 +65,7 @@ class BudgetStage extends Model implements Auditable
     }
 
     /**
-     * BudgetStage belongs to BudgetCompromise.
+     * Establece la relación con el compromiso presupuestario
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

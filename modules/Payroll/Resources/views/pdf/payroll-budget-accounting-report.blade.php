@@ -22,19 +22,19 @@
     </thead>
     <tbody>
         @foreach ($records as $key => $value)
-        @if ($value[2] == 'budget')
-        <tr>
-            <td style="border: 1px solid #dee2e6;" tabindex="0" class="col-8 text-left" align="center">
-                {{ $key }}
-            </td>
-            <td style="border: 1px solid #dee2e6;" tabindex="0" class="col-8 text-left">
-                {{ currency_format($value[1], 2) }}
-            </td>
-            <td style="border: 1px solid #dee2e6;" tabindex="0" class="col-8 text-right" align="center">
-                {{ currency_format($value[0], 2) }}
-            </td>
-        </tr>
-        @endif
+            @if ($value[2] == 'budget')
+                <tr>
+                    <td style="border: 1px solid #dee2e6;" tabindex="0" class="col-8 text-left" align="center">
+                        {{ $key }}
+                    </td>
+                    <td style="border: 1px solid #dee2e6;" tabindex="0" class="col-8 text-left">
+                        {{ currency_format($value[1], 2) }}
+                    </td>
+                    <td style="border: 1px solid #dee2e6;" tabindex="0" class="col-8 text-right" align="center">
+                        {{ currency_format($value[0], 2) }}
+                    </td>
+                </tr>
+            @endif
         @endforeach
         <tr style="border: solid 1px #000; font-weight: bold;" align="center">
             <td style="border: 1px solid #dee2e6;" tabindex="0" class="col-8 text-left">
@@ -44,7 +44,7 @@
                 &nbsp;
             </td>
             <td style="border: 1px solid #dee2e6;" tabindex="0" class="col-2 text-right">
-                {{currency_format($total_array[0], 2)}}
+                {{ currency_format($total_array[0], 2) }}
             </td>
         </tr>
     </tbody>

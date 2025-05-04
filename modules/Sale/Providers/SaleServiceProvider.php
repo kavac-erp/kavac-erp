@@ -2,22 +2,38 @@
 
 namespace Modules\Sale\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * @class SaleServiceProvider
+ * @brief Service Provider del módulo de comercialización
+ *
+ * Gestiona el service provider del módulo de comercialización
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleServiceProvider extends ServiceProvider
 {
     /**
+     * Nombre del módulo
+     *
      * @var string $moduleName
      */
     protected $moduleName = 'Sale';
 
     /**
+     * Nombre en minúsculas del módulo
+     *
      * @var string $moduleNameLower
      */
     protected $moduleNameLower = 'sale';
 
     /**
-     * Boot the application events.
+     * Carga los eventos del módulo.
      *
      * @return void
      */
@@ -31,7 +47,7 @@ class SaleServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the service provider.
+     * Registra los proveedores de servicios
      *
      * @return void
      */
@@ -41,7 +57,7 @@ class SaleServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register config.
+     * Registra la configuración
      *
      * @return void
      */
@@ -57,7 +73,7 @@ class SaleServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register views.
+     * Registra las vistas.
      *
      * @return void
      */
@@ -75,7 +91,7 @@ class SaleServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register translations.
+     * Registra las traducciones.
      *
      * @return void
      */
@@ -91,7 +107,8 @@ class SaleServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register an additional directory of factories.
+     * Registra un directorio adicional para los factories
+     *
      * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
      */
     public function registerFactories()
@@ -102,7 +119,7 @@ class SaleServiceProvider extends ServiceProvider
     }
 
     /**
-     * Get the services provided by the provider.
+     * Obtiene los proveedores de servicios por proveedor
      *
      * @return array
      */
@@ -111,10 +128,15 @@ class SaleServiceProvider extends ServiceProvider
         return [];
     }
 
+    /**
+     * Obtiene las rutas de los directorios de archivos de vista
+     *
+     * @return array
+     */
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (\Config::get('view.paths') as $path) {
+        foreach (Config::get('view.paths') as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }

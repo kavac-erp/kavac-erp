@@ -106,10 +106,11 @@
                     <div class="form-group is-required">
                         <label>Fecha de ingreso a la institución:</label>
                         <input
-                            @change="diff_datetimes(record.start_date)"
+                            @input="diff_datetimes(record.start_date)"
                             type="date"
                             class="form-control input-sm"
                             v-model="record.start_date"
+                            :max="fiscal_date"
                         />
                     </div>
                 </div>
@@ -120,10 +121,11 @@
                     <div class="form-group">
                         <label>Fecha de egreso de la institución:</label>
                         <input
-                            @change="time_worked()"
+                            @input="time_worked(); diff_datetimes(record.start_date);"
                             type="date"
                             class="form-control input-sm"
                             v-model="record.end_date"
+                            :max="fiscal_date"
                         />
                     </div>
                 </div>
@@ -333,6 +335,7 @@
                                     type="date"
                                     class="form-control input-sm"
                                     v-model="job.start_date"
+                                    :max="fiscal_date"
                                 />
                             </div>
                         </div>
@@ -347,6 +350,7 @@
                                     type="date"
                                     class="form-control input-sm"
                                     v-model="job.end_date"
+                                    :max="fiscal_date"
                                 />
                             </div>
                         </div>
@@ -355,7 +359,9 @@
                                 <button
                                     class="mt-4 btn btn-sm btn-danger btn-action"
                                     type="button"
-                                    @click="removeRow(index, record.previous_jobs)"
+                                    @click="
+                                    removeRow(index, record.previous_jobs);
+                                    "
                                     title="Eliminar este dato"
                                     data-toggle="tooltip"
                                 >
@@ -390,15 +396,8 @@
                             v-model="record.institution_years" disabled="true"/>
                     </div>
                 </div>
-                <div class="col-md-4" id="helpEmploymentYears">
-                    <div class="form-group">
-                        <label>Total años de servicio:</label>
-                        <input type="text" class="form-control input-sm"
-                            v-model="record.service_years" disabled="true"/>
-                    </div>
-                </div>
                 <div
-                    v-if="!record.active"
+                    v-else
                     class="col-md-4"
                     id="helpEmploymentYears"
                 >
@@ -410,6 +409,14 @@
                             v-model="record.time_worked" disabled="true"/>
                     </div>
                 </div>
+                <div class="col-md-4" id="helpEmploymentYears">
+                    <div class="form-group">
+                        <label>Total años de servicio:</label>
+                        <input type="text" class="form-control input-sm"
+                            v-model="record.service_years" disabled="true"/>
+                    </div>
+                </div>
+                
             </div>
         </div>
         <!-- Final card-body -->
@@ -452,6 +459,13 @@
         props: {
             payroll_employment_id: Number,
         },
+        watch: {
+            'record.active' () {
+                if (this.record.active) {
+                    this.record.end_date = '';
+                }
+            }
+        },
         data() {
             return {
                 record: {
@@ -490,6 +504,8 @@
                 departments: [],
                 payroll_contract_types: [],
                 institutions: [],
+                fiscal_year: '',
+                fiscal_date: '',
                 years_apn: '',
                 worksheet_code: '',
                 isEditMode: false,
@@ -552,6 +568,18 @@
                         vm.record.department_id = data.department_id;
                     });
                 }
+            },
+
+            /**
+             * Obtiene los datos de los años fiscales registrados
+             * 
+             * @author Natanael Rojo <rojonatanael99@gmail.com>
+             */
+            async getFiscalYear() {
+                const vm = this;
+                axios.get(`${window.app_url}/fiscal-years/opened/list`).then(response => {
+                    vm.fiscal_year = response.data.records[0].id;
+                });
             },
 
             /**
@@ -763,7 +791,15 @@
             time_worked() {
                 const vm = this;
                 var now = vm.record.start_date;
-                var ms = moment(vm.record.end_date,"YYYY-MM-DD HH").diff(moment(now,"YYYY-MM-DD HH"));
+                var ms = 0;
+                if (vm.fiscal_date && !vm.record.end_date) {
+                    ms = moment(now,"YYYY-MM-DD").diff(moment(vm.fiscal_date,"YYYY-MM-DD"));
+                } else if (vm.fiscal_date && vm.record.end_date) {
+                    ms = moment(now,"YYYY-MM-DD").diff(moment(vm.record.end_date,"YYYY-MM-DD"));
+                }  else {    
+                    ms = moment(vm.record.end_date,"YYYY-MM-DD").diff(moment(now,"YYYY-MM-DD"));
+                }
+
                 var d = moment.duration(ms);
                 let data_years = 0;
                 let data_months = 0;
@@ -789,7 +825,6 @@
                     months: `Meses: ${data_months}`,
                     days: `Días: ${data_days}`,
                 };
-
                 if (data_days > 0) {
                     vm.record.time_worked = time.years + ' ' + time.months + ' ' + time.days;
                 } else {
@@ -812,11 +847,19 @@
             diff_datetimes(dateThen) {
                 const vm = this;
                 let now = moment().format("YYYY-MM-DD");
-                let ms = moment(dateThen,"YYYY-MM-DD").diff(moment(now,"YYYY-MM-DD"));
+                let ms = 0;
+                if (vm.fiscal_date && !vm.record.end_date) {
+                    ms = moment(dateThen,"YYYY-MM-DD").diff(moment(vm.fiscal_date,"YYYY-MM-DD"));
+                } else if (vm.fiscal_date && vm.record.end_date) {
+                    ms = moment(dateThen,"YYYY-MM-DD").diff(moment(vm.record.end_date,"YYYY-MM-DD"));
+                }  else {    
+                    ms = moment(dateThen,"YYYY-MM-DD").diff(moment(now,"YYYY-MM-DD"));
+                }
                 let d = moment.duration(ms);
                 let data_years = 0;
                 let data_months = 0;
                 let data_days = 0;
+
                 if (d._data.years < 0){
                     data_years = d._data.years * -1;
                 }
@@ -854,11 +897,30 @@
              * @param  {integer}      index Indice del elemento a eliminar
              * @param  {object|array} el    Elemento del cual se va a eliminar un elemento
              */
-            removeRow: function(index, el) {
+            removeRow: async function(index, el) {
                 const vm = this;
+                // Calcular años de duración del trabajo anterior
+                let old_job_start_date = vm.record.previous_jobs[index].start_date; 
+                let old_job_end_date = vm.record.previous_jobs[index].end_date;
+
+                let ms = moment(old_job_start_date,"YYYY-MM-DD").diff(moment(old_job_end_date,"YYYY-MM-DD"));
+                let d = moment.duration(ms);
+
+                let data_years = 0;
+                if (d._data.years < 0){
+                    data_years = d._data.years * -1;
+                } else {
+                    data_years = d._data.years;
+                }
+
+                //Restar años del trabajo anterior con los años del servicio total
+                vm.years_apn -=  data_years;
+
                 el.splice(index, 1);
-                vm.antiquity();
-                vm.diff_datetimes(vm.record.start_date);
+                await Promise.all ([
+                    vm.antiquity(),
+                    vm.diff_datetimes(vm.record.start_date)
+                ]);
             },
         },
 
@@ -866,6 +928,7 @@
             this.loadingState(true); // Inicio de spinner de carga.
             this.record.active = true;
             await Promise.all([
+                this.getFiscalYear(),
                 this.getPayrollEmploymentsPositions(),
                 this.getPayrollInactivityTypes(),
                 this.getPayrollPositionTypes(),
@@ -876,6 +939,10 @@
                 this.getInstitutions(),
                 this.getPayrollSectorTypes(),
             ]);
+
+            if (this.fiscal_year) {
+                this.fiscal_date = this.fiscal_year + "-12-31";
+            }
 
             if (this.payroll_employment_id) {
                 await this.getPayrollStaffs(this.payroll_employment_id);

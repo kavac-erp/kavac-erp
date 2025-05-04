@@ -1,7 +1,5 @@
 <?php
 
-/** Controladores de talento humano */
-
 namespace Modules\Payroll\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -27,21 +25,29 @@ class PayrollSettlementTypeController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $rules
+     */
     protected $rules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
     /**
      * Arreglo con los atributos para las reglas de validación
-     * @var Array $attributes
+     *
+     * @var array $attributes
      */
     protected $attributes;
 
@@ -49,16 +55,18 @@ class PayrollSettlementTypeController extends Controller
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         /*$this->middleware('permission:payroll.settlement.types.list', ['only' => ['index', 'vueList']]);*/
         $this->middleware('permission:payroll.settlement.types.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.settlement.types.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:payroll.settlement.types.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->rules = [
             'name' => [],
             'motive' => ['required', 'max:10'],
@@ -66,12 +74,12 @@ class PayrollSettlementTypeController extends Controller
             'payroll_payment_types_id' => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'motive.max' => 'El campo motivo no debe ser mayor que 10 caracteres',
         ];
 
-        /** Define los atributos para los campos personalizados */
+        /* Define los atributos para los campos personalizados */
         $this->attributes = [
             'motive' => 'motivo',
             // 'payroll_concept_id' => 'concepto'
@@ -82,11 +90,9 @@ class PayrollSettlementTypeController extends Controller
     /**
      * Muestra todos los registros de tipos de liquidación
      *
-     * @method    index
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
-     * @return    Renderable    Json con los datos
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -94,13 +100,9 @@ class PayrollSettlementTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para registrar un nuevo tipo de liquidación
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -110,13 +112,11 @@ class PayrollSettlementTypeController extends Controller
     /**
      * Valida y registra un nuevo tipo de liquidación
      *
-     * @method    store
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
-     * @param     object    Request    $request    Objeto con información de la petición
+     * @param     Request    $request    Datos de la petición
      *
-     * @return    Renderable    Json: objeto guardado y mensaje de confirmación de la operación
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -125,22 +125,19 @@ class PayrollSettlementTypeController extends Controller
         $payrollSettlementType = PayrollSettlementType::create([
             'name' => $request->name,
             'motive' => $request->motive,
-            // 'payroll_concept_id' => $request->payroll_concept_id
             'payroll_payment_types_id' => $request->payroll_payment_types_id
         ]);
         return response()->json(['record' => $payrollSettlementType, 'message' => 'Success'], 200);
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
+     * Muestra información del tipo de liquidación
      *
      * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -148,15 +145,13 @@ class PayrollSettlementTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
+     * Muestra el formulario para editar un tipo de liquidación
      *
      * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -166,14 +161,12 @@ class PayrollSettlementTypeController extends Controller
     /**
      * Actualiza el tipo de liquidación
      *
-     * @method    update
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    Json con mensaje de confirmación de la operación
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -182,7 +175,6 @@ class PayrollSettlementTypeController extends Controller
         $this->validate($request, $this->rules, $this->messages, $this->attributes);
         $payrollSettlementType->name = $request->name;
         $payrollSettlementType->motive = $request->motive;
-        // $payrollSettlementType->payroll_concept_id = $request->payroll_concept_id;
         $payrollSettlementType->payroll_payment_types_id = $request->payroll_payment_types_id;
         $payrollSettlementType->save();
         return response()->json(['message' => 'Success'], 200);
@@ -191,13 +183,11 @@ class PayrollSettlementTypeController extends Controller
     /**
      * Elimina el tipo de liquidación
      *
-     * @method    destroy
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    Json con mensaje de confirmación de la operación
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

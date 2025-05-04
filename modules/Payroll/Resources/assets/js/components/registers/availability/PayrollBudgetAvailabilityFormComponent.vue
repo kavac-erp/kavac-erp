@@ -276,7 +276,7 @@ export default {
          * Reescribe el Método createRecord para cambiar su comportamiento por defecto
          * Método que permite crear o actualizar un registro
          *
-         * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          *
          * @param  {string} url    Ruta de la acción a ejecutar para la creación o actualización de datos
          * @param  {string} state  Respuesta sobre el estado de disponibilidad de la cotizacion.

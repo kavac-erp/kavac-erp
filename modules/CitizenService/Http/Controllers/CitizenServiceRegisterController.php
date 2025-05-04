@@ -7,40 +7,60 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\CitizenService\Models\CitizenServiceRegister;
-use Illuminate\Validation\Rule;
 use Modules\CitizenService\Models\CitizenServiceRequest;
 
+/**
+ * @class CitizenServiceRegisterController
+ * @brief Controlador para los registros de la oficina de atención al ciudadano
+ *
+ * Clase que gestiona el controlador para los registros de la OAC
+ *
+ * @author Ing. Yenifer Ramirez <yramirez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CitizenServiceRegisterController extends Controller
 {
     use ValidatesRequests;
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
+
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
+    /**
+     * Lista de atributos personalizados
+     *
+     * @var array $customAttributes
+     */
     protected $customAttributes;
 
     /**
      * Define la configuración de la clase
      *
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:citizenservice.registers.list', ['only' => ['index', 'vueList']]);
         $this->middleware('permission:citizenservice.registers.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:citizenservice.registers.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:citizenservice.registers.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'date_register'     => ['required'],
             'payroll_staff_id'  => ['required'],
@@ -54,7 +74,7 @@ class CitizenServiceRegisterController extends Controller
 
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'payroll_staff_id.required'   => 'El campo Nombre del director es obligatorio.',
             'code.required'           => 'El campo Código de la solicitud es obligatorio',
@@ -79,15 +99,20 @@ class CitizenServiceRegisterController extends Controller
         ];
     }
 
+    /**
+     * Muestra el listado de cronogramas de actividades
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('citizenservice::registers.list');
     }
 
     /**
-     * Muestra el formulario para registrar un cronograma de
-     * actividades
-     * @return Renderable
+     * Muestra el formulario para registrar un cronograma de actividades
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -96,15 +121,17 @@ class CitizenServiceRegisterController extends Controller
 
     /**
      * Valida y registra un nuevo cronograma de actividades
-     * @param  Request $request
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $this->validate($request, $this->validateRules, $this->messages, $this->customAttributes);
 
         //Guardar los registros del formulario en  CitizenServiceRegister
-        $citizenserviceRegister = CitizenServiceRegister::create([
-
+        CitizenServiceRegister::create([
             'date_register'    => $request->input('date_register'),
             'payroll_staff_id' => $request->input('payroll_staff_id'),
             'code'             => $request->input('code'),
@@ -121,8 +148,9 @@ class CitizenServiceRegisterController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra la información de un cronograma de actividades
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -130,8 +158,11 @@ class CitizenServiceRegisterController extends Controller
     }
 
     /**
-     * Muestra el formulario para actualizar la información
-     * @return Renderable
+     * Muestra el formulario para actualizar la información de un cronograma de actividades
+     *
+     * @param integer $id identificador del cronograma de actividades
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -141,14 +172,14 @@ class CitizenServiceRegisterController extends Controller
 
     /**
      * Actualiza un registro de actividades
-     * @param  Request $request
-     * @return JsonResponse
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-
         $citizenServiceRegister = CitizenServiceRegister::find($id);
-        $validateRules  = $this->validateRules;
 
         $citizenServiceRegister->date_register         = $request->date_register;
         $citizenServiceRegister->payroll_staff_id      = $request->payroll_staff_id;
@@ -168,20 +199,26 @@ class CitizenServiceRegisterController extends Controller
 
     /**
      * Elimina un registro de actividad
-     * @return JsonResponse
+     *
+     * @param  integer $id identificador del cronograma de actividades
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $citizenServiceRegister = CitizenServiceRegister::find($id);
         $citizenServiceRegister->delete();
         return response()->json(['record' => $citizenServiceRegister,
-             'message' => 'destroy'], 200);
+            'message' => 'destroy'
+        ], 200);
     }
 
 
-    /*
-    * Obtiene un listado de los registros de actividades
-    */
+    /**
+     * Obtiene un listado de los registros de actividades
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function vueList()
     {
         $records = CitizenServiceRegister::with(['payrollStaff', 'codeCitizenServiceRequest'])->get()->toArray();
@@ -192,9 +229,13 @@ class CitizenServiceRegisterController extends Controller
         return response()->json(['records' => $records], 200);
     }
 
-    /*
-    * Obtiene la información de un registro de actividad registrado
-    */
+    /**
+     * Obtiene la información de un registro de actividad registrado
+     *
+     * @param integer $id identificador del cronograma de actividades
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function vueInfo($id)
     {
         $citizenServiceRegister = CitizenServiceRegister::where('id', $id)

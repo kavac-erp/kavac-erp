@@ -19,24 +19,31 @@ use App\Models\Institution;
  * Clase que gestiona la generacion de reportes de Pedidos
  *
  * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleOrderReportController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Lista de estatus para el reporte
+     *
+     * @var array $status_list
+     */
     protected $status_list = ['rechazado' => 'Cancelado', 'pending' => 'Creado', 'aprobado' => 'Aprobado'];
 
     /**
      * Define la configuración de la clase
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         //$this->middleware('permission:warehouse.report.', ['only' => 'create']);
     }
 
@@ -44,7 +51,8 @@ class SaleOrderReportController extends Controller
      * Muestra un listado para generar el reporte de Orders
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return Renderable
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -54,8 +62,11 @@ class SaleOrderReportController extends Controller
     /**
      * Obtiene la lista de orders en base a los filtros del usuario en el reporte
      *
-     * @method   orderSearch
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
+     * @param Request $request datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function orderSearch(Request $request)
     {
@@ -122,8 +133,11 @@ class SaleOrderReportController extends Controller
     /**
      * Genera el archivo PDF en base a los pedidos seleccionados por el usuario
      *
-     * @method    pdf
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
+     * @param array|string $values Lista de ids a consultar
+     *
+     * @return void
      */
     public function pdf($values = [])
     {
@@ -163,17 +177,13 @@ class SaleOrderReportController extends Controller
             $records[$key]->total = $total;
             $records[$key]->total_without_tax = $total_without_tax;
         }
-        /**
-         * [$pdf base para generar el pdf]
-         * @var [Modules\Accounting\Pdf\Pdf]
-        */
+        /* base para generar el pdf */
         $pdf = new ReportRepository();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-        */
+        /* Definicion de las caracteristicas generales de la página pdf */
         $institution = null;
         $is_admin = auth()->user()->isAdmin();
+        $user_profile = auth()->user()?->profile;
 
         if (!$is_admin && $user_profile && $user_profile['institution']) {
             $institution = Institution::find($user_profile['institution']['id']);
@@ -181,7 +191,7 @@ class SaleOrderReportController extends Controller
             $institution = '';
         }
 
-        $pdf->setConfig(['institution' => Institution::first()]);
+        $pdf->setConfig(['institution' => $institution ?? Institution::first()]);
         $pdf->setHeader('Reporte de Pedidos');
         $pdf->setFooter();
         $pdf->setBody('sale::order.orders-pdf', true, [

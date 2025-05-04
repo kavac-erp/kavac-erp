@@ -1,0 +1,14 @@
+<map id="export" name="export">
+<area shape="rect" id="Node000001" title="Genera el reporte en hojade calculo de estado de resultados." alt="" coords="5,104,69,129"/>
+<area shape="rect" id="Node000002" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a5c0379fc68799a3f32447bd6760dcd02" title="Genera el reporte en pdf de estado de resultados." alt="" coords="117,104,160,129"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,114,104,114,104,119,69,119"/>
+<area shape="rect" id="Node000003" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#aece89e986c4cfa1db456acdb13987406" title="Método para buscar las cuentas padre de una formulación." alt="" coords="228,29,371,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="152,102,177,82,207,64,224,57,226,61,209,68,180,86,156,106"/>
+<area shape="rect" id="Node000004" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a55459f9e07fdc6b85953811024ab61d3" title="Obtiene los datos de la moneda." alt="" coords="249,79,350,104"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="160,111,235,99,235,104,160,116"/>
+<area shape="rect" id="Node000005" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a0db19fdd230ae36f5cadc50c61a451b0" title="Realiza el calculo de las cuentas de acuerdo a como suman." alt="" coords="208,128,391,153"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="160,117,202,123,201,129,160,122"/>
+<area shape="rect" id="Node000006" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a4a9edafe924a4efeb9d1a9daf1bc1dfe" title="Establece los datos de la moneda." alt="" coords="249,177,349,203"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="157,128,181,146,209,162,237,173,235,178,207,167,178,150,154,132"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="272,31,267,21,270,11,281,5,299,3,321,6,331,15,327,19,319,11,299,8,283,10,274,15,272,20,277,28"/>
+</map>

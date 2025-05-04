@@ -1,16 +1,15 @@
 <?php
 
-/** Revisar */
-
 namespace Modules\Asset\Http\Controllers;
 
-use Illuminate\Http\Response;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Routing\Controller;
 use Modules\Asset\Models\Asset;
-use Modules\Asset\Models\AssetAsignation;
-use Modules\Asset\Models\AssetDisincorporation;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\Asset\Models\AssetRequest;
+use Modules\Asset\Models\AssetAsignation;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Asset\Models\AssetDisincorporation;
 
 /**
  * @class      AssetDashboardController
@@ -19,6 +18,7 @@ use Modules\Asset\Models\AssetRequest;
  * Clase que gestiona las peticiones realizadas desde el panel de control del módulo de bienes
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -28,6 +28,7 @@ class AssetDashboardController extends Controller
      * Muestra la sección del dashboard del módulo de bienes
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    Renderable
      */
     public function index()
@@ -39,21 +40,23 @@ class AssetDashboardController extends Controller
      * Otiene un listado de las existencias en inventario de los bienes registradas
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     String                           $type     Tipo de solicitud
-     * @param     String                           $order    Orden en el que se expresan los registros
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     string          $type     Tipo de solicitud
+     * @param     string          $order    Orden en el que se expresan los registros
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function getInventoryAssets($type, $order = 'desc')
     {
         $fields = [];
         if ($type == 'exist') {
             $fields = Asset::with('assetSpecificCategory')
-                ->select('asset_specific_category_id', \DB::raw('count(*) as total'))
+                ->select('asset_specific_category_id', DB::raw('count(*) as total'))
                 ->groupBy('asset_specific_category_id');
             $fields = ($order == 'desc') ? $fields->orderBy('total', 'desc')->get() :
                 $fields->orderBy('total', 'asc')->get();
         } else {
-            $fields = \DB::table('asset_request_assets')
+            $fields = DB::table('asset_request_assets')
                 ->leftJoin('assets', 'asset_request_assets.asset_id', '=', 'assets.id')
                 ->leftJoin(
                     'asset_specific_categories',
@@ -64,12 +67,12 @@ class AssetDashboardController extends Controller
                 ->select(
                     'asset_specific_categories.id',
                     'asset_specific_categories.name as name',
-                    \DB::raw('count(*) as total')
+                    DB::raw('count(*) as total')
                 )
                 ->groupBy('asset_specific_categories.id');
 
             $fields = ($order == 'desc') ? $fields->orderBy('total', 'desc')->get() :
-                $fields->orderBy('total', 'asc')->get();
+            $fields->orderBy('total', 'asc')->get();
         }
         return response()->json(['records' => $fields]);
     }
@@ -78,9 +81,11 @@ class AssetDashboardController extends Controller
      * Obtiene la url de la operación a mostrar
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     String                           $type_operation    Tipo de operación a mostrar
-     * @param     String                           $code              Identificador único de la operación
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     string          $type_operation    Tipo de operación a mostrar
+     * @param     string          $code              Identificador único de la operación
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function getOperation($type_operation, $code)
     {
@@ -95,7 +100,8 @@ class AssetDashboardController extends Controller
      * Otiene un listado de las operaciones registradas
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function vueListOperations()
     {
@@ -106,8 +112,8 @@ class AssetDashboardController extends Controller
             if ($table == 'assets') {
                 $type_operation = 'registers';
                 $description = 'Registro manual de bienes institucionales';
-                $data_operations = \DB::table($table)
-                    ->select('created_at', \DB::raw('count(*) as total'))
+                $data_operations = DB::table($table)
+                    ->select('created_at', DB::raw('count(*) as total'))
                     ->groupBy('created_at')
                     ->get();
                 foreach ($data_operations as $data) {
@@ -130,7 +136,7 @@ class AssetDashboardController extends Controller
                     $type_operation = 'requests';
                     $description = 'Solicitud de bienes institucionales';
                 }
-                $data_operations = \DB::table($table)
+                $data_operations = DB::table($table)
                      ->select('code', 'created_at')
                      ->get();
                 foreach ($data_operations as $data) {
@@ -150,9 +156,11 @@ class AssetDashboardController extends Controller
      * Obtiene la información de una operación registrada
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     String                           $type_operation    Tipo de operación a mostrar
-     * @param     String                           $filter            Identificador único de la operación
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     string               $type_operation    Tipo de operación a mostrar
+     * @param     string               $filter            Identificador único de la operación
+     *
+     * @return    JsonResponse|void    Objeto con los registros a mostrar
      */
     public function vueInfo($type_operation, $filter)
     {

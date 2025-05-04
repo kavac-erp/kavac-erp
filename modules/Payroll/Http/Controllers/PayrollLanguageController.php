@@ -15,37 +15,50 @@ use Modules\Payroll\Models\PayrollLanguage;
  * Clase que gestiona los idiomas
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollLanguageController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación para el formulario
+     *
+     * @var array $rules
+     */
     protected $rules;
+
+    /**
+     * Atributos para los campos personalizados
+     *
+     * @var array $attributes
+     */
     protected $attributes;
 
     /**
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         /*$this->middleware('permission:payroll.languages.list', ['only' => 'index']);*/
         $this->middleware('permission:payroll.languages.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.languages.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:payroll.languages.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->rules = [
             'name' => [],
             'acronym' => ['required', 'max:10'],
         ];
 
-        /** Define los atributos para los campos personalizados */
+        /* Define los atributos para los campos personalizados */
         $this->attributes = [
             'acronym' => 'acrónimo',
         ];
@@ -55,6 +68,7 @@ class PayrollLanguageController extends Controller
      * Muestra todos los registros de idiomas
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de idiomas
      */
     public function index()
@@ -63,8 +77,9 @@ class PayrollLanguageController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear un nuevo idioma
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -75,7 +90,9 @@ class PayrollLanguageController extends Controller
      * Valida y registra un nuevo idioma
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
+     *
      * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
@@ -87,8 +104,9 @@ class PayrollLanguageController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información del idioma
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -96,8 +114,9 @@ class PayrollLanguageController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar el idioma
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -108,8 +127,10 @@ class PayrollLanguageController extends Controller
      * Actualiza la información del idioma
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
      * @param  integer $id                          Identificador del idioma a actualizar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
@@ -127,7 +148,9 @@ class PayrollLanguageController extends Controller
      * Elimina el idioma
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador del idioma a eliminar
+     *
      * @return \Illuminate\Http\JsonResponse    Json: objeto eliminado y mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -141,6 +164,7 @@ class PayrollLanguageController extends Controller
      * Obtiene los idiomas registrados
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de idiomas
      */
     public function getPayrollLanguages()

@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use App\Traits\ModelsTrait;
@@ -18,7 +16,16 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * Gestiona el modelo de datos para los años fiscales
  *
+ * @property  string  $year
+ * @property  boolean $active
+ * @property  string  $observations
+ * @property  array   $entries
+ * @property  boolean $closed
+ * @property  array   $resource_entries
+ * @property  array   $egress_entries
+ *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -31,26 +38,26 @@ class FiscalYear extends Model implements Auditable
     /**
      * Lista de atributos para la gestión de fechas.
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array $casts
      */
     protected $casts = ['entries' => 'array'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente.
      *
-     * @var array
+     * @var array $fillable
      */
     protected $fillable = ['year', 'active', 'observations'];
 
     /**
-     * FiscalYear belongs to Institution.
+     * Obtiene la institución asociada a un año fiscal
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -62,7 +69,7 @@ class FiscalYear extends Model implements Auditable
     /**
      * Obtiene los asientos contables de ingresos del año fiscal actual.
      *
-     * @return bool
+     * @return array
      */
     public function resourceEntries()
     {
@@ -90,15 +97,14 @@ class FiscalYear extends Model implements Auditable
             }
 
             return $entries;
-        } else {
-            return [];
         }
+        return [];
     }
 
     /**
      * Obtiene los asientos contables de egresos del año fiscal actual.
      *
-     * @return bool
+     * @return array
      */
     public function egressEntries()
     {
@@ -126,8 +132,7 @@ class FiscalYear extends Model implements Auditable
             }
 
             return $entries;
-        } else {
-            return [];
         }
+        return [];
     }
 }

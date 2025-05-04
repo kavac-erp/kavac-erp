@@ -64,7 +64,8 @@
                 <span>{{ format_date(props.row.payment_date ) }}</span>
             </div>
             <div slot="amount" slot-scope="props">
-                {{ formatToCurrency(parseFloat(props.row.amount)) }}
+                {{ props.row.currency_id ? props.row.currency.symbol : 'XXX' }}
+                {{ addDecimals(props.row.amount) }}
             </div>
             <div slot="document_status" slot-scope="props">
                 <span class="text-success"
@@ -82,7 +83,7 @@
             </div>
             <div slot="id" slot-scope="props" class="text-center">
                 <div class="d-inline-flex">
-                    <!-- <template v-if="(lastYear && format_date(props.row.payment_date, 'YYYY') <= lastYear)">
+                    <template v-if="(lastYear && format_date(props.row.payment_date, 'YYYY') <= lastYear)">
                         <button
                             class="btn btn-success btn-xs btn-icon btn-action"
                             type="button"
@@ -102,7 +103,7 @@
                         >
                             <i class="fa fa-check"></i>
                         </button>
-                    </template> -->
+                    </template>
                     <button
                         @click.prevent="
                             setDetails(
@@ -124,7 +125,7 @@
 
                     <template v-if="(lastYear && format_date(props.row.payment_date, 'YYYY') <= lastYear)
                                     || (props.row.is_payment_executed
-                                    || props.row.document_status.action === 'AP' 
+                                    || props.row.document_status.action === 'AP'
                                     || props.row.document_status.action === 'AN')
                     ">
                         <button
@@ -164,15 +165,17 @@
                             <i class="fa fa-trash-o"></i>
                         </button>
                     </template>
-                    <!-- <finance-cancel-bank-movements
-                        v-show="props.row.document_status.action === 'AP'"
-                        :cancelBankMovementPermission="true"
+                    <finance-cancel-bank-movements
+                        v-show="cancelBankMovementPermission
+                            && props.row.document_status.action === 'AP'
+                            && !props.row.is_payment_executed"
+                        :cancelBankMovementPermission="cancelBankMovementPermission"
                         :id="props.row.id"
                         :code="props.row.code"
                         :concept="props.row.concept ? props.row.concept.replace(/(<([^>]+)>)/ig, '') : ''"
                         :is_payment_executed="props.row.is_payment_executed"
                         :fiscal_year="(fiscal_years.length > 0) ? fiscal_years[0].text : ''"
-                    /> -->
+                    />
                 </div>
             </div>
         </v-client-table>
@@ -192,11 +195,11 @@
                 records: [],
                 lastYear: "",
                 tmpRecords: [],
-                // cancelBankMovementPermission: false,
                 fiscal_years: [],
                 columns: [
-                    'code',
                     'payment_date',
+                    'code',
+                    'reference',
                     'transaction_type',
                     'concept',
                     'amount',
@@ -211,8 +214,9 @@
         },
         created() {
             this.table_options.headings = {
-                'code': 'Código',
                 'payment_date': 'Fecha de pago',
+                'code': 'Código',
+                'reference': 'Documento de referencia',
                 'transaction_type': 'Tipo de transacción',
                 'concept': 'Concepto',
                 'amount': 'Monto',
@@ -220,27 +224,30 @@
                 'id': 'Acción'
             };
             this.table_options.sortable = [
-                'code',
                 'payment_date',
+                'code',
+                'reference',
                 'transaction_type',
                 'concept',
                 'document_status',
                 'amount'
             ];
             this.table_options.filterable = [
-                'code',
                 'payment_date',
+                'code',
+                'reference',
                 'transaction_type',
                 'concept',
                 'document_status',
                 'amount'
             ];
             this.table_options.columnsClasses = {
+                'payment_date': 'col-md-1',
                 'code': 'col-md-1',
-                'payment_date': 'col-md-2',
+                'reference': 'col-md-2',
                 'transaction_type': 'col-md-2',
                 'concept': 'col-md-3',
-                'amount': 'col-md-2',
+                'amount': 'col-md-1',
                 'document_status': 'col-md-1',
                 'id': 'col-md-1'
             };
@@ -250,7 +257,7 @@
             axios.get(`${window.app_url}/finance/movements/vue-list`)
                 .then(response => {
                 vm.records = response.data.records;
-                // vm.cancelBankMovementPermission = response.data.cancelBankMovementPermission;
+                vm.cancelBankMovementPermission = response.data.cancelBankMovementPermission;
                 // Variable usada para el reseteo de los filtros de la tabla.
                 vm.tmpRecords = vm.records;
             });
@@ -273,6 +280,14 @@
                     date: ''
                 };
                 vm.records = vm.tmpRecords;
+            },
+
+            /**
+             * Truncar y redondear una cifra según el número pasado como segundo
+             * parámetro del método toFixed().
+             */
+            addDecimals(value) {
+                return parseFloat(value).toFixed(2);
             },
 
             /**
@@ -324,7 +339,7 @@
                 $(`#${modal}`).modal('show');
             },
 
-            /**
+        /**
          * Método para aprobar un movimiento bancario
          *
          * @method approveBankMovement
@@ -350,11 +365,24 @@
                         vm.loading = true;
                         axios.post(url, { id: id }).then(response => {
                             if (response.status == 200){
-                                vm.showMessage('custom', '¡Éxito!', 'success', 'screen-ok', 'Movimiento pago aprobado');
+                                vm.showMessage('custom', '¡Éxito!', 'success', 'screen-ok', 'Movimiento bancario aprobado');
                                 location.reload();
                             }
                         }).catch(error => {
-                            console.error(error);
+                            if (typeof(error.response) !="undefined") {
+                                if (error.response.status == 403) {
+                                    vm.showMessage(
+                                        'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
+                                    );
+                                }
+                                if (error.response.status == 500) {
+                                    const messages = error.response.data.message;
+                                    vm.showMessage(
+                                        messages.type, messages.title, messages.class, messages.icon, messages.text
+                                    );
+                                }
+                                console.error(error);
+                            }
                         });
                         vm.loading = false;
                     }

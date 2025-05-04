@@ -1,4 +1,5 @@
 <map id="Permission" name="Permission">
-<area shape="rect" id="node1" title="Modelo para la gestión de permisos." alt="" coords="35,145,156,223"/>
-<area shape="rect" id="node2" href="$da/d7d/interfaceApp_1_1Roles_1_1Contracts_1_1PermissionHasRelations.html" title="Interface para la gestión de permisos y sus relaciones." alt="" coords="5,5,185,97"/>
+<area shape="rect" id="Node000001" title="Modelo para la gestión de permisos." alt="" coords="35,139,148,204"/>
+<area shape="rect" id="Node000002" href="$da/d7d/interfaceApp_1_1Roles_1_1Contracts_1_1PermissionHasRelations.html" title="Interface para la gestión de permisos y sus relaciones." alt="" coords="5,5,177,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,104,94,138,89,138,89,104"/>
 </map>

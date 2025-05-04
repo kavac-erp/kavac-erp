@@ -1,12 +1,15 @@
 {
     "name": "kavac/finance",
     "description": "Finance resource management",
+    "keywords": ["kavac", "finance"],
     "authors": [
         {
             "name": "Ing. Roldan Vargas",
             "email": "roldandvg@gmail.com"
         }
     ],
+    "require": {},
+    "require-dev": {},
     "extra": {
         "laravel": {
             "providers": [],

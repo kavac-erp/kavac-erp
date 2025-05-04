@@ -1,0 +1,5 @@
+<map id="update" name="update">
+<area shape="rect" id="Node000001" title="Actualiza los datos de la cuenta patrimonial." alt="" coords="5,5,72,31"/>
+<area shape="rect" id="Node000002" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#af00120301bc1c7e8bfee2c555ab6947d" title="Obtiene los registros de las cuentas patrimoniales." alt="" coords="120,5,223,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,15,106,15,106,21,72,21"/>
+</map>

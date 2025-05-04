@@ -2,6 +2,7 @@ var classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController =
 [
     [ "__construct", "da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#a095c5d389db211932136b53f25f39685", null ],
     [ "approve", "da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#aca28d0cd4375269279bd3880a4035c00", null ],
+    [ "createEntries", "da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#a74fabf4ac9d18742ac2cbc2075ae21ef", null ],
     [ "destroy", "da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#a726fa8a4b4b187b9ca32ba427aac8137", null ],
     [ "generateCodeAvailable", "da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#a2af9196615a6dc74342d783b96e2041a", null ],
     [ "getEntryAccounts", "da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#ad6a137c84e4b060249bc220a7ab6d977", null ],

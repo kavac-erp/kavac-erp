@@ -10,7 +10,6 @@ use App\Traits\ModelsTrait;
 
 /**
  * @class FinanceSettingBankReconciliationFiles
- *
  * @brief Configuraciones de los archivos de conciliación bancaria.
  *
  * Gestiona el modelo de datos para las configuraciones de los archivos de
@@ -18,9 +17,8 @@ use App\Traits\ModelsTrait;
  *
  * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
  *
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class FinanceSettingBankReconciliationFiles extends Model implements Auditable
 {
@@ -28,9 +26,25 @@ class FinanceSettingBankReconciliationFiles extends Model implements Auditable
     use AuditableTrait;
     use ModelsTrait;
 
+    /**
+     * Nombre de la tabla en base de datos
+     *
+     * @var string $table
+     */
     protected $table = 'finance_setting_bank_reconciliation_files';
+
+    /**
+     * Establece si se registra los datos de fecha y hora del registro
+     *
+     * @var boolean $timestamps
+     */
     public $timestamps = true;
 
+    /**
+     * Lista de campos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = [
         'bank_id',
         'read_start_line',

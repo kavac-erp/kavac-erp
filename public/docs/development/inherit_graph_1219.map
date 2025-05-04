@@ -1,0 +1,7 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d8/d8c/classApp_1_1Models_1_1RequiredDocument.html" title="Datos de Documentos requeridos." alt="" coords="5,31,152,56"/>
+<area shape="rect" id="Node000001" href="$dc/d34/classModules_1_1Asset_1_1Models_1_1RequiredDocument.html" title="Modelo que extiende de la aplicacion base." alt="" coords="200,5,347,31"/>
+<area shape="poly" id="edge111_Node000000_Node000001" title=" " alt="" coords="165,29,199,25,200,30,166,35"/>
+<area shape="rect" id="Node000002" href="$dd/d8c/classModules_1_1Purchase_1_1Models_1_1RequiredDocument.html" title="Modelo que extiende de la aplicacion base." alt="" coords="200,55,347,80"/>
+<area shape="poly" id="edge112_Node000000_Node000002" title=" " alt="" coords="166,51,200,56,199,61,165,57"/>
+</map>

@@ -16,9 +16,9 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * Gestiona el modelo de datos para las cuentas bancarias
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class FinanceBankAccount extends Model implements Auditable
 {
@@ -27,18 +27,33 @@ class FinanceBankAccount extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista de atributos para la gestión de fechas
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at', 'opened_at'];
 
+    /**
+     * Lista de campos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = [
         'ccc_number', 'description', 'opened_at', 'finance_banking_agency_id', 'finance_account_type_id', 'accounting_account_id', 'finance_bank_id'
     ];
 
+    /**
+     * Lista de campos personalizados a retornar en las consultas
+     *
+     * @var array $appends
+     */
     protected $appends = ['formated_ccc_number'];
 
+    /**
+     * Obtiene el código de la cuenta cliente en formato del banco
+     *
+     * @return string
+     */
     public function getFormatedCccNumberAttribute()
     {
         if (empty($this->ccc_number)) {
@@ -56,9 +71,10 @@ class FinanceBankAccount extends Model implements Auditable
     }
 
     /**
-     * FinanceBankAccount belongs to FinanceBankingAgency.
+     * Obtiene la relación con la agencia bancaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function financeBankingAgency()
@@ -67,9 +83,10 @@ class FinanceBankAccount extends Model implements Auditable
     }
 
     /**
-     * FinanceBankAccount belongs to FinanceAccountType.
+     * Obtiene la relación con el tipo de cuenta
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function financeAccountType()
@@ -78,9 +95,10 @@ class FinanceBankAccount extends Model implements Auditable
     }
 
     /**
-     * FinanceBankAccount has many FinanceCheckBooks.
+     * Obtiene la relación con las chequeras
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function financeCheckBooks()
@@ -89,7 +107,7 @@ class FinanceBankAccount extends Model implements Auditable
     }
 
     /**
-     * Get all of the financePayOrders for the FinanceBankAccount
+     * Obtiene la relación con las ordenes de pago
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -107,8 +125,9 @@ class FinanceBankAccount extends Model implements Auditable
      */
     public function accountingAccount()
     {
-        return (Module::has('Accounting'))
-            ? $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class) : null;
+        return (
+            Module::has('Accounting') && Module::isEnabled('Accounting')
+        ) ? $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class) : null;
     }
 
     /**

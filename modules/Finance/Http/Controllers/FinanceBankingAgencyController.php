@@ -1,16 +1,12 @@
 <?php
 
-/** Controladores del módulo de finanzas */
-
 namespace Modules\Finance\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Finance\Models\FinanceBankingAgency;
-use Models\Estate;
 use App\Models\Phone;
 
 /**
@@ -20,21 +16,27 @@ use App\Models\Phone;
  * Clase que gestiona las agencias bancarias
  *
  * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class FinanceBankingAgencyController extends Controller
 {
     use ValidatesRequests;
 
-    /** @var array Lista de elementos a mostrar */
+    /**
+     * Lista de elementos a mostrar en selectores
+     *
+     * @var array $data
+     */
     protected $data = [];
 
     /**
      * Método constructor de la clase
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -45,7 +47,7 @@ class FinanceBankingAgencyController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Listado de agencias bancarias
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -54,28 +56,24 @@ class FinanceBankingAgencyController extends Controller
         $record = FinanceBankingAgency::with([
             'financeBank', 'city', 'phones'
         ])->get();
-        //Log::emergency($record);
-
-        // return response()->json(['records' =>
-        // FinanceBankingAgency::with([
-        //     'financeBank', 'city', 'phones'
-        // ])->get()], 200);
         return response()->json(['records' => $record], 200);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear una nueva agencia bancaria
      *
-     * @return Renderable
+     * @return void
      */
     public function create()
     {
+        //
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena una nueva agencia bancaria
      *
-     * @param  Request $request
+     * @param  Request $request Datos de la petición
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -131,9 +129,9 @@ class FinanceBankingAgencyController extends Controller
     }
 
     /**
-     * Show the specified resource.
+     * Muestra información de la agencia bancaria
      *
-     * @return Renderable
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -141,9 +139,9 @@ class FinanceBankingAgencyController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar la agencia bancaria
      *
-     * @return Renderable
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -151,9 +149,11 @@ class FinanceBankingAgencyController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza la agencia bancaria
      *
-     * @param  Request $request
+     * @param  Request $request Datos de la petición
+     * @param  integer $id      ID de la agencia bancaria
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
@@ -174,7 +174,7 @@ class FinanceBankingAgencyController extends Controller
             ]
         );
 
-        /** @var object Datos de la agencia bancaria */
+        /* Datos de la agencia bancaria */
         $financeBankingAgency = FinanceBankingAgency::find($id);
         $financeBankingAgency->fill($request->all());
         $financeBankingAgency->contact_person = (!empty($request->contact_person))
@@ -201,13 +201,15 @@ class FinanceBankingAgencyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina una agencia bancaria
+     *
+     * @param  integer $id ID de la agencia bancaria
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /** @var object Datos de la agencia bancaria */
+        /* Datos de la agencia bancaria */
         $financeBankingAgency = FinanceBankingAgency::find($id);
         $financeBankingAgency->delete();
         return response()->json(['record' => $financeBankingAgency, 'message' => 'Success'], 200);
@@ -217,8 +219,10 @@ class FinanceBankingAgencyController extends Controller
      * Obtiene las agencias bancarias registradas
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @param  integer $bank_id                 Identificador del banco
-     * @return \Illuminate\Http\JsonResponse    JSON con el listado de las agencias bancarias
+     *
+     * @param  integer|null $bank_id Identificador del banco
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getAgencies($bank_id = null)
     {

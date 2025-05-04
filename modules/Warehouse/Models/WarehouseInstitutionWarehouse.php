@@ -15,9 +15,8 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos de los almacenes gestionados por cada institución
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseInstitutionWarehouse extends Model implements Auditable
 {
@@ -43,7 +42,8 @@ class WarehouseInstitutionWarehouse extends Model implements Auditable
      * Método que obtiene el almacén gestionado por la institucion
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Intitution
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function institution()
     {
@@ -54,7 +54,8 @@ class WarehouseInstitutionWarehouse extends Model implements Auditable
      * Método que obtiene la institution que gestionan el almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Warehouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouse()
     {
@@ -65,8 +66,8 @@ class WarehouseInstitutionWarehouse extends Model implements Auditable
      * Método que obtiene el inventario de los productos que gestiona la institución en un almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * WarehouseInventoryProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function warehouseInventoryProducts()
     {

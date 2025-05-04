@@ -1,8 +1,8 @@
 <?php
 
-/** Gestión de eventos del sistema */
-
 namespace App\Listeners;
+
+use Illuminate\Support\Facades\Redis;
 
 /**
  * @class LoginEventHandler
@@ -20,8 +20,6 @@ class LoginEventHandler
     /**
      * Constructor de la clase que crea los eventos a ser monitoreados
      *
-     * @method  __construct
-     *
      * @return void
      */
     public function __construct()
@@ -31,8 +29,6 @@ class LoginEventHandler
 
     /**
      * Registra los eventos en la autenticación de usuarios
-     *
-     * @method  handle
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -44,5 +40,14 @@ class LoginEventHandler
     {
         $event->user->last_login = date('Y-m-d H:i:s');
         $event->user->save();
+        if (config('session.driver') === 'redis') {
+            $userData = [
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->header('User-Agent'),
+                'last_activity' => $event->user->last_login
+            ];
+            $jsonUserData = json_encode($userData);
+            Redis::set('session_user:' . $event->user->id, $jsonUserData);
+        }
     }
 }

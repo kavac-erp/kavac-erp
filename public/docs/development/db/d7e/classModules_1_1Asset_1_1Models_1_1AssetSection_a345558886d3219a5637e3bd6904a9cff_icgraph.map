@@ -1,0 +1,5 @@
+<map id="asignations" name="asignations">
+<area shape="rect" id="Node000001" title="Método que obtiene las asignaciones asociadas a cada sección." alt="" coords="303,20,400,45"/>
+<area shape="rect" id="Node000002" href="$d8/d1d/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSectionController.html#a62dafa863c9f40b853b63aa49148a846" title="Valida si no hay asignaciones asociadas a la sección actual, y si no tiene secciones,..." alt="" coords="5,5,255,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="289,35,255,35,255,30,289,30"/>
+</map>

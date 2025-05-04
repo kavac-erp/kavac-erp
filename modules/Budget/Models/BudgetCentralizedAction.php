@@ -2,12 +2,13 @@
 
 namespace Modules\Budget\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
-use Module;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class BudgetCentralizedAction
@@ -16,9 +17,9 @@ use Module;
  * Gestiona el modelo de datos para las Acciones Centralizadas
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetCentralizedAction extends Model implements Auditable
 {
@@ -27,16 +28,16 @@ class BudgetCentralizedAction extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista con campos de tipo fecha
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * The attributes that are mass assignable.
+     * Lista con campos del modelo
      *
-     * @var array
+     * @var array $fillable
      */
     protected $fillable = [
         'name', 'code', 'custom_date', 'active', 'ca_description', 'from_date', 'to_date',
@@ -47,6 +48,7 @@ class BudgetCentralizedAction extends Model implements Auditable
      * Crea un campo para obtener datos de la acción centralizada
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return string Devuelve el código y nombre de la acción centralizada
      */
     public function getDescriptionAttribute()
@@ -55,9 +57,10 @@ class BudgetCentralizedAction extends Model implements Auditable
     }
 
     /**
-     * BudgetProject belongs to Department.
+     * Establece la relación con el departamento de la institución
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function department()
@@ -66,33 +69,36 @@ class BudgetCentralizedAction extends Model implements Auditable
     }
 
     /**
-     * BudgetProject belongs to PayrollPosition.
+     * Establece la relación con el cargo establecido en el expediente de talento humano
      *
      * @return array|\Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollPosition()
     {
         /** OJO: Independizar esta relación para que exista un módulo sin el otro */
-        return (Module::has('Payroll'))
-               ? $this->belongsTo(\Modules\Payroll\Models\PayrollPosition::class) : [];
+        return (
+            Module::has('Payroll') && Module::isEnabled('Payroll')
+        ) ? $this->belongsTo(\Modules\Payroll\Models\PayrollPosition::class) : [];
     }
 
     /**
-     * BudgetProject belongs to PayrollStaff.
+     * Establece la relacion con el personal del modulo de talento humano
      *
      * @return array|\Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollStaff()
     {
         /** OJO: Independizar esta relación para que exista un módulo sin el otro */
-        return (Module::has('Payroll'))
-               ? $this->belongsTo(\Modules\Payroll\Models\PayrollStaff::class) : [];
+        return (
+            Module::has('Payroll') && Module::isEnabled('Payroll')
+        ) ? $this->belongsTo(\Modules\Payroll\Models\PayrollStaff::class) : [];
     }
 
     /**
-     * Get all of the budget centralized action's specific actions.
+     * Obtiene la relación con las acciones especificas
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function specificActions()

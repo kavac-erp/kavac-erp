@@ -17,14 +17,14 @@
 @stop
 
 @section('content')
-@permission('close_fiscal_year.create')
+@permission('closefiscalyear.create')
     <close-fiscal-years
         id="helpAudit"
         help-file="{{ json_encode(get_json_resource('ui-guides/fiscal_year_search.json')) }}"
         route_list="{{ route('index') }}">
     </close-fiscal-years>
 @endpermission
-@permission('close_fiscal_year.list')
+@permission('closefiscalyear.list')
     @if(Module::has('Accounting'))
         <close-fiscal-years-list
             route_list="{{ route('close-fiscal-year.registers.vue-list') }}"

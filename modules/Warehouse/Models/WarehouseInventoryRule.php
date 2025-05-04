@@ -16,9 +16,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos de las reglas del inventario de los productos
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseInventoryRule extends Model implements Auditable
 {
@@ -44,7 +44,8 @@ class WarehouseInventoryRule extends Model implements Auditable
      * Método que obtiene el usuario que realiza el cambio de regla
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo  User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
@@ -55,8 +56,8 @@ class WarehouseInventoryRule extends Model implements Auditable
      * Método que obtiene el registro del producto en el inventario
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * WarehouseInventoryProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouseInventoryProduct()
     {

@@ -33,7 +33,7 @@
                                 <th class="text-center col-10" :colspan="roles.length">ROLES</th>
                             </tr>
                             <tr>
-                                <th class="text-center" :title="role.description" data-toggle="tooltip" 
+                                <th class="text-center" :title="role.description" data-toggle="tooltip"
                                     v-for="(role, index) in roles" :key="index">
                                     <p-check class="p-icon p-plain" color="text-success" off-color="text-gray"
                                              v-model="allPermissionByRol" :value="role.id"
@@ -56,8 +56,7 @@
                                     </span>
                                 </td>
                             </tr>
-                            <tr v-for="(filteredPermission, index) in filterGroupPermissions(moduleGroup)"
-                                v-if="searchResult(filteredPermission, moduleGroup)" :key="index">
+                            <tr v-for="(filteredPermission, index) in filteredPermissions" :key="index">
                                 <td class="text-uppercase">
                                     {{ filteredPermission.short_description || filteredPermission.name }}
                                 </td>
@@ -133,6 +132,11 @@
                 handler: function(newValue, oldValue) {
                     const vm = this;
                 }
+            }
+        },
+        computed: {
+            filteredPermissions() {
+                return this.filterGroupPermissions(this.moduleGroup).filter(permission => this.searchResult(permission, this.moduleGroup));
             }
         },
         methods: {

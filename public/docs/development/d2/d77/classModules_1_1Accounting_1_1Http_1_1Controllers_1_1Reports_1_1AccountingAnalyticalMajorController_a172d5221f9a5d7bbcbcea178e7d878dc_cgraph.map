@@ -1,0 +1,9 @@
+<map id="pdf" name="pdf">
+<area shape="rect" id="Node000001" title="Vista en la que se genera el reporte en pdf." alt="" coords="5,55,48,80"/>
+<area shape="rect" id="Node000002" href="$d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html#ab0ddffde595d12d9c85da6f4c1eb2605" title="Encuentra los tipos de cambio." alt="" coords="96,5,277,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="47,57,95,39,121,32,122,37,97,45,49,62"/>
+<area shape="rect" id="Node000003" href="$d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html#a6f3d70e44a5afea25eb600c5e19f6a29" title="Realiza la conversión de saldo." alt="" coords="114,55,259,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="49,65,100,65,100,70,49,70"/>
+<area shape="rect" id="Node000004" href="$d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html#a86e33228f8938a98998934f568038269" title="Cálculo de saldo anterior." alt="" coords="137,104,236,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="49,72,97,89,126,98,124,103,95,94,47,77"/>
+</map>

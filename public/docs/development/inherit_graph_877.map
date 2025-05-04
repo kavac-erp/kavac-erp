@@ -1,3 +1,5 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d5/d01/classRemoveTablePayrollWorkAgeSettingsTable.html" title="Elimina la tabla edad laboral de la base de datos." alt="" coords="5,5,217,47"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$db/d71/classApp_1_1Models_1_1Parameter.html" title="Datos de configuración de parámetros de la aplicación." alt="" coords="5,5,95,31"/>
+<area shape="rect" id="Node000001" href="$d6/dd3/classModules_1_1Payroll_1_1Models_1_1Parameter.html" title="Datos de configuración de parámetros de la aplicación." alt="" coords="143,5,232,31"/>
+<area shape="poly" id="edge93_Node000000_Node000001" title=" " alt="" coords="108,15,142,15,142,21,108,21"/>
 </map>

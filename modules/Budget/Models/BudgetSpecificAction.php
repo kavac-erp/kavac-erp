@@ -2,11 +2,12 @@
 
 namespace Modules\Budget\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class BudgetSpecificAction
@@ -15,9 +16,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos para las Acciones Específicas
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetSpecificAction extends Model implements Auditable
 {
@@ -25,20 +26,24 @@ class BudgetSpecificAction extends Model implements Auditable
     use AuditableTrait;
     use ModelsTrait;
 
-    /** @var array Establece las relaciones por defecto que se retornan con las consultas */
+    /**
+     * Establece las relaciones por defecto que se retornan con las consultas
+     *
+     * @var array $with
+     */
     protected $with = ['specificable'];
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista con campos de tipo fecha
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at', 'from_date', 'to_date'];
 
     /**
-     * The attributes that are mass assignable.
+     * Lista con campos del modelo
      *
-     * @var array
+     * @var array $fillable
      */
     protected $fillable = ['from_date', 'to_date', 'code', 'name', 'description', 'active'];
 
@@ -47,6 +52,7 @@ class BudgetSpecificAction extends Model implements Auditable
      * Crea un campo para obtener el nombre de la institución
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return string Devuelve el nombre de la institución asociada a la acción específica
      */
     public function getInstitutionAttribute()
@@ -58,6 +64,7 @@ class BudgetSpecificAction extends Model implements Auditable
      * Crea un campo para obtener el tipo de registro asociado (Proyecto o Acción Centralizada)
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return string Devuelve el tipo de registro asociado
      */
     public function getTypeAttribute()
@@ -68,18 +75,11 @@ class BudgetSpecificAction extends Model implements Auditable
     }
 
     /**
-     * Crea un campo para obtener información del código y nombre de la acción específica
+     * Establece la relación morfológica con las acciones específicas
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @return string Devuelve el código y nombre de la acción específica
-     */
-    /*public function getDescriptionAttribute()
-    {
-        return "{$this->code} - {$this->name}";
-    }*/
-
-    /**
-     * Get all of the owning specificable models.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function specificable()
     {
@@ -87,9 +87,10 @@ class BudgetSpecificAction extends Model implements Auditable
     }
 
     /**
-     * BudgetSpecificAction has many BudgetSubSpecificFormulation.
+     * Establece la relación con las formulaciones presupuestarias
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function subSpecificFormulations()

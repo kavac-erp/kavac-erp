@@ -71,7 +71,7 @@
 						vm.showMessage('update');
 					}
 				}).catch(error => {
-					vm.errors = []; 
+					vm.errors = [];
 
 					if (typeof(error.response) !="undefined") {
 						if (error.response.status == 403) {

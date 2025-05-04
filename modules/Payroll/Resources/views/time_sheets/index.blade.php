@@ -34,9 +34,9 @@
                         route_edit="{{ url('payroll/time-sheet/{id}/edit') }}"
                         route_show="{{ url('payroll/time-sheet/vue-info/{id}') }}"
                         route_list="{{ url('payroll/time-sheet/vue-list') }}"
-                        approve_permission="{{ Auth()->user()->hasPermission('payroll.time_sheet.approve') }}"
-                        reject_permission="{{ Auth()->user()->hasPermission('payroll.time_sheet.reject') }}"
-                        confirm_permission="{{ Auth()->user()->hasPermission('payroll.time_sheet.confirm') }}"
+                        approve_permission="{{ auth()->user()->hasPermission('payroll.timesheet.approve') }}"
+                        reject_permission="{{ auth()->user()->hasPermission('payroll.timesheet.reject') }}"
+                        confirm_permission="{{ auth()->user()->hasPermission('payroll.timesheet.confirm') }}"
                     >
                     </payroll-time-sheet-list>
                 </div>

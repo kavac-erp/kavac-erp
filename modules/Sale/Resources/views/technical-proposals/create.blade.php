@@ -18,27 +18,28 @@
 
 
 @section('content')
-<div class="row">
-    <div class="col-12">
-        <div class="card" id="cardSaleTechnicalProposalForm">
-            <div class="card-header">
-                <h6 class="card-title text-uppercase">Completar propuesta técnica
-                    @include('buttons.help', [
-                        'helpId' => 'SaleTechnicalProposalForm',
-                        'helpSteps' => get_json_resource('ui-guides/services/technical_proposal_form.json', 'sale')
-                    ])
-                </h6>
-                </h6>
-                <div class="card-btns">
-                    @include('buttons.previous', ['route' => url()->previous()])
-                    @include('buttons.minimize')
+    <div class="row">
+        <div class="col-12">
+            <div class="card" id="cardSaleTechnicalProposalForm">
+                <div class="card-header">
+                    <h6 class="card-title text-uppercase">Completar propuesta técnica
+                        @include('buttons.help', [
+                            'helpId' => 'SaleTechnicalProposalForm',
+                            'helpSteps' => get_json_resource(
+                                'ui-guides/services/technical_proposal_form.json',
+                                'sale'),
+                        ])
+                    </h6>
+                    </h6>
+                    <div class="card-btns">
+                        @include('buttons.previous', ['route' => url()->previous()])
+                        @include('buttons.minimize')
+                    </div>
                 </div>
+                <sale-technical-proposal-create route_list='{{ url('/sale/services') }}'
+                    :serviceid="{!! isset($saleTechnicalProposal) ? $saleTechnicalProposal->id : 'null' !!}">
+                </sale-technical-proposal-create>
             </div>
-            <sale-technical-proposal-create
-                route_list='{{ url('/sale/services')}}'
-                :serviceid ="{!! (isset($saleTechnicalProposal)) ? $saleTechnicalProposal->id : 'null' !!}">
-            </sale-technical-proposal-create>
         </div>
     </div>
-</div>
 @stop

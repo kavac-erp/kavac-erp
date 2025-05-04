@@ -8,6 +8,13 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
 
+/**
+ * @class PurchasePivotModelsToRequirementItem
+ * @brief Gestiona los detalles de los requerimientos de compra
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchasePivotModelsToRequirementItem extends Model implements Auditable
 {
     use SoftDeletes;
@@ -16,12 +23,14 @@ class PurchasePivotModelsToRequirementItem extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -33,25 +42,22 @@ class PurchasePivotModelsToRequirementItem extends Model implements Auditable
     ];
 
     /**
-     * PurchasePivotModelsToRequirementItem morphs to models in relatable_type.
+     * Establece la relación morfológica entre modelos
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function relatable()
     {
-        // morphTo($name = relatable, $type = relatable_type, $id = relatable_id)
-        // requires relatable_type and relatable_id fields on $this->table
         return $this->morphTo();
     }
 
     /**
-     * PurchasePivotModelsToRequirementItem belongs to PurchaseRequirementItem.
+     * Establece la relación con el detalle del requerimiento de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function purchaseRequirementItem()
     {
-        // belongsTo(RelatedModel, foreignKey = purchaseRequirementItem_id, keyOnRelatedModel = id)
         return $this->belongsTo(PurchaseRequirementItem::class);
     }
 }

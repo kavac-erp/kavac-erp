@@ -11,7 +11,26 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 use Modules\Accounting\Jobs\AccountingManageImport;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use App\Models\User;
+use App\Mail\FailImportNotification;
+use App\Notifications\SystemNotification;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Events\AfterImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\Payroll\Exports\FailRegisterImportExport;
 
+/**
+ * @class AccountingAccountImport
+ * @brief Gestiona la importación de datos del reporte de estado de resultados
+ *
+ * Realiza el proceso de importación de datos del reporte de estado de resultados
+ *
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AccountingAccountImport implements
     ToModel,
     WithHeadingRow,
@@ -23,9 +42,16 @@ class AccountingAccountImport implements
     use Importable;
 
     /**
-     * @param array $row
+     * Líneas que generan errores al momento de importar
      *
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @var array $lines
+     */
+    protected $lines;
+
+    /**
+     * @param array $row Datos de la fila a importar
+     *
+     * @return void
      */
     public function model(array $row)
     {
@@ -35,11 +61,9 @@ class AccountingAccountImport implements
     /**
      * Reglas de validación
      *
-     * @method     rules
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     *
-     * @return     Array           Devuelve un arreglo con las reglas de validación
+     * @return     array           Devuelve un arreglo con las reglas de validación
      */
     public function rules(): array
     {
@@ -54,9 +78,7 @@ class AccountingAccountImport implements
     /**
      * Mensajes de validación personalizados
      *
-     * @method     customValidationMessages
-     *
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
      * @return     array                      Devuelve un arreglo con los mensajes de validación personalizados
      */
@@ -71,16 +93,77 @@ class AccountingAccountImport implements
             'original.max' => 'Error en la fila :row. El campo :attribute debe ser de maximo 2 caracteres.',
         ];
     }
+
+    /**
+     * Establece el tamaño máximo a importar
+     *
+     * @return int
+     */
     public function batchSize(): int
     {
         return 200;
     }
+
+    /**
+     * Establece el tamaño de cada trozo a importar
+     *
+     * @return int
+     */
     public function chunkSize(): int
     {
         return 200;
     }
+
+    /**
+     * Gestiona los errores del archivo al importar datos
+     *
+     * @param \Maatwebsite\Excel\Validators\Failure[] $failures
+     *
+     * @return void
+     */
     public function onFailure(Failure ...$failures)
     {
         // Handle the failures how you'd like.
+    }
+
+    /**
+     * Realiza las acciones necesarias después de importar datos
+     *
+     * @param \Maatwebsite\Excel\Events\AfterImport $event Evento de importación
+     *
+     * @return void
+     */
+    public static function afterImport(AfterImport $event)
+    {
+        $email = auth()->user()->email;
+
+        $messageStatus = 'Éxito';
+        $messageContent = 'Importación exitosa.';
+
+        if (!empty(self::$errors)) {
+            $messageStatus = 'Error';
+            $messageContent = 'Carga masiva de cuentas: Fallos de Importacion de registros.';
+
+            $errorExcelFiles = [
+                [
+                    'file' => Excel::raw(new FailRegisterImportExport(self::$lines), \Maatwebsite\Excel\Excel::XLSX),
+                    'fileName' => 'Errores_de_importacion_contabilidad.xlsx',
+                ]
+            ];
+        }
+
+        $user = User::find(auth()->user()->id);
+
+        if (!empty(self::$errors)) {
+            try {
+                Mail::to($email)->send(new FailImportNotification($errorExcelFiles));
+            } catch (\Exception $e) {
+                Log::info($e);
+                $sendEmailMessage = 'No se pudo enviar el correo de importación. ';
+                $user->notify(new SystemNotification('Error', $sendEmailMessage));
+            }
+        }
+
+        $user->notify(new SystemNotification($messageStatus, $messageContent));
     }
 }

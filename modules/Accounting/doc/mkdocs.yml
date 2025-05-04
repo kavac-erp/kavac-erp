@@ -6,17 +6,17 @@ use_directory_urls: true
 # Page tree
 nav:
       - Inicio: index.md
-      - Configuración: 
+      - Configuración:
         - Formatos de Códigos: setting/code_format.md
-        - Configuración del Módulo: setting/setting.md 
+        - Configuración del Módulo: setting/setting.md
       - Módulo de Contabilidad:
         - Convertidor de Cuentas: account_converter.md
         - Asientos Contables: accounting_entry.md
         - Reportes: reports.md
-      
-      # Panel de Control: 
-      # Panel de Control: control_panel/control_panel.md 
-      - Preguntas Frecuentes: frequent_questions.md  
+
+      # Panel de Control:
+      # Panel de Control: control_panel/control_panel.md
+      - Preguntas Frecuentes: frequent_questions.md
 
 # Repository
 repo_name: Repositorio-Kavac
@@ -48,8 +48,8 @@ theme:
     code: Roboto Mono
   favicon: images/favicon.png
   logo: images/logo.png
-  icon: 
-    repo: fontawesome/brands/git-square
+  icon:
+    repo: fontawesome/brands/square-git
 
 # Plugins
 plugins:
@@ -65,8 +65,8 @@ plugins:
 # Customization
 # extra:
 #   social:
-#     - icon: 
-#       link: 
+#     - icon:
+#       link:
 
 # Extensions
 markdown_extensions:

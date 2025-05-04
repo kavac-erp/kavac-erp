@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Providers;
 
 use Illuminate\Support\Facades\Route;
@@ -9,11 +7,9 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 /**
  * @class RouteServiceProvider
- * @brief [descripción detallada]
+ * @brief Proveedor de servicios de rutas para el módulo de Seguimiento de Proyectos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -23,7 +19,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * El namespace del módulo que se debe asumir al generar las URL.
      *
-     * @var string
+     * @var string $moduleNamespace
      */
     protected $moduleNamespace = 'Modules\ProjectTracking\Http\Controllers';
 
@@ -32,9 +28,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * Registra cualquier enlace del modelo o filtros basados en patrones.
      *
-     * @method boot
-     *
-     * @return void     [descripción de los datos devueltos]
+     * @return void
      */
     public function boot()
     {
@@ -44,9 +38,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Define las rutas del módulo.
      *
-     * @method map
-     *
-     * @return void     [descripción de los datos devueltos]
+     * @return void
      */
     public function map()
     {
@@ -60,9 +52,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * Todas estas rutas reciben el estado de sesión, protección CSRF, etc.
      *
-     * @method mapWebRoutes
-     *
-     * @return void     [descripción de los datos devueltos]
+     * @return void
      */
     protected function mapWebRoutes()
     {
@@ -76,9 +66,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * Estas rutas son típicamente sin estado.
      *
-     * @method mapWebRoutes
-     *
-     * @return void     [descripción de los datos devueltos]
+     * @return void
      */
     protected function mapApiRoutes()
     {

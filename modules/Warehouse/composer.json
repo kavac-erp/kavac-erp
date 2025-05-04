@@ -1,12 +1,15 @@
 {
-    "name": "nwidart/warehouse",
+    "name": "kavac/warehouse",
     "description": "",
+    "keywords": ["kavac", "warehouse"],
     "authors": [
         {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com"
+            "name": "Ing. Roldan Vargas",
+            "email": "roldandvg@gmail.com"
         }
     ],
+    "require": {},
+    "require-dev": {},
     "extra": {
         "laravel": {
             "providers": [],

@@ -1,0 +1,5 @@
+<map id="cancelPaymentExecute" name="cancelPaymentExecute">
+<area shape="rect" id="Node000001" title="Método que permite anular una emisión de pago, de manera parcial o total." alt="" coords="5,5,177,31"/>
+<area shape="rect" id="Node000002" href="$dd/de1/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinancePaymentExecuteController.html#a5e823ca7ebe35f9917ae156e6831ee0d" title="Método que permite anular las emisiones, las ordenes de pago y los compromisios de los aportes de nóm..." alt="" coords="225,5,369,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,15,211,15,211,21,178,21"/>
+</map>

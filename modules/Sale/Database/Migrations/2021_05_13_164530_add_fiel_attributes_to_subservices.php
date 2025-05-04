@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFielAttributesToSubservices
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -39,7 +37,6 @@ class AddFielAttributesToSubservices extends Migration
     {
         Schema::table('sale_list_subservices', function (Blueprint $table) {
             if (Schema::hasColumn('sale_list_subservices', 'define_attributes')) {
-                //$table->dropUnique(['define_attributes']);
                 $table->dropColumn('define_attributes');
             }
         });

@@ -98,13 +98,10 @@ export default {
     async created() {
         const vm = this;
         try {
-            // await vm.getRecords();
             let payments = await axios.get(`${window.app_url}/payroll/get-payroll-payment-types`);
-            // let accounts = await axios.get(`${window.app_url}/finance/get-bank-accounts`);
             let payrollList = await axios.get(`${window.app_url}/payroll/get-payroll-list`);
 
             vm.paymentTypes = payments.data.payment_types;
-            // vm.bankAccounts = accounts.data;
             vm.closedPayrollList = payrollList.data.payroll_list;
             if (vm.payroll_text_file_id) {
                 await vm.editRecord(vm.payroll_text_file_id);
@@ -121,10 +118,6 @@ export default {
     },
 
     methods: {
-
-        /**
-         * 
-         */
         async reset() {
             const vm = this;
             vm.record = {
@@ -137,10 +130,6 @@ export default {
                 payrollId: '',
             }
         },
-
-        /**
-         * 
-         */
         async editRecord(id) {
             const vm = this;
             try {
@@ -158,11 +147,6 @@ export default {
             }
 
         },
-
-
-        /**
-         * 
-         */
         async createRecord(url) {
             const vm = this;
             try {
@@ -179,38 +163,24 @@ export default {
                             payrollId: this.record.payrollId,
                         }
                     });
-                    // Create a download link
                     const url = window.URL.createObjectURL(new Blob([response.data]));
                     const link = document.createElement('a');
-                    link.href = url;
-                    date = new Date().toLocaleDateString();
+
+                    link.setAttribute('href', url);
                     link.setAttribute('download', `${this.record.fileNumber}_${this.record.fileName}.txt`);
-
-                    // Append the link to the document body
-                    document.body.appendChild(link);
-
-                    // Click the link programmatically to trigger the download
+                    link.setAttribute('target', '_blank');
                     link.click();
 
-                    // Clean up the URL object
                     window.URL.revokeObjectURL(url);
                 }
 
             } catch (error) {
                 vm.errors = [];
-
-                // if (typeof (error.response) != "undefined") {
-                //     if (error.response.status == 403) {
-                //         vm.showMessage(
-                //             'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
-                //         );
-                //     }
                 for (var index in error.response.data.errors) {
                     if (error.response.data.errors[index]) {
                         vm.errors.push(error.response.data.errors[index][0]);
                     }
                 }
-                // }
                 console.log(error.response.data.errors);
             }
         },

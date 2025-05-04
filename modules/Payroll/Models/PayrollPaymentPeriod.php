@@ -15,6 +15,7 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de períodos de pago de nómina
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -26,14 +27,21 @@ class PayrollPaymentPeriod extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * Lista de relaciones a cargar con el modelo
+     *
+     * @var array $with
+     */
     protected $with = ['payrollPaymentType'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -63,14 +71,4 @@ class PayrollPaymentPeriod extends Model implements Auditable
     {
         return $this->hasOne(Payroll::class);
     }
-
-    /**
-     * Obtiene la fecha del registro para usar en el bloqueo del cierre de ejercicio
-     *
-     * @return Date
-     */
-    // public function getDate()
-    // {
-    //     return $this->start_date;
-    // }
 }

@@ -52,7 +52,7 @@
                         <td><strong>{{ $detail->label }} :</strong> {{ $detail->value }}</td>
                         </tr>
                 @endforeach
-            </table>                    
+            </table>
                 </td>
             </tr>
         @endforeach
@@ -63,7 +63,7 @@
     $showAsignedTable = false;
 
     foreach($assets as $asset) {
-        
+
             if ($asset->asset_status->id == 1) {
                 $showAsignedTable = true;
             }
@@ -88,7 +88,7 @@
         <tbody>
             @foreach($assets as $asset)
                 @if($asset->asset_status->id == 1 && isset($asset->asignee_name))
-                
+
                     <tr>
                     <td width="8%">
                             {{ isset($asset->asset_institutional_code->name) ?
@@ -100,7 +100,7 @@
                                 $asset->asset_specific_category->name :
                                 '' }}
                         </td>
-                        
+
                         <td>
                             {{ isset($asset->asignee_name) ?
                                 $asset->asignee_name :
@@ -123,7 +123,7 @@
                                 <td><strong>{{ $detail->label }} :</strong> {{ $detail->value }}</td>
                                 </tr>
                         @endforeach
-                    </table>                    
+                    </table>
                         </td>
                     </tr>
                 @endif
@@ -136,7 +136,7 @@
     $showDisincorporationTable = false;
 
     foreach($assets as $asset) {
-        
+
             if ($asset->asset_status->id == 11) {
                 $showDisincorporationTable = true;
             }
@@ -145,7 +145,7 @@
 @endphp
 
 @if($showDisincorporationTable)
-    
+
     <h3 align="center">Bienes desincorporados</h3>
     <table class="table">
         <thead>
@@ -195,7 +195,7 @@
                                 <td><strong>{{ $detail->label }} :</strong> {{ $detail->value }}</td>
                                 </tr>
                         @endforeach
-                        </table>     
+                        </table>
                         </td>
                     </tr>
                 @endif

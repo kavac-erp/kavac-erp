@@ -58,15 +58,15 @@
                                         <strong>Responsable:</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <span v-if="record.project_name && record.project">
-                                                {{ record.project.responsable.first_name ? record.project.responsable.first_name : record.project.responsable.name }} 
+                                                {{ record.project.responsable.first_name ? record.project.responsable.first_name : record.project.responsable.name }}
                                                 {{ record.project.responsable.last_name  }}
                                             </span>
                                             <span v-else-if="record.product_name && record.product">
-                                                {{ record.product.responsable.first_name ? record.product.responsable.first_name : record.product.responsable.name }} 
+                                                {{ record.product.responsable.first_name ? record.product.responsable.first_name : record.product.responsable.name }}
                                                 {{ record.product.responsable.last_name  }}
                                             </span>
                                             <span v-else>
-                                                {{ record.sub_project && record.sub_project.responsable ? record.sub_project.responsable.first_name : record.sub_project && record.sub_project.responsable ? record.sub_project.responsable.name : '' }} 
+                                                {{ record.sub_project && record.sub_project.responsable ? record.sub_project.responsable.first_name : record.sub_project && record.sub_project.responsable ? record.sub_project.responsable.name : '' }}
                                                 {{ record.sub_project ? record.sub_project.responsable.last_name : '' }}
                                             </span>
                                         </div>
@@ -224,11 +224,11 @@
         methods: {
             /**
              * Método que borra todos los datos del formulario
-             * 
+             *
              * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
              */
             reset() {
-            },  
+            },
         },
     }
 </script>

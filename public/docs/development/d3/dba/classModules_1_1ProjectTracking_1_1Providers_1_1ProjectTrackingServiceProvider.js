@@ -8,6 +8,6 @@ var classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvid
     [ "registerFactories", "d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html#a5fd4226764c7b498b81958b2ba9077ad", null ],
     [ "registerTranslations", "d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html#a09835f90ad36479b364740905741e627", null ],
     [ "registerViews", "d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html#ace230673c353d46a0058ca73134fbc2c", null ],
-    [ "$moduleName", "d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html#a47025ed3b5b51aee8d33f1f614b8c890", null ],
-    [ "$moduleNameLower", "d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html#a5b2fac53525217c24c72d02a3c5be77e", null ]
+    [ "$moduleName", "d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html#a82f1095f82a7de94270426d550301ab5", null ],
+    [ "$moduleNameLower", "d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html#a4c483410371492cbc3a54d0b53907c11", null ]
 ];

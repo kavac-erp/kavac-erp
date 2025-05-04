@@ -54,52 +54,30 @@
 										   v-model="record.name" v-is-text>
 			                    </div>
 							</div>
-							<!--div class="col-12 col-md-2">
-								<div class="form-group is-required">
-									<label>Solicita almacén:</label>
-									<div class="custom-control custom-switch" data-toggle="tooltip" 
-										 title="Indique si puede emitir solicitudes de almacén">
-										<input type="checkbox" class="custom-control-input" 
-											   id="departmentIssueRequest" v-model="record.issue_requests" :value="true">
-										<label class="custom-control-label" for="departmentIssueRequest"></label>
-									</div>
-			                    </div>
-							</div-->
 							<div class="col-12 col-md-2">
 								<div class="form-group is-required">
 									<label>Activo:</label>
-									<div class="custom-control custom-switch" data-toggle="tooltip" 
+									<div class="custom-control custom-switch" data-toggle="tooltip"
 										 title="Indique si se encuentra activo">
-										<input type="checkbox" class="custom-control-input" 
+										<input type="checkbox" class="custom-control-input"
 											   id="departmentActive" v-model="record.active" :value="true">
 										<label class="custom-control-label" for="departmentActive"></label>
 									</div>
 			                    </div>
 							</div>
-							<!--div class="col-12 col-md-2">
-								<div class="form-group is-required">
-									<label>Administrativo:</label>
-									<div class="custom-control custom-switch" data-toggle="tooltip" 
-										 title="Indique si la unidad, departamento o dependencia es del área administrativa">
-										<input type="checkbox" class="custom-control-input" 
-											   id="departmentAdministrative" v-model="record.administrative" :value="true">
-										<label class="custom-control-label" for="departmentAdministrative"></label>
-									</div>
-			                    </div>
-							</div-->
 						</div>
 	                </div>
 	                <div class="modal-footer">
 	                	<div class="form-group">
-	                		<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+	                		<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('departments')" 
+							<button type="button" @click="createRecord('departments')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -149,8 +127,6 @@
 					acronym: '',
 					name: '',
 					active: false,
-					/**issue_requests: false,
-					administrative: false*/
 				},
 				institutions: [],
 				departments: [],
@@ -166,11 +142,11 @@
 				deep: true,
 				handler: function(newValue, oldValue) {
 					const vm = this;
-					
+
 					if (
-						typeof(vm.record.parent) !== "undefined" && 
-						vm.record.parent !== null && 
-						vm.record.parent_id !== vm.record.parent.id && 
+						typeof(vm.record.parent) !== "undefined" &&
+						vm.record.parent !== null &&
+						vm.record.parent_id !== vm.record.parent.id &&
 						!vm.record.parent_id
 					) {
 						setTimeout(() => {
@@ -194,8 +170,6 @@
 					acronym: '',
 					name: '',
 					active: false,
-					/**issue_requests: false,
-					administrative: false*/
 				};
 			},
 		},

@@ -160,9 +160,6 @@ export default {
             }
         },
 
-        /**
-         * 
-         */
         async reset() {
             const vm = this;
             vm.record = {
@@ -174,9 +171,6 @@ export default {
             }
         },
 
-        /**
-         * 
-         */
         async createForm(url) {
             const vm = this;
 
@@ -203,11 +197,5 @@ export default {
             }
         },
     },
-
-    // watch: {
-    //     'record.percetage': function (value) {
-    //         this.record.percetage = value / 100;
-    //     }
-    // }
 }
 </script>

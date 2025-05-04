@@ -5,7 +5,7 @@ var classApp_1_1Notifications_1_1SystemNotification =
     [ "toBroadcast", "dc/d26/classApp_1_1Notifications_1_1SystemNotification.html#af66e7b3fca4e0a1a5d48f3fa71efdf7a", null ],
     [ "toDatabase", "dc/d26/classApp_1_1Notifications_1_1SystemNotification.html#a2679bec6c5b639fcdd23b42f797e143e", null ],
     [ "via", "dc/d26/classApp_1_1Notifications_1_1SystemNotification.html#a7665d00e051513872f2076af10c7af8d", null ],
-    [ "$currentTimestamp", "dc/d26/classApp_1_1Notifications_1_1SystemNotification.html#aba7835abc2774112386cd2d1abd1ff2b", null ],
-    [ "$details", "dc/d26/classApp_1_1Notifications_1_1SystemNotification.html#ab49ceda45cf5f7d1e67247bd05d0e95a", null ],
-    [ "$title", "dc/d26/classApp_1_1Notifications_1_1SystemNotification.html#ada57e7bb7c152edad18fe2f166188691", null ]
+    [ "$currentTimestamp", "dc/d26/classApp_1_1Notifications_1_1SystemNotification.html#a4e7b7003536388787fc9760600b38393", null ],
+    [ "$details", "dc/d26/classApp_1_1Notifications_1_1SystemNotification.html#a03214da3901f86ea411b3b3872b07993", null ],
+    [ "$title", "dc/d26/classApp_1_1Notifications_1_1SystemNotification.html#a5ef02115477cfad473df2455da5a908e", null ]
 ];

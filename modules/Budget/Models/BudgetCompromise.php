@@ -2,15 +2,17 @@
 
 namespace Modules\Budget\Models;
 
-use App\Models\Receiver;
 use App\Models\Source;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
+use App\Models\Receiver;
 use App\Traits\ModelsTrait;
 use Illuminate\Support\Facades\DB;
+use Modules\Finance\Models\FinancePayOrder;
 use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class BudgetCompromise
@@ -19,9 +21,9 @@ use Nwidart\Modules\Facades\Module;
  * Gestiona el modelo de datos para los Compromisos de Presupuesto
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetCompromise extends Model implements Auditable
 {
@@ -30,12 +32,17 @@ class BudgetCompromise extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista con campos de tipo fecha
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at', 'compromised_at'];
 
+    /**
+     * Lista con campos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = [
         'compromised_at', 'description', 'code', 'document_number', 'institution_id', 'document_status_id',
         'sourceable_type', 'sourceable_id', 'compromiseable_type', 'compromiseable_id'
@@ -44,14 +51,15 @@ class BudgetCompromise extends Model implements Auditable
     /**
      * Listado de campos adjuntos a los campos por defecto
      *
-     * @var    array
+     * @var    array $appends
      */
     protected $appends = ['status', 'receiver'];
 
     /**
-     * Compromise morphs to models in compromiseable_type.
+     * Establece la relación morfológica con compromisos
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function compromiseable()
@@ -60,11 +68,12 @@ class BudgetCompromise extends Model implements Auditable
     }
 
     /**
-     * Compromise morphs to models in sourceable_type.
+     * Establece la relación morfológica con las fuentes de documentos
      *
      * Este método requiere que la fuente asociada contenga un campo llamado code con el código del documento
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function sourceable()
@@ -73,7 +82,7 @@ class BudgetCompromise extends Model implements Auditable
     }
 
     /**
-     * BudgetCompromise has many BudgetCompromiseDetail.
+     * Establece la relación con los detalles del compromiso
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -83,7 +92,7 @@ class BudgetCompromise extends Model implements Auditable
     }
 
     /**
-     * BudgetCompromise has many BudgetStages.
+     * Establece la relación con los estatus presupuestarios
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -93,7 +102,7 @@ class BudgetCompromise extends Model implements Auditable
     }
 
     /**
-     * BudgetCompromise belongs to DocumentStatus.
+     * Establece la relación con el estatus del documento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -103,9 +112,10 @@ class BudgetCompromise extends Model implements Auditable
     }
 
     /**
-     * BudgetModifications belongs to Institution.
+     * Establece la relación con la institución
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function institution()
@@ -114,15 +124,37 @@ class BudgetCompromise extends Model implements Auditable
     }
 
     /**
+     * financePayOrders belongs to FinancePayOrder.
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function financePayOrders()
+    {
+        if (Module::has('Finance') && Module::isEnabled('Finance')) {
+            return $this->morphMany(FinancePayOrder::class, 'document_sourceable');
+        } else {
+            return [];
+        }
+    }
+
+    /**
      * Método que permite obtener el estatus de un compromiso
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return string Retorna el estatus de un compromiso
      */
     public function getStatusAttribute()
     {
         $stages = $this->budgetStages()->orderBy('type', 'asc')->get();
         $status_action = $this->documentStatus->action;
+
+        if ($status_action == 'AN') {
+            // Anulado
+            return 'AN';
+        }
+
         $status = $status_action;
         $stagesPagAmount = 0;
         $stagesComAmount = 0;
@@ -154,6 +186,7 @@ class BudgetCompromise extends Model implements Auditable
      * en caso que el compromiso sea manual.
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return string Retorna el beneficiario del compromiso
      */
     public function getReceiverAttribute()
@@ -199,12 +232,11 @@ class BudgetCompromise extends Model implements Auditable
     /**
      * Scope para buscar y filtrar datos de emisiones de pago
      *
-     * @method    scopeSearch
-     *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Eloquent\Builder  $query Objeto con la consulta
      * @param  string         $search    Cadena de texto a buscar
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSearch($query, $search)
@@ -212,6 +244,7 @@ class BudgetCompromise extends Model implements Auditable
         return $query
             ->where(DB::raw('upper(code)'), 'LIKE', '%' . strtoupper($search) . '%')
             ->orWhereRaw("TO_CHAR(compromised_at, 'DD/MM/YYYY') LIKE '%" . strtoupper($search) . "%'")
-            ->orWhere(DB::raw('upper(description)'), 'LIKE', '%' . strtoupper($search) . '%');
+            ->orWhere(DB::raw('upper(description)'), 'LIKE', '%' . strtoupper($search) . '%')
+            ->orWhere(DB::raw('upper(document_number)'), 'LIKE', '%' . strtoupper($search) . '%');
     }
 }

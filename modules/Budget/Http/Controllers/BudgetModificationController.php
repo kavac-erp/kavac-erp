@@ -8,13 +8,13 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Models\CodeSetting;
+use App\Models\Document;
 use App\Models\DocumentStatus;
 use App\Models\FiscalYear;
 use Modules\Budget\Models\BudgetModification;
 use Modules\Budget\Models\BudgetModificationAccount;
 use Modules\Budget\Models\BudgetSubSpecificFormulation;
 use Modules\Budget\Models\BudgetAccountOpen;
-use Modules\Budget\Models\BudgetAccount;
 
 /**
  * @class BudgetModificationController
@@ -23,32 +23,38 @@ use Modules\Budget\Models\BudgetAccount;
  * Clase que gestiona información de las modificaciones presupuestarias del módulo de Presupuesto
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetModificationController extends Controller
 {
     use ValidatesRequests;
 
-    /** @var array Arreglo con los datos a implementar en los atributos del formulario */
+    /**
+     * Arreglo con los datos a implementar en los atributos del formulario
+     *
+     * @var array $header
+     */
     public $header;
 
     /**
      * Define la configuración de la clase
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:budget.modifications.list', ['only' => 'index', 'vueList']);
         $this->middleware('permission:budget.modifications.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:budget.modifications.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:budget.modifications.delete', ['only' => 'destroy']);
         $this->middleware('permission:budget.modifications.approve', ['only' => 'changeStatus']);
 
-        /** @var array Arreglo de opciones a implementar en el formulario */
+        /* Arreglo de opciones a implementar en el formulario */
         $this->header = [
             'route' => 'budget.modifications.store',
             'method' => 'POST',
@@ -58,7 +64,8 @@ class BudgetModificationController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Muestra el listado de modificaciones presupuestarias
+     *
      * @return Renderable
      */
     public function index()
@@ -70,6 +77,9 @@ class BudgetModificationController extends Controller
      * Muestra el formulario para crear un crédito adicional
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param string $type Indica el tipo de modificación presupuestaria
+     *
      * @return Renderable
      */
     public function create($type)
@@ -88,21 +98,24 @@ class BudgetModificationController extends Controller
      * Registra información de la modificación presupuestaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
-     * @return Renderable
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        /** @var array Arreglo con las reglas de validación para el registro */
+        /* Arreglo con las reglas de validación para el registro */
         $rules = [
             'approved_at' => ['required', 'date'],
             'description' => ['required'],
             'document' => ['required', 'max:20'],
             'institution_id' => ['required'],
+            'currency_id' => $request->type_modification === 'AC' ? ['required'] : ['nullable'],
             'budget_account_id' => ['required', 'array', 'min:1']
         ];
 
-        /** @var array Arreglo con los mensajes para las reglas de validación */
+        /* Arreglo con los mensajes para las reglas de validación */
         $messages = [
             'budget_account_id.required' => 'Las cuentas presupuestarias son obligatorias.',
             'document.max' => 'El campo Documento sólo debe tener 20 carácteres o menos',
@@ -112,9 +125,10 @@ class BudgetModificationController extends Controller
             'approved_at' => 'Fecha de creación',
             'document' => 'Documento',
             'institution_id' => 'Institución',
+            'currency_id' => 'Moneda',
         ];
 
-        /** @var object Contiene la configuración del código establecido para el registro */
+        /* Contiene la configuración del código establecido para el registro */
         if (!is_null($request->type)) {
             switch ($request->type) {
                 case 'AC':
@@ -143,13 +157,13 @@ class BudgetModificationController extends Controller
 
         $this->validate($request, $rules, $messages, $attributes);
 
-        /** @var object Obtiene el registro del documento con estatus aprobado */
+        /* Obtiene el registro del documento con estatus aprobado */
         $documentStatus = DocumentStatus::getStatus('AP');
 
         $currentFiscalYear = FiscalYear::select('year')
-        ->where(['active' => true, 'closed' => false])->orderBy('year', 'desc')->first();
+            ->where(['active' => true, 'closed' => false])->orderBy('year', 'desc')->first();
 
-        /** @var string Contiene el código generado para el registro a crear */
+        /* Contiene el código generado para el registro a crear */
         $code  = generate_registration_code(
             $codeSetting->format_prefix,
             strlen($codeSetting->format_digits),
@@ -163,7 +177,7 @@ class BudgetModificationController extends Controller
         DB::transaction(function () use ($request, $code, $documentStatus) {
             $type = ($request->type === "AC") ? 'C' : (($request->type === "RE") ? 'R' : 'T');
 
-            /** @var object Objeto que contiene los datos de la modificación presupuestaria creada */
+            /* Objeto que contiene los datos de la modificación presupuestaria creada */
             $budgetModification = BudgetModification::create([
                 'type' => $type,
                 'code' => $code,
@@ -171,12 +185,12 @@ class BudgetModificationController extends Controller
                 'description' => $request->description,
                 'document' => $request->document,
                 'institution_id' => $request->institution_id,
+                'currency_id' => $request->currency_id,
                 'document_status_id' => $documentStatus->id
             ]);
 
             foreach ($request->budget_account_id as $account) {
-
-                /** @var object Obtiene la formulación correspondiente a la acción específica seleccionada */
+                /* Obtiene la formulación correspondiente a la acción específica seleccionada */
                 $formulation = BudgetSubSpecificFormulation::where('budget_specific_action_id', $account['from_specific_action_id'])
                     ->where('document_status_id', $documentStatus->id)
                     ->where('assigned', true)
@@ -210,7 +224,7 @@ class BudgetModificationController extends Controller
                 }
 
                 if (isset($account['to_account_id'])) {
-                    /** @var object Obtiene la formulación correspondiente a la acción específica a donde transferir
+                    /* Obtiene la formulación correspondiente a la acción específica a donde transferir
                     los recursos */
                     $formulation_transfer = BudgetSubSpecificFormulation::currentFormulation(
                         $account['to_specific_action_id']
@@ -237,6 +251,16 @@ class BudgetModificationController extends Controller
                     }
                 }
             }
+
+            if ($request->documentFiles) {
+                //Verifica si tiene documentos para establecer la relación
+                foreach ($request->documentFiles as $file) {
+                    $doc = Document::find($file);
+                    $doc->documentable_id = $budgetModification->id;
+                    $doc->documentable_type = BudgetModification::class;
+                    $doc->save();
+                }
+            }
         });
 
         $request->session()->flash('message', ['type' => 'store']);
@@ -248,15 +272,13 @@ class BudgetModificationController extends Controller
     /**
      * Muestra el formulario de actualización de datos según el tipo de modificación presupuestaria
      *
-     * @method     edit
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param      string                $type            Define el tipo de modificación presupuestaria a mostrar
      * @param      BudgetModification    $modification    Objeto con información de la modificación presupuestaria a
      *                                                    actualizar
      *
-     * @return     View                Devuelve la vista a mostrar para la respectiva modificación presupuestaria
+     * @return     \Illuminate\View\View
      */
     public function edit($type, BudgetModification $modification)
     {
@@ -271,18 +293,26 @@ class BudgetModificationController extends Controller
         return view("budget::$viewTemplate.create-edit-form", compact('type', 'model'));
     }
 
+    /**
+     * Actualiza los datos de la modificación presupuestaria
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request)
     {
-        /** @var array Arreglo con las reglas de validación para el registro */
+        /* Arreglo con las reglas de validación para el registro */
         $rules = [
             'approved_at' => ['required', 'date'],
             'description' => ['required'],
             'document' => ['required', 'max:20'],
             'institution_id' => ['required'],
+            'currency_id' => ['required'],
             'budget_account_id' => ['required', 'array', 'min:1']
         ];
 
-        /** @var array Arreglo con los mensajes para las reglas de validación */
+        /* Arreglo con los mensajes para las reglas de validación */
         $messages = [
             'budget_account_id.required' => 'Las cuentas presupuestarias son obligatorias.',
             'document.max' => 'El campo Documento sólo debe tener 20 carácteres o menos',
@@ -292,6 +322,7 @@ class BudgetModificationController extends Controller
             'approved_at' => 'Fecha de creación',
             'document' => 'Documento',
             'institution_id' => 'Institución',
+            'currency_id' => 'Moneda',
         ];
 
         $this->validate($request, $rules, $messages, $attributes);
@@ -302,20 +333,20 @@ class BudgetModificationController extends Controller
             $budgetModification = BudgetModification::find($request->id);
             $type = ($request->type === "AC") ? 'C' : (($request->type === "RE") ? 'R' : 'T');
 
-            /** @var object Objeto que contiene los datos de la modificación presupuestaria creada */
+            /* Objeto que contiene los datos de la modificación presupuestaria creada */
             $budgetModification->type = $type;
             $budgetModification->approved_at = $request->approved_at;
             $budgetModification->description = $request->description;
             $budgetModification->document = $request->document;
             $budgetModification->institution_id = $request->institution_id;
+            $budgetModification->currency_id = $request->currency_id;
             $budgetModification->document_status_id = $documentStatus->id;
             $budgetModification->save();
 
             $deleted = BudgetModificationAccount::where('budget_modification_id', $budgetModification->id)->delete();
 
             foreach ($request->budget_account_id as $account) {
-
-                /** @var object Obtiene la formulación correspondiente a la acción específica seleccionada */
+                /* Obtiene la formulación correspondiente a la acción específica seleccionada */
                 $formulation = BudgetSubSpecificFormulation::where('budget_specific_action_id', $account['from_specific_action_id'])
                     ->where('document_status_id', $documentStatus->id)
                     ->where('assigned', true)
@@ -493,7 +524,7 @@ class BudgetModificationController extends Controller
                 }
 
                 if (isset($account['to_account_id'])) {
-                    /** @var object Obtiene la formulación correspondiente a la acción específica a donde transferir
+                    /* Obtiene la formulación correspondiente a la acción específica a donde transferir
                     los recursos */
                     $formulation_transfer = BudgetSubSpecificFormulation::currentFormulation(
                         $account['to_specific_action_id']
@@ -577,6 +608,18 @@ class BudgetModificationController extends Controller
                     }
                 }
             }
+
+            if ($request->documentFiles) {
+                // Elimina cualquier documento previamente cargado a la modificación presupuestaria
+                Document::where(['documentable_type' => BudgetModification::class, 'documentable_id' => $budgetModification->id])->delete();
+                //Verifica si tiene documentos para establecer la relación
+                foreach ($request->documentFiles as $file) {
+                    $doc = Document::find($file);
+                    $doc->documentable_id = $budgetModification->id;
+                    $doc->documentable_type = BudgetModification::class;
+                    $doc->save();
+                }
+            }
         });
 
         $request->session()->flash('message', ['type' => 'update']);
@@ -586,12 +629,15 @@ class BudgetModificationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Renderable
+     * Elimina una modificación presupuestaria
+     *
+     * @param integer $id Identificador de la modificación presupuestaria
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /** @var object Objeto con información de la modificación presupuestaria a eliminar */
+        /* Objeto con información de la modificación presupuestaria a eliminar */
         $budgetModification = BudgetModification::find($id);
 
         if ($budgetModification) {
@@ -599,7 +645,7 @@ class BudgetModificationController extends Controller
             $documentStatus = DocumentStatus::getStatus('AP');
 
             foreach ($BudgetModificationAccounts as $account) {
-                /** @var object Obtiene la formulación correspondiente a la acción específica seleccionada */
+                /* Obtiene la formulación correspondiente a la acción específica seleccionada */
                 $formulation = BudgetSubSpecificFormulation::where('id', $account['budget_sub_specific_formulation_id'])
                     ->where('document_status_id', $documentStatus->id)
                     ->where('assigned', true)
@@ -630,7 +676,7 @@ class BudgetModificationController extends Controller
             }
 
             $budgetModification->delete();
-            $BudgetModificationAccountsDelete = BudgetModificationAccount::where('budget_modification_id', $budgetModification->id)->delete();
+            BudgetModificationAccount::where('budget_modification_id', $budgetModification->id)->delete();
         }
 
         return response()->json(['record' => $budgetModification, 'message' => 'Success'], 200);
@@ -642,8 +688,9 @@ class BudgetModificationController extends Controller
      * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
      *
      * @param  \Illuminate\Http\Request $request
+     * @param  integer $id Identificador de la modificación presupuestaria
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function changeStatus(Request $request, $id)
     {
@@ -658,19 +705,22 @@ class BudgetModificationController extends Controller
                 'result' => true,
                 'message' => 'Registro aprobado',
             ], 200);
-        } else {
-            return response()->json([
-                'result' => false,
-                'message' => 'Registro no encontrado'
-            ], 404);
         }
+
+        return response()->json([
+            'result' => false,
+            'message' => 'Registro no encontrado'
+        ], 404);
     }
 
     /**
      * Obtiene los registros a mostrar en listados de componente Vue
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @return json Json con datos de la perición realizada
+     *
+     * @param string $type Tipo de modificación presupuestaria
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueList($type)
     {

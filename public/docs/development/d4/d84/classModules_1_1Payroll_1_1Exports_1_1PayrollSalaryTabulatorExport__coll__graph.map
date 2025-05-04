@@ -1,4 +1,5 @@
 <map id="PayrollSalaryTabulatorExport" name="PayrollSalaryTabulatorExport">
-<area shape="rect" id="node1" title="Clase que gestiona los objetos exportados del modelo de tabuladores salariales." alt="" coords="5,160,215,311"/>
-<area shape="rect" id="node2" href="$df/dfd/classApp_1_1Exports_1_1DataExport.html" title="Permite la exportación de datos." alt="" coords="37,5,183,112"/>
+<area shape="rect" id="Node000001" title="Clase que gestiona los objetos exportados del modelo de tabuladores salariales." alt="" coords="5,159,207,284"/>
+<area shape="rect" id="Node000002" href="$df/dfd/classApp_1_1Exports_1_1DataExport.html" title="Permite la exportación de datos." alt="" coords="37,5,175,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,124,109,158,103,158,103,124"/>
 </map>

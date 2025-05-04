@@ -4,10 +4,21 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class CreateCitizenServiceDepartmentsTable
+ * @brief Crear tabla de los departamentos de servicios
+ *
+ * Gestiona la creación o eliminación de la tabla de los departamentos de servicios
+ *
+ * @author Yenifer Ramírez <yramirez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CreateCitizenServiceDepartmentsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -17,14 +28,14 @@ class CreateCitizenServiceDepartmentsTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('name', 100)->comment('Nombre del departamento');
-            
+
             $table->timestamps();
             $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

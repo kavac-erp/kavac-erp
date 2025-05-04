@@ -52,10 +52,11 @@
         </div>
         <hr>
         <!-- Final de filtros de la tabla -->
-        <v-client-table
+        <v-server-table
             :columns="columns"
-            :data="records"
+            :url="'purchase/base_budget/vue-list'"
             :options="table_options"
+            ref="tableOptions"
         >
             <div slot="date" slot-scope="props" class="text-center">
                 <div align="center">
@@ -82,6 +83,9 @@
                     </span>
                     <span class="badge badge-primary" v-show="props.row.status_aux == 'WAIT_BUDGET_AVAILABILITY'">
                         <strong>ESPERA POR DISPONIBILIDAD PRESUPUESTARIA</strong>
+                    </span>
+                    <span class="badge badge-primary" v-show="props.row.status_aux == 'WAIT_APPROVE_BUDGET_AVAILABILITY'">
+                        <strong>ESPERA POR APROBAR DISPONIBILIDAD PRESUPUESTARIA</strong>
                     </span>
                     <span class="badge badge-primary" v-show="props.row.status_aux == 'WAIT_QUOTATION'">
                         <strong>ESPERA POR COTIZACIÓN</strong>
@@ -174,11 +178,10 @@
                     </template>
                 </div>
             </div>
-        </v-client-table>
+        </v-server-table>
     </section>
 </template>
 <script>
-import { verify } from 'crypto';
 
 export default {
         props: {
@@ -241,26 +244,13 @@ export default {
             'status': 'col-xs-2 text-center',
             'id': 'col-xs-2'
         };
-        this.table_options.sortable = ['date'];
-        this.table_options.filterable = ['date'];
+        this.table_options.sortable = ['date', 'purchase_requirement.code'];
+        this.table_options.filterable = ['date', 'purchase_requirement.code'];
     },
     async mounted () {
         const vm = this;
         vm.loadingState(true); // Inicio de spinner de carga.
         await vm.queryLastFiscalYear();
-        axios.get('/purchase/base_budget').then(response => {
-            this.query = response.data.records;
-            this.records = [];
-            // Recorre el arreglo de datos, si trae un requerimiento nulo
-            // no lo agrega al arreglo records.
-            for (let x in this.query) {
-                if (this.query[x].purchase_requirement != null) {
-                    this.records.push(this.query[x]);
-                }
-            }
-            // Variable usada para el reseteo de los filtros de la tabla.
-            this.tmpRecords = this.records;
-        });
         vm.loadingState(); // Finaliza spinner de carga.
     },
     methods: {
@@ -278,7 +268,7 @@ export default {
                 date: '',
                 code: '',
             };
-            vm.records = vm.tmpRecords;
+            vm.$refs.tableOptions.refresh();
         },
 
         /**
@@ -290,11 +280,19 @@ export default {
          */
         filterTable() {
             const vm = this;
-            vm.records = vm.tmpRecords.filter((rec) => {
-                return (vm.filterBy.date) ? (rec.date === vm.filterBy.date) : true;
-            }).filter((rec) => {
-                return (vm.filterBy.code) ? (rec.purchase_requirement.code === vm.filterBy.code) : true;
-            })
+            let params = {
+                query: vm.filterBy.date ? vm.format_date(vm.filterBy.date) : vm.filterBy.code ? vm.filterBy.code : '',
+                limit: 10,
+                ascending: 1,
+                page: 1,
+                byColumn: 0
+            }
+
+            axios.get(`${window.app_url}/purchase/base_budget/vue-list`, {params: params})
+            .then(response => {
+                vm.$refs.tableOptions.data = response.data.data;
+                vm.$refs.tableOptions.count = response.data.count;
+            });
         },
 
         /**

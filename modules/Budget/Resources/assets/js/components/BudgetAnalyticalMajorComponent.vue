@@ -33,7 +33,20 @@
             </div>
             <!-- mensajes de error -->
             <div class="row">
-                <div class="row col-12" v-show="!consolidated">
+                <div class="col-12 row">
+                    <div class="col-6">
+                        <div class="form-group is-required mt-2">
+                            <label class="control-label">Tipo de reporte</label>
+                            <select2
+                                name="report_type"
+                                :options="reportTypes"
+                                v-model="report_type_id"
+                                id="report_type_id"
+                            ></select2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-12">
                     <div class="col-6 mt-4">
                         <div class="custom-control custom-switch">
                             <input
@@ -42,6 +55,8 @@
                                 id="sel_project"
                                 value="project"
                                 name="project_centralized_action"
+                                v-model="selectedOption"
+                                @input="enableProjectSelect"
                             >
                             <label
                                 class="custom-control-label"
@@ -56,7 +71,7 @@
                                 v-model="project_id"
                                 id="project_id"
                                 @input="getSpecificActions('Project')"
-                                disabled
+                                :disabled="isDisabled"
                             ></select2>
                         </div>
                     </div>
@@ -68,6 +83,8 @@
                                 id="sel_centralized_action"
                                 value="centralized_action"
                                 name="project_centralized_action"
+                                v-model="selectedOption"
+                                @input="enableCentralizedActionSelect"
                             >
                             <label
                                 class="custom-control-label"
@@ -83,7 +100,7 @@
                                 v-model="centralized_action_id"
                                 @input="getSpecificActions('CentralizedAction')"
                                 id="centralized_action_id"
-                                disabled
+                                :disabled="isDisabled"
                             ></select2>
                         </div>
                     </div>
@@ -181,7 +198,7 @@
         </div>
         <!-- Final card-body -->
         <!-- card-footer -->
-        <div class="card-footer text-right">
+        <div v-if="report_type_id == 1" class="card-footer text-right">
             <button
                 class="btn btn-primary btn-sm"
                 data-toggle="tooltip"
@@ -192,6 +209,18 @@
                 <span>Generar reporte</span>
                 <i class="fa fa-print"></i>
             </button>
+            <button
+                class="btn btn-primary btn-sm"
+                data-toggle="tooltip"
+                title="Generar Reporte"
+                @click="generateReport(true)"
+                id="budgetMajorAnayticalExportReport"
+            >
+                <span>Exportar reporte</span>
+                <i class="fa fa-print"></i>
+            </button>
+        </div>
+        <div v-else class="card-footer text-right">
             <button
                 class="btn btn-primary btn-sm"
                 data-toggle="tooltip"
@@ -238,6 +267,10 @@ export default {
             centralized_action_id: "",
             specific_actions_ids: [],
             all_specific_actions: false,
+            reportTypes: [],
+            report_type_id: "",
+            selectedOption: null,
+            isDisabled: true,
             budgetItemsArray: JSON.parse(this.budgetItems),
             budgetProjectsArray: JSON.parse(this.budgetProjects),
             budgetCentralizedActionsArray: JSON.parse(
@@ -252,6 +285,8 @@ export default {
     },
     mounted() {
         const vm = this;
+
+        vm.getReportTypes();
 
         $(".sel_pry_acc").on("change", function (e) {
             $("#project_id").attr("disabled", e.target.id !== "sel_project");
@@ -334,7 +369,43 @@ export default {
             const vm = this;
             vm.all_specific_actions = false;
             vm.specific_actions_ids = "";
+            vm.initialDate = "",
+            vm.finalDate = "",
+            vm.initialCode = 0,
+            vm.finalCode = 0,
+            vm.project_id = "",
+            vm.centralized_action_id = "",
+            vm.report_type_id = "";
+            vm.selectedOption = null;
+            vm.isDisabled = true;
             document.getElementById(all_specific_actions).checked = false;
+        },
+
+        enableProjectSelect() {
+            this.isDisabled = false;
+        },
+
+        enableCentralizedActionSelect() {
+            this.isDisabled = false;
+        },
+
+        getReportTypes() {
+            const vm = this;
+
+            vm.reportTypes = [
+                {
+                    id: '',
+                    text: "Seleccione...",
+                },
+                {
+                    id: 1,
+                    text: "Detallado",
+                },
+                {
+                    id: 2,
+                    text: "Acumulado",
+                },
+            ];
         },
 
         getSpecificActions(type) {
@@ -369,6 +440,11 @@ export default {
 
         generateReport(exportReport) {
             this.errors = [];
+            if (!this.report_type_id) {
+                this.errors.push(
+                    "El campo Tipo de reporte es obligatorio"
+                );
+            }
             if (!this.initialDate) {
                 this.errors.push("El campo fecha Desde es obligatorio");
             }
@@ -410,18 +486,53 @@ export default {
             }
 
             if (this.errors.length === 0) {
-                window.open(
-                    `${this.url}?initialDate=${this.initialDate}
-                    &finalDate=${this.finalDate}
-                    &initialCode=${this.initialCode}
-                    &finalCode=${this.finalCode}
-                    &accountsWithMovements=${this.accountsWithMovements}
-                    &project_id=${this.project_id ? this.project_id : this.centralized_action_id}
-                    &project_type=${this.project_id ? "project" : "centralized_action"}
-                    &specific_actions_ids=${this.specific_actions_ids}
-                    &exportReport=${exportReport}`
-                );
-                this.reset();
+                if (exportReport) {
+                    window.open(
+                        `${this.url}?initialDate=${this.initialDate}
+                        &finalDate=${this.finalDate}
+                        &initialCode=${this.initialCode}
+                        &finalCode=${this.finalCode}
+                        &accountsWithMovements=${this.accountsWithMovements}
+                        &project_id=${this.project_id ? this.project_id : this.centralized_action_id}
+                        &project_type=${this.project_id ? "project" : "centralized_action"}
+                        &specific_actions_ids=${this.specific_actions_ids}
+                        &report_type_id=${this.report_type_id}
+                        &exportReport=${exportReport}`
+                    );
+                    this.reset();
+                } else {
+                    var fields = {
+                        initialDate: this.initialDate,
+                        finalDate: this.finalDate,
+                        initialCode: this.initialCode,
+                        finalCode: this.finalCode,
+                        accountsWithMovements: this.accountsWithMovements,
+                        project_id: this.project_id ? this.project_id : this.centralized_action_id,
+                        project_type: this.project_id ? "project" : "centralized_action",
+                        specific_actions_ids: this.specific_actions_ids,
+                        exportReport: exportReport
+                    };
+
+                    axios.post(this.url, fields).then(response => {
+                        if (response.data.result == false) {
+                            this.showMessage('custom', 'Alerta!', 'warning', 'screen-error', 'No se pudo generar el reporte');
+                        }
+                        else {
+                            this.showMessage('custom', '¡Éxito!', 'info', 'screen-ok', 'Su solicitud esta en proceso, esto puede tardar unos minutos. Se le notificara al terminar la operación');
+                        }
+                        this.reset();
+                    }).catch(error => {
+                        this.errors = [];
+
+                        if (typeof(error.response) !="undefined") {
+                            for (var index in error.response.data.errors) {
+                                if (error.response.data.errors[index]) {
+                                    this.errors.push(error.response.data.errors[index][0]);
+                                }
+                            }
+                        }
+                    });
+                }
             }
         },
     },

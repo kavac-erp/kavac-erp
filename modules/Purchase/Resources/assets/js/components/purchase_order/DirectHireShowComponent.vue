@@ -5,9 +5,9 @@
                 addRecord('show_purchase_order_direct_hire_'+id,
                 getUrlShow(`/purchase/direct_hire/${id}`), $event)
             "
-            class="btn btn-info btn-xs btn-icon btn-action" 
-            title="Visualizar registro" 
-            data-toggle="tooltip" 
+            class="btn btn-info btn-xs btn-icon btn-action"
+            title="Visualizar registro"
+            data-toggle="tooltip"
             v-has-tooltip>
             <i class="fa fa-eye"></i>
         </button>
@@ -101,13 +101,17 @@
                                 {{ payment_methods[records.payment_methods] }}
                             </div>
                             <div class="col-3">
-                                <strong class="d-block">Número de certificado (RNC)</strong> 
+                                <strong class="d-block">Número de Expediente</strong>
+                                {{ records.purchase_supplier.file_number || 'NO REGISTRADO' }}
+                            </div>
+                            <div class="col-3">
+                                <strong class="d-block">Número de certificado (RNC)</strong>
                                 {{
-                                    records.purchase_supplier.rnc_certificate_number 
+                                    records.purchase_supplier.rnc_certificate_number
                                     ? records.purchase_supplier
                                         .rnc_status+' - '+records.purchase_supplier
                                             .rnc_certificate_number
-                                    : 'No definido'
+                                    : 'NO REGISTRADO'
                                 }}
                             </div>
                             <div class="col-3">
@@ -282,9 +286,10 @@
                                     >
                                         <tr
                                             v-for="
-                                                availability
+                                                (availability, index)
                                                 in record.relatable.availabilityitem
                                             "
+                                            :key="index"
                                         >
                                             <td class="col-md-3 text-center">
                                                 {{ availability.item_code }}
@@ -304,10 +309,10 @@
                         <h6 class="card-title">Firmas autorizadas</h6>
                         <div class="row">
                             <div class="col-3">
-                                <strong class="d-block">Preparado por</strong> 
-                                {{ 
+                                <strong class="d-block">Preparado por</strong>
+                                {{
                                     records.prepared_by
-                                        ? records.prepared_by.payroll_staff 
+                                        ? records.prepared_by.payroll_staff
                                             ? records.prepared_by.payroll_staff
                                                 .first_name +' '+ records.prepared_by
                                                     .payroll_staff.last_name
@@ -316,10 +321,10 @@
                                 }}
                             </div>
                             <div class="col-3">
-                                <strong class="d-block">Revisado por</strong> 
-                                {{ 
+                                <strong class="d-block">Revisado por</strong>
+                                {{
                                     records.reviewed_by
-                                        ? records.reviewed_by.payroll_staff 
+                                        ? records.reviewed_by.payroll_staff
                                             ? records.reviewed_by.payroll_staff
                                                 .first_name +' '+ records.reviewed_by
                                                     .payroll_staff.last_name
@@ -328,10 +333,10 @@
                                 }}
                             </div>
                             <div class="col-3">
-                                <strong class="d-block">Verificado por</strong> 
-                                {{ 
+                                <strong class="d-block">Verificado por</strong>
+                                {{
                                     records.verified_by
-                                        ? records.verified_by.payroll_staff 
+                                        ? records.verified_by.payroll_staff
                                             ? records.verified_by.payroll_staff
                                                 .first_name +' '+ records.verified_by
                                                     .payroll_staff.last_name
@@ -340,10 +345,10 @@
                                 }}
                             </div>
                             <div class="col-3">
-                                <strong class="d-block">Firmado por</strong> 
-                                {{ 
+                                <strong class="d-block">Firmado por</strong>
+                                {{
                                     records.first_signature
-                                        ? records.first_signature.payroll_staff 
+                                        ? records.first_signature.payroll_staff
                                             ? records.first_signature.payroll_staff
                                                 .first_name +' '+ records.first_signature
                                                     .payroll_staff.last_name
@@ -352,10 +357,10 @@
                                 }}
                             </div>
                             <div class="col-3 mt-2">
-                                <strong class="d-block">Firmado por</strong> 
-                                {{ 
+                                <strong class="d-block">Firmado por</strong>
+                                {{
                                     records.second_signature
-                                        ? records.second_signature.payroll_staff 
+                                        ? records.second_signature.payroll_staff
                                             ? records.second_signature
                                                 .payroll_staff.first_name +' '+ records
                                                     .second_signature
@@ -526,7 +531,7 @@ export default {
             this.condition = false;
             var arr = '';
             if(this.records.documents.length > 0){
-                
+
                 this.condition = true;
             }
         }

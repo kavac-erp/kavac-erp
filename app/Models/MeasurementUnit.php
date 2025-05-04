@@ -1,12 +1,11 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
+use App\Traits\ModelsTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
@@ -14,6 +13,11 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * @brief Datos de las unidades de medida
  *
  * Gestiona el modelo de datos para las unidades de medida
+ *
+ * @property string|integer $id
+ * @property string $name
+ * @property string $description
+ * @property string $acronym
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -24,6 +28,7 @@ class MeasurementUnit extends Model implements Auditable
 {
     use SoftDeletes;
     use AuditableTrait;
+    use ModelsTrait;
 
     /**
      * Lista de atributos para la gestión de fechas

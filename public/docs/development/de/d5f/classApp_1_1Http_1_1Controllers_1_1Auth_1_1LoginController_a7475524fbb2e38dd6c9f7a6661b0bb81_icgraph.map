@@ -1,8 +1,19 @@
 <map id="username" name="username">
-<area shape="rect" id="node1" title="Obtiene el campo usado como nombre de usuario para el acceso a la aplicación, usado por el controlado..." alt="" coords="276,107,363,133"/>
-<area shape="rect" id="node2" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a926ec095edbc2f3e70493cd14198192b" title="Obtiene la instancia de peticiones de acceso fallidas." alt="" coords="22,5,211,32"/>
-<area shape="rect" id="node3" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a80ca8f38c89010fda0558e2f210704ba" title="Obtiene la instancia de la petición del usuario con sesión activa." alt="" coords="5,56,228,83"/>
-<area shape="rect" id="node4" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a08273dfbc1ff4990d1fd6446f805fa7f" title="Obtiene la instancia de la petición del usuario inactivo." alt="" coords="11,107,222,133"/>
-<area shape="rect" id="node5" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a5a8ed6520ebd7ecd55d21cc531f4db36" title="Obtiene la instancia de la petición del usuario bloqueado." alt="" coords="10,157,223,184"/>
-<area shape="rect" id="node6" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#ae32415576e8245b435be09d06e561c4c" title="Valida la petición de acceso del usuario." alt="" coords="61,208,172,235"/>
+<area shape="rect" id="Node000001" title="Obtiene el campo usado como nombre de usuario para el acceso a la aplicación." alt="" coords="379,104,465,129"/>
+<area shape="rect" id="Node000002" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a926ec095edbc2f3e70493cd14198192b" title="Obtiene la instancia de peticiones de acceso fallidas." alt="" coords="125,5,314,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="398,96,367,69,329,44,300,33,302,28,332,40,370,65,402,92"/>
+<area shape="rect" id="Node000004" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a80ca8f38c89010fda0558e2f210704ba" title="Obtiene la instancia de la petición del usuario con sesión activa." alt="" coords="108,55,331,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="365,103,330,94,281,83,283,77,331,89,366,98"/>
+<area shape="rect" id="Node000005" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a08273dfbc1ff4990d1fd6446f805fa7f" title="Obtiene la instancia de la petición del usuario inactivo." alt="" coords="114,104,325,129"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="365,119,325,119,325,114,365,114"/>
+<area shape="rect" id="Node000006" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a5a8ed6520ebd7ecd55d21cc531f4db36" title="Obtiene la instancia de la petición del usuario bloqueado." alt="" coords="113,153,326,179"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="366,134,331,143,278,156,277,151,330,138,365,129"/>
+<area shape="rect" id="Node000007" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#ae32415576e8245b435be09d06e561c4c" title="Valida la petición de acceso del usuario." alt="" coords="164,203,275,228"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="401,141,370,168,332,192,304,203,276,211,274,205,302,198,329,188,367,164,397,137"/>
+<area shape="rect" id="Node000003" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#ab27bea29a2b42a9c42a388032eee21ac" title="Gestiona una petición de acceso a la aplicación." alt="" coords="5,104,60,129"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="123,38,109,44,89,58,72,74,45,106,41,102,68,71,86,54,107,40,121,33"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="141,86,109,94,61,109,59,104,107,89,140,80"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="100,119,60,119,60,114,100,114"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="144,153,107,143,59,128,61,123,109,138,146,148"/>
+<area shape="poly" id="edge10_Node000007_Node000003" title=" " alt="" coords="150,208,107,192,68,162,41,131,45,128,72,158,109,188,151,204"/>
 </map>

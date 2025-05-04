@@ -2,7 +2,7 @@
     <div>
         <button
             @click="cancelPaymentExecutedPermission
-            ? showModal('cancel_payment_execute' + id, $event)
+            ? showModal('cancel_payment_execute', id, $event)
             : showMessage(
                 'custom',
                 'Acceso Denegado',
@@ -86,9 +86,9 @@
                                         v-for="option in cancelPaymentExecuteOptions"
                                         :key="option.id"
                                         :value="option.id"
-                                        :disabled="is_payroll && option.id === 2"
+                                        :disabled="(isPartial && option.id === 1) || (is_payroll && option.id === 2)"
                                     >
-                                        {{ option.text }}
+                                         {{ option.text }}
                                     </option>
                                     </select2>
                                 </div>
@@ -186,6 +186,10 @@ export default {
                 type: Boolean,
                 required: false,
             },
+            isPartial: {
+                type: Boolean,
+                required: false,
+            },
             cancelPaymentExecutedPermission: {
                 type: Boolean,
                 required: true,
@@ -205,9 +209,9 @@ export default {
                 is_payroll: false,
             },
             cancelPaymentExecuteOptions: [
-                    {'id': '', 'text': 'Seleccione...'},
-                    {'id': 1, 'text': 'Sin Remisión'},
-                    {'id': 2, 'text': 'Con Remisión'},
+                    {'id': '', 'text': 'Seleccione...', 'disabled': false},
+                    {'id': 1, 'text': 'Sin Remisión', 'disabled': false},
+                    {'id': 2, 'text': 'Con Remisión', 'disabled': false},
                 ],
             message : [
                 "¿Está seguro? Una vez anulada esta Emisión de pago,"
@@ -221,6 +225,8 @@ export default {
         };
     },
     created(){
+    },
+    mounted() {
     },
     methods: {
         /**
@@ -282,14 +288,15 @@ export default {
 
         /**
          * Método que permite levantar el modal
-         * @param {*} modal_id 
+         * @param {*} modal 
+         * @param {*} id
          * @param {*} event 
          */
-        async showModal(modal_id, event){
+        async showModal(modal, id, event){
             event.preventDefault();
             this.loading = true;
-            if (modal_id) {
-                $(`#${modal_id}`).modal('show');
+            if (modal && id) {
+                $(`#${modal}${id}`).modal('show');
             }
             this.loading = false;
         },

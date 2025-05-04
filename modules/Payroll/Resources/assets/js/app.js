@@ -126,6 +126,17 @@ Vue.component('payroll-report-concepts', () =>
     )
 );
 /**
+ * Componente para reporte de hoja de tiempo
+ *
+ * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
+ */
+Vue.component('payroll-report-time-sheets', () =>
+    import(
+        /* webpackChunkName: "payroll-report-concepts" */
+        './components/reports/PayrollReportTimeSheetComponent.vue'
+    )
+);
+/**
  * Componente para reporte de relación de conceptos
  *
  * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
@@ -559,6 +570,77 @@ Vue.component('payroll-vacation-request-list', () =>
 );
 
 /**
+ * Componente para mostrar el listado de las solicitudes de suspension de vacaciones
+ *
+ * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
+ */
+Vue.component('payroll-vacation-request-pending-list', () =>
+    import(
+        /* webpackChunkName: "payroll-vacation-request-list" */
+        './components/requests/vacations/PayrollVacationRequestPendingListComponent.vue'
+    )
+);
+
+/**
+ * Componente para suspender vacaciones
+ *
+ * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
+ */
+Vue.component('payroll-suspend-vacation', () =>
+    import(
+        /* webpackChunkName: "payroll-vacation-request-list" */
+        './components/requests/vacations/PayrollSuspendVacationComponent.vue'
+    )
+);
+
+/**
+ * Componente para editar una solicitud de suspension de vacaciones
+ *
+ * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
+ */
+Vue.component('payroll-edit-suspension-vacation', () =>
+    import(
+        /* webpackChunkName: "payroll-vacation-request-list" */
+        './components/requests/vacations/PayrollEditSuspensionVacationComponent.vue'
+    )
+);
+
+/**
+ * Componente para suspender vacaciones
+ *
+ * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
+ */
+Vue.component('payroll-reschedule-vacation', () =>
+    import(
+        /* webpackChunkName: "payroll-vacation-request-list" */
+        './components/requests/vacations/PayrollRescheduleVacationComponent.vue'
+    )
+);
+
+/**
+ * Componente para aprobar una solicitud de suspension de vacaciones
+ *
+ * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
+ */
+Vue.component('payroll-approve-suspension-vacation-request', () =>
+    import(
+        /* webpackChunkName: "payroll-vacation-request-list" */
+        './components/requests/vacations/PayrollApproveSuspensionVacationRequest.vue'
+    )
+);
+/**
+ * Componente para aprobar una solicitud de suspension de vacaciones
+ *
+ * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
+ */
+Vue.component('payroll-reject-suspension-vacation-request', () =>
+    import(
+        /* webpackChunkName: "payroll-vacation-request-list" */
+        './components/requests/vacations/PayrollRejectSuspensionVacationRequest.vue'
+    )
+);
+
+/**
  * Componente para mostrar la información de una solicitud de vacaciones
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
@@ -699,6 +781,40 @@ Vue.component('payroll-report-staffs', () =>
         './components/reports/PayrollReportStaffsComponent.vue'
     )
 );
+/**
+ * Componentes para gestionar la creación de los reportes de talento humano / Reporte de Trabajadores por nómina
+ *
+ * @author Juan Rosas <juan.rosasr01@gmail.com>
+ */
+Vue.component('payroll-report-workers-by-payroll', () =>
+    import(
+        /* webpackChunkName: "payroll-report-workers-by-payroll" */
+        './components/reports/PayrollReportWorkersByPayrollComponent.vue'
+    )
+);
+/**
+ * Componentes para gestionar la creación de los reportes de talento humano / Reporte de Trabajadores por nómina
+ *
+ * @author Juan Rosas <juan.rosasr01@gmail.com>
+ */
+Vue.component('payroll-report-payment-receipt', () =>
+    import(
+        /* webpackChunkName: "payroll-report-workers-by-payroll" */
+        './components/reports/PayrollReportPaymentReceiptsComponent.vue'
+    )
+);
+
+/**
+ * Componente para la gestión de gráficos estadísticos del módulo de bienes
+ *
+ * @author Juan Rosas <juan.rosasr01@gmail.com>
+ */
+Vue.component('payroll-graph-charts', () =>
+    import(
+        /* webpackChunkName: "payroll-graph-charts" */
+        './components/PayrollGraphChartsComponent.vue'
+    )
+);
 
 /**
  * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
@@ -707,6 +823,16 @@ Vue.component('payroll-report-benefit-advances', () =>
     import(
         /* webpackChunkName: "payroll-report-advance-benefits" */
         './components/reports/benefits/PayrollReportBenefitAdvancesComponent.vue'
+    )
+);
+
+/**
+ * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+ */
+Vue.component('payroll-report-family-burden', () =>
+    import(
+        /* webpackChunkName: "payroll-report-advance-benefits" */
+        './components/reports/PayrollReportFamilyBurden.vue'
     )
 );
 
@@ -1055,6 +1181,24 @@ Vue.component('payroll-time-sheet-pending-observations', () =>
         './components/time_sheet_pending/PayrollTimeSheetPendingObservationsComponent.vue')
 );
 
+Vue.component('payroll-arc-responsibles', () =>
+    import(
+        /* webpackChunkName: "payroll-arc-responsibles" */
+        './components/settings/PayrollArcResponsiblesComponent.vue')
+);
+
+Vue.component('payroll-arc-list', () =>
+    import(
+        /* webpackChunkName: "payroll-arc-list" */
+        './components/arc/PayrollArcListComponent.vue')
+);
+
+Vue.component('payroll-arc-info', () =>
+    import(
+        /* webpackChunkName: "payroll-arc-info" */
+        './components/arc/PayrollArcInfoComponent.vue')
+);
+
 /**
  * Opciones de configuración global del módulo de Nómina
  */
@@ -1098,7 +1242,7 @@ Vue.mixin({
                         item['disabled'] = (item['payroll_ids'].length > 0) && (!item['payroll_ids'].includes(vm.payroll_id));
                     }
                     return item;
-                  });;
+                });;
             });
         },
         /**
@@ -1477,7 +1621,7 @@ Vue.mixin({
         async getPayrollSupervisedGroups(id = null, type = null) {
             const vm = this;
             vm.payroll_supervised_groups = [];
-            await axios.get(`${window.app_url}/payroll/get-supervised-groups`, {params: {id, type}}).then(response => {
+            await axios.get(`${window.app_url}/payroll/get-supervised-groups`, { params: { id, type } }).then(response => {
                 vm.payroll_supervised_groups = response.data;
             });
         },

@@ -15,6 +15,7 @@ use Illuminate\Validation\Rule;
  * Clase que gestiona los tipos de bienes institucionales
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -23,16 +24,32 @@ class AssetTypeController extends Controller
     use ValidatesRequests;
 
     /**
+     * Define las reglas de validación
+     *
+     * @var array $validateRules
+     */
+    protected $validateRules;
+
+    /**
+     * Define los mensajes de validación
+     *
+     * @var array $messages
+     */
+    protected $messages;
+
+    /**
      * Define la configuración de la clase
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:asset.setting.type');
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'     => ['required', 'regex:/^[a-zA-ZÁ-ÿ\s]*$/u', 'max:100',
                             Rule::unique('asset_types')],
@@ -40,7 +57,7 @@ class AssetTypeController extends Controller
 
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required'     => 'El campo tipo de bien es obligatorio.',
             'name.max'          => 'El campo tipo de bien no debe contener más de 100 caracteres.',
@@ -54,6 +71,7 @@ class AssetTypeController extends Controller
      * Muestra un listado de los tipos de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function index()
@@ -66,7 +84,9 @@ class AssetTypeController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function store(Request $request)
@@ -74,11 +94,7 @@ class AssetTypeController extends Controller
         $this->validate($request, $this->validateRules, $this->messages);
 
 
-        /**
-         * Objeto asociado al modelo AssetType
-         *
-         * @var Object $type
-         */
+        /* Objeto asociado al modelo AssetType */
         $type = AssetType::create([
             'name' => $request->input('name')
         ]);
@@ -91,8 +107,10 @@ class AssetTypeController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request           $request    Datos de la petición
      * @param     \Modules\Asset\Models\AssetType    $type       Datos del tipo de bien
+     *
      * @return    \Illuminate\Http\JsonResponse      Objeto con los registros a mostrar
      */
     public function update(Request $request, AssetType $type)
@@ -115,7 +133,9 @@ class AssetTypeController extends Controller
      * Elimina el tipo de bien institucional
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Modules\Asset\Models\AssetType    $type    Datos del tipo de bien
+     *
      * @return    \Illuminate\Http\JsonResponse      Objeto con los registros a mostrar
      */
     public function destroy(AssetType $type)
@@ -128,7 +148,8 @@ class AssetTypeController extends Controller
      * Obtiene el listado de tipos de bienes institucionales a implementar en elementos select
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return    Array    Arreglo con los registros a mostrar
+     *
+     * @return    array    Arreglo con los registros a mostrar
      */
     public function getTypes()
     {

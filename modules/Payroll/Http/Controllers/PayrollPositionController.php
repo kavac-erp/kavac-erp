@@ -12,17 +12,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 /**
- * @class PositionController
- *
+ * @class PositionController *
  * @brief Controlador de cargos
  *
  * Clase que gestiona los cargos
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
  *
- * @license <a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollPositionController extends Controller
 {
@@ -32,10 +30,12 @@ class PayrollPositionController extends Controller
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         /*$this->middleware('permission:payroll.positions.list', ['only' => 'index']);*/
         $this->middleware('permission:payroll.positions.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.positions.edit', ['only' => ['edit', 'update']]);
@@ -52,15 +52,19 @@ class PayrollPositionController extends Controller
      */
     public function index()
     {
+        $records = PayrollPosition::withCount(['payrollEmployments' => function ($query) {
+            $query->where('payroll_employment_payroll_position.active', true);
+        }])->withCount('payrollResponsibility')->orderBy('name', 'asc')->get();
+
         return response()->json([
-            'records' => PayrollPosition::orderBy('id')->get()
+            'records' => $records
         ], 200);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para registrar un nuevo cargo
      *
-     * @return Renderable
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -130,8 +134,9 @@ class PayrollPositionController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un cargo
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -139,8 +144,9 @@ class PayrollPositionController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para actualizar la información de un cargo
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -152,8 +158,7 @@ class PayrollPositionController extends Controller
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
-     *
+     * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar     *
      * @param  integer $id Identificador del cargo a actualizar
      *
      * @return \Illuminate\Http\JsonResponse Json con mensaje de confirmación de la operación
@@ -178,7 +183,7 @@ class PayrollPositionController extends Controller
                 $request,
                 [
                     'name' => [
-                        Rule::when($positionAvailableValidation, function ($attribute, $value, $fail) {
+                        $positionAvailableValidation ? function ($attribute, $value, $fail) {
                             if ($value) {
                                 $fail('
                                     La cantidad de cargos asignados no puede ser
@@ -186,7 +191,7 @@ class PayrollPositionController extends Controller
                                     al cargo.
                                 ');
                             }
-                        }),
+                        } : [],
                     ],
                 ],
             );
@@ -224,7 +229,7 @@ class PayrollPositionController extends Controller
                 ],
                 [
                     'number_positions_assigned.required'
-                        => 'El campo cantidad de cargos asignados es obligatorio.',
+                    => 'El campo cantidad de cargos asignados es obligatorio.',
                 ]
             );
         }
@@ -285,16 +290,19 @@ class PayrollPositionController extends Controller
      */
     public function getPayrollEmploymentsPositionsCount()
     {
-        /**
-        * Obtener todos los cargos de la tabla payroll_positions y para cada
-        * cargo contar la cantidad de empleados relacionados a cada cargo.
-        */
-        $employmentPositions = DB::table('payroll_employment_payroll_position')
-            ->select('payroll_position_id', DB::raw('count(*) as employment_count'))
-            ->where('active', true)
-            ->groupBy('payroll_position_id')
-            ->get();
+        /*
+         | Obtener todos los cargos de la tabla payroll_positions y para cada
+         | cargo contar la cantidad de empleados relacionados a cada cargo.
+         */
+        $payrollPositions = PayrollPosition::selectRaw('SUM(number_positions_assigned) as positions_count')
+            ->value('positions_count');
 
-        return response()->json(['records' => $employmentPositions], 200);
+        $totalEmploymentCount = PayrollPosition::withCount("payrollEmployments")->where("responsible", false)->get()->sum("payroll_employments_count");
+
+        return response()->json([
+            'totalPayrollPositions'     => $payrollPositions,
+            'totalEmploymentCount'      => $totalEmploymentCount,
+            'totalAvailablePositions'   => $payrollPositions - $totalEmploymentCount
+        ], 200);
     }
 }

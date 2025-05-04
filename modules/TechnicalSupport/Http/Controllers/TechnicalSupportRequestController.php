@@ -19,7 +19,7 @@ class TechnicalSupportRequestController extends Controller
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
       //$this->middleware('permission:technicalsupport.request', ['only' => 'index', 'vueInfo']);
     }
 

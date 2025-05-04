@@ -28,15 +28,15 @@
     </thead> -->
     <tbody>
         @foreach ($records as $record)
-        <tr>
-            <td>{{ $record->name }}</td>
-            <td>{{ $record->code }}</td>
-            <td>{{ $record->onapre_code }}</td>
-            <td align="center">{{ $record->active ? 'Activo' : 'Inactivo' }}</td>
-            <td>{{ $record->department->name }}</td>
-            <td>{{ $record->payrollstaff->first_name.' '.$record->payrollstaff->last_name }}</td>
-            <td>{{ $record->payrollposition->name }}</td>
-        </tr>
+            <tr>
+                <td>{{ $record->name }}</td>
+                <td>{{ $record->code }}</td>
+                <td>{{ $record->onapre_code }}</td>
+                <td align="center">{{ $record->active ? 'Activo' : 'Inactivo' }}</td>
+                <td>{{ $record->department->name }}</td>
+                <td>{{ $record->payrollstaff->first_name . ' ' . $record->payrollstaff->last_name }}</td>
+                <td>{{ $record->payrollposition->name }}</td>
+            </tr>
         @endforeach
     </tbody>
 </table>

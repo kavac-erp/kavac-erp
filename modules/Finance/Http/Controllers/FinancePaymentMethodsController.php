@@ -3,7 +3,6 @@
 namespace Modules\Finance\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Finance\Models\FinancePaymentMethods;
@@ -16,21 +15,27 @@ use Modules\Finance\Models\FinancePaymentMethods;
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  * @author Ing. Marco Ocanto
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class FinancePaymentMethodsController extends Controller
 {
     use ValidatesRequests;
 
-    /** @var array Lista de elementos a mostrar */
+    /**
+     * Lista de elementos a mostrar
+     *
+     * @var array $data
+     */
     protected $data = [];
 
     /**
      * Método constructor de la clase
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -41,7 +46,8 @@ class FinancePaymentMethodsController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Listado de métodos de pago
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
@@ -50,8 +56,9 @@ class FinancePaymentMethodsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra un formulario para registrar un nuevo método de pago
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -59,8 +66,10 @@ class FinancePaymentMethodsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
+     * Almacena un nuevo método de pago
+     *
+     * @param  Request $request Datos de la petición
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -79,8 +88,9 @@ class FinancePaymentMethodsController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra detalles de un método de pago
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -88,8 +98,9 @@ class FinancePaymentMethodsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario de edición de un método de pago
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -97,13 +108,16 @@ class FinancePaymentMethodsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
+     * Actualiza la información de un método de pago
+     *
+     * @param  Request $request Datos de la petición
+     * @param  integer $id ID del tipo de pago
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        /** @var object Datos del tipo de pago */
+        /* Datos del tipo de pago */
         $financePaymentMethods = FinancePaymentMethods::find($id);
 
         $this->validate($request, [
@@ -120,11 +134,14 @@ class FinancePaymentMethodsController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  integer $id ID del tipo de pago
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /** @var object Datos del tipo de pago */
+        /* Datos del tipo de pago */
         $financePaymentMethods = FinancePaymentMethods::find($id);
         $financePaymentMethods->delete();
         return response()->json(['record' => $financePaymentMethods, 'message' => 'Success'], 200);
@@ -134,7 +151,8 @@ class FinancePaymentMethodsController extends Controller
      * Obtiene los tipos de pagos
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @return \Illuminate\Http\JsonResponse Devuelve un JSON con los datos de los tipos de cuenta bancaria
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getPaymentMethods()
     {

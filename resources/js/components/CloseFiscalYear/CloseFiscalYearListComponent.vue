@@ -221,7 +221,7 @@
             /**
              * Abre una nueva ventana en el navegador
              *
-             * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+             * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
              * @param  {string} url para la nueva ventana
              * @param  {string} type tipo de ventana que se desea abrir
              * @return {boolean} Devuelve falso si no se ha indicado alguna información requerida
@@ -249,7 +249,7 @@
             /**
              * Formatea la url para el reporte
              *
-             * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+             * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
              * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
              * @return {string} url para el reporte
              */

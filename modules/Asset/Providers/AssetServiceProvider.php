@@ -2,25 +2,39 @@
 
 namespace Modules\Asset\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\Events\JobProcessing;
 
+/**
+ * @class AssetReport
+ * @brief Gestiona los proveedores de servicios del módulo de bienes
+ *
+ * @author Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AssetServiceProvider extends ServiceProvider
 {
     /**
+     * Nombre del módulo
+     *
      * @var string $moduleName
      */
     protected $moduleName = 'Asset';
 
     /**
+     * Nombre del módulo en minúsculas
+     *
      * @var string $moduleNameLower
      */
     protected $moduleNameLower = 'asset';
 
     /**
-     * Boot the application events.
+     * Carga los eventos del módulo.
      *
      * @return void
      */
@@ -32,24 +46,19 @@ class AssetServiceProvider extends ServiceProvider
         $this->registerFactories();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
 
-        /**
-         * Se ejecuta antes de que se procese el trabajo
-         */
+        /* Se ejecuta antes de que se procese el trabajo */
 
         Queue::before(function (JobProcessing $event) {
+            // TODO:
             // echo "before";
             // Acceder al reporte del trabajo y cambiar estatus de
             // pendiente por ejecutar a en proceso
         });
 
-        /**
-         * Se ejecuta despues de que se procesa el trabajo
-         */
+        /* Se ejecuta despues de que se procesa el trabajo */
 
         Queue::after(function (JobProcessed $event) {
-            //$data = $event->job->payload;
-            //echo get_class($event->job->getRawBody());
-            //echo 'data' . get_class($data);
+            // TODO:
             // echo "after";
             // Acceder al reporte del trabajo y cambiar estatus de
             // en proceso a terminado
@@ -58,7 +67,7 @@ class AssetServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the service provider.
+     * Registra los proveedores de servicios
      *
      * @return void
      */
@@ -68,7 +77,7 @@ class AssetServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register config.
+     * Registra la configuración
      *
      * @return void
      */
@@ -84,7 +93,7 @@ class AssetServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register views.
+     * Registra las vistas.
      *
      * @return void
      */
@@ -102,7 +111,7 @@ class AssetServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register translations.
+     * Registra las traducciones.
      *
      * @return void
      */
@@ -118,7 +127,7 @@ class AssetServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register an additional directory of factories.
+     * Registra un directorio adicional para los factories
      *
      * @return void
      */
@@ -130,7 +139,7 @@ class AssetServiceProvider extends ServiceProvider
     }
 
     /**
-     * Get the services provided by the provider.
+     * Obtiene los proveedores de servicios por proveedor
      *
      * @return array
      */
@@ -139,10 +148,15 @@ class AssetServiceProvider extends ServiceProvider
         return [];
     }
 
+    /**
+     * Obtiene el path de las vistas de la configuración en BD
+     *
+     * @return array
+     */
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (\Config::get('view.paths') as $path) {
+        foreach (Config::get('view.paths') as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }

@@ -2,14 +2,11 @@
 
 namespace Modules\Sale\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleWarehouseInventoryProduct;
-use Modules\Sale\Models\SaleWarehouseInventoryRule;
-use Modules\Sale\Models\SaleWarehouse;
 use Modules\Sale\Models\SaleWarehouseReport;
 use Modules\Sale\Pdf\SaleReport;
 use App\Models\Institution;
@@ -17,24 +14,44 @@ use App\Models\CodeSetting;
 use App\Models\FiscalYear;
 use Carbon\Carbon;
 
+/**
+ * @class SaleReportController
+ * @brief Gestiona los datos de los reportes de ventas
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleReportController extends Controller
 {
     use ValidatesRequests;
 
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Muestra el listado de reportes de ventas
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
         return view('sale::index');
     }
 
+    /**
+     * Muestra el listado del inventario de productos
+     *
+     * @return \Illuminate\View\View
+     */
     public function inventoryProducts()
     {
         return view('sale::reports.sale-report-products');
     }
 
+    /**
+     * Obtiene el listado del inventario de productos
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function vueList(Request $request)
     {
         if ($request->current == "inventory-products") {
@@ -119,23 +136,18 @@ class SaleReportController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para generar el reporte
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request)
     {
         $is_admin = auth()->user()->isAdmin();
 
-        /**
-         * [$pdf base para generar el pdf]
-         * @var [Modules\Sale\Pdf\Pdf]
-         */
+        /* base para generar el pdf*/
         $pdf = new SaleReport();
 
-
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definición de las caracteristicas generales de la página pdf */
         $institution = null;
 
         $filename = 'sale-inventory-products-report-' . Carbon::now() . '.pdf';
@@ -172,7 +184,6 @@ class SaleReportController extends Controller
             'filename'       => $filename
         ]);
 
-        // $pdf->setConfig(['institution' => $institution, 'urlVerify' => url('/purchase/purchase_requirement/pdf/'.$id)]);
         $pdf->setConfig([
             'institution' => Institution::first(),
             'filename'    => $filename
@@ -189,9 +200,11 @@ class SaleReportController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
+     * Almacena los datos de un reporte
+     *
+     * @param Request $request Datos de la petición
+     *
+     * @return void
      */
     public function store(Request $request)
     {
@@ -199,9 +212,11 @@ class SaleReportController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
+     * Muestra información de un reporte
+     *
+     * @param string $code Código del reporte
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($code)
     {
@@ -212,9 +227,11 @@ class SaleReportController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
+     * Muestra el formulario para editar un reporte
+     *
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -222,10 +239,12 @@ class SaleReportController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
+     * Actualiza la información de un reporte
+     *
+     * @param Request $request Datos de la petición
+     * @param integer $id Identificador del registro
+     *
+     * @return void
      */
     public function update(Request $request, $id)
     {
@@ -233,9 +252,11 @@ class SaleReportController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
+     * Elimina un reporte
+     *
+     * @param integer $id Identificador del registro
+     *
+     * @return void
      */
     public function destroy($id)
     {

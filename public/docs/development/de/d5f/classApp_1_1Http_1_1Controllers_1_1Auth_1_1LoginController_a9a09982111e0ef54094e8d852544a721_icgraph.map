@@ -1,4 +1,7 @@
 <map id="getHasActiveSessionMessage" name="getHasActiveSessionMessage">
-<area shape="rect" id="node1" title="Obtiene el mensaje a mostrar de la sesión activa." alt="" coords="276,5,493,32"/>
-<area shape="rect" id="node2" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a80ca8f38c89010fda0558e2f210704ba" title="Obtiene la instancia de la petición del usuario con sesión activa." alt="" coords="5,5,228,32"/>
+<area shape="rect" id="Node000001" title="Obtiene el mensaje a mostrar de la sesión activa." alt="" coords="379,5,596,31"/>
+<area shape="rect" id="Node000002" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a80ca8f38c89010fda0558e2f210704ba" title="Obtiene la instancia de la petición del usuario con sesión activa." alt="" coords="108,5,331,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="365,21,331,21,331,15,365,15"/>
+<area shape="rect" id="Node000003" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#ab27bea29a2b42a9c42a388032eee21ac" title="Gestiona una petición de acceso a la aplicación." alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="94,21,60,21,60,15,94,15"/>
 </map>

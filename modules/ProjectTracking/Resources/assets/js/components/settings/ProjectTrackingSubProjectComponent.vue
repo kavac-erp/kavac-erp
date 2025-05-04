@@ -42,7 +42,18 @@
                                     <label for="project_id">Proyecto:</label>
                                     <select2 :options="projects_list" id="project_id" placeholder="Proyecto"
                                         class="form-control input-sm" v-model="record.project_id" data-toggle="tooltip"
-                                        title="Indique el Proyecto"></select2>
+                                        title="Indique el Proyecto"
+                                        @input="getProductTypesFromProject(record.project_id)">
+                                    </select2>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group is-required" name="category">
+                                    <label>Tipos de Producto:</label>
+                                    <v-multiselect :options="product_types_list" track_by="text" :hide_selected="false"
+                                        data-toggle="tooltip" title="Indique los tipos de productos"
+                                        v-model="record.product_types">
+                                    </v-multiselect>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -122,27 +133,28 @@
                     <div class="modal-body modal-table">
                         <v-client-table :columns="columns" :data="records" :options="table_options">
                             <div slot="responsable_name" slot-scope="props">
-                                {{ props.row.responsable.first_name ? props.row.responsable.first_name : props.row.responsable.name }} 
+                                {{ props.row.responsable.first_name ? props.row.responsable.first_name :
+                                    props.row.responsable.name }}
                                 {{ props.row.responsable.last_name }}
                             </div>
                             <div slot="end_date" slot-scope="props">
                                 {{ formatDate(props.row.end_date) }}
                             </div>
-                            
+
                             <div slot="id" slot-scope="props" class="text-center">
                                 <button @click="show_info(props.row.id)"
                                     class="btn btn-info btn-xs btn-icon btn-action btn-tooltip" title="Ver registro"
-                                    data-toggle="tooltip" type="button">
+                                    aria-label="Ver registro" data-toggle="tooltip" type="button">
                                     <i class="fa fa-eye"></i>
                                 </button>
-                                <button @click="initUpdate(props.row.id, $event)"
+                                <button @click="initUpdate(props.row.id, 'projecttracking/subprojects')"
                                     class="btn btn-warning btn-xs btn-icon btn-action" title="Modificar subproyecto"
-                                    data-toggle="tooltip" type="button">
+                                    aria-label="Modificar subproyecto" data-toggle="tooltip" type="button">
                                     <i class="fa fa-edit"></i>
                                 </button>
                                 <button @click="deleteRecord(props.row.id, 'projecttracking/subprojects')"
                                     class="btn btn-danger btn-xs btn-icon btn-action" title="Eliminar registro"
-                                    data-toggle="tooltip" type="button">
+                                    aria-label="Eliminar registro" data-toggle="tooltip" type="button">
                                     <i class="fa fa-trash-o"></i>
                                 </button>
                             </div>
@@ -154,17 +166,13 @@
                                 style="max-width: 60rem; color: #636e7b; font-size: 13px">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                    <button
-                                        type="button"
-                                        class="close closeModal"
-                                        aria-label="Close"
-                                    >
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                    <h6 style="font-size: 1em">
-                                        <i class="icofont icofont icofont-tasks ico-4x"></i>
-                                        Información detallada del Subroyecto
-                                    </h6>
+                                        <button type="button" class="close closeModal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                        <h6 style="font-size: 1em">
+                                            <i class="icofont icofont icofont-tasks ico-4x"></i>
+                                            Información detallada del Subroyecto
+                                        </h6>
                                     </div>
                                     <div class="modal-body">
                                         <div class="tab-content">
@@ -206,6 +214,16 @@
                                                             <div class="row">
                                                                 <span class="col-md-12">
                                                                     <a id="code_id"></a>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <strong>Tipos de producto: </strong>
+                                                            <div class="row">
+                                                                <span class="col-md-12">
+                                                                    <a id="product_types"></a>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -254,12 +272,10 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                          <button
-                                            type="button"
-                                            class="btn btn-default btn-sm btn-round btn-modal-close closeModal"
-                                          >
-                                            Cerrar
-                                          </button>
+                                            <button type="button"
+                                                class="btn btn-default btn-sm btn-round btn-modal-close closeModal">
+                                                Cerrar
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -278,12 +294,13 @@ export default {
         return {
             record: {
                 project_id: '',
+                product_types: '',
                 name: '',
                 description: '',
                 code: '',
                 responsable_id: '',
                 financement_amount: '',
-                currency:'',
+                currency: '',
                 currency_id: '',
                 start_date: '',
                 end_date: ''
@@ -291,6 +308,7 @@ export default {
             dataInfo: '',
             payroll_staffs: [],
             projects_list: [],
+            product_types_list: [],
             currencies: [],
             errors: [],
             records: [],
@@ -299,6 +317,29 @@ export default {
         }
     },
     methods: {
+        async initUpdate(subproject_id, url) {
+            const vm = this;
+            try {
+                url = vm.setUrl(`${url}/get-detail-subproject/${subproject_id}`);
+                const response = await axios.get(url);
+                vm.record = response.data.records;
+                vm.record.product_types = response.data.selected_product_types;
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async getProductTypesFromProject(project_id) {
+            const vm = this;
+            try {
+                if (project_id) {
+                    const url = `${window.app_url}/projecttracking/projects/${project_id}`;
+                    const response = await axios.get(url);
+                    vm.product_types_list ? vm.product_types_list = response.data.selected_product_types : [];
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        },
         /**
          * Método que borra todos los datos del formulario
          *
@@ -315,7 +356,8 @@ export default {
                 currency_id: '',
                 start_date: '',
                 end_date: '',
-                financement_amount: ''
+                financement_amount: '',
+                product_types: '',
             };
         },
         getPersonal() {
@@ -351,7 +393,7 @@ export default {
         /**
          * Método que abre el modal, realiza la consulta y pasa los datos.
         */
-         show_info(id) {
+        show_info(id) {
             // Transformar formato de fecha apropiado para la vista de la información del registro
             const formatDate = (date) => {
                 const newdate = new Date(date);
@@ -372,12 +414,19 @@ export default {
                     let name = this.dataInfo.responsable.first_name ? this.dataInfo.responsable.first_name : this.dataInfo.responsable.name;
                     let formatted_start_date = this.dataInfo.start_date ? formatDate(this.dataInfo.start_date) : '';
                     let formatted_end_date = this.dataInfo.end_date ? formatDate(this.dataInfo.end_date) : '';
+                    let typeProducts = [];
+                    console.log(response.data.selected_product_types);
+
+                    for (const productType of response.data.selected_product_types) {
+                        typeProducts.push(productType.text);
+                    }
 
                     $('#project').html(this.dataInfo.project.name);
                     $('#name_id').html(this.dataInfo.name);
                     $('#description_id').html(this.dataInfo.description);
                     $('#code_id').html(this.dataInfo.code);
-                    $('#responsable_name').html(name  + ' ' + this.dataInfo.responsable.last_name);
+                    $('#product_types').html(typeProducts.join(', '));
+                    $('#responsable_name').html(name + ' ' + this.dataInfo.responsable.last_name);
                     $('#financement_amount_id').html((this.dataInfo.financement_amount && this.dataInfo.currency_id) ? this.dataInfo.currency.symbol + '. ' + this.dataInfo.financement_amount : 'N/A');
                     $('#start_date_id').html(formatted_start_date);
                     $('#end_date_id').html(formatted_end_date);
@@ -401,7 +450,7 @@ export default {
             url = this.setUrl(url);
 
             await axios.get(url).then(response => {
-                if (typeof(response.data.records) !== "undefined") {
+                if (typeof (response.data.records) !== "undefined") {
                     vm.records = response.data.records;
                     vm.payroll = response.data.payroll;
                 }
@@ -409,22 +458,22 @@ export default {
                     $(`#${modal_id}`).modal('show');
                 }
             }).catch(error => {
-                if (typeof(error.response) !== "undefined") {
+                if (typeof (error.response) !== "undefined") {
                     if (error.response.status == 403) {
                         vm.showMessage(
                             'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
                         );
+                    }
+                    else {
+                        vm.logs('resources/js/all.js', 343, error, 'initRecords');
+                    }
                 }
-                else {
-                    vm.logs('resources/js/all.js', 343, error, 'initRecords');
-                }
-            }
-        });
+            });
 
-        if (vm.payroll) {
-            await vm.getPayrollStaffs();
-        } else {
-            await vm.getPersonal(); 
+            if (vm.payroll) {
+                await vm.getPayrollStaffs();
+            } else {
+                await vm.getPersonal();
             }
         },
     },
@@ -452,9 +501,9 @@ export default {
         const vm = this;
         $("#add_projecttracking_subproject").on('show.bs.modal', function () {
             vm.reset();
-        $('.closeModal').click(function () {
-            $('#show_subproject').modal('hide');
-        })
+            $('.closeModal').click(function () {
+                $('#show_subproject').modal('hide');
+            })
         });
         vm.getPersonal();
         vm.getProject();

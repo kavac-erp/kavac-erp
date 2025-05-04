@@ -1,7 +1,8 @@
 <template>
     <div>
         <a class="btn btn-info btn-xs btn-icon btn-action" href="javascript:void(0)"
-            title="Ver información del registro" data-toggle="tooltip" @click="initRecord(url)">
+            title="Ver información del registro" aria-label="Ver información del registro" data-toggle="tooltip"
+            @click="initRecord(url)">
             <i class="fa fa-eye"></i>
         </a>
         <div class="modal fade text-left" tabindex="-1" role="dialog" :id='"view_activity" + modal_id'>
@@ -36,7 +37,7 @@
                                             <strong>Orden:</strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                   {{ record.activityRecord.orden }}
+                                                    {{ record.activityRecord.orden }}
                                                 </span>
                                             </div>
                                         </div>
@@ -46,7 +47,8 @@
                                             <strong>Tipo de proyecto:</strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                   {{ record.activityRecord.project_tracking_project_types_id ? record.activityRecord.project_tracking_project_types.name : '' }}
+                                                    {{ record.activityRecord.project_tracking_project_types_id ?
+                                                        record.activityRecord.project_tracking_project_types.name : '' }}
                                                 </span>
                                             </div>
                                         </div>
@@ -56,7 +58,8 @@
                                             <strong>Tipo de producto:</strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                    {{ record.activityRecord.project_tracking_type_products_id ? record.activityRecord.project_tracking_type_products.name : '' }}
+                                                    {{ record.activityRecord.project_tracking_type_products_id ?
+                                                        record.activityRecord.project_tracking_type_products.name : '' }}
                                                 </span>
                                             </div>
                                         </div>
@@ -137,7 +140,7 @@ export default {
                 activityRecord: '',
                 start_date: '',
                 end_date: '',
-               /* team_members: ''*/ 
+                /* team_members: ''*/
             },
         };
     },

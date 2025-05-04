@@ -8,7 +8,15 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Warehouse\Models\WarehouseProductAttribute;
 
 /**
- * Eliminar
+ * @class WarehouseProductAttributeController
+ * @brief Controlador de los atributos de los productos de almacén
+ *
+ * Clase que gestiona los atributos de productos almacenables
+ *
+ * @author Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseProductAttributeController extends Controller
 {
@@ -18,31 +26,43 @@ class WarehouseProductAttributeController extends Controller
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:warehouse.setting.attribute');
     }
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Lista de registros
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         return response()->json(['records' => []], 200);
     }
 
+    /**
+     * Atributos de un producto
+     *
+     * @param integer $id identificador del producto
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function product($id)
     {
         return response()->json(['records' => WarehouseProductAttribute::where('product_id', '=', $id)->get()], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena un nuevo atributo del producto
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -62,9 +82,11 @@ class WarehouseProductAttributeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza un atributo del producto
+     *
+     * @param  Request $request datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, WarehouseProductAttribute $attribute)
     {
@@ -83,8 +105,9 @@ class WarehouseProductAttributeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina un atributo del producto
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(WarehouseProductAttribute $attribute)
     {

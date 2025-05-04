@@ -3,9 +3,9 @@
 namespace Modules\Finance\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Log;
 use Modules\Finance\Models\FinanceAccountType;
 
 /**
@@ -15,21 +15,27 @@ use Modules\Finance\Models\FinanceAccountType;
  * Clase que gestiona los tipos de cuenta bancaria
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class FinanceAccountTypeController extends Controller
 {
     use ValidatesRequests;
 
-    /** @var array Lista de elementos a mostrar */
+    /**
+     * Lista de elementos a mostrar
+     *
+     * @var array $data
+     */
     protected $data = [];
 
     /**
      * Método constructor de la clase
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -40,7 +46,8 @@ class FinanceAccountTypeController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Listado de tipos de cuentas bancarias
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
@@ -49,8 +56,9 @@ class FinanceAccountTypeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear un nuevo tipo de cuenta bancaria
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -58,8 +66,10 @@ class FinanceAccountTypeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
+     * Almacena un nuevo tipo de cuenta bancaria
+     *
+     * @param  Request $request Datos de la petición
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -78,8 +88,9 @@ class FinanceAccountTypeController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra detalles de un tipo de cuenta bancaria
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -87,8 +98,9 @@ class FinanceAccountTypeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar un tipo de cuenta bancaria
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -96,44 +108,78 @@ class FinanceAccountTypeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
+     * Actualiza un tipo de cuenta bancaria
+     *
+     * @param  Request $request Datos de la petición
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        /** @var object Datos del tipo de cuenta bancaria */
-        $financeAccountType = FinanceAccountType::find($id);
+        try {
+            /* Datos del tipo de cuenta bancaria */
+            $financeAccountType = FinanceAccountType::find($id);
 
-        $this->validate($request, [
-            'name' => ['required', 'max:100', 'unique:finance_account_types,name,' . $financeAccountType->id],
-            'code' => ['required', 'max:10', 'unique:finance_account_types,code,' . $financeAccountType->id],
-        ], ['code.required' => 'El código asociado al tipo de cuenta es obligatorio']);
+            $seedRegisters = get_json_resource('Data/FinanceAccountType.json', 'finance');
 
-        $financeAccountType->name = $request->name;
-        $financeAccountType->code = $request->code;
-        $financeAccountType->save();
+            $financeAccountTypeRegister = $financeAccountType
+                ->makeHidden(['id','created_at','updated_at', 'deleted_at'])
+                ->toArray();
 
-        return response()->json(['message' => 'Registro actualizado correctamente'], 200);
+            if (!in_array($financeAccountTypeRegister, $seedRegisters)) {
+                $financeAccountTypeRegister = (object)$financeAccountTypeRegister;
+                $this->validate($request, [
+                    'name' => ['required', 'max:100', 'unique:finance_account_types,name,' . $financeAccountType->id],
+                    'code' => ['required', 'max:10', 'unique:finance_account_types,code,' . $financeAccountType->id],
+                    ], ['code.required' => 'El código asociado al tipo de cuenta es obligatorio']);
+                $financeAccountType->name = $request->name;
+                $financeAccountType->code = $request->code;
+                $financeAccountType->save();
+                return response()->json(['message' => 'Registro actualizado correctamente'], 200);
+            } else {
+                return response()->json(['error' => true, 'message'
+                    => 'No se puede Modificar el registro'], 403);
+            }
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return response()->json(['error' => true, 'message' => __($th->getMessage())], 403);
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un tipo de cuenta bancaria
+     *
+     * @param  integer $id ID del tipo de cuenta bancaria
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /** @var object Datos del tipo de cuenta bancaria */
-        $financeAccountType = FinanceAccountType::find($id);
-        $financeAccountType->delete();
-        return response()->json(['record' => $financeAccountType, 'message' => 'Success'], 200);
+        try {
+            /* Datos del tipo de cuenta bancaria */
+            $financeAccountType = FinanceAccountType::find($id);
+            $seedRegisters = get_json_resource('Data/FinanceAccountType.json', 'finance');
+            $financeAccountTypeRegister = $financeAccountType
+                ->makeHidden(['id','created_at','updated_at', 'deleted_at'])
+                ->toArray();
+
+            if (!in_array((object)$financeAccountTypeRegister, $seedRegisters)) {
+                $financeAccountType->delete();
+                return response()->json(['record' => $financeAccountType, 'message' => 'Success'], 200);
+            }
+            return response()->json(['error' => true, 'message' => 'No se puede Eliminar el registro'], 403);
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage());
+            return response()->json(['error' => true, 'message' => __($e->getMessage())], 403);
+        }
     }
 
     /**
      * Obtiene los tipos de cuenta bancaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @return \Illuminate\Http\JsonResponse Devuelve un JSON con los datos de los tipos de cuenta bancaria
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getAccountTypes()
     {

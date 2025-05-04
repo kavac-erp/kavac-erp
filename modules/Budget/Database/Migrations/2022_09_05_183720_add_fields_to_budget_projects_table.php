@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldsToBudgetProjectsTable
- * @brief [descripción detallada]
+ * @brief Agrega los campos 'from_date', 'to_date' y 'description' a la tabla 'budget_projects'
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

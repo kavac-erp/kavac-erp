@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class AddFieldActivePayrollPermissionPoliciesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -21,7 +21,7 @@ class AddFieldActivePayrollPermissionPoliciesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

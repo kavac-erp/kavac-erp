@@ -46,15 +46,15 @@ final class PayrollGuardSchemeController extends Controller
         protected array $validateRules = [],
         protected array $messages = [],
     ) {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:payroll.guard-scheme.index', ['only' => ['index', 'vueList']]);
-        $this->middleware('permission:payroll.guard-scheme.create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:payroll.guard-scheme.edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:payroll.guard-scheme.delete', ['only' => 'destroy']);
-        $this->middleware('permission:payroll.guard-scheme.confirm', ['only' => 'confirm']);
-        $this->middleware('permission:payroll.guard-scheme.approve', ['only' => ['approve', 'reject']]);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:payroll.guard.scheme.index', ['only' => ['index', 'vueList']]);
+        $this->middleware('permission:payroll.guard.scheme.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:payroll.guard.scheme.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:payroll.guard.scheme.delete', ['only' => 'destroy']);
+        $this->middleware('permission:payroll.guard.scheme.confirm', ['only' => 'confirm']);
+        $this->middleware('permission:payroll.guard.scheme.approve', ['only' => ['approve', 'reject']]);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'institution_id'              => ['required'],
             'from_date'                   => ['required', 'date'],
@@ -62,7 +62,7 @@ final class PayrollGuardSchemeController extends Controller
             'payroll_supervised_group_id' => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'institution_id.required' => 'El campo organización es requerido',
             'from_date.required' => 'El campo desde es requerido',
@@ -75,11 +75,9 @@ final class PayrollGuardSchemeController extends Controller
     /**
      * Muestra todos los registros de esquemas de guardias
      *
-     * @method    index
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    JsonResponse    Json con los datos de los esquemas de guardias
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
@@ -87,13 +85,11 @@ final class PayrollGuardSchemeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para registrar un nuevo esquema de guardias
      *
-     * @method    create
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -103,13 +99,11 @@ final class PayrollGuardSchemeController extends Controller
     /**
      * Valida y registra un nuevo esquema de guardias
      *
-     * @method store
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param Request $request Objeto con información de la petición
+     * @param Request $request Datos de la petición
      *
-     * @return JsonResponse Json con objeto guardado y mensaje de confirmación de la operación
+     * @return \Illuminate\Http\JsonResponse Json con objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
     {
@@ -155,13 +149,13 @@ final class PayrollGuardSchemeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para editar un esquema de guardias
      *
-     * @method    edit
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
+     * @param     integer $id Identificador del esquema de guardias
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit(int $id)
     {
@@ -172,18 +166,44 @@ final class PayrollGuardSchemeController extends Controller
     /**
      * Actualiza la información de un esquema de guardias
      *
-     * @method update
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param Request $request Objeto con datos de la petición
-     * @param PayrollGuardScheme $guardScheme Registro de esquema de guardias
+     * @param Request $request Datos de la petición
+     * @param integer $guardSchemeId Identificador del esquema de guardias
      *
-     * @return JsonResponse Json con mensaje de confirmación de la operación
+     * @return \Illuminate\Http\JsonResponse Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, int $guardSchemeId)
     {
-        $this->validate($request, $this->validateRules, $this->messages);
+        $validateRules  = $this->validateRules;
+        $messages  = $this->messages;
+
+        $payrollGuardScheme = PayrollGuardScheme::query()
+            ->find($guardSchemeId);
+
+        $schemeLastPeriod = $payrollGuardScheme?->payrollGuardSchemePeriods()
+            ->whereHas('documentStatus', function ($query) {
+                $query
+                    ->where('action', 'AP')
+                    ->orWhere('action', 'CE');
+            })->first();
+
+        if (isset($schemeLastPeriod) && $payrollGuardScheme->payroll_supervised_group_id != $request->payroll_supervised_group_id) {
+            $validateRules = array_merge(
+                $validateRules,
+                [
+                    'scheme_last_period' => ['required'],
+                ]
+            );
+            $messages = array_merge(
+                $messages,
+                [
+                    'scheme_last_period.required' => 'Ya existe un periodo aprobado/cerrado para este grupo de supervisados.',
+                ]
+            );
+        }
+
+        $this->validate($request, $validateRules, $messages);
 
         $guardScheme = PayrollGuardScheme::find($guardSchemeId);
         $guardScheme->update([
@@ -199,15 +219,13 @@ final class PayrollGuardSchemeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra detalles de un esquema de guardia
      *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function show(int $id)
     {
@@ -222,13 +240,11 @@ final class PayrollGuardSchemeController extends Controller
     /**
      * Elimina un registro de tipo de excepción
      *
-     * @method destroy
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param PayrollGuardScheme $guardScheme Registro de tipo de excepción
+     * @param integer $guardSchemeId Id del esquema de gardia
      *
-     * @return JsonResponse Registro de tipo de excepción eliminado
+     * @return \Illuminate\Http\JsonResponse Registro de tipo de excepción eliminado
      */
     public function destroy(int $guardSchemeId)
     {
@@ -253,11 +269,9 @@ final class PayrollGuardSchemeController extends Controller
     /**
      * Muestra todos los registros de esquemas de guardias
      *
-     * @method    vueList
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    JsonResponse    Json con los datos de los esquemas de guardias
+     * @return    \Illuminate\Http\JsonResponse    Json con los datos de los esquemas de guardias
      */
     public function vueList()
     {
@@ -269,6 +283,14 @@ final class PayrollGuardSchemeController extends Controller
         );
     }
 
+    /**
+     * Aprobar un esquema de guardia
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     * @param integer $guardSchemePeriodId Id del esquema de guardia
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function approve(Request $request, int $guardSchemePeriodId)
     {
         $documentStatus = DocumentStatus::where('action', 'AP')->first();
@@ -303,6 +325,14 @@ final class PayrollGuardSchemeController extends Controller
         return response()->json(['redirect' => route('payroll.guard-schemes.index')], 200);
     }
 
+    /**
+     * Rechaza un esquema de guardia
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     * @param integer $guardSchemePeriodId Id del esquema de guardia
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function reject(Request $request, int $guardSchemePeriodId)
     {
         $documentStatus = DocumentStatus::where('action', 'RE')->first();
@@ -341,20 +371,18 @@ final class PayrollGuardSchemeController extends Controller
     /**
      * Valida y registra un nuevo periodo de esquema de guardias
      *
-     * @method store
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param Request $request Objeto con información de la petición
+     * @param Request $request Datos de la petición
      *
-     * @return JsonResponse Json con objeto guardado y mensaje de confirmación de la operación
+     * @return \Illuminate\Http\JsonResponse Json con objeto guardado y mensaje de confirmación de la operación
      */
     public function addPeriod(Request $request)
     {
         $payrollGuardScheme = PayrollGuardScheme::query()
             ->find($request->payroll_guard_scheme_id);
 
-            $schemeLastPeriod = $payrollGuardScheme?->payrollGuardSchemePeriods()
+        $schemeLastPeriod = $payrollGuardScheme?->payrollGuardSchemePeriods()
             ->orderBy('to_date')
             ?->get()
             ?->last();
@@ -415,13 +443,12 @@ final class PayrollGuardSchemeController extends Controller
     /**
      * Actualiza la información de un periodo de esquema de guardias
      *
-     * @method editPeriod
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param Request $request Objeto con información de la petición
+     * @param Request $request Datos de la petición
+     * @param integer $periodId Periodo de esquema de guardias
      *
-     * @return JsonResponse Json con objeto guardado y mensaje de confirmación de la operación
+     * @return \Illuminate\Http\JsonResponse Json con objeto guardado y mensaje de confirmación de la operación
      */
     public function editPeriod(Request $request, int $periodId)
     {
@@ -475,6 +502,14 @@ final class PayrollGuardSchemeController extends Controller
         ]], 200);
     }
 
+    /**
+     * Confirma el período de un esquema de guardias
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     * @param integer $guardSchemePeriodId Id del periodo de guardias
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function confirmPeriod(Request $request, int $guardSchemePeriodId)
     {
         $documentStatus = DocumentStatus::where('action', 'CE')->first();
@@ -495,6 +530,14 @@ final class PayrollGuardSchemeController extends Controller
         ]], 200);
     }
 
+    /**
+     * Solicitar revisión de un período de esquema de guardias
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     * @param integer $guardSchemePeriodId Id del periodo de guardias
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function requestReviewPeriod(Request $request, int $guardSchemePeriodId)
     {
         $documentStatus = DocumentStatus::where('action', 'PR')->first();
@@ -536,6 +579,14 @@ final class PayrollGuardSchemeController extends Controller
         ]], 200);
     }
 
+    /**
+     * Obtener los periodos confirmados del esquema de guardias
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     * @param \Modules\Payroll\Actions\GetPayrollConfirmedGuardPeriodsAction $getConfirmedPeriods Acción para obtener los periodos confirmados
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function getPayrollConfirmedGuardPeriods(Request $request, GetPayrollConfirmedGuardPeriodsAction $getConfirmedPeriods)
     {
         return response()->json(

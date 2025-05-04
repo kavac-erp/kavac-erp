@@ -10,24 +10,6 @@
 			<div class="modal-dialog vue-crud" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<!-- <button type="button" data-toggle="tooltip"
-                                class="btn btn-primary btn-xs btn-icon btn-action"
-                                style="margin-right: 3.5rem; margin-top: -.1rem;"
-                                title="Presione para subir los registros mediante hoja de cálculo."
-                                @click="setFile('importFile')">
-                            <i class="fa fa-upload"></i>
-                        </button>
-                        <input  id="importFile" name="importFile"
-                        		type="file" style="display:none;"
-                        		@change="importData()">
-
-                        <button type="button" data-toggle="tooltip"
-                                class="btn btn-primary btn-xs btn-icon btn-action"
-                                style="margin-right: 1.5rem; margin-top: -.1rem;"
-                                title="Presione para descargar el documento con la información de los registros."
-                                @click="exportData()">
-                            <i class="fa fa-download"></i>
-                        </button> -->
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">×</span>
 						</button>
@@ -72,7 +54,7 @@
 							<div class="col-md-6">
 								<div class="form-group is-required">
 									<label>Descripción:</label>
-                                    <textarea id="description" 
+                                    <textarea id="description"
                                               :class="'form-control'"
                                               @input="delete errors['description'];"
                                               type="text" name="description" aria-labelledby="description_label"   aria-describedby=""       value="" data-toggle="tooltip"
@@ -134,15 +116,15 @@
 			        </div>
 			        <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('sale/type-good')" 
+							<button type="button" @click="createRecord('sale/type-good')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -201,8 +183,6 @@
 				errors: [],
 				records: [],
 				columns: ['name', 'description', 'attributes', 'id'],
-				// formImport: false,
-
 			}
 		},
 		methods: {
@@ -231,32 +211,6 @@
 				var field = {id: '', name: '', sale_type_good_id: ''};
 				this.record.sale_type_good_attribute.push(field);
 			},
-			// exportData() {
-            //     //instrucciones para exportar registros
-            //     location.href = '/sale/type-good/export/all';
-            // },
-            // importData() {
-            //     //instrucciones para exportar registros
-            //     const vm = this;
-            //     var url = '/sale/type-good/import/all' ;
-	        //     var formData = new FormData();
-	        //     var importFile = document.querySelector('#importFile');
-	        //     formData.append("file", importFile.files[0]);
-	        //     vm.loading = true;
-	        //     axios.post(url, formData, {
-	        //         headers: {
-	        //             'Content-Type': 'multipart/form-data'
-	        //         }
-	        //     }).then(response => {
-	        //     	console.log('exit');
-	        //     	vm.loading = false;
-	        //     	vm.showMessage('store');
-	        //     }).catch(error => {
-	        //         console.log('failure');
-	        //         vm.loading = false;
-
-	        //     });
-            // }
 		},
 		created() {
 			const vm = this;

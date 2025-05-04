@@ -9,7 +9,8 @@ var classModules_1_1Payroll_1_1Models_1_1PayrollProfessional =
     [ "payrollStudies", "d3/dfe/classModules_1_1Payroll_1_1Models_1_1PayrollProfessional.html#a9df3c59840be78d140c99d6605a404a2", null ],
     [ "payrollStudyType", "d3/dfe/classModules_1_1Payroll_1_1Models_1_1PayrollProfessional.html#a8adeb7f564f7ecbf9f05beaedbd24c32", null ],
     [ "professions", "d3/dfe/classModules_1_1Payroll_1_1Models_1_1PayrollProfessional.html#a0ca316a4cac7084ac9ada4480cec3cd6", null ],
+    [ "scopeSearch", "d3/dfe/classModules_1_1Payroll_1_1Models_1_1PayrollProfessional.html#ad664ab03bbc7e886fe33f681fc2baed6", null ],
     [ "$dates", "d3/dfe/classModules_1_1Payroll_1_1Models_1_1PayrollProfessional.html#a6ed295a3b7371b42773cab86fd367af8", null ],
     [ "$fillable", "d3/dfe/classModules_1_1Payroll_1_1Models_1_1PayrollProfessional.html#a13601d3af66d109458e268a3eb4afc49", null ],
-    [ "$with", "d3/dfe/classModules_1_1Payroll_1_1Models_1_1PayrollProfessional.html#a575ec3cd45566351149a2d4f1d4bbd58", null ]
+    [ "$with", "d3/dfe/classModules_1_1Payroll_1_1Models_1_1PayrollProfessional.html#a3b8033ad34a94c5e640232d8091bd02a", null ]
 ];

@@ -2,12 +2,13 @@
 
 namespace Modules\Warehouse\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Models\User;
 use App\Traits\ModelsTrait;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class WarehouseMovement
@@ -16,9 +17,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos para los movimientos de almacén
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseMovement extends Model implements Auditable
 {
@@ -47,8 +48,8 @@ class WarehouseMovement extends Model implements Auditable
      * Método que obtiene el registro de institución gestiona almacén de donde parten los artículos
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * WarehouseInstitutionWarehouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouseInstitutionWarehouseInitial()
     {
@@ -59,8 +60,8 @@ class WarehouseMovement extends Model implements Auditable
      * Método que obtiene el registro de institución gestiona almacén donde llegan los artículos
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * WarehouseInstitutionWarehouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouseInstitutionWarehouseEnd()
     {
@@ -71,7 +72,8 @@ class WarehouseMovement extends Model implements Auditable
      * Método que obtiene el usuario que registra el movimiento
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
@@ -82,8 +84,8 @@ class WarehouseMovement extends Model implements Auditable
      * Método que obtiene los cambios en los productos relacionados con el movimiento de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * WarehouseInventoryProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function warehouseInventoryProductMovements()
     {

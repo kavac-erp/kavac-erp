@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Http\Controllers;
 
 use App\Models\Institution;
@@ -11,11 +9,9 @@ use Illuminate\Contracts\Support\Renderable;
 
 /**
  * @class SendPayrollPaymentTypeReceiptsController
- * @brief [descripción detallada]
+ * @brief Controlador para gestionar los envíos de recibos de pago
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -23,48 +19,43 @@ use Illuminate\Contracts\Support\Renderable;
 class SendPayrollPaymentTypeReceiptsController extends Controller
 {
     /**
-     * [descripción del método]
+     * Método constructor de la clase
      *
-     * @method    index
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return void
      */
-    public function index()
+    public function __construct()
     {
-        return view('payroll::index');
+        $this->middleware('permission:payroll.payment.receipts.send', ['only' => ['sendReceipts']]);
     }
 
     /**
-     * [descripción del método]
+     * Muestra la lista de registros de recibos de pago
      *
-     * @method    create
+     * @return    \Illuminate\View\View
+     */
+    public function index()
+    {
+        return view('payroll::');
+    }
+
+    /**
+     * Muestra el formulario para crear un nuevo registro de recibos de pago
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
         return view('payroll::create');
     }
 
-    public function __construct()
-    {
-        $this->middleware('permission:payroll.payment-receipts.send', ['only' => ['sendReceipts']]);
-    }
-
     /**
-     * [descripción del método]
+     * Envía los recibos de pago
      *
-     * @method    sendReceipts
+     * @param     integer    $payroll_id    Identificador de la nómina
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     integer    $id    Identificador del registro
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function sendReceipts($payroll_id)
     {

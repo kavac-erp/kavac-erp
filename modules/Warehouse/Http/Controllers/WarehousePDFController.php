@@ -14,17 +14,25 @@ use Carbon\Carbon;
 
 /**
  * @class WarehousePDFController
- * @brief Controlador de los atributos de los productos de almacén
+ * @brief Controlador de los reportes de almacén
  *
- * Clase que gestiona los atributos de productos almacenables
+ * Clase que gestiona los reportes de almacén
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehousePDFController extends Controller
 {
+    /**
+     * Crea un informe para un tipo específico de almacén o producto.
+     *
+     * @param integer $type Tipo de almacén o producto (1 para producto, otro valor para almacén)
+     * @param integer|null $id ID del producto o almacén
+     *
+     * @return void
+     */
     public function createForType($type, $id = null)
     {
         $field = ($type == 1) ? WarehouseProduct::find($id) : Warehouse::find($id);
@@ -78,6 +86,14 @@ class WarehousePDFController extends Controller
         $this->createReport($inventory_product);
     }
 
+    /**
+     * Crea un inventario de productos en un almacén específico.
+     *
+     * @param integer $warehouse_id ID del almacén.
+     * @param integer $product_id ID del producto.
+     *
+     * @return void
+     */
     public function create($warehouse_id, $product_id)
     {
         $product = WarehouseProduct::find($product_id);
@@ -106,6 +122,11 @@ class WarehousePDFController extends Controller
         }
     }
 
+    /**
+     * Crea un informe de productos en almacén.
+     *
+     * @return void
+     */
     public function createWarehouseProducts()
     {
         $inventory_product = WarehouseInventoryProduct::with(
@@ -125,6 +146,13 @@ class WarehousePDFController extends Controller
         $this->createReport($inventory_product);
     }
 
+    /**
+     * Crea un informe de productos en almacén para un producto específico.
+     *
+     * @param integer $product_id ID del producto para el cual se creará el informe
+     *
+     * @return void
+     */
     public function createForProduct($product_id)
     {
         $product = WarehouseProduct::find($product_id);
@@ -149,6 +177,13 @@ class WarehousePDFController extends Controller
         }
     }
 
+    /**
+     * Crea un informe de productos en almacén para un almacén específico.
+     *
+     * @param integer $warehouse_id ID del almacén para el cual se creará el informe
+     *
+     * @return void
+     */
     public function createForWarehouse($warehouse_id)
     {
         $institution = Institution::where('active', true)->where('default', true)->first();
@@ -175,6 +210,13 @@ class WarehousePDFController extends Controller
         }
     }
 
+    /**
+     * Genera un informe de productos en almacén en formato PDF.
+     *
+     * @param mixed $inventory_product Colección de productos en almacén
+     *
+     * @return void
+     */
     public function createReport($inventory_product)
     {
         $multi_inst =  Parameter::where('p_key', 'multi_institution')
@@ -183,9 +225,7 @@ class WarehousePDFController extends Controller
             ->where('active', true)->first();
         $pdf = new ReportRepository();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página
-         */
+        /* Definicion de las caracteristicas generales de la página */
         $pdf->setConfig(
             [
                 'institution' => $institution,

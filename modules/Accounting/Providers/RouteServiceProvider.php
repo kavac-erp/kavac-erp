@@ -5,19 +5,28 @@ namespace Modules\Accounting\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
+/**
+ * @class RouteServiceProvider
+ * @brief Clase que gestiona los servicios de rutas del módulo de Contabilidad
+ *
+ * Gestiona los servicios de rutas del módulo de Contabilidad
+ *
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * The module namespace to assume when generating URLs to actions.
+     * Namespace de las rutas del controlador
      *
-     * @var string
+     * @var string $moduleNamespace
      */
     protected $moduleNamespace = 'Modules\Accounting\Http\Controllers';
 
     /**
-     * Called before routes are registered.
-     *
-     * Register any model bindings or pattern based filters.
+     * Registra cualquier binding o filtro
      *
      * @return void
      */
@@ -27,7 +36,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the routes for the application.
+     * Define las rutas para la aplicación
      *
      * @return void
      */
@@ -39,9 +48,9 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "web" routes for the application.
+     * Define las rutas "web" de la aplicación
      *
-     * These routes all receive session state, CSRF protection, etc.
+     * Todas estas rutas reciben el estatus de sesión, CSRF protection, etc.
      *
      * @return void
      */
@@ -53,9 +62,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
+     * Define las rutas "api" para la aplicación
      *
      * @return void
      */

@@ -14,15 +14,15 @@
             </div>
             <div slot="responsable_name" slot-scope="props" class="text-center">
                 <div v-if="props.row.project_name && props.row.project">
-                    {{ props.row.project.responsable.first_name ? props.row.project.responsable.first_name : props.row.project.responsable.name }} 
+                    {{ props.row.project.responsable.first_name ? props.row.project.responsable.first_name : props.row.project.responsable.name }}
                     {{ props.row.project.responsable.last_name  }}
                 </div>
                 <div v-else-if="props.row.product_name && props.row.product">
-                    {{ props.row.product.responsable.first_name ? props.row.product.responsable.first_name : props.row.product.responsable.name }} 
+                    {{ props.row.product.responsable.first_name ? props.row.product.responsable.first_name : props.row.product.responsable.name }}
                     {{ props.row.product.responsable.last_name  }}
                 </div>
                 <div v-else>
-                    {{ props.row.sub_project.responsable.first_name ? props.row.sub_project.responsable.first_name : props.row.sub_project.responsable.name }} 
+                    {{ props.row.sub_project.responsable.first_name ? props.row.sub_project.responsable.first_name : props.row.sub_project.responsable.name }}
                     {{ props.row.sub_project.responsable.last_name  }}
                 </div>
             </div>
@@ -80,7 +80,7 @@
                 'id': 'Acción'
             };
             this.table_options.sortable = ['name', 'responsable_name', 'execution_year', 'end_date'];
-            this.table_options.filterable = ['code', 'project.name', 'sub_project.name', 'product.name', 'project.responsable.name', 
+            this.table_options.filterable = ['code', 'project.name', 'sub_project.name', 'product.name', 'project.responsable.name',
             'sub_project.responsable.name', 'product.responsable.name','execution_year','project.end_date','sub_project.end_date','product.end_date'];
             this.table_options.columnsClasses = {
                 'code': 'col-md-1 text-center',
@@ -136,7 +136,7 @@
 
             /**
              * Método que borra un registro de la tabla
-             * 
+             *
              * @author  Pedro Contreras <pdrocont@gmail.com>
              */
             deleteRecord(id, index) {
@@ -165,7 +165,7 @@
                         }
                     }
                 });
-                
+
             }
         }
     };

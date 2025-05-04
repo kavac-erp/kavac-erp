@@ -7,13 +7,23 @@ namespace Modules\Payroll\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Payroll\Models\PayrollSupervisedGroup;
 
+/**
+ * @class TimeSheetPendingResource
+ * @brief Representa un recurso para la hoja de tiempo pendiente
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class TimeSheetPendingResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transforma el recurso a un arreglo.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return array
      */
     public function toArray($request)
     {
@@ -58,6 +68,12 @@ class TimeSheetPendingResource extends JsonResource
             'updated_at' => $this->resource->updated_at,
         ];
     }
+
+    /**
+     * Obtiene el grupo supervisado de nómina.
+     *
+     * @return array|object
+     */
     protected function getPayrollSuperviedGroup(): ?PayrollSupervisedGroup
     {
         $data = $this->resource->payrollSupervisedGroup;

@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldAssetBookIdToAssetAdjustmentAssetsTable
- * @brief [descripción detallada]
+ * @brief Agrega un campo asset_book_id a la tabla asset_adjustment_assets
  *
- * [descripción corta]
+ * Agrega un campo asset_book_id a la tabla asset_adjustment_assets
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

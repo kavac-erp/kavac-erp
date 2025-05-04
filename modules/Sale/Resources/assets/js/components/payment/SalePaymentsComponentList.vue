@@ -3,8 +3,8 @@
 
     <v-client-table :columns="columns" :data="records" :options="table_options" ref="tableResults">
         <div slot="sale_goods_name" slot-scope="props" class="text-center">
-            <div v-for="sale_goods in props.row.sale_goods">
-                <p v-for="sale_good in sale_goods" >
+            <div v-for="(sale_goods, index) in props.row.sale_goods" :key="index">
+                <p v-for="(sale_good, idx) in sale_goods" :key="idx">
                     {{ sale_good.name }}
                 </p>
             </div>
@@ -22,7 +22,7 @@
                         v-on:click="editForm(props.row.id)"
                         :disabled="props.row.status != '0'">
                     <i class="fa fa-edit"></i>
-                </button>          
+                </button>
                 <a class="btn btn-primary btn-xs btn-icon btn-action"
                         :href="'/sale/payment/pdf/'+props.row.id"
                         title="Presione para descargar el documento con la información del registro."
@@ -37,7 +37,7 @@
                         target="_blank"
                         :disabled="props.row.status < 1">
                         <i class="fa fa-print" style="text-align: center;"></i>
-                </a>             
+                </a>
                 <button type="button" data-toggle="tooltip"
                         data-placement="bottom"
                         class="btn btn-success btn-xs btn-icon btn-action"
@@ -45,7 +45,7 @@
                         v-on:click="approvedPayment(props.index)"
                         :disabled="props.row.status != '0'">
                     <i class="fa fa-check"></i>
-                </button> 
+                </button>
                 <button type="button" data-toggle="tooltip"
                         data-placement="bottom"
                         class="btn btn-danger btn-xs btn-icon btn-action"
@@ -53,7 +53,7 @@
                         v-on:click="refusePayment(props.index)"
                         :disabled="props.row.status != '0'">
                     <i class="fa fa-ban"></i>
-                </button> 
+                </button>
             </div>
         </div>
     </v-client-table>
@@ -130,7 +130,7 @@
                         if (result) {
                             var fields = vm.records[index-1];
                             var id = vm.records[index-1].id;
-                            //console.log(vm);
+
                             axios.put(app_url + '/sale/payment/refusePayment/'+id, fields).then(response => {
                                 if (typeof(response.data.redirect) !== "undefined")
                                     location.href = response.data.redirect;
@@ -176,7 +176,7 @@
                         if (result) {
                             var fields = vm.records[index-1];
                             var id = vm.records[index-1].id;
-                            //console.log(vm);
+
                             axios.put(app_url + '/sale/payment/approvedPayment/'+id, fields).then(response => {
                                 if (typeof(response.data.redirect) !== "undefined")
                                     location.href = response.data.redirect;

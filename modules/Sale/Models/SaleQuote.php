@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -29,12 +27,14 @@ class SaleQuote extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name','id_number', 'email', 'type_person', 'sale_warehouse_method_id', 'sale_charge_money_id', 'deadline_date', 'status', 'phone', 'total', 'total_without_tax'];
@@ -44,9 +44,9 @@ class SaleQuote extends Model implements Auditable
     /**
      * Método que obtiene los métodos de pago del módulo de comercialización
      *
-     * PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * SalePaymentMethod
+     * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleChargeMoney()
     {
@@ -56,9 +56,8 @@ class SaleQuote extends Model implements Auditable
     /**
      * Método que obtiene los almacenes del módulo de comercialización
      *
-     * PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany Objeto con el registro relacionado al modelo
-     * SaleWarehouse
+     * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleWarehouseMethod()
     {
@@ -69,8 +68,8 @@ class SaleQuote extends Model implements Auditable
      * Método que obtiene los productos de la cotizacion
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany Objeto con el registro relacionado al modelo
-     * saleQuoteProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleQuoteProduct()
     {
@@ -79,7 +78,9 @@ class SaleQuote extends Model implements Auditable
 
     /**
      * Metodo que establece es nombre en texto de los estados de las cotizaciones.
+     *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
      * @return string
      */
     public function getStatusTextAttribute()

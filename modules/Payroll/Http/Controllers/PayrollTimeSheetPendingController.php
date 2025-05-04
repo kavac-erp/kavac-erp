@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Http\Controllers;
 
 use App\Models\DocumentStatus;
@@ -9,7 +7,6 @@ use App\Models\Institution;
 use App\Models\Profile;
 use App\Notifications\System;
 use App\Notifications\SystemNotification;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
@@ -23,14 +20,13 @@ use Modules\Payroll\Models\PayrollSupervisedGroup;
 use Modules\Payroll\Models\PayrollTimeSheetPending;
 use Modules\Payroll\Rules\PayrollTimeSheetDataRequired;
 use Modules\Payroll\Rules\PayrollTimeSheetPendingConceptsRequired;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @class PayrollTimeSheetPendingController
- * @brief [descripción detallada]
+ * @brief Controlador de la gestión de las hojas de tiempo pendientes
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -39,40 +35,51 @@ class PayrollTimeSheetPendingController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
     protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
     /**
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:payroll.time_sheet_pending.index', ['only' => ['index', 'vueList']]);
-        $this->middleware('permission:payroll.time_sheet_pending.create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:payroll.time_sheet_pending.edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:payroll.time_sheet_pending.delete', ['only' => 'destroy']);
-        $this->middleware('permission:payroll.time_sheet_pending.approve', ['only' => 'approve']);
-        $this->middleware('permission:payroll.time_sheet_pending.reject', ['only' => 'reject']);
-        $this->middleware('permission:payroll.time_sheet_pending.confirm', ['only' => 'confirm']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:payroll.timesheetpending.index', ['only' => ['index', 'vueList']]);
+        $this->middleware('permission:payroll.timesheetpending.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:payroll.timesheetpending.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:payroll.timesheetpending.delete', ['only' => 'destroy']);
+        $this->middleware('permission:payroll.timesheetpending.approve', ['only' => 'approve']);
+        $this->middleware('permission:payroll.timesheetpending.reject', ['only' => 'reject']);
+        $this->middleware('permission:payroll.timesheetpending.confirm', ['only' => 'confirm']);
 
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'payroll_supervised_group_id' => ['required'],
             'payroll_time_sheet_parameter_id' => ['required'],
-            'from_date' => [],
+            'from_date' => ['required', 'date'],
             'to_date' => ['required', 'after_or_equal:from_date'],
             'time_sheet_data' => [new PayrollTimeSheetDataRequired(), new PayrollTimeSheetPendingConceptsRequired()],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'from_date.required' => 'El campo desde es obligatorio',
-            'from_date.unique' => 'La hoja de tiempo del periodo seleccionado ya ha sido ' .
-                'registrada para este grupo de trabajadores',
             'to_date.required' => 'El campo hasta es obligatorio',
             'to_date.after_or_equal' => 'El campo hasta debe ser mayor o igual que el campo desde',
             'payroll_supervised_group_id.required' => 'El campo código es obligatorio',
@@ -81,13 +88,9 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra la lista de hojas de tiempo pendientes
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
@@ -95,13 +98,9 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para crear una nueva hoja de tiempo pendiente
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -109,32 +108,61 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena la hoja de tiempo pendiente
      *
-     * @method    store
+     * @param     Request    $request    Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        $this->validateRules['from_date'] = [
-            'required',
-            Rule::unique('payroll_time_sheet_pendings', 'from_date')
-                ->where('to_date', $request->to_date)
-                ->where('payroll_supervised_group_id', $request->payroll_supervised_group_id)
-                ->where('payroll_time_sheet_parameter_id', $request->payroll_time_sheet_parameter_id)
-        ];
+        $profileUser = auth()->user()->profile;
+        if ($profileUser && $profileUser->institution_id !== null) {
+            $institution = Institution::find($profileUser->institution_id);
+        } else {
+            $institution = Institution::where('active', true)->where('default', true)->first();
+        }
 
-        $this->validate($request, $this->validateRules, $this->messages);
+        $payrollLastTimeSheet = PayrollTimeSheetPending::query()
+            ->where([
+                'institution_id' => $institution->id,
+                'payroll_supervised_group_id' => $request->payroll_supervised_group_id,
+                'payroll_time_sheet_parameter_id' => $request->payroll_time_sheet_parameter_id
+            ])
+            ->orderBy('to_date')
+            ?->get()
+            ?->last();
+
+        $validateRules  = $this->validateRules;
+        $messages  = $this->messages;
+
+        if (isset($payrollLastTimeSheet)) {
+            $validateRules  = array_replace(
+                $validateRules,
+                [
+                    'from_date' => ['required', 'date', 'after:' . $payrollLastTimeSheet?->to_date],
+                ]
+            );
+
+            $to_date_obj = date_create_from_format('Y-m-d', $payrollLastTimeSheet->to_date);
+            $to_date_formatted = date_format($to_date_obj, 'd-m-Y');
+
+            $messages = array_merge(
+                $messages,
+                [
+                    'from_date.after' =>
+                        'Ya existe un registro para este grupo de supervisados con el periodo indicado.
+                            El campo Desde debe ser mayor al ' . $to_date_formatted . '.',
+                ]
+            );
+        }
+
+        $this->validate($request, $validateRules, $messages);
 
         DB::transaction(function () use ($request) {
             $status = DocumentStatus::where('action', 'EL')->first();
 
-            $profileUser = Auth()->user()->profile;
+            $profileUser = auth()->user()->profile;
             if ($profileUser && $profileUser->institution_id !== null) {
                 $institution = Institution::find($profileUser->institution_id);
             } else {
@@ -186,15 +214,11 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información de la hoja de tiempo pendiente
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -202,15 +226,11 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario para editar la hoja de tiempo pendiente
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -219,16 +239,12 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza la hoja de tiempo pendiente
      *
-     * @method    update
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -260,15 +276,11 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina la hoja de tiempo pendiente
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -279,15 +291,11 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    approve
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Aprueba la hoja de tiempo pendiente
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function approve(Request $request, $id)
     {
@@ -336,16 +344,12 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Rechaza la hoja de tiempo pendiente
      *
-     * @method    reject
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function reject(Request $request, $id)
     {
@@ -397,15 +401,11 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    confirm
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Confirma la aprobación de la hoja de tiempo pendiente
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function confirm(Request $request, $id)
     {
@@ -481,17 +481,13 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Listado de hojas de tiempo pendientes
      *
-     * @method    vueList
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function vueList()
     {
-        $user = Auth()->user();
+        $user = auth()->user();
         $profileUser = $user->profile;
 
         if ($user->hasRole('admin, payroll')) {
@@ -517,15 +513,11 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    vueInfo
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Información de la hoja de tiempo pendiente
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function vueInfo($id)
     {
@@ -538,14 +530,9 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Importa datos de las hojas de tiempo pendientes
      *
-     * @method    vueInfo
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function import()
     {
@@ -555,15 +542,11 @@ class PayrollTimeSheetPendingController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Exporta datos de las hojas de tiempo pendientes
      *
-     * @method    vueInfo
+     * @param     Request    $request         Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    BinaryFileResponse
      */
     public function export(Request $request)
     {

@@ -2,41 +2,85 @@
 
 namespace Modules\Asset\Exports;
 
-use App\Models\Country;
-use App\Models\Estate;
-use App\Models\Gender;
-use App\Models\MeasurementUnit;
-use App\Models\Municipality;
-use App\Models\Parish;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Events\AfterSheet;
-use Maatwebsite\Excel\Concerns\RegistersEventListeners;
-use Maatwebsite\Excel\Concerns\WithCustomStartCell;
-use Modules\Asset\Repositories\AssetParametersRepository;
-use Modules\Asset\Models\Asset;
-use App\Models\User;
 use Carbon\Carbon;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use App\Models\User;
+use App\Models\Estate;
+use App\Models\Parish;
+use App\Models\Country;
+use App\Exports\DataExport;
+use App\Models\Municipality;
+use App\Models\MeasurementUnit;
+use Modules\Asset\Models\Asset;
+use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Concerns\WithTitle;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Modules\Asset\Models\AssetUseFunction;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Style\Protection;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use Maatwebsite\Excel\Concerns\WithCustomStartCell;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\RegistersEventListeners;
+use Modules\Asset\Repositories\AssetParametersRepository;
 
-class AssetExport extends \App\Exports\DataExport implements
+/**
+ * @class AssetExport
+ * @brief Gestiona la exportación de datos de bienes
+ *
+ * @author Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
+class AssetExport extends DataExport implements
     ShouldAutoSize,
     WithHeadings,
     WithMapping,
     WithTitle,
     WithEvents,
+    WithColumnFormatting,
     WithCustomStartCell
 {
     use RegistersEventListeners;
 
+    /**
+     * Nombres de los encabezados en las hojas a exportar
+     *
+     * @var array $namesTitle
+     */
     protected $namesTitle;
+
+    /**
+     * Tipo de hoja a exportar
+     *
+     * @var string $type
+     */
     protected $type;
+
+    /**
+     * Gestiona los parámetros de bienes
+     *
+     * @var AssetParametersRepository $params
+     */
     protected $params;
+
+    /**
+     * Definir las columnas a exportar
+     *
+     * @var array $selects
+     */
     protected $selects;
 
+    /**
+     * Crea una nueva instancia de la clase.
+     *
+     * @param string $type
+     *
+     * @return void
+     */
     public function __construct($type = '')
     {
         $this->params = new AssetParametersRepository();
@@ -52,7 +96,7 @@ class AssetExport extends \App\Exports\DataExport implements
                 'DESCRIPCIÓN',
                 'FORMA ADQUISICIÓN',
                 'FECHA ADQUISICIÓN',
-                'No. DOCUMENTO',
+                'No DOCUMENTO',
                 'VALOR ADQUISICIÓN',
                 'MONEDA',
                 'ESTADO DEL USO DEL BIEN',
@@ -78,7 +122,7 @@ class AssetExport extends \App\Exports\DataExport implements
                 'DESCRIPCIÓN',
                 'FORMA ADQUISICIÓN',
                 'FECHA ADQUISICIÓN',
-                'No. DOCUMENTO',
+                'No DOCUMENTO',
                 'VALOR ADQUISICIÓN',
                 'MONEDA',
                 'ESTADO DEL USO DEL BIEN',
@@ -104,9 +148,9 @@ class AssetExport extends \App\Exports\DataExport implements
                 'ESTADO',
                 'MUNICIPIO',
                 'PARROQUIA',
-                'URBANIZACIÓN/SECTOR',
-                'AVENIDA/CALLE',
-                'CASA/EDIFICIO',
+                'URBANIZACIÓN SECTOR',
+                'AVENIDA CALLE',
+                'CASA EDIFICIO',
                 'PISO',
                 'LOCALIZACIÓN',
                 'LINDEROS NORTE',
@@ -128,7 +172,7 @@ class AssetExport extends \App\Exports\DataExport implements
                 'DESCRIPCIÓN',
                 'FORMA ADQUISICIÓN',
                 'FECHA ADQUISICIÓN',
-                'No. DOCUMENTO',
+                'No DOCUMENTO',
                 'VALOR ADQUISICIÓN',
                 'MONEDA',
                 'ESTADO DEL USO DEL BIEN',
@@ -156,7 +200,7 @@ class AssetExport extends \App\Exports\DataExport implements
                 'DESCRIPCIÓN',
                 'FORMA ADQUISICIÓN',
                 'FECHA ADQUISICIÓN',
-                'No. DOCUMENTO',
+                'No DOCUMENTO',
                 'VALOR ADQUISICIÓN',
                 'MONEDA',
                 'ESTADO DEL USO DEL BIEN',
@@ -198,13 +242,13 @@ class AssetExport extends \App\Exports\DataExport implements
     }
 
     /**
+     * Método que define la colección de datos a exportar
+     *
      * @return \Illuminate\Support\Collection
      */
     public function collection()
     {
-        $auth = auth()->user();
-
-        $user = User::where('id', auth()->user()->id)->with('profile')->first();
+        $user = User::without(['roles', 'permissions'])->where('id', auth()->user()->id)->with('profile')->first();
 
         if (
             $user !== null && !is_null($user->profile) &&
@@ -213,7 +257,7 @@ class AssetExport extends \App\Exports\DataExport implements
             return Asset::query()
                 ->when(
                     ('mueble' === $this->type),
-                    fn ($query) => $query->where('asset_type_id', 1)
+                    fn ($query) => $query->where('asset_type_id', 1)->where('asset_category_id', '!=', 2)->where('asset_category_id', '!=', 8)
                 )
                 ->when(
                     ('inmueble' === $this->type),
@@ -294,8 +338,6 @@ class AssetExport extends \App\Exports\DataExport implements
     /**
      * Establece las cabeceras de los datos en el archivo a exportar
      *
-     * @method    headings
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @return    array    Arreglo con las cabeceras de los datos a exportar
@@ -307,8 +349,6 @@ class AssetExport extends \App\Exports\DataExport implements
 
     /**
      * Establece las columnas que van a ser exportadas
-     *
-     * @method    map
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
@@ -327,7 +367,7 @@ class AssetExport extends \App\Exports\DataExport implements
                 $asset->asset_institutional_code ?? '',
                 strip_tags($asset->description) ?? '',
                 $asset->assetAcquisitionType->name ?? '',
-                Carbon::createFromFormat('Y-m-d', $asset->acquisition_date)->format('d-m-Y'),
+                Date::dateTimeToExcel(Carbon::parse($asset->acquisition_date)),
                 $asset->document_num ?? '',
                 $asset->acquisition_value ?? '',
                 $asset->currency->name ?? '',
@@ -353,14 +393,14 @@ class AssetExport extends \App\Exports\DataExport implements
                 $asset->asset_institutional_code ?? '',
                 strip_tags($asset->description) ?? '',
                 $asset->assetAcquisitionType->name ?? '',
-                Carbon::createFromFormat('Y-m-d', $asset->acquisition_date)->format('d-m-Y'),
+                Date::dateTimeToExcel(Carbon::parse($asset->acquisition_date)),
                 $asset->document_num ?? '',
                 $asset->acquisition_value ?? '',
                 $asset->currency->name ?? '',
                 $asset->assetStatus->name ?? '',
                 $asset->assetCondition->name ?? '',
                 $asset->asset_details['construction_year'] ?? '',
-                $asset->asset_details['construction_age'] ?? '',
+                '',
                 $asset->asset_details['contract_number'] ?? '',
                 $asset->asset_details['rif'] ?? '',
                 $this->getArraysSelect('occupancy_status', $asset->asset_details['occupancy_status_id'] ?? null),
@@ -369,10 +409,10 @@ class AssetExport extends \App\Exports\DataExport implements
                 $asset->asset_details['land_area'] ?? '',
                 MeasurementUnit::find($asset->asset_details['land_measurement_unit_id'] ?? null)?->name ?? '',
                 AssetUseFunction::find($asset->asset_details['asset_use_function_id'] ?? null)?->name ?? '',
-                $asset->asset_details['contract_start_date'] ?? '',
-                $asset->asset_details['contract_end_date'] ?? '',
+                (!empty($asset->asset_details['contract_start_date'] ?? '')) ? Date::dateTimeToExcel(Carbon::parse($asset->asset_details['contract_start_date'])) : '',
+                (!empty($asset->asset_details['contract_end_date'] ?? '')) ? Date::dateTimeToExcel(Carbon::parse($asset->asset_details['contract_end_date'])) : '',
                 $asset->asset_details['registry_office'] ?? '',
-                $asset->asset_details['Fecha de registro del inmueble'] ?? '',
+                (!empty($asset->asset_details['registration_date'] ?? '')) ? Date::dateTimeToExcel(Carbon::parse($asset->asset_details['registration_date'])) : '',
                 $asset->asset_details['registration_number'] ?? '',
                 $asset->asset_details['tome'] ?? '',
                 $asset->asset_details['folio'] ?? '',
@@ -404,7 +444,7 @@ class AssetExport extends \App\Exports\DataExport implements
                 $asset->asset_institutional_code ?? '',
                 strip_tags($asset->description) ?? '',
                 $asset->assetAcquisitionType->name ?? '',
-                Carbon::createFromFormat('Y-m-d', $asset->acquisition_date)->format('d-m-Y'),
+                Date::dateTimeToExcel(Carbon::parse($asset->acquisition_date)),
                 $asset->document_num ?? '',
                 $asset->acquisition_value ?? '',
                 $asset->currency->name ?? '',
@@ -433,7 +473,7 @@ class AssetExport extends \App\Exports\DataExport implements
                 $asset->asset_institutional_code ?? '',
                 strip_tags($asset->description) ?? '',
                 $asset->assetAcquisitionType->name ?? '',
-                Carbon::createFromFormat('Y-m-d', $asset->acquisition_date)->format('d-m-Y'),
+                Date::dateTimeToExcel(Carbon::parse($asset->acquisition_date)),
                 $asset->document_num ?? '',
                 $asset->acquisition_value ?? '',
                 $asset->currency->name ?? '',
@@ -444,27 +484,310 @@ class AssetExport extends \App\Exports\DataExport implements
                 $this->getArraysSelect('purposes', $asset->asset_details['purpose'] ?? null),
                 $asset->asset_details['weight'] ?? '',
                 MeasurementUnit::find($asset->asset_details['measurement_unit_id'] ?? null)?->name ?? '',
-                $asset->asset_details['date_of_birth'] ?? '',
+                (!empty($asset->asset_details['date_of_birth'] ?? '')) ? Date::dateTimeToExcel(Carbon::parse($asset->asset_details['date_of_birth'])) : '',
                 $asset->asset_details['iron_number'] ?? '',
-                Gender::find($asset->asset_details['gender'] ?? null)?->name ?? '',
+                $this->getArraysSelect('genders', $asset->asset_details['gender'] ?? null),
                 $asset->assetCategory->name ?? '',
                 $asset->assetSubcategory->name ?? '',
                 $asset->assetSpecificCategory->name ?? '',
                 $asset->code_sigecof ?? '',
             ];
         }
+
+        return [];
     }
 
+    /**
+     * Establece los formatos de cada columna de la hoja a exportar.
+     *
+     * @return array
+     */
+    public function columnFormats(): array
+    {
+        return match ($this->type) {
+            'mueble' => [
+                'B' => NumberFormat::FORMAT_TEXT,
+                'C' => NumberFormat::FORMAT_TEXT,
+                'D' => NumberFormat::FORMAT_TEXT,
+                'E' => NumberFormat::FORMAT_TEXT,
+                'F' => NumberFormat::FORMAT_TEXT,
+                'G' => NumberFormat::FORMAT_TEXT,
+                'H' => NumberFormat::FORMAT_TEXT,
+                'I' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+                'J' => NumberFormat::FORMAT_TEXT,
+                'K' => NumberFormat::FORMAT_GENERAL,
+                'L' => NumberFormat::FORMAT_TEXT,
+                'M' => NumberFormat::FORMAT_TEXT,
+                'N' => NumberFormat::FORMAT_TEXT,
+                'O' => NumberFormat::FORMAT_TEXT,
+                'P' => NumberFormat::FORMAT_TEXT,
+                'Q' => NumberFormat::FORMAT_TEXT,
+                'R' => NumberFormat::FORMAT_TEXT,
+                'S' => NumberFormat::FORMAT_TEXT,
+                'T' => NumberFormat::FORMAT_TEXT,
+                'U' => NumberFormat::FORMAT_TEXT,
+                'V' => NumberFormat::FORMAT_TEXT,
+                'W' => NumberFormat::FORMAT_NUMBER,
+                'X' => NumberFormat::FORMAT_GENERAL,
+            ],
+            'inmueble' => [
+                'B' => NumberFormat::FORMAT_TEXT,
+                'C' => NumberFormat::FORMAT_TEXT,
+                'D' => NumberFormat::FORMAT_TEXT,
+                'E' => NumberFormat::FORMAT_TEXT,
+                'F' => NumberFormat::FORMAT_TEXT,
+                'G' => NumberFormat::FORMAT_TEXT,
+                'H' => NumberFormat::FORMAT_TEXT,
+                'I' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+                'J' => NumberFormat::FORMAT_TEXT,
+                'K' => NumberFormat::FORMAT_GENERAL,
+                'L' => NumberFormat::FORMAT_TEXT,
+                'M' => NumberFormat::FORMAT_TEXT,
+                'N' => NumberFormat::FORMAT_TEXT,
+                'O' => NumberFormat::FORMAT_NUMBER,
+                'P' => NumberFormat::FORMAT_GENERAL,
+                'Q' => NumberFormat::FORMAT_TEXT,
+                'R' => NumberFormat::FORMAT_TEXT,
+                'S' => NumberFormat::FORMAT_TEXT,
+                'T' => NumberFormat::FORMAT_GENERAL,
+                'U' => NumberFormat::FORMAT_TEXT,
+                'V' => NumberFormat::FORMAT_GENERAL,
+                'W' => NumberFormat::FORMAT_TEXT,
+                'X' => NumberFormat::FORMAT_TEXT,
+                'Y' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+                'Z' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+                'AA' => NumberFormat::FORMAT_TEXT,
+                'AB' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+                'AC' => NumberFormat::FORMAT_TEXT,
+                'AD' => NumberFormat::FORMAT_TEXT,
+                'AE' => NumberFormat::FORMAT_TEXT,
+                'AF' => NumberFormat::FORMAT_TEXT,
+                'AG' => NumberFormat::FORMAT_TEXT,
+                'AH' => NumberFormat::FORMAT_TEXT,
+                'AI' => NumberFormat::FORMAT_TEXT,
+                'AJ' => NumberFormat::FORMAT_TEXT,
+                'AK' => NumberFormat::FORMAT_TEXT,
+                'AL' => NumberFormat::FORMAT_TEXT,
+                'AM' => NumberFormat::FORMAT_TEXT,
+                'AN' => NumberFormat::FORMAT_TEXT,
+                'AO' => NumberFormat::FORMAT_TEXT,
+                'AP' => NumberFormat::FORMAT_TEXT,
+                'AQ' => NumberFormat::FORMAT_TEXT,
+                'AR' => NumberFormat::FORMAT_TEXT,
+                'AS' => NumberFormat::FORMAT_TEXT,
+                'AT' => NumberFormat::FORMAT_TEXT,
+                'AU' => NumberFormat::FORMAT_TEXT,
+                'AV' => NumberFormat::FORMAT_TEXT,
+                'AW' => NumberFormat::FORMAT_TEXT,
+
+            ],
+            'vehiculo' => [
+                'B' => NumberFormat::FORMAT_TEXT,
+                'C' => NumberFormat::FORMAT_TEXT,
+                'D' => NumberFormat::FORMAT_TEXT,
+                'E' => NumberFormat::FORMAT_TEXT,
+                'F' => NumberFormat::FORMAT_TEXT,
+                'G' => NumberFormat::FORMAT_TEXT,
+                'H' => NumberFormat::FORMAT_TEXT,
+                'I' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+                'J' => NumberFormat::FORMAT_TEXT,
+                'K' => NumberFormat::FORMAT_GENERAL,
+                'L' => NumberFormat::FORMAT_TEXT,
+                'M' => NumberFormat::FORMAT_TEXT,
+                'N' => NumberFormat::FORMAT_TEXT,
+                'O' => NumberFormat::FORMAT_TEXT,
+                'P' => NumberFormat::FORMAT_TEXT,
+                'Q' => NumberFormat::FORMAT_TEXT,
+                'R' => NumberFormat::FORMAT_NUMBER,
+                'S' => NumberFormat::FORMAT_TEXT,
+                'T' => NumberFormat::FORMAT_TEXT,
+                'U' => NumberFormat::FORMAT_TEXT,
+                'V' => NumberFormat::FORMAT_TEXT,
+                'W' => NumberFormat::FORMAT_TEXT,
+                'X' => NumberFormat::FORMAT_TEXT,
+                'Y' => NumberFormat::FORMAT_TEXT,
+                'Z' => NumberFormat::FORMAT_NUMBER,
+                'AA' => NumberFormat::FORMAT_GENERAL,
+            ],
+            'semoviente' => [
+                'B' => NumberFormat::FORMAT_TEXT,
+                'C' => NumberFormat::FORMAT_TEXT,
+                'D' => NumberFormat::FORMAT_TEXT,
+                'E' => NumberFormat::FORMAT_TEXT,
+                'F' => NumberFormat::FORMAT_TEXT,
+                'G' => NumberFormat::FORMAT_TEXT,
+                'H' => NumberFormat::FORMAT_TEXT,
+                'I' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+                'J' => NumberFormat::FORMAT_TEXT,
+                'K' => NumberFormat::FORMAT_GENERAL,
+                'L' => NumberFormat::FORMAT_TEXT,
+                'M' => NumberFormat::FORMAT_TEXT,
+                'N' => NumberFormat::FORMAT_TEXT,
+                'O' => NumberFormat::FORMAT_TEXT,
+                'P' => NumberFormat::FORMAT_TEXT,
+                'Q' => NumberFormat::FORMAT_TEXT,
+                'R' => NumberFormat::FORMAT_GENERAL,
+                'S' => NumberFormat::FORMAT_TEXT,
+                'T' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+                'U' => NumberFormat::FORMAT_TEXT,
+                'V' => NumberFormat::FORMAT_TEXT,
+                'W' => NumberFormat::FORMAT_TEXT,
+                'X' => NumberFormat::FORMAT_TEXT,
+                'Y' => NumberFormat::FORMAT_TEXT,
+                'Z' => NumberFormat::FORMAT_TEXT,
+            ],
+        };
+    }
+
+    /**
+     * Método para registrar eventos de la hoja a exportar
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
+        $letters = match ($this->type) {
+            'mueble' => [
+                'B' => Protection::PROTECTION_UNPROTECTED,
+                'C' => Protection::PROTECTION_UNPROTECTED,
+                'D' => Protection::PROTECTION_UNPROTECTED,
+                'E' => Protection::PROTECTION_UNPROTECTED,
+                'F' => Protection::PROTECTION_UNPROTECTED,
+                'G' => Protection::PROTECTION_UNPROTECTED,
+                'H' => Protection::PROTECTION_UNPROTECTED,
+                'I' => Protection::PROTECTION_UNPROTECTED,
+                'J' => Protection::PROTECTION_UNPROTECTED,
+                'K' => Protection::PROTECTION_UNPROTECTED,
+                'L' => Protection::PROTECTION_UNPROTECTED,
+                'M' => Protection::PROTECTION_UNPROTECTED,
+                'N' => Protection::PROTECTION_UNPROTECTED,
+                'O' => Protection::PROTECTION_UNPROTECTED,
+                'P' => Protection::PROTECTION_UNPROTECTED,
+                'Q' => Protection::PROTECTION_UNPROTECTED,
+                'R' => Protection::PROTECTION_UNPROTECTED,
+                'S' => Protection::PROTECTION_UNPROTECTED,
+                'T' => Protection::PROTECTION_UNPROTECTED,
+                'U' => Protection::PROTECTION_UNPROTECTED,
+                'V' => Protection::PROTECTION_PROTECTED,
+                'W' => Protection::PROTECTION_UNPROTECTED,
+                'X' => Protection::PROTECTION_UNPROTECTED,
+            ],
+            'inmueble' => [
+                'B' => Protection::PROTECTION_UNPROTECTED,
+                'C' => Protection::PROTECTION_UNPROTECTED,
+                'D' => Protection::PROTECTION_UNPROTECTED,
+                'E' => Protection::PROTECTION_UNPROTECTED,
+                'F' => Protection::PROTECTION_UNPROTECTED,
+                'G' => Protection::PROTECTION_UNPROTECTED,
+                'H' => Protection::PROTECTION_UNPROTECTED,
+                'I' => Protection::PROTECTION_UNPROTECTED,
+                'J' => Protection::PROTECTION_UNPROTECTED,
+                'K' => Protection::PROTECTION_UNPROTECTED,
+                'L' => Protection::PROTECTION_UNPROTECTED,
+                'M' => Protection::PROTECTION_UNPROTECTED,
+                'N' => Protection::PROTECTION_UNPROTECTED,
+                'O' => Protection::PROTECTION_UNPROTECTED,
+                'P' => Protection::PROTECTION_PROTECTED,
+                'Q' => Protection::PROTECTION_UNPROTECTED,
+                'R' => Protection::PROTECTION_UNPROTECTED,
+                'S' => Protection::PROTECTION_UNPROTECTED,
+                'T' => Protection::PROTECTION_UNPROTECTED,
+                'U' => Protection::PROTECTION_UNPROTECTED,
+                'V' => Protection::PROTECTION_UNPROTECTED,
+                'W' => Protection::PROTECTION_UNPROTECTED,
+                'X' => Protection::PROTECTION_UNPROTECTED,
+                'Y' => Protection::PROTECTION_UNPROTECTED,
+                'Z' => Protection::PROTECTION_UNPROTECTED,
+                'AA' => Protection::PROTECTION_UNPROTECTED,
+                'AB' => Protection::PROTECTION_UNPROTECTED,
+                'AC' => Protection::PROTECTION_UNPROTECTED,
+                'AD' => Protection::PROTECTION_UNPROTECTED,
+                'AE' => Protection::PROTECTION_UNPROTECTED,
+                'AF' => Protection::PROTECTION_UNPROTECTED,
+                'AG' => Protection::PROTECTION_UNPROTECTED,
+                'AH' => Protection::PROTECTION_UNPROTECTED,
+                'AI' => Protection::PROTECTION_UNPROTECTED,
+                'AJ' => Protection::PROTECTION_UNPROTECTED,
+                'AK' => Protection::PROTECTION_UNPROTECTED,
+                'AL' => Protection::PROTECTION_UNPROTECTED,
+                'AM' => Protection::PROTECTION_UNPROTECTED,
+                'AN' => Protection::PROTECTION_UNPROTECTED,
+                'AO' => Protection::PROTECTION_UNPROTECTED,
+                'AP' => Protection::PROTECTION_UNPROTECTED,
+                'AQ' => Protection::PROTECTION_UNPROTECTED,
+                'AR' => Protection::PROTECTION_UNPROTECTED,
+                'AS' => Protection::PROTECTION_UNPROTECTED,
+                'AT' => Protection::PROTECTION_UNPROTECTED,
+                'AU' => Protection::PROTECTION_UNPROTECTED,
+                'AV' => Protection::PROTECTION_UNPROTECTED,
+                'AW' => Protection::PROTECTION_PROTECTED,
+
+            ],
+            'vehiculo' => [
+                'B' => Protection::PROTECTION_UNPROTECTED,
+                'C' => Protection::PROTECTION_UNPROTECTED,
+                'D' => Protection::PROTECTION_UNPROTECTED,
+                'E' => Protection::PROTECTION_UNPROTECTED,
+                'F' => Protection::PROTECTION_UNPROTECTED,
+                'G' => Protection::PROTECTION_UNPROTECTED,
+                'H' => Protection::PROTECTION_UNPROTECTED,
+                'I' => Protection::PROTECTION_UNPROTECTED,
+                'J' => Protection::PROTECTION_UNPROTECTED,
+                'K' => Protection::PROTECTION_UNPROTECTED,
+                'L' => Protection::PROTECTION_UNPROTECTED,
+                'M' => Protection::PROTECTION_UNPROTECTED,
+                'N' => Protection::PROTECTION_UNPROTECTED,
+                'O' => Protection::PROTECTION_UNPROTECTED,
+                'P' => Protection::PROTECTION_UNPROTECTED,
+                'Q' => Protection::PROTECTION_UNPROTECTED,
+                'R' => Protection::PROTECTION_UNPROTECTED,
+                'S' => Protection::PROTECTION_UNPROTECTED,
+                'T' => Protection::PROTECTION_UNPROTECTED,
+                'U' => Protection::PROTECTION_UNPROTECTED,
+                'V' => Protection::PROTECTION_UNPROTECTED,
+                'W' => Protection::PROTECTION_UNPROTECTED,
+                'X' => Protection::PROTECTION_UNPROTECTED,
+                'Y' => Protection::PROTECTION_PROTECTED,
+                'Z' => Protection::PROTECTION_UNPROTECTED,
+                'AA' => Protection::PROTECTION_UNPROTECTED,
+            ],
+            'semoviente' => [
+                'B' => Protection::PROTECTION_UNPROTECTED,
+                'C' => Protection::PROTECTION_UNPROTECTED,
+                'D' => Protection::PROTECTION_UNPROTECTED,
+                'E' => Protection::PROTECTION_UNPROTECTED,
+                'F' => Protection::PROTECTION_UNPROTECTED,
+                'G' => Protection::PROTECTION_UNPROTECTED,
+                'H' => Protection::PROTECTION_UNPROTECTED,
+                'I' => Protection::PROTECTION_UNPROTECTED,
+                'J' => Protection::PROTECTION_UNPROTECTED,
+                'K' => Protection::PROTECTION_UNPROTECTED,
+                'L' => Protection::PROTECTION_UNPROTECTED,
+                'M' => Protection::PROTECTION_UNPROTECTED,
+                'N' => Protection::PROTECTION_UNPROTECTED,
+                'O' => Protection::PROTECTION_UNPROTECTED,
+                'P' => Protection::PROTECTION_UNPROTECTED,
+                'Q' => Protection::PROTECTION_UNPROTECTED,
+                'R' => Protection::PROTECTION_UNPROTECTED,
+                'S' => Protection::PROTECTION_UNPROTECTED,
+                'T' => Protection::PROTECTION_UNPROTECTED,
+                'U' => Protection::PROTECTION_UNPROTECTED,
+                'V' => Protection::PROTECTION_UNPROTECTED,
+                'W' => Protection::PROTECTION_UNPROTECTED,
+                'X' => Protection::PROTECTION_UNPROTECTED,
+                'Y' => Protection::PROTECTION_UNPROTECTED,
+                'Z' => Protection::PROTECTION_PROTECTED,
+            ],
+        };
+
         $events = [
-            AfterSheet::class => function (AfterSheet $event) {
+            AfterSheet::class => function (AfterSheet $event) use ($letters) {
                 // Establecer el ancho de las columnas
                 if ($this->type == 'vehiculo') {
                     $cellRange = 'B4:AA4';
-                    /** Se crea una instancia Worksheet para acceder a las dos sheet. */
+                    /* Se crea una instancia Worksheet para acceder a las dos sheet. */
                     $sheet = $event->sheet->getDelegate();
-                    /** Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
+                    /* Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
                     $validationRangeA = 'validation!$A$2:$A$5000';
                     $validationRangeB = 'validation!$B$2:$B$5000';
                     $validationRangeC = 'validation!$C$2:$C$5000';
@@ -492,9 +815,9 @@ class AssetExport extends \App\Exports\DataExport implements
                     $this->setFunctionList($sheet, 'X', 5, null, 'validateL', $validationRangeL);
                 } elseif ($this->type == 'inmueble') {
                     $cellRange = 'B4:AW4';
-                    /** Se crea una instancia Worksheet para acceder a las dos sheet. */
+                    /* Se crea una instancia Worksheet para acceder a las dos sheet. */
                     $sheet = $event->sheet->getDelegate();
-                    /** Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
+                    /* Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
                     $validationRangeA = 'validation!$A$2:$A$5000';
                     $validationRangeB = 'validation!$B$2:$B$5000';
                     $validationRangeC = 'validation!$C$2:$C$5000';
@@ -536,9 +859,9 @@ class AssetExport extends \App\Exports\DataExport implements
                     $this->setFunctionList($sheet, 'AV', 5, null, 'validateS', $validationRangeS);
                 } elseif ($this->type == 'mueble') {
                     $cellRange = 'B4:X4';
-                    /** Se crea una instancia Worksheet para acceder a las dos sheet. */
+                    /* Se crea una instancia Worksheet para acceder a las dos sheet. */
                     $sheet = $event->sheet->getDelegate();
-                    /** Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
+                    /* Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
                     $validationRangeA = 'validation!$A$2:$A$5000';
                     $validationRangeB = 'validation!$B$2:$B$5000';
                     $validationRangeC = 'validation!$C$2:$C$5000';
@@ -566,9 +889,9 @@ class AssetExport extends \App\Exports\DataExport implements
                     $this->setFunctionList($sheet, 'U', 5, null, 'validateL', $validationRangeL);
                 } elseif ($this->type == 'semoviente') {
                     $cellRange = 'B4:Z4';
-                    /** Se crea una instancia Worksheet para acceder a las dos sheet. */
+                    /* Se crea una instancia Worksheet para acceder a las dos sheet. */
                     $sheet = $event->sheet->getDelegate();
-                    /** Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
+                    /* Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
                     $validationRangeA = 'validation!$A$2:$A$5000';
                     $validationRangeB = 'validation!$B$2:$B$5000';
                     $validationRangeC = 'validation!$C$2:$C$5000';
@@ -602,7 +925,7 @@ class AssetExport extends \App\Exports\DataExport implements
                     $this->setFunctionList($sheet, 'Y', 5, null, 'validateO', $validationRangeO);
                 }
 
-                /** Definicion de estilos de la cabecera */
+                /* Definicion de estilos de la cabecera */
                 $styleArray = [
                     'font' => [
                         'bold' => true,
@@ -617,11 +940,46 @@ class AssetExport extends \App\Exports\DataExport implements
                 ];
 
                 $sheet->getStyle($cellRange)->applyFromArray($styleArray);
+                $sheet->getStyle('I5:I5000')
+                    ->getNumberFormat()
+                    ->setFormatCode('DD/MM/YYYY');
+                if ('inmueble' == $this->type) {
+                    for ($row = 5; $row <= 5000; $row++) {
+                        $sheet->setCellValue('P' . $row, '=IF(O' . $row . '="", "", YEAR(TODAY()) - O' . $row . ')');
+                    };
+                    $sheet->getStyle('Y5:Y5000')
+                        ->getNumberFormat()
+                        ->setFormatCode('DD/MM/YYYY');
+                    $sheet->getStyle('Z5:Z5000')
+                        ->getNumberFormat()
+                        ->setFormatCode('DD/MM/YYYY');
+                    $sheet->getStyle('AB5:AB5000')
+                        ->getNumberFormat()
+                        ->setFormatCode('DD/MM/YYYY');
+                } elseif ('semoviente' == $this->type) {
+                    $sheet->getStyle('T5:T5000')
+                        ->getNumberFormat()
+                        ->setFormatCode('DD/MM/YYYY');
+                }
+                foreach ($letters as $key => $value) {
+                    $sheet
+                        ->getStyle($key . '5:' . $key . '5000')
+                        ->getProtection()->setLocked($value);
+                }
+                $sheet->getProtection()->setSheet(true);
             },
         ];
         return $events;
     }
 
+    /**
+     * Obtiene el valor del arreglo de selección.
+     *
+     * @param string $type Tipo de información a exportar
+     * @param integer $id Identificador del registro a exportar
+     *
+     * @return string
+     */
     public function getArraysSelect(?string $type, ?int $id): ?string
     {
         if (!empty($type)) {

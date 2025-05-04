@@ -18,9 +18,9 @@ use App\Models\Parameter;
  * Clase que gestiona los almacenes
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseController extends Controller
 {
@@ -28,13 +28,15 @@ class WarehouseController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -42,16 +44,18 @@ class WarehouseController extends Controller
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:warehouse.setting.warehouse');
         $this->middleware('permission:warehouse.setting.warehouse.create', ['only' => ['index', 'create', 'store']]);
         $this->middleware('permission:warehouse.setting.warehouse.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:warehouse.setting.warehouse.delete', ['only' => ['destroy']]);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'      => ['required', 'max:100'],
             'address'   => ['required'],
@@ -61,7 +65,7 @@ class WarehouseController extends Controller
             'parish_id' => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required'      => 'El campo nombre del almacén es obligatorio.',
             'name.max'           => 'El campo nombre del almacén no debe ser mayor que 100 caracteres.',
@@ -77,8 +81,10 @@ class WarehouseController extends Controller
      * Muestra un listado de los almacenes registrados
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  $institution  Identificador único de la institución que gestiona el almacén
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  integer $institution  Identificador único de la institución que gestiona el almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index($institution = null)
     {
@@ -119,8 +125,10 @@ class WarehouseController extends Controller
      * Valida y Registra un nuevo almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -174,9 +182,11 @@ class WarehouseController extends Controller
      * Actualiza la información de los almacenes registrados
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @param  \Modules\Warehouse\Models\Warehouse  $warehouse (Datos del almacén)
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  \Modules\Warehouse\Models\Warehouse  $warehouse Datos del almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Warehouse $warehouse)
     {
@@ -225,8 +235,10 @@ class WarehouseController extends Controller
      * Elimina un almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del registro
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -245,6 +257,13 @@ class WarehouseController extends Controller
         }
     }
 
+    /**
+     * Gestiona un almacén
+     *
+     * @param integer $id Identificador del almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function manage($id)
     {
         $warehouse_inst = WarehouseInstitutionWarehouse::where('warehouse_id', $id)->first();
@@ -275,26 +294,29 @@ class WarehouseController extends Controller
      * Construye un arreglo de elementos para usar en plantillas blade
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $institution   Institucion que gestiona los almacenes a ser buscados
-     * @return array   Arreglo con las opciones a mostrar
+     *
+     * @return array
      */
 
     public function getWarehouses($institution = null)
     {
         /*
-         *  Si no hay datos sobre la institución de gestión se retornan los almacenes
-         *  de la institucion por defecto y activa según la configuración del sistema
+         |  Si no hay datos sobre la institución de gestión se retornan los almacenes
+         |  de la institucion por defecto y activa según la configuración del sistema
          */
         if (is_null($institution)) {
             $institution = Institution::where('active', true)->where('default', true)->first();
             $institution = $institution->id;
         }
-        /*$records = WarehouseInstitutionWarehouse::where('institution_id', $institution)->with('warehouse')->get();*/
+
         $records = WarehouseInstitutionWarehouse::where('institution_id', $institution)
         ->with(['warehouse' => function ($query) {
             $query->where('active', true)->get();
         }])->get();
-        /** Inicia la opción vacia por defecto */
+
+        /* Inicia la opción vacia por defecto */
         $options = (count($records) >= 1) ? [['id' => '', 'text' => 'Seleccione...']] : [];
 
         foreach ($records as $rec) {

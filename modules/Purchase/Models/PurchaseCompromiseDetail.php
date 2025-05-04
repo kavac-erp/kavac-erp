@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Purchase\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -18,9 +16,9 @@ use App\Traits\ModelsTrait;
  * Este modelo es usado en caso de que no se encuentre instalado el modulo de Presupuesto
  *
  * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PurchaseCompromiseDetail extends Model implements Auditable
 {
@@ -30,26 +28,28 @@ class PurchaseCompromiseDetail extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
-        'description', 'amount', 'tax_amount', 'tax_id', 'budget_compromise_id', 'budget_account_id',
+        'description', 'amount', 'tax_amount', 'tax_id', 'purchase_compromise_id', 'budget_account_id',
         'budget_sub_specific_formulation_id'
     ];
 
     /**
-     * BudgetCompromiseDetail belongs to BudgetCompromise.
+     * Establece la relación con el compromiso de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function budgetCompromise()
+    public function purchaseCompromise()
     {
-        return $this->belongsTo(BudgetCompromise::class);
+        return $this->belongsTo(PurchaseCompromise::class);
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Purchase\Http\Controllers\Reports\DirectHire;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -20,33 +18,34 @@ use Auth;
  *
  * Clase que gestiona de la generación del reporte de acta de inicio de una contratacion directa
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @copyright <a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *                LICENCIA DE SOFTWARE CENDITEL</a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PurchaseStartCertificateController extends Controller
 {
     /**
      * Define la configuración de la clase
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
     }
 
-        /**
+    /**
      * vista en la que se genera el reporte en pdf de balance de comprobación
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param Int $id id del asiento contable
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param integer $id id de la contratación directa
     */
     public function pdf($id)
     {
-
-        // Validar acceso para el registro
-
         $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
 
         $is_admin = $user_profile == null || $user_profile['institution_id'] == null ? true : false;
@@ -66,15 +65,10 @@ class PurchaseStartCertificateController extends Controller
             }
         }
 
-        /**
-         * [$pdf base para generar el pdf]
-         * @var [Modules\Accounting\Pdf\Pdf]
-         */
+        /* base para generar el pdf */
         $pdf = new ReportRepository();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definicion de las caracteristicas generales de la página pdf */
         $institution = null;
 
         if ($is_admin) {
@@ -95,6 +89,11 @@ class PurchaseStartCertificateController extends Controller
         ]);
     }
 
+    /**
+     * Verifica la condición de salto de página
+     *
+     * @return mixed
+     */
     public function getCheckBreak()
     {
         //return $this->PageBreakTrigger;

@@ -8,13 +8,21 @@ use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Purchase\Models\PurchaseSupplierSpecialty;
 
+/**
+ * @class PurchaseSupplierSpecialtyController
+ * @brief Gestiona los procesos de las especialidades de proveedores
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseSupplierSpecialtyController extends Controller
 {
     use ValidatesRequests;
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Muestra el listado de especialidades de proveedores
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -22,8 +30,9 @@ class PurchaseSupplierSpecialtyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear una nueva especialidad de proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -31,9 +40,11 @@ class PurchaseSupplierSpecialtyController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena una nueva especialidad de proveedor
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -50,8 +61,9 @@ class PurchaseSupplierSpecialtyController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de una especialidad de proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -59,8 +71,9 @@ class PurchaseSupplierSpecialtyController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar una especialidad de proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -68,13 +81,15 @@ class PurchaseSupplierSpecialtyController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza una especialidad de proveedor
+     *
+     * @param  Request $request Datosos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        /** @var object Datos de la especialidad de proveedores */
+        /* Datos de la especialidad de proveedores */
         $supplierSpecialty = PurchaseSupplierSpecialty::find($id);
 
         $this->validate($request, [
@@ -89,12 +104,13 @@ class PurchaseSupplierSpecialtyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina una especialidad de proveedor
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /** @var object Datos de la especialidad de proveedores */
+        /* Datos de la especialidad de proveedores */
         $supplierSpecialty = PurchaseSupplierSpecialty::find($id);
         $supplierSpecialty->delete();
         return response()->json(['record' => $supplierSpecialty, 'message' => 'Success'], 200);

@@ -1,0 +1,7 @@
+<map id="updatePurchaseOrder" name="updatePurchaseOrder">
+<area shape="rect" id="Node000001" title="Realiza la actualización de registro de orden de compra directa." alt="" coords="5,45,168,70"/>
+<area shape="rect" id="Node000002" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#a4b3320ceb60a02e13785c929ae5ede8a" title="Verifica la existencia de un documento y lo elimina del disco." alt="" coords="216,5,423,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,44,202,39,203,44,169,49"/>
+<area shape="rect" id="Node000003" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#a722186532257dcbec79866616e82e115" title="Instrucciones para verificar y subir un documento a la ruta indicada en el servidor." alt="" coords="216,69,423,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,66,203,71,202,76,168,71"/>
+</map>

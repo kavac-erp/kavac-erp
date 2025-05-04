@@ -2,9 +2,10 @@
 
 namespace Modules\Asset\Models;
 
+use App\Traits\ModelsTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
@@ -14,17 +15,19 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * Gestiona el modelo de datos de los bienes registados en una asignación
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetAsignationAsset extends Model implements Auditable
 {
-    //use SoftDeletes;
+    use SoftDeletes;
     use AuditableTrait;
+    use ModelsTrait;
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['asset_id', 'asset_asignation_id'];
@@ -33,8 +36,8 @@ class AssetAsignationAsset extends Model implements Auditable
      * Método que obtiene la asignación asociada al registro
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetAsignation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetAsignation()
     {
@@ -45,7 +48,8 @@ class AssetAsignationAsset extends Model implements Auditable
      * Método que obtiene el bien asociado a la asignación
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Asset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function asset()
     {

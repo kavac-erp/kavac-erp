@@ -19,6 +19,7 @@ use App\Models\FiscalYear;
  * Clase que gestiona los escalafones salariales
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -28,13 +29,15 @@ class PayrollSalaryScaleController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -42,15 +45,17 @@ class PayrollSalaryScaleController extends Controller
      * Define la configuración de la clase
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:payroll.setting.salary-scale.create', ['only' => 'store']);
-        $this->middleware('permission:payroll.setting.salary-scale.edit', ['only' => 'update']);
-        $this->middleware('permission:payroll.setting.salary-scale.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:payroll.setting.salary.scale.create', ['only' => 'store']);
+        $this->middleware('permission:payroll.setting.salary.scale.edit', ['only' => 'update']);
+        $this->middleware('permission:payroll.setting.salary.scale.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'           => ['required', 'unique:payroll_salary_scales,name'],
             'institution_id' => ['required'],
@@ -58,7 +63,7 @@ class PayrollSalaryScaleController extends Controller
             // 'payroll_scales.*.name' => ['unique:payroll_scales,name']
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'institution_id.required' => 'El campo organización es obligatorio.',
             'payroll_scales.required' => 'Debe registrar al menos una escala o nivel.',
@@ -68,8 +73,6 @@ class PayrollSalaryScaleController extends Controller
 
     /**
      * Muestra un listado de los escalafones salariales registrados
-     *
-     * @method    index
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
@@ -82,8 +85,6 @@ class PayrollSalaryScaleController extends Controller
 
     /**
      * Valida y registra un nuevo escalafón salarial
-     *
-     * @method    store
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
@@ -118,10 +119,7 @@ class PayrollSalaryScaleController extends Controller
         );
 
         DB::transaction(function () use ($request, $code) {
-            /**
-             * Objeto asociado al modelo PayrollSalaryScale
-             * @var Object $salaryScale
-             */
+            /* Objeto asociado al modelo PayrollSalaryScale */
             $salaryScale = PayrollSalaryScale::create([
                 'code'                   => $code,
                 'name'                   => $request->input('name'),
@@ -134,10 +132,7 @@ class PayrollSalaryScaleController extends Controller
                 'type'                   => $request->input('type'),
             ]);
             foreach ($request->payroll_scales as $payrollScale) {
-                /**
-                 * Objeto asociado al modelo PayrollScale
-                 * @var Object $scale
-                 */
+                /* Objeto asociado al modelo PayrollScale */
                 $scale = PayrollScale::create([
                     'name'                    => $payrollScale['name'],
                     'value'                   => json_encode($payrollScale['value']),
@@ -151,12 +146,9 @@ class PayrollSalaryScaleController extends Controller
     /**
      * Actualiza la información del escalafón salarial
      *
-     * @method    update
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer                          $id         Identificador único asociado al escalafón salarial
-     *
+     * @param     integer                          $id         Identificador único asociado al escalafón salarial
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
      *
      * @return    \Illuminate\Http\JsonResponse                Objeto con los registros a mostrar
@@ -186,7 +178,7 @@ class PayrollSalaryScaleController extends Controller
             $payrollSalaryScale->save();
             $payrollSalaryScale->payrollScales()->delete();
 
-            /** Se agregan los nuevos niveles o escalas y se actualizan los existentes */
+            /* Se agregan los nuevos niveles o escalas y se actualizan los existentes */
             foreach ($request->payroll_scales as $payrollScale) {
                 if ($payrollScale['id'] > 0) {
                     $scale              = PayrollScale::withTrashed()->find($payrollScale['id']);
@@ -209,8 +201,6 @@ class PayrollSalaryScaleController extends Controller
     /**
      * Elimina un escalafón salarial
      *
-     * @method    destroy
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @param     \Modules\Payroll\Models\PayrollSalaryScale    $salaryScale    Datos del escalafón salarial
@@ -230,11 +220,11 @@ class PayrollSalaryScaleController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Array    Listado de los registros a mostrar
+     * @return    array    Listado de los registros a mostrar
      */
     public function getSalaryScales(Request $request)
     {
-        /**Falta incluir el except_id en templatechoices */
+        /* Falta incluir el except_id en templatechoices */
         $institution  = $request->institution_id ?? Institution::where([
             'default' => true,
             'active'  => true
@@ -250,17 +240,21 @@ class PayrollSalaryScaleController extends Controller
     /**
      * Obtiene la información de un escalafón salarial
      *
-     * @method    info
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer                          $id    Identificador único sociado al escalafón salarial
+     * @param     integer                          $id    Identificador único sociado al escalafón salarial
      *
      * @return    \Illuminate\Http\JsonResponse           Objeto con los registros a mostrar
      */
     public function info($id)
     {
-        return response()->json(['record' => PayrollSalaryScale::where('id', $id)
-            ->with('payrollScales')->first()], 200);
+        $record = PayrollSalaryScale::where('id', $id)->with('payrollScales')->first();
+
+        $parameter = new PayrollParameterController();
+
+        $options = $parameter->getPayrollParameterOptions($record->group_by);
+        $options_format = collect($options)->filter(fn ($item) => !empty($item["id"]))->pluck("text", "id")->toArray();
+
+        return response()->json(["record" => $record, "payroll_options" => $options_format], 200);
     }
 }

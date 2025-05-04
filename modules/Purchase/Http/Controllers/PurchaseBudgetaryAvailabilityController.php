@@ -3,40 +3,58 @@
 namespace Modules\Purchase\Http\Controllers;
 
 use App\Models\CodeSetting;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Modules\Purchase\Models\BudgetCompromise;
-use Modules\Purchase\Models\BudgetCompromiseDetail;
-use Modules\Purchase\Models\BudgetStage;
-use Modules\Purchase\Models\FiscalYear;
-use Modules\Purchase\Models\PurchaseBaseBudget;
-use Modules\Purchase\Models\PurchaseBudgetaryAvailability;
-use Modules\Purchase\Models\PurchaseCompromise;
-use Modules\Purchase\Models\PurchaseCompromiseDetail;
-use Modules\Purchase\Models\PurchaseStage;
+use Illuminate\Support\Facades\DB;
+use App\Rules\DateBeforeFiscalYear;
 use Nwidart\Modules\Facades\Module;
+use Modules\Purchase\Models\FiscalYear;
+use Modules\Purchase\Models\BudgetStage;
+use Modules\Purchase\Models\PurchaseStage;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Purchase\Models\BudgetCompromise;
+use Modules\Purchase\Models\PurchaseBaseBudget;
+use Modules\Purchase\Models\PurchaseCompromise;
+use Modules\Purchase\Models\BudgetCompromiseDetail;
+use Modules\Purchase\Models\PurchaseCompromiseDetail;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Log;
+use Modules\Purchase\Models\PurchaseBudgetaryAvailability;
 use Modules\Purchase\Http\Resources\PurchaseBudgetAvailabilityResource;
 use Modules\Purchase\Http\Resources\PurchaseBudgetAvailabilityPayrollResource;
+use Modules\Purchase\Models\PurchaseStates;
 
+/**
+ * @class PurchaseBudgetaryAvailabilityController
+ * @brief Controlador para la gestión de la disponibilidad presupuestaria
+ *
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseBudgetaryAvailabilityController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
 
         $this->middleware(['role:admin|purchase|budget']);
         $this->middleware('permission:purchase.availability.request', ['only' => ['requestAvailability']]);
     }
 
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Listado de disponibilidades presupuestarias
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -59,6 +77,7 @@ class PurchaseBudgetaryAvailabilityController extends Controller
                     $query->where('availability_status', 'send')
                         ->orWhere('availability_status', 'available')
                         ->orWhere('availability_status', 'not_available')
+                        ->orWhere('availability_status', 'AP')
                         ->orWhere('availability_status', 'AN');
                 })
                 ->get();
@@ -72,8 +91,9 @@ class PurchaseBudgetaryAvailabilityController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear un nuevo registro de disponibilidad presupuestaria
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -81,21 +101,35 @@ class PurchaseBudgetaryAvailabilityController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Almacena un nuevo registro de disponibilidad presupuestaria
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
+        $relatables = $request->input('relatable');
+        $date = null;
+
+        // Get the date of the purchase requirement item if exists
+        foreach ($relatables as $relateble) {
+            if ($relateble['purchase_requirement_item']) {
+                $date = $relateble['purchase_requirement_item']['purchase_requirement']['date'];
+                break;
+            }
+        }
+
         $this->validate(
             $request,
             [
-            'description' => 'required',
-            'date' => 'required',
+                'description' => 'required',
+                'date' => ['required', new DateBeforeFiscalYear('Fecha'), 'after_or_equal:' . $date],
             ],
             [
-            'description' => 'El campo descripción es un campo obligatorio.',
-            'date' => 'El campo fecha es un campo obligatorio.',
+                'description.required' => 'El campo descripción es obligatorio.',
+                'date.required' => 'El campo fecha es obligatorio.',
+                'date.after_or_equal' => 'El campo fecha debe ser igual o posterior a la fecha del presupuesto base.' . ' ' . $date,
             ]
         );
 
@@ -106,7 +140,7 @@ class PurchaseBudgetaryAvailabilityController extends Controller
         } else {
             $model_compromise = PurchaseCompromise::class;
             $model_compromise_detail = PurchaseCompromiseDetail::class;
-            $model_state = PurchaseStage::class;
+            $model_state = PurchaseStates::class;
         }
         $has_budget = (Module::has('Budget') && Module::isEnabled('Budget'));
         $model = PurchaseBudgetaryAvailability::class;
@@ -126,37 +160,41 @@ class PurchaseBudgetaryAvailabilityController extends Controller
                     'purchase_base_budgets_id' => $request->id,
                 ]);
             }
-        } else {
-            $model::create([
-                'item_code' => "none",
-                'description' => $request->description,
-                'date' => $request->date,
-                'spac_description' => "none",
-                'budget_account_id' => "none",
-                'budget_specific_action_id' => "none",
-                'item_name' => "none",
-                'amount' => "none",
-                'availability' => $request->availability,
-                'purchase_base_budgets_id' => $request->id,
-            ]);
         }
+
+        if ($request->documentFiles) {
+            // Elimina cualquier documento previamente cargado a la disponibilidad presupuestaria
+            Document::where(['documentable_type' => PurchaseBudgetaryAvailability::class, 'documentable_id' => $request->id])->delete();
+            //Verifica si tiene documentos para establecer la relación
+            foreach ($request->documentFiles as $file) {
+                $doc = Document::find($file);
+                $doc->documentable_id = $request->id;
+                $doc->documentable_type = PurchaseBudgetaryAvailability::class;
+                $doc->save();
+            }
+        }
+
         return response()->json(['message' => 'success'], 200);
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de una disponibilidad presupuestaria
+     *
+     * @return void
      */
     public function show($id)
     {
+        //
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar una disponibilidad presupuestaria
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
+        $document_file = Document::where(['documentable_type' => PurchaseBudgetaryAvailability::class, 'documentable_id' => $id])->get();
         $purchase_quotation = PurchaseBaseBudget::with([
             'currency',
             'tax',
@@ -179,6 +217,7 @@ class PurchaseBudgetaryAvailabilityController extends Controller
             },
         ])->orderBy('id', 'ASC')->find($id);
 
+
         if (!$purchase_quotation) {
             return view('errors.404');
         }
@@ -186,10 +225,7 @@ class PurchaseBudgetaryAvailabilityController extends Controller
         $supplier = "noodles";
         $record_items = [];
 
-        /**
-         * [$has_budget determina si esta instalado el modulo Budget]
-         * @var [boolean]
-         */
+        /* determina si esta instalado el modulo Budget */
         $has_budget = (Module::has('Budget') && Module::isEnabled('Budget'));
         if ($has_budget) {
             $budget_items = template_choices(
@@ -210,6 +246,7 @@ class PurchaseBudgetaryAvailabilityController extends Controller
                 'currency' => $currency,
                 'budget_items' => json_encode($budget_items),
                 'specific_actions' => json_encode($specific_actions),
+                'document_file' => $document_file,
             ]);
         } else {
             return view('purchase::budgetary_availability.form', [
@@ -219,33 +256,46 @@ class PurchaseBudgetaryAvailabilityController extends Controller
                 'budget_items' => json_encode([[
                     'id' => '',
                     'text' => 'Seleccione...',
-                ]]),
-                'specific_actions' => json_encode([[
-                    'id' => '',
-                    'text' => 'Seleccione...',
-                ]]),
-            ]);
+                    ]]),
+                    'specific_actions' => json_encode([[
+                        'id' => '',
+                        'text' => 'Seleccione...',
+                        ]]),
+                    ]);
         }
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza la disponibilidad presupuestaria
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return void
      */
     public function update(Request $request)
     {
+        //
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Renderable
+     * Elimina una disponibilidad presupuestaria
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $availability = PurchaseBudgetaryAvailability::where('purchase_quotation_id', $id)->delete();
+
+        return response()->json(['message' => 'success'], 200);
     }
 
+    /**
+     * Obtiene la disponibilidad presupuestaria
+     *
+     * @param integer $specific_action_id ID de la acción específica
+     * @param integer $account_id ID de la cuenta presupuestaria
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getBudgetAvailable($specific_action_id, $account_id)
     {
         return response()->json([
@@ -258,9 +308,11 @@ class PurchaseBudgetaryAvailabilityController extends Controller
     }
 
     /**
-     * [generateCodeAvailable genera el código disponible]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @return string|null [código que se asignara]
+     * Genera el código disponible a ser asignado
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return string|null
      */
     public function generateCodeAvailable($table)
     {
@@ -289,5 +341,87 @@ class PurchaseBudgetaryAvailabilityController extends Controller
             $code = null;
         }
         return $code;
+    }
+
+    /**
+     * Aprobar disponibilida presupuestaria
+     *
+     * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve | javierrupe19@gmail.com>
+     *
+     * @param  \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function approveBudgetaryAvailability(Request $request)
+    {
+        try {
+            if ($request->module == 'Purchase') {
+                $PurchaseBaseBudget = PurchaseBaseBudget::query()->where('id', $request->id)->firstOrFail();
+                $BudgetaryAvailable = PurchaseBudgetaryAvailability::query()
+                ->where('purchase_base_budgets_id', $PurchaseBaseBudget->id)->get();
+
+                if ($PurchaseBaseBudget->availability == 'Disponible') {
+                    DB::transaction(
+                        function () use ($BudgetaryAvailable, $PurchaseBaseBudget, $request) {
+                            foreach ($BudgetaryAvailable as $budgetaryAvailable) {
+                                //cambiar el estatus a aprobado
+                                $budgetaryAvailable['availability'] = 2;
+                                $budgetaryAvailable->save();
+                            }
+                        }
+                    );
+                    return response()->json(['message' => 'Success'], 200);
+                } elseif ($PurchaseBaseBudget->availability == 'AP') {
+                    new \Exception('Esta disponibilidad presupuestaria ya fue aprobada');
+                } elseif ($PurchaseBaseBudget->availability == 'No_Disponible') {
+                    new \Exception("Esta disponibilidad presupuestaria no puede ser aprobada. Su estatus es 'No Disponible'.");
+                } else {
+                    new \Exception('Esta disponibilidad presupuestaria no puede ser aprobada, debido a  que su estatus es: ' . $PurchaseBaseBudget->available);
+                }
+            } elseif ($request->module == 'Payroll' && Module::has('Payroll') && Module::isEnabled('Payroll')) {
+                $BudgetaryAvailable = \Modules\Payroll\Models\Payroll::query()
+                ->where('id', $request->id)->firstOrFail();
+                $payrollPaymentPeriod = $BudgetaryAvailable->payrollPaymentPeriod;
+
+                if ($payrollPaymentPeriod) {
+                    if ($payrollPaymentPeriod->availability_status == 'AP') {
+                        new \Exception('Esta disponibilidad presupuestaria ya fue aprobada');
+                    } elseif ($payrollPaymentPeriod->availability_status == 'available') {
+                        DB::transaction(
+                            function () use ($BudgetaryAvailable) {
+                                //cambiar el estatus a aprobado
+                                $BudgetaryAvailable->payrollPaymentPeriod->availability_status = 'AP';
+                                $BudgetaryAvailable->payrollPaymentPeriod->save();
+                            }
+                        );
+                        return response()->json(['message' => 'Success'], 200);
+                    }
+                } else {
+                    new \Exception('Esta disponibilidad presupuestaria no puede ser aprobada');
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            $message = str_replace("\n", "", $e->getMessage());
+            if (strpos($message, 'ERROR') !== false && strpos($message, 'DETAIL') !== false) {
+                $pattern = '/ERROR:(.*?)DETAIL/';
+                preg_match($pattern, $message, $matches);
+                $errorMessage = trim($matches[1]);
+            } else {
+                $errorMessage = $message;
+            }
+
+            return response()->json(
+                ['message' => [
+                    'type' => 'other',
+                    'title' => 'Alerta',
+                    'icon' => 'screen-error',
+                    'class' => 'growl-danger',
+                    'text' => 'No se pudo completar la operación. ' . ucfirst($errorMessage)
+                    ]
+                ],
+                500
+            );
+        }
     }
 }

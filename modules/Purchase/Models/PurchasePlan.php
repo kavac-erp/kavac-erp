@@ -2,13 +2,21 @@
 
 namespace Modules\Purchase\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Payroll\Models\PayrollStaff;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
+/**
+ * @class PurchasePlan
+ * @brief Gestiona los planes de compra
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchasePlan extends Model implements Auditable
 {
     use SoftDeletes;
@@ -17,18 +25,20 @@ class PurchasePlan extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['init_date', 'end_date', 'purchase_type_id', 'payroll_staff_id', 'active'];
 
     /**
-     * PurchasePlan belongs to PurchaseProcess.
+     * Establece la relación con el proceso de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -38,7 +48,7 @@ class PurchasePlan extends Model implements Auditable
     }
 
     /**
-     * PurchasePlan belongs to PurchaseType.
+     * Establece la relación con el tipo de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -48,7 +58,7 @@ class PurchasePlan extends Model implements Auditable
     }
 
     /**
-     * PurchasePlan belongs to payrollStaff.
+     * Establece la relación con el personal
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -59,9 +69,9 @@ class PurchasePlan extends Model implements Auditable
 
 
     /**
-     * PurchasePlan has one document.
+     * Establece la relación con el documento asociado a un plan de compras
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
     public function document()
     {

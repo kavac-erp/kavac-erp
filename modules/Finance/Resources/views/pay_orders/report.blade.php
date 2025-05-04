@@ -42,11 +42,11 @@
             </td>
         </tr>
         @if ($financePayOrder->nameSourceable->receiverable_type != $compromiseClass &&
-             $financePayOrder->nameSourceable->receiverable_type != 'App\Models\Institution' &&
-             $financePayOrder->name_sourceable_type != 'App\Models\Receiver')
+            $financePayOrder->nameSourceable->receiverable_type != 'App\Models\Institution' &&
+            $financePayOrder->name_sourceable_type != 'App\Models\Receiver')
         <tr>
             <td colspan="2">
-                <strong>R.I.F. / C.I.:</strong> 
+                <strong>R.I.F. / C.I.:</strong>
                 {{
                     $financePayOrder->nameSourceable->rif ?? $financePayOrder->nameSourceable->dni ??
                     $financePayOrder->nameSourceable->payrollStaff->id_number ??
@@ -60,7 +60,17 @@
         </tr>
         <tr>
             <td colspan="2" class="text-justify font-weight-bold" style="font-size: 1.2em;font-weight:bold">
-                {{ convertirNumeros(number_format($financePayOrder->amount, $financePayOrder->currency->decimal_places, ".", "")) }}
+                {{
+                    convertirNumeros(
+                        number_format(
+                            $financePayOrder->amount,
+                            $financePayOrder->currency->decimal_places,
+                            ".",
+                            ""
+                        ),
+                        strtoupper($financePayOrder->currency->plural_name)
+                    )
+                }}
             </td>
             <td style="font-size: 1.3em">
                 <strong>*** {{ $financePayOrder->currency->symbol  }} {{ number_format($financePayOrder->amount, $financePayOrder->currency->decimal_places, ",", ".") }} ***</strong>
@@ -71,7 +81,7 @@
         </tr>
         <tr>
             <td>
-                 <strong>Concepto:  </strong> {{ $financePayOrder->concept }}
+                <strong>Concepto:  </strong> {{ $financePayOrder->concept }}
             </td>
         </tr>
     </tbody>
@@ -102,7 +112,9 @@
                 <tr style="background-color:{{ $backround }};">
                     <td style="text-align: center;">{{ $index++ }}</td>
                     <td style="text-align: center;">{{ $deduction['name'] }}</td>
-                    <td style="text-align: center;">{{ number_format($deduction['amount'], $financePayOrder->currency->decimal_places, ",", ".") }}</td>
+                    <td style="text-align: center;">
+                        {{ number_format($deduction['amount'], $financePayOrder->currency->decimal_places, ",", ".") }}
+                    </td>
                     <td style="text-align: center;">{{ $deduction['deducted_at'] }}</td>
                 </tr>
             @endforeach
@@ -128,11 +140,12 @@
 <br>
 &#160;
 <br>
-    <h5 style="text-align: center">PARTIDAS PRESUPUESTO</h5>
+    <h5 style="text-align: center">PARTIDAS PRESUPUESTARIAS</h5>
     <table style="border:solid 1px #000;font-size: 0.85em;background-color:#adbfd3; padding:10px;">
         <thead>
             <tr>
-                <th style="text-align: center; font-weight:bold;">CÓDIGO CUENTA</th>
+                <th style="text-align: center; font-weight:bold;">CÓDIGO  DE PROYECTO O <br>ACCIÓN CENTRALIZADA</th>
+                <th style="text-align: center; font-weight:bold;">NOMBRE DE LA PARTIDA</th>
                 <th style="text-align: center; font-weight:bold;">PARTIDA PRESUPUESTARIA</th>
                 <th style="text-align: center; font-weight:bold;">MONTO</th>
             </tr>
@@ -149,7 +162,13 @@
                                 {{ $financePayOrder->budgetSpecificAction->specificable->code . ' - ' . $financePayOrder->budgetSpecificAction->code }}
                             </td>
                             <td style="text-align: center;">
+                                {{ $account['accountable']['denomination'] }}
+                            </td>
+                            <td style="text-align: center;">
                                 {{ $account['accountable']['code'] }}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ number_format($account['amount'], $financePayOrder->currency->decimal_places, ",", ".") }}
                             </td>
                             <td style="text-align: right;">
                                 {{ number_format($account['amount'], $financePayOrder->currency->decimal_places, ",", ".") }}
@@ -162,8 +181,8 @@
                 @endif
             @endforeach
             <tr>
-                <td colspan="2" style="font-weight:bold;text-align: right">TOTAL {{$financePayOrder->currency->symbol}}</td>
-                <td style="font-weight:bold;text-align: right;border-top:solid 1px #000;">
+                <td colspan="3" style="font-weight:bold;text-align: right">TOTAL {{$financePayOrder->currency->symbol}}</td>
+                <td style="font-weight:bold;text-align: center;border-top:solid 1px #000;">
                     {{ number_format($accountAmount, $financePayOrder->currency->decimal_places, ",", ".") }}
                 </td>
             </tr>
@@ -185,13 +204,17 @@
             </tr>
         </thead>
         <tbody>
-            
+
             @foreach ($accountingEntry->accountingAccounts as $accountEntry)
                 <tr>
                     <td style="text-align: center;">{{ $accountEntry->account->code }}</td>
                     <td style="text-align: center;">{{ $accountEntry->account->denomination }}</td>
-                    <td style="text-align: right;">{{ number_format($accountEntry->debit, $financePayOrder->currency->decimal_places, ",", ".") }}</td>
-                    <td style="text-align: right;">{{ number_format($accountEntry->assets, $financePayOrder->currency->decimal_places, ",", ".") }}</td>
+                    <td style="text-align: right;">
+                        {{ number_format($accountEntry->debit, $financePayOrder->currency->decimal_places, ",", ".") }}
+                    </td>
+                    <td style="text-align: right;">
+                        {{ number_format($accountEntry->assets, $financePayOrder->currency->decimal_places, ",", ".") }}
+                    </td>
                 </tr>
             @endforeach
             <tr>

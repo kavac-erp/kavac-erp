@@ -1,10 +1,7 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Http\Controllers;
 
-//use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -13,11 +10,9 @@ use Modules\Sale\Models\SaleListSubservices;
 
 /**
  * @class SaleListSubservicesController
- * @brief [descripción detallada]
+ * @brief Gestiona los datos de los subservicios
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -31,11 +26,13 @@ class SaleListSubservicesController extends Controller
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
 
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting.subservices', ['only' => 'index']);
     }
 
@@ -43,11 +40,12 @@ class SaleListSubservicesController extends Controller
      * Muestra todos la Lista de subservicios
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @return JsonResponse    Json con los datos
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        /** @var object Contiene los registros del personal, tipos de proyecto y los tipos de producto */
+        /* Contiene los registros del personal, tipos de proyecto y los tipos de producto */
         $saleListSubservices = SaleListSubservices::with(['SaleListSubservicesAttribute', 'saleTypeGood'])->get()->all();
         foreach ($saleListSubservices as $subservice) {
             $subservice['sale_type_good_name'] = $subservice->saleTypeGood ? $subservice->saleTypeGood->name : '';
@@ -59,8 +57,10 @@ class SaleListSubservicesController extends Controller
      * Valida y registra un nuevo metodo de lista de subsevicios
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
-     * @return JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
+     *
+     * @param  \Illuminate\Http\Request $request    Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -98,15 +98,11 @@ class SaleListSubservicesController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información de un subservicio
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -114,15 +110,11 @@ class SaleListSubservicesController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario para editar un subservicio
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -130,27 +122,25 @@ class SaleListSubservicesController extends Controller
     }
 
     /**
-     * Actualiza la información del metodo de lista de subsevicios
+     * Actualiza la información de subsevicios
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
+     *
+     * @param  \Illuminate\Http\Request  $request   Datos de la petición
      * @param  integer $id                          Identificador del datos a actualizar
-     * @return JsonResponse        Json con mensaje de confirmación de la operación
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function update(Request $request, $id)
     {
-        //dd($salelistsubservicesMethod);
         $salelistsubservicesMethod = SaleListSubservices::find($id);
-        //dd($salelistsubservicesMethod);
 
         $this->validate($request, [
             'sale_type_good'      => ['required'],
             'name'                => ['required', 'max:100'],
             'description'         => ['required']
         ]);
-        //$salelistsubservicesMethod = new SaleListSubservices;
-        //$salelistsubservicesMethod->id                  = $request->id;
         $salelistsubservicesMethod->name                = $request->input('sale_type_good');
         $salelistsubservicesMethod->name                = $request->input('name');
         $salelistsubservicesMethod->description         = $request->input('description');
@@ -160,8 +150,7 @@ class SaleListSubservicesController extends Controller
         $salelistsubservicesMethod->save();
         $salelist_subservicesattribute = SaleListSubservicesAttribute::where('sale_list_subservices_id', $salelistsubservicesMethod->id)->get();
 
-        //return $salelistsubservicesMethod;
-        /** Busco si en la solicitud se eliminaron atributos registrados anteriormente */
+        /* Se búsca si en la solicitud se eliminaron atributos registrados anteriormente */
         if ($salelist_subservicesattribute) {
             foreach ($salelist_subservicesattribute as $att) {
                 $equal = false;
@@ -180,7 +169,7 @@ class SaleListSubservicesController extends Controller
             }
         }
 
-        /** Registro los nuevos atributos */
+        /* Registro de los nuevos atributos del subservicio */
         if ($salelistsubservicesMethod->define_attributes == true) {
             foreach ($request->sale_list_subservices_attribute as $att) {
                 $attribute = SaleListSubservicesAttribute::where('value', $att['value'])
@@ -196,15 +185,16 @@ class SaleListSubservicesController extends Controller
         };
 
         return response()->json(['message' => 'Success'], 200);
-        //return response()->json(['record' => $salelistsubservicesMethod, 'message' => 'Success'], 200);
     }
 
     /**
      * Elimina el metodo de lista de subsevicios
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador del metodo de lista de subsevicios a eliminar
-     * @return JsonResponse    Json: objeto eliminado y mensaje de confirmación de la operación
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -216,7 +206,8 @@ class SaleListSubservicesController extends Controller
      * Obtiene los Subservicios registrados
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse    Json con los datos de los Subservicios registrados
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSaleListSubServicesMethod()
     {

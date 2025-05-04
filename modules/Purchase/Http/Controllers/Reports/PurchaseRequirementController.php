@@ -2,12 +2,13 @@
 
 namespace Modules\Purchase\Http\Controllers\Reports;
 
-use App\Models\Institution;
-use App\Models\Profile;
-use App\Repositories\ReportRepository;
 use Auth;
+use App\Models\Profile;
+use App\Models\Institution;
 use Illuminate\Routing\Controller;
+use App\Repositories\ReportRepository;
 use Modules\Purchase\Models\PurchaseRequirement;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @class PurchaseRequirementController
@@ -15,31 +16,36 @@ use Modules\Purchase\Models\PurchaseRequirement;
  *
  * Clase que gestiona de la generación del reporte de requerimiento
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @copyright <a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *                LICENCIA DE SOFTWARE CENDITEL</a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PurchaseRequirementController extends Controller
 {
     /**
      * Define la configuración de la clase
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
     }
 
     /**
      * vista en la que se genera el reporte en pdf de balance de comprobación
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param Int $id id del asiento contable
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param integer $id id del asiento contable
+     *
+     * @return BinaryFileResponse|\Illuminate\View\View|void
      */
     public function pdf($id)
     {
-
         // Validar acceso para el registro
 
         $is_admin = auth()->user()->isAdmin();
@@ -63,15 +69,10 @@ class PurchaseRequirementController extends Controller
             return view('errors.403');
         }
 
-        /**
-         * [$pdf base para generar el pdf]
-         * @var [Modules\Accounting\Pdf\Pdf]
-         */
+        /* base para generar el pdf */
         $pdf = new ReportRepository();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definicion de las caracteristicas generales de la página pdf */
         $institution = null;
 
         if (!$is_admin && $user_profile && $user_profile['institution']) {
@@ -95,6 +96,11 @@ class PurchaseRequirementController extends Controller
         ]);
     }
 
+    /**
+     * Verifica la condición de salto de página
+     *
+     * @return mixed
+     */
     public function getCheckBreak()
     {
         //return $this->PageBreakTrigger;

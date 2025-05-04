@@ -12,16 +12,17 @@ use Modules\Asset\Models\AssetRequiredItem;
  * @class AssetSpecificcategoriesTableSeeder
  * @brief Inicializa las categorias especificas de los bienes institucionales
  *
- *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetSpecificCategoriesTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que registra los valores iniciales de las categorías específicas del módulo de bienes
+     *
+     * @author  Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @return void
      */

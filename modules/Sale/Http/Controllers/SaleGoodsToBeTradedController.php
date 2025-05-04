@@ -25,14 +25,16 @@ class SaleGoodsToBeTradedController extends Controller
     use ValidatesRequests;
 
     /**
-     * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     * Arreglo con las reglas de validación
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -40,13 +42,15 @@ class SaleGoodsToBeTradedController extends Controller
      * Define la configuración de la clase
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting.good.traded', ['only' => 'index']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'sale_type_good_id'    => ['required'],
             'name'                => ['required', 'unique:sale_goods_to_be_tradeds,name', 'max:100'],
@@ -58,7 +62,7 @@ class SaleGoodsToBeTradedController extends Controller
             'payroll_staffs_id'    => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'sale_type_good_id.required'   => 'El campo tipo de bien es obligatorio.',
             'name.required'                => 'El campo nombre es obligatorio.',
@@ -72,13 +76,11 @@ class SaleGoodsToBeTradedController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    index
+     * Listado de bienes a comercializar
      *
      * @author    Miguel Narvaez <mnarvaez@cenditel.gob.ve>
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -99,8 +101,10 @@ class SaleGoodsToBeTradedController extends Controller
      * Valida y Registra un nuevo bien a comercializar
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -114,7 +118,6 @@ class SaleGoodsToBeTradedController extends Controller
             'measurement_unit_id' => $request->input('measurement_unit_id'),
             'department_id'       => $request->input('department_id'),
             'history_tax_id'              => $request->input('history_tax_id'),
-            // 'payroll_staff_id'    => $request->input('payroll_staff_id'),
             'sale_type_good_id'   => $request->input('sale_type_good_id'),
             'define_attributes'   => !empty($request->define_attributes)
                                         ? $request->input('define_attributes')
@@ -143,9 +146,11 @@ class SaleGoodsToBeTradedController extends Controller
      * Actualiza la información del de un bien registrado
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @param  $id (id del registro a ser actualizado)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id id del registro a ser actualizado
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -179,7 +184,7 @@ class SaleGoodsToBeTradedController extends Controller
 
         $goods_attribute = SaleGoodsAttribute::where('sale_goods_to_be_traded_id', $goodsToBeTraded->id)->get();
 
-        /** Busco si en la solicitud se eliminaron atributos registrados anteriormente */
+        /* se búsca si en la solicitud se eliminaron atributos registrados anteriormente */
         foreach ($goods_attribute as $goods_att) {
             $equal = false;
             foreach ($request->sale_goods_attribute as $att) {
@@ -190,7 +195,7 @@ class SaleGoodsToBeTradedController extends Controller
             }
         }
 
-        /** Registro los nuevos atributos */
+        /* Registro de los nuevos atributos */
         if ($goodsToBeTraded->define_attributes == true) {
             foreach ($request->sale_goods_attribute as $att) {
                 $attribute = SaleGoodsAttribute::where('name', $att['name'])
@@ -211,8 +216,10 @@ class SaleGoodsToBeTradedController extends Controller
      * Elimina un bien a comercializar registrado en el sistema
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  $id Identificador único del bien a comercializar
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del bien a comercializar
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -222,11 +229,13 @@ class SaleGoodsToBeTradedController extends Controller
 
         return response()->json(['record' => $goodsToBeTraded, 'message' => 'Success'], 200);
     }
+
     /**
      * Obtiene los Bienes a Comercializar.
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @return JsonResponse    Json con los datos de bienes a comercializar.
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSaleGoodsToBeTraded()
     {
@@ -237,7 +246,8 @@ class SaleGoodsToBeTradedController extends Controller
      * Muestra una lista de las monedas registradas en el sistema
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return Array con los registros a mostrar
+     *
+     * @return array con los registros a mostrar
      */
     public function getCurrencies()
     {
@@ -248,7 +258,8 @@ class SaleGoodsToBeTradedController extends Controller
      * Muestra una lista del porcentaje de impuestos registrados en el sistema
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return Array con los registros a mostrar
+     *
+     * @return array con los registros a mostrar
      */
     public function getTaxes()
     {
@@ -259,7 +270,8 @@ class SaleGoodsToBeTradedController extends Controller
      * Muestra una lista de las unidades / dependencias registradas en el sistema
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return Array con los registros a mostrar
+     *
+     * @return array con los registros a mostrar
      */
     public function getDepartments()
     {
@@ -270,7 +282,8 @@ class SaleGoodsToBeTradedController extends Controller
      * Muestra una lista de los trabajadores registrados en el sistema
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return Array con los registros a mostrar
+     *
+     * @return array con los registros a mostrar
      */
     public function getPayrollStaffs()
     {
@@ -281,9 +294,11 @@ class SaleGoodsToBeTradedController extends Controller
      * Muestra una lista de los atributos de un bien
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return JsonResponse
+     *
+     * @param  integer $good_id Identificador del bien
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-
     public function getSaleGoodsAttributes($good_id)
     {
         return response()->json([
@@ -298,7 +313,8 @@ class SaleGoodsToBeTradedController extends Controller
      * Muestra una lista de los bienes a comercializar
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function getSaleGoods()

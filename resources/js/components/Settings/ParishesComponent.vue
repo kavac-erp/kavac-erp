@@ -263,7 +263,6 @@
                 setTimeout(() => {
                     let selected = vm.selectedMunicipalityId;
                     vm.data.municipality_id = selected;
-                    // document.querySelector('#municipality').value = selected;
                 }, 1000);
                 event.preventDefault();
             },
@@ -385,7 +384,6 @@
             const vm = this;
             vm.editEstate = 'false';
             vm.editMunicipalities = 'false';
-            //await vm.$nextTick();
             $("#add_parish").on('show.bs.modal', function() {
                 vm.getCountries();
             });

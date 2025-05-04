@@ -156,6 +156,9 @@
         @auth
             <script>
                 $(document).ready(function() {
+                    if (window.screen_locked) {
+                        app.lockScreen();
+                    }
                     $('#form-lockscreen').on('submit', function() {
                         unlockScreen();
                         return false;

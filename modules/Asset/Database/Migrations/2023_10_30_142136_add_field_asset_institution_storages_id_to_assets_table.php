@@ -3,12 +3,23 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use  Modules\Asset\Models\AssetInstitutionStorage;
+use Modules\Asset\Models\AssetInstitutionStorage;
 
+/**
+ * @class AddFieldAssetInstitutionStoragesIdToAssetsTable
+ * @brief Agrega un campo asset_institution_storages_id a la tabla assets
+ *
+ * Agrega un campo asset_institution_storages_id a la tabla assets
+ *
+ * @author Manuel Zambrano <mzambrano@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AddFieldAssetInstitutionStoragesIdToAssetsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -41,7 +52,7 @@ class AddFieldAssetInstitutionStoragesIdToAssetsTable extends Migration
 
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

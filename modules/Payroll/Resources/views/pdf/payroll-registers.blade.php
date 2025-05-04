@@ -16,13 +16,13 @@
     @endphp
     @foreach($PayrollReportConfigurations as $PayrollReportConfiguration)
        @if($PayrollReportConfiguration['p_key'] === 'number_decimals')
-            @php 
+            @php
                 $numberDecimals = $PayrollReportConfiguration['p_value'];
                 $raiz = 10;
                 $multiplicador = pow($raiz,$numberDecimals);
             @endphp
          @elseif($PayrollReportConfiguration['p_key'] == 'round')
-            @php 
+            @php
                 $round = $PayrollReportConfiguration['p_value'];
             @endphp
         @elseif($PayrollReportConfiguration['p_key'] == 'zero_concept')
@@ -45,23 +45,23 @@
                             @if($zeroConcept === 'true')
                                 <p><strong> Concepto: </strong> {{ $assignment->name }} </p>
                                 @if($round === 'true')
-                                    <p><strong> Valor: </strong>  
+                                    <p><strong> Valor: </strong>
                                     {{ round($assignment->value, $numberDecimals, PHP_ROUND_HALF_EVEN) }}
                                     </p>
                                 @elseif($round !== 'true')
-                                    <p><strong> Valor: </strong> 
-                                    {{ number_format( ((int)($assignment->value*$multiplicador))/$multiplicador, $numberDecimals, '.', '') }}
+                                    <p><strong> Valor: </strong>
+                                    {{ number_format( ((int)($assignment->value*$multiplicador))/$multiplicador, $numberDecimals, ',', '.') }}
                                     </p>
                                 @endif
                             @elseif($assignment->value !== 0 and $zeroConcept === 'false')
                                 <p><strong> Concepto: </strong> {{ $assignment->name }} </p>
                                 @if($round === 'true')
-                                    <p><strong> Valor: </strong>  
+                                    <p><strong> Valor: </strong>
                                     {{ round($assignment->value, $numberDecimals, PHP_ROUND_HALF_EVEN) }}
                                     </p>
                                 @elseif($round !== 'true')
-                                    <p><strong> Valor: </strong>  
-                                    {{ number_format( ((int)($assignment->value*$multiplicador))/$multiplicador, $numberDecimals, '.', '') }}
+                                    <p><strong> Valor: </strong>
+                                    {{ number_format( ((int)($assignment->value*$multiplicador))/$multiplicador, $numberDecimals, ',', '.') }}
                                     </p>
                                 @endif
                             @endif
@@ -74,23 +74,23 @@
                             @if($zeroConcept === 'true')
                                 <p><strong> Concepto: </strong> {{ $deduction->name }} </p>
                                 @if($round === 'true')
-                                    <p><strong> Valor: </strong>  
+                                    <p><strong> Valor: </strong>
                                     {{ round($deduction->value, $numberDecimals, PHP_ROUND_HALF_EVEN) }}
                                     </p>
                                 @elseif($round !== 'true')
-                                    <p><strong> Valor: </strong>  
-                                    {{ number_format( ((int)($deduction->value*$multiplicador))/$multiplicador, $numberDecimals, '.', '') }}
+                                    <p><strong> Valor: </strong>
+                                    {{ number_format( ((int)($deduction->value*$multiplicador))/$multiplicador, $numberDecimals, ',', '.') }}
                                     </p>
                                 @endif
                             @elseif($deduction->value !== 0 and $zeroConcept === 'false')
                                 <p><strong> Concepto: </strong> {{ $deduction->name }} </p>
                                 @if($round === 'true')
-                                    <p><strong> Valor: </strong>  
+                                    <p><strong> Valor: </strong>
                                     {{ round($deduction->value, $numberDecimals, PHP_ROUND_HALF_EVEN) }}
                                     </p>
                                 @elseif($round !== 'true')
-                                    <p><strong> Valor: </strong>  
-                                    {{ number_format( ((int)($deduction->value*$multiplicador))/$multiplicador, $numberDecimals, '.', '') }}
+                                    <p><strong> Valor: </strong>
+                                    {{ number_format( ((int)($deduction->value*$multiplicador))/$multiplicador, $numberDecimals, ',', '.') }}
                                     </p>
                                 @endif
                             @endif
@@ -99,22 +99,22 @@
                 </td>
                 <td width="25%">
                     @foreach(json_decode($record->assignments) as $assignment)
-                        @php 
+                        @php
                             $total += $assignment->value;
                         @endphp
                     @endforeach
                     @foreach(json_decode($record->deductions) as $deduction)
-                        @php 
+                        @php
                             $total -= $deduction->value;
                         @endphp
                     @endforeach
                     @if($round === 'true')
-                       <span> 
+                       <span>
                         {{ round($total, $numberDecimals, PHP_ROUND_HALF_EVEN) }} </span>
-                            
+
                     @elseif($round !== 'true')
-                        <span> 
-                        {{ number_format( ((int)($total*$multiplicador))/$multiplicador, $numberDecimals, '.', '') }} </span>
+                        <span>
+                        {{ number_format( ((int)($total*$multiplicador))/$multiplicador, $numberDecimals, ',', '.') }} </span>
                     @endif
                 </td>
             </tr>

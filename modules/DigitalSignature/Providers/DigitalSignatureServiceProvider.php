@@ -2,22 +2,38 @@
 
 namespace Modules\DigitalSignature\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * @class DigitalSignatureServiceProvider
+ * @brief Service Provider del módulo de firma electrónica
+ *
+ * Gestiona el Service Provider del módulo de firma electrónica
+ *
+ * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class DigitalSignatureServiceProvider extends ServiceProvider
 {
     /**
+     * Nombre del módulo
+     *
      * @var string $moduleName
      */
     protected $moduleName = 'DigitalSignature';
 
     /**
+     * Nombre del módulo en minúscula
+     *
      * @var string $moduleNameLower
      */
     protected $moduleNameLower = 'digitalsignature';
 
     /**
-     * Boot the application events.
+     * Carga los eventos del módulo.
      *
      * @return void
      */
@@ -31,7 +47,7 @@ class DigitalSignatureServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the service provider.
+     * Registra los proveedores de servicios
      *
      * @return void
      */
@@ -41,7 +57,7 @@ class DigitalSignatureServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register config.
+     * Registra la configuración
      *
      * @return void
      */
@@ -57,7 +73,7 @@ class DigitalSignatureServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register views.
+     * Registra las vistas.
      *
      * @return void
      */
@@ -75,7 +91,7 @@ class DigitalSignatureServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register translations.
+     * Registra las traducciones.
      *
      * @return void
      */
@@ -91,7 +107,7 @@ class DigitalSignatureServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register an additional directory of factories.
+     * Registra un directorio adicional para los factories
      *
      * @return void
      */
@@ -103,7 +119,7 @@ class DigitalSignatureServiceProvider extends ServiceProvider
     }
 
     /**
-     * Get the services provided by the provider.
+     * Obtiene los proveedores de servicios por proveedor
      *
      * @return array
      */
@@ -112,10 +128,15 @@ class DigitalSignatureServiceProvider extends ServiceProvider
         return [];
     }
 
+    /**
+     * Obtiene los directorios de vista del módulo de firma electrónica
+     *
+     * @return array
+     */
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (\Config::get('view.paths') as $path) {
+        foreach (Config::get('view.paths') as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }

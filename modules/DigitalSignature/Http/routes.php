@@ -1,9 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::group(
-    ['middleware' => ['web', 'auth', 'verified'],
-    'prefix' => 'digitalsignature',
-    'namespace' => 'Modules\DigitalSignature\Http\Controllers'],
+    [
+        'middleware' => ['web', 'auth', 'verified'],
+        'prefix' => 'digitalsignature',
+        'namespace' => 'Modules\DigitalSignature\Http\Controllers'
+    ],
     function () {
         Route::get('/', 'DigitalSignatureController@index')->name('digitalsignature');
         Route::get('fileprofile', function () {

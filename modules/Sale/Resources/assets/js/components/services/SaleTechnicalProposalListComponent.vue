@@ -20,20 +20,20 @@
                 </span>
             </div>
             <div slot="department" slot-scope="props">
-                <span v-for="sale_good in props.row.sale_goods">
+                <span v-for="(sale_good, index) in props.row.sale_goods" :key="index">
                     <span>
                         {{ (sale_good) ? sale_good.department.name : '' }}
                     </span>
                 </span>
             </div>
             <div slot="state" slot-scope="props">
-                <span v-for="technical_proposal in props.row.sale_technical_proposal">
+                <span v-for="(technical_proposal, index) in props.row.sale_technical_proposal" :key="index">
                     {{ (props.row.sale_technical_proposal) ? technical_proposal.status : '' }}
                 </span>
             </div>
             <div slot="id" slot-scope="props" class="text-center">
                 <div class="d-inline-flex">
-                    <span v-for="technical_proposal in props.row.sale_technical_proposal">
+                    <span v-for="(technical_proposal, index) in props.row.sale_technical_proposal" :key="index">
                         <button @click.prevent="setDetails('ServiceInfo', props.row.id, 'SaleServiceInfo')"
                                 class="btn btn-info btn-xs btn-icon btn-action btn-tooltip"
                                 title="Ver registro" data-toggle="tooltip" data-placement="bottom" type="button">
@@ -102,7 +102,7 @@
              * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve | roldandvg@gmail.com>
              */
             reset() {
-                
+
             },
 
             /**

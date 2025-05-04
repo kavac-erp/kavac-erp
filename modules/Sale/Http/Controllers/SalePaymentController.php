@@ -1,32 +1,23 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Models\Institution;
 use App\Repositories\ReportRepository;
-use Modules\Finance\Models\FinanceBank;
 use Modules\Sale\Models\SaleService;
 use Modules\Sale\Models\SaleClient;
 use Modules\Sale\Models\SaleGoodsToBeTraded;
 use Modules\Sale\Models\SaleClientsEmail;
-use Modules\Sale\Models\SaleOrder;
-use Modules\Sale\Models\SaleFormPayment;
-use Modules\Sale\Models\SaleOrderManagement;
 use Modules\Sale\Models\SaleRegisterPayment;
 use App\Models\Phone;
 use App\Models\HistoryTax;
-use App\Rules\Rif as RifRule;
-use Auth;
 
 /**
  * @class SalePaymentController
- * @brief Pagos
+ * @brief Gestiona los datos sobre los pagos
  *
  * Registros y aprobación de pagos.
  *
@@ -40,34 +31,42 @@ class SalePaymentController extends Controller
     use ValidatesRequests;
 
     /**
-     * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     * Arreglo con las reglas de validación
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
-
+    /**
+     * Lista de estatus de los pagos
+     *
+     * @var array $status_list
+     */
     protected $status_list = [-1 => 'Cancelado', 0 => 'Creado', 1 => 'Aprobado', 2 => 'Pago de Anticipo'];
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
     /**
      * Define la configuración de la clase
      *
-     * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>>
+     * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.payment.list', ['only' => 'index']);
         $this->middleware('permission:sale.payment.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:sale.payment.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:sale.payment.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'bank_id'               => ['required'],
             'currency_id'           => ['required'],
@@ -75,7 +74,7 @@ class SalePaymentController extends Controller
             'payment_date'          => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'bank_id.required'          => 'El campo entidad bancaria es obligatorio.',
             'currency_id.required'            => 'El campo forma de pago es obligatorio.',
@@ -85,33 +84,20 @@ class SalePaymentController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el listado de pagos
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
         $records = SaleRegisterPayment::all();
-        // return response()->json(['records' => SaleRegisterPayment::all()], 200);
-        //return compact('records');
         return view('sale::payment.list', compact('records'));
-
-        //$order = SaleService::where('description', 'max')->find('1');
-        //return compact('order');
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para crear un pago
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -119,15 +105,11 @@ class SalePaymentController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena un nuevo pago
      *
-     * @method    store
+     * @param     Request    $request    Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -154,7 +136,6 @@ class SalePaymentController extends Controller
                 } else {
                     $porcentaje = 0;
                 }
-                //total de servicio + impuesto
                 $sumatoria[$i] = $porcentaje + $SaleGoodsToBeTraded->unit_price;
             };
             $total_amount = array_sum($sumatoria);
@@ -169,20 +150,22 @@ class SalePaymentController extends Controller
         //anticipo
         $advance_define_attributes = ($request->advance == null) ? false : true;
         $SalePayment = SaleRegisterPayment::create([
-            'order_or_service_define_attributes' => $order_or_service_define_attributes, 'order_service_id' => $order_service_id, 'total_amount' => $total_amount, 'way_to_pay' => $request->currency_id, 'banking_entity' => $request->bank_id, 'reference_number' => $request->number_reference, 'payment_date' => $request->payment_date, 'advance_define_attributes' => $advance_define_attributes
+            'order_or_service_define_attributes' => $order_or_service_define_attributes,
+            'order_service_id' => $order_service_id,
+            'total_amount' => $total_amount,
+            'way_to_pay' => $request->currency_id,
+            'banking_entity' => $request->bank_id,
+            'reference_number' => $request->number_reference,
+            'payment_date' => $request->payment_date,
+            'advance_define_attributes' => $advance_define_attributes
         ]);
 
 
         if ($advance_define_attributes == true) {
-            /**
-             * [$pdf base para generar el pdf del recibo de pago]
-             * @var [Modules\Accounting\Pdf\Pdf]
-             */
+            /* base para generar el pdf del recibo de pago */
             $pdf = new ReportRepository();
 
-            /*
-             *  Definicion de las caracteristicas generales de la página pdf
-             */
+            /* Definicion de las caracteristicas generales de la página pdf */
             $institution = null;
             $is_admin = auth()->user()->isAdmin();
             $user = auth()->user();
@@ -202,44 +185,61 @@ class SalePaymentController extends Controller
             ]);
         }
         return response()->json(['record' => $SalePayment, 'message' => 'Success', 'redirect' => route('sale.payment.index')], 200);
-
-        //return response()->json(['result' => true, 'redirect' => route('sale.bills.index')], 200);
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra la información de un pago
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function show($id)
     {
-    //    return view('sale::show');
+        //
     }
 
     /**
      * Obtiene un listado de los pagos registrados
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueList()
     {
 
-        $saleservice = SaleService::with(['SaleGoodsToBeTraded'])
-        ->join("sale_register_payments", "sale_services.id", "=", "sale_register_payments.order_service_id")
-        ->join("sale_clients", "sale_services.sale_client_id", "=", "sale_clients.id")
-        ->select('sale_register_payments.id as id', 'code', 'payment_date', 'name', 'total_amount', 'reference_number', 'sale_goods_to_be_traded', 'order_or_service_define_attributes', 'type_person_juridica', 'name', 'id_number', 'organization', 'rif', 'phones', 'emails', 'payment_date', 'payment_refuse', 'payment_approve', 'advance_define_attributes')
-        ->orderBy('id')
-        ->get();
-
-        /*
-        $x6 = SaleService::with(['jose'])
-                    ->join("sale_register_payments","sale_services.id","=","sale_register_payments.order_service_id")
-                    ->join("sale_clients","sale_services.sale_client_id","=","sale_clients.id")
-                    ->get();*/
+        $saleservice = SaleService::with([
+            'SaleGoodsToBeTraded'
+        ])->join(
+            "sale_register_payments",
+            "sale_services.id",
+            "=",
+            "sale_register_payments.order_service_id"
+        )->join(
+            "sale_clients",
+            "sale_services.sale_client_id",
+            "=",
+            "sale_clients.id"
+        )->select(
+            'sale_register_payments.id as id',
+            'code',
+            'payment_date',
+            'name',
+            'total_amount',
+            'reference_number',
+            'sale_goods_to_be_traded',
+            'order_or_service_define_attributes',
+            'type_person_juridica',
+            'name',
+            'id_number',
+            'organization',
+            'rif',
+            'phones',
+            'emails',
+            'payment_date',
+            'payment_refuse',
+            'payment_approve',
+            'advance_define_attributes'
+        )->orderBy('id')->get();
 
         $values_all = [];
         foreach ($saleservice as $value) {
@@ -252,35 +252,50 @@ class SalePaymentController extends Controller
                 array_push($values_all, $value_2);
             }
         }
-        /*
-        foreach ($x6 as $value) {
-            $bolean = false;
-            if ($bolean == false && $value->order_or_service_define_attributes == false) {
-                $value_2 = $value;
-                array_push($values_all,$value_2);
-            }
-        }
-        */
+
         return response()->json(['records' => collect($values_all)], 200);
     }
 
+    /**
+     * Servicios pendientes
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function pending()
     {
-            $saleservice = SaleService::with(['SaleGoodsToBeTraded'])
-            ->join("sale_register_payments", "sale_services.id", "=", "sale_register_payments.order_service_id")
-            ->join("sale_clients", "sale_services.sale_client_id", "=", "sale_clients.id")
-            ->select('sale_register_payments.id as id', 'code', 'payment_date', 'name', 'total_amount', 'reference_number', 'sale_goods_to_be_traded', 'order_or_service_define_attributes', 'type_person_juridica', 'name', 'id_number', 'organization', 'rif', 'phones', 'emails', 'payment_date', 'payment_refuse')
-            ->orderBy('id')
-            ->where('payment_approve', '=', false)
-            ->where('payment_refuse', '=', false)
-            ->get();
-            /*
-            $x6 = SaleService::with(['jose'])
-                        ->join("sale_register_payments","sale_services.id","=","sale_register_payments.order_service_id")
-                        ->join("sale_clients","sale_services.sale_client_id","=","sale_clients.id")
-                        ->get();*/
+        $saleservice = SaleService::with([
+            'SaleGoodsToBeTraded'
+        ])->join(
+            "sale_register_payments",
+            "sale_services.id",
+            "=",
+            "sale_register_payments.order_service_id"
+        )->join(
+            "sale_clients",
+            "sale_services.sale_client_id",
+            "=",
+            "sale_clients.id"
+        )->select(
+            'sale_register_payments.id as id',
+            'code',
+            'payment_date',
+            'name',
+            'total_amount',
+            'reference_number',
+            'sale_goods_to_be_traded',
+            'order_or_service_define_attributes',
+            'type_person_juridica',
+            'name',
+            'id_number',
+            'organization',
+            'rif',
+            'phones',
+            'emails',
+            'payment_date',
+            'payment_refuse'
+        )->orderBy('id')->where('payment_approve', '=', false)->where('payment_refuse', '=', false)->get();
 
-            $values_all = [];
+        $values_all = [];
         foreach ($saleservice as $value) {
             $bolean = true;
             if ($bolean == true && $value->order_or_service_define_attributes == true) {
@@ -288,182 +303,220 @@ class SalePaymentController extends Controller
                 array_push($values_all, $value_2);
             }
         }
-            /*
-            foreach ($x6 as $value) {
-                $bolean = false;
-                if ($bolean == false && $value->order_or_service_define_attributes == false) {
-                    $value_2 = $value;
-                    array_push($values_all,$value_2);
-                }
-            }
-            */
-            return response()->json(['records' => collect($values_all)], 200);
-    }
-
-    public function paymentApprove()
-    {
-            $saleservice = SaleService::with(['SaleGoodsToBeTraded'])
-            ->join("sale_register_payments", "sale_services.id", "=", "sale_register_payments.order_service_id")
-            ->join("sale_clients", "sale_services.sale_client_id", "=", "sale_clients.id")
-            ->select('sale_register_payments.id as id', 'code', 'payment_date', 'name', 'total_amount', 'reference_number', 'sale_goods_to_be_traded', 'order_or_service_define_attributes', 'type_person_juridica', 'name', 'id_number', 'organization', 'rif', 'phones', 'emails', 'payment_date', 'payment_refuse')
-            ->orderBy('id')
-            ->where('payment_approve', '=', true)
-            ->where('payment_refuse', '=', false)
-            ->where('advance_define_attributes', '=', false)
-
-            ->get();
-
-            /*
-            $x6 = SaleService::with(['jose'])
-                        ->join("sale_register_payments","sale_services.id","=","sale_register_payments.order_service_id")
-                        ->join("sale_clients","sale_services.sale_client_id","=","sale_clients.id")
-                        ->get();*/
-
-            $values_all = [];
-        foreach ($saleservice as $value) {
-            $bolean = true;
-            if ($bolean == true && $value->order_or_service_define_attributes == true) {
-                $value_2 = $value;
-                array_push($values_all, $value_2);
-            }
-        }
-            /*
-            foreach ($x6 as $value) {
-                $bolean = false;
-                if ($bolean == false && $value->order_or_service_define_attributes == false) {
-                    $value_2 = $value;
-                    array_push($values_all,$value_2);
-                }
-            }
-            */
-
-            return response()->json(['records' => collect($values_all)], 200);
-    }
-
-    public function paymentRejected()
-    {
-            $saleservice = SaleService::with(['SaleGoodsToBeTraded'])
-            ->join("sale_register_payments", "sale_services.id", "=", "sale_register_payments.order_service_id")
-            ->join("sale_clients", "sale_services.sale_client_id", "=", "sale_clients.id")
-            ->select('sale_register_payments.id as id', 'code', 'payment_date', 'name', 'total_amount', 'reference_number', 'sale_goods_to_be_traded', 'order_or_service_define_attributes', 'type_person_juridica', 'name', 'id_number', 'organization', 'rif', 'phones', 'emails', 'payment_date', 'payment_refuse')
-            ->orderBy('id')
-            ->where('payment_approve', '=', false)
-            ->where('payment_refuse', '=', true)
-            ->get();
-
-            /*
-            $x6 = SaleService::with(['jose'])
-                        ->join("sale_register_payments","sale_services.id","=","sale_register_payments.order_service_id")
-                        ->join("sale_clients","sale_services.sale_client_id","=","sale_clients.id")
-                        ->get();*/
-
-            $values_all = [];
-        foreach ($saleservice as $value) {
-            $bolean = true;
-            if ($bolean == true && $value->order_or_service_define_attributes == true) {
-                $value_2 = $value;
-                array_push($values_all, $value_2);
-            }
-        }
-            /*
-            foreach ($x6 as $value) {
-                $bolean = false;
-                if ($bolean == false && $value->order_or_service_define_attributes == false) {
-                    $value_2 = $value;
-                    array_push($values_all,$value_2);
-                }
-            }
-            */
-
-            return response()->json(['records' => collect($values_all)], 200);
-    }
-
-    public function advanceDefineAttributesApprove()
-    {
-            $saleservice = SaleService::with(['SaleGoodsToBeTraded'])
-            ->join("sale_register_payments", "sale_services.id", "=", "sale_register_payments.order_service_id")
-            ->join("sale_clients", "sale_services.sale_client_id", "=", "sale_clients.id")
-            ->select('sale_register_payments.id as id', 'code', 'payment_date', 'name', 'total_amount', 'reference_number', 'sale_goods_to_be_traded', 'order_or_service_define_attributes', 'type_person_juridica', 'name', 'id_number', 'organization', 'rif', 'phones', 'emails', 'payment_date', 'payment_refuse')
-            ->orderBy('id')
-            ->where('advance_define_attributes', '=', true)
-            ->where('payment_approve', '=', true)
-            ->where('payment_refuse', '=', false)
-            ->get();
-            /*
-            $x6 = SaleService::with(['jose'])
-                        ->join("sale_register_payments","sale_services.id","=","sale_register_payments.order_service_id")
-                        ->join("sale_clients","sale_services.sale_client_id","=","sale_clients.id")
-                        ->get();*/
-
-            $values_all = [];
-        foreach ($saleservice as $value) {
-            $bolean = true;
-            if ($bolean == true && $value->order_or_service_define_attributes == true) {
-                $value_2 = $value;
-                array_push($values_all, $value_2);
-            }
-        }
-            /*
-            foreach ($x6 as $value) {
-                $bolean = false;
-                if ($bolean == false && $value->order_or_service_define_attributes == false) {
-                    $value_2 = $value;
-                    array_push($values_all,$value_2);
-                }
-            }
-            */
-
-            return response()->json(['records' => collect($values_all)], 200);
+        return response()->json(['records' => collect($values_all)], 200);
     }
 
     /**
-     * [descripción del método]
+     * Aprobación de pagos
      *
-     * @method    edit
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
+    public function paymentApprove()
+    {
+        $saleservice = SaleService::with([
+            'SaleGoodsToBeTraded'
+        ])->join(
+            "sale_register_payments",
+            "sale_services.id",
+            "=",
+            "sale_register_payments.order_service_id"
+        )->join(
+            "sale_clients",
+            "sale_services.sale_client_id",
+            "=",
+            "sale_clients.id"
+        )->select(
+            'sale_register_payments.id as id',
+            'code',
+            'payment_date',
+            'name',
+            'total_amount',
+            'reference_number',
+            'sale_goods_to_be_traded',
+            'order_or_service_define_attributes',
+            'type_person_juridica',
+            'name',
+            'id_number',
+            'organization',
+            'rif',
+            'phones',
+            'emails',
+            'payment_date',
+            'payment_refuse'
+        )->orderBy('id')->where(
+            'payment_approve',
+            '=',
+            true
+        )->where(
+            'payment_refuse',
+            '=',
+            false
+        )->where(
+            'advance_define_attributes',
+            '=',
+            false
+        )->get();
+
+        $values_all = [];
+        foreach ($saleservice as $value) {
+            $bolean = true;
+            if ($bolean == true && $value->order_or_service_define_attributes == true) {
+                $value_2 = $value;
+                array_push($values_all, $value_2);
+            }
+        }
+
+        return response()->json(['records' => collect($values_all)], 200);
+    }
+
+    /**
+     * Rechazo de pagos
      *
-     * @author    [nombre del autor] [correo del autor]
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function paymentRejected()
+    {
+        $saleservice = SaleService::with([
+            'SaleGoodsToBeTraded'
+        ])->join(
+            "sale_register_payments",
+            "sale_services.id",
+            "=",
+            "sale_register_payments.order_service_id"
+        )->join(
+            "sale_clients",
+            "sale_services.sale_client_id",
+            "=",
+            "sale_clients.id"
+        )->select(
+            'sale_register_payments.id as id',
+            'code',
+            'payment_date',
+            'name',
+            'total_amount',
+            'reference_number',
+            'sale_goods_to_be_traded',
+            'order_or_service_define_attributes',
+            'type_person_juridica',
+            'name',
+            'id_number',
+            'organization',
+            'rif',
+            'phones',
+            'emails',
+            'payment_date',
+            'payment_refuse'
+        )->orderBy('id')->where('payment_approve', '=', false)->where('payment_refuse', '=', true)->get();
+
+        $values_all = [];
+        foreach ($saleservice as $value) {
+            $bolean = true;
+            if ($bolean == true && $value->order_or_service_define_attributes == true) {
+                $value_2 = $value;
+                array_push($values_all, $value_2);
+            }
+        }
+
+        return response()->json(['records' => collect($values_all)], 200);
+    }
+
+    /**
+     * Atributo de pago definido
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function advanceDefineAttributesApprove()
+    {
+        $saleservice = SaleService::with([
+            'SaleGoodsToBeTraded'
+        ])->join(
+            "sale_register_payments",
+            "sale_services.id",
+            "=",
+            "sale_register_payments.order_service_id"
+        )->join(
+            "sale_clients",
+            "sale_services.sale_client_id",
+            "=",
+            "sale_clients.id"
+        )->select(
+            'sale_register_payments.id as id',
+            'code',
+            'payment_date',
+            'name',
+            'total_amount',
+            'reference_number',
+            'sale_goods_to_be_traded',
+            'order_or_service_define_attributes',
+            'type_person_juridica',
+            'name',
+            'id_number',
+            'organization',
+            'rif',
+            'phones',
+            'emails',
+            'payment_date',
+            'payment_refuse'
+        )->orderBy('id')->where(
+            'advance_define_attributes',
+            '=',
+            true
+        )->where(
+            'payment_approve',
+            '=',
+            true
+        )->where(
+            'payment_refuse',
+            '=',
+            false
+        )->get();
+
+        $values_all = [];
+        foreach ($saleservice as $value) {
+            $bolean = true;
+            if ($bolean == true && $value->order_or_service_define_attributes == true) {
+                $value_2 = $value;
+                array_push($values_all, $value_2);
+            }
+        }
+
+        return response()->json(['records' => collect($values_all)], 200);
+    }
+
+    /**
+     * Muestra el formulario de edición de un pago
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
 
         $payment = SaleRegisterPayment::find($id);
-        //return $payment;
+
         return view('sale::payment.create', compact("payment"));
     }
 
     /**
-     * [descripción del método]
+     * Actualiza la información de un pago
      *
-     * @method    update
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function update(Request $request, $id)
     {
-        dd($id) ;
-
         //
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina un pago
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -476,17 +529,13 @@ class SalePaymentController extends Controller
      * Vizualiza información de una solicitud de pagos
      *
      * @author Miguel Narvaez <mnarvaezcenditel.gob.ve>
-     * @param  Integer $id Identificador único de la solicitud de almacén
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único de la solicitud de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueInfo($id)
     {
-/*
-        $payment = SaleService::with(['SaleGoodsToBeTraded'])
-                    ->join("sale_register_payments","sale_services.".$id."","=","sale_register_payments.order_service_id")
-                    ->join("sale_clients","sale_services.sale_client_id","=","sale_clients.id")
-                    ->first();
-*/
         $payment = SaleRegisterPayment::with('saleService')->where('id', $id)->first();
 
         return response()->json(['record' => $payment], 200);
@@ -496,7 +545,8 @@ class SalePaymentController extends Controller
      * Muestra una lista de pediros registrados
      *
      * @author Miguel Narvaez <mnarvaezcenditel.gob.ve>
-     * @return Array con los pediros registrados a mostrar
+     *
+     * @return array con los pediros registrados a mostrar
      */
     public function getSaleOrderList()
     {
@@ -507,7 +557,8 @@ class SalePaymentController extends Controller
      * Muestra una lista de servicios registrados
      *
      * @author Miguel Narvaez <mnarvaezcenditel.gob.ve>
-     * @return Array con los servicios registrados a mostrar
+     *
+     * @return array con los servicios registrados a mostrar
      */
     public function getSaleServiceList()
     {
@@ -518,7 +569,8 @@ class SalePaymentController extends Controller
      * Muestra una Forma de cobro registrada
      *
      * @author Miguel Narvaez <mnarvaezcenditel.gob.ve>
-     * @return Array con los registros a mostrar
+     *
+     * @return array con los registros a mostrar
      */
     public function getCurrencie()
     {
@@ -529,7 +581,8 @@ class SalePaymentController extends Controller
      * Obtiene los bancos registrados
      *
      * @author Miguel Narvaez <mnarvaezcenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse    Json con los bancos registrados
+     *
+     * @return array
      */
     public function getSaleBank()
     {
@@ -541,6 +594,9 @@ class SalePaymentController extends Controller
      * Obtiene los servicios registrados
      *
      * @author Miguel Narvaez <mnarvaezcenditel.gob.ve>
+     *
+     * @param  integer $id Identificador del servicio
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de los servicios
      */
     public function getSaleService($id)
@@ -553,11 +609,23 @@ class SalePaymentController extends Controller
      * Obtiene los Datos de la solicitud de servicios registrados
      *
      * @author Miguel Narvaez <mnarvaezcenditel.gob.ve>
+     *
+     * @param  integer $id Identificador del servicio
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de la solicitud de servicios
      */
     public function getSaleGoodsToBeTraded($id)
     {
-        $sale_goods_to_be_traded = SaleGoodsToBeTraded::with(['name', 'description', 'unit_price', 'currency_id', 'measurement_unit_id', 'department_id', 'sale_type_good_id', 'payroll_staff_id' ])->find($id);
+        $sale_goods_to_be_traded = SaleGoodsToBeTraded::with([
+            'name',
+            'description',
+            'unit_price',
+            'currency_id',
+            'measurement_unit_id',
+            'department_id',
+            'sale_type_good_id',
+            'payroll_staff_id'
+        ])->find($id);
         return response()->json(['sale_goods_to_be_traded' => $sale_goods_to_be_traded], 200);
     }
 
@@ -565,7 +633,10 @@ class SalePaymentController extends Controller
      * Obtiene los clientes registrados
      *
      * @author Miguel Narvaez <mnarvaezcenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse    Json con los datos de los clientes
+     *
+     * @param  integer $id Identificador del cliente
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSaleClient($id)
     {
@@ -592,7 +663,18 @@ class SalePaymentController extends Controller
             $sumatoria[$i] = $porcentaje + $SaleGoodsToBeTraded->unit_price;
         };
         $total = array_sum($sumatoria);
-        $value = array('code' =>  $SaleService->code, 'total' =>  $total, 'name' =>  $saleClients->name, 'idntifiaction' =>  $saleClients->id_type, 'identification_number' =>  $saleClients->id_number, 'rif' =>  $saleClients->rif, 'email' =>  $saleClientsEmail->email, 'phone_extension' =>  $saleClientsPhone->extension, 'phone_area_code' =>  $saleClientsPhone->area_code, 'total' =>  $total, 'phone_number' =>  $saleClientsPhone->number);
+        $value = [
+            'code' =>  $SaleService->code,
+            'total' =>  $total,
+            'name' =>  $saleClients->name,
+            'idntifiaction' =>  $saleClients->id_type,
+            'identification_number' =>  $saleClients->id_number,
+            'rif' =>  $saleClients->rif,
+            'email' =>  $saleClientsEmail->email,
+            'phone_extension' =>  $saleClientsPhone->extension,
+            'phone_area_code' =>  $saleClientsPhone->area_code,
+            'phone_number' =>  $saleClientsPhone->number
+        ];
         return response()->json(['sale_service' => $value], 200);
     }
 
@@ -600,6 +682,9 @@ class SalePaymentController extends Controller
      * Aprueba la solicitud realizada
      *
      * @author Miguel Narvaez <mnarvaezcenditel.gob.ve>
+     *
+     * @param  integer $id Identificador del pago
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de los clientes
      */
     public function approvedPayment($id)
@@ -616,7 +701,10 @@ class SalePaymentController extends Controller
      * Rechaza la solicitud realizada
      *
      * @author Miguel Narvaez <mnarvaezcenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse    Json con los datos de los clientes
+     *
+     * @param  integer $id Identificador del pago
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function refusePayment($id)
     {
@@ -630,32 +718,29 @@ class SalePaymentController extends Controller
     }
 
     /**
-     * gerena archivo Pdf
+     * Genera el reporte del pago
      *
      * @author Miguel Narvaez <mnarvaezcenditel.gob.ve>
+     *
+     * @param  \Illuminate\Http\Request  $request  datos de la petición
+     * @param  integer $id Identificador del pago
+     *
+     * @return void
      */
     public function pdfGenerator(Request $request, $id)
     {
 
         $SalePayment = SaleRegisterPayment::find($id);
 
-        /**
-         * [$pdf base para generar el pdf del recibo de pago]
-         * @var [Modules\Accounting\Pdf\Pdf]
-         */
+        /* base para generar el pdf del recibo de pago */
         $pdf = new ReportRepository();
 
-        /*
-     *  Definicion de las caracteristicas generales de la página pdf
-     */
+        /* Definicion de las caracteristicas generales de la página pdf */
         $institution = null;
         $is_admin = auth()->user()->isAdmin();
         $user = auth()->user();
 
         if (!auth()->user()->isAdmin()) {
-            /*if ($requirement && $requirement->queryAccess($user_profile['institution']['id'])) {
-                return view('errors.403');
-            }*/
             abort(403);
         }
 

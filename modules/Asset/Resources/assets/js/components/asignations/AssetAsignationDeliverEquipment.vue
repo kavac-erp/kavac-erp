@@ -360,8 +360,6 @@ export default {
     /**
      * Método que permite crear una solicitd de entrega de uno o más bienes.
      *
-     *
-     *
      * @author Francisco J. P. Ruiz <javierrupe19@gmail.com>
      */
     deliverEquipment(index) {

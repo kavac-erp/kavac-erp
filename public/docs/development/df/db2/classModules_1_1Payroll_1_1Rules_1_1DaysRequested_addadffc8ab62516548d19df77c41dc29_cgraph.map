@@ -1,0 +1,5 @@
+<map id="passes" name="passes">
+<area shape="rect" id="Node000001" title="Determina si pasa la regla de validación." alt="" coords="5,5,72,31"/>
+<area shape="rect" id="Node000002" href="$df/db2/classModules_1_1Payroll_1_1Rules_1_1DaysRequested.html#a7dc724838d6719f055e1800746ccaaef" title="Obtiene el numero de dias entre la fecha de inicio y la fecha de fin." alt="" coords="120,5,261,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,15,107,15,107,21,72,21"/>
+</map>

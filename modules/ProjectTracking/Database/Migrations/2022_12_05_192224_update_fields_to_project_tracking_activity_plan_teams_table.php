@@ -1,16 +1,15 @@
 <?php
 
+use Nwidart\Modules\Facades\Module;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class UpdateFieldsToProjectTrackingActivityPlanTeamsTable
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -35,7 +34,7 @@ class UpdateFieldsToProjectTrackingActivityPlanTeamsTable extends Migration
         if (Schema::hasTable('project_tracking_activity_plan_teams')) {
             Schema::table('project_tracking_activity_plan_teams', function (Blueprint $table) {
                 if (!Schema::hasColumn('project_tracking_activity_plan_teams', 'employers_id')) {
-                    if (Module::has('Payroll')) {
+                    if (Module::has('Payroll') && Module::isEnabled('Payroll')) {
                         $table->foreignId('employers_id')->references('id')->on('payroll_staffs')->onDelete('restrict')
                         ->onUpdate('cascade')->comment('Trabajador');
                     } else {

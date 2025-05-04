@@ -5,6 +5,6 @@ var classModules_1_1Purchase_1_1Models_1_1PurchaseCompromise =
     [ "compromiseable", "df/d47/classModules_1_1Purchase_1_1Models_1_1PurchaseCompromise.html#af3f4dfb87c5d3ee8fcd3d098bb0cd962", null ],
     [ "documentStatus", "df/d47/classModules_1_1Purchase_1_1Models_1_1PurchaseCompromise.html#a649e68c3356260846b3196094c945c9f", null ],
     [ "sourceable", "df/d47/classModules_1_1Purchase_1_1Models_1_1PurchaseCompromise.html#aab1626c3e710c4bbc49fb024e6d0f364", null ],
-    [ "$dates", "df/d47/classModules_1_1Purchase_1_1Models_1_1PurchaseCompromise.html#aab581066837d6296ba35c72937b6fc1c", null ],
-    [ "$fillable", "df/d47/classModules_1_1Purchase_1_1Models_1_1PurchaseCompromise.html#a6a90e74ccdf5efd70d51d10c906f8e32", null ]
+    [ "$dates", "df/d47/classModules_1_1Purchase_1_1Models_1_1PurchaseCompromise.html#a6ed295a3b7371b42773cab86fd367af8", null ],
+    [ "$fillable", "df/d47/classModules_1_1Purchase_1_1Models_1_1PurchaseCompromise.html#a13601d3af66d109458e268a3eb4afc49", null ]
 ];

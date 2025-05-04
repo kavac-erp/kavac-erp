@@ -11,11 +11,10 @@ use Modules\Payroll\Models\PayrollInstructionDegree;
  * @class PayrollInstructionDegreesTableSeeder
  * @brief Inicializar los grados de instruccíón
  *
- *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollInstructionDegreesTableSeeder extends Seeder
 {
@@ -23,6 +22,7 @@ class PayrollInstructionDegreesTableSeeder extends Seeder
      * Método que registra los valores de los grados de instrucción
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return void
      */
     public function run()

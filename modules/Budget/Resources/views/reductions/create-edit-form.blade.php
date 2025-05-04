@@ -36,6 +36,7 @@
 				<budgetmod
 					type_modification="{!! $type !!}"
 					edit_object="{{ (isset($model)) ? $model : '' }}"
+					route_list="{{ route('budget.modifications.index') }}"
 				></budgetmod>
 			</div>
 		</div>

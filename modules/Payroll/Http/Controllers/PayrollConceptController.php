@@ -3,21 +3,17 @@
 namespace Modules\Payroll\Http\Controllers;
 
 use App\Models\Source;
-use App\Models\Profile;
 use App\Models\Receiver;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Payroll\Models\Payroll;
 use Nwidart\Modules\Facades\Module;
 use Modules\Payroll\Models\Parameter;
-use Modules\Payroll\Models\Institution;
-use Modules\Payroll\Models\PayrollStaff;
 use Modules\Payroll\Models\PayrollConcept;
 use Modules\Payroll\Models\PayrollSalaryTabulator;
 use Modules\Payroll\Models\PayrollConceptAssignOption;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Log;
 use Modules\Payroll\Actions\GetPayrollConceptParameters;
-use Modules\Payroll\Transformers\PayrollConceptServerTableResource;
 use Modules\Payroll\Repositories\PayrollAssociatedParametersRepository;
 
 /**
@@ -27,6 +23,7 @@ use Modules\Payroll\Repositories\PayrollAssociatedParametersRepository;
  * Clase que gestiona los conceptos
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -36,13 +33,15 @@ class PayrollConceptController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -50,16 +49,18 @@ class PayrollConceptController extends Controller
      * Define la configuración de la clase
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         //$this->middleware('permission:payroll.concept.list',   ['only' => 'index']);
         $this->middleware('permission:payroll.concept.create', ['only' => 'store']);
         $this->middleware('permission:payroll.concept.edit', ['only' => 'update']);
         $this->middleware('permission:payroll.concept.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name' => ['required', 'unique:payroll_concepts,name'],
             'payroll_concept_type_id' => ['required'],
@@ -75,7 +76,7 @@ class PayrollConceptController extends Controller
 
             'check_both_fields' => ['required'],
         ];
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'payroll_concept_type_id.required' => 'El campo tipo de concepto es obligatorio.',
             'institution_id.required' => 'El campo organización es obligatorio.',
@@ -95,18 +96,13 @@ class PayrollConceptController extends Controller
     /**
      * Muestra un listado de los conceptos registradas (activos e inactivos)
      *
-     * @method    index
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    JsonResponse    Objeto con los registros a mostrar
+     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function index(Request $request)
     {
-        /**
-         * Objeto asociado al modelo PayrollConcept
-         * @var Object $payrollConcepts
-         */
+        /* Objeto asociado al modelo PayrollConcept*/
         $payrollConcepts = PayrollConcept::query()
             ->with(
                 'payrollSalaryTabulator',
@@ -188,13 +184,11 @@ class PayrollConceptController extends Controller
     /**
      * Valida y registra un nuevo concepto
      *
-     * @method    store
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @param     \Illuminate\Http\Request     $request    Datos de la petición
      *
-     * @return    JsonResponse                Objeto con los registros a mostrar
+     * @return    \Illuminate\Http\JsonResponse                Objeto con los registros a mostrar
      */
     public function store(Request $request)
     {
@@ -252,6 +246,9 @@ class PayrollConceptController extends Controller
             'active' => !empty($request->active)
                 ? $request->active
                 : false,
+            'arc' => !empty($request->arc)
+                ? $request->arc
+                : false,
             'formula' => $request->formula,
             'institution_id' => $request->institution_id,
             'payroll_concept_type_id' => $request->payroll_concept_type_id,
@@ -266,7 +263,7 @@ class PayrollConceptController extends Controller
             'budget_specific_action_id' => $request->budget_specific_action_id,
             'assign_to' => json_encode($request->assign_to),
             'currency_id' => $request->currency_id,
-            'is_strict' => $request->is_strict
+            'is_strict' => $request->is_strict,
         ]);
         $existAccounting = Module::has('Accounting') && Module::isEnabled('Accounting');
         if (!empty($request->receiver)) {
@@ -307,16 +304,13 @@ class PayrollConceptController extends Controller
                 ]);
             } elseif ($assign_to['type'] == 'list') {
                 foreach ($request->assign_options[$assign_to['id']] as $assign_option) {
-                    /**
-                     * Objeto asociado al modelo PayrollConceptAssignOption
-                     * @var Object $payrollConceptAssignOption
-                     */
+                    /* Objeto asociado al modelo PayrollConceptAssignOption */
                     $payrollConceptAssignOption = PayrollConceptAssignOption::create([
                         'key' => $assign_to['id'],
                         'applicable_type' => PayrollConcept::class,
                         'applicable_id' => $payrollConcept->id,
                     ]);
-                    /** Se guarda la información en el campo morphs */
+                    /* Se guarda la información en el campo morphs */
                     $assignModel = $assign_to['optionModel'] ?? $assign_to['model'];
                     $option = $assignModel::find($assign_option['id']);
                     $option->payrollConceptAssignOptions()->save($payrollConceptAssignOption);
@@ -329,18 +323,13 @@ class PayrollConceptController extends Controller
     /**
      * Actualiza la información de una asignación salarial
      *
-     * @method    update
-     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
      *
      * @return    \Illuminate\Http\JsonResponse                Objeto con los registros a mostrar
      */
     public function update(Request $request, $id)
     {
-        /**
-         * Objeto con la información del concepto a editar asociado al modelo PayrollConcept
-         * @var Object $payrollConcept
-         */
+        /* Objeto con la información del concepto a editar asociado al modelo PayrollConcept */
         $payrollConcept = PayrollConcept::find($id);
 
         $checkBothFields =
@@ -396,6 +385,9 @@ class PayrollConceptController extends Controller
         $payrollConcept->active = !empty($request->active)
             ? $request->active
             : false;
+        $payrollConcept->arc = !empty($request->arc)
+            ? $request->arc
+            : false;
         $payrollConcept->formula = $request->formula;
         $payrollConcept->institution_id = $request->institution_id;
         $payrollConcept->payroll_concept_type_id = $request->payroll_concept_type_id;
@@ -441,7 +433,7 @@ class PayrollConceptController extends Controller
                 ]
             );
         }
-        /** Se eliminan las opciones de asignación asociadas al concepto */
+        /* Se eliminan las opciones de asignación asociadas al concepto */
         $assignOptions = PayrollConceptAssignOption::query()
             ->where('applicable_type', PayrollConcept::class)
             ->where('applicable_id', $payrollConcept->id)
@@ -450,8 +442,7 @@ class PayrollConceptController extends Controller
             $assignOption->forceDelete();
         }
 
-        /** Se agregan las nuevas opciones de asignación asociadas al concepto */
-
+        /* Se agregan las nuevas opciones de asignación asociadas al concepto */
         foreach ($request->assign_to as $assign_to) {
             if ($assign_to['type'] == 'range') {
                 PayrollConceptAssignOption::create([
@@ -462,16 +453,13 @@ class PayrollConceptController extends Controller
                 ]);
             } elseif ($assign_to['type'] == 'list') {
                 foreach ($request->assign_options[$assign_to['id']] as $assign_option) {
-                    /**
-                     * Objeto asociado al modelo PayrollConceptAssignOption
-                     * @var Object $payrollConceptAssignOption
-                     */
+                    /* Objeto asociado al modelo PayrollConceptAssignOption */
                     $payrollConceptAssignOption = PayrollConceptAssignOption::create([
                         'key' => $assign_to['id'],
                         'applicable_type' => PayrollConcept::class,
                         'applicable_id' => $payrollConcept->id,
                     ]);
-                    /** Se guarda la información en el campo morphs */
+                    /* Se guarda la información en el campo morphs */
                     $assignModel = $assign_to['optionModel'] ?? $assign_to['model'];
                     $option = $assignModel::find($assign_option['id']);
                     $option->payrollConceptAssignOptions()->save($payrollConceptAssignOption);
@@ -484,20 +472,15 @@ class PayrollConceptController extends Controller
     /**
      * Elimina un concepto
      *
-     * @method    destroy
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer                          $id    Identificador único del concepto a eliminar
+     * @param     integer $id    Identificador único del concepto a eliminar
      *
      * @return    \Illuminate\Http\JsonResponse           Objeto con los registros a mostrar
      */
     public function destroy($id)
     {
-        /**
-         * Objeto con la información del concepto a eliminar asociado al modelo PayrollConcept
-         * @var Object $payrollConcept
-         */
+        /* Objeto con la información del concepto a eliminar asociado al modelo PayrollConcept */
         $payrollConcept = PayrollConcept::find($id);
         $payrollConcept->delete();
         return response()->json(['record' => $payrollConcept, 'message' => 'Success'], 200);
@@ -506,11 +489,9 @@ class PayrollConceptController extends Controller
     /**
      * Obtiene los tipos de conceptos registrados
      *
-     * @method    getPayrollConcepts
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    {array}    Listado de los registros a mostrar
+     * @return    array    Listado de los registros a mostrar
      */
     public function getPayrollConcepts()
     {
@@ -520,11 +501,9 @@ class PayrollConceptController extends Controller
     /**
      * Obtiene las opciones a asignar registrados asociadas a un concepto
      *
-     * @method    getPayrollConceptAssignTo
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    {array}    Listado de los registros a mostrar
+     * @return    mixed    Listado de los registros a mostrar
      */
     public function getPayrollConceptAssignTo()
     {
@@ -535,11 +514,9 @@ class PayrollConceptController extends Controller
     /**
      * Obtiene la lista de opciones de acuerdo al parametro seleccionado
      *
-     * @method    getPayrollParametersTypes
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    {array}    Listado de los registros a mostrar
+     * @return    array|void    Listado de los registros a mostrar
      */
     public function getPayrollConceptAssignOptions($id)
     {
@@ -558,27 +535,25 @@ class PayrollConceptController extends Controller
     /**
      * Obtiene la lista de personal asignado en un concepto
      *
-     * @method    getPayrollPersonalConceptAssign
-     *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return    {array}    Listado de los registros a mostrar
+     * @return    array    Listado de los registros a mostrar
      */
-    public function getPayrollPersonalConceptAssign($id, Request $request)
-    {
-        $conceptParameters = new GetPayrollConceptParameters();
+    public function getPayrollPersonalConceptAssign(
+        int $id,
+        Request $request,
+        GetPayrollConceptParameters $conceptParameters
+    ) {
         return $conceptParameters->getPayrollPersonalConceptAssign($id, $request->payroll_id);
     }
 
     /**
      * Obtiene el concepto asociado a un parametro
      *
-     * @method    getPayrollConceptParameter
-     *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
-     * @return    {int}    concepto a mostrar
+     * @return    integer    concepto a mostrar
      */
     public function getPayrollConceptParameter($idParameter)
     {
@@ -591,11 +566,9 @@ class PayrollConceptController extends Controller
     /**
      * Método que valida que la formula a agregar en el concepto sea una formula con un formato válido
      *
-     * @method    validateFormula
-     *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return    {bool} Define si es una formula válida
+     * @return    boolean Define si es una formula válida
      */
     public function validateFormula($formula)
     {
@@ -672,6 +645,7 @@ class PayrollConceptController extends Controller
                 throw new \Exception('El formato de lo formula es incorrecto', 1);
             }
         } catch (\Exception $error) {
+            Log::error($error->getMessage());
             return false;
         }
 
@@ -679,22 +653,18 @@ class PayrollConceptController extends Controller
     }
 
     /**
-     * [getPayrollConceptAccountingAccounts obtiene los registros de las cuentas patrimoniales asociadas
-     * a una cuenta presupuestaria]
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * Obtiene los registros de las cuentas patrimoniales asociadas a una cuenta presupuestaria
+     *
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve | exodiadaniel@gmail.com>
-     * @return Array con la información de las cuentas formateada
+     *
+     * @return array con la información de las cuentas formateada
      */
     public function getPayrollConceptAccountingAccounts($account_id = null)
     {
-        /**
-         * [$records arreglo que almacenara la lista de cuentas patrimoniales]
-         * @var array
-         */
+        /* Arreglo que almacenara la lista de cuentas patrimoniales */
         $records = [];
-        /**
-         * se realiza la busqueda de manera ordenada en base al codigo
-         */
+        /* se realiza la busqueda de manera ordenada en base al código */
         if (Module::has('Accounting') && isset($account_id)) {
             $account = \Modules\Accounting\Models\Accountable::query()
                 ->with('accountingAccount')
@@ -717,21 +687,17 @@ class PayrollConceptController extends Controller
     }
 
     /**
-     * [getPayrollConceptAccountable obtiene los registros de las cuentas patrimoniales asociadas
-     * a una cuenta contable]
-     * * @author  Pedro Buitrago <pbuitrago@cenditel.gob.ve | pedrobui@gmail.com>
-     * @return Array con la información de las cuentas formateada
+     * Obtiene los registros de las cuentas patrimoniales asociadas a una cuenta contable
+     *
+     * @author  Pedro Buitrago <pbuitrago@cenditel.gob.ve | pedrobui@gmail.com>
+     *
+     * @return array con la información de las cuentas formateada
      */
     public function getPayrollConceptAccountable($account_id = null)
     {
-        /**
-         * [$records arreglo que almacenara la lista de cuentas patrimoniales]
-         * @var array
-         */
+        /* arreglo que almacenara la lista de cuentas patrimoniales */
         $records = [];
-        /**
-         * se realiza la busqueda de manera ordenada en base al codigo
-         */
+        /* se realiza la busqueda de manera ordenada en base al código */
         if (Module::has('Accounting') && isset($account_id)) {
             $account = \Modules\Accounting\Models\Accountable::query()
                 ->with('accountingAccount')

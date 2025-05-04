@@ -22,32 +22,45 @@ use Modules\Warehouse\Models\WarehouseInventoryProductMovement;
  * Clase que gestiona las solicitudes de los productos de almacén
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseRequestController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
     protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
     /**
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:warehouse.request.list', ['only' => 'index']);
         $this->middleware('permission:warehouse.request.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:warehouse.request.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:warehouse.request.delete', ['only' => 'destroy']);
         $this->middleware('permission:warehouse.setting.product.delivery', ['only' => 'confirmRequest']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'warehouse_products.*'           => ['required'],
             'budget_specific_action_id'      => ['required'],
@@ -56,7 +69,7 @@ class WarehouseRequestController extends Controller
             'request_date'                   => ['required']
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'budget_specific_action_id.required' => 'El campo "Acción específica" es obligatorio',
             'department_id.required'             => 'El campo "Dependencia solicitante" es obligatorio',
@@ -69,7 +82,8 @@ class WarehouseRequestController extends Controller
      * Muestra un listado de las solicitudes de almacén registradas
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return Renderable
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -80,7 +94,8 @@ class WarehouseRequestController extends Controller
      * Muestra el formulario para registrar una nueva solicitud de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return Renderable
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -91,8 +106,10 @@ class WarehouseRequestController extends Controller
      * Valida y registra una nueva solicitud de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -160,15 +177,11 @@ class WarehouseRequestController extends Controller
                             'new_exist' => $exist_real - $product['requested'],
                         ]);
                     } else {
-                        /** Si la exitencia del producto es menor que lo que se solicita
-                         *  se revierten los cambios
-                         */
+                        /* Si la exitencia del producto es menor que lo que se solicita se revierten los cambios */
                         DB::rollback();
                     }
                 } else {
-                    /** Si no existe el registro en inventario
-                     *  se revierten los cambios
-                     */
+                    /* Si no existe el registro en inventario se revierten los cambios */
                     DB::rollback();
                 }
             }
@@ -197,8 +210,10 @@ class WarehouseRequestController extends Controller
      * Muestra el formulario para editar una solicitud de  almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @return Renderable
+     *
+     * @param  integer $id Identificador único del ingreso de almacén
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -210,9 +225,11 @@ class WarehouseRequestController extends Controller
      * Actualiza la información de las solicitudes de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @param  Integer $id Identificador único de la solicitud de almacén
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id Identificador único de la solicitud de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -244,7 +261,7 @@ class WarehouseRequestController extends Controller
             $warehouse_request->save();
             $update = now();
 
-            /** Se agregan los nuevos elementos a la solicitud */
+            /* Se agregan los nuevos elementos a la solicitud */
             foreach ($request->warehouse_products as $product) {
                 $inventory_product = WarehouseInventoryProduct::find($product['id']);
                 if (!is_null($inventory_product)) {
@@ -270,15 +287,13 @@ class WarehouseRequestController extends Controller
                             ]);
                         }
                     } else {
-                        /** Si la exitencia del producto es menor que lo que se solicita
-                         *  se revierten los cambios
-                         */
+                        /* Si la exitencia del producto es menor que lo que se solicita se revierten los cambios */
                         DB::rollback();
                     }
                 }
             };
 
-            /** Se eliminan los demas elementos de la solicitud */
+            /* Se eliminan los demas elementos de la solicitud */
             $warehouse_request_products = WarehouseInventoryProductRequest::where(
                 'warehouse_request_id',
                 $warehouse_request->id
@@ -298,11 +313,12 @@ class WarehouseRequestController extends Controller
      * Confirma la entrega de una solicitud de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único de la solicitud de almacén
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id Identificador único de la solicitud de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse|void
      */
-
     public function confirmRequest(Request $request, $id)
     {
         $warehouse_request = WarehouseRequest::find($id);
@@ -324,9 +340,11 @@ class WarehouseRequestController extends Controller
      * Rechaza la solicitud de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único de la solicitud de almacén
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id Identificador único de la solicitud de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function rejectedRequest(Request $request, $id)
     {
@@ -343,9 +361,11 @@ class WarehouseRequestController extends Controller
      * Aprueba la solicitud de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único de la solicitud de almacén
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id Identificador único de la solicitud de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function approvedRequest(Request $request, $id)
     {
@@ -363,9 +383,7 @@ class WarehouseRequestController extends Controller
                         $exist_real =
                             $warehouse_inventory_product->exist - $warehouse_inventory_product->reserved;
                         if ($exist_real < $warehouse_request_product->quantity) {
-                            /** Si la exitencia del producto es menor que lo que solicitamos
-                             *  se revierten los cambios
-                             */
+                            /* Si la exitencia del producto es menor que lo que solicitamos se revierten los cambios */
                             DB::rollback();
                         } else {
                             if ($warehouse_inventory_product->reserved > 0) {
@@ -379,9 +397,7 @@ class WarehouseRequestController extends Controller
                             }
                         };
                     } else {
-                        /** Si no existe el registro en inventario
-                         *  se revierten los cambios
-                         */
+                        /* Si no existe el registro en inventario se revierten los cambios */
                         DB::rollback();
                     }
                 }
@@ -422,8 +438,10 @@ class WarehouseRequestController extends Controller
      * Elimina una solicitud de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único de la solicitud de almacén
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único de la solicitud de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -436,24 +454,11 @@ class WarehouseRequestController extends Controller
      * Obtiene la información de los productos inventariados
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getInventoryProduct($requestid)
     {
-        /*$records = [];
-        $queryRecords = WarehouseInventoryProduct::whereNotNull('exist')
-        ->with(['warehouseProductValues' => function ($query) {
-            $query->with('warehouseProductAttribute');
-        }, 'currency', 'warehouseProduct', 'warehouseInstitutionWarehouse' => function ($query) {
-            $query->with('warehouse');
-        }, 'warehouseInventoryRule'])->get();
-
-        foreach ($queryRecords as $queryRecord) {
-            if($queryRecord->real != 0) {
-                array_push($records,$queryRecord);
-            }
-        }
-        return response()->json(['records' => $records], 200);*/
         $reserved = 0;
         $records = [];
         $productsQuantity = [];
@@ -467,7 +472,7 @@ class WarehouseRequestController extends Controller
 
         foreach ($queryRecords as $queryRecord) {
             if ($queryRecord->real != 0) {
-            /*Calculo de cantidad de productos pendiente */
+                /*Calculo de cantidad de productos pendiente */
                 /* Total de producto pendiente por solicitud */
                 $totalQuantity = 0;
                 $productRequests = WarehouseRequest::where('state', 'Pendiente')
@@ -539,14 +544,17 @@ class WarehouseRequestController extends Controller
      * Vizualiza información de una solicitud de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único de la solicitud de almacén
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único de la solicitud de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueInfo($id)
     {
         return response()->json(['records' => WarehouseRequest::where('id', $id)->with(
             [
                 'budgetSpecificAction',
+                'payrollStaff',
                 'department',
                 'warehouseInventoryProductRequests' => function ($query) {
                     $query->with(['warehouseInventoryProduct' => function ($query) {
@@ -563,6 +571,7 @@ class WarehouseRequestController extends Controller
      * Obtiene un listado de las solicitudes de almacén registradas
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse Objeto con los registros a mostrar
      */
     public function vueList()
@@ -577,6 +586,7 @@ class WarehouseRequestController extends Controller
      * Obtiene un listado de las solicitudes de almacén pendientes
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse Objeto con los registros a mostrar
      */
     public function vuePendingList()

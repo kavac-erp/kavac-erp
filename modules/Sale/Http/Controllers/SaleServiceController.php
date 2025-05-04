@@ -29,31 +29,35 @@ class SaleServiceController extends Controller
     use ValidatesRequests;
 
     /**
-     * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     * Arreglo con las reglas de validación
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
     /**
      * Define la configuración de la clase
      *
-     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>>
+     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return   void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.service.list', ['only' => 'index']);
         $this->middleware('permission:sale.service.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:sale.service.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:sale.service.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'sale_client_id'          => ['required'],
             'organization'            => ['required'],
@@ -62,7 +66,7 @@ class SaleServiceController extends Controller
             'resume'                  => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'sale_client_id.required'          => 'El campo cliente es obligatorio.',
             'organization.required'            => 'El campo organización es obligatorio.',
@@ -73,13 +77,9 @@ class SaleServiceController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el listado de solicitudes de servicios
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
@@ -87,13 +87,9 @@ class SaleServiceController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para registrar una nueva solicitud de servicio
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -103,11 +99,11 @@ class SaleServiceController extends Controller
     /**
      * Registra un nueva solicitud de servicios
      *
-     * @method    store
-     *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function store(Request $request)
@@ -175,15 +171,11 @@ class SaleServiceController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra los datos de una solicitud de servicio
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -194,8 +186,10 @@ class SaleServiceController extends Controller
      * Muestra el formulario para editar una solicitud de servicio
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del ingreso de almacén
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador del registro
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -204,16 +198,12 @@ class SaleServiceController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza la información de una solicitud de servicio
      *
-     * @method    update
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -263,22 +253,15 @@ class SaleServiceController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina una solicitud de servicio
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /**
-         * Objeto con la información asociada al modelo SaleService
-         * @var Object $saleService
-         */
+        /* Objeto con la información asociada al modelo SaleService */
         $saleService = SaleService::find($id);
         if ($saleService) {
             $saleService->delete();
@@ -288,6 +271,8 @@ class SaleServiceController extends Controller
 
     /**
      * Obtiene un listado de las solicitudes registradas
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueList()
     {
@@ -297,6 +282,13 @@ class SaleServiceController extends Controller
         ])->get()], 200);
     }
 
+    /**
+     * Obtiene la información de una solicitud de servicio
+     *
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function vueInfo($id)
     {
         $saleService = SaleService::where('id', $id)->with([
@@ -306,6 +298,14 @@ class SaleServiceController extends Controller
         return response()->json(['record' => $saleService], 200);
     }
 
+    /**
+     * Realiza la aprobación de una solicitud de servicio
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function approved(Request $request, $id)
     {
         $this->validate($request, [
@@ -326,6 +326,14 @@ class SaleServiceController extends Controller
         return response()->json(['result' => true, 'redirect' => route('sale.services.index')], 200);
     }
 
+    /**
+     * Realiza la rechazo de una solicitud de servicio
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     * @param integer $id Identificador del registro
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function rejected(Request $request, $id)
     {
         $saleService = SaleService::find($id);
@@ -346,7 +354,8 @@ class SaleServiceController extends Controller
      * Obtiene un listado de los servicios dependiendo si fuerón aprobados o rechazados
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse Objeto con los registros a mostrar
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vuePendingList($status)
     {

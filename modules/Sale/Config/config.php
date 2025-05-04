@@ -2,5 +2,5 @@
 
 return [
     'name' => 'Sale',
-    'name_es' => 'Venta'
+    'name_es' => 'Comercialización'
 ];

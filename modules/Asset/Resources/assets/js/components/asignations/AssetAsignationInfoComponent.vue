@@ -1,30 +1,14 @@
 <template>
   <div>
-    <a
-      class="btn btn-info btn-xs btn-icon btn-action"
-      href="#"
-      title="Ver información del registro"
-      data-toggle="tooltip"
-      @click="addRecord('view_asignation' + index, route_list, $event)"
-    >
-      <i class="fa fa-info-circle"></i>
+    <a class="btn btn-info btn-xs btn-icon btn-action" href="#" title="Ver información del registro" data-toggle="tooltip"
+      @click="addRecord('view_asignation' + index, route_list, $event)">
+      <i class="fa fa-eye"></i>
     </a>
-    <div
-      class="modal fade text-left"
-      tabindex="-1"
-      role="dialog"
-      :id="'view_asignation' + index"
-    >
+    <div class="modal fade text-left" tabindex="-1" role="dialog" :id="'view_asignation' + index">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-              @click="reset()"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="reset()">
               <span aria-hidden="true">×</span>
             </button>
             <h6>
@@ -41,30 +25,17 @@
                 </li>
               </ul>
             </div>
-            <ul
-              class="nav nav-tabs custom-tabs justify-content-center"
-              role="tablist"
-            >
+            <ul class="nav nav-tabs custom-tabs justify-content-center" role="tablist">
               <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  data-toggle="tab"
-                  :href="'#general' + index"
-                  :id="'info_general' + index"
-                  role="tab"
-                >
+                <a class="nav-link active" data-toggle="tab" :href="'#general' + index" :id="'info_general' + index"
+                  role="tab">
                   <i class="ion-android-person"></i>
                   Información general
                 </a>
               </li>
 
               <li class="nav-item">
-                <a
-                  class="nav-link"
-                  data-toggle="tab"
-                  :href="'#assets' + index"
-                  role="tab"
-                >
+                <a class="nav-link" data-toggle="tab" :href="'#assets' + index" role="tab">
                   <i class="ion-arrow-swap"></i> Bienes
                 </a>
               </li>
@@ -85,9 +56,7 @@
 
                   <div class="col-md-6">
                     <div class="form-group">
-                      <strong
-                        >Trabajador responsable de los bienes asignados</strong
-                      >
+                      <strong>Trabajador responsable de los bienes asignados</strong>
                       <div class="row" style="margin: 1px 0">
                         <span class="col-md-12" :id="'staff' + index"> </span>
                       </div>
@@ -96,11 +65,21 @@
 
                   <div class="col-md-6">
                     <div class="form-group">
-                      <strong
-                        >Lugar de ubicación de los bienes asignados</strong
-                      >
+                      <strong>Lugar de ubicación de los bienes asignados</strong>
                       <div class="row" style="margin: 1px 0">
                         <span class="col-md-12" :id="'location' + index"> </span>
+                      </div>
+                      <strong>Edificación</strong>
+                      <div class="row" style="margin: 1px 0">
+                        <span class="col-md-12" :id="'building' + index"> </span>
+                      </div>
+                      <strong>Nivel</strong>
+                      <div class="row" style="margin: 1px 0">
+                        <span class="col-md-12" :id="'floor' + index"> </span>
+                      </div>
+                      <strong>Sección</strong>
+                      <div class="row" style="margin: 1px 0">
+                        <span class="col-md-12" :id="'section' + index"> </span>
                       </div>
                     </div>
                   </div>
@@ -111,43 +90,31 @@
                 <div class="row">
                   <div class="col-md-12">
                     <hr />
-                    <v-client-table
-                      :columns="columns"
-                      :data="records"
-                      :options="table_options"
-                    >
-                      <div
-                        slot="asset_details.code"
-                        slot-scope="props"
-                        class="text-center"
-                      >
+                    <v-client-table :columns="columns" :data="records" :options="table_options">
+                      <div slot="asset_details.code" slot-scope="props" class="text-center">
                         <span>
                           {{
                             props.row.code
-                              ? props.row.code.name
-                              : ""
+                            ? props.row.code.name
+                            : ""
                           }}
                         </span>
                       </div>
-                      <div
-                        slot="asset_specific_category.name"
-                        slot-scope="props"
-                        class="text-center"
-                      >
+                      <div slot="asset_specific_category.name" slot-scope="props" class="text-center">
                         <span>
                           {{
                             props.row.category
-                              ? props.row.category.name
-                              : ""
+                            ? props.row.category.name
+                            : ""
                           }}
                         </span>
                       </div>
                       <div slot="asset_details" slot-scope="props">
-                          <span>
-                              <div v-for="att in props.row.details">
-                                  <b>{{att.label +":"}}</b> {{att.value}}
-                              </div>
-                          </span>
+                        <span>
+                          <div v-for="(att, index) in props.row.details" :key="index">
+                            <b>{{ att.label + ":" }}</b> {{ att.value }}
+                          </div>
+                        </span>
                       </div>
                     </v-client-table>
                   </div>
@@ -157,12 +124,8 @@
           </div>
 
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-default btn-sm btn-round btn-modal-close"
-              data-dismiss="modal"
-              @click="reset()"
-            >
+            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" data-dismiss="modal"
+              @click="reset()">
               Cerrar
             </button>
           </div>
@@ -240,14 +203,14 @@ export default {
           vm.records = [];
           if (typeof response.data.records !== "undefined") {
             fields = response.data.records;
-            
+
             for (const field of fields) {
               let arrFields = {
                 'details': field.asset_details,
                 'code': field.asset_institutional_code,
                 'category': field.asset_specific_category
               };
-  
+
               vm.records.push(arrFields);
             }
 
@@ -255,6 +218,9 @@ export default {
             document.getElementById("date_init" + vm.index).innerText = vm.format_date(fields[0].asset_asignation_date);
             document.getElementById("staff" + vm.index).innerText = fields[0].asset_asignation_name;
             document.getElementById("location" + vm.index).innerText = fields[0].asset_asignation_location;
+            document.getElementById("building" + vm.index).innerText = fields[0].asset_asignation_building;
+            document.getElementById("floor" + vm.index).innerText = fields[0].asset_asignation_floor;
+            document.getElementById("section" + vm.index).innerText = fields[0].asset_asignation_section;
           }
           if ($("#" + modal_id).length) {
             $("#" + modal_id).modal("show");

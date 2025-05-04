@@ -15,9 +15,9 @@ use Modules\Payroll\Models\PayrollStaffClassification;
  * Clase que gestiona las clasificaciones del personal
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollStaffClassificationController extends Controller
 {
@@ -27,10 +27,12 @@ class PayrollStaffClassificationController extends Controller
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador
+        /* Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:payroll.staff.classifications.list', ['only' => 'index']);
         $this->middleware('permission:payroll.staff.classifications.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.staff.classifications.edit', ['only' => ['edit', 'update']]);
@@ -42,6 +44,7 @@ class PayrollStaffClassificationController extends Controller
      * Muestra todos los registros de la clasificación del personal
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de la clasificación del personal
      */
     public function index()
@@ -50,8 +53,9 @@ class PayrollStaffClassificationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear un nuevo registro de clasificación del personal
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -62,7 +66,9 @@ class PayrollStaffClassificationController extends Controller
      * Valida y registra una nuevo clasificación del personal
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
+     *
      * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
@@ -78,8 +84,9 @@ class PayrollStaffClassificationController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de la clasificación del personal
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -87,8 +94,11 @@ class PayrollStaffClassificationController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar la clasificación del personal
+     *
+     * @param \Modules\Payroll\Models\PayrollStaffClassification $staff_classification Clasificación del personal
+     *
+     * @return \Illuminate\View\View
      */
     public function edit(PayrollStaffClassification $staff_classification)
     {
@@ -99,8 +109,10 @@ class PayrollStaffClassificationController extends Controller
      * Actualiza la información de la clasificación del personal
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
      * @param  integer $id                          Identificador de la clasificación del personal a actualizar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
@@ -122,7 +134,9 @@ class PayrollStaffClassificationController extends Controller
      * Elimina la clasificación del personal
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador de la clasificación del personal a eliminar
+     *
      * @return \Illuminate\Http\JsonResponse    Json: objeto eliminado y mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -136,6 +150,7 @@ class PayrollStaffClassificationController extends Controller
      * Obtiene la clasificación del personal registradas
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de la clasificación del personal
      */
     public function getPayrollStaffClassifications()

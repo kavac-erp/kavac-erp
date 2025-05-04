@@ -1,0 +1,7 @@
+<map id="project" name="project">
+<area shape="rect" id="Node000001" title="Establece la relación con el proyecto." alt="" coords="285,60,352,85"/>
+<area shape="rect" id="Node000002" href="$d4/dd3/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTaskController.html#a0f8d6da56c83c9702c3b85dc67896cf7" title="Muestra la tarea seleccionada." alt="" coords="5,5,237,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="272,66,237,59,238,54,273,61"/>
+<area shape="rect" id="Node000003" href="$d4/dd3/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTaskController.html#aca78b35dd9df5b11e63e88796cf08c66" title="Muestra las tareas registradas." alt="" coords="5,84,237,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="273,84,238,91,237,86,272,79"/>
+</map>

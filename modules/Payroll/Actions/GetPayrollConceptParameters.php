@@ -12,22 +12,33 @@ use Modules\Payroll\Models\PayrollConcept;
 use Modules\Payroll\Repositories\PayrollAssociatedParametersRepository;
 
 /**
- * undocumented class
+ * @class GetPayrollConceptParameters
+ * @brief Acciones para obtener los parámetros de conceptos
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 final class GetPayrollConceptParameters
 {
     /**
      * Obtiene la lista de personal asignado en un concepto
      *
-     * @method    getPayrollPersonalConceptAssign
-     *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return    {array}    Listado de los registros a mostrar
+     * @param    integer    $id    Identificador del concepto
+     * @param    integer    $payroll_id    Identificador del personal
+     * @param    boolean    $flag    Indica si se debe retornar el listado de los registros
+     *
+     * @return   \Illuminate\Http\JsonResponse|array|null    Listado de los registros a mostrar
      */
-    public function getPayrollPersonalConceptAssign($id, $payroll_id, $flag = false)
-    {
+    public function getPayrollPersonalConceptAssign(
+        int $id,
+        ?int $payroll_id,
+        bool $flag = false
+    ) {
         $payroll = Payroll::find($payroll_id ?? null);
         $payrollConcept = PayrollConcept::whereId($id)->first();
 
@@ -38,17 +49,14 @@ final class GetPayrollConceptParameters
         $payrollParameters = [];
         $exploded = multiexplode(
             [
-                'if', '(', ')', '{', '}',
+                'if(', '(', ')', '{', '}',
                 '==', '<=', '>=', '<', '>', '!=',
                 '+', '-', '*', '/'
             ],
-            $payrollConcept->translate_formula
+            $payrollConcept->getTranslateBackFormula()
         );
         foreach ($exploded as $explod) {
-            /**
-             * Objeto asociado al modelo Parameter
-             * @var Object $parameters
-             */
+            /* Objeto asociado al modelo Parameter */
             $parameters = Parameter::where(
                 [
                     'required_by' => 'payroll',
@@ -61,7 +69,7 @@ final class GetPayrollConceptParameters
                     if (isset($jsonValue->name)) {
                         if ($jsonValue->name == $explod) {
                             if ($jsonValue->parameter_type == 'global_value') {
-                                /** Si el parámetro es de valor global */
+                                /* Si el parámetro es de valor global */
                                 array_push($payrollParameters, [
                                     'id' => $jsonValue->id,
                                     'name' => $jsonValue->name,
@@ -75,21 +83,21 @@ final class GetPayrollConceptParameters
                                         ->pluck('value', 'staff_id')
                                         ->toArray();
                                 }
-                                /** Si el parámetro es reiniciable a cero por período de nómina */
+                                /* Si el parámetro es reiniciable a cero por período de nómina */
                                 array_push($payrollParameters, [
                                     'id' => $jsonValue->id,
                                     'name' => $jsonValue->name,
                                     'value' => $filteredParameters ?? ''
                                 ]);
                             } elseif ($jsonValue->parameter_type == 'processed_variable') {
-                                /** Si el parámetro es una variable procesada */
+                                /* Si el parámetro es una variable procesada */
                                 array_push($payrollParameters, [
                                     'id' => $jsonValue->id,
                                     'name' => $jsonValue->name,
                                     'value' => $jsonValue->formula
                                 ]);
                             } elseif ($jsonValue->parameter_type == 'time_parameter' && $flag) {
-                                /** Si el parámetro es una variable procesada */
+                                /* Si el parámetro es una variable procesada */
                                 array_push($payrollParameters, [
                                     'id' => $jsonValue->id,
                                     'name' => $jsonValue->name,
@@ -104,6 +112,7 @@ final class GetPayrollConceptParameters
         if (empty($payrollParameters)) {
             return null;
         };
+        $payrollParameters = collect($payrollParameters)->unique('id')->values()->toArray();
         $payrollParametersRep = new PayrollAssociatedParametersRepository();
         $assignTo = $payrollParametersRep->loadData('assignTo');
         $extraOptions = [];
@@ -115,7 +124,7 @@ final class GetPayrollConceptParameters
             ->where('active', true)
             ->where('default', true)
             ->first();
-        /** Se obtienen todos los trabajadores asociados a la institución y se evalua si aplica cada uno de los conceptos */
+        /* Se obtienen todos los trabajadores asociados a la institución y se evalua si aplica cada uno de los conceptos */
         $payrollStaffs = PayrollStaff::query()
             ->whereHas('payrollEmployment', function ($q) use ($institution) {
                 $q->where('active', 't')->whereHas('department', function ($qq) use ($institution) {
@@ -173,7 +182,7 @@ final class GetPayrollConceptParameters
                 ]
             ];
         }
-        
+
         return response()->json([
             'record' => [
                 'id' => $payrollConcept->id,

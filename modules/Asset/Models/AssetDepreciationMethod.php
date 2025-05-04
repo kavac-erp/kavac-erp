@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Asset\Models;
 
 use App\Models\Institution;
@@ -15,11 +13,9 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class AssetDepreciationMethod
- * @brief [descripción detallada]
+ * @brief Modelo que gestiona los métodos de depreciación
  *
- * [descripción corta]
- *
- * @author [Yennifer Ramirez] [yramirez@cenditel.gob.ve]
+ * @author Yennifer Ramirez <yramirez@cenditel.gob.ve> *
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -32,12 +28,14 @@ class AssetDepreciationMethod extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -49,26 +47,46 @@ class AssetDepreciationMethod extends Model implements Auditable
         'name',
     ];
 
+    /**
+     * Lista de campos a agregar a las consultas
+     *
+     * @var array $appends
+     */
     protected $appends = [
         'depreciation_type', 'formula'
     ];
 
+    /**
+     * Lista de campos con sus respectivos tipos de dato
+     *
+     * @var array $casts
+     */
     protected $casts = [
         'depreciation_type_id' => DepreciationType::class,
     ];
 
+    /**
+     * Obtiene los datos del atributo del tipo de depreciación
+     *
+     * @return string
+     */
     public function getDepreciationTypeAttribute()
     {
         return $this->depreciation_type_id->getName();
     }
 
+    /**
+     * Obtiene los datos del atributo de fórmula
+     *
+     * @return string
+     */
     public function getFormulaAttribute()
     {
         return $this->depreciation_type_id->getFormula();
     }
 
     /**
-     * Get the user that owns the AssetDepreciationMethod
+     * Establece la relación con la Institución
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

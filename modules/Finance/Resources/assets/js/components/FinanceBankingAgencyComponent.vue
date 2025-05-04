@@ -285,8 +285,7 @@
 
             /**
              * Reescribe el método getEstates para cambiar su comportamiento por defecto
-             * Obtiene los Estados del Pais seleccionado
-             *
+             * Obtiene los Estados del Pais seleccionado             *
              */
             async getEstates() {
                 const vm = this;
@@ -305,9 +304,8 @@
                 }
             },
             /**
-             * * Reescribe el método getCities para cambiar su comportamiento por defecto
-             * Obtiene los ciudades del Estado seleccionado
-             *
+             * Reescribe el método getCities para cambiar su comportamiento por defecto
+             * Obtiene los ciudades del Estado seleccionado             *
              */
             async getCities() {
                 const vm = this;

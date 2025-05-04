@@ -2,13 +2,26 @@
 
 namespace Modules\Accounting\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
-use App\Traits\ModelsTrait;
 use Module;
+use App\Traits\ModelsTrait;
+use App\Models\DocumentStatus;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
+/**
+ * @class AccountingEntry
+ * @brief Datos del asiento contable
+ *
+ * Gestiona los datos del asiento contable
+ *
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AccountingEntry extends Model implements Auditable
 {
     use SoftDeletes;
@@ -17,12 +30,14 @@ class AccountingEntry extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -38,26 +53,31 @@ class AccountingEntry extends Model implements Auditable
         'approved',
         'document_status_id',
         'reversed',
-        'reversed_id'
+        'reversed_id',
+        'reversed_at'
     ];
 
+    /**
+     * Carga relaciones de modelos
+     *
+     * @var array $with
+     */
     protected $with = ['currency'];
 
     /**
-     * AccountingEntry has many AccountingAccounts.
+     * Establece la relación con la cuenta contable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function accountingAccounts()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = accountingEntry_id, localKey = id)
         return $this->hasMany(AccountingEntryAccount::class, 'accounting_entry_id');
     }
 
     /**
-     * AccountingEntry has many AccountingEntryCategory.
+     * Establece la relación con la categoría de asiento contable
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function accountingEntryCategory()
     {
@@ -65,7 +85,7 @@ class AccountingEntry extends Model implements Auditable
     }
 
     /**
-     * Get the accountingEntryable that owns the AccountingEntry
+     * Establece la relación con el modelo AccountingEntryable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -78,8 +98,9 @@ class AccountingEntry extends Model implements Auditable
     /**
      * Indica si el asiento contable esta aprobado
      *
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @return boolena
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return boolean
      */
     public function approved()
     {
@@ -87,23 +108,22 @@ class AccountingEntry extends Model implements Auditable
     }
 
     /**
-     * AccountingEntry belongs to Currency.
+     * Establece la relación con la moneda
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency()
     {
-        // belongsTo(RelatedModel, foreignKey = curr_id, keyOnRelatedModel = id)
         return $this->belongsTo(Currency::class);
     }
+
     /**
-     * AccountingEntry belongs to Institution.
+     * Establece la relación con la institución
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function institution()
     {
-        // belongsTo(RelatedModel, foreignKey = institution_id, keyOnRelatedModel = id)
         return $this->belongsTo(Institution::class);
     }
 
@@ -116,12 +136,11 @@ class AccountingEntry extends Model implements Auditable
      */
     public function pivotEntryable()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = accountingEntry_id, localKey = id)
         return $this->hasMany(AccountingEntryable::class, 'accounting_entry_id');
     }
 
     /**
-     * Get the documentStatus that owns the FinancePayOrder
+     * Establece la relación con el estatus del documento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -131,13 +150,14 @@ class AccountingEntry extends Model implements Auditable
     }
 
     /**
-     * Query scope Column.
+     * Scope de column
      *
      * @param
      * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param  String $column [nombre de la columna en la que se desea buscar]
-     * @param  String $search [texto que se buscara]
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  string $column nombre de la columna en la que se desea buscar
+     * @param  string $search texto que se buscara
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|void
      */
     public function scopeColumn($query, $column, $search)
     {
@@ -149,11 +169,12 @@ class AccountingEntry extends Model implements Auditable
     }
 
     /**
-     * valida que el institution_id del usuario corresponda al del registro
+     * Valida que el institution_id del usuario corresponda al del registro.
      * En caso de que el usuario tenga institution_id igual a null se entiende que es el administrador global
      *
-     * @param  Integer $id Identificador de la institucion del usuario
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  integer $id Identificador de la institucion del usuario
+     *
+     * @return boolean
      */
     public function queryAccess($id)
     {
@@ -166,7 +187,7 @@ class AccountingEntry extends Model implements Auditable
     /**
      * Obtiene la fecha del registro para usar en el bloqueo del cierre de ejercicio
      *
-     * @return Date
+     * @return Date|string
      */
     public function getDate()
     {
@@ -174,7 +195,7 @@ class AccountingEntry extends Model implements Auditable
     }
 
     /**
-     * Get the AccountingEntry Reversed associated with the Accountingentry
+     * Establece la relación con el asiento contable de reverso
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -184,7 +205,7 @@ class AccountingEntry extends Model implements Auditable
     }
 
     /**
-     * Get the original Accounting Entry that belongs to reverse entry
+     * Establece la relación con el asiento contable original
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

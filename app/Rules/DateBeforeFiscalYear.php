@@ -1,12 +1,9 @@
 <?php
 
-/** Reglas de validación personalizadas */
-
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use App\Models\FiscalYear;
-use DateTime;
 
 /**
  * @class DateBeforeFiscalYear
@@ -31,8 +28,6 @@ class DateBeforeFiscalYear implements Rule
     /**
      * Recibe por parámetro el nombre del campo al que se aplica la validación
      *
-     * @method  __construct
-     *
      * @param integer   $attribute    Edad de la persona
      *
      * @return void
@@ -43,9 +38,7 @@ class DateBeforeFiscalYear implements Rule
     }
 
     /**
-     * Determinar si la regla de validación pasa.
-     *
-     * @method  passes
+     * Determinar si la regla de validación es correcta.
      *
      * @param  string  $attribute
      * @param  mixed  $value
@@ -67,9 +60,7 @@ class DateBeforeFiscalYear implements Rule
     }
 
     /**
-     * Obtener el mensaje de error de validación.
-     *
-     * @method  message
+     * Obtiene el mensaje de error de validación.
      *
      * @return string
      */

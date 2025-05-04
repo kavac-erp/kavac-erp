@@ -6,11 +6,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @class PayrollConceptServerTableResource
- * @brief [descripción detallada]
+ * @brief Representa un recurso para la colección de conceptos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -20,9 +18,7 @@ class PayrollConceptServerTableResource extends JsonResource
     /**
      * Transforma el recurso de colección en un arreglo.
      *
-     * @method toArray
-     *
-     * @param  \Illuminate\Http\Request     Objeto con datos de la petición
+     * @param  \Illuminate\Http\Request     Datos de la petición
      *
      * @return array    Devuelve un arreglo con los datos de la colección
      */

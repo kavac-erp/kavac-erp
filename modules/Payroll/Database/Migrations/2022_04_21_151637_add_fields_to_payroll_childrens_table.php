@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldsToPayrollChildrensTable
- * @brief [descripción detallada]
+ * @brief Migración para agregar campos adicionales a la tabla de Hijos
  *
- * [descripción corta]
- *
- * @author [José Briceño] [josejorgebriceno9@gmail.com]
+ * @author José Briceño <josejorgebriceno9@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

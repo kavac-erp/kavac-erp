@@ -1,4 +1,7 @@
 <map id="getInactiveAccountMessage" name="getInactiveAccountMessage">
-<area shape="rect" id="node1" title="Obtiene el mensaje a mostrar de la cuenta inactiva." alt="" coords="264,5,469,32"/>
-<area shape="rect" id="node2" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a08273dfbc1ff4990d1fd6446f805fa7f" title="Obtiene la instancia de la petición del usuario inactivo." alt="" coords="5,5,216,32"/>
+<area shape="rect" id="Node000001" title="Obtiene el mensaje a mostrar de la cuenta inactiva." alt="" coords="367,5,572,31"/>
+<area shape="rect" id="Node000002" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a08273dfbc1ff4990d1fd6446f805fa7f" title="Obtiene la instancia de la petición del usuario inactivo." alt="" coords="108,5,319,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="353,21,319,21,319,15,353,15"/>
+<area shape="rect" id="Node000003" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#ab27bea29a2b42a9c42a388032eee21ac" title="Gestiona una petición de acceso a la aplicación." alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="95,21,60,21,60,15,95,15"/>
 </map>

@@ -23,13 +23,6 @@
                 <div class="card-header">
                     <h6 class="card-title">
                         {{ __('Formatos de Códigos') }}
-                        {{--
-                            // Issue #96: Solicitaron que no se muestre el botón de ayuda en esta sección
-                            @include('buttons.help', [
-                                'helpId' => '',
-                                'helpSteps' => get_json_resource('', '')
-                            ])
-                        --}}
                     </h6>
                     <div class="card-btns">
                         @include('buttons.previous', ['route' => url()->previous()])
@@ -175,130 +168,6 @@
             </div>
         </div>
     </div>
-    <!-- Consulta de los parametros almacenados en el modelo Parameter -->
-    @php
-    /*
-        $PurchaseReportConfigurations = App\Models\Parameter::where([
-            'active' => true,
-            'required_by' => 'purchase',
-        ])->orderBy('id')->get();
-
-        $numberDecimals = '';
-        $round = false;
-
-        if (!empty($PurchaseReportConfigurations)) {
-            foreach ($PurchaseReportConfigurations as $PurchaseReportConfiguration) {
-                if ($PurchaseReportConfiguration['p_key'] == 'number_decimals') {
-                    $numberDecimals = $PurchaseReportConfiguration['p_value'];
-                } elseif ($PurchaseReportConfiguration['p_key'] == 'round') {
-                    $round = ($PurchaseReportConfiguration['p_value'] === 'true');
-                }
-            }
-        }
-    */
-    @endphp
-    {{--
-    <div class="row">
-        <div class="col-12">
-            <div class="card" id="codeSettingForm">
-                <div class="card-header">
-                    <h6 class="card-title">
-                        {{ __('Configuración de parámetros de Compras') }}
-                        @include('buttons.help', [
-                            'helpId' => 'PurchaseReportConfigurations',
-                        ])
-                    </h6>
-                    <div class="card-btns">
-                        @include('buttons.previous', ['route' => url()->previous()])
-                        @include('buttons.minimize')
-                    </div>
-                </div>
-                {!! Form::open([
-                    'id' => 'form-configurations',
-                    'route' => 'purchase.parameters.update-parameters',
-                    'method' => 'post'
-                ]) !!}
-                {!! Form::token() !!}
-                    <div class="card-body" style="min-height: 100px !important;">
-                        @include('layouts.form-errors')
-                        <div class="row">
-                            @if ($numberDecimals === '')
-                                <div class="col-md-4" id="helpNumberDecimals">
-                                    <div class="form-group">
-                                        {!!
-                                            Form::label('number_decimals', 'Número de decimales', [])
-                                        !!}
-                                        {!!
-                                            Form::text('number_decimals', old('number_decimals'), [
-                                                'class' => 'form-control input-sm',
-                                                'data-toggle' => 'tooltip',
-                                                'title' => 'Indique el número de decimales',
-                                                'placeholder' => 'Número de decimales',
-                                                'data-inputmask' => "'mask': '9'"
-                                            ])
-                                        !!}
-                                    </div>
-                                </div>
-                            @else
-                                <div class="col-md-4" id="helpNumberDecimals">
-                                    <div class="form-group">
-                                        {!!
-                                            Form::label('number_decimals', 'Número de decimales', [])
-                                        !!}
-                                        {!!
-                                            Form::text('number_decimals', $numberDecimals, [
-                                                'class' => 'form-control input-sm',
-                                                'data-toggle' => 'tooltip',
-                                                'title' => 'Indique el número de decimales',
-                                                'placeholder' => 'Número de decimales',
-                                                'data-inputmask' => "'mask': '9'"
-                                            ])
-                                        !!}
-                                    </div>
-                                </div>
-                            @endif
-
-                            @if ($round)
-                                <div class="col-md-4" id="helpRound">
-                                    <div class="form-group">
-                                        {!! Form::label('round', 'Redondear', []) !!}
-                                        <div class="custom-control custom-switch">
-                                            {!!
-                                                Form::checkbox('round', true, true, [
-                                                    'id' => 'round',
-                                                    'class' => 'custom-control-input'
-                                                ])
-                                            !!}
-                                            <label class="custom-control-label" for="round"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="col-md-4" id="helpRound">
-                                    <div class="form-group">
-                                        {!! Form::label('round', 'Redondear', []) !!}
-                                        <div class="custom-control custom-switch">
-                                            {!!
-                                                Form::checkbox('round', true, false, [
-                                                    'id' => 'round',
-                                                    'class' => 'custom-control-input'
-                                                ])
-                                            !!}
-                                            <label class="custom-control-label" for="round"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="card-footer text-right">
-                        @include('layouts.form-buttons')
-                    </div>
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
-    --}}
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -334,6 +203,7 @@
                         <purchase-type id="purchase_type"></purchase-type>
                         <purchase-services></purchase-services>
                         <purchase-products></purchase-products>
+                        <purchase-general-conditions/>
                         <!-- <purchase-type-operations id="purchase_type_operations"></purchase-type-operations> -->
                         <!-- <purchase-type-hiring id="purchase_type_hiring"></purchase-type-hiring> -->
                     </div>

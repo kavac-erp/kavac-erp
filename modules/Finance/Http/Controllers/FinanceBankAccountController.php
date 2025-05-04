@@ -3,12 +3,10 @@
 namespace Modules\Finance\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Finance\Models\FinanceBank;
 use Modules\Finance\Models\FinanceBankAccount;
-use Illuminate\Validation\Rule;
 use App\Rules\DateBeforeFiscalYear;
 
 /**
@@ -18,18 +16,34 @@ use App\Rules\DateBeforeFiscalYear;
  * Clase que gestiona las cuentas bancarias
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class FinanceBankAccountController extends Controller
 {
     use ValidatesRequests;
 
     /**
+     * Lista de atributos personalizados
+     *
+     * @var array $customAttributes
+     */
+    protected $customAttributes;
+
+    /**
+     * Lista de elementos a mostrar en selectores
+     *
+     * @var array $data
+     */
+    protected $data = [];
+
+    /**
     * Método constructor de la clase
     *
     * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+    *
+    * @return void
     */
     public function __construct()
     {
@@ -42,8 +56,10 @@ class FinanceBankAccountController extends Controller
             'accounting_account_id' => 'cuenta contable'
         ];
     }
+
     /**
-     * Display a listing of the resource.
+     * Listado de Cuentas bancarias
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
@@ -56,8 +72,9 @@ class FinanceBankAccountController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear una nueva Cuenta bancaria
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -65,8 +82,10 @@ class FinanceBankAccountController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
+     * Almacena una nueva Cuenta bancaria
+     *
+     * @param  Request $request Datos de la petición
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -105,8 +124,9 @@ class FinanceBankAccountController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra detalles de una Cuenta bancaria
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -114,8 +134,9 @@ class FinanceBankAccountController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar una Cuenta bancaria
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -123,13 +144,16 @@ class FinanceBankAccountController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
+     * Actualiza una Cuenta bancaria
+     *
+     * @param  Request $request Datos de la petición
+     * @param  integer $id      ID de la Cuenta bancaria
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        /** @var object Datos de la cuenta bancaria */
+        /* Datos de la cuenta bancaria */
         $bankAccount = FinanceBankAccount::find($id);
 
         $this->validate($request, [
@@ -168,12 +192,15 @@ class FinanceBankAccountController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina una Cuenta bancaria
+     *
+     * @param  integer $id ID de la Cuenta bancaria
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /** @var object Datos de la cuenta bancaria */
+        /* Datos de la cuenta bancaria */
         $financeBankAccount = FinanceBankAccount::find($id);
         $financeBankAccount->delete();
         return response()->json(['record' => $financeBankAccount, 'message' => 'Success'], 200);
@@ -183,14 +210,16 @@ class FinanceBankAccountController extends Controller
      * Obtiene todas las cuentas bancarias asociadas a una entidad bancaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  integer $bank_id                 Identificador de la entidad bancaria de la que se
      *                                          desean obtener las cuentas
+     *
      * @return \Illuminate\Http\JsonResponse    JSON con los datos de las cuentas bancarias asociadas
      *                                          al banco
      */
     public function getBankAccounts($bank_id)
     {
-        /** @var object Datos de la entidad bancaria */
+        /* Datos de la entidad bancaria */
         $bank = FinanceBank::where('id', $bank_id)->with(['financeAgencies' => function ($query) {
             return $query->with('bankAccounts');
         }])->first();
@@ -200,7 +229,6 @@ class FinanceBankAccountController extends Controller
             foreach ($agency->bankAccounts as $bank_account) {
                 $accounts[] = [
                     'id' => $bank_account->id,
-                    //'text' => $bank->code . $bank_account->ccc_number
                     'text' => $bank_account->formated_ccc_number
                 ];
             }
@@ -213,6 +241,9 @@ class FinanceBankAccountController extends Controller
      * Obtiene los datos de las cuentas bancarias para mostrar en campos select.
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  Request $request              Datos de la petición
+     *
      * @return \Illuminate\Http\JsonResponse Devuelve un JSON con listado de las entidades bancarias
      */
     public function getFinanceBankAccount(Request $request)
@@ -252,18 +283,20 @@ class FinanceBankAccountController extends Controller
                 array_push($this->data, $parent);
             }
         } else {
-            $bank_accounts = FinanceBankAccount::with(['financeAccountType', 'financeBankingAgency' => function ($query) {
-                $query->with('financeBank');
-            }])->get();
+            $bank_accounts = FinanceBankAccount::with(['financeAccountType', 'accountingAccount',
+                'financeBankingAgency' => function ($query) {
+                    $query->with('financeBank');
+                }
+            ])->get();
             $this->data = [['id' => '', 'text' => 'Seleccione...']];
             foreach ($bank_accounts as $bank_account) {
                 $this->data[] = [
                     'id' => $bank_account->id,
-                    //'text' => $bank_account->ccc_number,
                     'text' => $bank_account->formated_ccc_number,
                     'bank_name' => $bank_account->financeBankingAgency && $bank_account->financeBankingAgency->financeBank ?
                                    $bank_account->financeBankingAgency->financeBank->name : '',
                     'bank_account_type' => $bank_account->financeAccountType->name,
+                    'accounting_account_id' => $bank_account->accountingAccount->id
                 ];
             }
         }

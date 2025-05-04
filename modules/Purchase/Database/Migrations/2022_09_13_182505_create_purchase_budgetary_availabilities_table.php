@@ -6,11 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 /**
  * @class CreatePurchaseBudgetaryAvailabilitiesTable
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -32,15 +30,15 @@ class CreatePurchaseBudgetaryAvailabilitiesTable extends Migration
             $table->text('description')->nullable()
                 ->comment('Descripción o comentario');
             $table->string('availability')->nullable()->comment('Disponibilidad');
- 
+
 
 
             /*
-             * -----------------------------------------------------------------------
-             * Clave foránea a la relación del requerimiento
-             * -----------------------------------------------------------------------
-             *
-             * Define la estructura de relación al requerimiento
+             | -----------------------------------------------------------------------
+             | Clave foránea a la relación del requerimiento
+             | -----------------------------------------------------------------------
+             |
+             | Define la estructura de relación al requerimiento
              */
             $table->bigInteger('purchase_quotation_id')->unsigned()
                 ->comment('Identificador del cotizacion de compra');

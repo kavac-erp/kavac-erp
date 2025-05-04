@@ -47,18 +47,6 @@
 						/>
 					</div>
 				</div>
-				<!-- trabajador
-				<div class="col-md-4">
-					<div class="form-group">
-						<label>Trabajador:</label>
-						<select2
-							:options="payroll_staffs"
-							v-model="record.payroll_staff_id"
-						>
-						</select2>
-					</div>
-				</div>
-				./trabajador -->
 			</div>
 			<div class="row">
 				<div class="col-md-12">
@@ -188,19 +176,19 @@ export default {
 				if (typeof error.response != 'undefined') {
 					if (error.response.status == 403) {
                         vm.showMessage(
-                            'custom', 
-                            'Acceso Denegado', 
-                            'danger', 
-                            'screen-error', 
+                            'custom',
+                            'Acceso Denegado',
+                            'danger',
+                            'screen-error',
                             error.response.data.message
-                        ); 
+                        );
                     }
 					console.log('error');
 				}
 				vm.loading = false;
 			});
 		},
-		
+
 		getYearAntiquity(start_date) {
 			const vm = this;
 			let payroll_staff_year = start_date.split('-')[0];
@@ -226,7 +214,7 @@ export default {
 			if (vm.record.end_date == '') {
 				vm.errors.push("El campo Hasta: es obligatorio.");
 			}
-			
+
 			axios.post(`${window.app_url}/payroll/reports/vue-list`, vm.record).then(response => {
 				if (typeof response.data.records !== 'undefined') {
 					vm.records = response.data.records;

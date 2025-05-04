@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class CreateAssetDepreciationsTable
- * @brief [descripción detallada]
+ * @brief Crea la tabla de depreciaciones de bienes
  *
- * [descripción corta]
+ * Crea la tabla de depreciaciones de bienes
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

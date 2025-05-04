@@ -11,6 +11,13 @@ use Modules\Purchase\Models\PurchaseBaseBudget;
 use Modules\Purchase\Models\PurchasePivotModelsToRequirementItem;
 use Modules\Purchase\Models\PurchaseRequirement;
 
+/**
+ * @class PurchaseManageBaseBudget
+ * @brief Ejecuta los trabajos para la gestión del presupuesto base en compras
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseManageBaseBudget implements ShouldQueue
 {
     use Dispatchable;
@@ -21,7 +28,7 @@ class PurchaseManageBaseBudget implements ShouldQueue
     /**
      * Objeto que contiene la información asociada a la solicitud
      *
-     * @var Object $asset
+     * @var object $asset
      */
     protected $data;
 
@@ -29,7 +36,7 @@ class PurchaseManageBaseBudget implements ShouldQueue
      * Variable que contiene el tiempo de espera para la ejecución del trabajo,
      * si no se quiere limite de tiempo, se define en 0
      *
-     * @var Integer $timeout
+     * @var integer $timeout
      */
     public $timeout = 0;
 
@@ -44,7 +51,7 @@ class PurchaseManageBaseBudget implements ShouldQueue
     }
 
     /**
-     * Execute the job.
+     * Ejecuta el trabajo
      *
      * @return void
      */
@@ -77,7 +84,6 @@ class PurchaseManageBaseBudget implements ShouldQueue
         } elseif ($data['action'] == 'update') {
             $baseBudget = PurchaseBaseBudget::find($data['id_edit']);
             $baseBudget->currency_id = $data['currency_id'];
-            //$baseBudget->tax_id               = $data['tax_id'];
             $baseBudget->subtotal = $data['total'];
             $baseBudget->status = 'WAIT_QUOTATION';
             $baseBudget->prepared_by_id = $data['prepared_by_id'];
@@ -107,7 +113,6 @@ class PurchaseManageBaseBudget implements ShouldQueue
 
             foreach ($data['list'] as $requirement) {
                 $rq = PurchaseRequirement::find($requirement['id']);
-                // $rq->requirement_status = 'PROCESSED';
                 $rq->purchase_base_budget_id = $baseBudget['id'];
                 $rq->prepared_by_id = $data['prepared_by_id'];
                 $rq->reviewed_by_id = $data['reviewed_by_id'];

@@ -1,0 +1,15 @@
+<map id="getInstitutionAvailable" name="getInstitutionAvailable">
+<area shape="rect" id="Node000001" title="Obtiene los datos de la organización." alt="" coords="292,105,461,131"/>
+<area shape="rect" id="Node000002" href="$da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#aca28d0cd4375269279bd3880a4035c00" title="Aprueba el cierre de año fiscal." alt="" coords="139,5,213,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="343,100,297,72,243,44,212,32,214,27,245,40,299,68,346,96"/>
+<area shape="rect" id="Node000003" href="$da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#ad6a137c84e4b060249bc220a7ab6d977" title="Obtiene información de las cuentas contables." alt="" coords="108,55,244,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="312,104,226,83,228,77,313,99"/>
+<area shape="rect" id="Node000004" href="$da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#a9ef485163104597c12185b53cdacf638" title="Almacena los asientos contables de cierre de ejercicio fiscal." alt="" coords="5,105,60,131"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="278,121,60,121,60,115,278,115"/>
+<area shape="rect" id="Node000005" href="$da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#a8d5b7cc6290628f50054dcb0529c2b63" title="Almacena los asientos contables de cierre de ejercicio." alt="" coords="126,156,226,181"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="313,137,227,159,226,154,311,132"/>
+<area shape="rect" id="Node000006" href="$da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#aca78b35dd9df5b11e63e88796cf08c66" title="Obtiene los registros a mostrar en listados de componente Vue." alt="" coords="141,205,211,231"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="345,140,245,195,212,209,210,204,243,190,342,136"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="127,87,61,111,59,106,126,82"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="126,154,59,130,61,125,127,149"/>
+</map>

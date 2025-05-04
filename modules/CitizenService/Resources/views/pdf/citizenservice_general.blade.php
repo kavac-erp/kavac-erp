@@ -126,7 +126,16 @@
             </tr>
             <hr class="one"/>
             <tr>
-                <td width="100%">
+                <td width="20%">
+                    <ul>
+                        @if(isset($data->citizenServiceIndicator) && count($data->citizenServiceIndicator) > 0)
+                            @foreach($data->citizenServiceIndicator->toArray() as $indicator)
+                                    <li>{{ $indicator['indicator']['name'] }}</li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </td>
+                <td width="80">
                     <ul>
                         @if(isset($data->citizenServiceIndicator) && count($data->citizenServiceIndicator) > 0)
                             @foreach($data->citizenServiceIndicator->toArray() as $indicator)

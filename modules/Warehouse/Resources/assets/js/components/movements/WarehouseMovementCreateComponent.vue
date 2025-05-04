@@ -14,7 +14,7 @@
                         </span>
                     </button>
                     <ul>
-                        <li v-for="error in errors">{{ error }}</li>
+                        <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                     </ul>
                 </div>
             </div>
@@ -133,7 +133,7 @@
                                 : ''
                         }} <br>
                     <span>
-                        <div v-for="att in props.row.warehouse_product_values">
+                        <div v-for="(att, index) in props.row.warehouse_product_values" :key="index">
                             <b>{{att.warehouse_product_attribute.name +":"}}</b> {{ att.value}}
                         </div>
                             <b>Valor:</b> {{props.row.unit_value}} {{(props.row.currency)?props.row.currency.name:''}}
@@ -150,7 +150,7 @@
                         <b>Solicitados:</b> {{ quantityProductRequests(props.row.code) }}
                         <br>
                         <b>Disponible para solicitar:</b> {{ numberDecimal(props.row.real - quantityProductRequests(props.row.code),2)  }}
-                    </span> 
+                    </span>
                 </div>
                 <div slot="id" slot-scope="props">
                     <div>
@@ -160,7 +160,7 @@
                 <div slot="destiny" slot-scope="props">
                     <div>
                         <b>Almacén:</b>
-                        <span v-for="warehouse in end_warehouses"
+                        <span v-for="(warehouse, index) in end_warehouses" :key="index"
                               v-if="(warehouse.id == record.end_warehouse_id) && (warehouse.id != '')">
                             {{ warehouse.text }}
                         </span>
@@ -358,7 +358,7 @@
                 const vm = this;
                 if (field != 'records') {
                     var warehouse = vm.record.end_warehouse_id;
-                    var institution = vm.record.end_institution_id; 
+                    var institution = vm.record.end_institution_id;
 
                     let init = document.getElementById('initial_warehouse_select');
                     if (init) {
@@ -567,7 +567,7 @@
             },
             /**
              * Devuelve la cantidad solicitada de un producto especifico
-             * 
+             *
              * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
              */
             quantityProductRequests(Codeproduct) {
@@ -584,7 +584,7 @@
             },
             /**
              * Devuelve un número con un determinado número de decimales.
-             * 
+             *
              * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
              */
             numberDecimal(num, dec) {
@@ -592,8 +592,8 @@
                 return parseInt(num * exp, 10) / exp;
             },
             /**
-             * Validad que la cantidad de la solicitud de producto sea menor o igual a la disponible. 
-             * 
+             * Validad que la cantidad de la solicitud de producto sea menor o igual a la disponible.
+             *
              * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
              */
             validateInput(real, code, id) {
@@ -614,8 +614,8 @@
                 return;
             },
             /**
-             * Busca si el código del producto esta en la lista de productos que tiene problema de validación (solicitud > disponible para solicitar) 
-             * 
+             * Busca si el código del producto esta en la lista de productos que tiene problema de validación (solicitud > disponible para solicitar)
+             *
              * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
              */
             searchCode(code) {
@@ -632,8 +632,8 @@
             },
 
             /**
-             * Busca si el código del producto esta en la lista de productos que tiene problema de validación (solicitud > disponible para solicitar) para ser eliminado 
-             * 
+             * Busca si el código del producto esta en la lista de productos que tiene problema de validación (solicitud > disponible para solicitar) para ser eliminado
+             *
              * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
              */
             deleteCode(code) {
@@ -644,7 +644,7 @@
                             vm.validateValue.splice(index,1);
                         }
                     });
-                }   
+                }
             },
         },
         mounted() {

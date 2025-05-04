@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de los productos
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleSettingProduct extends Model implements Auditable
 {
@@ -27,12 +27,14 @@ class SaleSettingProduct extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'description', 'attributes', 'sale_setting_product_type_id'];
@@ -42,8 +44,8 @@ class SaleSettingProduct extends Model implements Auditable
      * Método que obtiene la lista de atributos de un producto
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany Objeto con el registro relacionado al modelo
-     * SaleSettingProductAttribute
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleSettingProductAttribute()
     {
@@ -54,8 +56,8 @@ class SaleSettingProduct extends Model implements Auditable
      * Método que obtiene el tipo de producto al que pertenece un producto
      *
      * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve | javierrupe19@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany Objeto con el registro relacionado al modelo
-     * SaleSettingProductType
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleSettingProductType()
     {

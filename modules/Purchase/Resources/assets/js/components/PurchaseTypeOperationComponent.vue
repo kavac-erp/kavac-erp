@@ -78,7 +78,7 @@ export default {
         /**
          * Método que borra todos los datos del formulario
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         reset() {
             this.edit = false;

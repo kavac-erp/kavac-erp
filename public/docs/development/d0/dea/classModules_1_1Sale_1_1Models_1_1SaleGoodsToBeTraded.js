@@ -10,5 +10,5 @@ var classModules_1_1Sale_1_1Models_1_1SaleGoodsToBeTraded =
     [ "saleTypeGood", "d0/dea/classModules_1_1Sale_1_1Models_1_1SaleGoodsToBeTraded.html#ac1209a9460ab43fa138e202b2829f7e7", null ],
     [ "$dates", "d0/dea/classModules_1_1Sale_1_1Models_1_1SaleGoodsToBeTraded.html#a6ed295a3b7371b42773cab86fd367af8", null ],
     [ "$fillable", "d0/dea/classModules_1_1Sale_1_1Models_1_1SaleGoodsToBeTraded.html#a13601d3af66d109458e268a3eb4afc49", null ],
-    [ "$with", "d0/dea/classModules_1_1Sale_1_1Models_1_1SaleGoodsToBeTraded.html#a575ec3cd45566351149a2d4f1d4bbd58", null ]
+    [ "$with", "d0/dea/classModules_1_1Sale_1_1Models_1_1SaleGoodsToBeTraded.html#a3b8033ad34a94c5e640232d8091bd02a", null ]
 ];

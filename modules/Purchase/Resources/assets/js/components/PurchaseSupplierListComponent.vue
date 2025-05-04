@@ -94,6 +94,7 @@ export default {
             records: [],
             tmpRecords: [],
             columns: [
+                'file_number',
                 'rif',
                 'name',
                 'city_id',
@@ -107,13 +108,14 @@ export default {
     },
     created() {
         this.table_options.headings = {
+            'file_number': 'Nro. de expediente',
             'rif': 'R.I.F.',
             'name': 'Nombre',
             'city_id': 'Ciudad',
             'id': 'Acción'
         };
-        this.table_options.sortable = ['rif', 'name', 'city_id'];
-        this.table_options.filterable = ['rif', 'name', 'city_id'];
+        this.table_options.sortable = ['file_number', 'rif', 'name', 'city_id'];
+        this.table_options.filterable = ['file_number', 'rif', 'name', 'city_id'];
     },
     methods: {
         /**
@@ -170,7 +172,7 @@ export default {
          *
          * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
          *
-         * @param  
+         * @param
          */
         DataMigratePivote() {
             console.log("DataMigratePivote");

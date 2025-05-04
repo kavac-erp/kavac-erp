@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -29,14 +27,21 @@ class PayrollStudy extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * Lista de relaciones a cargar con el modelo
+     *
+     * @var array $with
+     */
     protected $with = ['professions'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -47,6 +52,7 @@ class PayrollStudy extends Model implements Auditable
      * Método que obtiene el dato profesional del trabajador asociado a un estudio
      *
      * @author  William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollProfessional()
@@ -58,7 +64,8 @@ class PayrollStudy extends Model implements Auditable
      * Método que obtiene las informacines profesionales del trabajador asociadas a muchas profesiones
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function professions()
     {

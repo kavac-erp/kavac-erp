@@ -4,7 +4,6 @@ namespace Modules\Payroll\Exports;
 
 use App\Exports\DataExport;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -12,12 +11,18 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
-use Modules\Payroll\Models\PayrollPosition;
-use Modules\Payroll\Models\PayrollCoordination;
 use Modules\Payroll\Models\PayrollSectorType;
-use Modules\Payroll\Models\PayrollStaff;
 use Modules\Payroll\Models\PayrollStaffType;
 
+/**
+ * @class EmploymentStaffExport
+ * @brief Clase que exporta el listado de personal
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class EmploymentStaffExportFromButton extends DataExport implements
     ShouldAutoSize,
     WithHeadings,
@@ -27,6 +32,11 @@ class EmploymentStaffExportFromButton extends DataExport implements
 {
     use RegistersEventListeners;
 
+    /**
+     * Encabezados de las columnas
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return [
@@ -67,6 +77,14 @@ class EmploymentStaffExportFromButton extends DataExport implements
             'ficha_expediente',
         ];
     }
+
+    /**
+     * Mapeo de los datos
+     *
+     * @param object $data Datos de la hoja
+     *
+     * @return array
+     */
     public function map($data): array
     {
         $staff = $data->payrollStaff;
@@ -123,18 +141,28 @@ class EmploymentStaffExportFromButton extends DataExport implements
         return $map;
     }
 
+    /**
+     * Título de la hoja
+     *
+     * @return string
+     */
     public function title(): string
     {
         return 'Datos Laborales';
     }
 
+    /**
+     * Registra eventos de la hoja
+
+     * @return array
+     */
     public function registerEvents(): array
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                /** Se crea una instancia Worksheet para acceder a las dos sheet. */
+                /* Se crea una instancia Worksheet para acceder a las dos sheet. */
                 $sheet = $event->sheet->getDelegate();
-                /** Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
+                /* Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
                 $validationRangeA = 'validation!$A$2:$A$5000';
                 $validationRangeB = 'validation!$B$2:$B$5000';
                 $validationRangeC = 'validation!$C$2:$C$5000';

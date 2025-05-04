@@ -4,17 +4,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * @class CreateFinancePaymentDeductionsTable
- * @brief [descripción detallada]
- *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
- *
- * @license
- *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
- */
 class CreateFinancePaymentDeductionsTable extends Migration
 {
     /**

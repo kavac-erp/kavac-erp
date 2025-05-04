@@ -2,31 +2,42 @@
 
 namespace Modules\Payroll\Jobs;
 
-use App\Notifications\SystemNotification;
 use DateTime;
+use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
+use Modules\Payroll\Models\Payroll;
+use Modules\Payroll\Models\Parameter;
+use Illuminate\Queue\SerializesModels;
+use Modules\Payroll\Models\Institution;
+use Illuminate\Queue\InteractsWithQueue;
+use Modules\Payroll\Models\PayrollStaff;
+use App\Notifications\SystemNotification;
+use Modules\Payroll\Models\PayrollConcept;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\MaxAttemptsExceededException;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-use Modules\Payroll\Actions\PayrollPaymentRelationshipAction;
-use Modules\Payroll\Exceptions\FailedPayrollConceptException;
-use Modules\Payroll\Models\Institution;
-use Modules\Payroll\Models\Parameter;
-use Modules\Payroll\Models\Payroll;
 use Modules\Payroll\Models\PayrollAriRegister;
-use Modules\Payroll\Models\PayrollConcept;
 use Modules\Payroll\Models\PayrollConceptType;
+use Modules\Payroll\Models\PayrollStaffPayroll;
 use Modules\Payroll\Models\PayrollPaymentPeriod;
+use Illuminate\Queue\MaxAttemptsExceededException;
 use Modules\Payroll\Models\PayrollSalaryTabulator;
 use Modules\Payroll\Models\PayrollSalaryTabulatorScale;
-use Modules\Payroll\Models\PayrollStaff;
-use Modules\Payroll\Models\PayrollStaffPayroll;
+use Modules\Payroll\Actions\PayrollPaymentRelationshipAction;
+use Modules\Payroll\Exceptions\FailedPayrollConceptException;
+use Modules\Payroll\Transformers\PayrollSalaryTabulatorResource;
 use Modules\Payroll\Repositories\PayrollAssociatedParametersRepository;
 
+/**
+ * @class PayrollCreatePaymentRelationship
+ * @brief Trabajo que se encarga de registrar la relación de pago de la nómina
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PayrollCreatePaymentRelationship implements ShouldQueue
 {
     use Dispatchable;
@@ -38,7 +49,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
      * Variable que contiene el tiempo de espera para la ejecución del trabajo,
      * si no se quiere limite de tiempo, se define en 0
      *
-     * @var int
+     * @var integer $timeout
      */
     public $timeout = 0; //300; /** 5min */
 
@@ -51,6 +62,9 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
         protected array $data,
         protected PayrollPaymentRelationshipAction $payrollPaymentAction = new PayrollPaymentRelationshipAction(),
     ) {
+        if ('local' !== @env('APP_ENV')) {
+            $this->onQueue('bulk');
+        }
     }
 
     /**
@@ -65,21 +79,18 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
             $payrollParameters = new PayrollAssociatedParametersRepository();
             $date = new DateTime($this->data['created_at']);
             $date->format('Y-m-d H:i:s');
-            /**
-             * Objeto asociado al modelo Payroll
-             *
-             * @var    object    $payroll
-             */
-            $payroll = Payroll::create(
+            /* Objeto asociado al modelo Payroll */
+            $payroll = Payroll::query()->create(
                 [
                     'name' => $this->data['name'],
+                    'status' => 'En Proceso',
                     'code' => $this->data['code'],
                     'payroll_payment_period_id' => $this->data['payroll_payment_period_id'],
                     'payroll_parameters' => json_encode($this->data['payroll_parameters']),
                 ]
             );
+            Log::info($payroll);
             $payroll->created_at = $date ?? $created_at;
-            $payroll->save();
 
             $this->data['payroll_parameters'] = $this->payrollPaymentAction->getPayrollParameters($payroll->id);
 
@@ -87,7 +98,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                 ->where('payroll_id', $payroll->id)
                 ->forceDelete();
 
-            /** Se recorren los conceptos establecidos para la generación de la nómina */
+            /* Se recorren los conceptos establecidos para la generación de la nómina */
             $concepts = [];
             $fullConcepts = array_merge(
                 array_map(function ($item) {
@@ -124,8 +135,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                         unset($exploded[$key]);
                         $complete = true;
                     } else {
-                        /** Se recorre el listado de parámetros para sustituirlos por su valor real
-                         * en la formula del concepto */
+                        /* Se recorre el listado de parámetros para sustituirlos por su valor real en la formula del concepto */
                         foreach ($this->data['payroll_parameters'] as $parameter) {
                             if (gettype($parameter) == 'object') {
                                 $parameter = (array)$parameter;
@@ -146,8 +156,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                             }
                         }
                         if ($complete == false) {
-                            /** Se descartan los parametro de vacaciones y los del expediente del trabajador
-                             * para ser analizados mas adelante */
+                            /* Se descartan los parametro de vacaciones y los del expediente del trabajador para ser analizados mas adelante */
                             unset($exploded[$key]);
                             $complete = true;
                         }
@@ -163,6 +172,10 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                     ]
                 );
             }
+
+            /* Se guardan los tabuladores salariales usados en la nómina */
+            $payroll->salary_tabulators = getPayrollSalaryTabulators($concepts);
+
             $extraOptions = [];
             foreach ($concepts as $concept) {
                 foreach ($concept['field']->payrollConceptAssignOptions->where('key', 'staff') as $assign_option) {
@@ -173,8 +186,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                 return array_merge($carry, $concept['staffs']);
             }, []);
             $exceptionStaffs = array_unique(array_merge($staffsPending, ...$extraOptions));
-            /** Se evaluan los parámetros del expediente del trabajador y de la configuración de vacaciones */
-            /** Se identifica la institución en la que se está operando */
+            /* Se evaluan los parámetros del expediente del trabajador y de la configuración de vacaciones */
+            /* Se identifica la institución en la que se está operando */
             $institution = Institution::query()
                 ->when(! empty($this->data['institution_id']), function ($query) {
                     $query->where('id', $this->data['institution_id']);
@@ -182,25 +195,28 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                     $query->where('active', true)->where('default', true);
                 })
                 ->first();
-            /** Se obtienen todos los trabajadores asociados a la institución y se evalua si aplica cada uno de los conceptos */
+            /* Se obtienen todos los trabajadores asociados a la institución y se evalua si aplica cada uno de los conceptos */
+            $period = PayrollPaymentPeriod::find($this->data['payroll_payment_period_id']);
+            $period_start = $period?->start_date;
+            $period_end = $period?->end_date;
+
+            /* Se obtienen todos los trabajadores asociados a la institución y se evalua si aplica cada uno de los conceptos */
             $payrollStaffs = PayrollStaff::query()
-                ->whereHas('payrollEmployment', function ($q) use ($institution) {
-                    $q->where('active', true)->whereHas('department', function ($qq) use ($institution) {
+                ->whereHas('payrollEmployment', function ($q) use ($institution, $period_end) {
+
+                    $q->whereHas('department', function ($qq) use ($institution) {
                         $qq->where('institution_id', $institution->id);
-                    });
+                    })
+                    ->where('start_date', '<=', $period_end);
                 })
                 ->orWhereIn('id', $exceptionStaffs);
 
             $payrollStaffs = $payrollStaffs->orderBy('first_name')->get();
             $assignTo = $payrollParameters->loadData('assignTo');
-            $period = PayrollPaymentPeriod::find($this->data['payroll_payment_period_id']);
 
-            $period_start = $period ? $period->start_date : null;
-            $period_end = $period ? $period->end_date : null;
-
+            $types = [];
             foreach ($payrollStaffs as $payrollStaff) {
-                /** Se definen los arreglos de asignaciones y deducciones para clasificar los conceptos */
-                $types = [];
+                /* Se definen los arreglos de asignaciones y deducciones para clasificar los conceptos */
                 $conceptTypes = PayrollConceptType::query()
                     ->get('name');
 
@@ -209,14 +225,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                 }
                 foreach ($concepts as $concept) {
                     $conceptAssignTo = json_decode($concept['field']['assign_to']);
-                    if (in_array($payrollStaff->id, $extraOptions[$concept['field']->id] ?? [])) {
-                        $verify = true;
-                    } elseif ($concept['field']['is_strict'] ?? false) {
-                        if (count($conceptAssignTo) > 1) {
-                            $conceptAssignTo = array_filter($conceptAssignTo, function ($item) {
-                                return $item->id !== 'staff';
-                            });
-                        }
+                    if ($concept['field']['is_strict'] ?? false) {
                         $conceptAssignTo = array_chunk($conceptAssignTo, 1);
                         $verify = true;
                         foreach ($conceptAssignTo as $key => $value) {
@@ -227,12 +236,16 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                     $concept['field']->payrollConceptAssignOptions,
                                     $payrollStaff->id,
                                     $period_start,
-                                    $period_end
+                                    $period_end,
+                                    (in_array($payrollStaff->id, $extraOptions[$concept['field']->id] ?? [])) ? array($payrollStaff->id) : [],
                                 )
                             ) {
                                 $verify = false;
                             }
                         }
+                        $verify = isset($extraOptions[$concept['field']->id])
+                            ? ($verify && in_array($payrollStaff->id, $extraOptions[$concept['field']->id] ?? []))
+                            : $verify;
                     } else {
                         $verify = verify_assignment(
                             $conceptAssignTo,
@@ -243,6 +256,10 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                             $period_end,
                             $exceptionStaffs
                         );
+
+                        $verify = isset($extraOptions[$concept['field']->id])
+                            ? ($verify || in_array($payrollStaff->id, $extraOptions[$concept['field']->id] ?? []))
+                            : $verify;
                     }
 
                     if ($verify) {
@@ -260,6 +277,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                 'budget_account_denomination' => $concept['field']->budgetAccount->denomination ?? '',
                                 'accounting_account_code' => $concept['field']->accountingAccount->code ?? '',
                                 'accounting_account_denomination' => $concept['field']->accountingAccount->denomination ?? '',
+                                'formula' => $concept['field']->translate_formula ?? '',
+
                             ]);
                         } else {
                             $types = $this->setFormula(
@@ -273,8 +292,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                             );
                         }
                     } else {
-                        /** Se carga la propiedad payrollConceptType
-                         *  para determinar como clasificar el concepto */
+                        /* Se carga la propiedad payrollConceptType para determinar como clasificar el concepto */
                         $concept['field']->load('payrollConceptType');
                         array_push($types[$concept['field']->payrollConceptType->name], [
                             'id' => $concept['field']->id ?? '',
@@ -288,6 +306,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                             'budget_account_denomination' => $concept['field']->budgetAccount->denomination ?? '',
                             'accounting_account_code' => $concept['field']->accountingAccount->code ?? '',
                             'accounting_account_denomination' => $concept['field']->accountingAccount->denomination ?? '',
+                            'formula' => $concept['field']->translate_formula ?? '',
                         ]);
                     }
                 }
@@ -302,20 +321,27 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                 }
 
                 if ($add == true) {
+                    $basic_payroll_staff_data = loadBasicPayrollStaffData($payrollStaff, $period_end);
                     PayrollStaffPayroll::create(
                         [
                             'payroll_id' => $payroll->id,
                             'payroll_staff_id' => $payrollStaff->id,
                             'concept_type' => $types,
+                            'basic_payroll_staff_data' => $basic_payroll_staff_data ?? [],
                         ]
                     );
                 }
             }
 
-            $user = \App\Models\User::find($this->data['user_id']);
+            /* Se capturan los conceptos de la nómina */
+            $payroll->concept_types = $types;
+            $payroll->status = "Completado";
+            $payroll->save();
+
+            $user = User::without(['roles', 'permissions'])->where('id', $this->data['user_id'])->first();
             $user->notify(new SystemNotification('Exito', 'Nomina ejecutada con exito'));
         } catch (\Exception $e) {
-            $user = \App\Models\User::find($this->data['user_id']);
+            $user = User::without(['roles', 'permissions'])->where('id', $this->data['user_id'])->first();
             Log::critical("Se generó un error en el procesamiento de la nómina en el archivo [{$e->getFile()}] en la línea [{$e->getLine()}]. Código del error: {$e->getCode()}, Detalles: {$e->getMessage()}.\n Se muestra a continuación una traza de los archivos que generaron el error: {$e->getTraceAsString()}");
             if ($e instanceof FailedPayrollConceptException) {
                 $user->notify(
@@ -328,10 +354,17 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
         }
     }
 
+    /**
+     * Traduce la fórmula de conceptos
+     *
+     * @param string $form Fórmula del concepto
+     *
+     * @return string
+     */
     public function translateFormConcept($form)
     {
         $formula = $form;
-        /** Se hace la busqueda de los parámetros globales */
+        /* Se hace la busqueda de los parámetros globales */
         $parameters = Parameter::query()
             ->where(
                 [
@@ -350,10 +383,13 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
             ) {
                 $formula = str_replace('parameter(' . $jsonValue->id . ')', $jsonValue->name, $formula);
             } else {
+                if ($jsonValue->percentage) {
+                    $jsonValue->value = $jsonValue->value / 100;
+                }
                 $formula = str_replace('parameter(' . $jsonValue->id . ')', $jsonValue->value, $formula);
             }
         }
-        /** Se hace la busqueda de los conceptos */
+        /* Se hace la busqueda de los conceptos */
         $matchs = [];
         preg_match_all("/concept\([0-9]+\)/", $formula, $matchs);
 
@@ -366,6 +402,21 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
         return '(' . $formula . ')';
     }
 
+    /**
+     * Establece la fórmula del concepto
+     *
+     * @param PayrollStaff $payrollStaff
+     * @param PayrollConcept $concept
+     * @param object $payrollParameters
+     * @param Institution $institution
+     * @param mixed $types
+     * @param string $period_start
+     * @param string $period_end
+     *
+     * @throws \Modules\Payroll\Exceptions\FailedPayrollConceptException
+     *
+     * @return mixed
+     */
     private function setFormula(
         $payrollStaff,
         $concept,
@@ -391,7 +442,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
         }
 
         $formula = $concept['formula'];
-        /** Se hace la busqueda de los tabuladores */
+        /* Se hace la busqueda de los tabuladores */
         $matchs = [];
         preg_match_all("/tabulator\([0-9]+\)/", $formula, $matchs);
         foreach ($matchs[0] as $match) {
@@ -399,7 +450,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
             $payrollSalaryTabulator = PayrollSalaryTabulator::find($id);
 
             if ($payrollSalaryTabulator->payroll_salary_tabulator_type == 'horizontal') {
-                /** Se carga el escalafón horizontal asociado al tabulador */
+                /* Se carga el escalafón horizontal asociado al tabulador */
                 $payrollSalaryTabulator->load(['payrollHorizontalSalaryScale' => function ($q) {
                     $q->with('payrollScales');
                 }]);
@@ -417,8 +468,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                         $payrollSalaryTabulator->payrollHorizontalSalaryScale->payrollScales as $scale
                                     ) {
                                         if ($children['type'] == 'number') {
-                                            /** Se calcula el número de registros existentes según sea el caso
-                                             * y se sustituye por su valor en el tabulador */
+                                            /* Se calcula el número de registros existentes según sea el caso
+                                            y se sustituye por su valor en el tabulador */
                                             $scl = json_decode($scale['value']);
                                             $record->loadCount($children['required'][0]);
 
@@ -469,8 +520,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                 }
                                             }
                                         } elseif ($children['type'] == 'date') {
-                                            /** Se calcula el número de años según la fecha de ingreso
-                                             * y se sustituye por su valor en el tabulador */
+                                            /* Se calcula el número de años según la fecha de ingreso
+                                            y se sustituye por su valor en el tabulador */
                                             $scl = json_decode($scale['value']);
                                             if (isset($scl->from) && isset($scl->to)) {
                                                 if (
@@ -519,8 +570,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                 }
                                             }
                                         } else {
-                                            /** Se identifica el valor según el expediente del trabajador
-                                             * y se sustituye por su valor en el tabulador */
+                                            /* Se identifica el valor según el expediente del trabajador
+                                            y se sustituye por su valor en el tabulador */
                                             if (json_decode($scale['value']) == $record[$children['required'][0]]) {
                                                 $tabScale = PayrollSalaryTabulatorScale::query()
                                                     ->where('payroll_salary_tabulator_id', $payrollSalaryTabulator->id)
@@ -556,7 +607,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                     }
                 }
             } elseif ($payrollSalaryTabulator->payroll_salary_tabulator_type == 'vertical') {
-                /** Se carga el escalafón vertical asociado al tabulador */
+                /* Se carga el escalafón vertical asociado al tabulador */
                 $payrollSalaryTabulator->load(['payrollVerticalSalaryScale' => function ($q) {
                     $q->with('payrollScales');
                 }]);
@@ -572,8 +623,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                 if (isset($record)) {
                                     foreach ($payrollSalaryTabulator->payrollVerticalSalaryScale->payrollScales as $scale) {
                                         if ($children['type'] == 'number') {
-                                            /** Se calcula el número de registros existentes según sea el caso
-                                             * y se sustituye por su valor en el tabulador */
+                                            /* Se calcula el número de registros existentes según sea el caso
+                                            y se sustituye por su valor en el tabulador */
                                             $scl = json_decode($scale['value']);
                                             $record->loadCount($children['required'][0]);
 
@@ -624,8 +675,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                 }
                                             }
                                         } elseif ($children['type'] == 'date') {
-                                            /** Se calcula el número de años según la fecha de ingreso
-                                             * y se sustituye por su valor en el tabulador */
+                                            /* Se calcula el número de años según la fecha de ingreso
+                                            y se sustituye por su valor en el tabulador */
                                             $scl = json_decode($scale['value']);
                                             if (isset($scl->from) && isset($scl->to)) {
                                                 if (
@@ -674,8 +725,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                 }
                                             }
                                         } else {
-                                            /** Se identifica el valor según el expediente del trabajador
-                                             * y se sustituye por su valor en el tabulador */
+                                            /* Se identifica el valor según el expediente del trabajador
+                                            y se sustituye por su valor en el tabulador */
                                             if (json_decode($scale['value']) == $record[$children['required'][0]]) {
                                                 $tabScale = PayrollSalaryTabulatorScale::query()
                                                     ->where('payroll_salary_tabulator_id', $payrollSalaryTabulator->id)
@@ -711,7 +762,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                     }
                 }
             } else {
-                /** Se cargan los escalafones horizontal y vertical asociados al tabulador */
+                /* Se cargan los escalafones horizontal y vertical asociados al tabulador */
                 $payrollSalaryTabulator->load([
                     'payrollHorizontalSalaryScale' => function ($q) {
                         $q->with('payrollScales');
@@ -731,8 +782,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                 if (isset($record)) {
                                     foreach ($payrollSalaryTabulator->payrollHorizontalSalaryScale->payrollScales as $scale) {
                                         if ($children['type'] == 'number') {
-                                            /** Se calcula el número de registros existentes según sea el caso
-                                             * y se sustituye por su valor en el tabulador */
+                                            /* Se calcula el número de registros existentes según sea el caso
+                                            y se sustituye por su valor en el tabulador */
                                             $scl = json_decode($scale['value']);
                                             $record->loadCount($children['required'][0]);
 
@@ -753,8 +804,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                     if (isset($recordV)) {
                                                                         foreach ($payrollSalaryTabulator->payrollVerticalSalaryScale->payrollScales as $scaleV) {
                                                                             if ($childrenV['type'] == 'number') {
-                                                                                /** Se calcula el número de registros existentes según sea el caso
-                                                                                 * y se sustituye por su valor en el tabulador */
+                                                                                /* Se calcula el número de registros existentes según sea el caso
+                                                                                y se sustituye por su valor en el tabulador */
                                                                                 $sclV = json_decode($scaleV['value']);
                                                                                 $recordV->loadCount($childrenV['required'][0]);
 
@@ -805,8 +856,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                                     }
                                                                                 }
                                                                             } elseif ($childrenV['type'] == 'date') {
-                                                                                /** Se calcula el número de años según la fecha de ingreso
-                                                                                 * y se sustituye por su valor en el tabulador */
+                                                                                /* Se calcula el número de años según la fecha de ingreso
+                                                                                y se sustituye por su valor en el tabulador */
                                                                                 $sclV = json_decode($scaleV['value']);
                                                                                 if (isset($sclV->from) && isset($sclV->to)) {
                                                                                     if (
@@ -855,8 +906,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                                     }
                                                                                 }
                                                                             } else {
-                                                                                /** Se identifica el valor según el expediente del trabajador
-                                                                                 * y se sustituye por su valor en el tabulador */
+                                                                                /* Se identifica el valor según el expediente del trabajador
+                                                                                y se sustituye por su valor en el tabulador */
                                                                                 if (json_decode($scaleV['value']) == $recordV[$childrenV['required'][0]]) {
                                                                                     $tabScale = PayrollSalaryTabulatorScale::query()
                                                                                         ->where('payroll_salary_tabulator_id', $payrollSalaryTabulator->id)
@@ -906,8 +957,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                     if (isset($recordV)) {
                                                                         foreach ($payrollSalaryTabulator->payrollVerticalSalaryScale->payrollScales as $scaleV) {
                                                                             if ($childrenV['type'] == 'number') {
-                                                                                /** Se calcula el número de registros existentes según sea el caso
-                                                                                 * y se sustituye por su valor en el tabulador */
+                                                                                /* Se calcula el número de registros existentes según sea el caso
+                                                                                y se sustituye por su valor en el tabulador */
                                                                                 $sclV = json_decode($scaleV['value']);
                                                                                 $recordV->loadCount($childrenV['required'][0]);
 
@@ -958,8 +1009,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                                     }
                                                                                 }
                                                                             } elseif ($childrenV['type'] == 'date') {
-                                                                                /** Se calcula el número de años según la fecha de ingreso
-                                                                                 * y se sustituye por su valor en el tabulador */
+                                                                                /* Se calcula el número de años según la fecha de ingreso
+                                                                                y se sustituye por su valor en el tabulador */
                                                                                 $sclV = json_decode($scaleV['value']);
                                                                                 if (isset($sclV->from) && isset($sclV->to)) {
                                                                                     if (
@@ -1008,8 +1059,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                                     }
                                                                                 }
                                                                             } else {
-                                                                                /** Se identifica el valor según el expediente del trabajador
-                                                                                 * y se sustituye por su valor en el tabulador */
+                                                                                /* Se identifica el valor según el expediente del trabajador
+                                                                                y se sustituye por su valor en el tabulador */
                                                                                 if (json_decode($scaleV['value']) == $recordV[$childrenV['required'][0]]) {
                                                                                     $tabScale = PayrollSalaryTabulatorScale::query()
                                                                                         ->where('payroll_salary_tabulator_id', $payrollSalaryTabulator->id)
@@ -1047,8 +1098,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                 }
                                             }
                                         } elseif ($children['type'] == 'date') {
-                                            /** Se calcula el número de años según la fecha de ingreso
-                                             * y se sustituye por su valor en el tabulador */
+                                            /* Se calcula el número de años según la fecha de ingreso
+                                            y se sustituye por su valor en el tabulador */
                                             $scl = json_decode($scale['value']);
                                             if (isset($scl->from) && isset($scl->to)) {
                                                 if (
@@ -1067,8 +1118,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                     if (isset($recordV)) {
                                                                         foreach ($payrollSalaryTabulator->payrollVerticalSalaryScale->payrollScales as $scaleV) {
                                                                             if ($childrenV['type'] == 'number') {
-                                                                                /** Se calcula el número de registros existentes según sea el caso
-                                                                                 * y se sustituye por su valor en el tabulador */
+                                                                                /* Se calcula el número de registros existentes según sea el caso
+                                                                                y se sustituye por su valor en el tabulador */
                                                                                 $sclV = json_decode($scaleV['value']);
                                                                                 $recordV->loadCount($childrenV['required'][0]);
 
@@ -1119,8 +1170,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                                     }
                                                                                 }
                                                                             } elseif ($childrenV['type'] == 'date') {
-                                                                                /** Se calcula el número de años según la fecha de ingreso
-                                                                                 * y se sustituye por su valor en el tabulador */
+                                                                                /* Se calcula el número de años según la fecha de ingreso
+                                                                                y se sustituye por su valor en el tabulador */
                                                                                 $sclV = json_decode($scaleV['value']);
                                                                                 if (isset($sclV->from) && isset($sclV->to)) {
                                                                                     if (
@@ -1169,8 +1220,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                                     }
                                                                                 }
                                                                             } else {
-                                                                                /** Se identifica el valor según el expediente del trabajador
-                                                                                 * y se sustituye por su valor en el tabulador */
+                                                                                /* Se identifica el valor según el expediente del trabajador
+                                                                                y se sustituye por su valor en el tabulador */
                                                                                 if (json_decode($scaleV['value']) == $recordV[$childrenV['required'][0]]) {
                                                                                     $tabScale = PayrollSalaryTabulatorScale::query()
                                                                                         ->where('payroll_salary_tabulator_id', $payrollSalaryTabulator->id)
@@ -1222,8 +1273,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                     if (isset($recordV)) {
                                                                         foreach ($payrollSalaryTabulator->payrollVerticalSalaryScale->payrollScales as $scaleV) {
                                                                             if ($childrenV['type'] == 'number') {
-                                                                                /** Se calcula el número de registros existentes según sea el caso
-                                                                                 * y se sustituye por su valor en el tabulador */
+                                                                                /* Se calcula el número de registros existentes según sea el caso
+                                                                                y se sustituye por su valor en el tabulador */
                                                                                 $sclV = json_decode($scaleV['value']);
                                                                                 $recordV->loadCount($childrenV['required'][0]);
 
@@ -1274,8 +1325,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                                     }
                                                                                 }
                                                                             } elseif ($childrenV['type'] == 'date') {
-                                                                                /** Se calcula el número de años según la fecha de ingreso
-                                                                                 * y se sustituye por su valor en el tabulador */
+                                                                                /* Se calcula el número de años según la fecha de ingreso
+                                                                                y se sustituye por su valor en el tabulador */
                                                                                 $sclV = json_decode($scaleV['value']);
                                                                                 if (isset($sclV->from) && isset($sclV->to)) {
                                                                                     if (
@@ -1324,8 +1375,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                                     }
                                                                                 }
                                                                             } else {
-                                                                                /** Se identifica el valor según el expediente del trabajador
-                                                                                 * y se sustituye por su valor en el tabulador */
+                                                                                /* Se identifica el valor según el expediente del trabajador
+                                                                                y se sustituye por su valor en el tabulador */
                                                                                 if (json_decode($scaleV['value']) == $recordV[$childrenV['required'][0]]) {
                                                                                     $tabScale = PayrollSalaryTabulatorScale::query()
                                                                                         ->where('payroll_salary_tabulator_id', $payrollSalaryTabulator->id)
@@ -1363,8 +1414,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                 }
                                             }
                                         } else {
-                                            /** Se identifica el valor según el expediente del trabajador
-                                             * y se sustituye por su valor en el tabulador */
+                                            /* Se identifica el valor según el expediente del trabajador
+                                            y se sustituye por su valor en el tabulador */
                                             if (json_decode($scale['value']) == $record[$children['required'][0]]) {
                                                 foreach ($payrollParameters->loadData('associatedWorkerFile') as $parameterV) {
                                                     if (! empty($parameterV['children'])) {
@@ -1378,8 +1429,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                 if (isset($recordV)) {
                                                                     foreach ($payrollSalaryTabulator->payrollVerticalSalaryScale->payrollScales as $scaleV) {
                                                                         if ($childrenV['type'] == 'number') {
-                                                                            /** Se calcula el número de registros existentes según sea el caso
-                                                                             * y se sustituye por su valor en el tabulador */
+                                                                            /* Se calcula el número de registros existentes según sea el caso
+                                                                            y se sustituye por su valor en el tabulador */
                                                                             $sclV = json_decode($scaleV['value']);
                                                                             $recordV->loadCount($childrenV['required'][0]);
 
@@ -1430,8 +1481,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                                 }
                                                                             }
                                                                         } elseif ($childrenV['type'] == 'date') {
-                                                                            /** Se calcula el número de años según la fecha de ingreso
-                                                                             * y se sustituye por su valor en el tabulador */
+                                                                            /* Se calcula el número de años según la fecha de ingreso
+                                                                            y se sustituye por su valor en el tabulador */
                                                                             $sclV = json_decode($scaleV['value']);
                                                                             if (isset($sclV->from) && isset($sclV->to)) {
                                                                                 if (
@@ -1480,8 +1531,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                                                 }
                                                                             }
                                                                         } else {
-                                                                            /** Se identifica el valor según el expediente del trabajador
-                                                                             * y se sustituye por su valor en el tabulador */
+                                                                            /* Se identifica el valor según el expediente del trabajador
+                                                                            y se sustituye por su valor en el tabulador */
                                                                             if (json_decode($scaleV['value']) == $recordV[$childrenV['required'][0]]) {
                                                                                 $tabScale = PayrollSalaryTabulatorScale::query()
                                                                                     ->where('payroll_salary_tabulator_id', $payrollSalaryTabulator->id)
@@ -1532,7 +1583,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                 }
             }
         }
-        /** Si no se encuentra resultado se envian a cero los tabuladores */
+        /* Si no se encuentra resultado se envian a cero los tabuladores */
         $matchs = [];
         preg_match_all("/tabulator\([0-9]+\)/", $formula, $matchs);
         foreach ($matchs[0] as $match) {
@@ -1542,7 +1593,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                 $formula ?? $concept['formula']
             );
         }
-        /** Fin de la busqueda */
+        /* Fin de la busqueda */
         $exploded = multiexplode(
             [
                 'if', '(', ')', '{', '}',
@@ -1557,13 +1608,13 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
             $complete = false;
             $current = max_length($exploded);
             $key = array_search($current, $exploded);
-            /** Se descartan los elementos vacios y las constantes númericas */
+            /* Se descartan los elementos vacios y las constantes númericas */
             if ($current == '' || is_numeric($current)) {
                 unset($exploded[$key]);
                 $complete = true;
             } else {
-                /** Se recorre el listado de parámetros asociados a la configuración de prestaciones sociales
-                 * para sustituirlos por su valor real en la formula del concepto */
+                /* Se recorre el listado de parámetros asociados a la configuración de prestaciones sociales
+                para sustituirlos por su valor real en la formula del concepto */
                 if ($complete == false) {
                     foreach ($payrollParameters->loadData('associatedBenefit') as $parameter) {
                         if ($parameter['id'] == $current) {
@@ -1606,8 +1657,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                         }
                     }
                 }
-                /** Se recorre el listado de parámetros asociados a la configuración de vacaciones
-                 * para sustituirlos por su valor real en la formula del concepto */
+                /* Se recorre el listado de parámetros asociados a la configuración de vacaciones
+                para sustituirlos por su valor real en la formula del concepto */
                 if ($complete == false) {
                     foreach ($payrollParameters->loadData('associatedVacation') as $parameter) {
                         if ($parameter['id'] == $current) {
@@ -1634,8 +1685,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                         }
                     }
                 }
-                /** Se recorre el listado de parámetros asociados al expediente del trabajador
-                 * para sustituirlos por su valor real en la formula del concepto */
+                /* Se recorre el listado de parámetros asociados al expediente del trabajador
+                para sustituirlos por su valor real en la formula del concepto */
                 if ($complete == false) {
                     foreach ($payrollParameters->loadData('associatedWorkerFile') as $parameter) {
                         if (! empty($parameter['children'])) {
@@ -1649,8 +1700,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                     unset($exploded[$key]);
                                     $complete = true;
                                     if ($children['type'] == 'number') {
-                                        /** Se calcula el número de registros existentes según sea el caso
-                                         * y se sustituye por su valor real en la fórmula del concepto */
+                                        /* Se calcula el número de registros existentes según sea el caso
+                                        y se sustituye por su valor real en la fórmula del concepto */
                                         if (isset($record)) {
                                             $number_children = 0;
                                             if ($children['id'] == 'NUMBER_CHILDREN') {
@@ -1671,9 +1722,12 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                                         return $val;
                                                     }, []);
                                                 }
-
+                                                $relationshipSon = \Modules\Payroll\Models\PayrollRelationship::where('name', 'Hijo(a)')->first();
+                                                if (!isset($relationshipSon)) {
+                                                    $relationshipSon["id"] = 3;
+                                                }
                                                 foreach ($record[$children['required'][0]] as $child) {
-                                                    if ($child->payroll_relationships_id === 3) {
+                                                    if ($child->payroll_relationships_id === $relationshipSon["id"]) {
                                                         $age = age($child->birthdate, $period_end, true);
                                                         if (isset($values) && count($values) > 0) {
                                                             if ($age >= $values[0] && $age <= $values[1]) {
@@ -1707,8 +1761,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                             );
                                         }
                                     } elseif ($children['type'] == 'date') {
-                                        /** Se calcula el número de años según la fecha de ingreso
-                                         * y se sustituye por su valor real en la fórmula del concepto */
+                                        /* Se calcula el número de años según la fecha de ingreso
+                                        y se sustituye por su valor real en la fórmula del concepto */
                                         if (isset($record)) {
                                             $formula = str_replace(
                                                 $children['id'],
@@ -1723,8 +1777,8 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                                             );
                                         }
                                     } else {
-                                        /** Se identifica el valor según el expediente del trabajador
-                                         * y se sustituye por su valor real en la fórmula del concepto */
+                                        /* Se identifica el valor según el expediente del trabajador
+                                        y se sustituye por su valor real en la fórmula del concepto */
                                         if (isset($record)) {
                                             $formula = str_replace(
                                                 $children['id'],
@@ -1744,7 +1798,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                         }
                     }
                 }
-                /** Se descartan todos los demas parámetros */
+                /* Se descartan todos los demas parámetros */
                 if ($complete == false) {
                     $coincidences = [];
                     $patterns = [
@@ -1783,8 +1837,7 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                 }
             }
         }
-        /** Se carga la propiedad payrollConceptType
-         *  para determinar como clasificar el concepto */
+        /* Se carga la propiedad payrollConceptType para determinar como clasificar el concepto */
         $concept['field']->load('payrollConceptType');
         $formula = expression_format($formula ?? $concept['formula']);
         array_push($types[$concept['field']->payrollConceptType->name], [
@@ -1799,14 +1852,22 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
             'budget_account_denomination' => $concept['field']->budgetAccount->denomination ?? '',
             'accounting_account_code' => $concept['field']->accountingAccount->code ?? '',
             'accounting_account_denomination' => $concept['field']->accountingAccount->denomination ?? '',
+            'formula' => $concept['field']->translate_formula ?? '',
         ]);
 
         return $types;
     }
 
+    /**
+     * Maneja el fallo del trabajo.
+     *
+     * @param \Exception $exception Excepción generada al ocurrir un error en el trabajo
+     *
+     * @return void
+     */
     public function failed(\Exception $exception)
     {
-        $user = \App\Models\User::find($this->data['user_id']);
+        $user = User::without(['roles', 'permissions'])->where('id', $this->data['user_id'])->first();
         if ($exception instanceof MaxAttemptsExceededException) {
             $user->notify(
                 new SystemNotification(
@@ -1821,5 +1882,6 @@ class PayrollCreatePaymentRelationship implements ShouldQueue
                 $exception->getMessage())
             );
         }
+        Log::error($exception->getMessage());
     }
 }

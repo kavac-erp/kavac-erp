@@ -2,7 +2,6 @@
 
 namespace Modules\Asset\Jobs;
 
-use App\Mail\SendAssetReport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -19,6 +18,15 @@ use App\Notifications\SystemNotification;
 use Carbon\Carbon;
 use Modules\Asset\Mail\AssetSendMail;
 
+/**
+ * @class AssetGenerateReport
+ * @brief Gestiona las tareas en la generación de reportes de bienes
+ *
+ * @author Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AssetGenerateReport implements ShouldQueue
 {
     use Dispatchable;
@@ -29,42 +37,42 @@ class AssetGenerateReport implements ShouldQueue
     /**
      * Objeto que contiene la información asociada a la solicitud
      *
-     * @var Object $asset
+     * @var object $asset
      */
     protected $data;
 
     /**
      * Plantilla o texto a incluir en el cuerpo del reporte
      *
-     * @var String $body
+     * @var string $body
      */
     protected $body;
 
     /**
      * Objeto que contiene el código interno asociada a la solicitud
      *
-     * @var Object $code
+     * @var object $code
      */
     protected $code;
 
     /**
      * Título del reporte
      *
-     * @var String $title
+     * @var string $title
      */
     protected $title;
 
     /**
      * Subtítulo o descripción del reporte
      *
-     * @var String $subtitle
+     * @var string $subtitle
      */
     protected $subtitle;
 
     /**
      * Operación a realizar al finalizar el trabajo
      *
-     * @var String $operation
+     * @var string $operation
      */
     protected $operation;
 
@@ -72,7 +80,7 @@ class AssetGenerateReport implements ShouldQueue
      * Variable que contiene el tiempo de espera para la ejecución del trabajo,
      * si no se quiere limite de tiempo, se define en 0
      *
-     * @var Integer $timeout
+     * @var integer $timeout
      */
     public $timeout = 0;
 
@@ -81,8 +89,14 @@ class AssetGenerateReport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(AssetReport $data, string $body, string $code = null, string $title = null, protected ?int $userId = null,protected ?string $reportCode = null,)
-    {
+    public function __construct(
+        AssetReport $data,
+        string $body,
+        string $code = null,
+        string $title = null,
+        protected ?int $userId = null,
+        protected ?string $reportCode = null
+    ) {
         $this->data = $data;
         $this->body = $body;
         $this->title = ($this->data->type_report == 'general'
@@ -105,7 +119,7 @@ class AssetGenerateReport implements ShouldQueue
     }
 
     /**
-     * Execute the job.
+     * Ejecuta el trabajo
      *
      * @return void
      */
@@ -146,8 +160,6 @@ class AssetGenerateReport implements ShouldQueue
 
                 if ($this->data->year != '' && !is_null($this->data->year) && $this->data->mes == '') {
                     $assets = $assets->whereYear('created_at', $this->data->year);
-                } else {
-                    $assets = $assets;
                 }
 
                 if ($this->data->asset_status_id > 0) {
@@ -156,8 +168,6 @@ class AssetGenerateReport implements ShouldQueue
             } else {
                 if ($this->data->asset_status_id > 0) {
                     $assets = $assets->where('asset_status_id', $this->data->asset_status_id);
-                } else {
-                    $assets = $assets;
                 }
             }
             $assets = $assets->get();
@@ -192,8 +202,6 @@ class AssetGenerateReport implements ShouldQueue
             } else {
                 if ($this->data->asset_status_id > 0) {
                     $assets = $assets->where('asset_status_id', $this->data->asset_status_id);
-                } else {
-                    $assets = $assets;
                 }
             }
             /* filtro por periodo de tiempo */
@@ -220,8 +228,6 @@ class AssetGenerateReport implements ShouldQueue
 
                 if ($this->data->year != '' && !is_null($this->data->year) && $this->data->mes == '') {
                     $assets = $assets->whereYear('created_at', $this->data->year);
-                } else {
-                    $assets = $assets;
                 }
             }
 
@@ -321,26 +327,28 @@ class AssetGenerateReport implements ShouldQueue
             12 => 'Diciembre'
         ];
 
-        /*
-         *  Definicion de las caracteristicas generales de la página
-         */
+        /* Definicion de las características generales de la página */
 
         $filename = $this->data->code
             ? 'asset-report-' . $this->data->code . '.pdf'
             : 'asset-report-' . Carbon::now() . '.pdf';
-            
+
         $pdf->setConfig(
             [
                 'institution' => $institution,
                 'start_date' => $this->data->type_search != ''
-                    ? $this->data->type_search == 'date'
-                    ? $this->data->start_date
-                    : $meses[$this->data->mes]
+                    ? (
+                        $this->data->type_search == 'date'
+                        ? $this->data->start_date
+                        : $meses[$this->data->mes]
+                    )
                     : '',
                 'end_date' => $this->data->type_search != ''
-                    ? $this->data->type_search == 'date'
-                    ? $this->data->end_date
-                    : $this->data->year
+                    ? (
+                        $this->data->type_search == 'date'
+                        ? $this->data->end_date
+                        : $this->data->year
+                    )
                     : '',
                 'orientation' => 'L',
                 'urlVerify' => url(''),
@@ -406,7 +414,7 @@ class AssetGenerateReport implements ShouldQueue
     }
 
     /**
-     * Failed the job.
+     * Elimina un reporte si falla el proceso
      *
      * @return void
      */

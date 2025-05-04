@@ -1,3 +1,9 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d7/dc3/classCreatePayrollsTable.html" title="Crear tabla de registros de nómina de sueldos." alt="" coords="5,5,156,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d2/d87/classApp_1_1Models_1_1Country.html" title="Datos de Países." alt="" coords="5,55,79,80"/>
+<area shape="rect" id="Node000001" href="$db/dae/classModules_1_1Asset_1_1Models_1_1Country.html" title="Extension de la clase Country de la aplicación base." alt="" coords="127,5,200,31"/>
+<area shape="poly" id="edge58_Node000000_Node000001" title=" " alt="" coords="85,47,130,28,132,33,87,52"/>
+<area shape="rect" id="Node000002" href="$d5/d56/classModules_1_1Payroll_1_1Models_1_1Country.html" title="Modelo que extiende de la aplicación base para la gestión de paises." alt="" coords="127,55,200,80"/>
+<area shape="poly" id="edge59_Node000000_Node000002" title=" " alt="" coords="92,65,126,65,126,70,92,70"/>
+<area shape="rect" id="Node000003" href="$d5/d53/classModules_1_1Purchase_1_1Models_1_1Country.html" title="Extension de la clase Country de la aplicación base." alt="" coords="127,104,200,129"/>
+<area shape="poly" id="edge60_Node000000_Node000003" title=" " alt="" coords="87,83,132,101,130,106,85,88"/>
 </map>

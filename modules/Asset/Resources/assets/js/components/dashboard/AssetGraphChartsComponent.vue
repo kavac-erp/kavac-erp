@@ -4,7 +4,6 @@
 
 <script>
     import Chart from 'chart.js';
-    //var Chart = require('chart.js');
     var asset_datachart;
 
     export default {

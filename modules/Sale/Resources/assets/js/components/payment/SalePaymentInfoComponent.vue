@@ -118,7 +118,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane" id="payment" role="tabpanel">
@@ -172,10 +172,10 @@
         },
         created() {
         },
-        methods: {            
+        methods: {
             /**
              * Método que borra todos los datos del formulario
-             * 
+             *
              * @author  Miguel Narvaez  <mnarvaez@cenditel.gob.ve>
              */
             reset() {

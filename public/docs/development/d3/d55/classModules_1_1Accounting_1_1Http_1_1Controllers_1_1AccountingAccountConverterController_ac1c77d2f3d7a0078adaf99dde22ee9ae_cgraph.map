@@ -1,0 +1,5 @@
+<map id="getAllRecordsAccountingVuejs" name="getAllRecordsAccountingVuejs">
+<area shape="rect" id="Node000001" title="Registros de las cuentas patrimoniales al componente." alt="" coords="5,5,224,31"/>
+<area shape="rect" id="Node000002" href="$d3/d55/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountConverterController.html#a58fbf3ecdd314fed0f57929a5ecb95fa" title="Consulta los registros del modelo AccountingAccount que posean conversión." alt="" coords="272,5,439,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,15,258,15,258,21,224,21"/>
+</map>

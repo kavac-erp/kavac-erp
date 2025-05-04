@@ -8,6 +8,13 @@ use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleSettingProductType;
 
+/**
+ * @class SaleSettingProductTypeController
+ * @brief Gestiona los datos de configuración de tipos de productos
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleSettingProductTypeController extends Controller
 {
     use ValidatesRequests;
@@ -16,11 +23,13 @@ class SaleSettingProductTypeController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
 
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting.product.type', ['only' => 'index']);
     }
 
@@ -28,7 +37,8 @@ class SaleSettingProductTypeController extends Controller
      * Muestra todos los registros de los tipos de productos
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse    Json con los datos
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -36,8 +46,9 @@ class SaleSettingProductTypeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para la creación de un nuevo tipo de producto
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -48,8 +59,10 @@ class SaleSettingProductTypeController extends Controller
      * Valida y registra un nuevo tipo de producto
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
-     * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -61,8 +74,9 @@ class SaleSettingProductTypeController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información del tipo de producto
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -70,8 +84,9 @@ class SaleSettingProductTypeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para la actualización de un tipo de producto
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -82,9 +97,11 @@ class SaleSettingProductTypeController extends Controller
      * Actualiza la información del tipo producto
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
+     *
+     * @param  \Illuminate\Http\Request  $request   Datos de la petición
      * @param  integer $id                          Identificador del datos a actualizar
-     * @return \Illuminate\Http\JsonResponse        Json con mensaje de confirmación de la operación
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -101,8 +118,10 @@ class SaleSettingProductTypeController extends Controller
      * Elimina el tipo de producto
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador del producto a eliminar
-     * @return \Illuminate\Http\JsonResponse    Json: objeto eliminado y mensaje de confirmación de la operación
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -115,7 +134,8 @@ class SaleSettingProductTypeController extends Controller
      * Obtiene los tipos de productos registrados
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse    Json con los datos de los tipos de productos
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSaleSettingProductType()
     {

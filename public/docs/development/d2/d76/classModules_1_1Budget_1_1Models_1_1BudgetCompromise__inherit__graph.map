@@ -1,3 +1,5 @@
 <map id="BudgetCompromise" name="BudgetCompromise">
-<area shape="rect" id="node1" title="Datos de los compromisos presupuestarios." alt="" coords="5,5,227,244"/>
+<area shape="rect" id="Node000001" title="Datos de los compromisos presupuestarios." alt="" coords="5,5,219,311"/>
+<area shape="rect" id="Node000002" href="$d2/d0d/classModules_1_1Purchase_1_1Models_1_1BudgetCompromise.html" title="Extension de la clase BudgetCompromise del modulo de presupuesto." alt="" coords="41,359,183,424"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,325,115,359,109,359,109,325"/>
 </map>

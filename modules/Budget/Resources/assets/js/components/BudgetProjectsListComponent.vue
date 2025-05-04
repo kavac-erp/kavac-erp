@@ -140,7 +140,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" v-if="'true' == onapre">
                                         <div class="form-group">
                                             <strong>Código ONAPRE:</strong>
                                             <div class="row">
@@ -227,6 +227,7 @@
 
 <script>
     export default {
+        props: ['onapre'],
         data() {
             return {
                 records: [],

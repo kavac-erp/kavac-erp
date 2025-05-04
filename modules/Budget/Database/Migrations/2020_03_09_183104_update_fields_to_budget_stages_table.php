@@ -4,10 +4,19 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class UpdateFieldsToBudgetStagesTable
+ * @brief Actualiza el tipo de dato de los campos de la tabla budget_stages
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class UpdateFieldsToBudgetStagesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -18,14 +27,14 @@ class UpdateFieldsToBudgetStagesTable extends Migration
         });
 
         Schema::table('budget_stages', function (Blueprint $table) {
-            /** Relación para los documentos de origen que generan la etapa presupuestaria del compromiso,
+            /* Relación para los documentos de origen que generan la etapa presupuestaria del compromiso,
             solo para los estados (CAU)sado y (PAG)ado */
             $table->nullableMorphs('stageable');
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

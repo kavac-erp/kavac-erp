@@ -11,19 +11,23 @@ use Illuminate\Contracts\Validation\Rule;
  * Gestiona las reglas de validación de los escalafones salariales
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollSalaryScales implements Rule
 {
-    /** String Define el mensaje de validación */
+    /**
+     * Define el mensaje de validación
+     *
+     * @var string $message
+     */
     protected $message;
 
     /**
      * Crea una nueva instancia de la regla.
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function __construct()
@@ -34,8 +38,9 @@ class PayrollSalaryScales implements Rule
     /**
      * Determina si la regla de validación es correcta.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param  string  $attribute Atributo a verificar
+     * @param  mixed  $value     Valor del atributo a verificar
+     *
      * @return bool
      */
     public function passes($attribute, $value)
@@ -47,10 +52,7 @@ class PayrollSalaryScales implements Rule
             } elseif ((float)$payrollSalaryScale['value'] < 0) {
                 $this->message = 'deben ser positivos.';
                 return false;
-            } /*elseif ((float)$payrollSalaryScale['value'] == 0) {
-                $this->message = 'deben ser mayores que 0...';
-                return false;
-            }*/
+            }
         }
         return true;
     }

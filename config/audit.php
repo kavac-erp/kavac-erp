@@ -131,5 +131,5 @@ return [
     |
     */
 
-    'console' => false, //false para no auditar cuando se hace una migración por consola
+    'console' => env('APP_AUDIT', true), //false para no auditar cuando se hace una migración por consola
 ];

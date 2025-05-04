@@ -1,0 +1,3 @@
+<map id="AddFieldSoftDeletedToAccountingSeatCategoriesTable" name="AddFieldSoftDeletedToAccountingSeatCategoriesTable">
+<area shape="rect" id="Node000001" title="Ejecuta la migración para agregar el campo deleted_at a la tabla accounting_seat_categories." alt="" coords="5,5,237,105"/>
+</map>

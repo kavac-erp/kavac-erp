@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class DeletePayrollScaleRequirementsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -22,7 +22,7 @@ class DeletePayrollScaleRequirementsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

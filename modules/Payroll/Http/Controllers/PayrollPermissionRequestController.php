@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Payroll\Models\PayrollPermissionRequest;
-use Modules\Payroll\Models\PayrollEmployment;
 use Modules\Payroll\Models\Institution;
-use Illuminate\Validation\Rule;
 
 /**
  * @class      PayrollPermissionRequestController
@@ -18,22 +16,25 @@ use Illuminate\Validation\Rule;
  * Clase que gestiona las solicitudes de permisos
  *
  * @author     Yennifer Ramirez <yramirez@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
 */
-
 class PayrollPermissionRequestController extends Controller
 {
     use ValidatesRequests;
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
+
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -41,18 +42,20 @@ class PayrollPermissionRequestController extends Controller
      * Define la configuración de la clase
      *
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:payroll.permission-requests.list', ['only' => ['index', 'vueList']]);
-        $this->middleware('permission:payroll.permission-requests.create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:payroll.permission-requests.edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:payroll.permission-requests.delete', ['only' => 'destroy']);
-        $this->middleware('permission:payroll.permission-requests.approved', ['only' => 'approved']);
-        $this->middleware('permission:payroll.permission-requests.rejected', ['only' => 'rejected']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:payroll.permission.requests.list', ['only' => ['index', 'vueList']]);
+        $this->middleware('permission:payroll.permission.requests.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:payroll.permission.requests.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:payroll.permission.requests.delete', ['only' => 'destroy']);
+        $this->middleware('permission:payroll.permission.requests.approved', ['only' => 'approved']);
+        $this->middleware('permission:payroll.permission.requests.rejected', ['only' => 'rejected']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'date'                             => ['required'],
             'payroll_staff_id'                 => ['required'],
@@ -63,7 +66,7 @@ class PayrollPermissionRequestController extends Controller
             'motive_permission'                => ['required', 'max:200'],
 
         ];
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'payroll_staff_id.required'             => 'El campo trabajador es obligatorio.',
             'payroll_permission_policy_id.required' => 'El campo tipo de permiso es obligatorio.',
@@ -76,21 +79,27 @@ class PayrollPermissionRequestController extends Controller
                                                         contener más de 200 caracteres.',
         ];
     }
+
+    /**
+     * Muestra el listado de solicitudes de permisos
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('payroll::requests.permissions.index');
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-    */
-
+     * Muestra el formulario para registrar una nueva solicitud de permiso
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
-        $user = Auth()->user();
+        $user = auth()->user();
         $isAdmin = $user->hasRole('admin, payroll');
-        $profile = Auth()->user()->profile;
+        $profile = auth()->user()->profile;
         $userId = -1;
         if ($profile) {
             if ($profile->employee_id) {
@@ -101,20 +110,17 @@ class PayrollPermissionRequestController extends Controller
             $userId = 0;
         }
         return view('payroll::requests.permissions.create', compact('isAdmin', 'userId'));
-        /*return view('payroll::requests.permissions.create');*/
     }
 
     /**
      * Valida y registra una nueva solicitud de permiso
      *
-     * @method    store
-     *
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
      *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
      *
-    */
-
+     * @return    \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         $this->validate($request, $this->validateRules, $this->messages);
@@ -139,15 +145,12 @@ class PayrollPermissionRequestController extends Controller
     /**
      * Muestra los datos de la información de la solicitud de permiso seleccionada
      *
-     * @method    show
-     *
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
      *
+     * @param integer $id Identificador de la solicitud de permiso
      *
-     * @param int $id
-     * @return Renderable
-    */
-
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id)
     {
         $payrollPermissionRequest = PayrollPermissionRequest::find($id);
@@ -155,21 +158,19 @@ class PayrollPermissionRequestController extends Controller
     }
 
     /**
-     * Muestra el formulario para actualizar la información de una solicitud vacacional
-     *
-     * @method    edit
+     * Muestra el formulario para actualizar la información de una solicitud de permiso
      *
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
      *
-     * @param int $id
-     * @return Renderable
-    */
-
+     * @param integer $id Identificador de la solicitud de permiso
+     *
+     * @return \Illuminate\View\View
+     */
     public function edit($id)
     {
         $payrollPermissionRequest = PayrollPermissionRequest::find($id);
 
-        $user = Auth()->user();
+        $user = auth()->user();
         $isAdmin = $user->hasRole('admin, payroll');
         $profile = $user->profile;
         $userId = -1;
@@ -181,19 +182,21 @@ class PayrollPermissionRequestController extends Controller
         if ($isAdmin) {
             $userId = 0;
         }
-        return view('payroll::requests.permissions.create', compact('payrollPermissionRequest','isAdmin', 'userId'));
+        return view(
+            'payroll::requests.permissions.create',
+            compact('payrollPermissionRequest', 'isAdmin', 'userId')
+        );
     }
 
     /**
      * Actualiza la información de la solicitud de permiso
      *
-     * @method    update
-     *
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
      *
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
+     * @param Request $request Datos de la petición
+     * @param integer $id Identificador de la solicitud de permiso
+     *
+     * @return \Illuminate\Http\JsonResponse
     */
     public function update(Request $request, $id)
     {
@@ -218,12 +221,10 @@ class PayrollPermissionRequestController extends Controller
     /**
      * Elimina una solicitud de permiso
      *
-     * @method    destroy
-     *
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
      *
-     * @param int $id
-     * @return Renderable
+     * @param integer $id Identificador de la solicitud de permiso
+     * @return \Illuminate\Http\JsonResponse
     */
     public function destroy($id)
     {
@@ -234,12 +235,15 @@ class PayrollPermissionRequestController extends Controller
     }
 
     /**
-     * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
      * Obtiene un listado de los permisos
-    */
+     *
+     * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function vueList()
     {
-        $user = Auth()->user();
+        $user = auth()->user();
         $profileUser = $user->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
@@ -259,23 +263,30 @@ class PayrollPermissionRequestController extends Controller
         }
     }
 
+    /**
+     * Obtiene información de una solicitud de permiso
+     *
+     * @param integer $id Identificador de la solicitud de permiso
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function vueInfo($id)
     {
         $payrollPermissionRequest = PayrollPermissionRequest::where('id', $id)->with([
             'payrollStaff', 'payrollPermissionPolicy'])->first();
         return response()->json(['record' => $payrollPermissionRequest], 200);
     }
+
     /**
      * Muestra un listado de las solicitudes de permiso pendientes
      *
-     * @method    vuePendingList
-     *
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-
     public function vuePendingList()
     {
-        $user = Auth()->user();
+        $user = auth()->user();
         $profileUser = $user->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
@@ -297,25 +308,36 @@ class PayrollPermissionRequestController extends Controller
         }
     }
 
+    /**
+     * Aprueba una solicitu de permiso
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     * @param integer $id Identificador de la solicitud de permiso
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function approved(Request $request, $id)
     {
         $payrollPermissionRequest = PayrollPermissionRequest::find($id);
         $payrollPermissionRequest->status = 'Aprobado';
-
-
         $payrollPermissionRequest->save();
 
         $request->session()->flash('message', ['type' => 'update']);
         return response()->json(['result' => true, 'redirect' => route('payroll.permission-requests.index')], 200);
     }
 
-
+    /**
+     * Rechaza una solicitud de permiso
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     * @param integer $id Identificador de la solicitud de permiso
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function rejected(Request $request, $id)
     {
         $payrollPermissionRequest = PayrollPermissionRequest::find($id);
         $payrollPermissionRequest->status = 'Rechazado';
-
-
         $payrollPermissionRequest->save();
 
         $request->session()->flash('message', ['type' => 'update']);

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @class      PayrollVacationRequest
@@ -15,6 +16,7 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos de las solicitudes de vacaciones
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -26,12 +28,14 @@ class PayrollVacationRequest extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -41,6 +45,7 @@ class PayrollVacationRequest extends Model implements Auditable
 
     /**
      * Lista de atributos de relacion consultados automaticamente
+     *
      * @var    array    $with
      */
     protected $with = ['institution', 'payrollStaff'];
@@ -70,15 +75,26 @@ class PayrollVacationRequest extends Model implements Auditable
     }
 
     /**
+     * Obtiene la relación con la solicitud de suspención de vacaciones
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function payrollSuspensionVacationRequest(): HasOne
+    {
+        return $this->hasOne(PayrollSuspensionVacationRequest::class);
+    }
+
+    /**
      * Método que obtiene las solicitudes de vacaciones registradas según la fecha y/o trabajador
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
+     * @param     \Illuminate\Database\Eloquent\Builder    $query Objeto con la consulta
      * @param     string    $startDate         Fecha de inicio
      * @param     string    $endDate           Fecha de culminación
      * @param     string    $payrollStaffId    Identificador único del trabajador
      *
-     * @return    object                       Objeto con los registros a mostrar
+     * @return    \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSearchPayrollVacationRequest($query, $startDate, $endDate, $payrollStaffId)
     {
@@ -108,5 +124,7 @@ class PayrollVacationRequest extends Model implements Auditable
         if ($payrollStaffId != "") {
             return $query->where('payroll_staff_id', $payrollStaffId);
         }
+
+        return $query;
     }
 }

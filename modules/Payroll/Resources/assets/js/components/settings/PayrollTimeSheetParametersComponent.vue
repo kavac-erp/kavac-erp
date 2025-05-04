@@ -101,7 +101,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group is-required">
-                                    <label>Tipos de pago</label>
+                                    <label>Tipo de nómina</label>
                                     <v-multiselect
                                         data-toggle="tooltip"
                                         title="Indique los tipos de pago en los que aplican estos parámetros"
@@ -219,7 +219,7 @@
              */
             async getPayrollTimeParameters() {
                 this.time_parameters = [];
-                await axios.get(`${window.app_url}/payroll/get-time-parameters`).then(response => {
+                await axios.get(`${window.app_url}/payroll/get-time-parameters?setting=true`).then(response => {
                     this.time_parameters = Object.values(response.data);
                 });
             },

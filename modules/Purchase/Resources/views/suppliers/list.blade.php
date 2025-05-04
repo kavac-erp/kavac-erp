@@ -21,7 +21,7 @@
 		<div class="col-12">
 			<div class="card">
 				<div class="card-header">
-					<h6 class="card-title">Listado de Proveedores</h6>
+					<h6 class="card-title">{{ __('Listado de Proveedores') }}</h6>
 					<div class="card-btns">
 						@include('buttons.previous', ['route' => url()->previous()])
 						@include('buttons.new', ['route' => route('purchase.suppliers.create')])

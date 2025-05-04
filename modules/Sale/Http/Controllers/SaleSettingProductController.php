@@ -3,12 +3,18 @@
 namespace Modules\Sale\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleSettingProductAttribute;
 use Modules\Sale\Models\SaleSettingProduct;
 
+/**
+ * @class SaleSettingProductController
+ * @brief Gestiona los datos de configuración de productos
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleSettingProductController extends Controller
 {
     use ValidatesRequests;
@@ -17,11 +23,13 @@ class SaleSettingProductController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
 
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting.product', ['only' => 'index']);
     }
 
@@ -30,11 +38,11 @@ class SaleSettingProductController extends Controller
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Http\JsonResponse    Json con los datos
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        // dd(SaleSettingProduct::with(['SaleSettingProductAttribute', 'saleSettingProductType'])->get()->toArray());
         return response()->json(['records' => SaleSettingProduct::with(['SaleSettingProductAttribute', 'saleSettingProductType'])->get()], 200);
     }
 
@@ -43,8 +51,10 @@ class SaleSettingProductController extends Controller
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
-     * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -67,9 +77,11 @@ class SaleSettingProductController extends Controller
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @param     object    Request    $request         Objeto con datos de la petición
+     *
+     * @param     Request    $request         Datos de la petición
      * @param  integer $id                          Identificador del datos a actualizar
-     * @return \Illuminate\Http\JsonResponse con mensaje de exito
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -78,13 +90,13 @@ class SaleSettingProductController extends Controller
         $this->validate(
             $request,
             [
-            'name' => ['required', 'unique:sale_setting_products,name,' . $SaleSettingProduct->id, 'max:60'],
-            'description' => ['required'],
-            'sale_setting_product_attribute.*' => ['max:100'],
-            'sale_setting_product_type_id' => ['required'],
+                'name' => ['required', 'unique:sale_setting_products,name,' . $SaleSettingProduct->id, 'max:60'],
+                'description' => ['required'],
+                'sale_setting_product_attribute.*' => ['max:100'],
+                'sale_setting_product_type_id' => ['required'],
             ],
             [
-            'sale_setting_product_type_id.required' => 'El campo tipo de producto es obligatorio.'
+                'sale_setting_product_type_id.required' => 'El campo tipo de producto es obligatorio.'
             ]
         );
 
@@ -123,8 +135,10 @@ class SaleSettingProductController extends Controller
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @param  integer $id                          Identificador del datos a actualizar
-     * @return \Illuminate\Http\JsonResponse con mensaje de exito
+     *
+     * @param  integer $id                          Identificador del dato a eliminar
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -137,9 +151,11 @@ class SaleSettingProductController extends Controller
     /**
      * Realiza la validación de un costo fijo
      *
-     * @method    saleSettingProductValidate
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @param     object    Request    $request         Objeto con datos de la petición
+     *
+     * @param     Request    $request         Datos de la petición
+     *
+     * @return void
      */
     public function saleSettingProductValidate(Request $request)
     {
@@ -150,18 +166,20 @@ class SaleSettingProductController extends Controller
         if (!empty($request->sale_setting_product_attribute)) {
             $validation['sale_setting_product_attribute.*'] = ['required', 'max:100'];
         }
-        $this->validate($request, $validation, ['sale_setting_product_type_id.required' =>
-                                                'El campo tipo de producto es obligatorio.'
-                                            ]);
+        $this->validate($request, $validation, [
+            'sale_setting_product_type_id.required' => 'El campo tipo de producto es obligatorio.'
+        ]);
     }
 
     /**
      * Agrega atributos a un producto
      *
-     * @method    createAttributes
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
      * @param     array    $attributes         Arreglo con los atributos a agregar
      * @param     integer   $id        Identificador del Producto
+     *
+     * @return void
      */
     public function createAttributes($attributes = [], $id = 0)
     {
@@ -179,8 +197,9 @@ class SaleSettingProductController extends Controller
     /**
      * Obtiene los campos de un producto
      *
-     * @method    getSaleSaleSettingProductFields
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
+     * @return array
      */
     public function getSaleSaleSettingProductFields()
     {
@@ -191,6 +210,7 @@ class SaleSettingProductController extends Controller
      * Obtiene los productos registrados
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de los productos
      */
     public function getSaleSettingProduct()
@@ -202,8 +222,10 @@ class SaleSettingProductController extends Controller
      * Muestra una lista de los atributos de un producto
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
      * @param     integer   $sale_setting_product_id        Identificador del producto
-     * @return \Illuminate\Http\JsonResponse con los atributos del producto
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSaleSettingProductAttributes($sale_setting_product_id)
     {

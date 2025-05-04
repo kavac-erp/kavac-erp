@@ -6,12 +6,6 @@
 					route_list="/warehouse/dashboard/operations/info"
 					:operation="props.row">>
 				</warehouse-operations-history-information>
-				<!--<button @click="showReport(props.index, $event)" 
-						class="btn btn-primary btn-xs btn-icon btn-action" 
-						title="Abrir reporte de operación" data-toggle="tooltip" 
-						type="button">
-					<i class="fa fa-file-pdf-o"></i>
-				</button>-->
 			</div>
 		</div>
 	</v-client-table>

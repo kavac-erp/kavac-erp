@@ -1,0 +1,9 @@
+<map id="getRecords" name="getRecords">
+<area shape="rect" id="Node000001" title="Función para obtener los registros." alt="" coords="236,31,331,56"/>
+<area shape="rect" id="Node000002" href="$d9/d28/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingDailyBookController.html#a172d5221f9a5d7bbcbcea178e7d878dc" title="Vista en la que se genera el reporte en pdf del libro diario." alt="" coords="131,5,174,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,34,174,25,175,19,223,29"/>
+<area shape="rect" id="Node000004" href="$d9/d28/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingDailyBookController.html#a79db74dfe8115805d30c5b6ba3247d26" title="[pdf vista en la que se genera el reporte en pdf del libro diario]" alt="" coords="117,55,188,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="223,57,189,64,188,58,222,52"/>
+<area shape="rect" id="Node000003" href="$d9/d28/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingDailyBookController.html#a23d7453ab9e51eca5ab50a38ce4a84c0" title="Genera el reporte en hojade calculo de balance general." alt="" coords="5,5,69,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="118,21,70,21,70,15,118,15"/>
+</map>

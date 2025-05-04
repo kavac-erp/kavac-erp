@@ -7,10 +7,19 @@ use App\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
+/**
+ * @class PayrollRoleAndPermissionsTableSeeder
+ * @brief Carga los datos de roles y permisos del módulo de Talento Humano
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PayrollRoleAndPermissionsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */
@@ -33,9 +42,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => '', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'configuracion.ver',
             ],
-            /**
-             * Staff types
-             */
+            /* Staff types */
             /*[
             'name' => 'Ver tipos de personal',
             'slug' => 'payroll.staff.types.list',
@@ -64,9 +71,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollStaffType', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'tipo.personal.eliminar',
             ],
-            /**
-             * Position types
-             */
+            /* Position types */
             /*[
             'name' => 'Ver tipos de cargo',
             'slug' => 'payroll.position.types.list',
@@ -95,9 +100,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollPositionType', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'tipo.cargo.eliminar',
             ],
-            /**
-             * Positions
-             */
+            /* Positions */
             /*[
             'name' => 'Ver cargos',
             'slug' => 'payroll.positions.list',
@@ -126,9 +129,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollPosition', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'cargo.eliminar',
             ],
-            /**
-             * Staff classifications
-             */
+            /* Staff classifications */
 
             /*[
             'name' => 'Ver la clasificación del personal',
@@ -158,9 +159,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             'model' => 'Modules\Payroll\Models\PayrollStaffClassification', 'model_prefix' => 'Talento Humano',
             'slug_alt' => 'clasificacion.personal.eliminar'
             ],*/
-            /**
-             * Staffs
-             */
+            /* Staffs */
             [
                 'name' => 'Ver el personal',
                 'slug' => 'payroll.staffs.list',
@@ -189,10 +188,22 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollStaff', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'personal.eliminar',
             ],
+            [
+                'name' => 'Importar datos personales',
+                'slug' => 'payroll.staffs.import',
+                'description' => 'Acceso para importar datos personales',
+                'model' => 'Modules\Payroll\Models\PayrollStaff', 'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'personal.importar',
+            ],
+            [
+                'name' => 'Exportar datos personales',
+                'slug' => 'payroll.staffs.export',
+                'description' => 'Acceso para exportar datos personales',
+                'model' => 'Modules\Payroll\Models\PayrollStaff', 'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'personal.exportar',
+            ],
 
-            /**
-             * Permisos de los Registros comúnes > Coordinaciones.
-             */
+            /* Permisos de los Registros comúnes > Coordinaciones. */
             [
                 'name' => 'Obtener listado de las coordinaciones',
                 'slug' => 'payroll.coordinations.index',
@@ -230,9 +241,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'short_description' => 'Eliminar una coordinación',
             ],
 
-            /**
-             * Permisos de los Registros comúnes > Responsabilidades.
-             */
+            /* Permisos de los Registros comúnes > Responsabilidades. */
             [
                 'name' => 'Obtener listado de las responsabilidades',
                 'slug' => 'payroll.responsibilities.index',
@@ -270,9 +279,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'short_description' => 'Eliminar una responsabilidad',
             ],
 
-            /**
-             * Instruction degrees
-             */
+            /* Instruction degrees */
             /*[
             'name' => 'Ver el grado de instrucción',
             'slug' => 'payroll.instruction.degrees.list',
@@ -301,9 +308,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollInstructionDegree', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'grado.instruccion.eliminar',
             ],
-            /**
-             * Study types
-             */
+            /* Study types */
             /*[
             'name' => 'Ver el tipo de estudio',
             'slug' => 'payroll.study.types.list',
@@ -333,21 +338,33 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'tipo.estudio.eliminar',
             ],
 
-            /**
-             * schooling-levels
-             * */
+            /* schooling-levels */
             [
                 'name' => 'Crear nivel de escolaridad',
-                'slug' => 'payroll.schooling-levels.create',
+                'slug' => 'payroll.schooling.levels.create',
                 'description' => 'Acceso para crear nivel de escolaridad',
                 'model' => 'Modules\Payroll\Models\PayrollStudyType',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'nivel.escolaridad.crear',
             ],
+            [
+                'name' => 'Editar nivel de escolaridad',
+                'slug' => 'payroll.schooling.levels.edit',
+                'description' => 'Acceso para editar nivel de escolaridad',
+                'model' => 'Modules\Payroll\Models\PayrollStudyType',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'nivel.escolaridad.editar',
+            ],
+            [
+                'name' => 'Eliminar nivel de escolaridad',
+                'slug' => 'payroll.schooling.levels.delete',
+                'description' => 'Acceso para eliminar nivel de escolaridad',
+                'model' => 'Modules\Payroll\Models\PayrollStudyType',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'nivel.escolaridad.eliminar',
+            ],
 
-            /**
-             * Nationalities
-             */
+            /* Nationalities */
             /*[
             'name' => 'Ver la nacionalidad',
             'slug' => 'payroll.nationalities.list',
@@ -376,9 +393,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollNationality', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'nacionalidad.eliminar',
             ],
-            /**
-             * Concept types
-             */
+            /* Concept types */
             /*[
             'name' => 'Ver los tipos de concepto',
             'slug' => 'payroll.concept.types.list',
@@ -408,9 +423,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'tipo.concepto.eliminar',
             ],
 
-            /**
-             * Concept
-             */
+            /* Concept */
 
             [
                 'name' => 'Crear concepto',
@@ -433,9 +446,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollConceptType', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'concepto.eliminar',
             ],
-            /**
-             * language levels
-             */
+            /* language levels */
             /*[
             'name' => 'Ver los niveles de idioma',
             'slug' => 'payroll.language.levels.list',
@@ -464,9 +475,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollLanguageLevel', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'nivel.idioma.eliminar',
             ],
-            /**
-             * Languages
-             */
+            /* Languages */
             /*[
             'name' => 'Ver los idiomas',
             'slug' => 'payroll.languages.list',
@@ -495,9 +504,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollLanguage', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'idioma.eliminar',
             ],
-            /**
-             * Genders
-             */
+            /* Genders */
             /*[
             'name' => 'Ver los géneros',
             'slug' => 'payroll.genders.list',
@@ -526,9 +533,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollGender', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'genero.eliminar',
             ],
-            /**
-             * Professional informations
-             */
+            /* Professional informations */
             [
                 'name' => 'Ver los datos de información profesional',
                 'slug' => 'payroll.professional.informations.list',
@@ -557,9 +562,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollProfessionalInformation', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'informacion.profesional.eliminar',
             ],
-            /**
-             * Inactivity types
-             */
+            /* Inactivity types */
             /*[
             'name' => 'Ver los datos de tipos de inactividad',
             'slug' => 'payroll.inactivity.types.list',
@@ -588,9 +591,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollInactivityType', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'tipo.inactividad.eliminar',
             ],
-            /**
-             * Contract types
-             */
+            /* Contract types */
             /*[
             'name' => 'Ver los datos de tipos de contrato',
             'slug' => 'payroll.contract.types.list',
@@ -619,9 +620,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollContractType', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'tipo.contrato.eliminar',
             ],
-            /**
-             * Sector types
-             */
+            /* Sector types */
             /*[
             'name' => 'Ver los datos de tipos de sector',
             'slug' => 'payroll.sector.types.list',
@@ -650,9 +649,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollSectorType', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'tipo.sector.eliminar',
             ],
-            /**
-             * driver licenses
-             */
+            /* driver licenses */
             /*[
             'name' => 'Ver los datos de grados de licencia de conducir',
             'slug' => 'payroll.license.degrees.list',
@@ -685,9 +682,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'grado.licencia.eliminar',
             ],
-            /**
-             * blood types
-             */
+            /* blood types */
             /*[
             'name' => 'Ver los datos de tipos de sangre',
             'slug' => 'payroll.blood.types.list',
@@ -720,9 +715,72 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'tipo.sangre.eliminar',
             ],
-            /**
-             * socioeconomics
-             */
+            /* Responsables de ARC */
+            [
+                'name' => 'Obtener listado de responsables de ARC',
+                'slug' => 'payroll.arc.responsibles.index',
+                'description' => 'Acceso para obtener listado de responsables de ARC',
+                'model' => 'Modules\Payroll\Models\ArcResponsible',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'responsables.arc.listado',
+                'short_description' => 'Acceder al listado de responsables de ARC',
+            ],
+            [
+                'name' => 'Registrar un responsable de ARC',
+                'slug' => 'payroll.arc.responsibles.store',
+                'description' => 'Acceso para registrar un responsable de ARC',
+                'model' => 'Modules\Payroll\Models\ArcResponsible',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'responsables.arc.crear',
+                'short_description' => 'Registrar un responsable de ARC',
+            ],
+            [
+                'name' => 'Actualizar un responsable de ARC',
+                'slug' => 'payroll.arc.responsibles.update',
+                'description' => 'Acceso para actualizar un responsable de ARC',
+                'model' => 'Modules\Payroll\Models\ArcResponsible',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'responsables.arc.actualizar',
+                'short_description' => 'Actualizar un responsable de ARC',
+            ],
+            [
+                'name' => 'Eliminar un responsable de ARC',
+                'slug' => 'payroll.arc.responsibles.destroy',
+                'description' => 'Acceso para eliminar un responsable de ARC',
+                'model' => 'Modules\Payroll\Models\ArcResponsible',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'responsables.arc.eliminar',
+                'short_description' => 'Eliminar un responsable de ARC',
+            ],
+            /* Solicitudes de ARC */
+            [
+                'name' => 'Obtener listado de ARC',
+                'slug' => 'payroll.arc.list',
+                'description' => 'Acceso para obtener listado de ARC',
+                'model' => 'Modules\Payroll\Models\Arc',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'arc.listado',
+                'short_description' => 'Acceder al listado de ARC',
+            ],
+            [
+                'name' => 'Exportar planilla ARC',
+                'slug' => 'payroll.arc.export',
+                'description' => 'Acceso para exportar planilla de ARC',
+                'model' => 'Modules\Payroll\Models\Arc',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'arc.exportar',
+                'short_description' => 'Exportar planilla ARC',
+            ],
+            [
+                'name' => 'Enviar planilla ARC',
+                'slug' => 'payroll.arc.send',
+                'description' => 'Acceso para enviar planilla de ARC',
+                'model' => 'Modules\Payroll\Models\Arc',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'arc.enviar',
+                'short_description' => 'Enviar planilla ARC',
+            ],
+            /* socioeconomics */
             [
                 'name' => 'Ver los datos socioeconómicos',
                 'slug' => 'payroll.socioeconomics.list',
@@ -755,9 +813,23 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'socioeconomico.eliminar',
             ],
-            /**
-             * Professionals
-             */
+            [
+                'name' => 'Importar datos socioeconómicos',
+                'slug' => 'payroll.socioeconomics.import',
+                'description' => 'Acceso para importar datos socioeconómicos',
+                'model' => 'Modules\Payroll\Models\PayrollSocioeconomic',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'socioeconomico.importar',
+            ],
+            [
+                'name' => 'Exportar datos socioeconómicos',
+                'slug' => 'payroll.socioeconomics.export',
+                'description' => 'Acceso para exportar datos socioeconómicos',
+                'model' => 'Modules\Payroll\Models\PayrollSocioeconomic',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'socioeconomico.exportar',
+            ],
+            /* Professionals */
             [
                 'name' => 'Ver los datos de profesionales',
                 'slug' => 'payroll.professionals.list',
@@ -790,9 +862,23 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'profesional.eliminar',
             ],
-            /**
-             * Employments
-             */
+            [
+                'name' => 'Importar datos profesionales',
+                'slug' => 'payroll.professionals.import',
+                'description' => 'Acceso para importar datos profesionales',
+                'model' => 'Modules\Payroll\Models\PayrollProfessional',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'profesional.importar',
+            ],
+            [
+                'name' => 'Exportar datos profesionales',
+                'slug' => 'payroll.professionals.export',
+                'description' => 'Acceso para exportar datos profesionales',
+                'model' => 'Modules\Payroll\Models\PayrollProfessional',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'profesional.exportar',
+            ],
+            /* Employments */
             [
                 'name' => 'Ver los datos laborales',
                 'slug' => 'payroll.employments.list',
@@ -825,9 +911,23 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'laboral.eliminar',
             ],
-            /**
-             * Settlement types
-             */
+            [
+                'name' => 'Importar datos laborales',
+                'slug' => 'payroll.employments.import',
+                'description' => 'Acceso para importar datos laborales',
+                'model' => 'Modules\Payroll\Models\PayrollEmployment',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'laboral.importar',
+            ],
+            [
+                'name' => 'Exportar datos laborales',
+                'slug' => 'payroll.employments.export',
+                'description' => 'Acceso para exportar datos laborales',
+                'model' => 'Modules\Payroll\Models\PayrollEmployment',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'laboral.exportar',
+            ],
+            /* Settlement types */
             /*[
             'name' => 'Ver los tipos de liquidación',
             'slug' => 'payroll.settlement.types.list',
@@ -860,9 +960,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'tipo.liquidacion.eliminar',
             ],*/
-            /**
-             * Relationships
-             */
+            /* Relationships */
             [
                 'name' => 'Ver los parentescos',
                 'slug' => 'payroll.relationships.list',
@@ -895,9 +993,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'parentesco.eliminar'
             ],
-            /**
-             * Disabilities
-             */
+            /* Disabilities */
             /*[
             'name' => 'Ver las discapacidades',
             'slug' => 'payroll.disabilities.list',
@@ -930,123 +1026,168 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'discapacidad.eliminar',
             ],
-            /**
-             * Vacation requests
-             */
+            /* Vacation requests */
             [
                 'name' => 'Ver solicitudes de vacaciones',
-                'slug' => 'payroll.vacation-requests.list',
+                'slug' => 'payroll.vacation.requests.list',
                 'description' => 'Acceso para ver solicitudes de vacaciones',
                 'model' => 'Modules\Payroll\Models\PayrollVacationRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.vacaciones.ver',
             ],
             [
                 'name' => 'Crear solicitudes de vacaciones',
-                'slug' => 'payroll.vacation-requests.create',
+                'slug' => 'payroll.vacation.requests.create',
                 'description' => 'Acceso para crear solicitudes de vacaciones',
                 'model' => 'Modules\Payroll\Models\PayrollVacationRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.vacaciones.crear',
             ],
             [
                 'name' => 'Editar solicitudes de vacaciones',
-                'slug' => 'payroll.vacation-requests.edit',
+                'slug' => 'payroll.vacation.requests.edit',
                 'description' => 'Acceso para editar los solicitudes de vacaciones',
                 'model' => 'Modules\Payroll\Models\PayrollVacationRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.vacaciones.editar',
             ],
             [
                 'name' => 'Eliminar solicitudes de vacaciones',
-                'slug' => 'payroll.vacation-requests.delete',
+                'slug' => 'payroll.vacation.requests.delete',
                 'description' => 'Acceso para eliminar solicitudes de vacaciones',
                 'model' => 'Modules\Payroll\Models\PayrollVacationRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.vacaciones.eliminar',
             ],
             [
                 'name' => 'Aprobar solicitud de vacaciones',
-                'slug' => 'payroll.vacation-requests.approved',
+                'slug' => 'payroll.vacation.requests.approved',
                 'description' => 'Acceso para aprobar solicitudes de vacaciones',
                 'model' => 'Modules\Payroll\Models\PayrollVacationRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.vacaciones.aprobar',
             ],
             [
                 'name' => 'Rechazar solicitud de vacaciones',
-                'slug' => 'payroll.vacation-requests.rejected',
+                'slug' => 'payroll.vacation.requests.rejected',
                 'description' => 'Acceso para Rechazar solicitudes de vacaciones',
                 'model' => 'Modules\Payroll\Models\PayrollVacationRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.vacaciones.rechazar',
             ],
-            /**
-             * Benefits requests
-             */
+            /* Suspension Vacation Requests */
+            [
+                'name' => 'Ver solicitudes de suspensión de vacaciones',
+                'slug' => 'payroll.suspension.vacation.requests.list',
+                'description' => 'Acceso para ver solicitudes de suspensión de vacaciones',
+                'model' => 'Modules\Payroll\Models\PayrollSuspensionVacationRequest',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'solicitud.suspension.vacaciones.ver',
+            ],
+            [
+                'name' => 'Crear solicitudes de suspensión de vacaciones',
+                'slug' => 'payroll.suspension.vacation.requests.create',
+                'description' => 'Acceso para crear solicitudes de suspensión de vacaciones',
+                'model' => 'Modules\Payroll\Models\PayrollSuspensionVacationRequest',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'solicitud.suspension.vacaciones.crear',
+            ],
+            [
+                'name' => 'Editar solicitudes de suspensión de vacaciones',
+                'slug' => 'payroll.suspension.vacation.requests.edit',
+                'description' => 'Acceso para editar las solicitudes de suspensión de vacaciones',
+                'model' => 'Modules\Payroll\Models\PayrollSuspensionVacationRequest',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'solicitud.suspension.vacaciones.editar',
+            ],
+            [
+                'name' => 'Eliminar solicitudes de suspensión de vacaciones',
+                'slug' => 'payroll.suspension.vacation.requests.delete',
+                'description' => 'Acceso para eliminar solicitudes de suspensión de vacaciones',
+                'model' => 'Modules\Payroll\Models\PayrollSuspensionVacationRequest',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'solicitud.suspension.vacaciones.eliminar',
+            ],
+            [
+                'name' => 'Aprobar solicitud de suspensión de vacaciones',
+                'slug' => 'payroll.suspension.vacation.requests.approved',
+                'description' => 'Acceso para aprobar solicitudes de suspensión de vacaciones',
+                'model' => 'Modules\Payroll\Models\PayrollSuspensionVacationRequest',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'solicitud.suspension.vacaciones.aprobar',
+            ],
+            [
+                'name' => 'Rechazar solicitud de suspensión de vacaciones',
+                'slug' => 'payroll.suspension.vacation.requests.rejected',
+                'description' => 'Acceso para Rechazar solicitudes de suspensión de vacaciones',
+                'model' => 'Modules\Payroll\Models\PayrollSuspensionVacationRequest',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'solicitud.suspension.vacaciones.rechazar',
+            ],
+            /* Rescheduled vacations */
+
+            /* Benefits requests */
             [
                 'name' => 'Ver solicitudes de prestaciones',
-                'slug' => 'payroll.benefits-requests.list',
+                'slug' => 'payroll.benefits.requests.list',
                 'description' => 'Acceso para ver solicitudes de prestaciones',
                 'model' => 'Modules\Payroll\Models\PayrollBenefitsRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.prestaciones.ver',
             ],
             [
                 'name' => 'Crear solicitudes de prestaciones',
-                'slug' => 'payroll.benefits-requests.create',
+                'slug' => 'payroll.benefits.requests.create',
                 'description' => 'Acceso para crear solicitudes de prestaciones',
                 'model' => 'Modules\Payroll\Models\PayrollBenefitsRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.prestaciones.crear',
             ],
             [
                 'name' => 'Editar solicitudes de prestaciones',
-                'slug' => 'payroll.benefits-requests.edit',
+                'slug' => 'payroll.benefits.requests.edit',
                 'description' => 'Acceso para editar los solicitudes de prestaciones',
                 'model' => 'Modules\Payroll\Models\PayrollBenefitsRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.prestaciones.editar',
             ],
             [
                 'name' => 'Eliminar solicitudes de prestaciones',
-                'slug' => 'payroll.benefits-requests.delete',
+                'slug' => 'payroll.benefits.requests.delete',
                 'description' => 'Acceso para eliminar solicitudes de prestaciones',
                 'model' => 'Modules\Payroll\Models\PayrollBenefitsRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.prestaciones.eliminar',
             ],
             [
                 'name' => 'Procesar solicitud de prestaciones',
-                'slug' => 'payroll.benefits-requests.update',
+                'slug' => 'payroll.benefits.requests.update',
                 'description' => 'Acceso para procesar solicitudes de prestaciones',
                 'model' => 'Modules\Payroll\Models\PayrollBenefitsRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.prestaciones.editar',
             ],
-            /**
-             * Benefits requests
-             */
+            /* Benefits requests */
             [
                 'name' => 'Ver solicitudes de permisos',
-                'slug' => 'payroll.permission-requests.list',
+                'slug' => 'payroll.permission.requests.list',
                 'description' => 'Acceso para ver solicitudes de permisos',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.permisos.ver',
             ],
             [
                 'name' => 'Crear solicitudes de permisos',
-                'slug' => 'payroll.permission-requests.create',
+                'slug' => 'payroll.permission.requests.create',
                 'description' => 'Acceso para crear solicitudes de permisos',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.permisos.crear',
             ],
             [
                 'name' => 'Editar solicitudes de permisos',
-                'slug' => 'payroll.permission-requests.edit',
+                'slug' => 'payroll.permission.requests.edit',
                 'description' => 'Acceso para editar los solicitudes de permisos',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.permisos.editar',
             ],
             [
                 'name' => 'Eliminar solicitudes de permisos',
-                'slug' => 'payroll.permission-requests.delete',
+                'slug' => 'payroll.permission.requests.delete',
                 'description' => 'Acceso para eliminar solicitudes de permisos',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.permisos.eliminar',
             ],
             [
                 'name' => 'Aprobar solicitud de permisos',
-                'slug' => 'payroll.permission-requests.approved',
+                'slug' => 'payroll.permission.requests.approved',
                 'description' => 'Acceso para aprobar solicitudes de permisos',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1054,15 +1195,13 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Rechazar solicitud de permiso',
-                'slug' => 'payroll.permission-requests.rejected',
+                'slug' => 'payroll.permission.requests.rejected',
                 'description' => 'Acceso para rechazar solicitudes de permisos',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.permisos.rechazar',
             ],
-            /**
-             * Report parameters
-             */
+            /* Report parameters */
             [
                 'name' => 'Configuracion de parámetros para los reportes de nómina',
                 'slug' => 'payroll.parameters.create',
@@ -1072,9 +1211,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'parametro.crear',
             ],
 
-            /*
-             * global parameters
-             */
+            /* global parameters */
             [
                 'name' => 'Crear parámetros globales',
                 'slug' => 'payroll.parameters.create',
@@ -1099,12 +1236,10 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'solicitud.parametro.eliminar',
             ],
-            /*
-             * Salary scale
-             */
+            /* Salary scale */
             [
                 'name' => 'Crear escalafón salarial',
-                'slug' => 'payroll.setting.salary-scale.create',
+                'slug' => 'payroll.setting.salary.scale.create',
                 'description' => 'Acceso para crear escalafón salarial',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1112,7 +1247,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Editar escalafón salarial',
-                'slug' => 'payroll.setting.salary-scale.edit',
+                'slug' => 'payroll.setting.salary.scale.edit',
                 'description' => 'Acceso para editar los escalafones salariales',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1120,18 +1255,16 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Eliminar escalafón salarial',
-                'slug' => 'payroll.setting.salary-scale.delete',
+                'slug' => 'payroll.setting.salary.scale.delete',
                 'description' => 'Acceso para eliminar escalafón salarial',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'escalafón.salarial.eliminar',
             ],
-            /*
-             * Salary tabulator
-             */
+            /* Salary tabulator */
             [
                 'name' => 'Crear Tabulador de nómina',
-                'slug' => 'payroll.setting.salary-tabulator.create',
+                'slug' => 'payroll.setting.salary.tabulator.create',
                 'description' => 'Acceso para crear tabulador de nómina',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1139,7 +1272,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Editar tabulador de nómina',
-                'slug' => 'payroll.setting.salary-tabulator.edit',
+                'slug' => 'payroll.setting.salary.tabulator.edit',
                 'description' => 'Acceso para editar tabulador de nómina',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1147,18 +1280,31 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Eliminar tabulador de nómina',
-                'slug' => 'payroll.setting.salary-tabulator.delete',
+                'slug' => 'payroll.setting.salary.tabulator.delete',
                 'description' => 'Acceso para eliminar tabulador de nómina',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'tabulador.nómina.eliminar',
             ],
-            /*
-             * Payment types
-             */
+            [
+                'name' => 'Importar registros de la planilla de tabulador de nómina',
+                'slug' => 'payroll.salary.tabulators.import',
+                'description' => 'Acceso para importar los registros de la planilla de tabulador de nómina',
+                'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'tabulador.nómina.importar',
+            ],
+            [
+                'name' => 'Exportar registros del tabulador de nómina',
+                'slug' => 'payroll.salary.tabulators.export',
+                'description' => 'Acceso para exportar los registros de tabulador de nómina',
+                'model' => 'Modules\Payroll\Models\PayrollPermissionRequest', 'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'tabulador.nómina.exportar',
+            ],
+            /* Payment types */
             [
                 'name' => 'Crear tipos de pago',
-                'slug' => 'payroll.payment-types.create',
+                'slug' => 'payroll.payment.types.create',
                 'description' => 'Acceso para crear tipos de pago',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1166,7 +1312,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Editar tipos de pago',
-                'slug' => 'payroll.payment-types.edit',
+                'slug' => 'payroll.payment.types.edit',
                 'description' => 'Acceso para editar tipos de pago',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1174,18 +1320,16 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Eliminar tipos de pago',
-                'slug' => 'payroll.payment-types.delete',
+                'slug' => 'payroll.payment.types.delete',
                 'description' => 'Acceso para eliminar tipos de pago',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'tipos.pago.eliminar',
             ],
-            /*
-             * Vacation policies
-             */
+            /* Vacation policies */
             [
                 'name' => 'Crear políticas vacacionales',
-                'slug' => 'payroll.vacation-policies.create',
+                'slug' => 'payroll.vacation.policies.create',
                 'description' => 'Acceso para crear políticas vacacionales',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1193,7 +1337,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Editar políticas vacacionales',
-                'slug' => 'payroll.vacation-policies.edit',
+                'slug' => 'payroll.vacation.policies.edit',
                 'description' => 'Acceso para editar políticas vacacionales',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1201,18 +1345,16 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Eliminar políticas vacacionales',
-                'slug' => 'payroll.vacation-policies.delete',
+                'slug' => 'payroll.vacation.policies.delete',
                 'description' => 'Acceso para eliminar políticas vacacionales',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'política.vacacional.eliminar',
             ],
-            /*
-             * Benefits policies
-             */
+            /* Benefits policies */
             [
                 'name' => 'Crear políticas de prestaciones',
-                'slug' => 'payroll.benefits-policies.create',
+                'slug' => 'payroll.benefits.policies.create',
                 'description' => 'Acceso para crear política de prestaciones',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1220,7 +1362,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Editar políticas de prestaciones',
-                'slug' => 'payroll.benefits-policies.edit',
+                'slug' => 'payroll.benefits.policies.edit',
                 'description' => 'Acceso para editar política prestaciones',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1228,18 +1370,16 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Eliminar políticas de prestaciones',
-                'slug' => 'payroll.benefits-policies.delete',
+                'slug' => 'payroll.benefits.policies.delete',
                 'description' => 'Acceso para eliminar política de prestaciones',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'política.prestaciones.eliminar',
             ],
-            /*
-             *Permission policies
-             */
+            /* Permission policies */
             [
                 'name' => 'Crear políticas de permisos',
-                'slug' => 'payroll.permission-policies.create',
+                'slug' => 'payroll.permission.policies.create',
                 'description' => 'Acceso para crear política de permisos',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1247,7 +1387,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Editar políticas de permisos',
-                'slug' => 'payroll.permission-policies.edit',
+                'slug' => 'payroll.permission.policies.edit',
                 'description' => 'Acceso para editar política de permisos',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1255,24 +1395,24 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Eliminar políticas de permisos',
-                'slug' => 'payroll.permission-policies.delete',
+                'slug' => 'payroll.permission.policies.delete',
                 'description' => 'Acceso para eliminar política de permisos',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'política.permisos.eliminar',
             ],
-            /*
-             * Salary adjustments salary-adjustments
-             */
+            /* Salary adjustments salary-adjustments */
             [
-                'name' => 'Ver ajustes en tablas salariales', 'slug' => 'payroll.salary-adjustments.list',
+                'name' => 'Ver ajustes en tablas salariales',
+                'slug' => 'payroll.salary.adjustments.list',
                 'description' => 'Acceso para ver ajustes en tablas salariales',
-                'model' => 'Modules\Payroll\Models\PayrollPermissionRequest', 'model_prefix' => 'Talento Humano',
+                'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
+                'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'ajustes.tablas.salariales.ver',
             ],
             [
                 'name' => 'Crear ajustes en tablas salariales',
-                'slug' => 'payroll.salary-adjustments.create',
+                'slug' => 'payroll.salary.adjustments.create',
                 'description' => 'Acceso para crear ajustes en tablas salariales',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1280,7 +1420,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Editar ajustes en tablas salariales',
-                'slug' => 'payroll.salary-adjustments.edit',
+                'slug' => 'payroll.salary.adjustments.edit',
                 'description' => 'Acceso para editar ajustes en tablas salariales',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
@@ -1288,19 +1428,32 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Eliminar ajustes en tablas salariales',
-                'slug' => 'payroll.salary-adjustments.delete',
+                'slug' => 'payroll.salary.adjustments.delete',
                 'description' => 'Acceso para eliminar ajustes en tablas salariales',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'ajustes.tablas.salariales.eliminar',
             ],
-            /*
-             * registers
-             */
             [
-                'name' => 'Ver registros de nómina',
+                'name' => 'Importar registros de la planilla de ajuste en tablas salariales',
+                'slug' => 'payroll.salary.adjustments.import',
+                'description' => 'Acceso para importar los registros de la planilla de ajuste en tablas salariales',
+                'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'ajustes.tablas.salariales.importar',
+            ],
+            [
+                'name' => 'Exportar registros del ajuste en tablas salariales',
+                'slug' => 'payroll.salary.adjustments.export',
+                'description' => 'Acceso para exportar los registros de ajuste en tablas salariales',
+                'model' => 'Modules\Payroll\Models\PayrollPermissionRequest', 'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'ajustes.tablas.salariales.exportar',
+            ],
+            /* registers */
+            [
+                'name' => 'Listar registros de nómina',
                 'slug' => 'payroll.registers.list',
-                'description' => 'Acceso para ver registros de nómina',
+                'description' => 'Acceso para listar registros de nómina',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'registers.list',
@@ -1337,74 +1490,79 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'registers.report',
             ],
-            /*
-             * Reports
-             */
-            [
-                'name' => 'Crear reporte en talento humano',
-                'slug' => 'payroll.reports.create',
-                'description' => 'Acceso para crear reporte en talento humano',
-                'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
-                'model_prefix' => 'Talento Humano',
-                'slug_alt' => 'reporte.talento_humano.crear',
-            ],
+            /* Reports */
+            // [
+            //     'name' => 'Crear reporte en talento humano',
+            //     'slug' => 'payroll.reports.create',
+            //     'description' => 'Acceso para crear reporte en talento humano',
+            //     'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
+            //     'model_prefix' => 'Talento Humano',
+            //     'slug_alt' => 'reporte.talento_humano.crear',
+            // ],
             //Solicitudes de vacaciones
             [
-                'name' => 'Crear reporte en talento humano Solicitud de Vacaciones',
-                'slug' => 'payroll.reports.vacationRequests',
-                'description' => 'Acceso para crear reporte en talento humano Solicitud de Vacaciones',
+                'name' => 'Crear reporte de Solicitud de Vacaciones',
+                'slug' => 'payroll.reports.vacationrequests',
+                'description' => 'Acceso para crear reporte de Solicitud de Vacaciones',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'reporte.vacationRequests.crear',
             ],
-            /** reporte de los registros de los empleados */
+            /* reporte de los registros de los empleados */
             [
-                'name' => 'Crear reporte en talento humano registro de empleados',
-                'slug' => 'payroll.reports.employment-status',
-                'description' => 'Acceso para crear reporte en talento humano registro de empleados',
+                'name' => 'Crear reporte detallado de trabajadores',
+                'slug' => 'payroll.reports.employment.status',
+                'description' => 'Acceso para crear reporte detallado de trabajadores',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
-                'slug_alt' => 'reporte.employment-status.crear',
+                'slug_alt' => 'reporte.employment.status.crear',
             ],
-            /** Permisos de Ruta que permite generar el reporte de los empleados */
+            /* Permisos de Ruta que permite generar el reporte de los empleados */
             [
-                'name' => 'Crear reporte en talento humano  de empleados',
+                'name' => 'Crear reporte de trabajadores',
                 'slug' => 'payroll.reports.staff',
-                'description' => 'Acceso para crear reporte en talento humano  de empleados',
+                'description' => 'Acceso para crear reporte de trabajadores',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'reporte.staff.crear',
             ],
-            /** Permisos de Ruta que permite generar el reporte de disfrute de vacaciones */
+            /* Permisos de Ruta que permite generar el reporte de disfrute de vacaciones */
             [
-                'name' => 'Crear reporte en talento humano  disfrute de vacaciones',
-                'slug' => 'payroll.reports.staffVacationEnjoyment',
-                'description' => 'Acceso para crear reporte en talento humano  de disfrute de vacaciones',
+                'name' => 'Crear reporte de disfrute de vacaciones',
+                'slug' => 'payroll.reports.staffvacationenjoyment',
+                'description' => 'Acceso para crear reporte de disfrute de vacaciones',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'reporte.staffVacationEnjoyment.crear',
             ],
-            /** Permisos de Ruta que permite generar el reporte de conceptos */
+            /* Permisos de Ruta que permite generar el reporte de conceptos */
             [
-                'name' => 'Crear reporte en talento humano  conceptos',
+                'name' => 'Crear reporte de conceptos',
                 'slug' => 'payroll.reports.concepts',
-                'description' => 'Acceso para crear reporte en talento humano  de conceptos',
+                'description' => 'Acceso para crear reporte de conceptos',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'reporte.concepts.crear',
             ],
-            /** Permisos de Ruta que permite generar el reporte de relación de conceptos */
+            /* Permisos de Ruta que permite generar el reporte de relación de conceptos */
             [
-                'name' => 'Crear reporte en talento humano  relación de conceptos',
-                'slug' => 'payroll.reports.relationship-concepts',
-                'description' => 'Acceso para crear reporte en talento humano de relación de conceptos',
+                'name' => 'Crear reporte de relación de conceptos',
+                'slug' => 'payroll.reports.relationship.concepts',
+                'description' => 'Acceso para crear reporte de relación de conceptos',
                 'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
                 'model_prefix' => 'Talento Humano',
-                'slug_alt' => 'reporte.relationship-concepts.crear',
+                'slug_alt' => 'reporte.relationship.concepts.crear',
             ],
-            /**
-             * Permisos de datos financieros
-             */
+            /* Permisos de Ruta que permite generar el reporte de recibos de pago */
+            [
+                'name' => 'Crear reporte de recibos de pago',
+                'slug' => 'payroll.reports.payment.receipts',
+                'description' => 'Acceso para crear reporte de recibos de pago',
+                'model' => 'Modules\Payroll\Models\PayrollPermissionRequest',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'reporte.payment.receipts.crear',
+            ],
+            /* Permisos de datos financieros */
             [
                 'name' => 'Crear datos financieros',
                 'slug' => 'payroll.financials.create',
@@ -1441,40 +1599,54 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'financial.eliminar',
                 'short_description' => 'Eliminar datos financieros',
             ],
-            /**
-             * Permisos de grupos de supervisados
-             */
+            [
+                'name' => 'Importar datos financieros',
+                'slug' => 'payroll.financials.import',
+                'description' => 'Acceso para importar datos financieros en talento humanos',
+                'model' => 'Modules\Payroll\Models\PayrollFinancial',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'financial.importar',
+                'short_description' => 'Importar datos financieros',
+            ],
+            [
+                'name' => 'Exportar datos financieros',
+                'slug' => 'payroll.financials.export',
+                'description' => 'Acceso para exportar datos financieros en talento humanos',
+                'model' => 'Modules\Payroll\Models\PayrollFinancial',
+                'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'financial.exportar',
+                'short_description' => 'Exportar datos financieros',
+            ],
+            /* Permisos de grupos de supervisados */
             [
                 'name' => 'Listar el grupo de supervisados',
-                'slug' => 'payroll.supervised_group.index',
+                'slug' => 'payroll.supervisedgroup.index',
                 'description' => 'Acceso para listar el grupo de supervisados',
                 'model' => 'Modules\Payroll\Models\PayrollSupervisedGroup', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'grupo.supervisados.listar',
             ],
             [
                 'name' => 'Crear el grupo de supervisados',
-                'slug' => 'payroll.supervised_group.create',
+                'slug' => 'payroll.supervisedgroup.create',
                 'description' => 'Acceso para crear el grupo de supervisados',
                 'model' => 'Modules\Payroll\Models\PayrollSupervisedGroup', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'grupo.supervisados.crear',
             ],
             [
                 'name' => 'Editar el grupo de supervisados',
-                'slug' => 'payroll.supervised_group.edit',
+                'slug' => 'payroll.supervisedgroup.edit',
                 'description' => 'Acceso para editar el grupo de supervisados',
                 'model' => 'Modules\Payroll\Models\PayrollSupervisedGroup', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'grupo.supervisados.editar',
             ],
             [
                 'name' => 'Eliminar el grupo de supervisados',
-                'slug' => 'payroll.supervised_group.delete',
+                'slug' => 'payroll.supervisedgroup.delete',
                 'description' => 'Acceso para eliminar el grupo de supervisados',
                 'model' => 'Modules\Payroll\Models\PayrollSupervisedGroup', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'grupo.supervisados.eliminar',
             ],
-            /*
-             * scholarship-types
-             */
+            /* scholarship-types */
             [
                 'name' => 'Crear Tipos de beca',
                 'slug' => 'payroll.scholarship.types.create',
@@ -1499,7 +1671,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'tipo.beca.eliminar',
             ],
-            /** Contract types */
+            /* Contract types */
             [
                 'name' => 'Crear datos de tipos de excepciones',
                 'slug' => 'payroll.exception.types.create',
@@ -1521,92 +1693,97 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollExceptionType', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'tipo.excepciones.eliminar',
             ],
-            /**
-             * Permisos de parámetros de hoja de tiempo
-             */
+            /* Permisos de parámetros de hoja de tiempo */
             [
                 'name' => 'Listar los parámetros de hoja de tiempo',
-                'slug' => 'payroll.time_sheet_parameter.index',
+                'slug' => 'payroll.timesheetparameter.index',
                 'description' => 'Acceso para listar los parámetros de hoja de tiempo',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheetParameter', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'grupo.parametros.hoja.tiempo.listar',
             ],
             [
-                'name' => 'Crear los parámetros de hoja de tiempo', 'slug' => 'payroll.time_sheet_parameter.create',
+                'name' => 'Crear los parámetros de hoja de tiempo',
+                'slug' => 'payroll.timesheetparameter.create',
                 'description' => 'Acceso para crear los parámetros de hoja de tiempo',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheetParameter', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'grupo.parametros.hoja.tiempo.crear',
             ],
             [
                 'name' => 'Editar los parámetros de hoja de tiempo',
-                'slug' => 'payroll.time_sheet_parameter.edit',
+                'slug' => 'payroll.timesheetparameter.edit',
                 'description' => 'Acceso para editar los parámetros de hoja de tiempo',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheetParameter', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'grupo.parametros.hoja.tiempo.editar',
             ],
             [
                 'name' => 'Eliminar los parámetros de hoja de tiempo',
-                'slug' => 'payroll.time_sheet_parameter.delete',
+                'slug' => 'payroll.timesheetparameter.delete',
                 'description' => 'Acceso para eliminar los parámetros de hoja de tiempo',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheetParameter', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'grupo.parametros.hoja.tiempo.eliminar',
             ],
-            /**
-             * Permisos de datos contables del trabajador
-             */
+            /* Permisos de datos contables del trabajador */
             [
                 'name' => 'Listar los datos contables de los trabajadores',
-                'slug' => 'payroll.staff_account.index',
+                'slug' => 'payroll.staffaccount.index',
                 'description' => 'Acceso para listar los datos contables de los trabajadores',
                 'model' => 'Modules\Payroll\Models\PayrollStaffAccount', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'cuenta.trabajadores.listar',
             ],
             [
                 'name' => 'Crear los datos contables de los trabajadores',
-                'slug' => 'payroll.staff_account.create',
+                'slug' => 'payroll.staffaccount.create',
                 'description' => 'Acceso para crear los datos contables de los trabajadores',
                 'model' => 'Modules\Payroll\Models\PayrollStaffAccount', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'cuenta.trabajadores.crear',
             ],
             [
                 'name' => 'Editar los datos contables de los trabajadores',
-                'slug' => 'payroll.staff_account.edit',
+                'slug' => 'payroll.staffaccount.edit',
                 'description' => 'Acceso para editar los datos contables de los trabajadores',
                 'model' => 'Modules\Payroll\Models\PayrollStaffAccount', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'cuenta.trabajadores.editar',
             ],
             [
                 'name' => 'Eliminar los datos contables de los trabajadores',
-                'slug' => 'payroll.staff_account.delete',
+                'slug' => 'payroll.staffaccount.delete',
                 'description' => 'Acceso para eliminar los datos contables de los trabajadores',
                 'model' => 'Modules\Payroll\Models\PayrollStaffAccount', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'cuenta.trabajadores.eliminar',
             ],
-            /**
-             * Permisos archivo txt de nómina
-             */
+            [
+                'name' => 'Importar datos contables',
+                'slug' => 'payroll.staffaccount.import',
+                'description' => 'Acceso para importar datos contables',
+                'model' => 'Modules\Payroll\Models\PayrollStaffAccount', 'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'cuenta.trabajadores.importar',
+            ],
+            [
+                'name' => 'Exportar datos contables',
+                'slug' => 'payroll.staffaccount.export',
+                'description' => 'Acceso para exportar datos contables',
+                'model' => 'Modules\Payroll\Models\PayrollStaffAccount', 'model_prefix' => 'Talento Humano',
+                'slug_alt' => 'cuenta.trabajadores.exportar',
+            ],
+            /* Permisos archivo txt de nómina */
             [
                 'name' => 'Crear archivo txt de nómina',
-                'slug' => 'payroll.txt-file.create',
+                'slug' => 'payroll.txt.file.create',
                 'description' => 'Acceso para visualizar formulario del archivo txt de nómina',
                 'model' => 'Modules\Payroll\Models\PayrollTextFile', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'archivo.txt.crear',
             ],
 
-            /**
-             * Permisos para generar reporte presupuestario de nómina
-             */
+            /* Permisos para generar reporte presupuestario de nómina */
             [
                 'name' => 'Generar reporte presupuestario de nómina',
-                'slug' => 'payroll.budget-report.getBudgetAccountingReport',
+                'slug' => 'payroll.budget.report.getbudgetaccountingreport',
                 'description' => 'Acceso para generar reporte presupuestario de nómina',
                 'model' => 'Modules\Payroll\Models\PayrollTextFileController', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'reporte.presupuestario.crear',
             ],
 
-            /**
-             * Permisos para solicitar disponibilidad presupuestaria (nómina)
-             */
+            /* Permisos para solicitar disponibilidad presupuestaria (nómina) */
             [
                 'name' => 'Solicitar disponibilidad presupuestaria (nómina)',
                 'slug' => 'payroll.availability.request',
@@ -1614,207 +1791,200 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Payroll\Models\PayrollController', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'disponiblidad.presupuestaria.solicitar',
             ],
-            /**
-             * Permisos de hoja de tiempo
-             */
+            /* Permisos de hoja de tiempo */
             [
                 'name' => 'Listar hoja de tiempo',
-                'slug' => 'payroll.time_sheet.index',
+                'slug' => 'payroll.timesheet.index',
                 'description' => 'Acceso para listar hoja de tiempo',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheet', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.listar',
             ],
             [
-                'name' => 'Crear hoja de tiempo', 'slug' => 'payroll.time_sheet.create',
+                'name' => 'Crear hoja de tiempo',
+                'slug' => 'payroll.timesheet.create',
                 'description' => 'Acceso para crear hoja de tiempo',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheet', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.crear',
             ],
             [
                 'name' => 'Editar hoja de tiempo',
-                'slug' => 'payroll.time_sheet.edit',
+                'slug' => 'payroll.timesheet.edit',
                 'description' => 'Acceso para editar hoja de tiempo',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheet', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.editar',
             ],
             [
                 'name' => 'Eliminar hoja de tiempo',
-                'slug' => 'payroll.time_sheet.delete',
+                'slug' => 'payroll.timesheet.delete',
                 'description' => 'Acceso para eliminar hoja de tiempo',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheet', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.eliminar',
             ],
             [
                 'name' => 'Aprobar hoja de tiempo',
-                'slug' => 'payroll.time_sheet.approve',
+                'slug' => 'payroll.timesheet.approve',
                 'description' => 'Acceso para aprobar hoja de tiempo',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheet', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.aprobar',
             ],
             [
                 'name' => 'Rechazar hoja de tiempo',
-                'slug' => 'payroll.time_sheet.reject',
+                'slug' => 'payroll.timesheet.reject',
                 'description' => 'Acceso para rechazar hoja de tiempo',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheet', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.rechazar',
             ],
             [
                 'name' => 'Confirmar hoja de tiempo',
-                'slug' => 'payroll.time_sheet.confirm',
+                'slug' => 'payroll.timesheet.confirm',
                 'description' => 'Acceso para confirmar hoja de tiempo',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheet', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.confirmar',
             ],
-            /**
-             * Permisos de hoja de tiempo pendiente
-             */
+            /* Permisos de hoja de tiempo pendiente */
             [
                 'name' => 'Listar hoja de tiempo de pendientes',
-                'slug' => 'payroll.time_sheet_pending.index',
+                'slug' => 'payroll.timesheetpending.index',
                 'description' => 'Acceso para listar hoja de tiempo de pendientes',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheetPending', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.pendiente.listar',
             ],
             [
-                'name' => 'Crear hoja de tiempo de pendientes', 'slug' => 'payroll.time_sheet_pending.create',
+                'name' => 'Crear hoja de tiempo de pendientes',
+                'slug' => 'payroll.timesheetpending.create',
                 'description' => 'Acceso para crear hoja de tiempo de pendientes',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheetPending', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.pendiente.crear',
             ],
             [
                 'name' => 'Editar hoja de tiempo de pendientes',
-                'slug' => 'payroll.time_sheet_pending.edit',
+                'slug' => 'payroll.timesheetpending.edit',
                 'description' => 'Acceso para editar hoja de tiempo de pendientes',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheetPending', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.pendiente.editar',
             ],
             [
                 'name' => 'Eliminar hoja de tiempo de pendientes',
-                'slug' => 'payroll.time_sheet_pending.delete',
+                'slug' => 'payroll.timesheetpending.delete',
                 'description' => 'Acceso para eliminar hoja de tiempo de pendientes',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheetPending', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.pendiente.eliminar',
             ],
             [
                 'name' => 'Aprobar hoja de tiempo de pendientes',
-                'slug' => 'payroll.time_sheet_pending.approve',
+                'slug' => 'payroll.timesheetpending.approve',
                 'description' => 'Acceso para aprobar hoja de tiempo de pendientes',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheetPending', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.pendiente.aprobar',
             ],
             [
                 'name' => 'Rechazar hoja de tiempo de pendientes',
-                'slug' => 'payroll.time_sheet_pending.reject',
+                'slug' => 'payroll.timesheetpending.reject',
                 'description' => 'Acceso para rechazar hoja de tiempo de pendientes',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheetPending', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.pendiente.rechazar',
             ],
             [
                 'name' => 'Confirmar hoja de tiempo de pendientes',
-                'slug' => 'payroll.time_sheet_pending.confirm',
+                'slug' => 'payroll.timesheetpending.confirm',
                 'description' => 'Acceso para confirmar hoja de tiempo de pendientes',
                 'model' => 'Modules\Payroll\Models\PayrollTimeSheetPending', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'hoja.tiempo.pendiente.confirmar',
             ],
-            /**
-             * Permisos de esquemas de guardias
-             */
+            /* Permisos de esquemas de guardias */
             [
                 'name' => 'Listar esquemas de guardias',
-                'slug' => 'payroll.guard-scheme.index',
+                'slug' => 'payroll.guard.scheme.index',
                 'description' => 'Acceso para listar los esquemas de guardias',
                 'model' => 'Modules\Payroll\Models\PayrollGuardScheme', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'esquema.guardia.listar',
             ],
             [
                 'name' => 'Crear esquemas de guardias',
-                'slug' => 'payroll.guard-scheme.create',
+                'slug' => 'payroll.guard.scheme.create',
                 'description' => 'Acceso para crear esquemas de guardias',
                 'model' => 'Modules\Payroll\Models\PayrollGuardScheme', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'esquema.guardia.crear',
             ],
             [
                 'name' => 'Editar esquemas de guardias',
-                'slug' => 'payroll.guard-scheme.edit',
+                'slug' => 'payroll.guard.scheme.edit',
                 'description' => 'Acceso para editar esquemas de guardias',
                 'model' => 'Modules\Payroll\Models\PayrollGuardScheme', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'esquema.guardia.editar',
             ],
             [
                 'name' => 'Eliminar esquemas de guardias',
-                'slug' => 'payroll.guard-scheme.delete',
+                'slug' => 'payroll.guard.scheme.delete',
                 'description' => 'Acceso para eliminar esquemas de guardias',
                 'model' => 'Modules\Payroll\Models\PayrollGuardScheme', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'esquema.guardia.eliminar',
             ],
             [
                 'name' => 'Aprobar esquemas de guardias',
-                'slug' => 'payroll.guard-scheme.approve',
+                'slug' => 'payroll.guard.scheme.approve',
                 'description' => 'Acceso para aprobar esquemas de guardias',
                 'model' => 'Modules\Payroll\Models\PayrollGuardScheme', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'esquema.guardia.aprobar',
             ],
             [
                 'name' => 'Confirmar esquemas de guardias',
-                'slug' => 'payroll.guard-scheme.confirm',
+                'slug' => 'payroll.guard.scheme.confirm',
                 'description' => 'Acceso para confirmar esquemas de guardias',
                 'model' => 'Modules\Payroll\Models\PayrollGuardScheme', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'esquema.guardia.confirmar',
             ],
             [
                 'name' => 'Solicitar revisión de esquemas de guardias',
-                'slug' => 'payroll.guard-scheme.request-review',
+                'slug' => 'payroll.guard.scheme.request.review',
                 'description' => 'Acceso para solicitar revisión de esquemas de guardias',
                 'model' => 'Modules\Payroll\Models\PayrollGuardScheme', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'esquema.guardia.solicitar.revision',
             ],
-            /**
-             * Permisos de la planilla ARI
-             */
+            /* Permisos de la planilla ARI */
             [
-                'name' => 'Crear registro de la planilla ARI', 'slug' => 'payroll.ari_register.create',
+                'name' => 'Crear registro de la planilla ARI',
+                'slug' => 'payroll.ariregister.create',
                 'description' => 'Acceso para crear los registros de la planilla ARI',
                 'model' => 'Modules\Payroll\Models\PayrollAriRegister', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'planilla.ari.crear',
             ],
             [
                 'name' => 'Editar registro de la planilla ARI',
-                'slug' => 'payroll.ari_register.edit',
+                'slug' => 'payroll.ariregister.edit',
                 'description' => 'Acceso para editar los registro de la planilla ARI',
                 'model' => 'Modules\Payroll\Models\PayrollAriRegister', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'planilla.ari.editar',
             ],
             [
                 'name' => 'Eliminar registro de la planilla ARI',
-                'slug' => 'payroll.ari_register.delete',
+                'slug' => 'payroll.ariregister.delete',
                 'description' => 'Acceso para eliminar los registro de la planilla ARI',
                 'model' => 'Modules\Payroll\Models\PayrollAriRegister', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'planilla.ari.eliminar',
             ],
             [
                 'name' => 'Visualizar registro de la planilla ARI',
-                'slug' => 'payroll.ari_register.list',
+                'slug' => 'payroll.ariregister.list',
                 'description' => 'Acceso para visualizar los registro de la planilla ARI',
                 'model' => 'Modules\Payroll\Models\PayrollAriRegister', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'planilla.ari.ver',
             ],
             [
                 'name' => 'Importar registros de la planilla ARI',
-                'slug' => 'payroll.ari_register.import',
+                'slug' => 'payroll.ariregister.import',
                 'description' => 'Acceso para importar los registro de la planilla ARI',
                 'model' => 'Modules\Payroll\Models\PayrollAriRegister', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'planilla.ari.importar',
             ],
             [
                 'name' => 'Exportar registros de la planilla ARI',
-                'slug' => 'payroll.ari_register.export',
+                'slug' => 'payroll.ariregister.export',
                 'description' => 'Acceso para exportar los registro de la planilla ARI',
                 'model' => 'Modules\Payroll\Models\PayrollAriRegister', 'model_prefix' => 'Talento Humano',
                 'slug_alt' => 'planilla.ari.exportar',
             ],
-            /**
-             * Dashboard
-             */
+            /* Dashboard */
             [
                 'name'              => 'Vista principal del dashboard del módulo de talento humano',
                 'slug'              => 'payroll.dashboard',
@@ -1824,12 +1994,10 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt'          => 'panel_de_control.ver',
                 'short_description' => 'Visualizar panel de control del módulo de talento humano'
             ],
-            /**
-             * Permisos envio de recibos de pago
-             */
+            /* Permisos envio de recibos de pago */
             [
                 'name' => 'Enviar recibos de pago',
-                'slug' => 'payroll.payment-receipts.send',
+                'slug' => 'payroll.payment.receipts.send',
                 'description' => 'Permiso para enviar los recibos de pago',
                 'model' => '',
                 'model_prefix' => 'Talento Humano',
@@ -1838,22 +2006,18 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
         ];
 
         $additionalPermissions = [
-            /**
-             * Payroll
-             */
+            /* Payroll */
             [
                 'name' => 'Omitir momentos presupuestarios al cerrar nómina',
-                'slug' => 'payroll.registers.moment-close',
+                'slug' => 'payroll.registers.moment.close',
                 'description' => 'Acceso para ejecutar los momentos presupuestarios al cerrar nómina',
                 'model' => 'Modules\Payroll\Models\Payroll', 'model_prefix' => 'Talento Humano',
-                'slug_alt' => 'registers.moment-close',
+                'slug_alt' => 'registers.moment.close',
             ],
         ];
 
         $removePermissions = [
-            /**
-             * removePermissions Staff classifications
-             **/
+            /* removePermissions Staff classifications */
             [
                 'name' => 'Ver la clasificación del personal',
                 'slug' => 'payroll.staff.classifications.list',
@@ -1870,10 +2034,8 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'name' => 'Eliminar la clasificación del personal',
                 'slug' => 'payroll.staff.classifications.delete',
             ],
-            /**
-             * removePermissions Relationships
-             **/
-            /**
+            /* removePermissions Relationships */
+            /*
             [
                 'name' => 'Ver los parentescos',
                 'slug' => 'payroll.relationships.list',
@@ -1890,9 +2052,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'name' => 'Eliminar parentescos',
                 'slug' => 'payroll.relationships.delete',
             ],*/
-            /*
-             * removePermissions various permissions
-             */
+            /* removePermissions various permissions */
             [
                 'name' => 'Ver la nacionalidad',
                 'slug' => 'payroll.nationalities.list',
@@ -1961,9 +2121,11 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
                 'name' => 'Ver tipos de personal',
                 'slug' => 'payroll.staff.types.list',
             ],
-            /**
-             * removePermissions Settlement types
-             **/
+            [
+                'name' => 'Crear reporte en talento humano',
+                'slug' => 'payroll.reports.create',
+            ],
+            /* removePermissions Settlement types */
             [
                 'name' => 'Crear tipos de liquidación',
                 'slug' => 'payroll.settlement.types.create',
@@ -1978,7 +2140,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Editar tipos de pagos abiertos',
-                'slug' => 'payroll.payment-types.edit-open',
+                'slug' => 'payroll.payment.types.edit.open',
             ],
         ];
 
@@ -2012,9 +2174,7 @@ class PayrollRoleAndPermissionsTableSeeder extends Seeder
             );
         }
 
-        /**
-         * Proceso para eliminar los permisos agregados usando el campo slug
-         * */
+        /* Proceso para eliminar los permisos agregados usando el campo slug */
         foreach ($removePermissions as $permission) {
             $per = Permission::where('slug', $permission['slug']);
             $per->delete();

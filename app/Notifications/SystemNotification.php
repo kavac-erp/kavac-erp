@@ -1,9 +1,8 @@
 <?php
 
-/** Notificaciones de la aplicación */
-
 namespace App\Notifications;
 
+use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -24,17 +23,29 @@ class SystemNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    /** @var string Título de la notificación */
+    /**
+     * Título de la notificación
+     *
+     * @var string $title
+     */
     public $title;
-    /** @var string Detalles de la notificación */
+
+    /**
+     * Detalles de la notificación
+     *
+     * @var string $details
+     */
     public $details;
-    /** @var string Fecha y hora en que se realiza la notificación */
+
+    /**
+     * Fecha y hora en que se realiza la notificación
+     *
+     * @var DateTime $currentTimestamp
+     */
     public $currentTimestamp;
 
     /**
-     * Create a new notification instance.
-     *
-     * @method  __construct
+     * Crea una nueva instancia de la notificación
      *
      * @return void
      */
@@ -46,9 +57,7 @@ class SystemNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the notification's delivery channels.
-     *
-     * @method  via
+     * Establece el mecanismo de notificación
      *
      * @param  mixed  $notifiable
      *
@@ -60,9 +69,7 @@ class SystemNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the array representation of the notification.
-     *
-     * @method  toArray
+     * Gestiona los datos de la notificación
      *
      * @param  mixed  $notifiable
      *
@@ -78,9 +85,7 @@ class SystemNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the array representation of the notification.
-     *
-     * @method  toDatabase
+     * Gestiona los datos de la notificación a registrar en base de datos
      *
      * @param  mixed  $notifiable
      *
@@ -96,13 +101,11 @@ class SystemNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the array representation of the notification.
-     *
-     * @method    toBroadcast
+     * Gestiona la notificación a enviar a la aplicación
      *
      * @param     mixed  $notifiable
      *
-     * @return    array
+     * @return    BroadcastMessage
      */
     public function toBroadcast($notifiable)
     {

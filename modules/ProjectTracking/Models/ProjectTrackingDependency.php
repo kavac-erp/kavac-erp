@@ -27,6 +27,7 @@ class ProjectTrackingDependency extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
@@ -40,11 +41,21 @@ class ProjectTrackingDependency extends Model implements Auditable
         'name', 'description'
     ];
 
+    /**
+     * Establece la relación con los proyectos
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function project()
     {
         return $this->belongsToMany(ProjectTrackingProject::class);
     }
 
+    /**
+     * Establece la relación con los productos
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function products()
     {
         return $this->belongsToMany(ProjectTrackingProduct::class);

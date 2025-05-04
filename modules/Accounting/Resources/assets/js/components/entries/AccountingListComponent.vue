@@ -59,8 +59,7 @@
                     <button
                         v-if="
                             lastYear &&
-                                format_date(props.row.from_date, 'YYYY') <=
-                                    lastYear
+                            format_date(props.row.from_date, 'YYYY') <= lastYear
                         "
                         class="btn btn-success btn-xs btn-icon btn-action"
                         type="button"
@@ -80,20 +79,25 @@
                         <i class="fa fa-check"></i>
                     </button>
                     <!-- Generar Reverso -->
-                    <button
-                        :disabled="
-                            !(
-                                props.row.approved &&
-                                props.row.pivot_entryable_count == 0 &&
-                                !props.row.reversed &&
-                                !props.row.reversed_id
-                            )
+                    <accounting-entry-reverse
+                        v-if="
+                            props.row.approved &&
+                            props.row.pivot_entryable_count == 0 &&
+                            !props.row.reversed &&
+                            !props.row.reversed_id
                         "
+                        :id="props.row.id"
+                        :recordsAccounting="props.row"
+                        :reversePermission="true"
+                        :fiscal_year="lastYear"
+                    />
+                    <button
+                        v-else
+                        disabled
                         class="btn btn-secondary btn-xs btn-icon btn-action"
                         title="Generar Reverso de asiento"
                         data-toggle="tooltip"
                         v-has-tooltip
-                        @click="reverse(props.index)"
                     >
                         <i class="fa fa-exchange"></i>
                     </button>
@@ -107,8 +111,7 @@
                     <template
                         v-if="
                             lastYear &&
-                                format_date(props.row.from_date, 'YYYY') <=
-                                    lastYear
+                            format_date(props.row.from_date, 'YYYY') <= lastYear
                         "
                     >
                         <button
@@ -139,7 +142,7 @@
                             "
                             :disabled="
                                 props.row.approved ||
-                                    props.row.pivot_entryable_count > 0
+                                props.row.pivot_entryable_count > 0
                             "
                         >
                             <i class="fa fa-edit"></i>
@@ -159,7 +162,7 @@
                             "
                             :disabled="
                                 props.row.approved ||
-                                    props.row.pivot_entryable_count > 0
+                                props.row.pivot_entryable_count > 0
                             "
                         >
                             <i class="fa fa-trash-o"></i>
@@ -304,7 +307,6 @@ export default {
     watch: {
         perPage(res) {
             $(".form-group.form-inline.pull-right.VueTables__limit").remove();
-            $(".VuePagination-2.row.col-md-12").remove();
             if (this.page == 1) {
                 this.initRecords(this.url + "/" + res, "");
             } else {
@@ -323,9 +325,9 @@ export default {
         /**
          * Cambia la pagina actual de la tabla
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          *
-         * @param [Integer] $page Número de pagina actual
+         * @param integer $page Número de pagina actual
          */
         changePage(page) {
             const vm = this;
@@ -349,9 +351,9 @@ export default {
          * Reescribe el método initRecords para cambiar su comportamiento por defecto y realiza la consulta
          * en base a la informacion del formulario
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          *
-         * @param {string} url      Ruta que obtiene los datos a ser mostrado en listados
+         * @param string url      Ruta que obtiene los datos a ser mostrado en listados
          */
         initRecords(url) {
             const vm = this;
@@ -462,7 +464,7 @@ export default {
 
             bootbox.confirm({
                 title: "Reverso de asiento contable",
-                message: "¿Esta seguro de generar reverso de este asiento?",
+                message: "¿Está seguro de generar reverso de este asiento?",
                 buttons: {
                     cancel: {
                         label: '<i class="fa fa-times"></i> Cancelar',
@@ -473,7 +475,7 @@ export default {
                         className: "btn btn-primary btn-sm btn-round",
                     },
                 },
-                callback: function(result) {
+                callback: function (result) {
                     if (result) {
                         confirmated = true;
                         vm.loading = true;

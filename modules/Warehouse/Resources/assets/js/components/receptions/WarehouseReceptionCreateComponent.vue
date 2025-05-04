@@ -14,7 +14,7 @@
                         </span>
                     </button>
                     <ul>
-                        <li v-for="error in errors">{{ error }}</li>
+                        <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                     </ul>
                 </div>
             </div>
@@ -26,10 +26,10 @@
                 <div class="col-md-4" id="helpInstitution">
                     <div class="form-group is-required">
                         <label>Nombre de la organización:</label>
-                        <select2 
-                            :options="institutions" 
+                        <select2
+                            :options="institutions"
                             @input="getWarehouses"
-                            v-model="record.institution_id"> 
+                            v-model="record.institution_id">
                         </select2>
                         <input type="hidden" v-model="record.id">
                     </div>
@@ -38,10 +38,10 @@
                 <div class="col-md-4" id="helpWarehouse">
                     <div class="form-group is-required">
                         <label>Nombre del almacén:</label>
-                        <select2 
-                            :options="warehouses" 
+                        <select2
+                            :options="warehouses"
                             @input="getWarehouseProducts"
-                            v-model="record.warehouse_id"> 
+                            v-model="record.warehouse_id">
                         </select2>
                     </div>
                 </div>
@@ -61,9 +61,9 @@
                 <div class="col-md-4" id="helpInstitution">
                     <div class="form-group is-required">
                         <label>Nombre de la organización:</label>
-                        <select2 
+                        <select2
                             :options="institutions"
-                            v-model="record.institution_id"> 
+                            v-model="record.institution_id">
                         </select2>
                         <input type="hidden" v-model="record.id">
                     </div>
@@ -72,9 +72,9 @@
                 <div class="col-md-4" id="helpWarehouse">
                     <div class="form-group is-required">
                         <label>Nombre del almacén:</label>
-                        <select2 
+                        <select2
                             :options="warehouses"
-                            v-model="record.warehouse_id"> 
+                            v-model="record.warehouse_id">
                         </select2>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
 				</div>
             </div>
             <hr>
-            
+
             <div class="row" id="helpSectionProducts">
                 <div class="col-md-12">
                     <b>Ingrese los insumos a la solicitud</b>
@@ -172,7 +172,7 @@
                 <div class="col-md-12">
                     <b>Características del insumo</b>
                 </div>
-                <div class="col-md-3" v-for="attribute in warehouse_inventory_product.warehouse_product_attributes">
+                <div class="col-md-3" v-for="(attribute, index) in warehouse_inventory_product.warehouse_product_attributes" :key="index">
                     <div class="form-group">
                         <label>{{attribute.name.charAt(0).toUpperCase() + attribute.name.slice(1) }}:</label>
                         <input type="text" placeholder="" data-toggle="tooltip"
@@ -184,7 +184,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <button type="button" @click="addProduct($event)" class="btn btn-sm btn-primary btn-custom float-right" 
+                    <button type="button" @click="addProduct($event)" class="btn btn-sm btn-primary btn-custom float-right"
                             title="Agregar registro a la lista"
                             data-toggle="tooltip">
                         <i class="fa fa-plus-circle"></i>
@@ -202,7 +202,7 @@
                 </div>
                 <div slot="warehouse_product_attributes" slot-scope="props">
                     <span>
-                        <div v-for="att in props.row.warehouse_product_attributes">
+                        <div v-for="(att, index) in props.row.warehouse_product_attributes" :key="index">
                             <b>{{att.name +":"}}</b> {{ att.value}}
                         </div>
                         <div>
@@ -218,15 +218,15 @@
                 </div>
                 <div slot="id" slot-scope="props" class="text-center">
                     <div class="d-inline-flex">
-                        <button @click="editProduct(props.index, $event)" 
-                                class="btn btn-warning btn-xs btn-icon btn-action" 
+                        <button @click="editProduct(props.index, $event)"
+                                class="btn btn-warning btn-xs btn-icon btn-action"
                                 title="Modificar registro" data-toggle="tooltip" type="button">
                             <i class="fa fa-edit"></i>
                         </button>
-                        
-                        <button @click="removeProduct(props.index, $event)" 
-                                class="btn btn-danger btn-xs btn-icon btn-action" 
-                                title="Eliminar registro" data-toggle="tooltip" 
+
+                        <button @click="removeProduct(props.index, $event)"
+                                class="btn btn-danger btn-xs btn-icon btn-action"
+                                title="Eliminar registro" data-toggle="tooltip"
                                 type="button">
                             <i class="fa fa-trash-o"></i>
                         </button>
@@ -238,7 +238,7 @@
         <div class="card-footer text-right">
             <div class="row">
                 <div class="col-md-3 offset-md-9" id="helpParamButtons">
-                    <button type="button" @click="reset()" data-toggle="tooltip" 
+                    <button type="button" @click="reset()" data-toggle="tooltip"
                             class="btn btn-default btn-icon btn-round"
                             title ="Borrar datos del formulario">
                             <i class="fa fa-eraser"></i>
@@ -285,15 +285,15 @@
                     warehouse_product_id: '',
                     warehouse_product_attributes: [],
                 },
-                
+
                 columns: ['name', 'quantity', 'warehouse_product_attributes', 'id'],
                 records: [],
                 errors: [],
-                
+
                 setting: {
                     id: '',
                 },
-                
+
                 institutions: [],
                 warehouses: [],
                 warehouse_products: [],
@@ -305,7 +305,7 @@
             }
         },
         props: {
-        receptionid: Number, 
+        receptionid: Number,
         },
         methods: {
             reset(all = true) {
@@ -412,7 +412,7 @@
                 var att = [];
                 var currency_name = '';
                 var warehouse_product_name = '';
-                
+
                 vm.warehouse_product_attributes.map(function(campo, index) {
                     var element = document.getElementById(campo.name);
                     var field = { name: campo.name, value: element.value };
@@ -442,11 +442,11 @@
 
                 if (!vm.validateErrors(vm.warehouse_inventory_product)) return false;
 
-                if (this.editIndex === null) {                  
+                if (this.editIndex === null) {
                     vm.records.push(vm.warehouse_inventory_product);
                     vm.reset(false);
                 }
-                else if (this.editIndex >= 0 ) {                
+                else if (this.editIndex >= 0 ) {
                     vm.records.splice(this.editIndex, 1);
                     vm.records.push(vm.warehouse_inventory_product);
                     vm.reset(false);
@@ -458,7 +458,7 @@
                 this.editIndex = index-1;
                 this.warehouse_inventory_product = this.records[index - 1];
 
-                
+
                 $.each(this.warehouse_inventory_product.warehouse_product_attributes, function(index, campo) {
                     var element = document.getElementById(campo.name);
                     if(element)
@@ -474,7 +474,7 @@
             validateErrors(field) {
                 const vm = this;
                 vm.errors = [];
-                
+
                 if (!field["warehouse_product_id"])
                     vm.errors.push('El campo nombre del insumo es obligatorio.');
                 if (!field["quantity"])
@@ -497,7 +497,7 @@
             },
             loadReception(id) {
                 const vm = this;
-                
+
                 axios.get('/warehouse/receptions/info/' + id).then(response => {
                     vm.record = response.data.records;
                     vm.record.institution_id = vm.record.warehouse_institution_warehouse_end.institution_id;
@@ -556,7 +556,7 @@
         },
         mounted() {
             var typingTimer;                //timer identifier
-            var doneTypingInterval = 1000;  //time in ms, 5 second 
+            var doneTypingInterval = 1000;  //time in ms, 5 second
 
             const vm = this;
             $('#productValue').keyup(function() {

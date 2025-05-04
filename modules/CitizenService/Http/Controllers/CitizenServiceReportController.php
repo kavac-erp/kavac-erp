@@ -16,42 +16,64 @@ use App\Models\Institution;
 use App\Models\FiscalYear;
 use Carbon\Carbon;
 use Log;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
+/**
+ * @class CitizenServiceReportController
+ * @brief Controlador para los reportes de la oficina de atención al ciudadano
+ *
+ * Clase que gestiona el controlador para los reportes de la OAC
+ *
+ * @author Ing. Yenifer Ramirez <yramirez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CitizenServiceReportController extends Controller
 {
     use ValidatesRequests;
 
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Método constructor de la clase
+     *
+     * @return void
      */
     public function __construct()
     {
-         /** Establece permisos de acceso para cada método del controlador */
+         // Establece permisos de acceso para cada método del controlador
          $this->middleware('permission:citizenservice.report.create', ['only' => 'create']);
          $this->middleware('permission:citizenservice.report.list', ['only' => 'index']);
     }
+
+    /**
+     * Muestra el formulario para la consulta de reportes de la OAC
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-
         return view('citizenservice::reports.create');
     }
+
+    /**
+     * Solicita un reporte de la OAC
+     *
+     * @return \Illuminate\View\View
+     */
     public function request()
     {
         return view('citizenservice::reports.citizenservice-report-request');
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para la creación de un nuevo reporte de la OAC
+     *
+     * @return \illuminate\Http\JsonResponse
      */
     public function create(Request $request)
     {
-
-
-
-        /** Para el PDF**/
-        $user = Auth()->user();
+        /* Para el PDF**/
+        $user = auth()->user();
         $profileUser = $user->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
@@ -64,7 +86,7 @@ class CitizenServiceReportController extends Controller
             $request
         )->with([
                 'citizenServiceRequestType',
-                'citizenServiceIndicator',
+                'citizenServiceIndicator.indicator',
                 'parish.municipality.estate.country',
                 'citizenServiceDepartment'
             ])->get();
@@ -107,8 +129,9 @@ class CitizenServiceReportController extends Controller
 
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra el PDF del reporte de la OAC
+     *
+     * @return BinaryFileResponse
      */
     public function show($filename)
     {
@@ -118,8 +141,9 @@ class CitizenServiceReportController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para la edición de un reporte de la OAC
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -127,22 +151,34 @@ class CitizenServiceReportController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza el reporte de la OAC
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return void
      */
     public function update(Request $request)
     {
+        //
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Renderable
+     * Elimina el reporte de la OAC
+     *
+     * @return void
      */
     public function destroy()
     {
+        //
     }
 
+    /**
+     * Busca registros de solicitudes
+     *
+     * @param Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function search(Request $request)
     {
         $citizenservice = CitizenServiceRequest::Search(

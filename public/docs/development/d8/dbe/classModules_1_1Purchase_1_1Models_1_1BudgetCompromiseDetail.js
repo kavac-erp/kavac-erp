@@ -5,7 +5,7 @@ var classModules_1_1Purchase_1_1Models_1_1BudgetCompromiseDetail =
     [ "budgetSubSpecificFormulation", "d8/dbe/classModules_1_1Purchase_1_1Models_1_1BudgetCompromiseDetail.html#a269de1090626ed1e8001aacc3d388d7d", null ],
     [ "getTotalAttribute", "d8/dbe/classModules_1_1Purchase_1_1Models_1_1BudgetCompromiseDetail.html#ab1421bd4ffdc6db7428bae3ee374628e", null ],
     [ "tax", "d8/dbe/classModules_1_1Purchase_1_1Models_1_1BudgetCompromiseDetail.html#adbbf6760c1a12c67199b4d76b6c5119a", null ],
-    [ "$appends", "d8/dbe/classModules_1_1Purchase_1_1Models_1_1BudgetCompromiseDetail.html#a29ec873a375ecb374d2e2ec92490cd41", null ],
+    [ "$appends", "d8/dbe/classModules_1_1Purchase_1_1Models_1_1BudgetCompromiseDetail.html#a2f891c3ddc371402c455a71fbe376e29", null ],
     [ "$dates", "d8/dbe/classModules_1_1Purchase_1_1Models_1_1BudgetCompromiseDetail.html#a6ed295a3b7371b42773cab86fd367af8", null ],
     [ "$fillable", "d8/dbe/classModules_1_1Purchase_1_1Models_1_1BudgetCompromiseDetail.html#a13601d3af66d109458e268a3eb4afc49", null ]
 ];

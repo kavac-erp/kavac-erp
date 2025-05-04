@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class AddFieldCityIdToFinanceBankingAgenciesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -21,7 +21,7 @@ class AddFieldCityIdToFinanceBankingAgenciesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

@@ -3,7 +3,7 @@
 		<a class="btn btn-info btn-xs btn-icon btn-action"
 		   href="#" title="Ver información de la operación" data-toggle="tooltip"
 		   @click="addRecord('view_operation', route_list, $event)">
-			<i class="fa fa-info-circle"></i>
+			<i class="fa fa-eye"></i>
 		</a>
 		<div class="modal fade text-left" tabindex="-1" role="dialog" id="view_operation">
 			<div class="modal-dialog modal-lg">

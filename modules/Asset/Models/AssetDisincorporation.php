@@ -2,13 +2,15 @@
 
 namespace Modules\Asset\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
-use App\Traits\ModelsTrait;
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Image;
+use App\Traits\ModelsTrait;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class AssetDisincorporation
@@ -17,9 +19,9 @@ use Carbon\Carbon;
  * Gestiona el modelo de datos de las desincorporaciones de bienes institucionales
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetDisincorporation extends Model implements Auditable
 {
@@ -43,14 +45,15 @@ class AssetDisincorporation extends Model implements Auditable
         'code', 'asset_disincorporation_motive_id', 'date', 'observation', 'user_id', 'institution_id',
         'authorized_by_id', 'formed_by_id', 'produced_by_id', 'document_status_id',
     ];
-      /**
+
+    /**
      * Obtiene todos documentos asociados
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function documents()
     {
-        return $this->morphMany(\App\Models\Document::class, 'documentable');
+        return $this->morphMany(Document::class, 'documentable');
     }
 
     /**
@@ -60,15 +63,15 @@ class AssetDisincorporation extends Model implements Auditable
      */
     public function images()
     {
-        return $this->morphMany(\App\Models\Image::class, 'imageable');
+        return $this->morphMany(Image::class, 'imageable');
     }
     /**
-    * Método que obtiene los bienes desincorporados
-    *
-    * @author Henry Paredes <hparedes@cenditel.gob.ve>
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-    * AssetDisincorporationAsset
-    */
+     * Método que obtiene los bienes desincorporados
+     *
+     * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function assetDisincorporationAssets()
     {
         return $this->hasMany(AssetDisincorporationAsset::class);
@@ -78,8 +81,8 @@ class AssetDisincorporation extends Model implements Auditable
      * Método que obtiene el motivo de la desincorporacion del bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetDisincorporationMotive
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetDisincorporationMotive()
     {
@@ -90,7 +93,8 @@ class AssetDisincorporation extends Model implements Auditable
      * Método que obtiene el usuario asociado al registro
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
@@ -101,8 +105,8 @@ class AssetDisincorporation extends Model implements Auditable
      * Método que obtiene la institución a la cual está relaciona la desincorporación
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     *                                                           Institution
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function institution()
     {
@@ -113,14 +117,22 @@ class AssetDisincorporation extends Model implements Auditable
      * Método que obtiene el estado del documento que está relaciona la desincorporación
      *
      * @author Henry Paredes <mazambrano@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     *                                                           Document_status
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function documentStatus()
     {
         return $this->belongsTo(\App\Models\DocumentStatus::class);
     }
 
+    /**
+     * Scope para buscar datos
+     *
+     * @param Builder $query Objeto con la consulta
+     * @param string $search Datos a buscar
+     *
+     * @return Builder
+     */
     public function scopeSearch($query, $search)
     {
         $isDate = true;

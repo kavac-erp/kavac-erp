@@ -13,19 +13,25 @@ use Illuminate\Routing\Controller;
  * Clase que gestiona información del módulo de Presupuesto
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetController extends Controller
 {
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('role:budget|admin');
     }
 
     /**
-     * Display a listing of the resource.
+     * Muestra el listado de presupuestos
+     *
      * @return Renderable
      */
     public function index()
@@ -34,55 +40,66 @@ class BudgetController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear un presupuesto
+     *
+     * @return void
      */
     public function create()
     {
-        //return view('budget::create');
+        //
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Almacena la información del presupuesto
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return void
      */
     public function store(Request $request)
     {
+        //
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra detalles de un presupuesto
+     *
+     * @return void
      */
     public function show()
     {
-        //return view('budget::show');
+        //
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar un presupuesto
+     *
+     * @return void
      */
     public function edit()
     {
-        //return view('budget::edit');
+        //
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza la información de un presupuesto
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return void
      */
     public function update(Request $request)
     {
+        //
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Renderable
+     * Elimina un presupuesto
+     *
+     * @return void
      */
     public function destroy()
     {
+        //
     }
 }

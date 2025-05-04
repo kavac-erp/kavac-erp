@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -16,7 +14,7 @@ use Modules\ProjectTracking\Models\ProjectTrackingProjectType;
  *
  * Controlador dedicado a procesar los 'request' de mostrar, crear, guardar, editar, actualizar y eliminar registros.
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -27,13 +25,15 @@ class ProjectTrackingProjectTypeController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -41,41 +41,40 @@ class ProjectTrackingProjectTypeController extends Controller
      * Define la configuración de la clase
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'                                  => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required'                                  => 'El campo nombre es obligatorio.',
         ];
     }
+
     /**
-     * [descripción del método]
+     * Retorna un json con todos los tipos de proyecto
      *
-     * @method    index
+     * @author    José Jorge Briceño <josejorgebriceno9@gmail.com>
      *
-     * @author    [José Jorge Briceño] [josejorgebriceno9@gmail.com]
-     *
-     * @return    Renderable    [Json data]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         return response()->json(['records' => ProjectTrackingProjectType::all()], 200);
     }
 
-        /**
+    /**
      * Retorna un json con todos los tipos de proyecto para ser usado en un componente <select2>
-     *
-     * @method    getProjectTypes
      *
      * @author    Oscar González <xxmaestroyixx@gmail.com>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function getProjectTypes()
     {
@@ -95,13 +94,9 @@ class ProjectTrackingProjectTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para crear un nuevo tipo de proyecto
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -109,20 +104,18 @@ class ProjectTrackingProjectTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena un nuevo tipo de proyecto
      *
-     * @method    store
+     * @author    José Jorge Briceño <josejorgebriceno9@gmail.com>
      *
-     * @author    [José Jorge Briceño] [josejorgebriceno9@gmail.com]
+     * @param     Request    $request    Datos de la petición
      *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [Json data]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $this->validate($request, $this->validateRules, $this->messages);
-        //
+
         $product = ProjectTrackingProjectType::create([
             'name' => $request->input('name'),
             'description' => $request->input('description')
@@ -132,15 +125,11 @@ class ProjectTrackingProjectTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información sobre un tipo de proyecto
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -148,15 +137,11 @@ class ProjectTrackingProjectTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario de edición de un tipo de proyecto
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -164,16 +149,14 @@ class ProjectTrackingProjectTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza los datos de un tipo de proyecto
      *
-     * @method    update
+     * @author    José Jorge Briceño <josejorgebriceno9@gmail.com>
      *
-     * @author    [José Jorge Briceño] [josejorgebriceno9@gmail.com]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [Json data]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -186,15 +169,13 @@ class ProjectTrackingProjectTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Elimina un tipo de proyecto
      *
-     * @method    destroy
-     *
-     * @author    [José Jorge Briceño] [josejorgebriceno9@gmail.com]
+     * @author    José Jorge Briceño <josejorgebriceno9@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [Json data]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -203,12 +184,12 @@ class ProjectTrackingProjectTypeController extends Controller
         return response()->json(['record' => $product, 'message' => 'Success'], 200);
     }
 
-      /**
+    /**
      * Obtiene el listado de los proyectos a implementar en elementos select
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
-     * @return    Array    Arreglo con los registros a mostrar
+     * @return    array    Arreglo con los registros a mostrar
      */
     public function getTypeProjects()
     {

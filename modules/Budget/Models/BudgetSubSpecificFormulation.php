@@ -2,11 +2,13 @@
 
 namespace Modules\Budget\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class BudgetSubSpecificFormulation
@@ -15,9 +17,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos para las formulaciones de presupuesto por sub específicas
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetSubSpecificFormulation extends Model implements Auditable
 {
@@ -25,18 +27,23 @@ class BudgetSubSpecificFormulation extends Model implements Auditable
     use AuditableTrait;
     use ModelsTrait;
 
-    /** @var array Establece las relaciones por defecto que se retornan con las consultas */
+    /**
+     * Establece las relaciones por defecto que se retornan con las consultas
+     *
+     * @var array $with
+     */
     protected $with = ['specificAction', 'currency'];
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista con campos de tipo fecha
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * Lista de atributos que pueden ser asignados masivamente
+     * Lista con campos del modelo
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -58,6 +65,7 @@ class BudgetSubSpecificFormulation extends Model implements Auditable
      * Las formulaciones de presupuesto tienen un tipo de financiamiento.
      *
      * @author Argenis Osorio <aosorio@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function budgetFinancementType()
@@ -69,6 +77,7 @@ class BudgetSubSpecificFormulation extends Model implements Auditable
      * Las formulaciones de presupuesto tienen una fuente de financiamiento.
      *
      * @author Argenis Osorio <aosorio@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function budgetFinancementSource()
@@ -77,9 +86,10 @@ class BudgetSubSpecificFormulation extends Model implements Auditable
     }
 
     /**
-     * BudgetSubSpecificFormulation belongs to BudgetSpecificAction.
+     * Establece la relación con la acción especifica
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function specificAction()
@@ -88,9 +98,10 @@ class BudgetSubSpecificFormulation extends Model implements Auditable
     }
 
     /**
-     * BudgetSubSpecificFormulation belongs to Currency.
+     * Establece la relación con la moneda
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency()
@@ -99,9 +110,10 @@ class BudgetSubSpecificFormulation extends Model implements Auditable
     }
 
     /**
-     * BudgetSubSpecificFormulation belongs to Institution.
+     * Establece la relación con la institución
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function institution()
@@ -110,21 +122,22 @@ class BudgetSubSpecificFormulation extends Model implements Auditable
     }
 
     /**
-     * BudgetSubSpecificFormulation belongs to DocumentStatus.
+     * Establece la relación con el estatus del documento
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function documentStatus()
     {
-        // belongsTo(RelatedModel, foreignKey = document_status_id, keyOnRelatedModel = id)
         return $this->belongsTo(DocumentStatus::class);
     }
 
     /**
-     * BudgetSubSpecificFormulation has many BudgetAccountOpen.
+     * Establece la relación con las cuentas presupuestarias aperturadas
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function accountOpens()
@@ -133,9 +146,10 @@ class BudgetSubSpecificFormulation extends Model implements Auditable
     }
 
     /**
-     * BudgetSubSpecificFormulation has many BudgetAditionalCreditAccounts.
+     * Establece la relación con las cuentas de modificaciones presupuestarias
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function modificationAccounts()
@@ -144,7 +158,7 @@ class BudgetSubSpecificFormulation extends Model implements Auditable
     }
 
     /**
-     * Get the budgetCompromiseDetail| that owns the budgetSubSpecificFormulation
+     * Establece la relación con los detalles de los compromisos presupuestarios
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -158,7 +172,9 @@ class BudgetSubSpecificFormulation extends Model implements Auditable
      * retorna verdadero
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  array  $data Campos a filtrar en la consulta
+     *
      * @return boolean      Devuelve verdadero si la formulación existe, de lo contrario retorna falso
      */
     public static function validateStore($data = [])
@@ -177,13 +193,15 @@ class BudgetSubSpecificFormulation extends Model implements Auditable
      * Scope para obtener la formulación de presupuesto vigente
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  object $query               Consulta del modelo
      * @param  integer $specific_action_id Identificador de la acción específica por la cual realizar el filtro
-     * @return object                      Objeto con la consulta solicitada
+     *
+     * @return Builder                      Objeto con la consulta solicitada
      */
     public function scopeCurrentFormulation($query, $specific_action_id)
     {
-        /** @var object Objeto con información referente al estado del documento */
+        /* Objeto con información referente al estado del documento */
         $documentStatus = DocumentStatus::where('action', 'AP')->first();
 
         return $query->where('budget_specific_action_id', $specific_action_id)

@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreateFinanceAccountTypesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -24,7 +24,7 @@ class CreateFinanceAccountTypesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

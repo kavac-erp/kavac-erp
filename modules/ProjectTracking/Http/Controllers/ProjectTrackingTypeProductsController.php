@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -14,11 +12,11 @@ use Modules\ProjectTracking\Models\ProjectTrackingTypeProducts;
 
 /**
  * @class ProjectTrackingTypeProductsController
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
- * [controlador dedicado a la funcion typos de productos]
+ * Controlador dedicado a la funcion typos de productos
  *
- * @author    [Francisco Escala] [fjescala@gmail.com]
+ * @author    Francisco Escala <fjescala@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -29,12 +27,14 @@ class ProjectTrackingTypeProductsController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -43,18 +43,20 @@ class ProjectTrackingTypeProductsController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         //$this->middleware('permission:asset.setting.condition');
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'     => ['required',  'max:100', Rule::unique('asset_conditions')],
 
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required'     => 'El Nombre es obligatorio.',
             'name.max'          => 'El Nombre no debe contener más de 100 caracteres.',
@@ -63,13 +65,11 @@ class ProjectTrackingTypeProductsController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Retorna un json con todos los tipos de productos
      *
-     * @method    index
+     * @author    Francisco Escala <fjescala@gmail.com>
      *
-     * @author    [Francisco Escala] [fjescala@gmail.com]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -79,11 +79,9 @@ class ProjectTrackingTypeProductsController extends Controller
     /**
      * Retorna un json con todos los tipos de producto para ser usado en un componente <select2>
      *
-     * @method    getProductTypes
-     *
      * @author    Oscar González <xxmaestroyixx@gmail.com>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function getProductTypes()
     {
@@ -103,13 +101,11 @@ class ProjectTrackingTypeProductsController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra un formulario para crear un nuevo tipo de producto
      *
-     * @method    create
+     * @author    Francisco Escala <fjescala@gmail.com>
      *
-     * @author    [Francisco Escala] [fjescala@gmail.com]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -117,23 +113,17 @@ class ProjectTrackingTypeProductsController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena la información de un nuevo tipo de producto
      *
-     * @method    store
+     * @author    Francisco Escala <fjescala@gmail.com>
      *
-     * @author    [Francisco Escala] [fjescala@gmail.com]
+     * @param     Request    $request    Datos de la petición
      *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        /**
-         * Objeto asociado al modelo ProjectTrackingTypeProducts
-         *
-         * @var Object $product
-         */
+        /* Objeto asociado al modelo ProjectTrackingTypeProducts */
         $this->validate($request, $this->validateRules, $this->messages);
         $product = ProjectTrackingTypeProducts::create([
             'name' => $request->input('name'),
@@ -144,15 +134,11 @@ class ProjectTrackingTypeProductsController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información de un tipo de producto
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -161,16 +147,14 @@ class ProjectTrackingTypeProductsController extends Controller
 
 
     /**
-     * [Actualiza la información de un tipo de producto particular]
+     * Actualiza la información de un tipo de producto
      *
-     * @method    update
+     * @author    Francisco Escala <fjescala@gmail.com>
      *
-     * @author    [Francisco Escala] [fjescala@gmail.com]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(ProjectTrackingTypeProducts $product, Request $request)
     {
@@ -191,15 +175,13 @@ class ProjectTrackingTypeProductsController extends Controller
     }
 
     /**
-     * [elimina un registro de tipo de producto ]
+     * Elimina un registro de tipo de producto
      *
-     * @method    destroy
-     *
-     * @author    [Francisco Escala] [fjescala@gmail.com]
+     * @author    Francisco Escala <fjescala@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -214,7 +196,7 @@ class ProjectTrackingTypeProductsController extends Controller
      *
      * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
-     * @return    Array    Arreglo con los registros a mostrar
+     * @return    array    Arreglo con los registros a mostrar
      */
     public function getTypeProducts()
     {

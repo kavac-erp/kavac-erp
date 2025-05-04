@@ -10,8 +10,8 @@
                             <div class="form-group">
                                 <label for="" class="control-label">{{ role.name }}</label>
                                 <div class="custom-control custom-switch">
-                                    <input 
-                                        type="checkbox" class="custom-control-input" :id="'role_'+role.id" :value="role.id" 
+                                    <input
+                                        type="checkbox" class="custom-control-input" :id="'role_'+role.id" :value="role.id"
                                         v-model="record.roles" @click="setPermissionsToRole(role, $event)"
                                     >
                                     <label class="custom-control-label" :for="'role_'+role.id"></label>
@@ -32,19 +32,19 @@
                     </h6>
                     <hr>
                     <div class="row">
-                        <div 
-                            class="col-md-3 text-center" 
-                            v-for="(perm, idx) in permissions.filter(p => p.model_prefix === module)" 
+                        <div
+                            class="col-md-3 text-center"
+                            v-for="(perm, idx) in permissions.filter(p => p.model_prefix === module)"
                             :key="idx"
                         >
                             <div class="form-group">
                                 <label for="" class="control-label">{{ perm.name }}</label>
                                 <div class="custom-control custom-switch">
                                     <div class="custom-control custom-switch">
-                                        <input 
-                                            type="checkbox" class="custom-control-input perm-switch" 
-                                            :id="'perm_'+perm.id" :value="perm.id" 
-                                            v-model="record.permissions" :checked="record.permissions.includes(perm.id)" 
+                                        <input
+                                            type="checkbox" class="custom-control-input perm-switch"
+                                            :id="'perm_'+perm.id" :value="perm.id"
+                                            v-model="record.permissions" :checked="record.permissions.includes(perm.id)"
                                             :disabled="disablePermissions()"
                                         >
                                         <label class="custom-control-label" :for="'perm_'+perm.id"></label>
@@ -108,11 +108,11 @@
             },
             disablePermissions() {
                 const vm = this;
-                
+
                 let disablePerms = vm.record.roles.includes(
                     vm.$options.propsData.roles.filter(r => r.slug === 'admin')[0].id
                 );
-                
+
                 if (disablePerms) {
                     $('.perm-switch').attr('title', 'No puede deshabilitar este permiso del usuario administrador');
                     $('.perm-switch').tooltip();
@@ -125,7 +125,7 @@
              * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
              *
              * @param      {String}         module    Nombre del módulo
-             * 
+             *
              * @return     {String}     Devuelve el nombre del módulo en mayúsculas
              */
             getModuleName(module) {

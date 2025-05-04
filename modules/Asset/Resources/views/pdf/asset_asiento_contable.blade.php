@@ -1,14 +1,14 @@
 @php
     $height = $pdf->getPositionY();
     $deben=0;
-    $haber=0;                
+    $haber=0;
 @endphp
 <table cellspacing="0" cellpadding="1" border="1">
     <tr align="L">
 
         <th width="65%">Asiento Contable</th>
         <th width="35%">Ref. :</th>
-    </tr>        
+    </tr>
     <tr>
         <th width="17.5%">Fecha</th>
         <th width="17.5%">Código</th>
@@ -17,13 +17,13 @@
         <th width="17.5%">Abonos</th>
     </tr>
     @foreach($assets as $asset)
-        
-        @php 
+
+        @php
             $height += $pdf->getStringHeight(25, $asset->created_at,1);
         @endphp
-        
+
         @if ($height > $pdf->getCheckBreak())
-            @php 
+            @php
                 $height = $pdf->getPositionY() + $pdf->getStringHeight(25, $asset->created_at);
             @endphp
             <tr>
@@ -33,13 +33,13 @@
             </tr>
         </table>
 
-            
+
             <br pagebreak="true" />
             <table cellspacing="0" cellpadding="1" border="1">
             <tr align="L">
                 <th width="65%">Asiento Contable</th>
                 <th width="35%">Ref. :</th>
-            </tr>        
+            </tr>
             <tr>
                 <th width="17.5%">Fecha</th>
                 <th width="17.5%">Código</th>
@@ -61,8 +61,8 @@
             <td width="30%"> </td>
             <td width="17.5%"> </td>
             <td width="17.5%"></td>
-            
-        
+
+
         </tr>
     @endforeach
     <tr>

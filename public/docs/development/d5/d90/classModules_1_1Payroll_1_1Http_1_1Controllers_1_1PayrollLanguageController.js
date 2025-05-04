@@ -9,6 +9,6 @@ var classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollLanguageController 
     [ "show", "d5/d90/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollLanguageController.html#a2b8e3779f5bd8c38f70307574859bd36", null ],
     [ "store", "d5/d90/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollLanguageController.html#a9ef485163104597c12185b53cdacf638", null ],
     [ "update", "d5/d90/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollLanguageController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
-    [ "$attributes", "d5/d90/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollLanguageController.html#adc851f7a62250e75df0490c0280aef4c", null ],
-    [ "$rules", "d5/d90/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollLanguageController.html#a811d22ac55b4592f7f2a202529629419", null ]
+    [ "$attributes", "d5/d90/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollLanguageController.html#ac89f2733f3f084f1e693e13afbb67739", null ],
+    [ "$rules", "d5/d90/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollLanguageController.html#af5e2b4555e07aa76a2081ed2ac1d042a", null ]
 ];

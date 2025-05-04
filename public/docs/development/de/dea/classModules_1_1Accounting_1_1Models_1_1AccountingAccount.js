@@ -7,7 +7,6 @@ var classModules_1_1Accounting_1_1Models_1_1AccountingAccount =
     [ "getParent", "de/dea/classModules_1_1Accounting_1_1Models_1_1AccountingAccount.html#a8e7a4dbad995f5074a9c8dff8b70134c", null ],
     [ "parent", "de/dea/classModules_1_1Accounting_1_1Models_1_1AccountingAccount.html#a3249177749c4f2274ed77044179f7f6b", null ],
     [ "pivotAccountable", "de/dea/classModules_1_1Accounting_1_1Models_1_1AccountingAccount.html#acc636dbb2fb87d94faf5da527116fa03", null ],
-    [ "$appends", "de/dea/classModules_1_1Accounting_1_1Models_1_1AccountingAccount.html#a29ec873a375ecb374d2e2ec92490cd41", null ],
     [ "$dates", "de/dea/classModules_1_1Accounting_1_1Models_1_1AccountingAccount.html#a6ed295a3b7371b42773cab86fd367af8", null ],
-    [ "$fillable", "de/dea/classModules_1_1Accounting_1_1Models_1_1AccountingAccount.html#a6a90e74ccdf5efd70d51d10c906f8e32", null ]
+    [ "$fillable", "de/dea/classModules_1_1Accounting_1_1Models_1_1AccountingAccount.html#a13601d3af66d109458e268a3eb4afc49", null ]
 ];

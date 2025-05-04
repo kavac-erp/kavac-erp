@@ -17,14 +17,31 @@ use Illuminate\Database\Eloquent\Model;
  * Gestiona la información por defecto a registrar inicialmente para las Ciudades
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class CitiesTableSeeder extends Seeder
 {
+    /**
+     * Contador de Ciudades cargadas
+     *
+     * @var int $count
+     */
     protected $count;
+
+    /**
+     * Contador de permisos cargados
+     *
+     * @var int $countP
+     */
     protected $countP;
 
+    /**
+     * Crea una nueva instancia de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->count = 0;
@@ -32,7 +49,7 @@ class CitiesTableSeeder extends Seeder
     }
 
     /**
-     * Run the database seeds.
+     * Ejecuta los seeers de base de datos
      *
      * @return void
      */
@@ -42,7 +59,7 @@ class CitiesTableSeeder extends Seeder
 
         $adminRole = Role::where('slug', 'admin')->first();
 
-        /** @var array Permisos disponibles para la gestión de ciudades */
+        /* Permisos disponibles para la gestión de ciudades */
         $permissions = [
             [
                 'name' => 'Crear Ciudades', 'slug' => 'city.create',
@@ -70,7 +87,7 @@ class CitiesTableSeeder extends Seeder
             ],
         ];
 
-        /** @var array Ciudades asociadas a un Estado */
+        /* Ciudades asociadas a un Estado */
         $estates_cities = [
             "01" => [
                 "Caracas"
@@ -442,7 +459,7 @@ class CitiesTableSeeder extends Seeder
 
         DB::transaction(function () use ($adminRole, $permissions, $estates_cities) {
             foreach ($estates_cities as $code_estate => $cities) {
-                /** @var object Almacena información del Estado */
+                /* Almacena información del Estado */
                 $edo = Estate::where('code', $code_estate)->first();
                 foreach ($cities as $city) {
                     City::withTrashed()->updateOrCreate(

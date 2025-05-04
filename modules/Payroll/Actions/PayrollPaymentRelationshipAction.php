@@ -7,12 +7,35 @@ namespace Modules\Payroll\Actions;
 use Modules\Payroll\Models\Parameter;
 use Modules\Payroll\Models\Payroll;
 
+/**
+ * @class PayrollPaymentRelationshipAction
+ * @brief Acciones para los pagos de relaciones
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 final class PayrollPaymentRelationshipAction
 {
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
+        //
     }
 
+    /**
+     * Obtiene los parámetros de nómina para un período de pago específico.
+     *
+     * @param integer $payrollId Identificador del período de pago.
+     * @param bool $allParameters Indica si se deben retornar todos los parámetros o solo los activos y/o pendientes.
+     *
+     * @return array Lista de parámetros de nómina.
+     */
     public function getPayrollParameters(int $payrollId, bool $allParameters = true)
     {
         $payroll = Payroll::query()
@@ -35,6 +58,16 @@ final class PayrollPaymentRelationshipAction
             : $timeParameter ?? [];
     }
 
+    /**
+     * Agrega un parámetro a la variable de carry en función de los datos de la hoja de tiempo.
+     *
+     * @param array $carry Variable de carry que se utilizará para almacenar los parámetros.
+     * @param object $parameter Objeto que contiene los parámetros.
+     * @param object $payroll Objeto que contiene la información de la nómina.
+     * @param string $typeTimeSheet Tipo de hoja de tiempo (activo o pendiente).
+     *
+     * @return void
+     */
     protected function addParameterToCarry(&$carry, $parameter, $payroll, $typeTimeSheet = 'active')
     {
         $payrollTimeSheets = ('active' === $typeTimeSheet)
@@ -73,7 +106,9 @@ final class PayrollPaymentRelationshipAction
                     continue;
                 }
 
-                if (str_contains($key, 'Ficha-')) continue;
+                if (str_contains($key, 'Ficha-')) {
+                    continue;
+                }
 
                 $lastIndex = strrpos($key, '-');
 
@@ -114,7 +149,7 @@ final class PayrollPaymentRelationshipAction
                             'value' => $value,
                             'time_sheet' => $typeTimeSheet
                         ];
-                        $exists = array_reduce($carry, function($subCarry, $item) use ($newItem) {
+                        $exists = array_reduce($carry, function ($subCarry, $item) use ($newItem) {
                             return $subCarry || ($item['id'] == $newItem['id'] && $item['staff_id'] == $newItem['staff_id'] && $item['time_sheet'] == $newItem['time_sheet']);
                         }, false);
 

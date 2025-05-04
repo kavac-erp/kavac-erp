@@ -15,6 +15,6 @@ var classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTimeSheetPendingCon
     [ "update", "d3/d9b/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTimeSheetPendingController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
     [ "vueInfo", "d3/d9b/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTimeSheetPendingController.html#a33c93a58e2d349e7e235a94a1691a76d", null ],
     [ "vueList", "d3/d9b/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTimeSheetPendingController.html#aca78b35dd9df5b11e63e88796cf08c66", null ],
-    [ "$messages", "d3/d9b/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTimeSheetPendingController.html#a21a183f927a6d243fe6b4ba3a6c4d4c8", null ],
-    [ "$validateRules", "d3/d9b/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTimeSheetPendingController.html#a15ad824a86b12cbf9a2bca2423720a7d", null ]
+    [ "$messages", "d3/d9b/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTimeSheetPendingController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f", null ],
+    [ "$validateRules", "d3/d9b/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTimeSheetPendingController.html#a19db8a4aa08742d71b20bee403d09b5d", null ]
 ];

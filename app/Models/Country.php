@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +14,7 @@ use App\Traits\ModelsTrait;
  *
  * Gestiona el modelo de datos para los Países
  *
+ * @property  string|integer $id
  * @property  string $name
  * @property  string $prefix
  *
@@ -54,8 +53,6 @@ class Country extends Model implements Auditable
     /**
      * Método que obtiene los Estados de un Pais
      *
-     * @method  estates
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return object Objeto con los registros relacionados al modelo Estate
@@ -67,8 +64,6 @@ class Country extends Model implements Auditable
 
     /**
      * Método que obtiene las monedas de un País
-     *
-     * @method  currencies
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

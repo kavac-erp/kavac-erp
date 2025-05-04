@@ -1,4 +1,5 @@
 <map id="ExchangeRateController" name="ExchangeRateController">
-<area shape="rect" id="node1" title="Gestiona información de tipos de cambio de monedas." alt="" coords="5,131,184,252"/>
-<area shape="rect" id="node2" href="$d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="51,5,138,83"/>
+<area shape="rect" id="Node000001" title="Gestiona información de tipos de cambio de monedas." alt="" coords="5,119,195,324"/>
+<area shape="rect" id="Node000002" href="$d8/d70/classApp_1_1Http_1_1Controllers_1_1Controller.html" title="Controlador principal del framework del cual extienden los demás controladores." alt="" coords="61,5,139,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,84,103,119,97,119,97,84"/>
 </map>

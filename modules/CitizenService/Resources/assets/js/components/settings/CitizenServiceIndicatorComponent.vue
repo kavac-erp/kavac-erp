@@ -2,7 +2,7 @@
 	<div class="col-xs-2 text-center">
 		<a class="btn-simplex btn-simplex-md btn-simplex-primary" href="#"
 		   title="Registros de Indicadores" data-toggle="tooltip"
-		   @click="addRecord('add_citizenservice-indicators', 'citizenservice/indicators', $event)">
+		   @click="addRecord('add_citizenservice-indicators', 'citizenservice/indicators', $event); getEffectType()">
            <i class="icofont icofont-stock-search ico-3x"></i>
 		   <span>Indicadores</span>
 		</a>
@@ -69,15 +69,15 @@
 	                </div>
 					<div class="modal-footer">
 	                	<div class="form-group">
-	                		<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+	                		<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('citizenservice/indicators')" 
+							<button type="button" @click="createRecord('citizenservice/indicators')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -128,8 +128,6 @@
 		methods: {
 			/**
 			 * Método que borra todos los datos del formulario
-			 *
-			 *
 			 */
 			reset() {
 				this.record = {
@@ -144,7 +142,7 @@
 	            axios.get(`${window.app_url}/citizenservice/get-effect-types`).then(response => {
 	                vm.effectTypeList = response.data;
 	            });
-        	},	
+        	},
         	getEffectTypeName(effect_types_id) {
         		const vm = this;
                 let value = '';
@@ -157,24 +155,21 @@
             },
 		},
 		created() {
-			this.table_options.headings = {
+			const vm = this;
+			vm.table_options.headings = {
 				'name': 'Nombre',
 				'description': 'Descripción',
 				'effect_types_id':'Tipo de impacto',
 				'id': 'Acción'
 			};
-			this.table_options.sortable = ['name'];
-			this.table_options.filterable = ['name'];
-			this.table_options.columnsClasses = {
+			vm.table_options.sortable = ['name'];
+			vm.table_options.filterable = ['name'];
+			vm.table_options.columnsClasses = {
 				'name': 'col-md-3',
 				'description': 'col-md-4',
 				'effect_types_id': 'col-md-3',
 				'id': 'col-md-2'
 			};
-		},
-		mounted() {
-			const vm = this;
-			vm.getEffectType();
 		},
 	};
 </script>

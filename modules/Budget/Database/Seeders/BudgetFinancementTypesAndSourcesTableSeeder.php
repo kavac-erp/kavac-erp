@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\DB;
 use Modules\Budget\Models\BudgetFinancementTypes;
 use Modules\Budget\Models\BudgetFinancementSources;
 
+/**
+ * @class BudgetFinancementTypesAndSourcesTableSeeder
+ * @brief Información por defecto para tipos de financiamiento y fuentes de financiamiento
+ *
+ * Gestiona la información por defecto a registrar inicialmente para los tipos de financiamiento y fuentes de financiamiento
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class BudgetFinancementTypesAndSourcesTableSeeder extends Seeder
 {
     /**

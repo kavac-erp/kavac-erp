@@ -28,8 +28,8 @@
             <div class="col-md-2">
                 <label class="form-label">Estado</label>
                 <select2
-                    :options="estado_options"
-                    v-model="filterBy.estado"
+                    :options="status_options"
+                    v-model="filterBy.status"
                     tabindex="3"
                 />
             </div>
@@ -48,7 +48,7 @@
                         type="button"
                         class="btn btn-info btn-icon btn-xs-responsive px-3"
                         aria-label="Search"
-                        @click="filterRequirements()"
+                        @click="filterTable()"
                         title="Buscar"
                     >
                         <i class="fa fa-search"></i>
@@ -58,10 +58,11 @@
         </div>
         <!-- Final de filtros de la tabla -->
         <hr>
-        <v-client-table
+        <v-server-table
             :columns="columns"
-            :data="records"
+            :url="'purchase/requirements/vue-list'"
             :options="table_options"
+            ref="tableOptions"
         >
             <div slot="date" slot-scope="props">
                 {{ format_date(props.row.date, 'DD/MM/YYYY') }}
@@ -158,19 +159,11 @@
                     </template>
                 </div>
             </div>
-        </v-client-table>
+        </v-server-table>
     </section>
 </template>
 <script>
 export default {
-    props: {
-        record_list: {
-            type: Array,
-            default: function() {
-                return [];
-            }
-        },
-    },
     data() {
         return {
             records: [],
@@ -189,9 +182,9 @@ export default {
             filterBy: {
                 date: '',
                 code: '',
-                estado: '',
+                status: '',
             },
-            estado_options: [
+            status_options: [
                 { "id": "", "text": "Seleccione..." },
                 { "id": "WAIT", "text": "EN ESPERA" },
                 { "id": "PROCESSED", "text": "PROCESADO" },
@@ -213,27 +206,38 @@ export default {
             vm.filterBy = {
                 date: '',
                 code: '',
-                estado: '',
+                status: '',
             };
-            vm.records = vm.tmpRecords;
+            vm.$refs.tableOptions.refresh();
         },
 
         /**
          * Método que permite filtrar los datos de la tabla.
          *
-         * @method filterRequirements
+         * @method filterTable
          *
          * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
          */
-        filterRequirements() {
+        filterTable() {
             const vm = this;
-            vm.records = vm.tmpRecords.filter((rec) => {
-                return vm.filterBy.date ? rec.date === vm.filterBy.date : true;
-            }).filter((rec) => {
-                return vm.filterBy.code ? rec.code === vm.filterBy.code : true;
-            }).filter((rec) => {
-                return vm.filterBy.estado ? rec.requirement_status === vm.filterBy.estado : true;
-            })
+            let params = {
+                query: vm.filterBy.date ?
+                    vm.format_date(vm.filterBy.date)
+                    : vm.filterBy.code
+                        ? vm.filterBy.code
+                        : vm.filterBy.status
+                            ? vm.filterBy.status : '',
+                limit: 10,
+                ascending: 1,
+                page: 1,
+                byColumn: 0
+            }
+
+            axios.get(`${window.app_url}/purchase/requirements/vue-list`, {params: params})
+            .then(response => {
+                vm.$refs.tableOptions.data = response.data.data;
+                vm.$refs.tableOptions.count = response.data.count;
+            });
         },
     },
     created() {
@@ -263,9 +267,6 @@ export default {
     async mounted () {
         const vm = this;
         await vm.queryLastFiscalYear();
-        this.records = this.record_list;
-        // Variable usada para el reseteo de los filtros de la tabla.
-        this.tmpRecords = this.records;
     }
 };
 </script>

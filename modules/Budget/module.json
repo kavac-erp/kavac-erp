@@ -1,5 +1,5 @@
 {
-    "version": "1.0.4",
+    "version": "1.0.5",
     "name": "Budget",
     "alias": "budget",
     "name_es": "Presupuesto",
@@ -28,7 +28,7 @@
         "Helpers\/Helper.php"
     ],
     "requires": {
-        "Finanzas": "1.0.4",
-        "Contabilidad": "1.0.4"
+        "Finanzas": "1.0.5",
+        "Contabilidad": "1.0.5"
     }
 }

@@ -1,10 +1,11 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -36,8 +37,6 @@ class $CLASS$ extends Command
     /**
      * Crea una nueva instancia del comando.
      *
-     * @method __construct
-     *
      * @return void
      */
     public function __construct()
@@ -48,8 +47,6 @@ class $CLASS$ extends Command
     /**
      * Ejecuta la consola de comandos.
      *
-     * @method handle
-     *
      * @return mixed [descripción sobre los datos devueltos por el método]
      */
     public function handle()
@@ -59,8 +56,6 @@ class $CLASS$ extends Command
 
     /**
      * Obtiene los argumentos del comando.
-     *
-     * @method getArguments
      *
      * @return array [descripción sobre los datos devueltos por el método]
      */
@@ -73,8 +68,6 @@ class $CLASS$ extends Command
 
     /**
      * Obtiene las opciones del comando.
-     *
-     * @method getOptions
      *
      * @return array [descripción sobre los datos devueltos por el método]
      */

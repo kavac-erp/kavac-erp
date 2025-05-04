@@ -2,26 +2,36 @@
 
 namespace Modules\Purchase\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Routing\Controller;
 use App\Models\CodeSetting;
-use App\Rules\CodeSetting as CodeSettingRule;
-use Modules\Purchase\Models\PurchaseRequirement;
-use Modules\Purchase\Models\PurchaseQuotation;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Modules\Purchase\Models\PurchaseOrder;
 use Modules\Purchase\Models\PurchaseStates;
+use Illuminate\Contracts\Support\Renderable;
+use App\Rules\CodeSetting as CodeSettingRule;
+use Modules\Purchase\Models\PurchaseQuotation;
 use Modules\Purchase\Models\PurchaseDirectHire;
+use Modules\Purchase\Models\PurchaseRequirement;
 
+/**
+ * @class PurchaseSettingController
+ * @brief Gestiona los procesos de configuración del módulo de compras
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseSettingController extends Controller
 {
     /**
      * Define la configuración de la clase
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:purchase.setting.list', ['only' => 'index', 'vueList']);
         $this->middleware('permission:purchase.setting.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:purchase.setting.edit', ['only' => ['edit', 'update']]);
@@ -29,37 +39,47 @@ class PurchaseSettingController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Muestra las configuraciones en el módulo de compras
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
-        /** @var object Contiene los registros de configuraciones de códigos */
+        /* Contiene los registros de configuraciones de códigos */
         $codeSettings = CodeSetting::where('module', 'purchase')->get();
-        /** @var object Contiene información sobre la configuración de código para la requisición */
+        /* Contiene información sobre la configuración de código para la requisición */
         $rqCode = $codeSettings->where('table', 'purchase_requirements')->first();
-        /** @var object Contiene información sobre la configuración de código para la cotización */
+        /* Contiene información sobre la configuración de código para la cotización */
         $quCode = $codeSettings->where('table', 'purchase_quotations')->first();
-        /** @var object Contiene información sobre la configuración de código para pre-compromisos */
+        /* Contiene información sobre la configuración de código para pre-compromisos */
         $esCode = $codeSettings->where('table', 'purchase_states')->first();
-        /** @var object Contiene información sobre la configuración de código para la acta */
+        /* Contiene información sobre la configuración de código para la acta */
         $miCode = $codeSettings->where('table', 'purchase_minutes')->first();
-        /** @var object Contiene información sobre la configuración de código para la orden de compra */
+        /* Contiene información sobre la configuración de código para la orden de compra */
         $buCode = $codeSettings->where('table', 'purchase_buy_orders')->first();
-        /** @var object Contiene información sobre la configuración de código para la orden de servicio */
+        /* Contiene información sobre la configuración de código para la orden de servicio */
         $soCode = $codeSettings->where('table', 'purchase_service_orders')->first();
-        /** @var object Contiene información sobre la configuración de código para el reintegro */
+        /* Contiene información sobre la configuración de código para el reintegro */
         $reCode = $codeSettings->where('table', 'purchase_refunds')->first();
 
         return view(
             'purchase::settings',
-            compact('rqCode', 'quCode', 'esCode', 'miCode', 'buCode', 'soCode', 'reCode')
+            compact(
+                'rqCode',
+                'quCode',
+                'esCode',
+                'miCode',
+                'buCode',
+                'soCode',
+                'reCode'
+            )
         );
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear una nueva configuración
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -67,13 +87,15 @@ class PurchaseSettingController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
+     * Almacena una nueva configuración
+     *
+     * @param  Request $request Datos de la petición
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        /** Reglas de validación para la configuración de códigos */
+        /* Reglas de validación para la configuración de códigos */
         $request->validate([
             'requirements_code'   => [new CodeSettingRule()],
             'quotations_code'     => [new CodeSettingRule()],
@@ -84,13 +106,13 @@ class PurchaseSettingController extends Controller
             'refunds_code'        => [new CodeSettingRule()],
         ]);
 
-        /** @var array Arreglo con información de los campos de códigos configurados */
+        /* Arreglo con información de los campos de códigos configurados */
         $codes = $request->input();
-        /** @var boolean Define el estatus verdadero para indicar que no se ha registrado información */
+        /* Define el estatus verdadero para indicar que no se ha registrado información */
         $saved = false;
 
         foreach ($codes as $key => $value) {
-            /** @var string Define el modelo al cual hace referencia el código */
+            /* Define el modelo al cual hace referencia el código */
             $model = '';
             if ($key !== '_token' && !is_null($value)) {
                 list($table, $field) = explode("_", $key);
@@ -105,9 +127,9 @@ class PurchaseSettingController extends Controller
                     case 'states':
                         $model = PurchaseStates::class;
                         break;
-                    case 'minutes':
+                    /*case 'minutes':
                         $model = PurchaseMinute::class;
-                        break;
+                        break;*/
                     case 'buy-orders':
                         $model = PurchaseDirectHire::class;
                         $type = 'buy';
@@ -116,9 +138,9 @@ class PurchaseSettingController extends Controller
                         $model = PurchaseOrder::class;
                         $type = 'service';
                         break;
-                    case 'refunds':
+                    /*case 'refunds':
                         $model = PurchaseRefund::class;
-                        break;
+                        break;*/
                     default:
                         $model = null;
                         break;
@@ -143,7 +165,7 @@ class PurchaseSettingController extends Controller
                     ]);
                 }
 
-                /** @var boolean Define el estatus verdadero para indicar que se ha registrado información */
+                /* Define el estatus verdadero para indicar que se ha registrado información */
                 $saved = true;
             }
         }
@@ -156,8 +178,9 @@ class PurchaseSettingController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de una configuración
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -165,8 +188,9 @@ class PurchaseSettingController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario de edición de una configuración
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -174,19 +198,24 @@ class PurchaseSettingController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza la información de una configuración
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return void
      */
     public function update(Request $request)
     {
+        //
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Renderable
+     * Elimina una configuración
+     *
+     * @return void
      */
     public function destroy()
     {
+        //
     }
 }

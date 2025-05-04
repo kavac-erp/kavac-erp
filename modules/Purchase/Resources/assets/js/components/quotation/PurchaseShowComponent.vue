@@ -5,9 +5,9 @@
                 addRecord('show_purchase_quotation_' + id,
                 (getUrlShow(`/purchase/quotation/${id}`)), $event)
             "
-            class="btn btn-info btn-xs btn-icon btn-action" 
-            title="Visualizar registro" 
-            data-toggle="tooltip" 
+            class="btn btn-info btn-xs btn-icon btn-action"
+            title="Visualizar registro"
+            data-toggle="tooltip"
             v-has-tooltip>
             <i class="fa fa-eye"></i>
         </button>
@@ -53,14 +53,14 @@
                                 }}
                             </div>
                             <div class="col-4">
-                                <strong>Proveedor:</strong> 
+                                <strong>Proveedor:</strong>
                                 {{ getNameStr(records.purchase_supplier) }}
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-4">
-                                <strong>Tipo de moneda:</strong> 
+                                <strong>Tipo de moneda:</strong>
                                 {{ getNameStr(records.currency) }}
                             </div>
                         </div>
@@ -299,7 +299,7 @@
                                 </thead>
                                 <tbody>
                                     <template v-for="record in records.base_budget">
-                                        <tr v-for="availability in record.relatable.availabilityitem">
+                                        <tr v-for="(availability, index) in record.relatable.availabilityitem" :key="index">
                                             <td class="col-md-3 text-center">
                                                 {{ availability.item_code }}
                                             </td>
@@ -490,9 +490,9 @@ export default {
          * Calcula el total de la suma de la Cantidad * Precio unitario más el
          * iva de todos los productos.
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
-        CalculateTot() { 
+        CalculateTot() {
             const vm = this;
             let total = 0;
             // Objeto para almacenar las bases imponibles según el IVA

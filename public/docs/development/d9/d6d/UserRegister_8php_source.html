@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.9.1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>KAVAC: Fichero Fuente UserRegister.php</title>
+<title>KAVAC: Archivo de código fuente UserRegister.php</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -17,7 +17,7 @@
 <script type="text/javascript" src="../../search/searchdata.js"></script>
 <script type="text/javascript" src="../../search/search.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
   $(document).ready(function() { init_search(); });
 /* @license-end */
 </script>
@@ -29,21 +29,17 @@
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr style="height: 56px;">
+ <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../logo-doc.png"/></td>
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">KAVAC
-   &#160;<span id="projectnumber">v1.0.4</span>
+  <td id="projectalign">
+   <div id="projectname">KAVAC<span id="projectnumber">&#160;v1.0.5</span>
    </div>
    <div id="projectbrief">Sistema de Gestión Organizacional</div>
   </td>
-   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
-          <img id="MSearchSelect" src="../../search/mag_sel.svg"
-               onmouseover="return searchBox.OnSearchSelectShow()"
-               onmouseout="return searchBox.OnSearchSelectHide()"
-               alt=""/>
-          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Buscar" accesskey="S"
                onfocus="searchBox.OnSearchFieldFocus(true)" 
                onblur="searchBox.OnSearchFieldFocus(false)" 
                onkeyup="searchBox.OnSearchFieldChange(event)"/>
@@ -57,10 +53,10 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Generado por Doxygen 1.9.1 -->
+<!-- Generado por Doxygen 1.9.8 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-var searchBox = new SearchBox("searchBox", "../../search",false,'Buscar','.html');
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
 /* @license-end */
 </script>
 </div><!-- top -->
@@ -75,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Buscar','.html'
   </div>
 </div>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(document).ready(function(){initNavTree('d9/d6d/UserRegister_8php_source.html','../../'); initResizable(); });
 /* @license-end */
 </script>
@@ -89,92 +85,121 @@ $(document).ready(function(){initNavTree('d9/d6d/UserRegister_8php_source.html',
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
-<iframe src="javascript:void(0)" frameborder="0" 
-        name="MSearchResults" id="MSearchResults">
-</iframe>
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
 </div>
 
 <div class="header">
-  <div class="headertitle">
-<div class="title">UserRegister.php</div>  </div>
+  <div class="headertitle"><div class="title">UserRegister.php</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;&lt;?<a class="code" href="../../d2/d38/classAddFieldCodeToSaleOrdersTable_1_1php.html">php</a></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">/** Gestión de correos del sistema */</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d4/d8a/namespaceApp_1_1Mail.html">App\Mail</a>;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;use Illuminate\Bus\Queueable;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;use Illuminate\Mail\Mailable;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;use Illuminate\Queue\SerializesModels;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;use <a class="code" href="../../dc/d3b/classApp_1_1Models_1_1User.html">App\Models\User</a>;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * @class UserRegister</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * @brief Gestiona los correos de notificación de usuarios registrados</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * Gestiona los correos de notificación de usuarios registrados</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * @author Ing. Roldan Vargas &lt;rvargas@cenditel.gob.ve&gt; | &lt;roldandvg@gmail.com&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * @license</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html">UserRegister</a> <span class="keyword">extends</span> Mailable</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    use Queueable;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    use SerializesModels;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">    /** @var User Objeto con información del usuario */</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">public</span> $user;<span class="comment"></span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">    /** @var string Contraseña de acceso generada por el sistema */</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">public</span> $password;<span class="comment"></span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">    /** @var string Nombre de la aplicación */</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">public</span> $appName;<span class="comment"></span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">    /** @var string URL de la aplicación */</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">public</span> $appUrl;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">    /**</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">     * Crea una nueva instancia del mensaje.</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">     *</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">     * @method  __construct</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">     *</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">     * @return void</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a31130784afd1dfe06840823a6c441476">   44</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a31130784afd1dfe06840823a6c441476">__construct</a>(<a class="code" href="../../dc/d3b/classApp_1_1Models_1_1User.html">User</a> $user, $password)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        $this-&gt;user = $user;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        $this-&gt;password = $password;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        $this-&gt;appName = config(<span class="stringliteral">&#39;app.name&#39;</span>);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        $this-&gt;appUrl = config(<span class="stringliteral">&#39;app.url&#39;</span>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">    /**</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">     * Construye el mensaje.</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">     *</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">     * @method  build</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">     *</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">     * @return $this</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a3928875ef0ceb18a51c1061be3eb3a00">   59</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a3928875ef0ceb18a51c1061be3eb3a00">build</a>()</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">return</span> $this-&gt;subject(config(<span class="stringliteral">&#39;app.name&#39;</span>) . <span class="stringliteral">&quot; - Registro&quot;</span>)-&gt;markdown(<span class="stringliteral">&#39;emails.user-register&#39;</span>);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
-<div class="ttc" id="aclassAddFieldCodeToSaleOrdersTable_1_1php_html"><div class="ttname"><a href="../../d2/d38/classAddFieldCodeToSaleOrdersTable_1_1php.html">php</a></div><div class="ttdoc">[descripción detallada]</div></div>
-<div class="ttc" id="aclassApp_1_1Mail_1_1UserRegister_html"><div class="ttname"><a href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html">App\Mail\UserRegister</a></div><div class="ttdoc">Gestiona los correos de notificación de usuarios registrados.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d6d/UserRegister_8php_source.html#l00023">UserRegister.php:24</a></div></div>
-<div class="ttc" id="aclassApp_1_1Mail_1_1UserRegister_html_a31130784afd1dfe06840823a6c441476"><div class="ttname"><a href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a31130784afd1dfe06840823a6c441476">App\Mail\UserRegister\__construct</a></div><div class="ttdeci">__construct(User $user, $password)</div><div class="ttdoc">Crea una nueva instancia del mensaje.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d6d/UserRegister_8php_source.html#l00044">UserRegister.php:44</a></div></div>
-<div class="ttc" id="aclassApp_1_1Mail_1_1UserRegister_html_a3928875ef0ceb18a51c1061be3eb3a00"><div class="ttname"><a href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a3928875ef0ceb18a51c1061be3eb3a00">App\Mail\UserRegister\build</a></div><div class="ttdeci">build()</div><div class="ttdoc">Construye el mensaje.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d6d/UserRegister_8php_source.html#l00059">UserRegister.php:59</a></div></div>
-<div class="ttc" id="aclassApp_1_1Models_1_1User_html"><div class="ttname"><a href="../../dc/d3b/classApp_1_1Models_1_1User.html">App\Models\User</a></div><div class="ttdoc">Datos de Usuarios.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d5e/app_2Models_2User_8php_source.html#l00029">app/Models/User.php:30</a></div></div>
-<div class="ttc" id="anamespaceApp_1_1Mail_html"><div class="ttname"><a href="../../d4/d8a/namespaceApp_1_1Mail.html">App\Mail</a></div><div class="ttdoc">Gestión de correos del sistema.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d5a/FailImportNotification_8php_source.html#l00003">FailImportNotification.php:3</a></div></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;?<a class="code hl_class" href="../../d2/d38/classAddFieldCodeToSaleOrdersTable_1_1php.html">php</a></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">namespace </span>App\Mail;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>use <a class="code hl_class" href="../../dc/d3b/classApp_1_1Models_1_1User.html">App\Models\User</a>;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>use Illuminate\Bus\Queueable;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>use Illuminate\Mail\Mailable;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>use Illuminate\Queue\SerializesModels;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>use Illuminate\Contracts\Queue\ShouldQueue;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"></span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> * @class UserRegister</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> * @brief Gestiona los correos de notificación de usuarios registrados</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> * Gestiona los correos de notificación de usuarios registrados</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * @author Ing. Roldan Vargas &lt;rvargas@cenditel.gob.ve&gt; | &lt;roldandvg@gmail.com&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> * @license</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> */</span></div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="};">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html">   22</a></span><span class="keyword">class </span><a class="code hl_class" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html">UserRegister</a> <span class="keyword">extends</span> Mailable implements ShouldQueue</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>{</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    use Queueable;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    use SerializesModels;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment"></span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment">     * Objeto con información del usuario</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment">     * @var User $user</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a35c45cc33d8d420da794514df59466b7">   32</a></span>    <span class="keyword">public</span> <a class="code hl_variable" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a35c45cc33d8d420da794514df59466b7">$user</a>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment"></span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">     * Contraseña de acceso generada por el sistema</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment">     * @var string $password</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a99f6264ab0c9eac3199f38350ea0703d">   39</a></span>    <span class="keyword">public</span> <a class="code hl_variable" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a99f6264ab0c9eac3199f38350ea0703d">$password</a>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="comment"></span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">     * Nombre de la aplicación</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="comment">     * @var string $appName</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a9161d871483454c158ecd89745ee1607">   46</a></span>    <span class="keyword">public</span> <a class="code hl_variable" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a9161d871483454c158ecd89745ee1607">$appName</a>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment"></span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment">     * URL de la aplicación</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">     * @var string $appUrl</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a4304ff04e88d4206e7d0d315570d33d5">   53</a></span>    <span class="keyword">public</span> <a class="code hl_variable" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a4304ff04e88d4206e7d0d315570d33d5">$appUrl</a>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="comment"></span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="comment">     * Crea una nueva instancia del mensaje.</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">     * @return void</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="comment">     */</span></div>
+<div class="foldopen" id="foldopen00060" data-start="{" data-end="}">
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a31130784afd1dfe06840823a6c441476">   60</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a31130784afd1dfe06840823a6c441476">__construct</a>(<a class="code hl_class" href="../../dc/d3b/classApp_1_1Models_1_1User.html">User</a> <a class="code hl_variable" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a35c45cc33d8d420da794514df59466b7">$user</a>, <a class="code hl_variable" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a99f6264ab0c9eac3199f38350ea0703d">$password</a>)</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        $this-&gt;user = <a class="code hl_variable" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a35c45cc33d8d420da794514df59466b7">$user</a>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        $this-&gt;password = <a class="code hl_variable" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a99f6264ab0c9eac3199f38350ea0703d">$password</a>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        $this-&gt;appName = config(<span class="stringliteral">&#39;app.name&#39;</span>);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        $this-&gt;appUrl = config(<span class="stringliteral">&#39;app.url&#39;</span>);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    }</div>
+</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="comment"></span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="comment">     * Construye el mensaje.</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="comment">     * @return $this</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="comment">     */</span></div>
+<div class="foldopen" id="foldopen00073" data-start="{" data-end="}">
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a3928875ef0ceb18a51c1061be3eb3a00">   73</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a3928875ef0ceb18a51c1061be3eb3a00">build</a>()</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keywordflow">return</span> $this-&gt;subject(config(<span class="stringliteral">&#39;app.name&#39;</span>) . <span class="stringliteral">&quot; - Registro&quot;</span>)-&gt;markdown(<span class="stringliteral">&#39;emails.user-register&#39;</span>);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    }</div>
+</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>}</div>
+</div>
+<div class="ttc" id="aclassAddFieldCodeToSaleOrdersTable_1_1php_html"><div class="ttname"><a href="../../d2/d38/classAddFieldCodeToSaleOrdersTable_1_1php.html">php</a></div><div class="ttdoc">Ejecuta el proceso de migración de la estructura de tablas en base de datos.</div></div>
+<div class="ttc" id="aclassApp_1_1Mail_1_1UserRegister_html"><div class="ttname"><a href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html">App\Mail\UserRegister</a></div><div class="ttdoc">Gestiona los correos de notificación de usuarios registrados.</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d6d/UserRegister_8php_source.html#l00022">UserRegister.php:23</a></div></div>
+<div class="ttc" id="aclassApp_1_1Mail_1_1UserRegister_html_a31130784afd1dfe06840823a6c441476"><div class="ttname"><a href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a31130784afd1dfe06840823a6c441476">App\Mail\UserRegister\__construct</a></div><div class="ttdeci">__construct(User $user, $password)</div><div class="ttdoc">Crea una nueva instancia del mensaje.</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d6d/UserRegister_8php_source.html#l00060">UserRegister.php:60</a></div></div>
+<div class="ttc" id="aclassApp_1_1Mail_1_1UserRegister_html_a35c45cc33d8d420da794514df59466b7"><div class="ttname"><a href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a35c45cc33d8d420da794514df59466b7">App\Mail\UserRegister\$user</a></div><div class="ttdeci">$user</div><div class="ttdoc">Objeto con información del usuario.</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d6d/UserRegister_8php_source.html#l00032">UserRegister.php:32</a></div></div>
+<div class="ttc" id="aclassApp_1_1Mail_1_1UserRegister_html_a3928875ef0ceb18a51c1061be3eb3a00"><div class="ttname"><a href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a3928875ef0ceb18a51c1061be3eb3a00">App\Mail\UserRegister\build</a></div><div class="ttdeci">build()</div><div class="ttdoc">Construye el mensaje.</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d6d/UserRegister_8php_source.html#l00073">UserRegister.php:73</a></div></div>
+<div class="ttc" id="aclassApp_1_1Mail_1_1UserRegister_html_a4304ff04e88d4206e7d0d315570d33d5"><div class="ttname"><a href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a4304ff04e88d4206e7d0d315570d33d5">App\Mail\UserRegister\$appUrl</a></div><div class="ttdeci">$appUrl</div><div class="ttdoc">URL de la aplicación.</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d6d/UserRegister_8php_source.html#l00053">UserRegister.php:53</a></div></div>
+<div class="ttc" id="aclassApp_1_1Mail_1_1UserRegister_html_a9161d871483454c158ecd89745ee1607"><div class="ttname"><a href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a9161d871483454c158ecd89745ee1607">App\Mail\UserRegister\$appName</a></div><div class="ttdeci">$appName</div><div class="ttdoc">Nombre de la aplicación.</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d6d/UserRegister_8php_source.html#l00046">UserRegister.php:46</a></div></div>
+<div class="ttc" id="aclassApp_1_1Mail_1_1UserRegister_html_a99f6264ab0c9eac3199f38350ea0703d"><div class="ttname"><a href="../../d9/d1d/classApp_1_1Mail_1_1UserRegister.html#a99f6264ab0c9eac3199f38350ea0703d">App\Mail\UserRegister\$password</a></div><div class="ttdeci">$password</div><div class="ttdoc">Contraseña de acceso generada por el sistema.</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d6d/UserRegister_8php_source.html#l00039">UserRegister.php:39</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1User_html"><div class="ttname"><a href="../../dc/d3b/classApp_1_1Models_1_1User.html">App\Models\User</a></div><div class="ttdoc">Datos de Usuarios.</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d5e/app_2Models_2User_8php_source.html#l00042">app/Models/User.php:43</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_d422163b96683743ed3963d4aac17747.html">app</a></li><li class="navelem"><a class="el" href="../../dir_68e1400a89a188619b19ea711ceeab7d.html">Mail</a></li><li class="navelem"><b>UserRegister.php</b></li>
-    <li class="footer">Generado el Sábado, 4 de Noviembre de 2023 16:16:40 para KAVAC por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

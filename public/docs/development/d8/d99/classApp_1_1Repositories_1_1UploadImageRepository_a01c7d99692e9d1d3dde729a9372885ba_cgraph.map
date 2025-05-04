@@ -1,0 +1,5 @@
+<map id="uploadImage" name="uploadImage">
+<area shape="rect" id="Node000001" title="Instrucciones para verificar y subir una imagen a la ruta indicada en el servidor." alt="" coords="5,5,112,31"/>
+<area shape="rect" id="Node000002" href="$d8/d99/classApp_1_1Repositories_1_1UploadImageRepository.html#a39a17d15acae0f6320bf0213a38ffe0f" title="Verifica que el tamaño de la imagen corresponda con el mínimo y máximo permitido." alt="" coords="160,5,247,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,15,146,15,146,21,112,21"/>
+</map>

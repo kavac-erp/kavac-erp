@@ -1,9 +1,5 @@
 <?php
 
-/**
- * [descripción del namespace]
- * */
-
 namespace Modules\Asset\Http\Controllers;
 
 use DateTime;
@@ -19,14 +15,14 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
  * @class AssetDepreciationMethodController
- * @brief [descripción detallada]
+ * @brief Controlador para la gestión de los métodos de depreciación de bienes
  *
- * [descripción corta]
+ * Gestiona los métodos de depreciación de bienes
  *
  * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
  *
- * @license [LICENCIA DE SOFTWARE CENDITEL]
- * @link    (http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetDepreciationMethodController extends Controller
 {
@@ -50,6 +46,8 @@ class AssetDepreciationMethodController extends Controller
      * Define la configuración de la clase
      *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -58,30 +56,24 @@ class AssetDepreciationMethodController extends Controller
         */
         //$this->middleware('permission:asset.setting.depreciation-method');
 
-        /**
-         * Define las reglas de validación para el formulario
-         * */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'depreciation_type_id' => ['required'],
             'institution_id' => ['required'],
         ];
 
-        /**
-         * Define los mensajes de validación para las reglas del formulario
-         * */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'depreciation_type_id.required' => 'El campo tipo de depreciación es obligatorio.',
             'institution_id.required' => 'El campo organización es obligatorio.',
         ];
     }
     /**
-     * [descripción del método]
-     *
-     * @method index
+     * Obtiene un listado de los métodos de depreciación de bienes
      *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\View\View
      */
     public function index(): JsonResponse
     {
@@ -89,15 +81,13 @@ class AssetDepreciationMethodController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @param object Request $request Objeto con información de la petición
-     *
-     * @method store
+     * Registra el método de depreciación de bienes
      *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @param Request $request Datos de la petición
+     *
+     * @return Renderable
      */
     public function store(Request $request): JsonResponse
     {
@@ -127,17 +117,13 @@ class AssetDepreciationMethodController extends Controller
                 ->update(['active' => false]);
         }
 
-        /**
-         * Objeto asociado al modelo AssetUseFunction
-         *
-         * @var Object $function
-         */
+        /* Objeto asociado al modelo AssetUseFunction */
         $assetDepreciationMethod = AssetDepreciationMethod::create(
             [
-            'depreciation_type_id' => $request->depreciation_type_id,
-            'institution_id' => $request->institution_id,
-            'activation_date' => $request->activation_date ?? null,
-            'active' => $request->active
+                'depreciation_type_id' => $request->depreciation_type_id,
+                'institution_id' => $request->institution_id,
+                'activation_date' => $request->activation_date ?? null,
+                'active' => $request->active
             ]
         );
 
@@ -145,16 +131,14 @@ class AssetDepreciationMethodController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @param object  Request $request Objeto con datos de la petición
-     * @param integer         $id      Identificador del registro
-     *
-     * @method update
+     * Actualiza la información del método de depreciación de bienes
      *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @param Request $request Datos de la petición
+     * @param integer         $id      Identificador del registro
+     *
+     * @return Renderable
      */
     public function update(Request $request, $id): JsonResponse
     {
@@ -192,15 +176,13 @@ class AssetDepreciationMethodController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @param integer $id Identificador del registro
-     *
-     * @method destroy
+     * Elimina la información del método de depreciación de bienes
      *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @param integer $id Identificador del registro
+     *
+     * @return Renderable
      */
     public function destroy($id): JsonResponse
     {
@@ -213,6 +195,7 @@ class AssetDepreciationMethodController extends Controller
      * Obtiene el listado de los tipos de depreciación registrados a implementar en elementos select
      *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
      * @return array    Arreglo con los registros a mostrar
      */
     public function getDepreciationTypes(): array

@@ -1,11 +1,10 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
-use App\Models\InstitutionType;
 use Illuminate\Http\Request;
+use App\Models\InstitutionType;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class InstitutionTypeController
@@ -14,6 +13,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar los tipos de Organizaciones
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -22,13 +22,11 @@ class InstitutionTypeController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:institution.type.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:institution.type.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:institution.type.delete', ['only' => 'destroy']);
@@ -37,8 +35,6 @@ class InstitutionTypeController extends Controller
 
     /**
      * Listado de todos los registros de los tipos de organización
-     *
-     * @method  index
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -51,8 +47,6 @@ class InstitutionTypeController extends Controller
 
     /**
      * Registra un nuevo tipo de organización
-     *
-     * @method  store
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -79,7 +73,7 @@ class InstitutionTypeController extends Controller
             ]);
         }
 
-        /** @var InstitutionType Objeto con información del tipo de organización registrada */
+        // Objeto con información del tipo de organización registrada
         $institutionType = InstitutionType::updateOrCreate([
             'name' => $request->name
         ], [
@@ -91,8 +85,6 @@ class InstitutionTypeController extends Controller
 
     /**
      * Actualiza la información del tipo de organización
-     *
-     * @method  update
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -117,8 +109,6 @@ class InstitutionTypeController extends Controller
 
     /**
      * Elimina el tipo de organización
-     *
-     * @method  destroy
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

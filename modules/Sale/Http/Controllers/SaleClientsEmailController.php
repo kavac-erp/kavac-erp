@@ -8,7 +8,11 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleClientsEmail;
 
 /**
- * Eliminar
+ * @class SaleClientsEmailController
+ * @brief Controlador que gestiona las notificaciones por correo a los clientes
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleClientsEmailController extends Controller
 {
@@ -18,31 +22,43 @@ class SaleClientsEmailController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         // $this->middleware('permission:sale.setting.email');
     }
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Muestra el listado de notificaciones
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         return response()->json(['records' => []], 200);
     }
 
+    /**
+     * Datos del cliente al cual enviar la notificación
+     *
+     * @param integer $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function client($id)
     {
         return response()->json(['records' => SaleClientsEmail::where('sale_client_id', '=', $id)->get()], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Registra los datos del correo del cliente
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -62,9 +78,12 @@ class SaleClientsEmailController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza los datos del correo del cliente
+     *
+     * @param  Request $request Datos de la petición
+     * @param  SaleClientsEmail $email Registro a actualizar
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, SaleClientsEmail $email)
     {
@@ -83,8 +102,11 @@ class SaleClientsEmailController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina los datos del correo del cliente
+     *
+     * @param  SaleClientsEmail $email Registro a eliminar
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(SaleClientsEmail $email)
     {

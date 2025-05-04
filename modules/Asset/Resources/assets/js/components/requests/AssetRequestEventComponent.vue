@@ -2,10 +2,10 @@
     <div>
         <a class="btn btn-success btn-xs btn-icon btn-action" data-toggle="tooltip"
            href="#" title="Registros de Eventos"
-           :disabled="((((state == 'Aprobado') || (state == 'Pendiente por entrega')) && asset_request_extension) || 
+           :disabled="((((state == 'Aprobado') || (state == 'Pendiente por entrega')) && asset_request_extension) ||
                         ((state == 'Entregados') && asset_request_events)) ? false : true"
-           @click="((((state == 'Aprobado') || (state == 'Pendiente por entrega')) && asset_request_extension) || 
-                        ((state == 'Entregados') && asset_request_events)) ? 
+           @click="((((state == 'Aprobado') || (state == 'Pendiente por entrega')) && asset_request_extension) ||
+                        ((state == 'Entregados') && asset_request_events)) ?
                     addRecord(`add_event_${id}`, `asset/requests/request-event/${id}`, $event) : viewMessage()">
            <i class="fa fa-list-alt"></i>
         </a>
@@ -88,6 +88,50 @@
                                                     :id="'checkbox_'+ props.row.asset_id" v-model="selected" />
                                             </label>
                                         </div>
+                                        <div
+                                                class="text-center"
+                                                slot="asset.asset_details.serial"
+                                                slot-scope="props"
+                                            >
+                                                <span>{{
+                                                    props.row.asset
+                                                        .asset_details !== null
+                                                        ? props.row.asset
+                                                              .asset_details
+                                                              .serial
+                                                        : "No definido"
+                                                }}</span>
+                                            </div>
+                                            <div
+                                                class="text-center"
+                                                slot="asset.asset_details.brand"
+                                                slot-scope="props"
+                                            >
+                                                <span>{{
+                                                    props.row.asset
+                                                        .asset_details !== null
+                                                        ? props.row.asset
+                                                              .asset_details
+                                                              .brand
+                                                        : "No definido"
+                                                }}</span>
+                                            </div>
+                                            <div
+                                                class="text-center"
+                                                slot="asset.asset_details.model"
+                                                slot-scope="props"
+                                            >
+                                                <span>{{
+                                                    props.row.asset
+                                                        .asset_details !== null
+                                                        ? prepareText(
+                                                              props.row.asset
+                                                                  .asset_details
+                                                                  .model
+                                                          )
+                                                        : "No definido"
+                                                }}</span>
+                                            </div>
                                     </v-client-table>
                                 </div>
                             </div>
@@ -103,7 +147,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="modal-body modal-table">
                         <div class="modal-header">
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close" @click="reset()" v-if="state == 'Entregados'">
@@ -128,7 +172,7 @@
                             <div slot="assets_event" slot-scope="props">
                                 <div v-for="asset in props.row.assets_event" :key="asset.id">
                                     <span>
-                                        <strong>Código: </strong>   {{ asset.inventory_serial+',' }}  <strong>Serial: </strong>    {{ asset.serial+',' }} <strong> Código org.: </strong>   {{ asset.asset_institutional_code+'.'}}
+                                        <strong>Código: </strong>   {{ asset.asset_details.code+',' }}  <strong>Serial: </strong>    {{ asset.asset_details.serial+',' }}
                                     </span>
                                 </div>
                             </div>
@@ -176,7 +220,14 @@
                 records: [],
                 errors: [],
                 columns: ['type', 'description', 'assets_event', 'id'],
-                columns_equipments: ['check', 'asset.inventory_serial','asset.serial','asset.marca','asset.asset_institutional_code'],
+                columns_equipments: [
+                    'check',
+                    "asset.asset_details.code",
+                    "asset.asset_specific_category.name",
+                    "asset.asset_details.serial",
+                    "asset.asset_details.brand",
+                    "asset.asset_details.model",
+                ],
 
                 selected: [],
                 selectAll: false,
@@ -191,13 +242,28 @@
                         'description': 'Descripción',
                         'assets_event': 'Datos de los bienes',
                         'id': 'Acción',
-                        'asset.inventory_serial': 'Código',
-                        'asset.serial': 'Serial',
-                        'asset.marca': 'Marca',
-                        'asset.asset_institutional_code': 'Código de bien organizacional',
+                        "asset.asset_details.code": "Código interno",
+                        "asset.asset_specific_category.name": "Categoria especifica",
+                        "asset.asset_details.serial": "Serial",
+                        "asset.asset_details.brand": "Marca",
+                        "asset.asset_details.model": " Modelo",
                     },
-                    sortable: ['type','asset.inventory_serial', 'asset.serial', 'asset.marca', 'asset.asset_institutional_code'],
-                    filterable: ['type','asset.inventory_serial', 'asset.serial', 'asset.marca', 'asset.asset_institutional_code']
+                    sortable: [
+                        "type",
+                        "asset.asset_details.code",
+                        "asset.asset_specific_category.name",
+                        "asset.asset_details.serial",
+                        "asset.asset_details.brand",
+                        "asset.asset_details.model"
+                    ],
+                    filterable: [
+                        "type",
+                        "asset.asset_details.code",
+                        "asset.asset_specific_category.name",
+                        "asset.asset_details.serial",
+                        "asset.asset_details.brand",
+                        "asset.asset_details.model"
+                    ]
                 }
             }
         },
@@ -244,6 +310,14 @@
                         checkbox.click();
                     }
                 });
+            },
+            /**
+            * Método que elimina las etiquetas HTML dentro de un String
+            *
+            *@returns String
+            */
+            prepareText(text) {
+                return text.replace("<p>", "").replace("</p>", "");
             },
             /**
              * Método que borra todos los datos del formulario
@@ -313,7 +387,7 @@
                     }).then(response => {
                         if (typeof(response.data.redirect) !== "undefined") {
                             location.href = response.data.redirect;
-                            
+
                         }
                         else {
                             vm.errors = [];

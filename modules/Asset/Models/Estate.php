@@ -1,0 +1,31 @@
+<?php
+
+namespace Modules\Asset\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use App\Models\Estate as BaseEstate;
+
+/**
+ * @class Estate
+ * @brief Extension de la clase Estate del modulo de presupuesto
+ *
+ * Extension de la clase Estate del modulo de presupuesto
+ *
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
+class Estate extends BaseEstate implements Auditable
+{
+    /**
+     * Obtiene la relacion con los proveedores de bienes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function assetSuppliers()
+    {
+        return $this->hasMany(AssetSupplier::class);
+    }
+}

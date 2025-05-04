@@ -12,8 +12,8 @@
             <a class="dropdown-header text-center">Notificaciones</a>
             <div class="dropdown-item">
                 <ul class="media-list msg-list" v-if="notifications.length">
-                    <li class="media unread" v-for="(notify, index) in notifications" :key="index" v-if="index<5">
-                        <div class="media-body" v-if="notify.data.title && notify.data.message">
+                    <li class="media unread" v-for="(notify, index) in notifications" :key="index">
+                        <div class="media-body" v-if="notify.data.title && notify.data.message && index < 5">
                             <strong>
                                 <i class="fa fa-envelope-o cursor-pointer" title="Marcar como leído"
                                    data-toggle="tooltip" @click.prevent="markAsReaded(notify.id)"></i>
@@ -68,10 +68,10 @@
                     if (response.data.result) {
                         vm.notifications = response.data.notifications;
                         vm.showMessage(
-                            'custom', 
-                            'Éxito!', 
-                            'success', 
-                            'screen-ok', 
+                            'custom',
+                            'Éxito!',
+                            'success',
+                            'screen-ok',
                             `Notificación marcada como ${(response.data.markAs!=='read')?'no':''} ĺeída`
                         );
                     }

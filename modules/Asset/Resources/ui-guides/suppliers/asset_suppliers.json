@@ -1,0 +1,100 @@
+[
+    {
+        "element" : "#helpSupplier",
+        "intro" : "Formulario para ingresar un nuevo proveedor"
+    },
+    {
+        "element" : "#helpBasicData",
+        "intro" : "Esta sección permite ingresar los datos básicos del proveedor"
+    },
+    {
+        "element" : "#helpPersontype",
+        "intro" : "Esta sección permite ingresar el tipo de persona (Natural/Jurídica) del proveedor"
+    },
+    {
+        "element" : "#helpCompanyType",
+        "intro" : "Esta sección permite ingresar el tipo de empresa (Pública/Privada) del proveedor"
+    },
+    {
+        "element" : "#helpActive",
+        "intro" : "Esta sección permite ingresar el estatus del proveedor (Activo/Inactivo)"
+    },
+    {
+        "element" : "#helpRif",
+        "intro" : "Esta sección permite ingresar el R.I.F. del proveedor"
+    },
+    {
+        "element" : "#helpName",
+        "intro" : "Esta sección permite ingresar el nombre o razón social del proveedor"
+    },
+    {
+        "element" : "#helpSocialPurpose",
+        "intro" : "Esta sección permite ingresar el objeto social del proveedor"
+    },
+    {
+        "element" : "#helpAssetSupplierType",
+        "intro" : "Esta sección permite ingresar la denominación comercial del proveedor"
+    },
+    {
+        "element" : "#helpAssetSupplierObject",
+        "intro" : "Esta sección permite ingresar el objeto principal del proveedor"
+    },
+    {
+        "element" : "#helpAssetSupplierBranch",
+        "intro" : "Esta sección permite ingresar rama del proveedor"
+    },
+    {
+        "element" : "#helpAssetSupplierSpecialty",
+        "intro" : "Esta sección permite ingresar especialidad del proveedor"
+    },
+    {
+        "element" : "#helpAccountingAccount",
+        "intro" : "Esta sección permite ingresar cuenta contable asociada al proveedor"
+    },
+    {
+        "element" : "#helpWebsite",
+        "intro" : "Esta sección permite ingresar el sítio web del proveedor"
+    },
+    {
+        "element" : "#helpCountry",
+        "intro" : "Esta sección permite ingresar el país de ubicación del proveedor"
+    },
+    {
+        "element" : "#helpEstate",
+        "intro" : "Esta sección permite ingresar el estado de ubicación del proveedor"
+    },
+    {
+        "element" : "#helpCity",
+        "intro" : "Esta sección permite ingresar la ciudad de ubicación del proveedor"
+    },
+    {
+        "element" : "#helpDirection",
+        "intro" : "Esta sección permite ingresar la dirección fiscal del proveedor"
+    },
+    {
+        "element" : "#helpContacts",
+        "intro" : "Esta sección permite ingresar los datos del contacto"
+    },
+    {
+        "element" : "#helpPhones",
+        "intro" : "Esta sección permite ingresar los número de telefónicos"
+    },
+    {
+        "element" : "#helpNationalRegistry",
+        "intro" : "Esta sección permite ingresar datos de información del registro nacional de contratistas (RNC)"
+    },
+    {
+        "element" : "#helpRncStatus",
+        "intro" : "Esta sección permite ingresar la situación actual del proveedor, inscrito y no habilitado/inscrito y habilitado para contratar"
+    },
+    {
+        "element" : "#helpRncCertificateNumber",
+        "intro" : "Esta sección permite ingresar el número del certificado del proveedor del proveedor"
+    },
+    {
+        "element" : "#helpRequirementDocs",
+        "intro" : "Esta sección permite adjuntar los documentos a consignar del proveedor"
+    }
+
+
+]

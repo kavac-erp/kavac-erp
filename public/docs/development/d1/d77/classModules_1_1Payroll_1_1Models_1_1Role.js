@@ -6,6 +6,5 @@ var classModules_1_1Payroll_1_1Models_1_1Role =
     [ "payrollConceptAssignOptions", "d1/d77/classModules_1_1Payroll_1_1Models_1_1Role.html#abea835ff97072aee3b7e5de9ae91f85c", null ],
     [ "permissions", "d1/d77/classModules_1_1Payroll_1_1Models_1_1Role.html#a11e8d1e60a2c01e214a533f7bf44e872", null ],
     [ "syncPermissions", "d1/d77/classModules_1_1Payroll_1_1Models_1_1Role.html#af599098409e329da9385713572b9dcda", null ],
-    [ "users", "d1/d77/classModules_1_1Payroll_1_1Models_1_1Role.html#ae97d8e719525c3493e02d63c6373a11b", null ],
-    [ "$fillable", "d1/d77/classModules_1_1Payroll_1_1Models_1_1Role.html#a6a90e74ccdf5efd70d51d10c906f8e32", null ]
+    [ "users", "d1/d77/classModules_1_1Payroll_1_1Models_1_1Role.html#ae97d8e719525c3493e02d63c6373a11b", null ]
 ];

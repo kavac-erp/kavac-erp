@@ -3,47 +3,49 @@
 namespace Modules\Payroll\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Payroll\Models\PayrollResponsibility;
 use App\Models\Department;
 
 /**
- * @class PayrollResponsibilityController
- *
+ * @class PayrollResponsibilityController *
  * @brief Gestión de los datos registrados de las Responsabilidades.
  *
  * Clase que gestiona las Responsabilidades.
  *
  * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
  *
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollResponsibilityController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Lista de opciones para selects
+     *
+     * @var array $data
+     */
     protected $data;
 
     /**
      * Define la configuración de la clase.
      *
      * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /**
-         * Primer registro para los selects.
-         */
+        /* Primer registro para los selects. */
         $this->data[] = [
             'id' => '',
             'text' => 'Seleccione...'
         ];
 
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:payroll.responsibilities.index', ['only' => 'index']);
         $this->middleware('permission:payroll.responsibilities.store', ['only' => 'store']);
         $this->middleware('permission:payroll.responsibilities.update', ['only' => 'update']);
@@ -55,8 +57,7 @@ class PayrollResponsibilityController extends Controller
      *
      * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
      *
-     * @return \Illuminate\Http\JsonResponse Json con los datos de las
-     * responsabilidades.
+     * @return \Illuminate\Http\JsonResponse Json con los datos de las responsabilidades.
      */
     public function index()
     {
@@ -149,8 +150,7 @@ class PayrollResponsibilityController extends Controller
      *
      * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Http\Request  $request Solicitud con los datos a actualizar.
-     *
+     * @param  \Illuminate\Http\Request  $request Solicitud con los datos a actualizar.     *
      * @param  integer $id Identificador de la responsabilidad a actualizar.
      *
      * @return \Illuminate\Http\JsonResponse Json con mensaje de confirmación de la operación.
@@ -260,8 +260,7 @@ class PayrollResponsibilityController extends Controller
      *
      * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
      *
-     * @return \Illuminate\Http\JsonResponse Devuelve un JSON con listado de los
-     * de las Unidades y Dependencias.
+     * @return \Illuminate\Http\JsonResponse Devuelve un JSON con listado de las Unidades y Dependencias.
      */
     public function getDepartments()
     {

@@ -15,6 +15,13 @@ use Modules\Purchase\Models\PurchaseRequirement;
 use Modules\Purchase\Models\PurchaseRequirementItem;
 use Modules\Purchase\Models\PurchaseProduct;
 
+/**
+ * @class PurchaseManageRequirements
+ * @brief Ejecuta los trabajos para la gestión de los requerimientos de compras
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseManageRequirements implements ShouldQueue
 {
     use Dispatchable;
@@ -25,7 +32,7 @@ class PurchaseManageRequirements implements ShouldQueue
     /**
      * Objeto que contiene la información asociada a la solicitud
      *
-     * @var Object $asset
+     * @var object $asset
      */
     protected $data;
 
@@ -33,7 +40,7 @@ class PurchaseManageRequirements implements ShouldQueue
      * Variable que contiene el tiempo de espera para la ejecución del trabajo,
      * si no se quiere limite de tiempo, se define en 0
      *
-     * @var Integer $timeout
+     * @var integer $timeout
      */
     public $timeout = 0;
 
@@ -57,7 +64,6 @@ class PurchaseManageRequirements implements ShouldQueue
         $data = $this->data;
         if ($data['action'] == 'update') {
             $requirement = PurchaseRequirement::find($data['id_edit']);
-            //$requirement->date                = $data['date'];
             $requirement->description = $data['description'];
             $requirement->date = $data['date'];
             $requirement->contracting_department_id = $data['contracting_department_id'];
@@ -161,9 +167,11 @@ class PurchaseManageRequirements implements ShouldQueue
     }
 
     /**
-     * [generateCodeAvailable genera el código disponible]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @return string [código que se asignara]
+     * Genera el código disponible para el próximo registro de requerimiento de compra
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return string
      */
     public function generateCodeAvailable()
     {

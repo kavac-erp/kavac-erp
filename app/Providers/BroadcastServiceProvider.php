@@ -1,7 +1,5 @@
 <?php
 
-/** Proveedores de servicios generales del sistema */
-
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
@@ -17,8 +15,6 @@ class BroadcastServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap cualquier servicio de aplicación.
-     *
-     * @method  boot
      *
      * @return void
      */

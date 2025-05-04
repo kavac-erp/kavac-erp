@@ -10,11 +10,9 @@ use Modules\Payroll\Models\PayrollScholarshipType;
 
 /**
  * @class PayrollScholarshipTypeController
- * @brief [descripción detallada]
+ * @brief Controlador de tipos de becas
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -27,23 +25,23 @@ class PayrollScholarshipTypeController extends Controller
      * Define la configuración de la clase
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:payroll.scholarship.types.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.scholarship.types.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:payroll.scholarship.types.delete', ['only' => 'destroy']);
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    index
+     * Obtiene todos los registros de tipos de becas
      *
      * @author    Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -51,13 +49,9 @@ class PayrollScholarshipTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para registrar un nuevo tipo de beca
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -65,15 +59,13 @@ class PayrollScholarshipTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    store
+     * Almacena un nuevo tipo de beca
      *
      * @author    Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      *
-     * @param     object    Request    $request    Objeto con información de la petición
+     * @param     Request    $request    Datos de la petición
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -96,15 +88,11 @@ class PayrollScholarshipTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información sobre un tipo de beca
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -112,15 +100,11 @@ class PayrollScholarshipTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario para editar un tipo de beca
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -128,16 +112,14 @@ class PayrollScholarshipTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    update
+     * Actualiza la información de un tipo de beca
      *
      * @author    Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, PayrollScholarshipType $payrollScholarshipType, $id)
     {
@@ -152,10 +134,11 @@ class PayrollScholarshipTypeController extends Controller
         return response()->json(['message' => 'Success'], 200);
     }
 
-        /**
+    /**
      * Obtiene los tipos de becas registrados
      *
      * @author  Francisco Escala
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de los tipos de becas
      */
     public function getPayrollScholarshipType()
@@ -164,15 +147,13 @@ class PayrollScholarshipTypeController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
+     * Elimina un tipo de beca
      *
      * @author    Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy(PayrollScholarshipType $payrollScholarshipType, $id)
     {
@@ -181,7 +162,7 @@ class PayrollScholarshipTypeController extends Controller
             $payrollScholarshipType->delete();
             return response()->json(['record' => $payrollScholarshipType, 'message' => 'Success'], 200);
         } catch (\Throwable $e) {
-            return response()->json(['error' => true, 'message' => __($e->getMessage())], 200);
+            return response()->json(['error' => true, 'message' => __($e->getMessage())], 403);
         }
     }
 }

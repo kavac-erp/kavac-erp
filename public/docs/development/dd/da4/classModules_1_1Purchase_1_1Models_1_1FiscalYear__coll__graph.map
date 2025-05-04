@@ -1,0 +1,5 @@
+<map id="FiscalYear" name="FiscalYear">
+<area shape="rect" id="Node000001" title="Modelo que extiende las funcionalidades del modelo base FiscalYear." alt="" coords="5,199,195,264"/>
+<area shape="rect" id="Node000002" href="$dc/d0e/classApp_1_1Models_1_1FiscalYear.html" title="Datos de años fiscales." alt="" coords="30,5,170,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,164,103,198,97,198,97,164"/>
+</map>

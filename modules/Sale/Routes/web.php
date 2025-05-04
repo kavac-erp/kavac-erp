@@ -14,19 +14,17 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     ['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'sale'],
     function () {
-        /**
-         * -----------------------------------------------------------------------
-         * Ruta para el panel de control del módulo de Comercialización
-         * -----------------------------------------------------------------------
-         *
-         * Muestra información del módulo de Comercialización
+        /*
+         | -----------------------------------------------------------------------
+         | Ruta para el panel de control del módulo de Comercialización
+         | -----------------------------------------------------------------------
+         |
+         | Muestra información del módulo de Comercialización
          */
         Route::get('settings', 'SaleSettingController@index')->name('sale.settings.index');
         Route::post('settings', 'SaleSettingController@store')->name('sale.settings.store');
 
-        /**
-         * Panel de control referente a los pedidos
-         */
+        /* Panel de control referente a los pedidos */
         Route::resource('order', 'SaleOrderSettingController', ['only' => 'store']);
         Route::get('order/create', 'SaleOrderSettingController@create')->name('sale.order.create');
         Route::get('order', 'SaleOrderSettingController@index')->name('sale.order.index');
@@ -66,15 +64,15 @@ Route::group(
             'SaleOrderSettingController@destroy'
         );
 
-        /** Ruta que obtiene un array con los precios registrados, de acuerdo al producto seleccionado */
+        /* Ruta que obtiene un array con los precios registrados, de acuerdo al producto seleccionado */
         Route::get('get-price-product/{id?}', 'SaleOrderSettingController@getPriceProduct');
 
-        /**
-         * -----------------------------------------------------------------------
-         * Rutas para la configuración general del módulo de Comercialización
-         * -----------------------------------------------------------------------
-         *
-         * Gestiona los datos de configuración del módulo de Comercialización
+        /*
+         | -----------------------------------------------------------------------
+         | Rutas para la configuración general del módulo de Comercialización
+         | -----------------------------------------------------------------------
+         |
+         | Gestiona los datos de configuración del módulo de Comercialización
          */
         Route::resource(
             'register-clients',
@@ -92,34 +90,20 @@ Route::group(
             'SaleClientsController@getSaleClient'
         )->name('sale.get-sale-client');
 
-        /**Route::resource(
-            'payment-method',
-            'SalePaymentMethodController',
-            ['as' => 'sale', 'except' => ['create','edit','show']]
-        );
-        Route::get(
-            'get-paymentmethod',
-            'SalePaymentMethodController@getSalePaymentMethod'
-        )->name('sale.get-sale-paymentmethod');*/
-
         Route::resource(
             'register-quote',
             'SaleQuoteController',
             ['as' => 'sale', 'except' => ['create','edit','show']]
         );
 
-        /**
-         * Gestión de los metodos de cobro
-         */
+        /* Gestión de los metodos de cobro */
         Route::resource(
             'register-charge-money',
             'SaleChargeMoneyController',
             ['as' => 'sale']
         );
 
-        /**
-         * Gestión de las formas de cobro
-         */
+        /* Gestión de las formas de cobro */
         Route::resource(
             'register-form-payment',
             'SaleFormPaymentController',
@@ -131,12 +115,12 @@ Route::group(
             'SaleFormPaymentController@getSaleFormPayment'
         )->name('sale.get-sale-form-payment');
 
-        /**
-         * -----------------------------------------------------------------------
-         * Rutas para la configuración general del módulo de Comercialización
-         * -----------------------------------------------------------------------
-         *
-         * Gestiona los datos de configuración del módulo de Comercialización
+        /*
+         | -----------------------------------------------------------------------
+         | Rutas para la configuración general del módulo de Comercialización
+         | -----------------------------------------------------------------------
+         |
+         | Gestiona los datos de configuración del módulo de Comercialización
          */
         Route::resource(
             'payment-method',
@@ -183,12 +167,12 @@ Route::group(
             'SaleTypeGoodController@getSaleTypeGoodsAttributes'
         )->name('sale.get-sale-type-good-attributes');
 
-        /**
-         * -----------------------------------------------------------------------
-         * Rutas para la configuración de Almacen de Comercialización
-         * -----------------------------------------------------------------------
-         *
-         * Gestiona los datos de configuración de Almacen de Comercialización
+        /*
+         | -----------------------------------------------------------------------
+         | Rutas para la configuración de Almacen de Comercialización
+         | -----------------------------------------------------------------------
+         |
+         | Gestiona los datos de configuración de Almacen de Comercialización
          */
         Route::resource(
             'warehouse-method',
@@ -200,12 +184,12 @@ Route::group(
             'SaleWarehouseController@getSaleWarehouseMethod'
         )->name('sale.get-sale-warehousemethod');
 
-        /**
-         * -----------------------------------------------------------------------
-         * Rutas para la configuración de Descuento
-         * -----------------------------------------------------------------------
-         *
-         * Gestiona los datos de configuración de Descuento de Comercialización
+        /*
+         | -----------------------------------------------------------------------
+         | Rutas para la configuración de Descuento
+         | -----------------------------------------------------------------------
+         |
+         | Gestiona los datos de configuración de Descuento de Comercialización
          */
         Route::resource(
             'discount-method',
@@ -217,10 +201,10 @@ Route::group(
             'SaleDiscountController@getSaleDiscount'
         )->name('sale.get-discountmethod');
 
-        /**
-         * ------------------------------------------------------------
-         * Rutas para gestionar los Ingresos de Almacén
-         * ------------------------------------------------------------
+        /*
+         | ------------------------------------------------------------
+         | Rutas para gestionar los Ingresos de Almacén
+         | ------------------------------------------------------------
          */
 
         Route::resource('receptions', 'SaleWarehouseReceptionController', ['only' => 'store']);
@@ -248,22 +232,22 @@ Route::group(
             'SaleWarehouseReceptionController@approvedReception'
         );
 
-        /**
-         * ------------------------------------------------------------
-         * Rutas para gestionar los Elementos select de reportes
-         * ------------------------------------------------------------
+        /*
+         | ------------------------------------------------------------
+         | Rutas para gestionar los Elementos select de reportes
+         | ------------------------------------------------------------
          */
 
         Route::get('get-salewarehousemethod/{institution?}', 'SaleWarehouseController@getSaleWarehouseMethod');
         Route::get('get-sale-setting-product/{get-salewarehousemethod}', 'SaleSettingProductController@getSaleSettingProduct');
         Route::get('get-measurement-units', 'SaleWarehouseReceptionController@getMeasurementUnits');
 
-        /**
-         * -----------------------------------------------------------------------
-         * Rutas para la configuración de Gestión de Pedidos.
-         * -----------------------------------------------------------------------
-         *
-         * Gestiona los datos de configuración de Gestión de Pedidos.
+        /*
+         | -----------------------------------------------------------------------
+         | Rutas para la configuración de Gestión de Pedidos.
+         | -----------------------------------------------------------------------
+         |
+         | Gestiona los datos de configuración de Gestión de Pedidos.
          */
         Route::resource(
             'saleordermanagement-method',
@@ -275,10 +259,10 @@ Route::group(
             'SaleOrderManagementController@getSaleOrderManagementMethod'
         )->name('sale.get-sale-saleordermanagementmethod');
 
-        /**
-         * ------------------------------------------------------------
-         * Rutas para gestionar la generación de reportes en el Modulo de Almacén
-         * ------------------------------------------------------------
+        /*
+         | ------------------------------------------------------------
+         | Rutas para gestionar la generación de reportes en el Modulo de Almacén
+         | ------------------------------------------------------------
          */
 
         Route::get('reports/inventory-products', 'SaleReportController@inventoryProducts')
@@ -288,10 +272,10 @@ Route::group(
 
         Route::get('reports/show/{code}', 'SaleReportController@show');
 
-        /**
-         * ---------------------------------------------------------------------------------
-         * Rutas para gestionar la generación de facturas en el Modulo de Comercialización
-         * ---------------------------------------------------------------------------------
+        /*
+         | ---------------------------------------------------------------------------------
+         | Rutas para gestionar la generación de facturas en el Modulo de Comercialización
+         | ---------------------------------------------------------------------------------
          */
 
         Route::resource('bills', 'SaleBillController', ['only' => 'store']);
@@ -309,21 +293,19 @@ Route::group(
         Route::get('get-bill-product/{product}/{id}', 'SaleBillController@getBillProduct');
         Route::get('bills/pdf/{id}', 'Reports\SaleBillController@pdf');
 
-        /**
-         * ---------------------------------------------------------------------------------
-         * Rutas para gestionar los select de facturas en el Modulo de Comercialización
-         * ---------------------------------------------------------------------------------
+        /*
+         | ---------------------------------------------------------------------------------
+         | Rutas para gestionar los select de facturas en el Modulo de Comercialización
+         | ---------------------------------------------------------------------------------
          */
         Route::get('get-bill-inventory-product', 'SaleBillController@getBillInventoryProducts');
 
-
-
-        /**
-         * -----------------------------------------------------------------------
-         * Rutas para la configuración de Lista de subservicios
-         * -----------------------------------------------------------------------
-         *
-         * Gestiona los datos de configuración de Lista de subservicios
+        /*
+         | -----------------------------------------------------------------------
+         | Rutas para la configuración de Lista de subservicios
+         | -----------------------------------------------------------------------
+         |
+         | Gestiona los datos de configuración de Lista de subservicios
          */
         Route::resource(
             'list-subservices-method',
@@ -335,10 +317,10 @@ Route::group(
             'SaleListSubservicesController@getSaleListSubservicesMethod'
         )->name('sale.get-sale-listsubservicesmethod');
 
-        /**
-         * ---------------------------------------------------------------------------------
-         * Rutas para gestionar la generación de solicitudes de servicios en el Modulo de Comercialización
-         * ---------------------------------------------------------------------------------
+        /*
+         | ---------------------------------------------------------------------------------
+         | Rutas para gestionar la generación de solicitudes de servicios en el Modulo de Comercialización
+         | ---------------------------------------------------------------------------------
          */
 
         Route::resource('services', 'SaleServiceController', ['as' => 'sale', 'except' => ['create','edit','show']]);
@@ -353,10 +335,10 @@ Route::group(
         Route::put('services/service-rejected/{id}', 'SaleServiceController@rejected');
         Route::get('services/vue-pending-list/{status}', 'SaleServiceController@vuePendingList');
 
-        /**
-         * ---------------------------------------------------------------------------------
-         * Rutas para gestionar la generación de propuestas técnicas en el Modulo de Comercialización
-         * ---------------------------------------------------------------------------------
+        /*
+         | ---------------------------------------------------------------------------------
+         | Rutas para gestionar la generación de propuestas técnicas en el Modulo de Comercialización
+         | ---------------------------------------------------------------------------------
          */
 
         Route::resource('technical-proposals', 'SaleTechnicalProposalController', ['as' => 'sale', 'except' => ['create','edit','show']]);
@@ -400,10 +382,10 @@ Route::group(
             'SaleSettingProductController@getSaleSettingProduct'
         )->name('sale.get-sale-setting-product');
 
-        /**
-         * ---------------------------------------------------------------------------------
-         * Rutas para gestionar la generación de cotizaciones en el Modulo de Comercialización
-         * ---------------------------------------------------------------------------------
+        /*
+         | ---------------------------------------------------------------------------------
+         | Rutas para gestionar la generación de cotizaciones en el Modulo de Comercialización
+         | ---------------------------------------------------------------------------------
         */
 
         Route::resource('quotes', 'SaleQuoteController', ['only' => 'store']);
@@ -437,9 +419,9 @@ Route::group(
 
 
         /*
-         * ------------------------------------------------------------
-         * Ruta para el panel de Pagos del módulo de Comercialización
-         * ------------------------------------------------------------
+         | ------------------------------------------------------------
+         | Ruta para el panel de Pagos del módulo de Comercialización
+         | ------------------------------------------------------------
          */
         Route::get('payment', 'SalePaymentController@index')->name('sale.payment.index');
         Route::get('payment/create', 'SalePaymentController@create')->name('payment.register.create');
@@ -482,9 +464,9 @@ Route::group(
         Route::get('get-currencie', 'SalePaymentController@getCurrencie');
 
         /*
-         * ------------------------------------------------------------
-         * Ruta para gestionar Bienes a Comercializar
-         * ------------------------------------------------------------
+         | ------------------------------------------------------------
+         | Ruta para gestionar Bienes a Comercializar
+         | ------------------------------------------------------------
          */
         Route::resource(
             'good_to_be_traded',
@@ -502,40 +484,39 @@ Route::group(
             'SaleGoodsToBeTradedController@getSaleGoods'
         );
 
-        /**
-         * -------------------------------------------------------------------
-         * Rutas para gestionar los Elementos select de bienes a comercializar
-         * -------------------------------------------------------------------
+        /*
+         | -------------------------------------------------------------------
+         | Rutas para gestionar los Elementos select de bienes a comercializar
+         | -------------------------------------------------------------------
          */
         Route::get('get-currencies', 'SaleGoodsToBeTradedController@getCurrencies');
         Route::get('get-departments', 'SaleGoodsToBeTradedController@getDepartments');
         Route::get('get-taxes', 'SaleGoodsToBeTradedController@getTaxes');
         Route::get('get-payroll-staffs', 'SaleGoodsToBeTradedController@getPayrollStaffs');
 
-        /**
-         * -------------------------------------------------------------------
-         * Rutas para gestionar los Elementos select de la propuesta técnica
-         * -------------------------------------------------------------------
+        /*
+         | -------------------------------------------------------------------
+         | Rutas para gestionar los Elementos select de la propuesta técnica
+         | -------------------------------------------------------------------
          */
         Route::get('get-asignation-staffs', 'SaleTechnicalProposalController@getAsignationStaffs');
 
         /*
-         * ------------------------------------------------------------
-         * Rutas para gestionar la generación de reportes en el Modulo de Pagos
-         * ------------------------------------------------------------
+         | ------------------------------------------------------------
+         | Rutas para gestionar la generación de reportes en el Modulo de Pagos
+         | ------------------------------------------------------------
          */
         Route::get('reports/payment', 'SalePaymentReportController@listPayment')
             ->name('sale.report.payment');
 
         /*
-         * ------------------------------------------------------------
-         * Rutas para gestionar la generación de reportes en el Modulo de Solicitud de servicios
-         * ------------------------------------------------------------
+         | ------------------------------------------------------------
+         | Rutas para gestionar la generación de reportes en el Modulo de Solicitud de servicios
+         | ------------------------------------------------------------
          */
         Route::get(
             'reports/service-requests',
-            'Reports\SaleServiceRequestController@index',
-            ['except' => ['create', 'store','edit','update','show', 'destroy']]
+            'Reports\SaleServiceRequestController@index'
         )->name('sale.report.service-requests');
 
         Route::post('reports/service-requests/filter-records', 'Reports\SaleServiceRequestController@filterRecords');
@@ -546,9 +527,9 @@ Route::group(
         );
 
         /*
-         * ----------------------------------------------------------
-         * Rutas para gestionar la generación de reportes de facturas
-         * ----------------------------------------------------------
+         | ----------------------------------------------------------
+         | Rutas para gestionar la generación de reportes de facturas
+         | ----------------------------------------------------------
          */
         Route::get('reports/bills', 'Reports\SaleBillReportController@index')
         ->name('sale.report.bill');

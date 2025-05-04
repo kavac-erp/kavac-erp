@@ -1,0 +1,17 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d2/d9e/interfaceApp_1_1Repositories_1_1Contracts_1_1ReportInterface.html" title="Interfaz para la gestión de reportes." alt="" coords="5,153,128,179"/>
+<area shape="rect" id="Node000001" href="$db/d2b/classApp_1_1Repositories_1_1ReportRepository.html" title="Gestiona los reportes de la aplicación." alt="" coords="190,5,325,31"/>
+<area shape="poly" id="edge104_Node000000_Node000001" title=" " alt="" coords="81,140,119,89,145,63,175,40,198,28,200,33,177,44,149,67,123,93,85,143"/>
+<area shape="rect" id="Node000002" href="$db/d24/classModules_1_1Asset_1_1Pdf_1_1AssetReport.html" title="Gestiona los reportes del módulo de bienes." alt="" coords="207,55,308,80"/>
+<area shape="poly" id="edge105_Node000000_Node000002" title=" " alt="" coords="92,143,130,115,175,89,205,77,207,82,177,94,133,120,95,147"/>
+<area shape="rect" id="Node000003" href="$d5/d47/classModules_1_1CitizenService_1_1Pdf_1_1CitizenServiceReport.html" title="Gestiona los reportes de la oficina de atención al ciudadano." alt="" coords="178,104,337,129"/>
+<area shape="poly" id="edge106_Node000000_Node000003" title=" " alt="" coords="129,147,206,127,208,132,130,152"/>
+<area shape="rect" id="Node000004" href="$dc/d5e/classModules_1_1DigitalSignature_1_1Repositories_1_1ReportRepositorySign.html" title="Gestiona los reportes de la aplicación." alt="" coords="176,153,339,179"/>
+<area shape="poly" id="edge107_Node000000_Node000004" title=" " alt="" coords="142,163,176,163,176,169,142,169"/>
+<area shape="rect" id="Node000005" href="$da/ddf/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1Base_1_1ReportRepository.html" title="Gestiona los reportes de la aplicación." alt="" coords="190,203,325,228"/>
+<area shape="poly" id="edge108_Node000000_Node000005" title=" " alt="" coords="130,180,208,200,206,205,129,185"/>
+<area shape="rect" id="Node000006" href="$da/d92/classModules_1_1Sale_1_1Pdf_1_1SaleReport.html" title="Gestiona los reportes del módulo de comercialización." alt="" coords="211,252,304,277"/>
+<area shape="poly" id="edge109_Node000000_Node000006" title=" " alt="" coords="96,185,133,212,177,237,211,250,209,255,175,242,130,216,93,189"/>
+<area shape="rect" id="Node000007" href="$d5/dff/classModules_1_1Warehouse_1_1Pdf_1_1WarehouseReport.html" title="Gestiona los reportes del módulo de almacén." alt="" coords="189,301,326,327"/>
+<area shape="poly" id="edge110_Node000000_Node000007" title=" " alt="" coords="85,189,124,238,149,264,177,286,203,299,201,304,175,291,145,268,120,242,81,192"/>
+</map>

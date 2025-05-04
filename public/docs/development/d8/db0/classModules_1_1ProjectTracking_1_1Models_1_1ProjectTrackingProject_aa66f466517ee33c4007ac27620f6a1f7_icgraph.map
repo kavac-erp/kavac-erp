@@ -1,0 +1,5 @@
+<map id="productTypes" name="productTypes">
+<area shape="rect" id="Node000001" title="Establece la relación morfológica con los tipos de productos." alt="" coords="195,5,303,31"/>
+<area shape="rect" id="Node000002" href="$d8/db0/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingProject.html#a6ca40777804cea1f79c555512e397318" title="Obtiene los IDs de los tipos de productos asociados al proyecto." alt="" coords="5,5,147,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,21,147,21,147,15,181,15"/>
+</map>

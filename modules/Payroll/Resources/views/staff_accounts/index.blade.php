@@ -25,7 +25,8 @@
                     <div class="card-btns">
                         @include('buttons.previous', ['route' => url()->previous()])
                         @include('buttons.new', ['route' => route('payroll.staff-accounts.create')])
-                                {!! Form::button('<i class="fa fa-upload"></i>', [
+                        @permission('payroll.staffaccount.import')
+                        {!! Form::button('<i class="fa fa-upload"></i>', [
                             'class'       => 'btn btn-sm btn-primary btn-custom',
                             'data-toggle' => 'tooltip',
                             'type'        => 'button',
@@ -39,6 +40,8 @@
                             style="display:none"
                             onchange="importData()"
                         >
+                        @endpermission
+                        @permission('payroll.staffaccount.export')
                         {!! Form::button('<i class="fa fa-download"></i>', [
                             'class'       => 'btn btn-sm btn-primary btn-custom',
                             'data-toggle' => 'tooltip',
@@ -46,6 +49,7 @@
                             'title'       => "Presione para descargar el documento con la información de los registros.",
                             'onclick'     => "exportData()"
                         ]) !!}
+                        @endpermission
                         @include('buttons.minimize')
                     </div>
                 </div>

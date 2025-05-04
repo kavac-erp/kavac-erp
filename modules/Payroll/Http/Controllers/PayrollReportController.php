@@ -2,26 +2,42 @@
 
 namespace Modules\Payroll\Http\Controllers;
 
-use App\Models\Parameter;
-use Auth;
+use App\Models\DocumentStatus;
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Source;
+use App\Models\Parameter;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Log;
 use Modules\Payroll\Models\Payroll;
+use Maatwebsite\Excel\Facades\Excel;
 use Modules\Payroll\Models\Institution;
 use Modules\Payroll\Models\PayrollStaff;
 use Modules\Payroll\Models\PayrollConcept;
-use Illuminate\Contracts\Support\Renderable;
 use Modules\Payroll\Models\PayrollEmployment;
+use Modules\Payroll\Models\PayrollConceptType;
 use Modules\Payroll\Models\PayrollPaymentType;
+use Modules\Payroll\Models\PayrollStaffPayroll;
+use Modules\Payroll\Models\PayrollPaymentPeriod;
 use Modules\Payroll\Models\PayrollVacationPolicy;
 use Modules\Payroll\Models\PayrollVacationRequest;
 use Modules\Payroll\Repositories\ReportRepository;
+use Modules\Payroll\Exports\PayrollReportStaffsExport;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Modules\DigitalSignature\Repositories\ReportRepositorySign;
-use Modules\Payroll\Http\Resources\PayrollRelationshipConceptResource;
-use Modules\Payroll\Models\PayrollConceptType;
+use Modules\Payroll\Jobs\PayrollReportConceptExportJob;
+use Modules\Payroll\Jobs\PayrollSendRequestedReceiptsJob;
+use Modules\Payroll\Jobs\PayrollStaffPdfReportExportJob;
+use Modules\Payroll\Jobs\PayrollSendStaffPdfReportEmailJob;
+use Modules\Payroll\Models\PayrollExceptionType;
+use Modules\Payroll\Models\PayrollSupervisedGroup;
+use Modules\Payroll\Models\PayrollSupervisedGroupStaff;
+use Modules\Payroll\Models\PayrollTimeSheet;
+use Modules\Payroll\Models\PayrollSocioeconomic;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @class      PayrollReportController
@@ -30,6 +46,7 @@ use Modules\Payroll\Models\PayrollConceptType;
  * Clase que gestiona los reportes del módulo de talento humano
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -41,26 +58,77 @@ class PayrollReportController extends Controller
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         // $this->middleware('permission:payroll.reports.create', ['only' => 'create']);
-        // $this->middleware('permission:payroll.reports.vacationRequests', ['only' => 'vacationRequests']);
-        // $this->middleware('permission:payroll.reports.employment-status', ['only' => 'employmentStatus']);
-        // $this->middleware('permission:payroll.reports.staff', ['only' => 'staffs']);
-        // $this->middleware('permission:payroll.reports.staffVacationEnjoyment', ['only' => 'staffVacationEnjoyment']);
-        // $this->middleware('permission:payroll.reports.concepts', ['only' => 'concepts']);
-        // $this->middleware('permission:payroll.reports.relationship-concepts', ['only' => 'relationship-concepts']);
+        $this->middleware('permission:payroll.reports.vacationrequests', ['only' => 'vacationRequests']);
+        $this->middleware('permission:payroll.reports.employment.status', ['only' => 'employmentStatus']);
+        $this->middleware('permission:payroll.reports.staff', ['only' => 'staffs']);
+        $this->middleware('permission:payroll.reports.staffvacationenjoyment', ['only' => 'staffVacationEnjoyment']);
+        $this->middleware('permission:payroll.reports.concepts', ['only' => 'concepts']);
+        $this->middleware('permission:payroll.reports.relationship.concepts', ['only' => 'relationshipConcepts']);
+        $this->middleware('permission:payroll.reports.payment.receipts', ['only' => 'paymentReceipt']);
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Genera el reporte solicitado
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function reportPdf(Request $request): JsonResponse
+    {
+        /* Obtiene el usuario */
+        $user = User::without(['roles', 'permissions'])->where('id', auth()->user()->id)->first();
+
+        /* Obtiene el perfil del usuario */
+        $profileUser = $user->profile;
+
+        /* Obtiene la institución por defecto */
+        if (($profileUser) && isset($profileUser->institution_id)) {
+            $institution = Institution::find($profileUser->institution_id);
+        } else {
+            $institution = Institution::where('active', true)->where('default', true)->first();
+        }
+
+        $pdf            = new ReportRepository();
+        $filename       = 'payroll-report-' . Carbon::now()->format('Y-m-d') . '.pdf';
+        $pdfBody        = 'payroll::pdf.payroll-staffs';
+        $columns        = $this->getReportColumns($request);
+
+        $data = [
+            $institution,
+            $filename,
+            $pdfBody,
+            $pdf,
+            $columns,
+            $request->toArray()
+        ];
+
+        dispatch(new PayrollStaffPdfReportExportJob($data))->chain(
+            [
+                new PayrollSendStaffPdfReportEmailJob($user, $filename)
+            ]
+        );
+
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Muestra el formulario para crear un nuevo reporte
+     *
+     * @param \Illuminate\Http\Request $request datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request)
     {
-        $user = Auth()->user();
+        $user = auth()->user();
         $profileUser = $user->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
@@ -85,6 +153,8 @@ class PayrollReportController extends Controller
             $body = 'payroll::pdf.payroll-concepts';
         } elseif ($request->current == 'relationship-concepts') {
             $body = 'payroll::pdf.payroll-relationship-concepts';
+        } elseif ($request->current == 'family-burden') {
+            $body = 'payroll::pdf.payroll-family-burden';
         } else {
             $body = '';
         }
@@ -131,9 +201,7 @@ class PayrollReportController extends Controller
 
             $pdf->setHeader("Reporte de Personal en Disfrute de Vacaciones");
         } elseif ($request->current == 'staffs') {
-            //$records = PayrollStaff::get();
             $records = $request->records;
-
             $pdf->setHeader("Reporte de trabajadores");
         } elseif ($request->current == 'concepts') {
             try {
@@ -142,67 +210,56 @@ class PayrollReportController extends Controller
                     $request->payroll_payment_types == null;
                 throw_if($validateMessage == true, 'Debe seleccionar al menos un parámetro para generar el reporte.');
             } catch (\Throwable $th) {
+                Log::error($th->getMessage());
                 return response()->json(['errors' => ['payroll_concepts' => [
                     $th->getMessage()
                 ]]], 422);
             }
 
-            $records = PayrollConcept::with([
-                'payrollPaymentTypes',
-                'accountingAccount',
-                'budgetAccount'
-            ])->orderBy('name', 'asc')->get();
+            $requestArray = $request->toArray();
 
-            if ($request->payroll_concept_types) {
-                $concept_type = [];
-                $all = false;
-                foreach ($request->payroll_concept_types as $key => $value) {
-                    if (in_array('todos', $value)) {
-                        $all = true;
-                        break;
-                    } else {
-                        array_push($concept_type, $value['id']);
-                    }
-                }
-                if (!$all) {
-                    $records = $records->whereIn('payroll_concept_type_id', $concept_type);
+            $conceptIds = null;
+            $conceptTypeIds = null;
+            $conceptPaymentTypeIds = null;
+            $all = false;
+
+            if (isset($requestArray["payroll_concepts"])) {
+                $conceptIds = array_column($requestArray["payroll_concepts"], "id");
+                if (in_array('todos', $conceptIds)) {
+                    $all = true;
                 }
             }
-            if ($request->payroll_concepts) {
-                $concept = [];
-                $all = false;
-                foreach ($request->payroll_concepts as $key => $value) {
-                    if (in_array('todos', $value)) {
-                        $all = true;
-                        break;
-                    } else {
-                        array_push($concept, $value['text']);
-                    }
-                }
-                if (!$all) {
-                    $records = $records->whereIn('name', $concept);
+            if (isset($requestArray["payroll_concept_types"])) {
+                $conceptTypeIds = array_column($requestArray["payroll_concept_types"], "id");
+                if (in_array('todos', $conceptTypeIds)) {
+                    $all = true;
                 }
             }
-            if ($request->payroll_payment_types) {
-                $payment_types = [];
-                $all = false;
-                foreach ($request->payroll_payment_types as $key => $value) {
-                    if ($value['id'] == 'todos') {
-                        $all = true;
-                        break;
-                    } else {
-                        array_push($payment_types, $value['id']);
-                    }
-                }
-                if (!$all) {
-                    $records = PayrollConcept::with(['payrollPaymentTypes'])
-                        ->whereHas('payrollPaymentTypes', function ($query) use ($payment_types) {
-                            $query->whereIn('payroll_payment_type_id', $payment_types);
-                        })
-                        ->orderBy('name', 'asc')
-                        ->get();
+            if (isset($requestArray["payroll_payment_types"])) {
+                $conceptPaymentTypeIds = array_column($requestArray["payroll_payment_types"], "id");
+                if (in_array('todos', $conceptPaymentTypeIds)) {
+                    $all = true;
                 }
             }
+
+            if ($all != false) {
+                $records = PayrollConcept::query()->orderBy('name', 'ASC')->get();
+            } else {
+                $records = PayrollConcept::when($conceptIds, function ($query) use ($conceptIds) {
+                    $query->whereIn('id', $conceptIds);
+                })
+                    ->when($conceptTypeIds, function ($query) use ($conceptTypeIds) {
+                        $query->whereIn('payroll_concept_type_id', $conceptTypeIds);
+                    })
+                    ->when($conceptPaymentTypeIds, function ($query) use ($conceptPaymentTypeIds) {
+                        $query->whereHas('payrollPaymentTypes', function ($query) use ($conceptPaymentTypeIds) {
+                            $query->whereIn('payroll_payment_type_id', $conceptPaymentTypeIds);
+                        });
+                    })
+                    ->orderBy('name', 'ASC')
+                    ->get();
+            }
+
             foreach ($records as $record) {
                 $source = Source::with('receiver.associateable')->where('sourceable_id', $record->id)
                     ->where('sourceable_type', PayrollConcept::class)->first();
@@ -228,15 +285,16 @@ class PayrollReportController extends Controller
         } elseif ($request->current == 'relationship-concepts') {
             try {
                 $validateMessage = $request->payroll_payment_types == null &&
-                   $request->payroll_concept_types == null &&
-                   $request->payroll_concepts == null &&
-                   $request->payroll_staffs == null &&
-                   $request->start_date == null &&
-                   $request->end_date == null;
+                    $request->payroll_concept_types == null &&
+                    $request->payroll_concepts == null &&
+                    $request->payroll_staffs == null &&
+                    $request->start_date == null &&
+                    $request->end_date == null;
                 throw_if($validateMessage == true, 'Debe seleccionar al menos un parámetro para generar el reporte.');
             } catch (\Throwable $th) {
+                Log::error($th->getMessage());
                 return response()->json(['errors' => ['payroll_relationshipConcepts' => [
-                   $th->getMessage()
+                    $th->getMessage()
                 ]]], 422);
             }
             $pdf->setHeader("Relación de Conceptos");
@@ -297,7 +355,7 @@ class PayrollReportController extends Controller
                         ];
                     }
                 });
-                /** @var PayrollPaymentPeriod $payrollPaymentPeriods Períodos asociados al pago de nómina generado */
+                /* Períodos asociados al pago de nómina generado */
                 $payrollPaymentPeriods = $paymentType
                     ->payrollPaymentPeriods()
                     ->where('payment_status', 'generated')
@@ -314,13 +372,13 @@ class PayrollReportController extends Controller
                 $numberDecimals = Parameter::where('p_key', 'number_decimals')->where('required_by', 'payroll')->first();
 
                 $payrollPaymentPeriods->map(function ($payrollPaymentPeriod) use (&$items, $payrollStaffs, $payrollConceptTypeSign, $payrollConcepts, $round, $numberDecimals) {
-                    /** @var PayrollStaff $payrollStafs Trabajadores asociados al pago de nómina */
+                    /* Trabajadores asociados al pago de nómina */
                     $payrollStafs = $payrollPaymentPeriod->payroll?->payrollStaffPayrolls;
 
                     $payrollStafs->map(function ($payroll) use ($payrollPaymentPeriod, &$items, $payrollStaffs, $payrollConceptTypeSign, $payrollConcepts, $round, $numberDecimals) {
-                        /** @var PayrollStaff $payroll Trabajador */
+                        /* Trabajador */
                         $payrollStaff = $payroll->payrollStaff;
-                        /** @var array $paymentConcepts Conceptos asociados al tipo de pago de nómina */
+                        /* Conceptos asociados al tipo de pago de nómina */
                         $paymentConcepts = $payroll->concept_type;
 
                         if (in_array($payrollStaff->id, $payrollStaffs)) {
@@ -359,20 +417,82 @@ class PayrollReportController extends Controller
                     });
                 });
                 return [
-                        'id' => $paymentType->id,
-                        'name' => $paymentType->name,
-                        'payroll_concepts' => array_filter($items, function ($option) {
-                            return !empty($option['payroll_staffs']);
-                        })
-                    ];
+                    'id' => $paymentType->id,
+                    'name' => $paymentType->name,
+                    'payroll_concepts' => array_filter($items, function ($option) {
+                        return !empty($option['payroll_staffs']);
+                    })
+                ];
             })->filter(function ($option) {
                 return !empty($option['payroll_concepts']);
             })->values();
 
             if ($records->isEmpty()) {
                 return response()->json(['errors' => ['payroll_relationshipConcepts' => [
-                    'No es posible generar el reporte, no existen cálculos asociados a los parámetros']]], 422);
+                    'No es posible generar el reporte, no existen cálculos asociados a los parámetros'
+                ]]], 422);
             }
+        } elseif ($request->current == 'family-burden') {
+            if (empty($request->payroll_staffs) && empty($request->payroll_relationships)) {
+                return response()->json(['errors' => [
+                    'payroll_familyBurden' => [
+                        'Debe seleccionar un trabajador para poder genera el reporte',
+                    ],
+                    'payroll_relationships' => [
+                        'Debe seleccionar un parentesco para poder genera el reporte',
+                    ],
+                ]], 422);
+            } elseif (empty($request->payroll_staffs) || count($request->payroll_staffs) == 0) {
+                return response()->json(['errors' => ['payroll_familyBurden' => [
+                    'Debe seleccionar un trabajador para poder genera el reporte'
+                ]]], 422);
+            } elseif (empty($request->payroll_relationships) || count($request->payroll_relationships) == 0) {
+                return response()->json(['errors' => ['payroll_familyBurden' => [
+                    'Debe seleccionar un parentesco para poder genera el reporte'
+                ]]], 422);
+            }
+
+            $allStaffs = array_search('todos', array_column($request->payroll_staffs, 'id'));
+            $allRelationships = array_search('todos', array_column($request->payroll_relationships, 'id'));
+
+            if ($allStaffs !== false) {
+                if ($allRelationships !== false) {
+                    $records = PayrollSocioeconomic::has('payrollChildrens')->get();
+                } else {
+                    $realtionshipsIds = array_column($request->payroll_relationships, 'id');
+
+                    $records = PayrollSocioeconomic::query()
+                        ->whereHas('payrollChildrens', function ($query) use ($realtionshipsIds) {
+                            $query->whereIn('payroll_relationships_id', $realtionshipsIds);
+                        })
+                        ->get();
+                }
+            } else {
+                if ($allRelationships !== false) {
+                    $staffIds = array_column($request->payroll_staffs, 'id');
+
+                    $records = PayrollSocioeconomic::query()
+                        ->has('payrollChildrens')
+                        ->whereIn('payroll_staff_id', $staffIds)
+                        ->get();
+                } else {
+                    $staffIds = array_column($request->payroll_staffs, 'id');
+                    $realtionshipsIds = array_column($request->payroll_relationships, 'id');
+
+                    $records = PayrollSocioeconomic::query()
+                        ->whereIn('payroll_staff_id', $staffIds)
+                        ->whereHas('payrollChildrens', function ($query) use ($realtionshipsIds) {
+                            $query->whereIn('payroll_relationships_id', $realtionshipsIds);
+                        })
+                        ->get();
+                }
+            }
+
+            if (count($records) == 0) {
+                return response()->json(['result' => 'empty'], 200);
+            }
+
+            $pdf->setHeader('Reporte de carga familiar');
         }
 
         $pdf->setFooter(true, strip_tags($institution->legal_address));
@@ -390,9 +510,11 @@ class PayrollReportController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @param string filename
-     * @return Renderable
+     * Muestra información de un reporte
+     *
+     * @param string filename Nombre del archivo
+     *
+     * @return BinaryFileResponse
      */
     public function show($filename)
     {
@@ -402,9 +524,11 @@ class PayrollReportController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @param string filename
-     * @return Renderable
+     * Muestra el reporte firmado digitalmente
+     *
+     * @param string filename Nombre del archivo
+     *
+     * @return BinaryFileResponse
      */
     public function showPdfSign($filename)
     {
@@ -413,52 +537,245 @@ class PayrollReportController extends Controller
         return response()->download($file, $filename, [], 'inline');
     }
 
+    /**
+     * Reporte de personal
+     *
+     * @return \Illuminate\View\View
+     */
     public function staffs()
     {
         return view('payroll::reports.payroll-report-staffs');
     }
 
+    /**
+     * Reporte de solicitud de vacaciones
+     *
+     * @return \Illuminate\View\View
+     */
     public function vacationRequests()
     {
         return view('payroll::reports.payroll-report-vacation-requests');
     }
 
+    /**
+     * Reporte de bonos vacacionales
+     *
+     * @return \Illuminate\View\View
+     */
     public function vacationBonusCalculations()
     {
         return view('payroll::reports.payroll-report-vacation-bonus-calculations');
     }
 
+    /**
+     * Reporte de avance de beneficios
+     *
+     * @return \Illuminate\View\View
+     */
     public function benefitsAdvance()
     {
         return view('payroll::reports.benefits.payroll-report-benefit-advances');
     }
+
     /**
-     * Funcion publica para los reportes de empleados.
+     * Reporte de empleados.
      *
      * @author Ezequiel Baptista <ebaptista@cenditel.gob.ve>
+     *
+     * @return \Illuminate\View\View
      */
     public function employmentStatus()
     {
         return view('payroll::reports.payroll-report-employment-status');
     }
 
+    /**
+     * Reporte de disfrute de vacaciones
+     *
+     * @return \Illuminate\View\View
+     */
     public function staffVacationEnjoyment()
     {
         return view('payroll::reports.payroll-report-staff-vacation-enjoyment');
     }
+
+    /**
+     * Reporte de conceptos
+     *
+     * @return \Illuminate\View\View
+     */
     public function concepts()
     {
         return view('payroll::reports.payroll-report-concepts');
     }
+
+    /**
+     * Reporte de relación de conceptos
+     *
+     * @return \Illuminate\View\View
+     */
     public function relationshipConcepts()
     {
         return view('payroll::reports.payroll-report-relationship-concepts');
     }
 
     /**
-     * Muestra un listado para la generación de reportes según sea el caso
+     * Reporte de hojas de tiempo
      *
-     * @method    vueList
+     * @return \Illuminate\View\View
+     */
+    public function timeSheets()
+    {
+        return view('payroll::reports.payroll-report-time-sheets');
+    }
+
+    /**
+     * Método mostrar el formulario para filtrar trabajadores por nómina.
+     *
+     * @author Juan Rosas <juan.rosasr01@gmail.com>
+     *
+     * @return \Illuminate\View\View
+     */
+    public function workersByPayroll()
+    {
+        return view('payroll::reports.payroll-report-workers-by-payroll');
+    }
+
+    /**
+     * Reporte de recibos de pago
+     *
+     * @return \Illuminate\View\View
+     */
+    public function paymentReceipt(): View
+    {
+        return view('payroll::reports.payroll-report-payment-receipt');
+    }
+
+    /**
+     * Genera el reporte de recibos de pago
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return JsonResponse
+     */
+    public function paymentReceiptCreate(Request $request)
+    {
+        $institution = get_user_institution(auth()->user());
+        $currency = get_default_currency();
+        $filter = [];
+        $payrollPaymentTypes = [];
+        $payrollStaffs = [];
+
+        $payrollStaffPayroll = PayrollStaffPayroll::query()->where(
+            function ($query) use ($request) {
+                if ($request->payroll_staffs && count($request->payroll_staffs) > 0) {
+                    $query->whereIn('payroll_staff_id', array_column($request->payroll_staffs, 'id'));
+                }
+            }
+        )->whereHas(
+            'payroll',
+            function ($query) use ($request) {
+                $query->whereHas(
+                    'payrollPaymentPeriod',
+                    function ($q) use ($request) {
+                        $q->select('id', 'start_date', 'end_date')->where('id', $request->period)->whereHas('payrollPaymentType', function ($q) use ($request) {
+                            $q->where('id', $request->payroll_payment_type);
+                        });
+                    }
+                );
+            }
+        );
+
+        if ($payrollStaffPayroll->get()->isEmpty()) {
+            // Mensaje al usuario al no encontrar registros con los parámetros de búsqueda
+            return response()->json([
+                'result' => false, 'message' => 'No existen registros con los parámetros de búsqueda indicados'
+            ], 200);
+        }
+
+        PayrollSendRequestedReceiptsJob::dispatch(
+            $payrollStaffPayroll,
+            $institution,
+            $currency,
+            auth()->user()->email
+        );
+
+        return response()->json([
+            'result' => true,
+            'message' => 'La generación de recibos de pago esta en proceso, le será enviado por correo electrónico en algunos minutos'
+        ], 200);
+    }
+
+    /**
+     * Método para filtrar y agrupar las estadísticas de trabajadores por tipo de nómina y periodo.
+     *
+     * @author Juan Rosas <juan.rosasr01@gmail.com>
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function filterWorkersByPayroll(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'payroll_payment_types' => ['required'],
+                'start_date' => ['required', 'date'],
+                'end_date' => ['required', 'date'],
+            ],
+            [
+                'payroll_payment_types.required' => 'El campo tipos de nómina es obligatorio.',
+                'start_date.required' => 'El campo desde es obligatorio.',
+                'end_date.required' => 'El campo hasta es obligatorio.',
+            ]
+        );
+        $paymentTypeGroups = [];
+        $startDate = $endDate = '';
+
+        $payrollPaymentTypeIds = array_map(function ($v) {
+            return $v["id"];
+        }, $request->payroll_payment_types);
+
+        if ($request->start_date) {
+            $start_date = explode('-', $request->start_date);
+
+            $startDate = date('Y-m-d', mktime(0, 0, 0, $start_date[1], 1, $start_date[0]));
+        }
+        if ($request->end_date) {
+            $end_date = explode('-', $request->end_date);
+
+            $end_day = date("d", mktime(0, 0, 0, $end_date[1], 0, $end_date[0]));
+
+            $endDate = date('Y-m-d', mktime(0, 0, 0, $end_date[1], $end_day, $end_date[0]));
+        }
+
+        if (in_array("todos", $payrollPaymentTypeIds)) {
+            $payrollPaymentTypes = PayrollPaymentType::select("id", "name")->get()->toArray();
+        } else {
+            $payrollPaymentTypes = PayrollPaymentType::whereIn("id", $payrollPaymentTypeIds)->select("id", "name")->get()->toArray();
+        }
+
+        foreach ($payrollPaymentTypes as $paymentType) {
+            $paymentTypeGroups[$paymentType["name"]] = [];
+
+            $periods = PayrollPaymentPeriod::has("payroll.payrollStaffPayrolls")
+                ->where("payroll_payment_type_id", $paymentType["id"])
+                ->where("start_date", ">=", $startDate)
+                ->where("end_date", "<=", $endDate)
+                ->where("payment_status", "generated")
+                ->get();
+
+            foreach ($periods as $period) {
+                $paymentTypeGroups[$paymentType["name"]][$period->end_date] = $period->payroll->payrollStaffPayrolls->count();
+            }
+        }
+
+        return response()->json(['records' => $paymentTypeGroups], 200);
+    }
+
+    /**
+     * Muestra un listado para la generación de reportes según sea el caso
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
@@ -477,7 +794,7 @@ class PayrollReportController extends Controller
             $endDate = date('Y-m-d', mktime(0, 0, 0, $end_date[1], $end_day, $end_date[0]));
         }
 
-        $user = Auth()->user();
+        $user = auth()->user();
         $profileUser = $user->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
@@ -631,205 +948,205 @@ class PayrollReportController extends Controller
                 }
             }
 
-            if ($request->personal_data) {
-                $all = false;
-                if ($request->payroll_genders) {
-                    foreach ($request->payroll_genders as $payroll_gender) {
-                        if (in_array('todos', $payroll_gender)) {
-                            $all = true;
-                            break;
-                        } else {
-                            array_push($payroll_gender_id, $payroll_gender['id']);
-                        }
-                    }
-                    if (!$all) {
-                        $payroll_staffs = $payroll_staffs->whereIn('payroll_gender_id', $payroll_gender_id);
-                    }
-                }
-                $all = false;
-                if ($request->payroll_disabilities) {
-                    foreach ($request->payroll_disabilities as $payroll_disability) {
-                        if (in_array('todos', $payroll_disability)) {
-                            $all = true;
-                            $payroll_staffs = $payroll_staffs->where('has_disability', true);
-                            break;
-                        } else {
-                            array_push($payroll_disability_id, $payroll_disability['id']);
-                        }
-                    }
-                    if (!$all) {
-                        $payroll_staffs = $payroll_staffs->whereIn('payroll_disability_id', $payroll_disability_id);
-                    }
-                }
-                $all = false;
-                if ($request->payroll_license_degrees) {
-                    foreach ($request->payroll_license_degrees as $payroll_license_degree) {
-                        if (in_array('todos', $payroll_license_degree)) {
-                            $all = true;
-                            $payroll_staffs = $payroll_staffs->where('has_driver_license', true);
-                            break;
-                        } else {
-                            array_push($has_driver_license_id, $payroll_license_degree['id']);
-                        }
-                    }
-                    if (!$all) {
-                        $payroll_staffs = $payroll_staffs->whereIn('payroll_license_degree_id', $has_driver_license_id);
-                    }
-                }
-                $all = false;
-                if ($request->payroll_blood_types) {
-                    foreach ($request->payroll_blood_types as $payroll_blood_type) {
-                        if (in_array('todos', $payroll_blood_type)) {
-                            $all = true;
-                            break;
-                        } else {
-                            array_push($payroll_blood_type_id, $payroll_blood_type['id']);
-                        }
-                    }
-                    if (!$all) {
-                        $payroll_staffs = $payroll_staffs->whereIn('payroll_blood_type_id', $payroll_blood_type_id);
-                    }
-                }
-                if (!is_null($request->min_age) && !is_null($request->max_age)) {
-                    $current_date = Carbon::now();
-                    $current_year = date("Y", strtotime($current_date));
-                    $min_year = $current_year - $request->max_age ?? 0;
-                    $min_date = date('Y-m-d', mktime(0, 0, 0, 1, 1, $min_year));
-                    $max_date = $current_date->subYears($request->min_age);
+            /* Filtrar por personal */
+            $request->payroll_staffs
+                && ($payroll_staff = Arr::flatten($request->payroll_staffs))
+                && !in_array('todos', $payroll_staff)
+                && ($payroll_staff_id = array_column($request->payroll_staffs, 'id'))
+                && ($payroll_staffs->whereIn('id', $payroll_staff_id));
 
-                    $payroll_staffs = $payroll_staffs->whereBetween('birthdate', [$min_date, $max_date]);
-                }
+            /* Filtrar por datos personales */
+            if ($request->personal_data) {
+                /* Genero */
+                $request->payroll_genders
+                    && $payroll_staffs->with('payrollGender')
+                    && ($payroll_gender = Arr::flatten($request->payroll_genders))
+                    && !in_array('todos', $payroll_gender)
+                    && ($payroll_gender_id = array_column($request->payroll_genders, 'id'))
+                    && ($payroll_staffs->whereIn('payroll_gender_id', $payroll_gender_id));
+
+                /* Discapacidad */
+                $request->payroll_disabilities && Log::info("Aqui")
+                    && $payroll_staffs->with('payrollDisability')
+                    && ($payroll_disability = Arr::flatten($request->payroll_disabilities))
+                    && (in_array('todos', $payroll_disability)
+                        ? $payroll_staffs->where('has_disability', true)
+                        : (($payroll_disability_id = array_column($request->payroll_disabilities, 'id'))
+                            && ($payroll_staffs->whereIn('payroll_disability_id', $payroll_disability_id))));
+
+                /* Licencia de conducir */
+                $request->payroll_license_degrees
+                    && ($payroll_staffs->with('payrollLicenseDegree'))
+                    && ($payroll_license_degree = Arr::flatten($request->payroll_license_degrees))
+                    && (in_array('todos', $payroll_license_degree)
+                        ? $payroll_staffs->where('has_driver_license', true)
+                        : (($payroll_license_degree_id = array_column($request->payroll_license_degrees, 'id'))
+                            && ($payroll_staffs->whereIn('payroll_license_degree_id', $payroll_license_degree_id))));
+
+                /* Tipo de sangre */
+                $request->payroll_blood_types
+                    && $payroll_staffs->with('payrollBloodType')
+                    && ($payroll_blood_type = Arr::flatten($request->payroll_blood_types))
+                    && !in_array('todos', $payroll_blood_type)
+                    && ($payroll_blood_type_id = array_column($request->payroll_blood_types, 'id'))
+                    && ($payroll_staffs->whereIn('payroll_blood_type_id', $payroll_blood_type_id));
+
+                /* Rango de edad */
+
+                //Edad minima
+                !is_null($request->min_age)
+                    && ($max_date = Carbon::now()->subYears($request->min_age))
+                    && $payroll_staffs->where('birthdate', '<=', $max_date);
+
+                //Edad maxima
+                !is_null($request->max_age)
+                    && ($min_year = date("Y", strtotime(Carbon::now()->subYears($request->max_age))))
+                    && ($min_date = date('Y-m-d', mktime(0, 0, 0, 1, 1, $min_year)))
+                    && $payroll_staffs->where('birthdate', '>=', $min_date);
             }
 
             if ($request->professional_data) {
-                $all = false;
-                if ($request->payroll_instruction_degrees) {
-                    foreach ($request->payroll_instruction_degrees as $payroll_instruction_degree) {
-                        if (in_array('todos', $payroll_instruction_degree)) {
-                            $all = true;
-                            break;
-                        } else {
-                            array_push($payroll_instruction_degree_id, $payroll_instruction_degree['id']);
-                        }
-                    }
-                    if (!$all) {
-                        $payroll_staffs = $payroll_staffs->whereHas(
-                            'payrollProfessional',
-                            function ($query) use ($payroll_instruction_degree_id) {
-                                $query->whereIn('payroll_instruction_degree_id', $payroll_instruction_degree_id);
-                            }
-                        );
-                    }
-                }
+                $payroll_staffs->with('payrollProfessional');
 
-                $all = false;
-                if ($request->payroll_professions) {
-                    foreach ($request->payroll_professions as $payroll_professions) {
-                        if (in_array('todos', $payroll_professions)) {
-                            $all = true;
-                            $payroll_staffs = $payroll_staffs->whereHas('payrollProfessional', function ($query) {
-                                $query->whereHas('payrollStudies', function ($q) {
-                                    $q->whereHas('professions');
-                                });
+                /* Grado de instrucción */
+                $request->payroll_instruction_degrees
+                    && ($payroll_instruction_degree = Arr::flatten($request->payroll_instruction_degrees))
+                    && !in_array('todos', $payroll_instruction_degree)
+                    && ($payroll_instruction_degree_id = array_column($request->payroll_instruction_degrees, 'id'))
+                    && ($payroll_staffs->whereHas(
+                        'payrollProfessional',
+                        function ($query) use ($payroll_instruction_degree_id) {
+                            $query->whereIn('payroll_instruction_degree_id', $payroll_instruction_degree_id);
+                        }
+                    ));
+
+                /* Profesiones */
+                $request->payroll_professions
+                    && $payroll_staffs->with('payrollProfessional.payrollStudies')
+                    && ($payroll_professions = Arr::flatten($request->payroll_professions))
+                    && (in_array('todos', $payroll_professions)
+                        ? $payroll_staffs->whereHas('payrollProfessional', function ($query) {
+                            $query->whereHas('payrollStudies', function ($q) {
+                                $q->whereHas('professions');
                             });
-                            break;
-                        } else {
-                            array_push($payroll_professions_id, $payroll_professions['id']);
-                        }
-                    }
-                    if (!$all) {
-                        $payroll_staffs = $payroll_staffs->whereHas(
-                            'payrollProfessional',
-                            function ($query) use ($payroll_professions_id) {
-                                $query->whereHas('payrollStudies', function ($q) use ($payroll_professions_id) {
-                                    $q->whereIn('profession_id', $payroll_professions_id);
-                                });
-                            }
-                        );
-                    }
-                }
+                        })
+                        : (($payroll_professions_id = array_column($request->payroll_professions, 'id'))
+                            && $payroll_staffs->whereHas(
+                                'payrollProfessional',
+                                function ($query) use ($payroll_professions_id) {
+                                    $query->whereHas('payrollStudies', function ($q) use ($payroll_professions_id) {
+                                        $q->whereIn('profession_id', $payroll_professions_id);
+                                    });
+                                }
+                            )));
 
-                if ($request->is_study) {
-                    $payroll_staffs = $payroll_staffs->whereHas('payrollProfessional', function ($query) {
+                /* Es estudiante */
+                $request->is_study
+                    && $payroll_staffs->whereHas('payrollProfessional', function ($query) {
                         $query->where('is_student', true);
                     });
-                }
             }
 
             if ($request->socioeconomic_data) {
-                $all = false;
-                if ($request->marital_status) {
-                    foreach ($request->marital_status as $marital_status) {
-                        if (in_array('todos', $marital_status)) {
-                            $all = true;
-                            break;
-                        } else {
-                            array_push($marital_status_id, $marital_status['id']);
+                $payroll_staffs->with('payrollSocioeconomic');
+
+                /* Estado civil */
+                $request->marital_status
+                    && $payroll_staffs->with('payrollSocioeconomic.maritalStatus')
+                    && ($marital_status = Arr::flatten($request->marital_status))
+                    && !in_array('todos', $marital_status)
+                    && ($marital_status_id = array_column($request->marital_status, 'id'))
+                    && $payroll_staffs->whereHas(
+                        'payrollSocioeconomic',
+                        function ($query) use ($marital_status_id) {
+                            $query->whereIn('marital_status_id', $marital_status_id);
                         }
-                    }
-                    if (!$all) {
-                        $payroll_staffs = $payroll_staffs->whereHas(
-                            'payrollSocioeconomic',
-                            function ($query) use ($marital_status_id) {
-                                $query->whereIn('marital_status_id', $marital_status_id);
-                            }
-                        );
-                    }
-                }
+                    );
 
                 if ($request->has_childs) {
                     $payroll_staffs = $payroll_staffs->whereHas('payrollSocioeconomic', function ($query) {
                         $query->whereHas('payrollChildrens');
                     });
 
-                    $all = false;
-                    if ($request->has_childs && $request->payroll_schooling_levels) {
-                        foreach ($request->payroll_schooling_levels as $payroll_schooling_levels) {
-                            if (in_array('todos', $payroll_schooling_levels)) {
-                                $all = true;
-                                break;
-                            } else {
-                                array_push($payroll_schooling_levels_id, $payroll_schooling_levels['id']);
-                            }
-                        }
-                        if (!$all) {
-                            $payroll_staffs = $payroll_staffs->whereHas(
-                                'payrollSocioeconomic',
-                                function ($query) use ($payroll_schooling_levels_id) {
-                                    $query->whereHas(
-                                        'payrollChildrens',
-                                        function ($qq) use ($payroll_schooling_levels_id) {
-                                            $qq->whereIn(
-                                                'payroll_schooling_level_id',
-                                                $payroll_schooling_levels_id
-                                            );
-                                        }
-                                    );
-                                }
-                            );
-                        }
-                    }
-
-                    if (
-                        $request->has_childs && !is_null($request->min_childs_age)
-                        && !is_null($request->max_childs_age)
-                    ) {
-                        $now = now();
-                        $min = date('Y-m-d', mktime(0, 0, 0, 1, 1, $now->copy()
-                            ->subYears($request->max_childs_age ?? 0)->format('Y')));
-                        $max = $now->copy()->subYears($request->min_childs_age ?? 0);
-                        $payroll_staffs = $payroll_staffs->whereHas(
+                    //Edad minima de los hijos
+                    !is_null($request->min_childs_age)
+                        && ($child_max_date = Carbon::now()->subYears($request->min_childs_age))
+                        && $payroll_staffs->whereHas(
                             'payrollSocioeconomic',
-                            function ($query) use ($min, $max) {
+                            function ($query) use ($child_max_date) {
                                 $query->whereHas(
                                     'payrollChildrens',
-                                    function ($qq) use ($min, $max) {
-                                        $qq->whereBetween('birthdate', [$min, $max]);
+                                    function ($qq) use ($child_max_date) {
+                                        $qq->where('birthdate', '<=', $child_max_date);
+                                    }
+                                );
+                            }
+                        )->with(
+                            'payrollSocioeconomic',
+                            function ($query) use ($child_max_date) {
+                                $query->with(
+                                    'payrollChildrens',
+                                    function ($qq) use ($child_max_date) {
+                                        $qq->where('birthdate', '<=', $child_max_date);
                                     }
                                 );
                             }
                         );
-                    }
+
+                    //Edad maxima de los hijos
+                    !is_null($request->max_childs_age)
+                        && ($child_min_year = date("Y", strtotime(Carbon::now()->subYears($request->max_childs_age))))
+                        && ($child_min_date = date('Y-m-d', mktime(0, 0, 0, 1, 1, $child_min_year)))
+                        && $payroll_staffs->whereHas(
+                            'payrollSocioeconomic',
+                            function ($query) use ($child_min_date) {
+                                $query->whereHas(
+                                    'payrollChildrens',
+                                    function ($qq) use ($child_min_date) {
+                                        $qq->where('birthdate', '>=', $child_min_date);
+                                    }
+                                );
+                            }
+                        )->with(
+                            'payrollSocioeconomic',
+                            function ($query) use ($child_min_date) {
+                                $query->with(
+                                    'payrollChildrens',
+                                    function ($qq) use ($child_min_date) {
+                                        $qq->where('birthdate', '>=', $child_min_date);
+                                    }
+                                );
+                            }
+                        );
+
+                    /* Niveles de escolaridad */
+                    $request->payroll_schooling_levels
+                        && $payroll_staffs->with('payrollSocioeconomic.payrollChildrens.payrollSchoolingLevel')
+                        && ($payroll_schooling_levels = Arr::flatten($request->payroll_schooling_levels))
+                        && !in_array('todos', $payroll_schooling_levels)
+                        && ($payroll_schooling_levels_id = array_column($request->payroll_schooling_levels, 'id'))
+                        && $payroll_staffs->whereHas(
+                            'payrollSocioeconomic',
+                            function ($query) use ($payroll_schooling_levels_id) {
+                                $query->whereHas(
+                                    'payrollChildrens',
+                                    function ($qq) use ($payroll_schooling_levels_id) {
+                                        $qq->whereIn(
+                                            'payroll_schooling_level_id',
+                                            $payroll_schooling_levels_id
+                                        );
+                                    }
+                                );
+                            }
+                        )->with(
+                            'payrollSocioeconomic.payrollChildrens',
+                            function ($qq) use ($payroll_schooling_levels_id) {
+                                $qq->whereIn(
+                                    'payroll_schooling_level_id',
+                                    $payroll_schooling_levels_id
+                                );
+                            }
+                        );
                 }
             }
 
@@ -866,88 +1183,125 @@ class PayrollReportController extends Controller
                     });
                 }
 
-                $all = false;
-                if ($request->payroll_position_types) {
-                    foreach ($request->payroll_position_types as $payroll_position_types) {
-                        if (in_array('todos', $payroll_position_types)) {
-                            $all = true;
-                            break;
-                        } else {
-                            array_push($payroll_position_types_id, $payroll_position_types['id']);
-                        }
-                    }
-                    if (!$all) {
-                        $payroll_staffs = $payroll_staffs->whereHas(
-                            'payrollEmployment',
-                            function ($query) use ($payroll_position_types_id) {
-                                $query->whereIn('payroll_position_type_id', $payroll_position_types_id);
-                            }
-                        );
-                    }
-                }
+                /* Trabajadores activos o inactivos */
+                $is_active = isset($request->is_active) && $request->is_active;
 
-                $all = false;
-                if ($request->payroll_positions) {
-                    foreach ($request->payroll_positions as $payroll_positions) {
-                        if (in_array('todos', $payroll_positions)) {
-                            $all = true;
-                            break;
-                        } else {
-                            array_push($payroll_positions_id, $payroll_positions['id']);
+                $is_active ? $payroll_staffs->whereHas('payrollEmployment', function ($query) use ($is_active) {
+                    $query->where('active', true);
+                }) : $payroll_staffs->whereHas('payrollEmployment', function ($query) use ($is_active) {
+                    $query->where('active', false);
+                })
+                    /* Trabajadores inactivos */
+                    && !$is_active
+                    /* Tipo de Inactividad */
+                    && $request->payroll_inactivity_types
+                    && $payroll_staffs->whereHas('payrollEmployment.payrollInactivityType')
+                    && ($payroll_inactivity_types = Arr::flatten($request->payroll_inactivity_types))
+                    && !in_array('todos', $payroll_inactivity_types)
+                    && ($payroll_inactivity_types_id = array_column($request->payroll_inactivity_types, 'id'))
+                    && $payroll_staffs->whereHas(
+                        'payrollEmployment',
+                        function ($query) use ($payroll_inactivity_types_id) {
+                            $query->whereIn(
+                                'payroll_inactivity_type_id',
+                                $payroll_inactivity_types_id
+                            );
                         }
-                    }
-                    if (!$all) {
-                        $payroll_staffs = $payroll_staffs->whereHas(
-                            'payrollEmployment.payrollPositions',
-                            function ($query) use ($payroll_positions_id) {
-                                $query->whereIn(
-                                    'payroll_position_id',
-                                    $payroll_positions_id
-                                );
-                            }
-                        );
-                    }
-                }
+                    );
 
-                $all = false;
-                if ($request->payroll_staff_types) {
-                    foreach ($request->payroll_staff_types as $payroll_staff_types) {
-                        if (in_array('todos', $payroll_staff_types)) {
-                            $all = true;
-                            break;
-                        } else {
-                            array_push($payroll_staff_types_id, $payroll_staff_types['id']);
+                /* Tipo de Cargo */
+                $request->payroll_position_types
+                    && $payroll_staffs->whereHas('payrollEmployment.payrollPositionType')
+                    && ($payroll_position_types = Arr::flatten($request->payroll_position_types))
+                    && !in_array('todos', $payroll_position_types)
+                    && ($payroll_position_types_id = array_column($request->payroll_position_types, 'id'))
+                    && $payroll_staffs->whereHas(
+                        'payrollEmployment',
+                        function ($query) use ($payroll_position_types_id) {
+                            $query->whereIn('payroll_position_type_id', $payroll_position_types_id);
                         }
-                    }
-                    if (!$all) {
-                        $payroll_staffs = $payroll_staffs->whereHas(
-                            'payrollEmployment',
-                            function ($query) use ($payroll_staff_types_id) {
-                                $query->whereIn('payroll_staff_type_id', $payroll_staff_types_id);
-                            }
-                        );
-                    }
-                }
+                    );
 
-                $all = false;
-                if ($request->payroll_contract_types) {
-                    foreach ($request->payroll_contract_types as $payroll_contract_types) {
-                        if (in_array('todos', $payroll_contract_types)) {
-                            $all = true;
-                            break;
-                        } else {
-                            array_push($payroll_contract_types_id, $payroll_contract_types['id']);
+                /* Cargos */
+                $request->payroll_positions
+                    && $payroll_staffs->whereHas('payrollEmployment.payrollPositions')
+                    && ($payroll_positions = Arr::flatten($request->payroll_positions))
+                    && !in_array('todos', $payroll_positions)
+                    && ($payroll_positions_id = array_column($request->payroll_positions_id, 'id'))
+                    && $payroll_staffs->whereHas(
+                        'payrollEmployment.payrollPositions',
+                        function ($query) use ($payroll_positions_id) {
+                            $query->whereIn(
+                                'payroll_position_id',
+                                $payroll_positions_id
+                            );
                         }
-                    }
-                    if (!$all) {
-                        $payroll_staffs = $payroll_staffs->whereHas(
-                            'payrollEmployment',
-                            function ($query) use ($payroll_contract_types_id) {
-                                $query->whereIn('payroll_contract_type_id', $payroll_contract_types_id);
-                            }
-                        );
-                    }
-                }
+                    );
+
+                /* Tipos de personal */
+                $request->payroll_staff_types
+                    && $payroll_staffs->whereHas('payrollEmployment.payrollStaffType')
+                    && ($payroll_staff_types = Arr::flatten($request->payroll_staff_types))
+                    && !in_array('todos', $payroll_staff_types)
+                    && ($payroll_staff_types_id = array_column($request->payroll_staff_types, 'id'))
+                    && $payroll_staffs->whereHas(
+                        'payrollEmployment',
+                        function ($query) use ($payroll_staff_types_id) {
+                            $query->whereIn('payroll_staff_type_id', $payroll_staff_types_id);
+                        }
+                    );
+
+                /* Tipo de contrato */
+                $request->payroll_contract_types
+                    && $payroll_staffs->whereHas('payrollEmployment.payrollContractType')
+                    && ($payroll_contract_types = Arr::flatten($request->payroll_contract_types))
+                    && !in_array('todos', $payroll_contract_types)
+                    && ($payroll_contract_types_id = array_column($request->payroll_contract_types, 'id'))
+                    && $payroll_staffs->whereHas(
+                        'payrollEmployment',
+                        function ($query) use ($payroll_contract_types_id) {
+                            $query->whereIn('payroll_contract_type_id', $payroll_contract_types_id);
+                        }
+                    );
+
+                /* Departamentos */
+                $request->departments
+                    && $payroll_staffs->whereHas('payrollEmployment.department')
+                    && ($departments = Arr::flatten($request->departments))
+                    && !in_array('todos', $departments)
+                    && ($departments_id = array_column($request->departments, 'id'))
+                    && $payroll_staffs->whereHas(
+                        'payrollEmployment.department',
+                        function ($query) use ($departments_id) {
+                            $query->whereIn(
+                                'department_id',
+                                $departments_id
+                            );
+                        }
+                    );
+
+                /* Filtrar por tiempo laborado en la institución */
+
+                /* Tiempo minimo laborado */
+                !is_null($request->min_time_worked)
+                    && ($max_date = Carbon::now()->subYears($request->min_time_worked))
+                    && $payroll_staffs->whereHas(
+                        'payrollEmployment',
+                        function ($query) use ($max_date) {
+                            $query->where('start_date', '<=', $max_date);
+                        }
+                    );
+
+                /* Tiempo máximo laborado */
+                !is_null($request->max_time_worked)
+                    && ($min_year = date("Y", strtotime(Carbon::now()->subYears($request->max_time_worked))))
+                    && ($min_date = date('Y-m-d', mktime(0, 0, 0, 1, 1, $min_year)))
+                    && $payroll_staffs->whereHas(
+                        'payrollEmployment',
+                        function ($query) use ($min_date) {
+                            $query->where('start_date', '>=', $min_date);
+                        }
+                    );
 
                 $all = false;
                 if ($request->departments) {
@@ -961,11 +1315,11 @@ class PayrollReportController extends Controller
                     }
                     if (!$all) {
                         $payroll_staffs = $payroll_staffs->whereHas(
-                            'payrollEmployment.payrollPositions',
-                            function ($query) use ($payroll_positions_id) {
+                            'payrollEmployment.department',
+                            function ($query) use ($departments_id) {
                                 $query->whereIn(
-                                    'payroll_position_id',
-                                    $payroll_positions_id
+                                    'department_id',
+                                    $departments_id
                                 );
                             }
                         );
@@ -994,16 +1348,16 @@ class PayrollReportController extends Controller
                                 $payroll = $payroll->toArray();
                                 $years_apn = $payroll['payroll_employment']['years_apn']
                                     ? (is_numeric($payroll['payroll_employment']['years_apn'])
-                                    ? $payroll['payroll_employment']['years_apn']
-                                    : explode(' ', $payroll['payroll_employment']['years_apn']))
+                                        ? $payroll['payroll_employment']['years_apn']
+                                        : explode(' ', $payroll['payroll_employment']['years_apn']))
                                     : '';
                                 $time_service = intval(
                                     $this->calculateAge($payroll['payroll_employment']['start_date'])
                                 )
                                     + ($years_apn ? (is_numeric($years_apn)
-                                    ? intval($years_apn)
-                                    : intval($years_apn[1]))
-                                    : 0);
+                                        ? intval($years_apn)
+                                        : intval($years_apn[1]))
+                                        : 0);
 
                                 if (
                                     $time_service >= $request->min_time_service
@@ -1020,14 +1374,14 @@ class PayrollReportController extends Controller
                                 $payroll = $payroll->toArray();
                                 $years_apn = $payroll['payroll_employment']['years_apn']
                                     ? (is_numeric($payroll['payroll_employment']['years_apn'])
-                                    ? $payroll['payroll_employment']['years_apn']
-                                    : explode(' ', $payroll['payroll_employment']['years_apn']))
+                                        ? $payroll['payroll_employment']['years_apn']
+                                        : explode(' ', $payroll['payroll_employment']['years_apn']))
                                     : '';
                                 $time_service = intval(
                                     $this->calculateAge($payroll['payroll_employment']['start_date'])
                                 )
                                     + ($years_apn ? (is_numeric($years_apn)
-                                    ? intval($years_apn) : intval($years_apn[1])) : 0);
+                                        ? intval($years_apn) : intval($years_apn[1])) : 0);
 
                                 if (
                                     $time_service >= $request->min_time_service
@@ -1045,13 +1399,13 @@ class PayrollReportController extends Controller
             $schooling_level = [];
             $allLevel = $this->searchAllToLevels($request->payroll_schooling_levels);
 
-            foreach ($payroll_staffs as $payroll) {
+            foreach ($payroll_staffs->items() as $payroll) {
                 $payroll = $payroll->toArray();
                 $years_apn = isset($payroll['payroll_employment'])
                     && $payroll['payroll_employment']['years_apn']
                     ? (is_numeric($payroll['payroll_employment']['years_apn'])
-                    ? $payroll['payroll_employment']['years_apn']
-                    : explode(' ', $payroll['payroll_employment']['years_apn']))
+                        ? $payroll['payroll_employment']['years_apn']
+                        : explode(' ', $payroll['payroll_employment']['years_apn']))
                     : '';
 
                 $min = '';
@@ -1168,6 +1522,7 @@ class PayrollReportController extends Controller
                 }
 
                 array_push($records, [
+                    'payroll_id_number' => $payroll['id_number'],
                     'payroll_staff' => $payroll['first_name'] . ' ' . $payroll['last_name'],
                     'payroll_gender' => $payroll['payroll_gender']['name'] ?? 'N/A',
                     'payroll_disability' => $payroll['payroll_disability_id']
@@ -1204,7 +1559,7 @@ class PayrollReportController extends Controller
                         : 'N/A',
                     'payroll_childs' => $payroll['payroll_socioeconomic']
                         ? ($payroll['payroll_socioeconomic']['payroll_childrens']
-                        ? 'Si' : 'No') : 'N/A',
+                            ? 'Si' : 'No') : 'N/A',
                     'payroll_childs_arrays' => $payrollChildrens ?? 'N/A',
                     'schooling_levels' => $request->schooling_levels,
                     'payroll_is_active' => $payroll['payroll_employment']
@@ -1222,7 +1577,7 @@ class PayrollReportController extends Controller
                             ? $payroll['payroll_employment']['payroll_position_type']['name']
                             : 'N/A')
                         : 'N/A',
-                    'payroll_position' => $payroll['payroll_employment']
+                    'payroll_position' => $payroll['payroll_employment'] && $payroll['payroll_employment']['payrollPosition']
                         ? $payroll['payroll_employment']['payrollPosition']['name']
                         : 'N/A',
                     'payroll_staff_type' => $payroll['payroll_employment']
@@ -1248,7 +1603,7 @@ class PayrollReportController extends Controller
                         : 'N/A',
                     'time_service' => $payroll['payroll_employment']
                         ? (intval($this->calculateAge($payroll['payroll_employment']['start_date']))
-                        + ($years_apn ? (is_numeric($years_apn) ? intval($years_apn) : intval($years_apn[1])) : 0))
+                            + ($years_apn ? (is_numeric($years_apn) ? intval($years_apn) : intval($years_apn[1])) : 0))
                         . ' años' : 'N/A',
                 ]);
             }
@@ -1278,29 +1633,29 @@ class PayrollReportController extends Controller
 
                 ],
             ]);
-
-            /**/
         }
 
         return response()->json(['records' => $records], 200);
     }
 
+    /**
+     * Cálculo de la edad laboral
+     *
+     * @param string $birth_date Fecha de nacimiento
+     *
+     * @return integer
+     */
     public function calculateAge($birth_date)
     {
 
         $age = Carbon::parse($birth_date)->age;
         return $age;
-        // $age = Carbon::now();
-
-        // return $age->diffForHumans($birth_date, $age);
     }
 
     /**
      * Devuelve all si el nivel de escolaridad es la opción todos -> Todos o no
      * fue seleccionada recibe el arreglo de  $schooling_levels que corresponde
      * al nivel de escolaridad del forumario
-     *
-     * @method    searchAllToLevels
      *
      * @author    Pedro Buitrago <pbuitrago@cenditel.gob.ve>
      *
@@ -1319,5 +1674,474 @@ class PayrollReportController extends Controller
             $level = 'all';
         }
         return $level;
+    }
+
+    /**
+     * Exporta el reporte de conceptos
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function exportReportConcepts(Request $request)
+    {
+        try {
+            $validateMessage = $request->payroll_concepts == null &&
+                $request->payroll_concept_types == null &&
+                $request->payroll_payment_types == null;
+            throw_if($validateMessage == true, 'Debe seleccionar al menos un parámetro para generar el reporte.');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return response()->json(['errors' => ['payroll_concepts' => [
+                $th->getMessage()
+            ]]], 422);
+        }
+
+        $requestArray = $request->toArray();
+
+        dispatch(new PayrollReportConceptExportJob($requestArray));
+
+        request()->session()->flash('message', [
+            'type' => 'other', 'title' => '¡Éxito!',
+            'text' => 'Su solicitud esta en proceso, esto puede tardar unos ' .
+                'minutos. Se le notificara al terminar la operación',
+            'icon' => 'screen-ok',
+            'class' => 'growl-primary'
+        ]);
+
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Obtiene las columnas del reporte
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return array
+     */
+    public function getReportColumns(Request $request): array
+    {
+        return [
+            'payroll_gender'                => $request->payroll_genders ? true : false,
+            'payroll_disability'            => $request->payroll_disabilities ? true : false,
+            'has_driver_license'            => $request->payroll_license_degrees ? true : false,
+            'payroll_blood_type'            => $request->payroll_blood_types ? true : false,
+            'payroll_age'                   => !is_null($request->min_age) || !is_null($request->max_age) ? true : false,
+            'payroll_instruction_degree'    => $request->payroll_instruction_degrees ? true : false,
+            'payroll_professions'           => $request->payroll_professions ? true : false,
+            'marital_status'                => $request->marital_status ? true : false,
+            'payroll_inactivity_types'      => $request->payroll_inactivity_types ? true : false,
+            'payroll_position_types'        => $request->payroll_position_types ? true : false,
+            'payroll_positions'             => $request->payroll_positions ? true : false,
+            'payroll_staff_types'           => $request->payroll_staff_types ? true : false,
+            'payroll_contract_types'        => $request->payroll_contract_types ? true : false,
+            'departments'                   => $request->departments ? true : false,
+            'payroll_study'                 => $request->is_study ? true : false,
+            'payroll_childs'                => $request->has_childs ? true : false,
+            'payroll_is_active'             => (($request->employment_data && $request->is_active) ||
+                ($request->employment_data && !$request->is_active)) ? true : false,
+            'time_worked'                   => !is_null($request->min_time_worked) || !is_null($request->max_time_worked),
+            'time_service'                  => !is_null($request->min_time_service) || !is_null($request->max_time_service) ? true : false,
+        ];
+    }
+
+    /**
+     * Exporta el reporte del personal
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse|BinaryFileResponse
+     */
+    public function exportReportStaffs(Request $request)
+    {
+        $columns = $this->getReportColumns($request);
+
+        // ini_set('max_execution_time', 300);
+        /* 5min */
+        try {
+            $export = new PayrollReportStaffsExport($columns);
+            return Excel::download($export, 'payroll_report_staffs' . '.xlsx');
+        } catch (\Throwable $th) {
+            request()->session()->flash('message', [
+                'type' => 'other', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'growl-danger',
+                'text' => 'No se puede generar el archivo porque se ha presentando un error en el reporte de trabajadores.',
+            ]);
+            return redirect()->route('payroll.reports.staffs');
+        }
+    }
+
+    /**
+     * Lista del personal para generar reportes
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function vueListReport(Request $request): JsonResponse
+    {
+        try {
+            if (request('staffs')) {
+                $payrollStaff = new PayrollStaff();
+                $data = $payrollStaff->filterPayrollStaff()->paginate(request('limit', 10));
+                $count = $data->total();
+
+                return response()->json([
+                    'data' => $data->items(),
+                    'count' => $count,
+                ]);
+            }
+            return response()->json(['data' => [], 'count' => 0,], 200);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return response()->json(['data' => [], 'count' => 0, 'message' => $th->getMessage()], 200);
+        }
+    }
+
+    /**
+     * Genera el reporte pdf de la hoja de tiempo
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function timeSheetsPdf(Request $request)
+    {
+        try {
+            $validateMessage = $request->from_date == null &&
+                $request->to_date == null &&
+                $request->payroll_staffs == null &&
+                $request->document_status == null &&
+                $request->payroll_time_parameters == null &&
+                $request->payroll_supervised_groups == null;
+            throw_if($validateMessage == true, 'Debe seleccionar al menos un parámetro para generar el reporte.');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return response()->json(['errors' => ['payroll_time_sheets' => [
+                $th->getMessage()
+            ]]], 422);
+        }
+
+        $request = $request->toArray();
+
+        $allPayrollSupervisedGroups = false;
+        $allpayrollStaffs = false;
+        $allDocumentStatus = false;
+        $payrollSupervisedGroupIds = null;
+        $payrollStaffsIds = null;
+        $documentStatus = null;
+
+        if (isset($request["payroll_supervised_groups"]) && count($request["payroll_supervised_groups"]) > 0) {
+            $payrollSupervisedGroupIds = array_column($request["payroll_supervised_groups"], "id");
+            if (in_array('todos', $request["payroll_supervised_groups"][0])) {
+                $allPayrollSupervisedGroups = true;
+            }
+        }
+
+        if (isset($request["payroll_staffs"]) && count($request["payroll_staffs"]) > 0) {
+            $payrollStaffsIds = array_column($request["payroll_staffs"], "id");
+            if (in_array('todos', $request["payroll_staffs"][0])) {
+                $allpayrollStaffs = true;
+            }
+        }
+
+        if (isset($request["document_status"]) && count($request["document_status"]) > 0) {
+            $documentStatus = array_column($request["document_status"], "text");
+            if (in_array('todos', $request["document_status"][0])) {
+                $allDocumentStatus = true;
+            }
+        }
+
+        $time_sheet_query = PayrollTimeSheet::query()->with(['documentStatus', 'payrollSupervisedGroup' => function ($query) {
+            $query->with(['payrollSupervisedGroupStaff' => function ($query) {
+                $query->with(['payrollStaff' => function ($query) {
+                    $query->without([
+                        'payrollGender',
+                        'payrollDisability',
+                        'payrollLicenseDegree',
+                        'payrollBloodType',
+                        'payrollProfessional',
+                        'payrollSocioeconomic',
+                        'payrollEmployment',
+                        'payrollNationality',
+                        'payrollFinancial',
+                        'payrollStaffUniformSize',
+                        'payrollResponsibility'
+                    ]);
+                }]);
+            }, 'supervisor' => function ($query) {
+                $query->without([
+                    'payrollGender',
+                    'payrollDisability',
+                    'payrollLicenseDegree',
+                    'payrollBloodType',
+                    'payrollProfessional',
+                    'payrollSocioeconomic',
+                    'payrollEmployment',
+                    'payrollNationality',
+                    'payrollFinancial',
+                    'payrollStaffUniformSize',
+                    'payrollResponsibility'
+                ]);
+            }, 'approver' => function ($query) {
+                $query->without([
+                    'payrollGender',
+                    'payrollDisability',
+                    'payrollLicenseDegree',
+                    'payrollBloodType',
+                    'payrollProfessional',
+                    'payrollSocioeconomic',
+                    'payrollEmployment',
+                    'payrollNationality',
+                    'payrollFinancial',
+                    'payrollStaffUniformSize',
+                    'payrollResponsibility'
+                ]);
+            }]);
+        }]);
+
+
+        if ($request['from_date'] != null && $request['to_date'] != null) {
+            $timeSheets = $time_sheet_query->whereBetween("from_date", [$request["from_date"], $request["to_date"]])->get();
+        }
+
+        $timeSheets = $time_sheet_query
+            ->when($payrollSupervisedGroupIds, function ($query) use ($payrollSupervisedGroupIds, $allPayrollSupervisedGroups) {
+                if ($allPayrollSupervisedGroups != true) {
+                    $query->whereIn('payroll_supervised_group_id', $payrollSupervisedGroupIds);
+                }
+            })
+            ->when($payrollStaffsIds, function ($query) use ($payrollStaffsIds, $allpayrollStaffs) {
+                if ($allpayrollStaffs != true) {
+                    $supervisedGroupStaff = PayrollSupervisedGroupStaff::query()
+                        ->whereIn('payroll_staff_id', $payrollStaffsIds)
+                        ->get();
+                    $supervisedGroup = PayrollSupervisedGroup::query()
+                        ->whereIn('id', $supervisedGroupStaff
+                        ->pluck('payroll_supervised_group_id'))
+                        ->get();
+
+                    $query->whereIn('payroll_supervised_group_id', $supervisedGroup->pluck('id'));
+                }
+            })
+            ->when($documentStatus, function ($query) use ($documentStatus, $allDocumentStatus) {
+                if ($allDocumentStatus != true) {
+                    $documentStatusName = DocumentStatus::query()->whereIn('name', $documentStatus)->pluck('id');
+
+                    $query->whereIn('document_status_id', $documentStatusName);
+                }
+            })->get();
+
+        if ($timeSheets->isEmpty()) {
+            return response()->json(['errors' => ['payroll_relationshipConcepts' => [
+                'No es posible generar el reporte, no existen registros asociados a los parámetros seleccionados.'
+            ]]], 422);
+        }
+
+        $payrollExceptionType = PayrollExceptionType::query()->get()->toArray();
+        $payrollTimeParameters = $request["payroll_time_parameters"] ?? null;
+
+        foreach ($timeSheets as $sheet => $timeSheet) {
+            $draggableData = [];
+            $index = 1;
+
+            if ($payrollStaffsIds != null && $payrollStaffsIds[0] != 'todos') {
+                $draggableData = $timeSheet->payrollSupervisedGroup->payrollSupervisedGroupStaff
+                    ->filter(function ($groupPayrollStaff) use ($payrollStaffsIds) {
+                        return in_array($groupPayrollStaff->payrollStaff->id, $payrollStaffsIds);
+                    })
+                    ->pluck('payrollStaff')
+                    ->map(function ($payrollStaff) {
+                        return [
+                            'Ficha' => $payrollStaff->w62orksheet_code,
+                            'Nombre' => $payrollStaff->getFullNameAttribute(),
+                            'staff_id' => $payrollStaff->id,
+                        ];
+                    })
+                    ->sortBy('Nombre')
+                    ->values()
+                    ->map(function ($item, $index) {
+                        return array_merge(['N°' => $index + 1], $item);
+                    });
+            } else {
+                $draggableData = $timeSheet->payrollSupervisedGroup->payrollSupervisedGroupStaff
+                    ->pluck('payrollStaff')
+                    ->map(function ($payrollStaff) {
+                        return [
+                            'Ficha' => $payrollStaff->worksheet_code,
+                            'Nombre' => $payrollStaff->getFullNameAttribute(),
+                            'staff_id' => $payrollStaff->id,
+                        ];
+                    })
+                    ->sortBy('Nombre')
+                    ->values()
+                    ->map(function ($item, $index) {
+                        return array_merge(['N°' => $index + 1], $item);
+                    });
+            }
+
+            $draggableData = $draggableData->toArray();
+            $groups = [];
+            if ($payrollTimeParameters != null) {
+                $timeSheetColumns = $timeSheet->time_sheet_columns;
+                $parameterColumns = [];
+                $groups = [];
+
+                foreach ($payrollExceptionType as $i => $exceptionType) {
+                    foreach ($payrollTimeParameters as $parameter) {
+                        foreach ($timeSheetColumns as $key => $column) {
+                            if (
+                                !array_key_exists($column['name'], $parameterColumns) &&
+                                ($column['name'] === $parameter['text'] ||
+                                $column['name'] === 'N°' ||
+                                $column['name'] === 'Ficha' ||
+                                $column['name'] === 'Nombre') && !array_key_exists('group', $column)
+                            ) {
+                                $parameterColumns[$column['name']] = $timeSheetColumns[$key];
+                            } elseif (
+                                !array_key_exists($column['name'], $parameterColumns) &&
+                                $column['name'] === $parameter['text'] &&
+                                array_key_exists('group', $parameter) &&
+                                $parameter['group'] === $exceptionType['name']
+                            ) {
+                                $parameterColumns[$column['name']] = $timeSheetColumns[$key];
+                                $groups[$column['name']] = $parameter['group'];
+                            }
+                        }
+                    }
+                    foreach ($groups as $groupValue) {
+                        if ($groupValue === $exceptionType['name']) {
+                            $parameterColumns['subtotal - ' . $exceptionType['name']] = [
+                                'position' => $exceptionType['name'],
+                                'name' => 'subtotal - ' . $exceptionType['name'],
+                                'group' => $exceptionType['name'],
+                                'type' => 'subtotal',
+                                'isDraggable' => 'false',
+                                'max' => null,
+                            ];
+                        }
+                    }
+                }
+
+                $parameterColumns['total'] = [
+                    'position' => 'total',
+                    'name' => 'total',
+                    'group' => 'total',
+                    'type' => 'total',
+                    'isDraggable' => 'false',
+                    'max' => null,
+                ];
+
+                foreach ($draggableData as &$draggable) {
+                    foreach ($parameterColumns as $key => $column) {
+                        if (!array_key_exists($column['name'], $draggable)) {
+                            $draggable[$column['name']] = [
+                                'name' => '',
+                                'group' => $column['group'] ?? null,
+                            ];
+                        }
+                    }
+
+                    foreach ($payrollExceptionType as $exceptionType) {
+                        $draggable['subtotal - ' . $exceptionType['name']]['name'] = 0;
+                    }
+
+                    $filteredData = array_filter($timeSheet->time_sheet_data, function ($key) use ($parameterColumns) {
+                        $lastIndex = strrpos($key, '-');
+                        if ($lastIndex !== false) {
+                            $beforeHyphen = substr($key, 0, $lastIndex);
+                            return array_key_exists($beforeHyphen, $parameterColumns);
+                        }
+                        return false;
+                    }, ARRAY_FILTER_USE_KEY);
+
+                    $subtotal = 0;
+                    foreach ($filteredData as $formValue => $value) {
+                        $lastIndex = strrpos($formValue, '-');
+                        if ($lastIndex !== false) {
+                            $beforeHyphen = substr($formValue, 0, $lastIndex);
+                            $afterHyphen = substr($formValue, $lastIndex + 1);
+                            if (trim($afterHyphen) == strval($draggable['staff_id'])) {
+                                if ($beforeHyphen != 'subtotal - ' . $draggable[trim($beforeHyphen)]['group']) {
+                                    $draggable[trim($beforeHyphen)]['name'] = $value ?? '';
+                                }
+                                if (
+                                    array_key_exists('group', $draggable[trim($beforeHyphen)])
+                                    && array_key_exists('subtotal - ' . $draggable[trim($beforeHyphen)]['group'], $draggable)
+                                ) {
+                                    $groupName = $draggable[trim($beforeHyphen)]['group'];
+                                    $subtotalName = "subtotal - $groupName";
+
+                                    $draggable[$subtotalName]['name'] += (int) $draggable[trim($beforeHyphen)]['name'] ?? 0;
+                                    $subtotal += (int) $draggable[trim($beforeHyphen)]['name'] ?? 0;
+                                }
+                            }
+                        }
+                    }
+                    $draggable['total']['name'] = $subtotal;
+                }
+            } else {
+                foreach ($draggableData as &$draggable) {
+                    foreach ($timeSheet->time_sheet_columns as $column) {
+                        if (!array_key_exists($column['name'], $draggable)) {
+                            $draggable[$column['name']] = '';
+                        }
+                    }
+
+                    foreach ($timeSheet->time_sheet_data as $formValue => $value) {
+                        $lastIndex = strrpos($formValue, '-');
+                        if ($lastIndex !== false) {
+                            $beforeHyphen = substr($formValue, 0, $lastIndex);
+                            $afterHyphen = substr($formValue, $lastIndex + 1);
+
+                            if (trim($afterHyphen) == strval($draggable['staff_id'])) {
+                                $draggable[trim($beforeHyphen)] = $value ?? '';
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!empty($parameterColumns)) {
+                $timeSheets[$sheet]['parameterColumns'] = $parameterColumns;
+            }
+
+            $timeSheets[$sheet]['draggableData'] = $draggableData;
+        }
+
+        $pdf = new ReportRepository();
+        $institution = Institution::find(1);
+        $filename = 'payroll-report-' . Carbon::now()->format('Y-m-d') . '.pdf';
+
+        $pdf->setConfig([
+            'institution' => $institution,
+            'orientation' => 'L',
+            'format' => 'A2 LANDSCAPE',
+            'reportDate' => '',
+            'urlVerify'   => url(''),
+            'filename' => $filename
+        ]);
+        $pdf->setHeader('Reporte de Hoja de tiempo');
+        $pdf->setFooter();
+        $pdf->setBody('payroll::pdf.payroll-time-sheets', true, [
+            'pdf' => $pdf,
+            'records' => $timeSheets,
+            'payrollTimeParameters' => $payrollTimeParameters,
+            'from_date' => $request["from_date"],
+            'to_date' => $request["to_date"],
+            'institution' => $institution,
+            "report_date" => Carbon::today()->format('d-m-Y'),
+        ]);
+
+        $url = route('payroll.reports.show', [$filename]);
+        return response()->json(['result' => true, 'redirect' => $url], 200);
+    }
+    /**
+     * Método mostrar el formulario para reporte de carga familiar.
+     *
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     */
+    public function familyBurden()
+    {
+        return view('payroll::reports.payroll-report-family-burden');
     }
 }

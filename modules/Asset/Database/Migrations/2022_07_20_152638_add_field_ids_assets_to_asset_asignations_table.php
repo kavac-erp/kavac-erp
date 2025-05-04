@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldToAssetAsignationsTable
- * @brief [descripción detallada]
+ * @brief Agrega un campo ids_assets a la tabla asset_asignations
  *
- * [descripción corta]
+ * Agrega un campo ids_assets a la tabla asset_asignations
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

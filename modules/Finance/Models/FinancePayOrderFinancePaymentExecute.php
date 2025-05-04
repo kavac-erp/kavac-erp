@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Finance\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,11 +10,11 @@ use App\Traits\ModelsTrait;
 
 /**
  * @class FinancePayOrderFinancePaymentExecute
- * @brief [descripción detallada]
+ * @brief Modelo de datos para las ordenes de pago y ejecuciones de pago
  *
- * [descripción corta]
+ * Gestiona el modelo de datos para las ordenes de pago y ejecuciones de pago
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -27,16 +25,23 @@ class FinancePayOrderFinancePaymentExecute extends Model implements Auditable
     use AuditableTrait;
     use ModelsTrait;
 
+    /**
+     * Nombre de la tabla en base de datos
+     *
+     * @var string $table
+     */
     protected $table = 'finance_pay_order_finance_payment_execute';
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -45,7 +50,7 @@ class FinancePayOrderFinancePaymentExecute extends Model implements Auditable
     ];
 
     /**
-     * Get the financePayOrder that owns the FinancePayOrderFinancePaymentExecute
+     * Obtiene la relación con la orden de pago
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -55,7 +60,7 @@ class FinancePayOrderFinancePaymentExecute extends Model implements Auditable
     }
 
     /**
-     * Get the financePaymentExecute that owns the FinancePayOrderFinancePaymentExecute
+     * Establece la relación con la ejecución de pago
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

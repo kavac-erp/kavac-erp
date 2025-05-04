@@ -1,0 +1,7 @@
+<map id="edit" name="edit">
+<area shape="rect" id="Node000001" title="Muestra el formulario para la edición de conversión de cuentas." alt="" coords="5,31,52,56"/>
+<area shape="rect" id="Node000002" href="$d3/d55/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountConverterController.html#a43c767adfcdecdc02ec0fbea0b93f5b3" title="Obtener cuenta presupuestaria." alt="" coords="133,5,274,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="52,37,119,28,120,33,53,43"/>
+<area shape="rect" id="Node000003" href="$d3/d55/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountConverterController.html#ac86b4aba2156a6221e874e328c06bba6" title="Obtiene los grupos de cuentas contables." alt="" coords="100,55,307,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="53,44,98,50,97,55,52,49"/>
+</map>

@@ -7,43 +7,22 @@
             </div>
             <div class="col-md-2">
                 <label class="form-label">Fecha</label>
-                <input
-                    class="form-control"
-                    type="date"
-                    placeholder="Fecha"
-                    tabindex="1"
-                    v-model="filterBy.approved_at"
-                />
+                <input class="form-control" type="date" placeholder="Fecha" tabindex="1"
+                    v-model="filterBy.approved_at" />
             </div>
             <div class="col-md-2">
                 <label for="" class="form-label">Código de la AE</label>
-                <input
-                    id="prefix"
-                    class="form-control"
-                    type="text"
-                    placeholder="Código de la AE"
-                    tabindex="2"
-                    v-model="filterBy.code"
-                />
+                <input id="prefix" class="form-control" type="text" placeholder="Código de la AE" tabindex="2"
+                    v-model="filterBy.code" />
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <button
-                        type="reset"
-                        class="btn btn-default btn-icon btn-xs-responsive px-3"
-                        aria-label="Search"
-                        @click="resetFilters()"
-                        title="Limpiar filtro"
-                    >
+                    <button type="reset" class="btn btn-default btn-icon btn-xs-responsive px-3" aria-label="Search"
+                        @click="resetFilters()" title="Limpiar filtro">
                         <i class="fa fa-eraser"></i>
                     </button>
-                    <button
-                        type="button"
-                        class="btn btn-info btn-icon btn-xs-responsive px-3"
-                        aria-label="Search"
-                        @click="filterTable()"
-                        title="Buscar"
-                    >
+                    <button type="button" class="btn btn-info btn-icon btn-xs-responsive px-3" aria-label="Search"
+                        @click="filterTable()" title="Buscar">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
@@ -51,114 +30,82 @@
         </div>
         <!-- Final de filtros de la tabla -->
         <hr>
-        <v-client-table
-            :columns="columns"
-            :data="records"
-            :options="table_options"
-            ref="tableResults"
-        >
+        <v-client-table :columns="columns" :data="records" :options="table_options" ref="tableResults">
             <div slot="approved_at" slot-scope="props" class="text-center">
                 {{ format_date(props.row.approved_at, 'DD/MM/YYYY') }}
             </div>
             <div slot="code" slot-scope="props">
                 {{
                     props.row.budget_modification_accounts[0] &&
-                    props.row.budget_modification_accounts[0].
-                    budget_sub_specific_formulation ?
-                    props.row.budget_modification_accounts[0].
-                    budget_sub_specific_formulation.specific_action.code :
-                    'No defindo'
+                        props.row.budget_modification_accounts[0].
+                            budget_sub_specific_formulation ?
+                        props.row.budget_modification_accounts[0].
+                            budget_sub_specific_formulation.specific_action.code :
+                        'No definido'
                 }}
             </div>
             <div slot="status" slot-scope="props" class="text-center">
-                <span
-                    v-if="
-                        props.row.status === 'PE'
-                        || props.row.status === null
-                    "
-                    class="text-warning"
-                >
+                <span v-if="
+                    props.row.status === 'PE'
+                    || props.row.status === null
+                " class="text-warning">
                     Pendiente
                 </span>
-                <span
-                    v-else
-                    class="text-success"
-                >
+                <span v-else class="text-success">
                     Aprobado
                 </span>
             </div>
             <div slot="id" slot-scope="props" class="text-center">
-                <button
-                    @click.prevent="
-                        setDetails(
-                            'BudgetSpecificData',
-                            props.row.id,
-                            'BudgetSpecificDataModalLabel'
-                        )
-                    "
-                    class="btn btn-info btn-xs btn-icon btn-action btn-tooltip"
-                    title="Ver registro"
-                    data-toggle="tooltip"
-                    data-placement="bottom"
-                    type="button"
-                >
+                <button @click.prevent="
+                    setDetails(
+                        'BudgetSpecificData',
+                        props.row.id,
+                        'BudgetSpecificDataModalLabel'
+                    )
+                    " class="btn btn-info btn-xs btn-icon btn-action btn-tooltip" title="Ver registro"
+                    aria-label="Ver registro" data-toggle="tooltip" data-placement="bottom" type="button">
                     <i class="fa fa-eye"></i>
                 </button>
-                <button
-                    v-if="
-                        props.row.status === 'PE'
-                        || props.row.status === null
-                    "
-                    class="btn btn-success btn-xs btn-icon btn-action"
-                    title="Aprobar registro"
-                    @click="changeStatus('AP', props.row.id)"
-                    type="button"
+                <a
+                    class="btn btn-primary btn-xs btn-icon"
+                    title="Imprimir registro"
+                    data-toggle="tooltip"
+                    target="_blank"
+                    :href="budget_additional_credits_pdf + props.row.id"
+                    v-has-tooltip
                 >
+                    <i class="fa fa-print"></i>
+                </a>
+                <button v-if="
+                    props.row.status === 'PE'
+                    || props.row.status === null
+                " class="btn btn-success btn-xs btn-icon btn-action" title="Aprobar registro"
+                    aria-label="Aprobar registro" data-toggle="tooltip" @click=" changeStatus('AP', props.row.id)"
+                    type="button">
                     <i class="fa fa-check"></i>
                 </button>
-                <template
-                    v-if="
-                        (lastYear && format_date(
-                            props.row.approved_at, 'YYYY'
-                        ) <= lastYear)
-                    "
-                >
-                    <button
-                        class="btn btn-warning btn-xs btn-icon"
-                        type="button"
-                        disabled
-                    >
+                <template v-if="
+                    (lastYear && format_date(
+                        props.row.approved_at, 'YYYY'
+                    ) <= lastYear)
+                ">
+                    <button class="btn btn-warning btn-xs btn-icon" type="button" disabled>
                         <i class="fa fa-edit"></i>
                     </button>
-                    <button
-                        class="btn btn-danger btn-xs btn-icon"
-                        type="button"
-                        disabled
-                    >
+                    <button class="btn btn-danger btn-xs btn-icon" type="button" disabled>
                         <i class="fa fa-trash-o"></i>
                     </button>
                 </template>
                 <template v-else>
-                    <button
-                        @click="editForm(props.row.id)"
-                        data-placement="bottom"
-                        class="btn btn-warning btn-xs btn-icon"
-                        title="Modificar registro"
-                        data-toggle="tooltip"
-                        type="button"
-                        :disabled="props.row.status === 'AP'"
-                    >
+                    <button @click="editForm(props.row.id)" data-placement="bottom"
+                        class="btn btn-warning btn-xs btn-icon" title="Modificar registro"
+                        aria-label="Modificar registro" data-toggle="tooltip" type="button"
+                        :disabled="props.row.status === 'AP'">
                         <i class="fa fa-edit"></i>
                     </button>
-                    <button
-                        @click="deleteRecord(props.row.id, '')"
-                        data-placement="bottom"
-                        class="btn btn-danger btn-xs btn-icon"
-                        title="Eliminar registro"
-                        data-toggle="tooltip"
-                        type="button"
-                        :disabled="props.row.status === 'AP'"
-                    >
+                    <button @click="deleteRecord(props.row.id, '')" data-placement="bottom"
+                        class="btn btn-danger btn-xs btn-icon" title="Eliminar registro" aria-label="Eliminar registro"
+                        data-toggle="tooltip" type="button" :disabled="props.row.status === 'AP'">
                         <i class="fa fa-trash-o"></i>
                     </button>
                 </template>
@@ -169,225 +116,226 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                records: [],
-                lastYear: "",
-                tmpRecords: [],
-                columns: [
-                    'approved_at',
-                    'code',
-                    'description',
-                    'document',
-                    'status',
-                    'id'
-                ],
-                filterBy: {
-                    approved_at: '',
-                    code: '',
-                },
-            }
-        },
-        created() {
-            this.table_options.headings = {
-                'approved_at': 'Fecha',
-                'code': 'Código de la Acción Específica',
-                'description': 'Descripción',
-                'document': 'Documento',
-                'status': 'Estatus',
-                'id': 'Acción'
-            };
-            this.table_options.sortable = [
+export default {
+    data() {
+        return {
+            records: [],
+            lastYear: "",
+            tmpRecords: [],
+            budget_additional_credits_pdf: `${window.app_url}/budget/additional_credits/pdf/`,
+            columns: [
                 'approved_at',
                 'code',
                 'description',
+                'document',
                 'status',
-                'document'
-            ];
-            this.table_options.filterable = [
-                'approved_at',
-                'code',
-                'description',
-                'status',
-                'document'
-            ];
-            this.table_options.columnsClasses = {
-                'approved_at': 'col-md-2 text-center',
-                'code': 'col-md-2 text-center',
-                'description': 'col-md-3',
-                'document': 'col-md-2',
-                'status': 'col-md-1 text-center',
-                'id': 'col-md-2'
-            };
-        },
-        methods: {
-            /**
-             * Método para reestablecer valores iniciales del formulario de filtros.
-             *
-             * @method resetFilters
-             *
-             * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-             * @author Argenis Osorio <aosorio@cenditel.gob.ve> | <aosorio@cenditel.gob.ve>
-             */
-            resetFilters() {
-                const vm = this;
-                vm.filterBy = {
-                    approved_at: '',
-                    code: '',
-                };
-                vm.records = vm.tmpRecords;
+                'id'
+            ],
+            filterBy: {
+                approved_at: '',
+                code: '',
             },
-
-            /**
-             * Modifica el estatus del registro.
-             *
-             * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-             * @author Argenis Osorio <aosorio@cenditel.gob.ve> | <aosorio@cenditel.gob.ve>
-             *
-             * @param   {String}  status  Estatus a modificar.
-             * @param   {Object}  id  ID del registro a modificar.
-             */
-            changeStatus(status, id) {
-                const vm = this;
-                const url = vm.setUrl(
-                    `${window.app_url}/budget/modifications/change-status/${id}`
-                );
-                const titleList = ["Aprobar registro"];
-                const textList = [
-                    "¿Está seguro? Una vez aprobado el registro no se podrá modificar y/o eliminar.",
-                ];
-                const titleConfirm = (status == 'AP') ? titleList[0] : titleList[1];
-                const messageConfirm = (status == 'AP') ? textList[0] : textList[1];
-
-                bootbox.confirm({
-                    title: titleConfirm,
-                    message: messageConfirm,
-                    buttons: {
-                        cancel: {
-                            label: '<i class="fa fa-times"></i> No',
-                            className: 'btn btn-default btn-sm btn-round'
-                        },
-                        confirm: {
-                            label: '<i class="fa fa-check"></i> Si',
-                            className: 'btn btn-primary btn-sm btn-round'
-                        }
-                    },
-                    callback: function(result) {
-                        if (result) {
-                            axios.post(url, {status: status}).then(response => {
-                                vm.showMessage(
-                                    'custom',
-                                    '¡Éxito!',
-                                    'success',
-                                    'screen-ok',
-                                    response.data.message
-                                );
-                                location.reload();
-                            }).catch(error => {
-                                vm.showMessage(
-                                    'custom',
-                                    'Acceso Denegado',
-                                    'danger', 'screen-error',
-                                    'No tiene los permisos necesarios para ejecutar esta funcionalidad'
-                                )
-                            });
-                        }
-                    }
-                });
-            },
-
-            /**
-             * Método que permite filtrar los datos de la tabla.
-             *
-             * @method filterTable
-             *
-             * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-             */
-            filterTable() {
-                const vm = this;
-                vm.records = vm.tmpRecords.filter((rec) => {
-                    return (vm.filterBy.approved_at) ? (this.format_date(rec.approved_at, 'YYYY-MM-DD') === vm.filterBy.approved_at) : true;
-                }).filter((rec) => {
-                    return (vm.filterBy.code) ? (rec.budget_modification_accounts[0].budget_sub_specific_formulation.specific_action.code == vm.filterBy.code) : true;
-                })
-            },
-
-            /**
-             * Método que permite dar formato a una fecha
-             *
-             * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-             * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
-             *
-             * @param  {string} value  Fecha ser formateada
-             * @param  {string} format Formato de la fecha
-             *
-             * @return {string}       Fecha con el formato establecido
-             */
-            format_date: function(value, format = 'DD/MM/YYYY') {
-                return moment.utc(value).format(format);
-            },
-
-            /**
-             * Método que establece los datos del registro seleccionado para el cual se desea mostrar detalles
-             *
-             * @method    setDetails
-             *
-             * @author     Daniel Contreras <dcontreras@cenditel.gob.ve>
-             *
-             * @param     string   ref       Identificador del componente
-             * @param     integer  id        Identificador del registro seleccionado
-             * @param     object  var_list  Objeto con las variables y valores a asignar en las variables del componente
-             */
-            setDetails(ref, id, modal ,var_list = null) {
-                const vm = this;
-                if (var_list) {
-                    for(var i in var_list){
-                        vm.$refs[ref][i] = var_list[i];
-                    }
-                }else{
-                    vm.$refs[ref].record = vm.$refs.tableResults.data.filter(r => {
-                        return r.id === id;
-                    })[0];
-                }
-                vm.$refs[ref].id = id;
-                $(`#${modal}`).modal('show');
-                let record = vm.$refs[ref].record;
-                vm.showAccountsTable(record);
-            },
-
-            /**
-             * Método para visualizar solo las cuentas que no son padres en la tabla
-             *
-             * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
-             *
-             */
-            showAccountsTable(record) {
-                const vm = this;
-                let accs = [];
-                for (let [index, account] of record.budget_modification_accounts.entries()) {
-                    let item = account.budget_account.code.split('.');
-                    if (item[2] != '00' && item[3] != '00') {
-                        accs.push(account);
-                    }
-                }
-                record.budget_modification_accounts = accs;
-            },
-            codeSpecificAction(str) {
-                console.log()
-            }
-        },
-        async mounted() {
-            const vm = this;
-            vm.loadingState(true); // Inicio de spinner de carga.
-            // Obtener los registros.
-            axios.get('budget/modifications/vue-list/AC').then(response => {
-                this.records = response.data.records;
-                // Variable usada para el reseteo de los filtros de la tabla.
-                this.tmpRecords = response.data.records;
-            });
-            await vm.queryLastFiscalYear();
-            vm.loadingState(); // Finaliza spinner de carga.
         }
-    };
+    },
+    created() {
+        this.table_options.headings = {
+            'approved_at': 'Fecha',
+            'code': 'Código de la Acción Específica',
+            'description': 'Descripción',
+            'document': 'Documento',
+            'status': 'Estatus',
+            'id': 'Acción'
+        };
+        this.table_options.sortable = [
+            'approved_at',
+            'code',
+            'description',
+            'status',
+            'document'
+        ];
+        this.table_options.filterable = [
+            'approved_at',
+            'code',
+            'description',
+            'status',
+            'document'
+        ];
+        this.table_options.columnsClasses = {
+            'approved_at': 'col-md-2 text-center',
+            'code': 'col-md-2 text-center',
+            'description': 'col-md-3',
+            'document': 'col-md-2',
+            'status': 'col-md-1 text-center',
+            'id': 'col-md-2'
+        };
+    },
+    methods: {
+        /**
+         * Método para reestablecer valores iniciales del formulario de filtros.
+         *
+         * @method resetFilters
+         *
+         * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+         * @author Argenis Osorio <aosorio@cenditel.gob.ve> | <aosorio@cenditel.gob.ve>
+         */
+        resetFilters() {
+            const vm = this;
+            vm.filterBy = {
+                approved_at: '',
+                code: '',
+            };
+            vm.records = vm.tmpRecords;
+        },
+
+        /**
+         * Modifica el estatus del registro.
+         *
+         * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+         * @author Argenis Osorio <aosorio@cenditel.gob.ve> | <aosorio@cenditel.gob.ve>
+         *
+         * @param   {String}  status  Estatus a modificar.
+         * @param   {Object}  id  ID del registro a modificar.
+         */
+        changeStatus(status, id) {
+            const vm = this;
+            const url = vm.setUrl(
+                `${window.app_url}/budget/modifications/change-status/${id}`
+            );
+            const titleList = ["Aprobar registro"];
+            const textList = [
+                "¿Está seguro? Una vez aprobado el registro no se podrá modificar y/o eliminar.",
+            ];
+            const titleConfirm = (status == 'AP') ? titleList[0] : titleList[1];
+            const messageConfirm = (status == 'AP') ? textList[0] : textList[1];
+
+            bootbox.confirm({
+                title: titleConfirm,
+                message: messageConfirm,
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> No',
+                        className: 'btn btn-default btn-sm btn-round'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Si',
+                        className: 'btn btn-primary btn-sm btn-round'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        axios.post(url, { status: status }).then(response => {
+                            vm.showMessage(
+                                'custom',
+                                '¡Éxito!',
+                                'success',
+                                'screen-ok',
+                                response.data.message
+                            );
+                            location.reload();
+                        }).catch(error => {
+                            vm.showMessage(
+                                'custom',
+                                'Acceso Denegado',
+                                'danger', 'screen-error',
+                                'No tiene los permisos necesarios para ejecutar esta funcionalidad'
+                            )
+                        });
+                    }
+                }
+            });
+        },
+
+        /**
+         * Método que permite filtrar los datos de la tabla.
+         *
+         * @method filterTable
+         *
+         * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+         */
+        filterTable() {
+            const vm = this;
+            vm.records = vm.tmpRecords.filter((rec) => {
+                return (vm.filterBy.approved_at) ? (this.format_date(rec.approved_at, 'YYYY-MM-DD') === vm.filterBy.approved_at) : true;
+            }).filter((rec) => {
+                return (vm.filterBy.code) ? (rec.budget_modification_accounts[0].budget_sub_specific_formulation.specific_action.code == vm.filterBy.code) : true;
+            })
+        },
+
+        /**
+         * Método que permite dar formato a una fecha
+         *
+         * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+         * @author Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+         *
+         * @param  {string} value  Fecha ser formateada
+         * @param  {string} format Formato de la fecha
+         *
+         * @return {string}       Fecha con el formato establecido
+         */
+        format_date: function (value, format = 'DD/MM/YYYY') {
+            return moment.utc(value).format(format);
+        },
+
+        /**
+         * Método que establece los datos del registro seleccionado para el cual se desea mostrar detalles
+         *
+         * @method    setDetails
+         *
+         * @author     Daniel Contreras <dcontreras@cenditel.gob.ve>
+         *
+         * @param     string   ref       Identificador del componente
+         * @param     integer  id        Identificador del registro seleccionado
+         * @param     object  var_list  Objeto con las variables y valores a asignar en las variables del componente
+         */
+        setDetails(ref, id, modal, var_list = null) {
+            const vm = this;
+            if (var_list) {
+                for (var i in var_list) {
+                    vm.$refs[ref][i] = var_list[i];
+                }
+            } else {
+                vm.$refs[ref].record = vm.$refs.tableResults.data.filter(r => {
+                    return r.id === id;
+                })[0];
+            }
+            vm.$refs[ref].id = id;
+            $(`#${modal}`).modal('show');
+            let record = vm.$refs[ref].record;
+            vm.showAccountsTable(record);
+        },
+
+        /**
+         * Método para visualizar solo las cuentas que no son padres en la tabla
+         *
+         * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
+         *
+         */
+        showAccountsTable(record) {
+            const vm = this;
+            let accs = [];
+            for (let [index, account] of record.budget_modification_accounts.entries()) {
+                let item = account.budget_account.code.split('.');
+                if (item[2] != '00' && item[3] != '00') {
+                    accs.push(account);
+                }
+            }
+            record.budget_modification_accounts = accs;
+        },
+        codeSpecificAction(str) {
+            console.log()
+        }
+    },
+    async mounted() {
+        const vm = this;
+        vm.loadingState(true); // Inicio de spinner de carga.
+        // Obtener los registros.
+        axios.get('budget/modifications/vue-list/AC').then(response => {
+            this.records = response.data.records;
+            // Variable usada para el reseteo de los filtros de la tabla.
+            this.tmpRecords = response.data.records;
+        });
+        await vm.queryLastFiscalYear();
+        vm.loadingState(); // Finaliza spinner de carga.
+    }
+};
 </script>

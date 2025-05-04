@@ -1,0 +1,5 @@
+<map id="run" name="run">
+<area shape="rect" id="Node000001" title="Ejecuta el seeder de cuentas contables." alt="" coords="5,20,48,45"/>
+<area shape="rect" id="Node000002" href="$de/dea/classModules_1_1Accounting_1_1Models_1_1AccountingAccount.html#a8e7a4dbad995f5074a9c8dff8b70134c" title="Método que permite obtener la cuenta asociada de nivel superior." alt="" coords="96,5,297,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="49,30,82,30,82,35,49,35"/>
+</map>

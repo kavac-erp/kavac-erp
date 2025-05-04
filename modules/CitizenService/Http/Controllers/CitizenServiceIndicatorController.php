@@ -1,9 +1,5 @@
 <?php
 
-/**
- * [descripción del namespace]
- * */
-
 namespace Modules\CitizenService\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -14,44 +10,56 @@ use Modules\CitizenService\Models\CitizenServiceIndicator;
 use Illuminate\Validation\Rule;
 
 /**
- * [descripción corta]
- *
  * @class CitizenServiceIndicatorController
- * @brief [descripción detallada]
+ * @brief Controlador para los indicadores de la oficina de información al ciudadano
  *
- * @author Autor Anonimo <correo@correo.com>
+ * Clase que gestiona el controlador para los indicadores de la OAC
  *
- * @license [LICENCIA DE SOFTWARE CENDITEL]
- * @link    http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/
+ * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class CitizenServiceIndicatorController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
     protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /**
-         * Establece permisos de acceso para cada método del controlador
-         * */
+        /* Establece permisos de acceso para cada método del controlador */
         $this->middleware('permission:citizenservice.indicators.create', ['only' => ['index', 'create', 'store']]);
         $this->middleware('permission:citizenservice.indicators.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:citizenservice.indicators.delete', ['only' => 'destroy']);
 
-        /**
-         * Define las reglas de validación para el formulario
-         * */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'                                  => ['required', 'regex:/^[\D][a-zA-ZÁ-ÿ0-9\s]*/u', 'max:100'],
             'description'                           => ['nullable', 'regex:/^[\D][a-zA-ZÁ-ÿ0-9\s]*/u', 'max:200'],
             'effect_types_id'                       => ['nullable']
         ];
 
-        /**
-         * Define los mensajes de validación para las reglas del formulario
-         * */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required'         => 'El campo nombre es obligatorio.',
             'name.max'              => 'El campo nombre no debe contener más de 100 caracteres.',
@@ -60,14 +68,13 @@ class CitizenServiceIndicatorController extends Controller
             'description.regex'     => 'El campo descripción no debe permitir números ni símbolos.',
         ];
     }
+
     /**
-     * [descripción del método]
+     * Obtiene un listado de los indicadores
      *
-     * @method index
+     * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
-     * @author [nombre del autor] [correo del autor]
-     *
-     * @return Renderable [descripción de los datos devueltos]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -75,13 +82,11 @@ class CitizenServiceIndicatorController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para registrar un nuevo indicador
      *
-     * @method create
+     * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
-     * @author [nombre del autor] [correo del autor]
-     *
-     * @return Renderable [descripción de los datos devueltos]
+     * @return Renderable
      */
     public function create()
     {
@@ -89,26 +94,24 @@ class CitizenServiceIndicatorController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Registra un nuevo indicador
      *
-     * @param object Request $request Objeto con información de la petición
+     * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
-     * @method store
+     * @param Request $request Datos de la petición
      *
-     * @author [nombre del autor] [correo del autor]
-     *
-     * @return Renderable [descripción de los datos devueltos]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $this->validate(
             $request,
             [
-            'name' => ['required', 'max:100', 'unique:citizen_service_indicators,name'],
-            'effect_types_id' => ['required'],
+                'name' => ['required', 'max:100', 'unique:citizen_service_indicators,name'],
+                'effect_types_id' => ['required'],
             ],
             [
-            'effect_types_id.required' => 'El campo tipo de impacto es obligatorio'
+                'effect_types_id.required' => 'El campo tipo de impacto es obligatorio'
             ]
         );
 
@@ -117,10 +120,9 @@ class CitizenServiceIndicatorController extends Controller
         //Guardar los registros del formulario en  CitizenServiceEffectType
         $citizenServiceIndicator = CitizenServiceIndicator::create(
             [
-
-            'name'              => $request->input('name'),
-            'description'       => $request->input('description'),
-            'effect_types_id'   => $request->input('effect_types_id'),
+                'name'              => $request->input('name'),
+                'description'       => $request->input('description'),
+                'effect_types_id'   => $request->input('effect_types_id'),
             ]
         );
 
@@ -128,15 +130,13 @@ class CitizenServiceIndicatorController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra información de un indicador
 
+     * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
+     *
      * @param integer $id Identificador del registro
      *
-     * @method show
-     *
-     * @author [nombre del autor] [correo del autor]
-     *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return Renderable
      */
     public function show($id)
     {
@@ -144,15 +144,13 @@ class CitizenServiceIndicatorController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para editar un indicador
+     *
+     * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
      * @param integer $id Identificador del registro
      *
-     * @method edit
-     *
-     * @author [nombre del autor] [correo del autor]
-     *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return Renderable
      */
     public function edit($id)
     {
@@ -160,21 +158,19 @@ class CitizenServiceIndicatorController extends Controller
     }
 
     /**
-     * [descripción del método]
-
-     * @param object Request $request Objeto con datos de la petición
-     * @param integer        $id      Identificador del registro
+     * Actualiza la información del indicador
      *
-     * @method update
+     * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
-     * @author [nombre del autor] [correo del autor]
+     * @param Request $request Datos de la petición
+     * @param integer $id      Identificador del registro
      *
-     * @return Renderable [descripción de los datos devueltos]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
         $citizenServiceIndicator = CitizenServiceIndicator::find($id);
-        $validateRules  = $this->validateRules;
+
         $this->validate(
             $request,
             [
@@ -203,15 +199,13 @@ class CitizenServiceIndicatorController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Elimina el indicador
+     *
+     * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
      * @param integer $id Identificador del registro
      *
-     * @method destroy
-     *
-     * @author [nombre del autor] [correo del autor]
-     *     *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -221,16 +215,20 @@ class CitizenServiceIndicatorController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Obtiene los indicadores
      *
-     * @method getIndicators
+     * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
      *
-     * @author [nombre del autor] [correo del autor]
-     *     *
-     * @return array    [descripción de los datos devueltos]
+     * @return array
      */
     public function getIndicators()
     {
-        return template_choices('Modules\CitizenService\Models\CitizenServiceIndicator', 'name', [], true, null);
+        return template_choices(
+            'Modules\CitizenService\Models\CitizenServiceIndicator',
+            'name',
+            [],
+            true,
+            null
+        );
     }
 }

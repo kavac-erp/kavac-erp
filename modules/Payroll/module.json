@@ -1,20 +1,25 @@
 {
-    "version": "1.0.4",
+    "version": "1.0.5",
     "name": "Payroll",
     "alias": "payroll",
     "name_es": "Talento Humano",
     "description": "Gestión de talento humano y nómina",
     "long_description": "",
-    "authors": [],
+    "authors": [
+        {
+            "name": "Ing. Roldan Vargas",
+            "email": ["rvargas@cenditel.gob.ve", "roldandvg@gmail.com"]
+        }
+    ],
     "icon": {
-        "name": "",
+        "name": "ion-document-text",
         "color": "#0073b7"
     },
+    "logo": "payroll-logo.png",
     "keywords": [],
     "active": 1,
     "order": 1,
     "priority": 1,
-    "logo": "payroll-logo.png",
     "providers": [
         "Modules\\Payroll\\Providers\\PayrollServiceProvider"
     ],

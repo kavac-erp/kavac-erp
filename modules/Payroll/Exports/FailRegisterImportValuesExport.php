@@ -5,17 +5,41 @@ namespace Modules\Payroll\Exports;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
+/**
+ * @class FailRegisterImportValuesExport
+ * @brief Clase que exporta el listado de errores de la importación
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class FailRegisterImportValuesExport implements WithMultipleSheets
 {
     use Exportable;
 
+    /**
+     * Lista de errores
+     *
+     * @var array $errors
+     */
     protected $errors;
 
+    /**
+     * Método constructor de la clase.
+     *
+     * @param array $errors
+     */
     public function __construct(array $errors)
     {
         $this->errors = $errors;
     }
 
+    /**
+     * Datos de las hojas a exportar
+     *
+     * @return array
+     */
     public function sheets(): array
     {
         $sheets = [];

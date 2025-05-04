@@ -7,19 +7,28 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
+/**
+ * @class PurchaseProductImport
+ * @brief Gestiona las importaciones de los productos del módulo de compras
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseProductImport extends \App\Imports\DataImport implements
     ToModel,
     WithBatchInserts,
     WithChunkReading
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * Carga los datos del archivo
+     *
+     * @param array $row Datos del archivo
+     *
+     * @return \Illuminate\Database\Eloquent\Model|array|null
+     */
     public function model(array $row)
     {
-        /** @var array Datos de los productos a importar */
+        /* Datos de los productos a importar */
         $data = [
             'name' => $row['nombre'],
             'code' => $row['codigo'],
@@ -38,11 +47,20 @@ class PurchaseProductImport extends \App\Imports\DataImport implements
         }
     }
 
+    /**
+     * Establece el tamaño de los trozos a leer
+     *
+     * @return integer
+     */
     public function chunkSize(): int
     {
         return 5000;
     }
 
+    /**
+     * Establece el número de registros a insertar por trozo
+     * @return integer
+     */
     public function batchSize(): int
     {
         return 5000;

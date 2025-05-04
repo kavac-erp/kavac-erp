@@ -1,12 +1,15 @@
 {
-    "name": "nwidart/payroll",
+    "name": "kavac/payroll",
     "description": "",
+    "keywords": ["kavac", "payroll"],
     "authors": [
         {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com"
+            "name": "Ing. Roldan Vargas",
+            "email": "roldandvg@gmail.com"
         }
     ],
+    "require": {},
+    "require-dev": {},
     "extra": {
         "laravel": {
             "providers": [],
@@ -18,6 +21,9 @@
     "autoload": {
         "psr-4": {
             "Modules\\Payroll\\": ""
-        }
+        },
+        "files": [
+            "Helpers/Helper.php"
+        ]
     }
 }

@@ -1,3 +1,23 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d8/dad/classModules_1_1Payroll_1_1Models_1_1PayrollRelationship.html" title="Datos de parentescos." alt="" coords="5,5,152,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$df/dfd/classApp_1_1Exports_1_1DataExport.html" title="Permite la exportación de datos." alt="" coords="5,228,100,253"/>
+<area shape="rect" id="Node000001" href="$da/dbd/classModules_1_1Accounting_1_1Exports_1_1AccountingAccountExport.html" title="Gestiona la exportación de datos de asientos contables." alt="" coords="167,5,355,31"/>
+<area shape="poly" id="edge64_Node000000_Node000001" title=" " alt="" coords="56,213,66,174,84,127,110,80,127,58,146,40,166,28,168,33,150,44,131,62,114,83,88,130,71,176,61,215"/>
+<area shape="rect" id="Node000002" href="$da/d23/classModules_1_1Asset_1_1Exports_1_1AssetExport.html" title="Gestiona la exportación de datos de bienes." alt="" coords="211,55,311,80"/>
+<area shape="poly" id="edge65_Node000000_Node000002" title=" " alt="" coords="60,214,92,151,116,117,147,89,178,74,210,67,211,72,179,79,149,94,120,121,96,153,65,216"/>
+<area shape="rect" id="Node000003" href="$db/ddc/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1FirstSheetExport.html" title="Exportar datos de la primera hoja del archivo." alt="" coords="197,104,326,129"/>
+<area shape="poly" id="edge66_Node000000_Node000003" title=" " alt="" coords="68,215,101,175,123,155,147,138,171,128,196,121,197,126,172,133,149,143,126,159,105,179,72,218"/>
+<area shape="rect" id="Node000004" href="$de/d4c/classModules_1_1Payroll_1_1Exports_1_1PayrollSalaryAssignmentExport.html" title="Clase que gestiona los objetos exportados del modelo de asignaciones salariales." alt="" coords="148,153,375,179"/>
+<area shape="poly" id="edge67_Node000000_Node000004" title=" " alt="" coords="84,219,147,188,185,176,187,181,149,192,86,223"/>
+<area shape="rect" id="Node000005" href="$df/d6b/classModules_1_1Payroll_1_1Exports_1_1PayrollSalaryTabulatorExport.html" title="Clase que gestiona los objetos exportados del modelo de tabuladores salariales." alt="" coords="157,203,366,228"/>
+<area shape="poly" id="edge68_Node000000_Node000005" title=" " alt="" coords="113,231,156,225,157,231,114,236"/>
+<area shape="rect" id="Node000006" href="$dc/deb/classModules_1_1Payroll_1_1Exports_1_1PayrollStaffAccountExport.html" title="Clase que exporta el listado de datos contables del personal." alt="" coords="166,252,357,277"/>
+<area shape="poly" id="edge69_Node000000_Node000006" title=" " alt="" coords="114,245,166,251,166,256,113,250"/>
+<area shape="rect" id="Node000007" href="$db/dca/classModules_1_1Payroll_1_1Exports_1_1PayrollTimeSheetExport.html" title="Clase que exporta el listado de registros de la hoja de tiempo." alt="" coords="172,301,351,327"/>
+<area shape="poly" id="edge70_Node000000_Node000007" title=" " alt="" coords="88,258,149,286,192,299,190,304,147,291,86,263"/>
+<area shape="rect" id="Node000008" href="$d2/dd8/classModules_1_1Payroll_1_1Exports_1_1ProfessionalStaffExportFromButton.html" title="Clase que exporta el listado de personal de la nómina." alt="" coords="158,351,365,391"/>
+<area shape="poly" id="edge71_Node000000_Node000008" title=" " alt="" coords="73,263,106,300,149,336,177,349,174,354,147,340,102,304,69,266"/>
+<area shape="rect" id="Node000009" href="$db/d73/classModules_1_1Payroll_1_1Exports_1_1StaffExportFromButton.html" title="Clase que exporta el listado de registros del personal." alt="" coords="176,416,347,441"/>
+<area shape="poly" id="edge72_Node000000_Node000009" title=" " alt="" coords="64,266,76,297,94,334,118,371,150,401,177,415,175,420,146,405,114,374,89,337,71,299,59,267"/>
+<area shape="rect" id="Node000010" href="$d8/d51/classModules_1_1Purchase_1_1Exports_1_1PurchaseProductExport.html" title="Gestiona el proceso de exportación de datos de productos." alt="" coords="175,465,347,491"/>
+<area shape="poly" id="edge73_Node000000_Node000010" title=" " alt="" coords="61,266,70,308,86,358,113,408,130,431,150,451,177,466,174,470,146,455,126,434,108,411,82,360,65,309,55,268"/>
 </map>

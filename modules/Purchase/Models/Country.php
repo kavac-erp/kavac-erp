@@ -1,20 +1,17 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Purchase\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use App\Models\Country as BaseCountry;
 
 /**
  * @class Country
- * @brief Extension de la clase Country del modulo de presupuesto
+ * @brief Extension de la clase Country de la aplicación base
  *
- * Extension de la clase Country del modulo de presupuesto
+ * Extension de la clase Country de la aplicación base
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -22,7 +19,7 @@ use App\Models\Country as BaseCountry;
 class Country extends BaseCountry implements Auditable
 {
     /**
-     * Country has many PurchaseSuppliers.
+     * Establece la relación con los proveedores ubicados en un pais
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

@@ -15,7 +15,7 @@
 						</button>
 						<h6>
 							<i class="icofont icofont-cubes ico-3x"></i>
-			
+
 							Nuevo Tipo de Bien
 						</h6>
 					</div>
@@ -52,22 +52,22 @@
 	                </div>
 	                <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('asset/types')" 
+							<button type="button" @click="createRecord('asset/types')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
                         </div>
                     </div>
 	                <div class="modal-body modal-table">
-	                	
+
 	                	<v-client-table :columns="columns" :data="records" :options="table_options">
 	                		<div slot="id" slot-scope="props">
 	                			<button @click="initUpdate(props.row.id, $event)"

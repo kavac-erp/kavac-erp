@@ -3,9 +3,9 @@
 
 ![Screenshot](img/logokavac.png#imagen)
 
-<!-- El Manual de Documentación del sistema KAVAC a nivel de usuario tiene como objetivo facilitar la tarea de conocimiento, uso y aprendizaje del sistema desarrollado. Presenta información acerca de todas las operaciones básicas que el sistema ofrece, así como capturas de pantalla útiles para el seguimiento de la explicación de los procesos. 
+<!-- El Manual de Documentación del sistema KAVAC a nivel de usuario tiene como objetivo facilitar la tarea de conocimiento, uso y aprendizaje del sistema desarrollado. Presenta información acerca de todas las operaciones básicas que el sistema ofrece, así como capturas de pantalla útiles para el seguimiento de la explicación de los procesos.
 
-## Módulo 
+## Módulo
 
 
 ## Sobre los usuarios
@@ -22,8 +22,8 @@ Nombre del producto: KAVAC ‘Sistema de Gestión de Recursos’
 
    Nombre del licenciante y año: Licencia Combinada de Software y Contenidos de la Fundación CENDITEL. Versión 1.2 (Año: 2015).
 
-   Créditos: 
-   
+   Créditos:
+
    **Líder de proyecto / Diseño / Desarrollo / Autor / Director de Desarrollo (2021)**
 
 - Roldan Vargas (rvargas@cenditel.gob.ve | roldandvg@gmail.com)
@@ -47,7 +47,7 @@ Nombre del producto: KAVAC ‘Sistema de Gestión de Recursos’
    **Desarrolladores**
 
 - William Paéz (wpaez@cenditel.gob.ve)
-- Henry Paredes (henryp2804@gmail.com)
+- Henry Paredes <henryp2804@gmail.com>
 - Juan Rosas (jrosas@cenditel.gob.ve)
 - Yennifer Ramírez (yramirez@cenditel.gob.ve)
 - Pedro Buitrago (pbuitrago@cenditel.gob.ve)
@@ -59,9 +59,9 @@ Nombre del producto: KAVAC ‘Sistema de Gestión de Recursos’
    **Director de Desarrollo (2018-2019)**
 
 - Argenis Osorio (aosorio@cenditel.gob.ve)
-   
+
    **Director de Desarrollo (2020)**
-   
+
 - Laura Colina (lcolina@cenditel.gob.ve)
 
    **Colaborador**
@@ -69,13 +69,13 @@ Nombre del producto: KAVAC ‘Sistema de Gestión de Recursos’
 - Santiago Roca (sroca@cenditel.gob.ve)
 
 
-Licencia Combinada de Software y Contenidos de la Fundación CENDITEL (2015)  
+Licencia Combinada de Software y Contenidos de la Fundación CENDITEL (2015)
 
 
 La Fundación Centro Nacional de Desarrollo e Investigación en Tecnologías Libres (CENDITEL), ente adscrito al Ministerio del Poder Popular para  Ciencia y Tecnología (Mincyt), concede permiso, para usar, copiar, modificar y distribuir libremente y sin fines comerciales el Software KAVAC ‘Sistema de Gestión de Recursos’ (sin garantía alguna) asimismo permite, copiar, adaptar, publicar y comunicar los contenidos, preservando en ambos casos los derechos morales de los autores y manteniendo los mismos principios para las obras derivadas, de conformidad con los términos y condiciones de las licencias de software y contenidos de la Fundación CENDITEL.
 
 
-Cada vez que copie y distribuya este producto debe acompañarlo de una copia de las licencias. Para más información sobre los términos y condiciones de las licencias visite las siguientes direcciones electrónicas:  
+Cada vez que copie y distribuya este producto debe acompañarlo de una copia de las licencias. Para más información sobre los términos y condiciones de las licencias visite las siguientes direcciones electrónicas:
 
 
 [Licencia de Software](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

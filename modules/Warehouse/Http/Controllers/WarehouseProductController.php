@@ -7,7 +7,6 @@
 namespace Modules\Warehouse\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Routing\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Warehouse\Models\WarehouseProduct;
@@ -19,10 +18,9 @@ use Modules\Warehouse\Models\WarehouseInventoryProduct;
 use Modules\Warehouse\Models\WarehouseProductAttribute;
 use Modules\Accounting\Models\AccountingAccount;
 use Modules\Warehouse\Models\WarehouseInstitutionWarehouse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
- * Controlador de los productos del almacén
- *
  * @class WarehouseProductController
  * @brief Controlador de los productos de almacén
  *
@@ -30,8 +28,8 @@ use Modules\Warehouse\Models\WarehouseInstitutionWarehouse;
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
  *
- * @license LICENCIA DE SOFTWARE CENDITEL
- * @link    http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseProductController extends Controller
 {
@@ -40,42 +38,42 @@ class WarehouseProductController extends Controller
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
      *
-     * @var Array $validateRules
+     * @var array $validateRules
      */
     protected $validateRules;
+
     /**
      * Arreglo con los mensajes para las reglas de validación
      *
-     * @var Array $messages
+     * @var array $messages
      */
     protected $messages;
+
     /**
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /**
-         * Establece permisos de acceso para cada método del controlador
-         * */
+        /* Establece permisos de acceso para cada método del controlador */
         $this->middleware('permission:warehouse.setting.product');
         $this->middleware('permission:warehouse.setting.product.create', ['only' => ['index', 'create', 'store']]);
         $this->middleware('permission:warehouse.setting.product.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:warehouse.setting.product.delete', ['only' => ['destroy']]);
         $this->middleware('permission:warehouse.setting.product.import', ['only' => ['export']]);
         $this->middleware('permission:warehouse.setting.product.export', ['only' => ['import']]);
-        /**
-         * Define las reglas de validación para el formulario
-         * */
+
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name' => ['required', 'max:100', 'unique:warehouse_products,name', 'titlecase'],
             'description' => ['required'],
             'measurement_unit_id' => ['required']
         ];
-        /**
-         * Define los mensajes de validación para las reglas del formulario
-         * */
+
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required' => 'El campo nombre del insumo es obligatorio.',
             'name.max' => 'El campo nombre del insumo no debe ser mayor que 100 caracteres.',
@@ -90,7 +88,8 @@ class WarehouseProductController extends Controller
      * Muestra un listado de los productos almacenables registrados
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -100,12 +99,12 @@ class WarehouseProductController extends Controller
     /**
      * Valida y Registra un nuevo producto almacenable
      *
-     * @param \Illuminate\Http\Request $request (Datos de la petición)
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
      *
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -148,13 +147,13 @@ class WarehouseProductController extends Controller
     /**
      * Actualiza la información de los Productos Almacenables
      *
-     * @param \Illuminate\Http\Request                   $request (Datos de la petición)
-     * @param \Modules\Warehouse\Models\WarehouseProduct $product (Registro a ser actualizado)
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
      *
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     * @param \Illuminate\Http\Request                   $request Datos de la petición
+     * @param \Modules\Warehouse\Models\WarehouseProduct $product Registro a ser actualizado
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, WarehouseProduct $product)
     {
@@ -188,9 +187,7 @@ class WarehouseProductController extends Controller
 
         $product_attributes = WarehouseProductAttribute::where('warehouse_product_id', $product->id)->get();
 
-        /**
-         * Busco si en la solicitud se eliminaron atributos registrados anteriormente
-         * */
+        /* Busco si en la solicitud se eliminaron atributos registrados anteriormente */
         foreach ($product_attributes as $product_att) {
             $equal = false;
             foreach ($request->warehouse_product_attributes as $att) {
@@ -208,9 +205,7 @@ class WarehouseProductController extends Controller
             }
         }
 
-        /**
-         * Registro los nuevos atributos
-         * */
+        /* Registro los nuevos atributos */
         if ($product->define_attributes == true) {
             foreach ($request->warehouse_product_attributes as $att) {
                 $attribute = WarehouseProductAttribute::where('name', $att['name'])
@@ -239,10 +234,11 @@ class WarehouseProductController extends Controller
     /**
      * Elimina un Producto Almacenable
      *
+     * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param WarehouseProduct $product Modelo del producto de almacén
      *
-     * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(WarehouseProduct $product)
     {
@@ -254,7 +250,8 @@ class WarehouseProductController extends Controller
      * Muestra una lista de los productos almacenables para elementos del tipo select
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return Array con los registros a mostrar
+     *
+     * @return array con los registros a mostrar
      */
     public function getWarehouseProducts()
     {
@@ -264,10 +261,11 @@ class WarehouseProductController extends Controller
     /**
      * Consulta la informacion de un producto
      *
-     * @param id $product_id Identificador único del producto
+     * @param integer $product_id Identificador único del producto
      *
      * @author Juan Rosas <juan.rosasr01@gmail.com | jrosas@cenditel.gob.ve>
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getProductMeasurementUnit($product_id)
     {
@@ -279,10 +277,11 @@ class WarehouseProductController extends Controller
     /**
      * Muestra una lista de los atributos de un producto
      *
-     * @param id $product_id Identificador único del producto
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return JsonResponse
+     *
+     * @param integer $product_id Identificador único del producto
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getProductAttributes($product_id)
     {
@@ -300,7 +299,8 @@ class WarehouseProductController extends Controller
      * Muestra una lista de las unidades de medida de los productos almacenables para elementos del tipo select
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return Array con los registros a mostrar
+     *
+     * @return array con los registros a mostrar
      */
     public function getMeasurementUnits()
     {
@@ -310,11 +310,12 @@ class WarehouseProductController extends Controller
     /**
      * Muestra una lista de los productos registrados para su uso en elementos gráficos del sistema
      *
-     * @param str $type  Tipo de almacenamiento del producto (exist = Existente, reserved = Reservado)
-     * @param str $order Orden de filtro
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return JsonResponse
+     *
+     * @param string $type  Tipo de almacenamiento del producto (exist = Existente, reserved = Reservado)
+     * @param string $order Orden de filtro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getInventoryProducts($type, $order = 'desc')
     {
@@ -340,7 +341,8 @@ class WarehouseProductController extends Controller
      * Realiza la acción necesaria para exportar los datos del modelo WarehouseProduct
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return object    Objeto que permite descargar el archivo con la información a ser exportada
+     *
+     * @return BinaryFileResponse    Objeto que permite descargar el archivo con la información a ser exportada
      */
     public function export()
     {
@@ -350,11 +352,11 @@ class WarehouseProductController extends Controller
     /**
      * Realiza la acción necesaria para importar los datos suministrados en un archivo para el modelo WarehouseProduct
      *
-     * @param Request $request desc
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return JsonResponse    Objeto que permite descargar el archivo con la información a ser exportada
+     * @param Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse    Objeto que permite descargar el archivo con la información a ser exportada
      */
     public function import(Request $request)
     {
@@ -365,10 +367,11 @@ class WarehouseProductController extends Controller
     /**
      * Muestra una lista de los atributos de un producto
      *
-     * @param Request $request desc
-     *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return JsonResponse
+     *
+     * @param Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getRules(Request $request)
     {
@@ -381,25 +384,17 @@ class WarehouseProductController extends Controller
         $inst_ware = WarehouseInstitutionWarehouse::where('warehouse_id', $request->warehouse_id)
             ->where('institution_id', $request->institution_id)->first();
 
-        /**
-         * Se busca en el inventario por producto y unidad si existe un registro previo
-         * */
+        /* Se busca en el inventario por producto y unidad si existe un registro previo */
 
         $inventory = WarehouseInventoryProduct::with('warehouseInventoryRule')
             ->where('warehouse_product_id', $product_id)
             ->where('warehouse_institution_warehouse_id', $inst_ware->id)
             ->where('unit_value', $value)->get();
 
-        /**
-         * Si existe un registro previo se verifican los atributos del nuevo ingreso
-         * */
+        /* Si existe un registro previo se verifican los atributos del nuevo ingreso */
         if (count($inventory) > 0) {
             foreach ($inventory as $product_inventory) {
-                /**
-                 * Ciclo de inventario
-                 *
-                 * @var boolean $equal Define si los atributos coinciden con los registrados
-                 * */
+                /* Ciclo de inventario. Define si los atributos coinciden con los registrados */
                 $equal = true;
 
                 foreach ($request['warehouse_inventory_product']['warehouse_product_attributes'] as $attribute) {
@@ -415,9 +410,7 @@ class WarehouseProductController extends Controller
                             ->where('warehouse_inventory_product_id', $product_inventory->id)->first();
 
                         if (is_null($product_value)) {
-                            /**
-                             * Si el valor de este atributo no existe, son diferentes
-                             * */
+                            /* Si el valor de este atributo no existe, son diferentes */
                             $equal = false;
                             break;
                         }
@@ -427,9 +420,7 @@ class WarehouseProductController extends Controller
                     }
                 }
                 if ($equal === true) {
-                    /**
-                     * Si se encuentra el producto en inventario, se develven sus reglas de abastecimiento
-                     * */
+                    /* Si se encuentra el producto en inventario, se develven sus reglas de abastecimiento */
                     $rules = $product_inventory->warehouseInventoryRule;
                 }
             }

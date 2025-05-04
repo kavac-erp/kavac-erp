@@ -1,7 +1,5 @@
 <?php
 
-/** Middlewares base de la aplicación */
-
 namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance as Middleware;
@@ -17,7 +15,7 @@ class PreventRequestsDuringMaintenance extends Middleware
     /**
      * Las URL que deben ser accesibles mientras el modo de mantenimiento está habilitado.
      *
-     * @var array
+     * @var array $except
      */
     protected $except = [
         //

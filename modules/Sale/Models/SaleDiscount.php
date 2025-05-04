@@ -10,14 +10,14 @@ use App\Traits\ModelsTrait;
 
 /**
  * @class SaleDiscount
- * @brief Datos de Descuneto
+ * @brief Gestiona los datos de Descuento
  *
  * Gestiona el modelo de Descuento
  *
  * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleDiscount extends Model implements Auditable
 {
@@ -27,12 +27,14 @@ class SaleDiscount extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'description','percent'];

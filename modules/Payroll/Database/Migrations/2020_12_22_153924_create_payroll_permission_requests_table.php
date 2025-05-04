@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreatePayrollPermissionRequestsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -32,7 +32,7 @@ class CreatePayrollPermissionRequestsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

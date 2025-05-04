@@ -11,9 +11,9 @@ use Illuminate\Database\Migrations\Migration;
  * Gestiona la creación o eliminación de la tabla de inventario de productos
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class CreateSaleWarehouseInventoryProductsTable extends Migration
 {
@@ -21,6 +21,7 @@ class CreateSaleWarehouseInventoryProductsTable extends Migration
      * Método que ejecuta las migraciones
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return void
      */
     public function up()
@@ -36,8 +37,6 @@ class CreateSaleWarehouseInventoryProductsTable extends Migration
                 $table->float('unit_value')->unsigned()->comment('Valor por unidad del producto en el almacén');
 
                 $table->foreignId('currency_id')->nullable()->constrained()->onUpdate('cascade');
-
-                //$table->foreignId('sale_setting_products_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
 
                 $table->unsignedBigInteger('sale_setting_products_id');
 
@@ -66,6 +65,7 @@ class CreateSaleWarehouseInventoryProductsTable extends Migration
      * Método que elimina las migraciones
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return void
      */
     public function down()

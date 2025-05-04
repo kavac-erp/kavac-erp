@@ -39,56 +39,53 @@
                             <b>Filtros</b>
                         </div>
                         <div id="helpAuditFilterFromDate" class="form-group col-md-2">
-                            <div class="input-group input-sm">
-                                <span class="input-group-addon">
-                                    <i class="now-ui-icons ui-1_calendar-60"></i>
-                                </span>
-                                <input
-                                    type="date"
-                                    class="form-control"
-                                    data-toggle="tooltip"
-                                    title="Desde la fecha"
-                                    v-model="start_date"
-                                    id="auditStartDate"
-                                    placeholder="Fecha"
-                                >
-                            </div>
+                            <label for="" class="form-label">
+                                Desde la fecha
+                            </label>
+                            <input
+                                type="date"
+                                class="form-control"
+                                data-toggle="tooltip"
+                                title="Desde la fecha"
+                                v-model="start_date"
+                                id="auditStartDate"
+                                placeholder="Fecha"
+                            >
                         </div>
                         <div id="helpAuditFilterToDate" class="form-group col-md-2">
-                            <div class="input-group input-sm">
-                                <span class="input-group-addon">
-                                    <i class="now-ui-icons ui-1_calendar-60"></i>
-                                </span>
-                                <input
-                                    type="date"
-                                    class="form-control"
-                                    data-toggle="tooltip"
-                                    title="Hasta la fecha"
-                                    v-model="end_date"
-                                    id="auditEndDate"
-                                    placeholder="Fecha"
-                                >
-                            </div>
+                            <label for="" class="form-label">
+                                Hasta la fecha
+                            </label>
+                            <input
+                                type="date"
+                                class="form-control"
+                                data-toggle="tooltip"
+                                title="Hasta la fecha"
+                                v-model="end_date"
+                                id="auditEndDate"
+                                placeholder="Fecha"
+                            >
                         </div>
                         <div id="helpAuditFilterUser" class="form-group col-md-2">
-                            <div class="input-group input-sm">
-                                <span class="input-group-addon">
-                                    <i class="now-ui-icons users_circle-08"></i>
-                                </span>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    data-toggle="tooltip"
-                                    v-model="user"
-                                    title="Consulta por usuario"
-                                    placeholder="Usuario"
-                                >
-                            </div>
+                            <label for="" class="form-label">
+                                Consulta por usuario
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                data-toggle="tooltip"
+                                v-model="user"
+                                title="Consulta por usuario"
+                                placeholder="Usuario"
+                            >
                         </div>
                         <div
                             id="helpAuditFilterModule"
                             class="form-group col-md-2"
                         >
+                            <label for="" class="form-label">
+                                Consulta por módulo
+                            </label>
                             <select
                                 id="restoreSearchModule"
                                 class="form-control select2"
@@ -97,7 +94,7 @@
                                 <option value="">Módulo</option>
                                 <option
                                     :value="mod.originalName"
-                                    v-for="(mod, index) in modules"
+                                    v-for="(mod, index) in modules2"
                                     :key="index"
                                 >
                                     {{ mod.name }}
@@ -116,6 +113,16 @@
                                 @click="readRecords"
                             >
                                 <i class="fa fa-search"></i>
+                            </button>
+                            <br>
+                            <button
+                                type="reset"
+                                class="btn btn-default btn-icon btn-xs-responsive px-3"
+                                aria-label="Search"
+                                @click="resetFilters()"
+                                title="Limpiar filtro"
+                            >
+                                <i class="fa fa-eraser"></i>
                             </button>
                         </div>
                     </div>
@@ -173,17 +180,13 @@
                                     slot-scope="props"
                                     v-html="props.row.date"
                                     class="text-center"
-                                >
-                                    {{ props.row.date }}
-                                </div>
+                                ></div>
                                 <div
                                     slot="ip"
                                     slot-scope="props"
                                     v-html="props.row.ip"
                                     class="text-center"
-                                >
-                                    {{ props.row.ip }}
-                                </div>
+                                ></div>
                                 <div
                                     slot="users"
                                     slot-scope="props"
@@ -222,7 +225,15 @@ export default {
             user: '',
             module_restore: '',
             records: [],
-            columns: ['status', 'date', 'ip', 'module', 'users', 'id']
+            columns: [
+                'status',
+                'date',
+                'ip',
+                'module',
+                'users',
+                'id'
+            ],
+            modules2: '',
         }
     },
     props: {
@@ -250,6 +261,21 @@ export default {
     },
     methods: {
         /**
+         * Método para reestablecer valores iniciales del formulario de filtros.
+         *
+         * @method resetFilters
+         *
+         * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+         * @author Argenis Osorio <aosorio@cenditel.gob.ve> | <aosorio@cenditel.gob.ve>
+         */
+        resetFilters() {
+            const vm = this;
+            vm.user = '';
+            vm.start_date = '';
+            vm.end_date = '';
+        },
+
+        /**
          * Método que obtiene los registros a mostrar
          *
          * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
@@ -259,12 +285,11 @@ export default {
         async readRecords() {
             const vm = this;
             vm.loading = true;
-            //vm.record.search = vm.record.search.replaceAll(" ","%");
-            //vm.$refs.tableResults.query = vm.record;
             vm.$refs.tableResults.limit = vm.table_options.perPage;
             vm.$refs.tableResults.refresh();
             vm.loading = false;
         },
+
         /**
          * Muestra los detalles de un registro seleccionado
          *
@@ -386,6 +411,19 @@ export default {
                 console.error(error);
             });
         };
+
+        // Agregamos la "Aplicación base" al inicio del arreglo de los módulos.
+        vm.modules.unshift({
+            originalName: "App",
+            alias: "App",
+            name: "Aplicación base",
+            installed: true,
+            disabled: false,
+            withSetting: false
+        });
+
+        // Actualizamos la lista de módulos del select "Módulo" de los filtros.
+        vm.modules2 = vm.modules;
     },
     mounted() {
         const vm = this;

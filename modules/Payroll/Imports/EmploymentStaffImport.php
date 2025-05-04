@@ -31,7 +31,17 @@ use Modules\Payroll\Models\PayrollPreviousJob;
 use Modules\Payroll\Models\PayrollSectorType;
 use Modules\Payroll\Models\PayrollInactivityType;
 use Modules\Payroll\Models\Profile;
+use Modules\Payroll\Rules\PayrollPositionRestriction;
 
+/**
+ * @class EmploymentStaffImport
+ * @brief Importa un archivo de datos de personal
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class EmploymentStaffImport implements
     ToModel,
     WithValidation,
@@ -43,9 +53,17 @@ class EmploymentStaffImport implements
     use SkipsErrors;
     use SkipsFailures;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @param string $fileErrosPath Ruta donde se guardan los archivos de errores
+     *
+     * @return void
+     */
     public function __construct(
         protected string $fileErrosPath,
     ) {
+        //
     }
 
     /**
@@ -60,7 +78,6 @@ class EmploymentStaffImport implements
         $date1 = new Carbon($row["fecha_de_ingreso_a_la_institucion"]);
 
         $today = Carbon::today();
-        $time_worked = 0; // esta se usa en el vue cuando se agrega inactividad
         $years_apn = "";
         $years_apn_y = 0; // años acumulados en otros trabajos
         $years_apn_m = 0; // meses acumulados en otros trabajos
@@ -82,14 +99,13 @@ class EmploymentStaffImport implements
 
             $time_worked_institucion = $date1->diff($dateEgresoInstitucion);
             $service_years = $time_worked_institucion->y;
-            //$institution_years = " Años:" . $time_worked_institucion->y . " Meses: " . $time_worked_institucion->m . " Días: " . $time_worked_institucion->d;
+
             if ($time_worked_institucion->d > 0) {
                 $institution_years = " Años:" . $time_worked_institucion->y . " Meses: " . $time_worked_institucion->m . " Días: " . $time_worked_institucion->d;
                 $time_worked = " Años:" . $time_worked_institucion->y - 1 . " Meses: " . $time_worked_institucion->m . " Días: " . $time_worked_institucion->d;
             } else {
                 $time_worked = 0;
-            }
-            ;
+            };
         }
 
         for ($iter = 1; $iter <= 3; $iter++) {
@@ -140,7 +156,7 @@ class EmploymentStaffImport implements
                 );
 
                 // Crear el registro del cargo del trabajador en la tabla intermedia.
-                $payrollEmployment->payrollPositions()->sync([$row["cargo"]]);
+                $payrollEmployment->payrollPositions()->sync([$row["cargo"] => ['active' => true]]);
 
                 for ($iter = 1; $iter <= 3; $iter++) {
                     if (array_key_exists('nombre_de_la_organizacion_anterior_' . $iter, $row) && !is_null($row['nombre_de_la_organizacion_anterior_' . $iter])) {
@@ -197,6 +213,14 @@ class EmploymentStaffImport implements
         );
     }
 
+    /**
+     * Preparar los datos para ser importados (validaciones)
+     *
+     * @param array $data Arreglo con los datos
+     * @param integer $index Indice de la fila
+     *
+     * @return array
+     */
     public function prepareForValidation($data, $index)
     {
         if (!empty($data["cedula_de_identidad"])) {
@@ -403,6 +427,11 @@ class EmploymentStaffImport implements
         return $data;
     }
 
+    /**
+     * Callback de error de validación
+     *
+     * @param object $failures Arreglo columnas que fallaron en la validación
+     */
     public function onFailure(Failure ...$failures)
     {
         foreach ($failures as $failure) {
@@ -417,6 +446,11 @@ class EmploymentStaffImport implements
         }
     }
 
+    /**
+     * Reglas de validación
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -441,7 +475,7 @@ class EmploymentStaffImport implements
             'tipo_de_inactividad' => ['required_if:esta_activo,FALSE', 'nullable'],
             'correo_institucional' => ['nullable', 'email'],
             'tipo_de_cargo' => ['required'],
-            'cargo' => ['required'],
+            'cargo' => ['required', (new PayrollPositionRestriction())],
             'tipo_de_personal' => ['required'],
             'tipo_de_contrato' => ['required'],
             'departamento' => ['required'],
@@ -508,7 +542,6 @@ class EmploymentStaffImport implements
             'telefono_de_la_organizacion3' => [
                 'required_with:*.nombre_de_la_organizacion_anterior3,tipo_de_sector3,cargo3,tipo_de_personal3,fecha_de_inicio3,fecha_de_cese3',
                 'nullable',
-                'int',
             ],
             'tipo_de_sector3' => [
                 'required_with:*.telefono_de_la_organizacion3,nombre_de_la_organizacion_anterior3,cargo3,tipo_de_personal3,fecha_de_inicio3,fecha_de_cese3',
@@ -539,7 +572,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre del tipo de cargo ingresado (' . strip_tags($value) .
-                        ') no coincide con la lista disponible en la base de datos del sistema'
+                            ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -547,7 +580,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre del cargo ingresado (' . strip_tags($value) .
-                        ') no coincide con la lista disponible en la base de datos del sistema'
+                            ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -555,7 +588,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre de la coordinación ingresado (' . strip_tags($value) .
-                        ') no coincide con la lista disponible en la base de datos del sistema'
+                            ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -563,7 +596,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre del Tipo de Personal ingresado (' .
-                        strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
+                            strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -571,7 +604,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre del Tipo de Personal ingresado en la sección número 1 de trabajos anteriores (' .
-                        strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
+                            strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -579,7 +612,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre del Tipo de Personal ingresado en la sección número 2 de trabajos anteriores (' .
-                        strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
+                            strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -587,7 +620,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre del Tipo de Personal ingresado en la sección número 3 de trabajos anteriores (' .
-                        strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
+                            strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -595,7 +628,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre del Tipo de Sector ingresado en la sección número 1 de trabajos anteriores (' .
-                        strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
+                            strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -603,7 +636,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre del Tipo de Sector ingresado en la sección número 2 de trabajos anteriores (' .
-                        strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
+                            strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -611,7 +644,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre del Tipo de Sector ingresado en la sección número 3 de trabajos anteriores (' .
-                        strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
+                            strip_tags($value) . ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -619,7 +652,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre del Tipo de contrato ingresado (' . strip_tags($value) .
-                        ') no coincide con la lista disponible en la base de datos del sistema'
+                            ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -627,7 +660,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre del Tipo de inactividad ingresado (' . strip_tags($value) .
-                        ') no coincide con la lista disponible en la base de datos del sistema'
+                            ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -635,7 +668,7 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre del Departamento ingresado (' . strip_tags($value) .
-                        ') no coincide con la lista disponible en la base de datos del sistema'
+                            ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
@@ -643,13 +676,18 @@ class EmploymentStaffImport implements
                 if ($value) {
                     $onFailure(
                         'El nombre de la Ficha de Expediente ingresado (' . strip_tags($value) .
-                        ') no coincide con la lista disponible en la base de datos del sistema'
+                            ') no coincide con la lista disponible en la base de datos del sistema'
                     );
                 }
             },
         ];
     }
 
+    /**
+     * Mensajes personalizados de validación
+     *
+     * @return array
+     */
     public function customValidationMessages()
     {
         return [

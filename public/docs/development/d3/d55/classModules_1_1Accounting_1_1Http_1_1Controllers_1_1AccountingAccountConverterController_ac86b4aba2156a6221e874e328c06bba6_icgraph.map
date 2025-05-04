@@ -1,0 +1,7 @@
+<map id="getGroupAccountingAccount" name="getGroupAccountingAccount">
+<area shape="rect" id="Node000001" title="Obtiene los grupos de cuentas contables." alt="" coords="116,31,323,56"/>
+<area shape="rect" id="Node000002" href="$d3/d55/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountConverterController.html#a435e7d7525d4bcd0ed5e34a469f3adf6" title="Muestra un formulario para crear conversiones de cuentas." alt="" coords="5,5,68,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,31,68,25,69,20,114,26"/>
+<area shape="rect" id="Node000003" href="$d3/d55/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountConverterController.html#a459ed16587e3a50b39b672c7e473abc5" title="Muestra el formulario para la edición de conversión de cuentas." alt="" coords="13,55,60,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="109,60,61,67,60,62,109,55"/>
+</map>

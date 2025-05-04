@@ -1,11 +1,12 @@
 <?php
 
-/** Traits de uso general */
-
 namespace App\Traits;
 
 /**
- * Trait para la gestión de requerimientos previos a una funcionalidad de la aplicación
+ * @trait RequirementsTrait
+ * @brief Trait para la gestión de requerimientos previos a una funcionalidad de la aplicación
+ *
+ * Gestión de requerimientos de funcionalidades de la aplicación
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -16,8 +17,6 @@ trait RequirementsTrait
 {
     /**
      * Verifica si una funcionalidad de la aplicación tiene los requermientos necesarios para la gestión de datos
-     *
-     * @method    verifyRequirements
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

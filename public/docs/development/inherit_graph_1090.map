@@ -1,3 +1,5 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d5/d59/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseMovementController.html" title="Controlador de los movimientos de productos entre almacenes." alt="" coords="5,5,233,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d4/d55/classApp_1_1Models_1_1Profession.html" title="Datos de Profesiones." alt="" coords="5,5,96,31"/>
+<area shape="rect" id="Node000001" href="$dd/d60/classModules_1_1Payroll_1_1Models_1_1Profession.html" title="Extiende del modelo de Profession de la aplicación base." alt="" coords="144,5,235,31"/>
+<area shape="poly" id="edge99_Node000000_Node000001" title=" " alt="" coords="110,15,144,15,144,21,110,21"/>
 </map>

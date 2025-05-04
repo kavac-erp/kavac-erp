@@ -1,0 +1,5 @@
+<map id="getPayrollPersonalConceptAssign" name="getPayrollPersonalConceptAssign">
+<area shape="rect" id="Node000001" title="Obtiene la lista de personal asignado en un concepto." alt="" coords="5,13,201,53"/>
+<area shape="rect" id="Node000002" href="$d7/d6c/classModules_1_1Payroll_1_1Actions_1_1GetPayrollConceptParameters.html#acee24ba7ff5a89c14d2e3902401e8793" title="Obtiene la lista de personal asignado en un concepto." alt="" coords="249,5,492,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,30,236,30,236,35,201,35"/>
+</map>

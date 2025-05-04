@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use App\Traits\ModelsTrait;
@@ -16,8 +14,10 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  *
  * Gestiona el modelo de datos para las Monedas
  *
+ * @property  string  $id
  * @property  string  $symbol
  * @property  string  $name
+ * @property  string  $plural_name
  * @property  integer $country_id
  * @property  boolean $default
  * @property  integer $decimal_places
@@ -45,7 +45,7 @@ class Currency extends Model implements Auditable
      *
      * @var array $fillable
      */
-    protected $fillable = ['symbol', 'name', 'country_id', 'default', 'decimal_places'];
+    protected $fillable = ['symbol', 'name', 'plural_name', 'country_id', 'default', 'decimal_places'];
 
     /**
      * Oculta los campos de fechas de creación, actualización y eliminación
@@ -55,9 +55,14 @@ class Currency extends Model implements Auditable
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     /**
-     * Obtiene una descripción para la moneda
+     * Campos a agregar en las consultas
      *
-     * @method    getDescriptionAttribute
+     * @var array $appends
+     */
+    protected $appends = ['description'];
+
+    /**
+     * Obtiene una descripción para la moneda
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -69,9 +74,7 @@ class Currency extends Model implements Auditable
     }
 
     /**
-     * Currency belongs to Country.
-     *
-     * @method  country
+     * Método que obtiene el Pais de una Moneda
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -83,9 +86,9 @@ class Currency extends Model implements Auditable
     }
 
     /**
-     * Currency has many ExchangeRate.
+     * Método que obtiene los tipos de cambio desde la moneda a la cual se va a convertir
      *
-     * @method  fromExchangeRates
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -95,9 +98,9 @@ class Currency extends Model implements Auditable
     }
 
     /**
-     * Currency has many ExchangeRate.
+     * Metodo que obtiene los tipos de cambio de la moneda a la cual se realizó la converción
      *
-     * @method  toExchangeRates
+     * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -106,13 +109,20 @@ class Currency extends Model implements Auditable
         return $this->hasMany(ExchangeRate::class, 'to_currency_id');
     }
 
+    /**
+     * Metodo que se ejecuta cuando se elimina un registro
+     *
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
+     */
     public static function boot()
     {
         parent::boot();
 
         self::deleting(function ($model) {
             if (has_data_in_foreign_key($model->id, 'currency_id')) {
-                return throw new \Exception('No se puede eliminar este registro debido a que tiene otros registros asociados');
+                throw new \Exception('No se puede eliminar este registro debido a que tiene otros registros asociados');
             };
         });
     }

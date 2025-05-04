@@ -10,6 +10,6 @@ var classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingPro
     [ "show", "d0/df7/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingProjectTypeController.html#ae4914d07a9bbe4aede7a5dea759f6287", null ],
     [ "store", "d0/df7/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingProjectTypeController.html#a9ef485163104597c12185b53cdacf638", null ],
     [ "update", "d0/df7/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingProjectTypeController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
-    [ "$messages", "d0/df7/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingProjectTypeController.html#ae7715468b3957bb3cc52320a1da96b7e", null ],
-    [ "$validateRules", "d0/df7/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingProjectTypeController.html#a08fdb9625ef4d58fe9846c962a0b0dd6", null ]
+    [ "$messages", "d0/df7/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingProjectTypeController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f", null ],
+    [ "$validateRules", "d0/df7/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingProjectTypeController.html#a19db8a4aa08742d71b20bee403d09b5d", null ]
 ];

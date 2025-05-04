@@ -1,12 +1,15 @@
 {
     "name": "kavac/sale",
     "description": "",
+    "keywords": ["kavac", "sale"],
     "authors": [
         {
             "name": "Ing. Roldan Vargas",
             "email": "roldandvg@gmail.com"
         }
     ],
+    "require": {},
+    "require-dev": {},
     "extra": {
         "laravel": {
             "providers": [],

@@ -4,10 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class CreateSaleOrderManagementTable
+ * @brief Migración encargada de crear la tabla para la gestión de pedidos de venta o órdenes de venta
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CreateSaleOrderManagementTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -28,18 +35,13 @@ class CreateSaleOrderManagementTable extends Migration
                               (APPROVED) - Aprobado,
                               (REJECTED) - Rechazado',
                           );
-            //$table->string('address', 100)->comment('Dirección');
-            //$table->string('contact_number', 100)->comment('Número Teléfonico');
-
-            //$table->string('warehouse', 100)->comment('Almacén');
-            //$table->foreignId('sale_warehouses_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

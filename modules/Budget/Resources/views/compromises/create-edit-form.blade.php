@@ -33,11 +33,12 @@
                         @include('buttons.minimize')
                     </div>
                 </div>
-                <budget-compromise edit_object ="{{ (isset($budgetCompromise)) ? $budgetCompromise : '' }}" route_list="{{ url('budget/compromises') }}" 
-                                   route_edit="{{ url('budget/compromises/{id}/edit') }}"
-                                   accounting="{{ Module::has('Accounting') && Module::isEnabled('Accounting') }}"
-                                   budget_class="{{ 'Modules\Budget\Models\BudgetCompromise' }}"></budget-compromise>
-          
+                <budget-compromise
+                    edit_object ="{{ (isset($budgetCompromise)) ? $budgetCompromise : '' }}" route_list="{{ url('budget/compromises') }}"
+                    route_edit="{{ url('budget/compromises/{id}/edit') }}"
+                    accounting="{{ Module::has('Accounting') && Module::isEnabled('Accounting') }}"
+                    budget_class="{{ 'Modules\Budget\Models\BudgetCompromise' }}"
+                ></budget-compromise>
             </div>
         </div>
     </div>

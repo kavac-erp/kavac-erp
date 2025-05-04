@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos para las cuentas asociadas a las modificaciones presupuestarias
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetModificationAccount extends Model implements Auditable
 {
@@ -25,18 +25,23 @@ class BudgetModificationAccount extends Model implements Auditable
     use AuditableTrait;
     use ModelsTrait;
 
-    /** @var array Establece las relaciones por defecto que se retornan con las consultas */
+    /**
+     * Establece las relaciones por defecto que se retornan con las consultas
+     *
+     * @var array $with
+     */
     protected $with = ['budgetAccount', 'budgetSubSpecificFormulation'];
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista con campos de tipo fecha
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * Lista de atributos que pueden ser asignados masivamente
+     * Lista con campos del modelo
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -45,9 +50,10 @@ class BudgetModificationAccount extends Model implements Auditable
     ];
 
     /**
-     * BudgetModificationAccount belongs to BudgetModification.
+     * Establece la relación con la modificación presupuestaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function budgetModification()
@@ -56,9 +62,10 @@ class BudgetModificationAccount extends Model implements Auditable
     }
 
     /**
-     * BudgetModificationAccount belongs to BudgetAccount.
+     * Establece la relación con la cuenta presupuestaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function budgetAccount()
@@ -67,9 +74,10 @@ class BudgetModificationAccount extends Model implements Auditable
     }
 
     /**
-     * BudgetModificationAccount belongs to BudgetSubSpecificFormulation.
+     * Establece la relación con la formulación de presupuesto
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function budgetSubSpecificFormulation()

@@ -2,6 +2,7 @@ var classModules_1_1Sale_1_1Models_1_1Institution =
 [
     [ "assetAsignation", "d9/d98/classModules_1_1Sale_1_1Models_1_1Institution.html#accfab0b8eb51f3a89621c2816c520a79", null ],
     [ "banner", "d9/d98/classModules_1_1Sale_1_1Models_1_1Institution.html#a71c184af60e335ef57f5840abb5315d6", null ],
+    [ "buildings", "d9/d98/classModules_1_1Sale_1_1Models_1_1Institution.html#a97ea7ec388b15dae0bf692ac6b0a424f", null ],
     [ "city", "d9/d98/classModules_1_1Sale_1_1Models_1_1Institution.html#a2a1a1baf063b1d835a94f918c0d78422", null ],
     [ "departments", "d9/d98/classModules_1_1Sale_1_1Models_1_1Institution.html#a31d17035311ea20645eab4097df82b5e", null ],
     [ "fiscalYears", "d9/d98/classModules_1_1Sale_1_1Models_1_1Institution.html#a2be074f77b19bd38b212a62e48a8dd10", null ],

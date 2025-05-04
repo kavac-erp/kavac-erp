@@ -7,15 +7,41 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 
+/**
+ * @class SocioStaffExport
+ * @brief Clase que exporta la hoja de datos socioeconómicos de los trabajadores
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SocioStaffExport implements FromArray, WithHeadings, ShouldAutoSize, WithTitle
 {
+    /**
+     * Lista de errores
+     *
+     * @var array $errors
+     */
     protected $errors;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @param array $errors Lista de errores
+     *
+     * @return void
+     */
     public function __construct(array $errors)
     {
         $this->errors = $errors;
     }
 
+    /**
+     * Encabezados de la hoja
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return [
@@ -69,11 +95,21 @@ class SocioStaffExport implements FromArray, WithHeadings, ShouldAutoSize, WithT
         ];
     }
 
+    /**
+     * Título de la hoja a exportar
+     *
+     * @return string
+     */
     public function title(): string
     {
         return 'Datos Socioeconomicos';
     }
 
+    /**
+     * Retorna los errores de la hoja
+     *
+     * @return array
+     */
     public function array(): array
     {
         return $this->errors;

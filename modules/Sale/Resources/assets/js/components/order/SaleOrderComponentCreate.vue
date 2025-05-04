@@ -19,8 +19,8 @@
         </div>
       </div>
       <h6 class="card-title">Datos del solicitante:
-        <a class="btn btn-info btn-xs btn-icon btn-action display-inline" 
-          href="#" title="Ver información del registro" data-toggle="tooltip" 
+        <a class="btn btn-info btn-xs btn-icon btn-action display-inline"
+          href="#" title="Ver información del registro" data-toggle="tooltip"
           @click.prevent="showModal('view_sale_clients')">
           <i class="icofont icofont-business-man ico-2x"></i>
         </a>
@@ -171,12 +171,12 @@
       <div class="row">
         <div class="col-md-12 text-center">
           <div class="d-inline-flex mt-4">
-            <button type="button" @click="resetProductClean($event)" class="btn btn-sm btn-primary btn-custom" 
+            <button type="button" @click="resetProductClean($event)" class="btn btn-sm btn-primary btn-custom"
               title="Limpiar información del producto" data-toggle="tooltip">
               <i class="fa fa-eraser"></i>
               Cancelar
             </button>
-            <button type="button" @click="addProductToQuote($event)" class="btn btn-sm btn-primary btn-custom" 
+            <button type="button" @click="addProductToQuote($event)" class="btn btn-sm btn-primary btn-custom"
               title="Agregar producto a la lista" data-toggle="tooltip">
               <i class="fa fa-plus-circle"></i>
               Agregar
@@ -193,14 +193,14 @@
           </div>
           <div slot="id" slot-scope="props" class="text-center">
             <div class="d-inline-flex">
-              <button @click="editProduct(props.index, $event)" 
-                class="btn btn-warning btn-xs btn-icon btn-action" 
+              <button @click="editProduct(props.index, $event)"
+                class="btn btn-warning btn-xs btn-icon btn-action"
                 title="Modificar Producto" data-toggle="tooltip" type="button">
                 <i class="fa fa-edit"></i>
               </button>
-              <button @click="removeProduct(props.index, $event)" 
-                class="btn btn-danger btn-xs btn-icon btn-action" 
-                title="Eliminar producto" data-toggle="tooltip" 
+              <button @click="removeProduct(props.index, $event)"
+                class="btn btn-danger btn-xs btn-icon btn-action"
+                title="Eliminar producto" data-toggle="tooltip"
                 type="button">
                 <i class="fa fa-trash-o"></i>
               </button>
@@ -448,7 +448,7 @@
         let entity_load = 'Producto';
         vm.record.sale_type_good_id = '';
         let id = vm.record.sale_warehouse_inventory_product_id;
-    
+
         if (id) {
           axios.get('/sale/get-bill-product' + '/' + entity_load + '/' + id).then(function (response) {
             let product = response.data.record;
@@ -512,7 +512,7 @@
           'name': option_name,
         };
 
-        product.sale_type_good_id = '';      
+        product.sale_type_good_id = '';
         if (vm.record.measurement_unit_id == '') {
           bootbox.alert("Debe seleccionar una unidad de medida");
           return false;
@@ -547,7 +547,7 @@
         product.old_quantity = vm.record.old_quantity;
         //math total without tax
         product.total_without_tax = product.quantity * product.value;
-        
+
         if (vm.record.currency_id == '') {
           bootbox.alert("La cantidad de productos debe ser mayor que 0");
           return false;
@@ -592,8 +592,8 @@
       createQuote(url) {
         const vm = this;
         if (vm.record.id) {
-          vm.updateRecord(url);  
-        } 
+          vm.updateRecord(url);
+        }
         else{
           vm.createRecord(url);
         }
@@ -662,7 +662,7 @@
         };
 
         product.sale_type_good_id = '';
-       
+
         product.value = product_load.value;
         product.measurement_unit_id = product_load.measurement_unit_id;
         option_name = product.measurement_unit_id;
@@ -677,7 +677,7 @@
         product.quantity = product_load.quantity;
         //math total without tax
         product.total_without_tax = product_load.total_without_tax;
-        product.total = product_load.total; 
+        product.total = product_load.total;
         product.currency_id = product_load.currency_id;
         option_name = product.currency_id;
         let currency = product_load.currency;
@@ -690,10 +690,8 @@
         };
         product.history_tax_id = product_load.history_tax_id;
 
-        //product.history_tax_value = product_load.history_tax? parseFloat(product_load.history_tax.percentage) : 0;
         product.product_tax_value = product.total - product.total_without_tax;
         product.product_tax_value = product.product_tax_value.toFixed(2);
-        //product.total = product.total_without_tax + product.product_tax_value;
         let product_index = parseInt(vm.record.product_position_value);
         if (product_index > 0) {
           vm.record.list_products.splice(product_index - 1, 1);

@@ -6,7 +6,7 @@
 							  :clear-on-select="clear_on_select" :close-on-select="close_on_select" @select="onSelect"
 							  :deselect-group-label="'Deseleccionar grupo'" :deselect-label="'Eliminar'"
 							  :select-group-label="'Seleccionar grupo'" :select-label="'Seleccionar'"
-							  :selected-label="'Seleccionado'" :tag-placeholder="'Crear una etiqueta'" 
+							  :selected-label="'Seleccionado'" :tag-placeholder="'Crear una etiqueta'"
 							  open-direction="bottom" @search-change="search_change" :internal-search="internal_search"
                               :searchable="searchable" @tag="add_tag" :options-limit="options_limit" :group-select="group_select"
 							  :group-values="group_values" :group-label="group_label" :limit="limit" :limitText="limit_text"
@@ -25,7 +25,7 @@
 
 	/** Elimina el prop loading por conflicto con el mixin de la aplicación */
 	delete Multiselect.props.loading;
-	
+
 	Vue.component('multiselectComponent', Multiselect);
 
 	export default {
@@ -160,7 +160,7 @@
              * @param     {integer}   id        Identificador de la opción
              */
 			onSelect (option, id) {
-		    	//console.log(this.value, id)
+		    	//
 		    },
 		},
 		watch: {

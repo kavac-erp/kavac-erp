@@ -17,6 +17,7 @@ use Modules\Asset\Models\AssetRequestDelivery;
  * Clase que gestiona las solicitudes de entrega de equipos
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -24,10 +25,17 @@ class AssetRequestDeliveryController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:asset.request.delivery.approve_reject', ['only' => 'update']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:asset.request.delivery.approvereject', ['only' => 'update']);
         $this->middleware('permission:asset.request.delivery.delete', ['only' => 'destroy']);
     }
 
@@ -35,6 +43,7 @@ class AssetRequestDeliveryController extends Controller
      * Muestra un listado de las solicitudes de entrega bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function index()
@@ -46,7 +55,9 @@ class AssetRequestDeliveryController extends Controller
      * Valida y registra una nueva solicitud de entrega
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function store(Request $request)
@@ -55,11 +66,7 @@ class AssetRequestDeliveryController extends Controller
             'asset_request_id' => ['required']
         ]);
 
-        /**
-         * Objeto asociado al modelo AssetRequestDelivery
-         *
-         * @var Object $request_delivery
-         */
+        /* Objeto asociado al modelo AssetRequestDelivery */
         $request_delivery = AssetRequestDelivery::create([
             'state' => 'Pendiente',
             'asset_request_id' => $request->input('asset_request_id'),
@@ -74,8 +81,10 @@ class AssetRequestDeliveryController extends Controller
      * Actualiza la información de las solicitudes de entrega de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request                     $request     Datos de la petición
-     * @param     Modules\Asset\Models\AssetRequestDelivery    $delivery    Datos de la solicitud
+     * @param     AssetRequestDelivery    $delivery    Datos de la solicitud
+     *
      * @return    \Illuminate\Http\JsonResponse                Objeto con los registros a mostrar
      */
     public function update(Request $request, AssetRequestDelivery $delivery)
@@ -101,7 +110,6 @@ class AssetRequestDeliveryController extends Controller
                     $asset->asset_status_id = 10;
                     $asset->save();
                 }
-                //$requested->delete();
             }
         } elseif ($request->state == 'Rechazado') {
             $asset_request = AssetRequest::find($request->asset_request_id);
@@ -117,7 +125,9 @@ class AssetRequestDeliveryController extends Controller
      * Elimina una solicitud de entrega
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     Modules\Asset\Models\AssetRequestDelivery    $delivery    Datos de la solicitud
+     *
+     * @param     integer    $id    Identificador de la solicitud de entrega
+     *
      * @return    \Illuminate\Http\JsonResponse                Objeto con los registros a mostrar
      */
     public function destroy($id)

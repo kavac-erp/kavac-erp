@@ -3,12 +3,20 @@
 namespace Modules\Sale\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
+use Modules\Sale\Models\Institution;
+use Modules\Sale\Models\SaleWarehouse;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleWarehouseInstitutionWarehouse;
-use Modules\Sale\Models\SaleWarehouse;
 
+/**
+ * @class SaleWarehouseController
+ * @brief Gestiona los datos de los almacenes
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleWarehouseController extends Controller
 {
     use ValidatesRequests;
@@ -17,16 +25,19 @@ class SaleWarehouseController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting.warehouse', ['only' => 'index']);
     }
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Muestra el listado de almacenes
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -66,32 +77,35 @@ class SaleWarehouseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario de creación de un almacén
+     *
+     * @return void
      */
     public function create()
     {
-        //return view('sale::create');
+        //
     }
 
     /**
      * Realiza la validación de un almacen
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return void
      */
     public function saleWarehouseValidate(Request $request)
     {
         $attributes = [
-          'name' => 'Institución que gestiona el Almacén',
-          'institution_id' => 'Nombre de Almacén',
-          'country_id' => 'Ciudad',
-          'estate_id' => 'Estado',
-          'municipality_id' => 'Municipio',
-          'parish_id' => 'País',
-          'address' => 'Dirección'
-
+            'name' => 'Institución que gestiona el Almacén',
+            'institution_id' => 'Nombre de Almacén',
+            'country_id' => 'Ciudad',
+            'estate_id' => 'Estado',
+            'municipality_id' => 'Municipio',
+            'parish_id' => 'País',
+            'address' => 'Dirección'
         ];
 
         $validation = [];
-                   //'name' => ['required', 'unique:sale_warehouses,name', 'regex:/([A-Za-z\s])\w+/u','max:200'],
         $validation['name'] = ['required', 'regex:/([A-Za-z\s])\w+/u','max:200'];
         $validation['institution_id'] = ['required'];
         $validation['country_id'] = ['required'];
@@ -103,9 +117,11 @@ class SaleWarehouseController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena los datos de un almacen
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -115,12 +131,8 @@ class SaleWarehouseController extends Controller
             'name' => ['required', 'unique:sale_warehouses,name', 'regex:/([A-Za-z\s])\w+/u','max:200']
         ]);
 
-        //Define almacén principal
-        /*
-        if ($request->input('main') == true) {
-            $main = SaleWarehouse::where('main', '=', true)->update(['main' => false]);
-        }*/
         //Guarda datos de almacen.
+        $institution = Institution::where('active', true)->where('default', true)->first();
         $institution_id = empty($request->institution_id) ? $institution->id : $request->institution_id;
 
         $SaleWarehouse = SaleWarehouse::create([
@@ -150,27 +162,31 @@ class SaleWarehouseController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un almacen
+     *
+     * @return void
      */
     public function show()
     {
-        //return view('sale::show');
+        //
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario de edición de un almacen
+     *
+     * @return void
      */
     public function edit()
     {
-        //return view('sale::edit');
+        //
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza la información de un almacen
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -196,8 +212,9 @@ class SaleWarehouseController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina los datos de un almacen
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -212,7 +229,8 @@ class SaleWarehouseController extends Controller
     * Obtiene los alamacenes registrados
     *
     * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-    * @return \Illuminate\Http\JsonResponse    Json con los datos de los alamacenes registrados
+
+    * @return \Illuminate\Http\JsonResponse
     */
     public function getSaleWarehouseMethod()
     {

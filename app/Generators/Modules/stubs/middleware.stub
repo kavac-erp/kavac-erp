@@ -1,9 +1,10 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Closure;
 use Illuminate\Http\Request;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -20,8 +21,6 @@ class $CLASS$
 {
     /**
      * Gestiona una petición entrante
-     *
-     * @method    handle
      *
      * @param     Request    $request    Objeto con información de la petición
      * @param     Closure    $next

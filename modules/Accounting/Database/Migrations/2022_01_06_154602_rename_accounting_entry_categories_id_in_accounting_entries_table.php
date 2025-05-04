@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class RenameAccountingEntryCategoriesIdInAccountingEntriesTable
- * @brief [descripción detallada]
+ * @brief Ejecuta la migración para renombrar el campo accounting_entry_categories_id a accounting_entry_category_id
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

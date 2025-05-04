@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -10,7 +8,7 @@ use Illuminate\Routing\Controller;
 
 /**
  * @class SalePaymentReportController
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
  * Reporte de pagos.
  *
@@ -22,32 +20,29 @@ use Illuminate\Routing\Controller;
 class SalePaymentReportController extends Controller
 {
     /**
-     * [descripción del método]
+     * Muestra el listado de reportes de pago
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function index()
     {
-     //   return view('sale::index');
+        //
     }
 
+    /**
+     * Listado de pagos
+     *
+     * @return \Illuminate\View\View
+     */
     public function listPayment()
     {
         return view('sale::reports.sale-report-payment');
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para registrar un nuevo pago
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -55,15 +50,11 @@ class SalePaymentReportController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena un nuevo pago
      *
-     * @method    store
+     * @param     Request    $request    Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function store(Request $request)
     {
@@ -71,15 +62,11 @@ class SalePaymentReportController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información de un pago
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -87,15 +74,11 @@ class SalePaymentReportController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario para editar un pago
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -103,16 +86,12 @@ class SalePaymentReportController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza la información de un pago
      *
-     * @method    update
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function update(Request $request, $id)
     {
@@ -120,15 +99,11 @@ class SalePaymentReportController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina un pago
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function destroy($id)
     {

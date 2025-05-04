@@ -1,0 +1,5 @@
+<map id="purchaseDirectHire" name="purchaseDirectHire">
+<area shape="rect" id="Node000001" title="Establece la relación con la contratación directa." alt="" coords="289,5,436,31"/>
+<area shape="rect" id="Node000002" href="$d7/d43/classModules_1_1Purchase_1_1Models_1_1PurchaseQuotation.html#adf3c7bddff2c73de4dcf718b8c5380f1" title="Obtiene el estado de la orden de compra." alt="" coords="5,5,241,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="276,21,241,21,241,15,276,15"/>
+</map>

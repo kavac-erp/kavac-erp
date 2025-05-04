@@ -21,6 +21,12 @@
                     <div class="modal-body" v-if="records">
                         <h6>Datos Básicos</h6>
                         <div class="row mb-3">
+                            <div class="col-12">
+                                <strong>Número de Expediente:</strong>
+                                {{ records.file_number || 'NO REGISTRADO' }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-3 ">
                                 <strong>Tipo de Persona:</strong>
                                 {{
@@ -64,7 +70,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 ">
-                                <strong>Rama:</strong> 
+                                <strong>Rama:</strong>
                                 <span v-for="object in records.purchase_supplier_branch" :key="object.id">
                                     {{ object.name }}
                                 </span>
@@ -73,7 +79,7 @@
                             <div class="col-3 ">
                                 <strong>Especialidad:</strong> <span v-for="object in records.purchase_supplier_specialty" :key="object.id">
                                     {{ object.name }}
-                                </span> 
+                                </span>
                                 <!--{{ records.purchase_supplier_specialty.name }}-->
                             </div>
                             <div class="col-3 ">
@@ -96,8 +102,8 @@
                                 <strong>Dirección Fiscal:</strong> {{ getData(records.direction) }}
                             </div>
                             <div class="col-3 ">
-                                <strong>Información de contactos:</strong> 
-                                <br> 
+                                <strong>Información de contactos:</strong>
+                                <br>
                                 <ul>
                                     <li v-for="contact in records.contacts" :key="'contact_'+contact.id">
                                         {{ contact.name }} - {{ contact.email }}
@@ -105,7 +111,7 @@
                                 </ul>
                             </div>
                             <div class="col-3"><strong>Números de contacto:</strong>
-                                <br> 
+                                <br>
                                 <ul>
                                     <li v-for="phone in records.phones" :key="'phone_'+phone.id">
                                         {{ phone.type==='M'?'Móvil':phone.type==='T'?'Teléfono':'Fax' }}:
@@ -188,7 +194,7 @@ export default {
         }
     },
     created() {
-        // 
+        //
     },
     mounted() {
     },
@@ -200,7 +206,7 @@ export default {
          * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         reset() {
-            // 
+            //
         },
 
         getData(str) {
@@ -208,7 +214,7 @@ export default {
         }
     },
     computed: {
-        // 
+        //
     }
 };
 </script>

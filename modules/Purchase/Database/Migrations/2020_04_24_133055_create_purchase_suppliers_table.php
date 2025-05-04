@@ -4,10 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class CreatePurchaseSuppliersTable
+ * @brief Migración encargada de crear la tabla de proveedores
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CreatePurchaseSuppliersTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -28,52 +35,52 @@ class CreatePurchaseSuppliersTable extends Migration
                 $table->boolean('active')->default(false)->comment('Indica si el proveedor esta activo');
 
                 /*
-                * -----------------------------------------------------------------------
-                * Clave foránea a la relación del objeto del proveedor
-                * -----------------------------------------------------------------------
-                *
-                * Define la estructura de relación a la información del objeto del proveedor
+                | -----------------------------------------------------------------------
+                | Clave foránea a la relación del objeto del proveedor
+                | -----------------------------------------------------------------------
+                |
+                | Define la estructura de relación a la información del objeto del proveedor
                 */
                 $table->foreignId('purchase_supplier_object_id')->constrained()
                     ->onDelete('restrict')->onUpdate('cascade');
 
                 /*
-                * -----------------------------------------------------------------------
-                * Clave foránea a la relación de la rama del proveedor
-                * -----------------------------------------------------------------------
-                *
-                * Define la estructura de relación a la información de la rama del proveedor
+                | -----------------------------------------------------------------------
+                | Clave foránea a la relación de la rama del proveedor
+                | -----------------------------------------------------------------------
+                |
+                | Define la estructura de relación a la información de la rama del proveedor
                 */
                 $table->foreignId('purchase_supplier_branch_id')->constrained()
                     ->onDelete('restrict')->onUpdate('cascade');
 
                 /*
-                * -----------------------------------------------------------------------
-                * Clave foránea a la relación de la especialidad del proveedor
-                * -----------------------------------------------------------------------
-                *
-                * Define la estructura de relación a la información de la especialidad del proveedor
+                | -----------------------------------------------------------------------
+                | Clave foránea a la relación de la especialidad del proveedor
+                | -----------------------------------------------------------------------
+                |
+                | Define la estructura de relación a la información de la especialidad del proveedor
                 */
                 $table->foreignId('purchase_supplier_specialty_id')->constrained()
                     ->onDelete('restrict')->onUpdate('cascade');
 
                 /*
-                * -----------------------------------------------------------------------
-                * Clave foránea a la relación del tipo de proveedor
-                * -----------------------------------------------------------------------
-                *
-                * Define la estructura de relación a la información del tipo de proveedor
+                | -----------------------------------------------------------------------
+                | Clave foránea a la relación del tipo de proveedor
+                | -----------------------------------------------------------------------
+                |
+                | Define la estructura de relación a la información del tipo de proveedor
                 */
                 $table->foreignId('purchase_supplier_type_id')->constrained()
                     ->onDelete('restrict')->onUpdate('cascade');
 
                 /*
-                * -----------------------------------------------------------------------
-                * Clave foránea a la relación de la ciudad del proveedor
-                * -----------------------------------------------------------------------
-                *
-                * Define la estructura de relación a la información de la ciudad en donde
-                * se encuentra ubicado proveedor
+                | -----------------------------------------------------------------------
+                | Clave foránea a la relación de la ciudad del proveedor
+                | -----------------------------------------------------------------------
+                |
+                | Define la estructura de relación a la información de la ciudad en donde
+                | se encuentra ubicado proveedor
                 */
                 $table->foreignId('city_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
 
@@ -97,7 +104,7 @@ class CreatePurchaseSuppliersTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

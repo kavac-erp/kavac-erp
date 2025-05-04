@@ -10,10 +10,17 @@ use Modules\Purchase\Models\PurchaseDirectHire;
 use App\Models\CodeSetting;
 use App\Models\FiscalYear;
 
+/**
+ * @class PurchaseUpdateDirectHireCodesSeeder
+ * @brief Información por defecto para la actualización de códigos de contrataciones directas del módulo de compra
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseUpdateDirectHireCodesSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */

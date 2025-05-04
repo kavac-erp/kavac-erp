@@ -1,0 +1,11 @@
+<map id="calculateExchangeRates" name="calculateExchangeRates">
+<area shape="rect" id="Node000001" title="Encuentra los tipos de cambio." alt="" coords="148,80,329,105"/>
+<area shape="rect" id="Node000002" href="$dd/dc1/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAuxiliaryBookController.html#a91ed4fd2bc1a7519ff73f502a32d7de7" title="Vista en la que se genera el reporte en pdf." alt="" coords="31,5,74,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,77,73,29,75,24,194,72"/>
+<area shape="rect" id="Node000003" href="$dd/dc1/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAuxiliaryBookController.html#a23c281813aa2f3d73fe2c7089b2b7f03" title="Vista en la que se genera el reporte en pdf y se realiza la firma electrónica del mismo." alt="" coords="17,55,88,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,81,88,75,88,69,135,76"/>
+<area shape="rect" id="Node000004" href="$dd/dc1/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAuxiliaryBookController.html#a45785d11a0c56c2aa2be6625ce1452d5" title="Verifica las conversiones monetarias de un reporte de libro auxiliar." alt="" coords="19,104,86,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="135,109,87,115,86,110,134,103"/>
+<area shape="rect" id="Node000005" href="$dd/dc1/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAuxiliaryBookController.html#a7aadd5829f74ecac246c4b521554e236" title="Verifica las conversiones monetarias de un reporte de libro auxiliar." alt="" coords="5,153,100,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="194,113,87,156,85,151,192,108"/>
+</map>

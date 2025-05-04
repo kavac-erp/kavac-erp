@@ -1,17 +1,17 @@
 <template>
     <v-client-table :columns="columns" :data="records" :options="table_options" ref="tableResults">
         <div slot="product_name" slot-scope="props">
-            <p v-for="product in props.row.sale_bill_inventory_product">
+            <p v-for="(product, index) in props.row.sale_bill_inventory_product" :key="index">
                 {{ (product.product_type == 'Servicio') ? product.sale_goods_to_be_traded.name : product.sale_warehouse_inventory_product.sale_setting_product.name }}
             </p>
         </div>
         <div slot="price" slot-scope="props">
-            <p v-for="product in props.row.sale_bill_inventory_product">
+            <p v-for="(product, index) in props.row.sale_bill_inventory_product" :key="index">
                 {{ product.value }}
             </p>
         </div>
         <div slot="currency" slot-scope="props">
-            <p v-for="product in props.row.sale_bill_inventory_product">
+            <p v-for="(product, index) in props.row.sale_bill_inventory_product" :key="index">
                 {{ product.currency.symbol + ' - ' + product.currency.name }}
             </p>
         </div>
@@ -82,7 +82,7 @@
              * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve | roldandvg@gmail.com>
              */
             reset() {
-                
+
             },
 
             /**

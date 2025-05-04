@@ -1,3 +1,5 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d8/ddd/classCreateAssetReportsTable.html" title="Crear tabla de los reportes generados en el módulo de bienes." alt="" coords="5,5,191,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$df/d08/classModules_1_1Budget_1_1Models_1_1BudgetCompromiseDetail.html" title="Datos de los detalles de los compromisos presupuestarios." alt="" coords="5,5,196,31"/>
+<area shape="rect" id="Node000001" href="$d8/dbe/classModules_1_1Purchase_1_1Models_1_1BudgetCompromiseDetail.html" title="Extension de la clase BudgetCompromiseDetail del modulo de presupuesto." alt="" coords="244,5,435,31"/>
+<area shape="poly" id="edge5_Node000000_Node000001" title=" " alt="" coords="210,15,244,15,244,21,210,21"/>
 </map>

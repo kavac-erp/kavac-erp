@@ -2,40 +2,145 @@
 
 namespace Modules\Payroll\Exports;
 
+use App\Models\User;
+use App\Models\Profile;
 use App\Models\Parameter;
 use Modules\Payroll\Models\Payroll;
-use Modules\Payroll\Models\PayrollConceptType;
 use Modules\Payroll\Models\Institution;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Modules\Payroll\Models\PayrollConceptType;
+use Modules\Payroll\Models\PayrollStaffPayroll;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
-use DateTime;
+use Modules\Payroll\Exports\Sheets\PayrollConceptsSheet;
+use Modules\Payroll\Exports\Sheets\PayrollSalaryTabulatorsSheet;
 
-class PayrollExport implements FromCollection, WithHeadings, ShouldAutoSize, WithMapping, WithEvents, WithCustomStartCell
+/**
+ * @class PayrollExport
+ * @brief Clase que exporta la nómina
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
+class PayrollExport implements
+    FromCollection,
+    WithHeadings,
+    ShouldAutoSize,
+    WithMapping,
+    WithEvents,
+    WithTitle,
+    WithCustomStartCell,
+    WithMultipleSheets
 {
     use Exportable;
 
+    /**
+     * Identificador de la nómina
+     *
+     * @var integer $payrollId
+     */
     protected $payrollId;
+
+    /**
+     * Datos de la nómina
+     *
+     * @var Payroll $payroll
+     */
+    protected $payroll;
+
+    /**
+     * Datos del modelo
+
+     * @var PayrollStaffPayroll $model
+     */
     protected $model;
+
+    /**
+     * Total de los montos en nómina a exportar
+
+     * @var array $total
+     */
     protected $total;
+
+    /**
+     * Número de decimales a mostrar en el archivo
+     *
+     * @var Parameter $number_decimals
+     */
     protected $number_decimals;
+
+    /**
+     * Función a implementar para redondear los montos
+     *
+     * @var Parameter $round
+     */
     protected $round;
+
+    /**
+     * Mostrar conceptos en ceros
+     *
+     * @var Parameter $zero_concept
+     */
     protected $zero_concept;
+
+    /**
+     * Título del archivo
+     *
+     * @var string $title
+     */
+    protected $title;
+
+    /**
+     * Establece el nombre del archivo a exportar
+     *
+     * @return string
+     */
+    public function title(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * Retorna un array de las hojas a exportar
+     *
+     * @return array
+     */
+    public function sheets(): array
+    {
+        $sheets = [
+            'Payroll' => $this,
+            'Concepts' => new PayrollConceptsSheet($this->payroll->concept_types)
+        ];
+
+        foreach ($this->payroll->salary_tabulators as $key => $payrollSalaryTabulator) {
+            $sheets['Tabulator' . $key] = new PayrollSalaryTabulatorsSheet($payrollSalaryTabulator);
+        }
+
+        return $sheets;
+    }
 
     /**
      * Establece el identificador del registro de nómina
      *
-     * @param Integer $payrollId Identificador único del tabuldor salarial
+     * @param integer $payrollId Identificador único del tabuldor salarial
+     *
+     * @return void
      */
     public function setPayrollId(int $payrollId)
     {
+        $this->payroll = Payroll::findOrFail($payrollId);
+        $this->title = 'Nómina - ' . $this->payroll->name;
         $this->payrollId = $payrollId;
-        $this->model = Payroll::find($payrollId)->payrollStaffPayrolls;
+        $this->model = $this->payroll->payrollStaffPayrolls;
         $this->total = [];
         $this->number_decimals = Parameter::where('p_key', 'number_decimals')->where('required_by', 'payroll')->first();
         $this->round = Parameter::where('p_key', 'round')->where('required_by', 'payroll')->first();
@@ -53,33 +158,37 @@ class PayrollExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     }
 
     /**
+    * Colección de datos a exportar
+    *
     * @return    \Illuminate\Support\Collection
     */
     public function collection()
     {
-        $payrollRegister = Payroll::find($this->payrollId);
-        $records = $payrollRegister->payrollStaffPayrolls;
+        $payrollRegister = Payroll::query()
+            ->with('payrollStaffPayrolls.payrollStaff')
+            ->find($this->payrollId);
 
-        $i = 1;
-        $data = [];
-        foreach ($records as $record) {
-            if (isset($record->payrollStaff)) {
-                array_push($data, $record);
-            }
-        }
+        $filteredRecords = $payrollRegister->payrollStaffPayrolls
+            ->filter(function ($record) {
+                return isset($record->payrollStaff);
+            })
+            ->sortBy(function ($record) {
+                return $record->payrollStaff->first_name . ' ' . $record->payrollStaff->last_name;
+            })
+            ->values()
+            ->map(function ($record, $index) {
+                $record['index'] = $index + 1;
+                return $record;
+            });
 
-        foreach ($data as $d) {
-            $d['index'] = $i++;
-        }
-
-        return collect($data);
+        return $filteredRecords;
     }
 
     /**
      * Establece las cabeceras de los datos en el archivo a exportar
      *
-     * @method    headings
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+     *
      * @return    array    Arreglo con las cabeceras de los datos a exportar
      */
     public function headings(): array
@@ -124,8 +233,8 @@ class PayrollExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
 
         $concepTypes = $data;
 
-        $headings = [' ', 'Trabajadores', 'C.I.', 'Cargo', 'Fecha de ingreso', 'Total años de servicio'];
-        $subHeadings = [' ',' ',' ', ' ', ' ', ' '];
+        $headings = [' ', 'Trabajadores', 'C.I.', 'Grado de instrucción', 'Cargo', 'Fecha de ingreso', 'Total años de servicio'];
+        $subHeadings = [' ',' ',' ',' ',' ',' ',' '];
         $flagSign = '';
 
         foreach ($concepTypes as $key => $conceptType) {
@@ -157,9 +266,10 @@ class PayrollExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     /**
      * Establece las columnas que van a ser exportadas
      *
-     * @method    map
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+     *
      * @param     object    $payroll          Objeto con las propiedades del modelo a exportar
+     *
      * @return    array                       Arreglo con los campos estrictamente a ser exportados
      */
     public function map($payroll): array
@@ -206,19 +316,15 @@ class PayrollExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
         $largestConcepType = $sortedData;
 
         $concepTypes = $payroll->concept_type;
-        $dateNow = new DateTime($payroll->payroll->payrollPaymentPeriod->end_date);
-        $startDate = new DateTime($payroll->payrollStaff->payrollEmployment->start_date);
-        $yearsApn = new DateTime($payroll->payrollStaff->payrollEmployment->startDateApn);
-        $diff = date_diff($dateNow, $yearsApn);
-        $institution_years = $diff->format("%y");
 
         $data = [
             $payroll->index,
-            $payroll->payrollStaff->first_name . ' ' . $payroll->payrollStaff->last_name,
-            $payroll->payrollStaff->id_number,
-            $payroll->payrollStaff->payrollEmployment->payrollPosition['name'],
-            date_format($startDate, 'd/m/Y'),
-            $institution_years
+            $payroll->basic_payroll_staff_data['full_name'],
+            $payroll->basic_payroll_staff_data['id_number'],
+            $payroll->basic_payroll_staff_data['instruction_degree'],
+            $payroll->basic_payroll_staff_data['position'],
+            date("d-m-Y", strtotime($payroll->basic_payroll_staff_data['start_date'])),
+            $payroll->basic_payroll_staff_data['institution_years'],
         ];
 
         $total = 0;
@@ -229,8 +335,8 @@ class PayrollExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
                 $subTotal = 0;
 
                 foreach ($conceptType as $typeKey => $type) {
+                    $typeValue = $concepTypes[$key][$typeKey];
                     if (isset($concepTypes[$key]) && isset($concepTypes[$key][$typeKey])) {
-                        $typeValue = $concepTypes[$key][$typeKey];
                         $typeValue['value'] = str_replace(',', '', $typeValue['value']);
 
                         if ($typeValue['sign'] != 'NA') {
@@ -314,10 +420,15 @@ class PayrollExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
         return $data;
     }
 
+    /**
+     * Registra los eventos de exportación
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
-        $user = Auth()->user();
-        $profileUser = $user->profile;
+        $user = User::where('id', auth()->user()->id)->toBase()->get()->first();
+        $profileUser = Profile::where('user_id', $user->id)->first();
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
         } else {
@@ -390,7 +501,7 @@ class PayrollExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
                 $sheet = $event->sheet;
 
                 $counts = 0;
-                $letter = 72;
+                $letter = 73;
                 $flagSign = '';
 
                 foreach ($concepTypes as $key => $conceptType) {
@@ -459,9 +570,7 @@ class PayrollExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
                 $sheet->setCellValue('D2', $payrollName);
                 $sheet->setCellValue('D3', date_format(Payroll::find($this->payrollId)->created_at, 'd/m/Y'));
 
-                /**
-                 * Se colocan los totales de cada tipo de concepto en las celdas correspondientes
-                 */
+                /* Se colocan los totales de cada tipo de concepto en las celdas correspondientes */
 
                 $dLetter = 72;
 
@@ -513,8 +622,10 @@ class PayrollExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
      * Establece la celda donde va a ser colocada la información
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
-     * @param     number    $letter           Número según el código ascii para el cáracter
-     * @return    string                      Caractér de la celda en la que se va a ubicar la información
+     *
+     * @param     integer|string $letter Número según el código ascii para el cáracter
+     *
+     * @return    string                 Carácter de la celda en la que se va a ubicar la información
      */
     public function setCellCharacter($letter)
     {

@@ -1,0 +1,7 @@
+<map id="storeEntries" name="storeEntries">
+<area shape="rect" id="Node000001" title="Almacena los asientos contables de cierre de ejercicio." alt="" coords="5,31,105,56"/>
+<area shape="rect" id="Node000002" href="$da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#a2af9196615a6dc74342d783b96e2041a" title="Genera el código de registro para el cierre de ejercicio." alt="" coords="153,5,327,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,34,139,29,140,34,106,39"/>
+<area shape="rect" id="Node000003" href="$da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#a4be4d2d5d9333b37f6912cb1b67ea6ad" title="Obtiene los datos de la organización." alt="" coords="155,55,325,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="106,47,142,52,142,57,105,52"/>
+</map>

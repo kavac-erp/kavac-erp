@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class UpdateSaleGoodsToBeTradeds
- * @brief [descripción detallada]
+ * @brief Ejecuta el proceso de migración de la estructura de tablas en base de datos
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -92,7 +90,7 @@ class UpdateSaleGoodsToBeTradeds extends Migration
                 //Se elimina Coin por worker_id
                     $table->dropColumn(['worker_id']);
                 };
-                
+
                 if (Schema::hasColumn('sale_goods_to_be_tradeds', 'name_worker')) {
                 //Se elimina Coin por name_worker
                     $table->dropColumn(['name_worker']);

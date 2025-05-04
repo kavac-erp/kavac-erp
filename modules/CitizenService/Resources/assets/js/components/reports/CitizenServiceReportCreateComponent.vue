@@ -90,7 +90,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="row">
 					<div class="col-md-12">
 						<button type="button" @click="filterRecords()"
@@ -105,7 +105,7 @@
 					<span>{{ props.row.code }}</span>
 				</div>
 				<div slot="id" slot-scope="props" class="text-center">
-					<div class="d-inline-flex"></div>
+					<div class="d-inline-flex" v-if="props.row.id"></div>
 				</div>
 				<div slot="requested_by" slot-scope="props" class="text-center">
 		            <span>{{ props.row.first_name + ' ' + props.row.last_name }}</span>
@@ -175,13 +175,11 @@
 			this.table_options.sortable = ['requested_by', 'citizen_service_request_type_id', 'state', 'date'];
 			this.table_options.filterable = ['requested_by', 'citizen_service_request_type_id', 'state', 'date'];
 
-			
+
 		},
 		mounted() {
 			 const vm = this;
 			 vm.getCitizenServiceRequestTypes();
-
-			
 		},
 
 		methods: {
@@ -205,7 +203,8 @@
 				for (var index in this.record) {
 					fields[index] = this.record[index];
 				}
-				axios.post("/citizenservice/reports/request/create", fields).then(response => {
+				let url = vm.setUrl('/citizenservice/reports/request/create');
+				axios.post(url, fields).then(response => {
 					if (response.data.result == false)
 						location.href = response.data.redirect;
 					else if (typeof(response.data.redirect) !== "undefined") {

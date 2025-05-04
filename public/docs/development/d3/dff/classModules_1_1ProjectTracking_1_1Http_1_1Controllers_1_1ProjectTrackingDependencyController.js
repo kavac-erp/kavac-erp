@@ -9,5 +9,7 @@ var classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingDep
     [ "index", "d3/dff/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingDependencyController.html#a149eb92716c1084a935e04a8d95f7347", null ],
     [ "show", "d3/dff/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingDependencyController.html#a2b8e3779f5bd8c38f70307574859bd36", null ],
     [ "store", "d3/dff/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingDependencyController.html#a9ef485163104597c12185b53cdacf638", null ],
-    [ "update", "d3/dff/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingDependencyController.html#affb03cc19897a1800a0f411264d6c7cc", null ]
+    [ "update", "d3/dff/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingDependencyController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
+    [ "$messages", "d3/dff/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingDependencyController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f", null ],
+    [ "$validateRules", "d3/dff/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingDependencyController.html#a19db8a4aa08742d71b20bee403d09b5d", null ]
 ];

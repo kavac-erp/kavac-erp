@@ -1,0 +1,9 @@
+<map id="update" name="update">
+<area shape="rect" id="Node000001" title="Actualiza la información de un proveedor de bienes." alt="" coords="5,77,72,102"/>
+<area shape="rect" id="Node000002" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#a4b3320ceb60a02e13785c929ae5ede8a" title="Verifica la existencia de un documento y lo elimina del disco." alt="" coords="120,5,327,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,74,119,55,142,47,143,52,121,60,71,79"/>
+<area shape="rect" id="Node000003" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#afb37afc470c73cd55965d9fa9b135b27" title="Obtiene el objeto del documento guardado." alt="" coords="120,69,327,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="72,87,106,87,106,92,72,92"/>
+<area shape="rect" id="Node000004" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#a722186532257dcbec79866616e82e115" title="Instrucciones para verificar y subir un documento a la ruta indicada en el servidor." alt="" coords="120,133,327,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="71,100,121,119,143,127,142,132,119,124,69,105"/>
+</map>

@@ -17,16 +17,24 @@ use Modules\Finance\Models\FinanceBankAccount;
  * Clase que gestiona las chequeras
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class FinanceCheckBookController extends Controller
 {
     use ValidatesRequests;
 
     /**
-     * Display a listing of the resource.
+     * Lista de elementos a mostrar en selectores
+     *
+     * @var array $data
+     */
+    protected $data = [];
+
+    /**
+     * Listado de chequeras
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
@@ -76,8 +84,9 @@ class FinanceCheckBookController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear un nuevo registro de chequeras
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -85,8 +94,10 @@ class FinanceCheckBookController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
+     * Almacena un nuevo registro de chequeras
+     *
+     * @param  Request $request Datos de la petición
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -142,8 +153,9 @@ class FinanceCheckBookController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra los detalles de un registro de chequeras
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -151,35 +163,36 @@ class FinanceCheckBookController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar un registro de chequeras
+     *
+     * @param  integer  $id ID del registro de chequeras
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
-        //return view('finance::edit');
-
-        dd($id);
         $record = FinanceCheckBook::find($id);
-        //return view('finance::create', compact("checksUsed"));
-
-        //return response()->json(['records' => $record], 200);
-
-
-
         return view('finance::create', ['orderid' => $id, 'record' => $record]);
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza un registro de chequeras
+     *
+     * @param  Request $request Datos de la petición
+     * @param  integer $id      ID del registro de chequeras
+     *
+     * @return void
      */
     public function update(Request $request, $id)
     {
+        //
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un registro de chequeras
+     *
+     * @param  integer $id ID del registro de chequeras
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
@@ -201,9 +214,9 @@ class FinanceCheckBookController extends Controller
     /**
      * Obtiene los datos de las cuenta bancarias
      *
-     * @author Miguel Narvaez <mnarvaezcenditel.gob.ve | <miguelnarvaez31@gmail.com>
+     * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve> | <miguelnarvaez31@gmail.com>
      *
-     * @return \Illuminate\Http\JsonResponse Devuelve un JSON con listado de las cuentas bancarias
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getBanksAccounts($bank_id)
     {

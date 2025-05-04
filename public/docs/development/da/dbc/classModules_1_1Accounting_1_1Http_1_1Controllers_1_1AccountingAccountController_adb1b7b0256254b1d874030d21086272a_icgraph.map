@@ -1,0 +1,5 @@
+<map id="fatherMaker" name="fatherMaker">
+<area shape="rect" id="Node000001" title="Crea las cuentas madres de una cuenta con los parametros recibidos." alt="" coords="108,5,209,31"/>
+<area shape="rect" id="Node000002" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#a9ef485163104597c12185b53cdacf638" title="Crea una nueva cuenta patrimonial." alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,21,60,21,60,15,94,15"/>
+</map>

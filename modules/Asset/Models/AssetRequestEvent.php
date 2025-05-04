@@ -2,10 +2,12 @@
 
 namespace Modules\Asset\Models;
 
+use App\Traits\ModelsTrait;
+use Modules\Asset\Models\Asset;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AuditableTrait;
-use Modules\Asset\Models\Asset;
 
 /**
  * @class AssetRequestEvent
@@ -14,13 +16,15 @@ use Modules\Asset\Models\Asset;
  * Gestiona el modelo de datos de los eventos asociados a una solicitud
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetRequestEvent extends Model implements Auditable
 {
     use AuditableTrait;
+    use SoftDeletes;
+    use ModelsTrait;
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
@@ -37,7 +41,9 @@ class AssetRequestEvent extends Model implements Auditable
     protected $appends = ['assets_event'];
 
     /**
-     * Accessors
+     * Obtiene el atributo para los registros de eventos de bienes
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|Asset[]|void
      */
     public function getAssetsEventAttribute()
     {
@@ -50,8 +56,8 @@ class AssetRequestEvent extends Model implements Auditable
      * Método que obtiene la solicitud asociada al registro
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetRequest
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetRequest()
     {

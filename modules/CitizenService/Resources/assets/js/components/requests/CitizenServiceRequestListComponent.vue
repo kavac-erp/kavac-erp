@@ -13,7 +13,8 @@
                         :requeststate="props.row.state">
                     </citizenservice-add-indicators>
                     <citizenservice-request-info
-                        :route_list="app_url + '/citizenservice/requests/vue-info/' + props.row.id">
+                        :route_list="app_url + '/citizenservice/requests/vue-info/' + props.row.id"
+                        >
                     </citizenservice-request-info>
                     <template v-if="(lastYear && format_date(props.row.date, 'YYYY') <= lastYear)">
                         <button class="btn btn-warning btn-xs btn-icon btn-action" type="button" disabled>

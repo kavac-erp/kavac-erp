@@ -1,9 +1,8 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
+use App\Traits\ModelsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -15,6 +14,13 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  *
  * Gestiona el modelo de datos para los impuestos
  *
+ * @property string|integer $id
+ * @property string $name
+ * @property string $description
+ * @property boolean $affect_tax
+ * @property boolean $active
+ * @property HistoryTax $histories
+ *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
@@ -22,6 +28,7 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  */
 class Tax extends Model implements Auditable
 {
+    use ModelsTrait;
     use SoftDeletes;
     use AuditableTrait;
 
@@ -51,11 +58,9 @@ class Tax extends Model implements Auditable
     /**
      * Método que obtiene los históricos de los impuestos
      *
-     * @method  histories
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con los registros relacionados al modelo HistoryTax
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function histories()
     {

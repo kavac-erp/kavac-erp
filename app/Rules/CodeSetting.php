@@ -1,7 +1,5 @@
 <?php
 
-/** Reglas de validación personalizadas */
-
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
@@ -20,9 +18,7 @@ use Illuminate\Contracts\Validation\Rule;
 class CodeSetting implements Rule
 {
     /**
-     * Create a new rule instance.
-     *
-     * @method  __construct
+     * Crea una nueva instancia de la regla
      *
      * @return void
      */
@@ -32,9 +28,7 @@ class CodeSetting implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
-     *
-     * @method  passes
+     * Determina si la regla de validación es correcta
      *
      * @param  string  $attribute
      * @param  mixed  $value
@@ -58,7 +52,7 @@ class CodeSetting implements Rule
     }
 
     /**
-     * Get the validation error message.
+     * Obtiene el mensaje de error de la validación
      *
      * @method  message
      *

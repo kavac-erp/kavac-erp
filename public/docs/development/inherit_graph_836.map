@@ -1,3 +1,5 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d4/dd3/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTaskController.html" title="[descripción detallada]" alt="" coords="5,5,220,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d1/d87/classApp_1_1Models_1_1Gender.html" title="Datos de género." alt="" coords="5,5,75,31"/>
+<area shape="rect" id="Node000001" href="$d6/d20/classModules_1_1Payroll_1_1Models_1_1PayrollGender.html" title="Datos de género." alt="" coords="123,5,236,31"/>
+<area shape="poly" id="edge87_Node000000_Node000001" title=" " alt="" coords="88,15,123,15,123,21,88,21"/>
 </map>

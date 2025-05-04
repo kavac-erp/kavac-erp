@@ -1,4 +1,5 @@
 <map id="__construct" name="__construct">
-<area shape="rect" id="node1" title="Crea una nueva instancia de la regla." alt="" coords="5,5,101,32"/>
-<area shape="rect" id="node2" href="$da/d65/classModules_1_1Payroll_1_1Rules_1_1PayrollSalaryScales.html#aba502b8bb024cc38b45756fdf581f915" title="Obtiene el mensaje de error de validación." alt="" coords="149,5,231,32"/>
+<area shape="rect" id="Node000001" title="Crea una nueva instancia de la regla." alt="" coords="5,5,101,31"/>
+<area shape="rect" id="Node000002" href="$da/d65/classModules_1_1Payroll_1_1Rules_1_1PayrollSalaryScales.html#aba502b8bb024cc38b45756fdf581f915" title="Obtiene el mensaje de error de validación." alt="" coords="149,5,231,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,15,136,15,136,21,102,21"/>
 </map>

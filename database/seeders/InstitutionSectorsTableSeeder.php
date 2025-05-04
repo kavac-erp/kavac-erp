@@ -16,14 +16,31 @@ use Illuminate\Database\Eloquent\Model;
  * Gestiona la información por defecto a registrar inicialmente para los sectores de las Organizaciones
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class InstitutionSectorsTableSeeder extends Seeder
 {
+    /**
+     * Contador de sectores de instituciones cargados
+     *
+     * @var int $count
+     */
     protected $count;
+
+    /**
+     * Contador de permisos cargados
+     *
+     * @var int $countP
+     */
     protected $countP;
 
+    /**
+     * Crea una nueva instancia de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->count = 0;
@@ -31,7 +48,7 @@ class InstitutionSectorsTableSeeder extends Seeder
     }
 
     /**
-     * Run the database seeds.
+     * Ejecuta los seeers de base de datos
      *
      * @return void
      */
@@ -41,7 +58,7 @@ class InstitutionSectorsTableSeeder extends Seeder
 
         $adminRole = Role::where('slug', 'admin')->first();
 
-        /**
+        /*
          * Permisos disponibles para la gestión de sectores de organizaciones
          */
 

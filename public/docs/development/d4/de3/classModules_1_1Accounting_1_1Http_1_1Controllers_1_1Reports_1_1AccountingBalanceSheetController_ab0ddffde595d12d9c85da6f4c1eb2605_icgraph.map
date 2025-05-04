@@ -1,0 +1,10 @@
+<map id="calculateExchangeRates" name="calculateExchangeRates">
+<area shape="rect" id="Node000001" title="Encuentra los tipos de cambio." alt="" coords="235,79,416,104"/>
+<area shape="rect" id="Node000002" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#a6e29f82d56bc92e45daa978c31e35cd6" title="Realiza el cálculo de saldo de la cuenta tomando en cuenta todos sus subcuentas, hasta llegar al últi..." alt="" coords="5,29,187,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,78,155,57,156,52,253,73"/>
+<area shape="rect" id="Node000003" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#ac8cc7e992a9a4e0958361ae05c79d406" title="Genera el reporte en pdf de balance general." alt="" coords="63,79,129,104"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="221,94,130,94,130,89,221,89"/>
+<area shape="rect" id="Node000004" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#ab6d7280e9d9218f3f62918686cd7906d" title="Genera el reporte en pdf de balance general." alt="" coords="49,128,143,153"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="253,110,144,133,143,128,252,104"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="137,20,126,11,96,8,71,10,58,15,56,20,63,27,59,31,51,21,55,11,70,5,96,3,128,7,141,16"/>
+</map>

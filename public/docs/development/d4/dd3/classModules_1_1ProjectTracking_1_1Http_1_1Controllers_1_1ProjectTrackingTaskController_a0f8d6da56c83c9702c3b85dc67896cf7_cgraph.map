@@ -1,0 +1,17 @@
+<map id="recordInfo" name="recordInfo">
+<area shape="rect" id="Node000001" title="Muestra la tarea seleccionada." alt="" coords="5,256,93,281"/>
+<area shape="rect" id="Node000002" href="$db/ddd/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingTask.html#a7cea0cdc4efda379cabc5dece1b03cff" title="Establece la relación con la actividad." alt="" coords="141,5,347,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="51,255,59,219,76,169,102,116,119,91,139,69,143,66,146,70,143,73,124,95,107,119,81,171,64,220,56,256"/>
+<area shape="rect" id="Node000003" href="$db/ddd/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingTask.html#aa6603170966d4b1537e2f6ca37f4ccb5" title="Establece la relación con el estatus de la actividad." alt="" coords="141,84,347,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="55,254,87,203,111,174,140,148,146,144,149,148,143,152,115,178,91,207,60,257"/>
+<area shape="rect" id="Node000004" href="$db/ddd/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingTask.html#a95a3fe3bb46b9a50034d3db163027965" title="Establece la relación con la prioridad." alt="" coords="141,163,347,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="78,253,140,226,156,220,158,225,142,231,80,258"/>
+<area shape="rect" id="Node000005" href="$db/ddd/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingTask.html#aa88fe4a9dd8795c065f2620947d450db" title="Establece la relación con el producto." alt="" coords="141,241,347,296"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="94,266,128,266,128,271,94,271"/>
+<area shape="rect" id="Node000006" href="$db/ddd/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingTask.html#ac1f3814edaf5a29fd3a89bca85770e0f" title="Establece la relación con el proyecto." alt="" coords="141,320,347,375"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="81,279,142,305,161,312,159,317,140,310,79,284"/>
+<area shape="rect" id="Node000007" href="$db/ddd/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingTask.html#a110f396f7d9e5d3ce89309b2a1711bcf" title="Establece la relación con el responsable de la actividad." alt="" coords="141,399,347,453"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="60,280,92,330,115,359,143,384,151,390,148,394,140,388,111,362,87,333,55,283"/>
+<area shape="rect" id="Node000008" href="$db/ddd/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingTask.html#a84012fc1d0974ccf290b01cb8b2d4695" title="Establece la relación con el subproyecto." alt="" coords="141,477,347,532"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="56,281,65,317,81,365,107,417,124,441,143,463,148,467,145,471,139,467,120,445,102,420,76,367,60,318,51,282"/>
+</map>

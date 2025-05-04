@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddUniqueFieldToAssetCategoriesTable
- * @brief [descripción detallada]
+ * @brief Agrega una clave única a la tabla de categorías de bienes
  *
- * [descripción corta]
+ * Agrega una clave única a la tabla de categorías de bienes
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Yennifer Ramírez <yramirez@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

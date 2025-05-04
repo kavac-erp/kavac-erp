@@ -1,10 +1,7 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Finance\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Institution;
 use App\Models\Receiver;
 use App\Models\Currency;
@@ -20,31 +17,18 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Nwidart\Modules\Facades\Module;
 use App\Repositories\ReportRepository;
-use Modules\Budget\Models\BudgetStage;
-use Modules\Budget\Models\BudgetCompromise;
-use Modules\Budget\Models\BudgetCompromiseDetail;
-use Modules\Budget\Models\BudgetAccountOpen;
 use Modules\Finance\Models\FinancePayOrder;
 use Modules\Finance\Models\FinancePayOrderFinancePaymentExecute;
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Accounting\Models\AccountingEntry;
-use Modules\Accounting\Models\Accountable;
-use Modules\Accounting\Models\AccountingAccount;
-use Modules\Accounting\Models\AccountingEntryable;
-use Modules\Accounting\Models\AccountingEntryAccount;
-use Modules\Accounting\Models\AccountingEntryCategory;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Rules\DateBeforeFiscalYear;
-use Modules\Accounting\Models\Currency as ModelsCurrency;
-use Modules\Budget\Models\Currency as BudgetModelsCurrency;
+use Illuminate\Support\Facades\Log;
 use Modules\Finance\Models\FinancePaymentDeduction;
 use Modules\Finance\Models\FinancePaymentExecute;
-use Modules\Purchase\Models\PurchaseDirectHire;
-use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Current;
 
 /**
  * @class FinancePayOrderController
- * @brief [descripción detallada]
+ * @brief Gestiona las ordenes de pago
  *
  * Establece los métodos a implementar en la gestión de órdenes de pago
  *
@@ -57,20 +41,30 @@ class FinancePayOrderController extends Controller
 {
     use ValidatesRequests;
 
-    /** @var array Arreglo con las reglas de validación sobre los datos de un formulario */
+    /**
+     * Arreglo con las reglas de validación sobre los datos de un formulario
+     *
+     * @var array $validate_rules
+     */
     public $validate_rules;
 
-    /** @var Array $messages Arreglo con los mensajes para las reglas de validación */
+    /**
+     * Arreglo con los mensajes para las reglas de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
     /**
      * Define la configuración de la clase
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:finance.payorder.list', ['only' => 'index', 'vueList']);
         $this->middleware('permission:finance.payorder.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:finance.payorder.edit', ['only' => ['edit', 'update']]);
@@ -86,14 +80,10 @@ class FinancePayOrderController extends Controller
             'source_amount' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
             'amount' => ['required', 'numeric'],
             'concept' => ['required'],
-            'observations' => ['required'],
-            'finance_payment_method_id' => ['required'],
-            'finance_bank_id' => ['required'],
-            'finance_bank_account_id' => ['required'],
             'name_sourceable_id' => ['required']
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'institution_id.required' => 'El campo Institución es obligatorio.',
             'ordered_at.required' => 'El campo Fecha es obligatorio.',
@@ -103,22 +93,16 @@ class FinancePayOrderController extends Controller
             'source_amount.regex' => 'El campo Monto debe contener como máximo dos decimales.',
             'amount.required' => 'El campo Monto a pagar es obligatorio.',
             'concept.required' => 'El campo Concepto es obligatorio.',
-            'observations.required' => 'El campo Observación es obligatorio',
-            'finance_payment_method_id.required' => 'El campo Método de pago es obligatorio',
-            'finance_bank_id.required' => 'El campo Banco es obligatorio',
-            'finance_bank_account_id.required' => 'El campo Nro. Cuenta es obligatorio',
             'name_sourceable_id.required' => 'El campo Nombre o Razón social es obligatorio.',
         ];
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    index
+     * Muestra el listado de ordenes de pago
      *
      * @author    Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return    Renderable    Retorna la plantilla con la información a mostrar
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
@@ -126,13 +110,11 @@ class FinancePayOrderController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    create
+     * Muestra el formulario para registrar una nueva orden de pago
      *
      * @author    Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return    Renderable   Retorna el formulario de registro de órdenes d pago
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -140,15 +122,13 @@ class FinancePayOrderController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    store
+     * Registra una nueva orden de pago
      *
      * @author    Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param     object    Request    $request    Objeto con información de la petición
+     * @param     Request    $request    Datos de la petición
      *
-     * @return    Renderable    Retorna información del registro almacenado
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -203,8 +183,8 @@ class FinancePayOrderController extends Controller
             FinancePayOrder::class,
             'code'
         );
-        $compromise = $request->documentType != 'T'
-        ? BudgetCompromise::find($request->budget_compromise_id) : null;
+        $compromise = ($request->type == 'PR')
+        ? \Modules\Budget\Models\BudgetCompromise::find($request->budget_compromise_id) : null;
 
         $specificActionId = null;
         $codeStage = null;
@@ -213,7 +193,7 @@ class FinancePayOrderController extends Controller
                 $specificActionId = $compromiseDetail->budgetSubSpecificFormulation->specificAction->id;
                 break;
             }
-            $codeStage = generate_registration_code('STG', 8, 4, BudgetStage::class, 'code');
+            $codeStage = generate_registration_code('STG', 8, 4, \Modules\Budget\Models\BudgetStage::class, 'code');
         }
 
         $documentStatus = DocumentStatus::where('action', 'PR')->first(); // Estatus Por revisar = Por aprobar
@@ -237,9 +217,9 @@ class FinancePayOrderController extends Controller
                     ->where('document_status_id', $documentStatusEL->id)
                     ->get();
 
-                    /**
-                     * Se procede a Cambiar el status del documeto a PR = En Proceso
-                     * de todas las deducciones agrupadas que se están pagando
+                    /*
+                     | Se procede a Cambiar el status del documeto a PR = En Proceso
+                     | de todas las deducciones agrupadas que se están pagando
                      */
                     foreach (
                         $financePaymentDeductions as $paymentDeduction
@@ -298,7 +278,7 @@ class FinancePayOrderController extends Controller
                     ($request->type === 'NP' && $request->documentType === 'T')
                 ) {
                     $isCustom = match (true) {
-                        ($receiver->receiverable_type == BudgetCompromise::class) => true,
+                        ($receiver->receiverable_type == \Modules\Budget\Models\BudgetCompromise::class) => true,
                         ($receiver->receiverable_type == \Modules\Payroll\Models\PayrollConcept::class) => true,
                         ($receiver->receiverable_type == FinancePaymentDeduction::class) => true,
                         ($receiver->receiverable_type == null) => true,
@@ -323,8 +303,6 @@ class FinancePayOrderController extends Controller
                     'observations' => $request->observations,
                     'status' => 'PE', //Estatus pendiente por defecto, este estatus lo modifica la ejecución de pago
                     'budget_specific_action_id' => $specificActionId,
-                    'finance_payment_method_id' => $request->finance_payment_method_id,
-                    'finance_bank_account_id' => $request->finance_bank_account_id,
                     'institution_id' => $request->institution_id,
                     'document_status_id' => $documentStatus->id,
                     'currency_id' => $request->accounting['currency']['id'],
@@ -332,16 +310,16 @@ class FinancePayOrderController extends Controller
                         ? Receiver::class : $receiver->receiverable_type),
                     'name_sourceable_id' => $isCustom == true ? $receiver->id : $receiver->receiverable_id,
                     'document_sourceable_id' => $request->document_sourceable_id ?? null,
-                    'document_sourceable_type' => $request->documentType != 'T'
-                    ? BudgetCompromise::class ?? null : Deduction::class,
-                    'month' => $request->month,
-                    'period' => $request->period,
+                    'document_sourceable_type' => $request->documentType == 'M' ? null
+                    : ($request->documentType != 'T' ? \Modules\Budget\Models\BudgetCompromise::class ?? null : Deduction::class),
+                    'month' => $request->documentType == 'T' ? $request->month : null,
+                    'period' => $request->documentType == 'T' ? $request->period : null,
                 ]);
 
                 if (isset($compromise)) {
                     foreach ($compromise->budgetCompromiseDetails as $detail) {
                         $compromise->budgetStages()->create([
-                            'code' => generate_registration_code('STG', 8, 4, BudgetStage::class, 'code'),
+                            'code' => generate_registration_code('STG', 8, 4, \Modules\Budget\Models\BudgetStage::class, 'code'),
                             'registered_at' => $request->ordered_at,
                             'type' => 'CAU',
                             'amount' => $detail->amount,
@@ -351,8 +329,8 @@ class FinancePayOrderController extends Controller
                     }
                 }
 
-                $accountingCategory = AccountingEntryCategory::where('acronym', 'SOP')->first();
-                $accountEntry = AccountingEntry::create([
+                $accountingCategory = \Modules\Accounting\Models\AccountingEntryCategory::where('acronym', 'SOP')->first();
+                $accountEntry = \Modules\Accounting\Models\AccountingEntry::create([
                     'from_date'                      => $request->ordered_at,
                     'reference'                      => $code, //Código de la órden de pago como referencia
                     'concept'                        => $request->concept,
@@ -362,27 +340,29 @@ class FinancePayOrderController extends Controller
                     'currency_id'                    => $request->accounting['currency']['id'],
                     'tot_debit'                      => $request->accounting['totDebit'],
                     'tot_assets'                     => $request->accounting['totAssets'],
-                    'approved'                       => false
+                    'approved'                       => false,
+                    'document_status_id'             => default_document_status_el()->id,
                 ]);
 
                 foreach ($request->accountingItems as $account) {
-                    /**
-                     * Se crea la relación de cuenta a ese asiento si ya existe lo actualiza,
-                     * de lo contrario crea el nuevo registro de cuenta
+                    /*
+                     | Se crea la relación de cuenta a ese asiento si ya existe lo actualiza,
+                     | de lo contrario crea el nuevo registro de cuenta
                      */
-                    AccountingEntryAccount::create([
+                    \Modules\Accounting\Models\AccountingEntryAccount::create([
                     'accounting_entry_id' => $accountEntry->id,
                     'accounting_account_id' => $account['id'],
+                    'bank_reference' => $account['bank_reference'] ?? null,
                     'debit' => $account['debit'],
                     'assets' => $account['assets'],
                     ]);
                 }
 
-                /** Crea la relación entre el asiento contable y el registro de orden de pago */
-                AccountingEntryable::create([
-                'accounting_entry_id' => $accountEntry->id,
-                'accounting_entryable_type' => FinancePayOrder::class,
-                'accounting_entryable_id' => $financePayOrder->id
+                /* Crea la relación entre el asiento contable y el registro de orden de pago */
+                \Modules\Accounting\Models\AccountingEntryable::create([
+                    'accounting_entry_id' => $accountEntry->id,
+                    'accounting_entryable_type' => FinancePayOrder::class,
+                    'accounting_entryable_id' => $financePayOrder->id
                 ]);
 
                 return $financePayOrder;
@@ -397,34 +377,30 @@ class FinancePayOrderController extends Controller
     /**
      * Muestra detalles de una órden de pago
      *
-     * @method    show
-     *
      * @author    Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param     integer    $id    Identificador del registro
+     * @param     integer    $id    Identificador de la orden de pago
      *
-     * @return    Renderable    Retorna la plantilla que mostrará los detalles de la órden de pago
+     * @return    void
      */
     public function show($id)
     {
-        //return view('finance::show');
+        //
     }
 
     /**
      * Muestra el formulario para la actualización de datos de la órden de pago
      *
-     * @method    edit
-     *
      * @author    Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param     integer    $id    Identificador del registro
+     * @param     integer    $id    Identificador de la orden de pago
      *
-     * @return    Renderable    Retorna el formulario para la actualización de datos de la órden de pago
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
-        $payOrder = FinancePayOrder::with('financeBankAccount.financeBankingAgency')->find($id);
-        $registeredAccounts = AccountingEntryable::with('accountingEntry.accountingAccounts')
+        $payOrder = FinancePayOrder::find($id);
+        $registeredAccounts = \Modules\Accounting\Models\AccountingEntryable::with('accountingEntry.accountingAccounts')
             ->where('accounting_entryable_type', FinancePayOrder::class)
             ->where('accounting_entryable_id', $id)
             ->first();
@@ -433,16 +409,14 @@ class FinancePayOrderController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    update
+     * Actualiza los datos de una órden de pago
      *
      * @author    Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param     object    Request    $request         Objeto con datos de la petición
-     * @param     integer   $id        Identificador del registro
+     * @param     Request   $request   Datos de la petición
+     * @param     integer   $id        Identificador de la orden de pago
      *
-     * @return    Renderable    Retorna el registro actualizado
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -490,7 +464,8 @@ class FinancePayOrderController extends Controller
         $isCustom = false;
 
         if (Module::has('Budget') && Module::isEnabled('Budget')) {
-            $compromise = $request->documentType != 'T' ? BudgetCompromise::find($request->budget_compromise_id) : null;
+            $compromise = ($request->type == 'PR')
+            ? \Modules\Budget\Models\BudgetCompromise::find($request->budget_compromise_id) : null;
 
             if ($compromise) {
                 foreach ($compromise->budgetCompromiseDetails as $compromiseDetail) {
@@ -520,9 +495,9 @@ class FinancePayOrderController extends Controller
                 ->where('document_status_id', $documentStatus->id)
                 ->first();
 
-                /**
-                 * Si Existe la deducción que agrupara varias deducciones se procede a actualizar el estatus
-                 * Y se elimina la antigua deducción.
+                /*
+                 | Si Existe la deducción que agrupara varias deducciones se procede a actualizar el estatus
+                 | Y se elimina la antigua deducción.
                  */
                 if (isset($financePaymentDeduction)) {
                     $financePaymentDeductions = FinancePaymentDeduction::query()
@@ -530,9 +505,9 @@ class FinancePayOrderController extends Controller
                     ->where('document_status_id', $documentStatus->id)
                     ->get();
 
-                    /**
-                     * Se procede a Cambiar el status del documeto a EL = Elaborado(a)
-                     * de todas las deducciones agrupadas que se están pagando
+                    /*
+                     | Se procede a Cambiar el status del documeto a EL = Elaborado(a)
+                     | de todas las deducciones agrupadas que se están pagando
                      */
                     foreach (
                         $financePaymentDeductions as $paymentDeduction
@@ -543,18 +518,18 @@ class FinancePayOrderController extends Controller
                     $financePaymentDeduction->delete();
                 }
 
-                /**
-                 * Actualiza el estado del documento de las deducciones pretenecientes
-                 * y crea una nueva deducción en grupo.
+                /*
+                 | Actualiza el estado del documento de las deducciones pretenecientes
+                 | y crea una nueva deducción en grupo.
                  */
                 $financePaymentDeductions = FinancePaymentDeduction::query()
                     ->whereIn('id', $deductions_ids)
                     ->where('document_status_id', $documentStatusEL->id)
                     ->get();
 
-                    /**
-                     * Se procede a Cambiar el status del documeto a PR = En Proceso
-                     * de todas las deducciones agrupadas que se están pagando
+                    /*
+                     | Se procede a Cambiar el status del documeto a PR = En Proceso
+                     | de todas las deducciones agrupadas que se están pagando
                      */
                 foreach (
                     $financePaymentDeductions as $paymentDeduction
@@ -612,7 +587,7 @@ class FinancePayOrderController extends Controller
                 ($request->type === 'NP' && $request->documentType == 'T')
             ) {
                 $isCustom = match (true) {
-                    ($receiver->receiverable_type == BudgetCompromise::class) => true,
+                    ($receiver->receiverable_type == \Modules\Budget\Models\BudgetCompromise::class) => true,
                     ($receiver->receiverable_type == \Modules\Payroll\Models\PayrollConcept::class) => true,
                     ($receiver->receiverable_type == FinancePaymentDeduction::class) => true,
                     ($receiver->receiverable_type == null) => true,
@@ -634,26 +609,24 @@ class FinancePayOrderController extends Controller
             $financePayOrder->concept = $request->concept;
             $financePayOrder->observations = $request->observations;
             $financePayOrder->budget_specific_action_id = $specificActionId;
-            $financePayOrder->finance_payment_method_id = $request->finance_payment_method_id;
-            $financePayOrder->finance_bank_account_id = $request->finance_bank_account_id;
             $financePayOrder->institution_id = $request->institution_id;
             $financePayOrder->currency_id = $request->accounting['currency']['id'];
             $financePayOrder->name_sourceable_type = str_replace("modules", "Modules", $isCustom == true
                 ? Receiver::class : $receiver->receiverable_type);
             $financePayOrder->name_sourceable_id = $isCustom == true ? $receiver->id : $receiver->receiverable_id;
             $financePayOrder->document_sourceable_id = $request->document_sourceable_id ?? null;
-            $financePayOrder->document_sourceable_type = $request->documentType != 'T'
-                ? BudgetCompromise::class ?? null : Deduction::class;
-            $financePayOrder->month = $request->month;
-            $financePayOrder->period = $request->period;
+            $financePayOrder->document_sourceable_type = $request->documentType == 'M' ? null
+                    : ($request->documentType != 'T' ? \Modules\Budget\Models\BudgetCompromise::class ?? null : Deduction::class);
+            $financePayOrder->month = $request->documentType == 'T' ? $request->month : null;
+            $financePayOrder->period = $request->documentType == 'T' ? $request->period : null;
             $financePayOrder->save();
 
             if (Module::has('Budget') && Module::isEnabled('Budget')) {
-                $budgetStage = BudgetStage::where('stageable_type', FinancePayOrder::class)
+                $budgetStage = \Modules\Budget\Models\BudgetStage::where('stageable_type', FinancePayOrder::class)
                     ->where('stageable_id', $financePayOrder->id)->delete();
                 if (isset($compromise)) {
                     foreach ($compromise->budgetCompromiseDetails as $detail) {
-                        $codeStage = generate_registration_code('STG', 8, 4, BudgetStage::class, 'code');
+                        $codeStage = generate_registration_code('STG', 8, 4, \Modules\Budget\Models\BudgetStage::class, 'code');
                         $compromise->budgetStages()->create([
                             'code' => $codeStage,
                             'registered_at' => $request->ordered_at,
@@ -667,8 +640,8 @@ class FinancePayOrderController extends Controller
             }
 
             if (Module::has('Accounting') && Module::isEnabled('Accounting')) {
-                $accountEntry = AccountingEntry::where('reference', $financePayOrder->code)->first();
-                $accountingCategory = AccountingEntryCategory::where('acronym', 'SOP')->first();
+                $accountEntry = \Modules\Accounting\Models\AccountingEntry::where('reference', $financePayOrder->code)->first();
+                $accountingCategory = \Modules\Accounting\Models\AccountingEntryCategory::where('acronym', 'SOP')->first();
 
                 $accountEntry->from_date                      = $request->ordered_at;
                 $accountEntry->concept                        = $request->concept;
@@ -678,19 +651,16 @@ class FinancePayOrderController extends Controller
                 $accountEntry->currency_id                    = $request->accounting['currency']['id'];
                 $accountEntry->tot_debit                      = $request->accounting['totDebit'];
                 $accountEntry->tot_assets                     = $request->accounting['totAssets'];
+                $accountEntry->document_status_id             = default_document_status_el()->id;
                 $accountEntry->save();
 
-                /**
-                 * Se eliminan las cuentas anteriores del asiento contable
-                 */
-                $accountingEntryAccounts = AccountingEntryAccount::where('accounting_entry_id', $accountEntry->id)
+                /* Se eliminan las cuentas anteriores del asiento contable */
+                $accountingEntryAccounts = \Modules\Accounting\Models\AccountingEntryAccount::where('accounting_entry_id', $accountEntry->id)
                     ->delete();
 
                 foreach ($request->accountingItems as $account) {
-                    /**
-                     * Se crea la relación con las nuevas cuentas para ese asiento contable
-                     */
-                    AccountingEntryAccount::create([
+                    /* Se crea la relación con las nuevas cuentas para ese asiento contable */
+                    \Modules\Accounting\Models\AccountingEntryAccount::create([
                         'accounting_entry_id' => $accountEntry->id,
                         'accounting_account_id' => $account['id'],
                         'debit' => $account['debit'],
@@ -707,22 +677,17 @@ class FinancePayOrderController extends Controller
     /**
      * Elimina una órden de pago
      *
-     * @method    destroy
-     *
      * @author    Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param     integer    $id    Identificador del registro
+     * @param     integer    $id    Identificador de la orden de pago
      *
-     * @return    Renderable    Retorna el registro eliminado
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $financePayOrder = FinancePayOrder::find($id);
 
         if ($financePayOrder) {
-            /*if ($financePayOrder->restrictDelete()) {
-                return response()->json(['error' => true, 'message' => 'El registro no se puede eliminar'], 200);
-            }*/
             $financePayOrder->delete();
         }
 
@@ -734,21 +699,19 @@ class FinancePayOrderController extends Controller
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  String                   $type         Tipo de órden de pago
-     * @param  String                   $request->documentType Tipo de documento de origen a buscar
+     * @param  \Illuminate\Http\Request $request Datos de la petición
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSourceDocuments(Request $request)
     {
-        ini_set('max_execution_time', 600); /** 10min */
+        ini_set('max_execution_time', 1000); /** 10min */
         if (isset($request->documentType) && isset($request->ordered_at) && isset($request->type)) {
             $payOrder = null;
             $totals = [];
 
             if (isset($request->document_sourceable_id)) {
-                $payOrder = FinancePayOrder::where('document_sourceable_type', BudgetCompromise::class)
+                $payOrder = FinancePayOrder::where('document_sourceable_type', \Modules\Budget\Models\BudgetCompromise::class)
                     ->where('document_sourceable_id', $request->document_sourceable_id)
                     ->where('id', $request->id)
                     ->first();
@@ -757,169 +720,62 @@ class FinancePayOrderController extends Controller
             list($year, $month, $day) = explode('-', $request->ordered_at);
 
             $data = [['id' => '', 'text' => 'Seleccione...']];
-            if ($request->type === 'PR' && Module::has('Budget')) {
-                $compromises = BudgetCompromise::whereHas(
-                    'budgetCompromiseDetails',
-                    function ($q) use ($year) {
-                        $q->whereHas('budgetSubSpecificFormulation', function ($qq) use ($year) {
-                            $qq->where(['assigned' => true, 'year' => $year]);
-                        })->where(
-                            'document_status_id',
-                            null
-                        );
-                    }
-                )->where('document_status_id', $documentStatus->id);
-
-                if ($request->documentType === 'M') {
-                    $compromises = $compromises->doesnthave('sourceable');
-                } elseif ($request->documentType === 'P') {
-                    $compromises = $compromises->whereNull('sourceable_type')->whereNull('sourceable_id');
-                } elseif ($request->documentType === 'C') {
-                    $compromises = $compromises->whereHas('sourceable')
-                    ->whereNotNull('sourceable_type')->whereNotNull('sourceable_id')
-                    ->where('sourceable_type', PurchaseDirectHire::class);
-                } else {
-                    $compromises = $compromises->whereHas('sourceable')
-                    ->whereNotNull('sourceable_type')->whereNotNull('sourceable_id')
-                    ->where('sourceable_type', '!=', PurchaseDirectHire::class);
-                    ;
-                }
-
-                $compromises = $compromises->get();
+            if (
+                $request->type === 'PR' &&
+                Module::has('Budget') &&
+                Module::isEnabled('Budget') &&
+                Module::has('Purchase') &&
+                Module::isEnabled('Purchase')
+            ) {
+                $compromises = \Modules\Budget\Models\BudgetCompromise::query()
+                    ->whereHas(
+                        'budgetCompromiseDetails',
+                        function ($q) use ($year) {
+                            $q->whereHas(
+                                'budgetSubSpecificFormulation',
+                                fn ($qq) => $qq->where(['assigned' => true, 'year' => $year])
+                            )->whereNull('document_status_id');
+                        }
+                    )->where('document_status_id', $documentStatus->id)
+                    ->where('compromised_at', '<=', $request->ordered_at)
+                    ->when('M' == $request->documentType, function ($query) {
+                        $query->doesnthave('sourceable');
+                    })
+                    ->when('P' == $request->documentType, function ($query) {
+                        $query->whereNull('sourceable_type')->whereNull('sourceable_id')
+                        ->whereNull('compromiseable_type')->whereNull('compromiseable_id');
+                    })
+                    ->when('C' == $request->documentType, function ($query) {
+                        $query->whereHas('sourceable')
+                            ->whereNotNull('sourceable_type')->whereNotNull('sourceable_id')
+                            ->whereNull('compromiseable_type')->whereNull('compromiseable_id')
+                            ->where('sourceable_type', \Modules\Purchase\Models\PurchaseDirectHire::class);
+                    })
+                    ->when(!in_array($request->documentType, ['M', 'P', 'C']), function ($query) use ($request) {
+                        $query->whereHas('sourceable')
+                            ->whereNotNull('sourceable_type')->whereNotNull('sourceable_id')
+                            ->where('sourceable_type', '!=', \Modules\Purchase\Models\PurchaseDirectHire::class)
+                            ->whereDoesntHave('financePayOrders')
+                            ->orWhere('id', $request->document_sourceable_id);
+                    })
+                    ->get();
 
                 $currency = '';
                 $amounts = [];
                 $totalDeductionAmount = [];
                 $deducctionAccounts = [];
+                $accountingAccountIds = [];
 
                 foreach ($compromises as $cKey => $compromise) {
-                    if ($compromise->sourceable_type == \Modules\Payroll\Models\Payroll::class) {
-                        $model = \Modules\Payroll\Models\Payroll::find($compromise->sourceable_id);
-                        $payrollCode = $model->code;
-                        $number_decimals = Parameter::where('p_key', 'number_decimals')->where('required_by', 'payroll')->first();
-                        $round = Parameter::where('p_key', 'round')->where('required_by', 'payroll')->first();
-                        $nameDecimalFunction = $round->p_value == 'false' ? 'currency_format' : 'round';
-
-                        $records = $model->payrollStaffPayrolls()
-                            ->select('concept_type', 'payroll_staff_id')
-                            ->get()
-                            ->map(function ($record) {
-                                return [
-                                    'payroll_staff' => [
-                                        'id' => $record->payrollStaff->id,
-                                        'name' => $record->payrollStaff->fullName,
-                                    ],
-                                    'concept_type' => $record->concept_type,
-                                ];
-                            })
-                            ->toArray();
-
-                        $totals = [
-                            '+' => [],
-                            '-' => [],
-                            'NA' => [],
-                        ];
-
-                        $itemIds = [];
-                        $items = [];
-                        $receivers = [];
-                        $budgetAccounts = [];
-                        $budgetSpecificActions = [];
-
-                        array_map(function ($record) use (&$itemIds, &$items) {
-                            return array_map(function ($conceptType) use (&$itemIds, &$items) {
-                                return array_map(function ($item) use (&$itemIds, &$items) {
-                                    if ($item['sign'] != 'NA' && !in_array($item['name'], $itemIds)) {
-                                        $itemIds[] = $item['id'];
-                                    }
-                                    if ($item['sign'] != 'NA') {
-                                        $items[] = $item;
-                                    }
-                                }, $conceptType);
-                            }, $record['concept_type']);
-                        }, $records);
-
-                        $concepts = \Modules\Payroll\Models\PayrollConcept::query()
-                            ->whereIn('id', $itemIds)
-                            ->toBase()
-                            ->get();
-
-                        foreach ($concepts as $concept) {
-                            $receivers[$concept->name] = Receiver::query()
-                                ->with('sources')
-                                ->whereHas('sources', function ($query) use ($concept) {
-                                    $query
-                                        ->where('sourceable_id', $concept->id)
-                                        ->where('sourceable_type', \Modules\Payroll\Models\PayrollConcept::class);
-                                })
-                                ->first();
-                            $budgetAccounts[$concept->name] = $concept->budget_account_id ? \Modules\Budget\Models\BudgetAccount::find($concept->budget_account_id) : null;
-                            $budgetSpecificActions[$concept->name] = $concept->budget_specific_action_id ? \Modules\Budget\Models\BudgetSpecificAction::find($concept->budget_specific_action_id) : null;
-                        }
-
-                        foreach ($items as $value) {
-                            $concept = $concepts->where('id', $value['id'])->first();
-
-                            if ($value['sign'] != 'NA') {
-                                if (!isset($totals[$value['sign']][$value['name']])) {
-                                    $totals[$value['sign']][$value['name']]['id'] = $concept->id;
-                                    $totals[$value['sign']][$value['name']]['value'] = 0;
-                                    $totals[$value['sign']][$value['name']]['accounting_account_id'] = $concept->accounting_account_id ?? null;
-                                    $totals[$value['sign']][$value['name']]['budget_account_id'] = $concept->budget_account_id ?? null;
-                                    $totals[$value['sign']][$value['name']]['budget_specific_action_id'] = $concept->budget_specific_action_id ?? null;
-                                    $totals[$value['sign']][$value['name']]['receiver'] = $receivers[$concept->name] ?? null;
-                                }
-
-                                $totals[$value['sign']][$value['name']]['value'] += ($value['sign'] == '+')
-                                    ? $nameDecimalFunction($value['value'], $number_decimals->p_value)
-                                    : $nameDecimalFunction($value['value'], $number_decimals->p_value);
-                            }
-                        }
-                    }
-
                     $compromiseDetails = $compromise->budgetCompromiseDetails()
                         ->with('budgetAccount.accountable.accountingAccount')->get();
 
+                    $deducctionAmount = 0;
                     foreach ($compromiseDetails as $det => $detail) {
-                        $deducctionAmount = 0;
-                        if (count($totals) > 0) {
-                            foreach ($totals['-'] as $deducction) {
-                                if ($payrollCode == $compromise->document_number) {
-                                    foreach ($detail['budgetAccount']['accountable'] as $accountable) {
-                                        if ($accountable['accounting_account_id'] == $deducction['accounting_account_id']) {
-                                            $deducctionAmount += $deducction['value'];
-
-                                            if (!isset($totalDeductionAmount[$cKey])) {
-                                                $totalDeductionAmount[$cKey] = $deducction['value'];
-                                            } else {
-                                                $totalDeductionAmount[$cKey] += $deducction['value'];
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    if ($deducction['receiver'] && $compromise->receiver && $deducction['receiver']->description == $compromise->receiver->description) {
-                                        if (!isset($deducctionAccounts[$cKey][$det . $deducction['accounting_account_id']])) {
-                                            $arrayData = [
-                                                'account' => $deducction['accounting_account_id'],
-                                                'amount' => (float)$deducction['value'],
-                                                'receiver' => $deducction['receiver']->description
-                                            ];
-
-                                            $deducctionAccounts[$cKey][$det . $deducction['accounting_account_id']] = $arrayData;
-                                        } else {
-                                            if ($deducction['receiver']->description == $deducctionAccounts[$cKey][$det . $deducction['accounting_account_id']]['receiver']) {
-                                                $deducctionAccounts[$cKey][$det . $deducction['accounting_account_id']]['amount'] += (float)$deducction['value'];
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
                         if (!array_key_exists($cKey . $detail['budget_account_id'], $amounts)) {
-                            $amounts[$cKey . $detail['budget_account_id']] = (float)$detail['amount'] - (float)$deducctionAmount;
+                            $amounts[$cKey . $detail['budget_account_id']] = (float)$detail['amount'];
                         } else {
-                            $amounts[$cKey . $detail['budget_account_id']] += ((float)$detail['amount'] - (float)$deducctionAmount);
+                            $amounts[$cKey . $detail['budget_account_id']] += ((float)$detail['amount']);
                         }
                     }
                 }
@@ -952,26 +808,15 @@ class FinancePayOrderController extends Controller
 
                             foreach ($detail['budgetAccount']['accountable'] as $accountable) {
                                 if (!array_key_exists($accountable['accountable_id'], $accounting_accounts)) {
+                                    $amount = ((float)$amounts[$key . $detail['budget_account_id']] /
+                                        count($detail['budgetAccount']['accountable']));
+
                                     $arrayData = [
                                         'account' => $accountable['accountingAccount']['id'],
-                                        'amount' => ((float)$amounts[$key . $detail['budget_account_id']] /
-                                                    count($detail['budgetAccount']['accountable'])),
+                                        'amount' => $amount,
                                     ];
 
                                     $accounting_accounts[$accountable['accountable_id']] = $arrayData;
-                                }
-                            }
-                        }
-                    }
-
-                    foreach ($deducctionAccounts as $accKey => $account) {
-                        if ($compromise->sourceable_type == \Modules\Payroll\Models\Payroll::class) {
-                            if ($key == $accKey) {
-                                foreach ($account as $acc) {
-                                    if (!isset($accounting_accounts[$acc['account']])) {
-                                        $accounting_accounts[$acc['account']] = $acc;
-                                        $total += $acc['amount'];
-                                    }
                                 }
                             }
                         }
@@ -982,10 +827,12 @@ class FinancePayOrderController extends Controller
                         $payOrder = null;
                     }
 
-                    foreach ($totalDeductionAmount as $dKey => $value) {
-                        if ($key == $dKey && !isset($request->document_sourceable_id)) {
-                            $total -= $value;
-                        }
+                    $description = '';
+                    if ($compromise->sourceable_type == \Modules\Purchase\Models\PurchaseDirectHire::class) {
+                        $pOrder = \Modules\Purchase\Models\PurchaseDirectHire::find($compromise->sourceable_id);
+                        $description = $pOrder->description;
+                    } else {
+                        $description = strip_tags($compromise->description);
                     }
 
                     if ($total > 0) {
@@ -993,7 +840,7 @@ class FinancePayOrderController extends Controller
                             'id' => $compromise->id, 'text' => $compromise->document_number,
                             'budget_compromise_id' => $compromise->id, 'budget_total_amount' => $total,
                             'currency' => $currency, 'accounting_accounts' => $accounting_accounts,
-                            'receiver' => $compromise->receiver
+                            'receiver' => $compromise->receiver, 'description' => $description
                         ];
                     }
                 }
@@ -1046,9 +893,9 @@ class FinancePayOrderController extends Controller
                                     'deductions_ids' => $deductionEdit->deductions_ids,
                                     'end_date' => $endDate,
                                 ];
-                                /**
-                                 * Se busacan retenciones que estan pendientes que no estén dentro de 'deductions_ids'
-                                 * y que tengan dean del mismo tipo de deducción.
+                                /*
+                                 | Se busacan retenciones que estan pendientes que no estén dentro de 'deductions_ids'
+                                 | y que tengan dean del mismo tipo de deducción.
                                  */
                                 $finance_deduction_ = FinancePaymentDeduction::query()
                                 ->whereHas('financePaymentExecute')
@@ -1087,9 +934,9 @@ class FinancePayOrderController extends Controller
                                         'end_date' => $endDate,
                                     ];
                                 }
-                                /**
-                                 * Se busacan retenciones que estan en estatus EL
-                                 * de los demás tipos de deducciones.
+                                /*
+                                 | Se busacan retenciones que estan en estatus EL
+                                 | de los demás tipos de deducciones.
                                 */
                                 $deductionsGroup = FinancePaymentDeduction::query()
                                 ->whereHas('financePaymentExecute')
@@ -1130,9 +977,9 @@ class FinancePayOrderController extends Controller
                                 $load_records = false;
                             }
                         } elseif ($request->month == $payOrderD->month && $request->period != $payOrderD->period) {
-                            /**
-                             * Si Existe la deducción que agrupa varias deducciones se procede a actualizar el estatus
-                             * de las deducciones agrupadas que se encuentren en estatus PR
+                            /*
+                             | Si Existe la deducción que agrupa varias deducciones se procede a actualizar el estatus
+                             | de las deducciones agrupadas que se encuentren en estatus PR
                              */
 
                             try {
@@ -1144,9 +991,9 @@ class FinancePayOrderController extends Controller
                                         ->where('document_status_id', $documentStatusPR->id)
                                         ->get();
 
-                                        /**
-                                         * Se procede a Cambiar el status del documeto a EL = Elaborado(a)
-                                         * de todas las deducciones.
+                                        /*
+                                         | Se procede a Cambiar el status del documeto a EL = Elaborado(a)
+                                         | de todas las deducciones.
                                          */
                                         foreach (
                                             $financePaymentDeductions as $paymentDeduction
@@ -1179,7 +1026,7 @@ class FinancePayOrderController extends Controller
                             }
                         } elseif ($request->month != $payOrderD->month && $request->period != $payOrderD->period) {
                             /**
-                             * code block...
+                             * @todo Devolver registros que no sean del mismo mes ni del mismo periodo
                              */
                         }
                     }
@@ -1229,6 +1076,15 @@ class FinancePayOrderController extends Controller
         }
     }
 
+    /**
+     * Cálcula los montos de las cuentas Contables
+     *
+     * @param mixed $compromise Datos del compromiso
+     * @param array $accountingAccounts Datos de las cuentas contables
+     * @param Currency $currency Datos de la Moneda
+     *
+     * @return array
+     */
     public function accountingAmountsCalc($compromise, $accountingAccounts, $currency)
     {
         $accountingAmounts = [];
@@ -1271,7 +1127,10 @@ class FinancePayOrderController extends Controller
      * Obtiene los registros a mostrar en listados de componente Vue
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     * @return \Illuminate\Http\JsonResponse Devuelve un JSON con la información de las formulaciones
+     *
+     * @param Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function vueList(Request $request)
     {
@@ -1315,11 +1174,11 @@ class FinancePayOrderController extends Controller
      *
      * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getPendingPayOrders($receiver_ids = null, $currency_id = null, $is_update = null)
     {
-        $profileUser = Auth()->user()->profile;
+        $profileUser = auth()->user()->profile;
         if ($profileUser && $profileUser->institution_id !== null) {
             $institution = Institution::find($profileUser->institution_id);
         } else {
@@ -1330,16 +1189,13 @@ class FinancePayOrderController extends Controller
         if ($receiver_ids === null && $currency_id === null) {
             $financePayOrders = FinancePayOrder::with(
                 'budgetSpecificAction',
-                'financePaymentMethod',
                 'institution',
                 'documentStatus',
                 'nameSourceable',
                 'documentSourceable',
                 'currency'
-            )->with(['financeBankAccount' => function ($q) {
-                $q->with('accountingAccount');
-            }])
-            ->where('status', 'PE')
+            )
+            ->whereIn('status', ['PE', 'PP'])
             ->where('document_status_id', $documentStatus->id)
             ->where('institution_id', $institution->id)->orderBy('code')->get();
         } else {
@@ -1358,12 +1214,12 @@ class FinancePayOrderController extends Controller
             $isCustom = false;
 
             if (
-                Module::has('Budget') && Module::isEnabled('Budget')
-                || Module::has('Payroll') && Module::isEnabled('Payroll')
+                Module::has('Budget') && Module::isEnabled('Budget') ||
+                Module::has('Payroll') && Module::isEnabled('Payroll')
             ) {
                 if (count($receivers) > 0) {
                     $isCustom = match (true) {
-                        ($receivers[0]->receiverable_type == BudgetCompromise::class) => true,
+                        ($receivers[0]->receiverable_type == \Modules\Budget\Models\BudgetCompromise::class) => true,
                         ($receivers[0]->receiverable_type == \Modules\Payroll\Models\PayrollConcept::class) => true,
                         ($receivers[0]->receiverable_type == FinancePaymentDeduction::class) => true,
                         ($receivers[0]->receiverable_type == null) => true,
@@ -1374,18 +1230,14 @@ class FinancePayOrderController extends Controller
 
             $financePayOrders = FinancePayOrder::with(
                 'budgetSpecificAction',
-                'financePaymentMethod',
                 'institution',
                 'documentStatus',
                 'nameSourceable',
                 'documentSourceable',
                 'currency'
             )
-            ->with(['financeBankAccount' => function ($q) {
-                $q->with('accountingAccount');
-            }])
+            ->whereIn('status', ['PE', 'PP'])
             ->where([
-                'status' => 'PE',
                 'name_sourceable_type' => $isCustom ? Receiver::class : $receivers[0]->receiverable_type,
                 'currency_id' => $currency_id
             ])
@@ -1429,14 +1281,13 @@ class FinancePayOrderController extends Controller
                     'id' => $financePayOrder->id,
                     'text' => $financePayOrder->code,
                     'amount' => $totalAmount,
+                    'ordered_at' => $financePayOrder->ordered_at,
                     'budgetSpecificAction' => $financePayOrder->budgetSpecificAction,
-                    'financePaymentMethod' => $financePayOrder->financePaymentMethod,
                     'institution' => $financePayOrder->institution,
                     'documentStatus' => $financePayOrder->documentStatus,
                     'nameSourceable' => $financePayOrder->nameSourceable,
                     'documentSourceable' => $financePayOrder->documentSourceable,
                     'currency' => $financePayOrder->currency,
-                    'financeBankAccount' => $financePayOrder->financeBankAccount,
                     'is_deduction' => $financePayOrder->document_sourceable_type == Deduction::class,
                 ]);
             }
@@ -1449,32 +1300,78 @@ class FinancePayOrderController extends Controller
      *
      * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request $request Datos de la petición
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function changeDocumentStatus(Request $request)
     {
-        $financePayOrder = FinancePayOrder::find($request->id);
-        $documentStatus = DocumentStatus::where('action', $request->action)->first();
-        $financePayOrder->document_status_id = $documentStatus->id;
-        $financePayOrder->save();
-        $financePayOrder = FinancePayOrder::with(
-            'budgetSpecificAction',
-            'financePaymentMethod',
-            'financeBankAccount',
-            'institution',
-            'documentStatus'
-        )->where('id', $request->id)->first();
-        return response()->json(['record' => $financePayOrder, 'message' => 'Success'], 200);
+        try {
+            $documentStatus = DocumentStatus::query()->where('action', $request->action)->firstOrFail();
+            $financePayOrder = FinancePayOrder::query()->findOrFail($request->id);
+
+            $accountingEntryable = \Modules\Accounting\Models\AccountingEntryable::query()
+            ->where([
+                'accounting_entryable_type' => FinancePayOrder::class,
+                'accounting_entryable_id'   => $financePayOrder->id
+            ])->firstOrFail();
+
+            DB::transaction(function () use ($documentStatus, $financePayOrder, $accountingEntryable) {
+                $financePayOrder->document_status_id = $documentStatus->id;
+                $financePayOrder->save();
+
+                \Modules\Accounting\Models\AccountingEntry::query()
+                ->orWhere([
+                    'id'                 => $accountingEntryable->accounting_entry_id,
+                    'reference'          => $financePayOrder->code,
+                ])->firstOrFail()
+                ->update(['document_status_id' => default_document_status()->id]);
+            });
+
+            $financePayOrder = FinancePayOrder::with(
+                'budgetSpecificAction',
+                'institution',
+                'documentStatus'
+            )->where('id', $request->id)->firstOrFail();
+
+            return response()->json(['record' => $financePayOrder, 'message' => 'Success'], 200);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            $message = str_replace("\n", "", $e->getMessage());
+            if (strpos($message, 'ERROR') !== false && strpos($message, 'DETAIL') !== false) {
+                $pattern = '/ERROR:(.*?)DETAIL/';
+                preg_match($pattern, $message, $matches);
+                $errorMessage = trim($matches[1]);
+            } else {
+                $errorMessage = $message;
+            }
+
+            return response()->json(
+                ['message' =>
+                [
+                    'type' => 'custom',
+                    'title' => 'Alerta',
+                    'icon' => 'screen-error',
+                    'class' => 'growl-danger',
+                    'text' => 'No se pudo completar la operación. ' . ucfirst($errorMessage)
+                ]],
+                500
+            );
+        }
     }
 
+    /**
+     * Genera el reporte de la orden de pago
+     *
+     * @param integer $id ID de la orden de pago
+     *
+     * @return void
+     */
     public function pdf($id)
     {
         $financePayOrder = FinancePayOrder::with(
             'institution',
             'currency',
-            'financePaymentMethod',
             'budgetSpecificAction',
             'documentSourceable',
             'nameSourceable'
@@ -1519,14 +1416,14 @@ class FinancePayOrderController extends Controller
                 }
             }
 
-            $accountingEntry = AccountingEntry::with(['accountingAccounts' => function ($q) {
+            $accountingEntry = \Modules\Accounting\Models\AccountingEntry::with(['accountingAccounts' => function ($q) {
                 $q->with('account');
             }])->where('reference', $financePayOrder->code)->first();
 
             $accountable = [];
 
             if ($financePayOrder->documentSourceable) {
-                $budgetCompromise = BudgetCompromise::with('budgetCompromiseDetails')
+                $budgetCompromise = \Modules\Budget\Models\BudgetCompromise::with('budgetCompromiseDetails')
                     ->find($financePayOrder->documentSourceable->id);
 
                 if ($accountingEntry) {
@@ -1544,11 +1441,11 @@ class FinancePayOrderController extends Controller
                                 ) {
                                     $match = $matches[0];
 
-                                    $compromise = BudgetCompromise::with('budgetCompromiseDetails')
+                                    $compromise = \Modules\Budget\Models\BudgetCompromise::with('budgetCompromiseDetails')
                                         ->where('document_number', $match)
                                         ->first();
 
-                                    $compromiseAccountableAccounts = Accountable::whereIn('accountable_id', $compromise
+                                    $compromiseAccountableAccounts = \Modules\Accounting\Models\Accountable::whereIn('accountable_id', $compromise
                                         ->budgetCompromiseDetails
                                         ->pluck('budget_account_id'))
                                         ->where('accounting_account_id', $entryAccount->accounting_account_id)
@@ -1565,7 +1462,7 @@ class FinancePayOrderController extends Controller
                             }
                         }
 
-                        $accountableAccounts = Accountable::whereIn('accountable_id', $budgetCompromise
+                        $accountableAccounts = \Modules\Accounting\Models\Accountable::whereIn('accountable_id', $budgetCompromise
                             ?->budgetCompromiseDetails
                             ->pluck('budget_account_id') ?? [])
                             ->where('accounting_account_id', $entryAccount->accounting_account_id)
@@ -1632,7 +1529,7 @@ class FinancePayOrderController extends Controller
      *
      * @author Daniel Contreras <exodiadaniel@gmail.com> | <dcontreras@cenditel.gob.ve>
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getPayOrderReceivers()
     {
@@ -1727,9 +1624,9 @@ class FinancePayOrderController extends Controller
      *
      * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request $request Datos de la petición
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function cancelPayOrder(Request $request)
     {
@@ -1767,11 +1664,9 @@ class FinancePayOrderController extends Controller
                     $isPayroll = Module::has('Payroll') && Module::isEnabled('Payroll');
 
                     if ($isAccounting) {
-                        /**
-                         * Reverso de Asiento contable de la orden de pago
-                         */
-                        $accountEntry = AccountingEntry::where('reference', $financePayOrder->code)->first();
-                        $accountEntryNew = AccountingEntry::create([
+                        /* Reverso de Asiento contable de la orden de pago */
+                        $accountEntry = \Modules\Accounting\Models\AccountingEntry::where('reference', $financePayOrder->code)->first();
+                        $accountEntryNew = \Modules\Accounting\Models\AccountingEntry::create([
                             'from_date' => $request->canceled_at,
                             // Código de la orden de pago como referencia
                             'reference' => $financePayOrder->code,
@@ -1785,16 +1680,14 @@ class FinancePayOrderController extends Controller
                             'approved' => false,
                         ]);
 
-                        $accountingItems = AccountingEntryAccount::query()
+                        $accountingItems = \Modules\Accounting\Models\AccountingEntryAccount::query()
                         ->where(
                             'accounting_entry_id',
                             $accountEntry->id,
                         )->get();
                         foreach ($accountingItems as $account) {
-                            /**
-                             * Se crea la relación de cuenta a ese asiento
-                             */
-                            AccountingEntryAccount::create([
+                            /* Se crea la relación de cuenta a ese asiento */
+                            \Modules\Accounting\Models\AccountingEntryAccount::create([
                                 'accounting_entry_id' => $accountEntryNew->id,
                                 'accounting_account_id' => $account['accounting_account_id'],
                                 'debit' => $account['assets'],
@@ -1802,32 +1695,32 @@ class FinancePayOrderController extends Controller
                             ]);
                         }
 
-                        /** Crea la relación entre el asiento contable y el registro de orden de pago */
-                        AccountingEntryable::create([
+                        /* Crea la relación entre el asiento contable y el registro de orden de pago */
+                        \Modules\Accounting\Models\AccountingEntryable::create([
                             'accounting_entry_id' => $accountEntryNew->id,
                             'accounting_entryable_type' => FinancePayOrder::class,
                             'accounting_entryable_id' => $financePayOrder->id,
                         ]);
                     }
-                    /**Anulación sin remisión */
+                    /* Anulación sin remisión */
                     if ($request->cancel_pay_order_option_id == 1) {
-                        /**
-                         * Anulación sin remisión, se anula el compromiso y se cambia su estatus a ANulado
-                         * Se liberra el Documento de origen (Nómina u orden de compra)
+                        /*
+                         | Anulación sin remisión, se anula el compromiso y se cambia su estatus a ANulado
+                         | Se liberra el Documento de origen (Nómina u orden de compra)
                          */
-                        if ($isBudget && $financePayOrder->document_sourceable_type == BudgetCompromise::class) {
+                        if ($isBudget && $financePayOrder->document_sourceable_type == \Modules\Budget\Models\BudgetCompromise::class) {
                             //se busca el compromiso asociado a la orden de pago
-                            $compromise = $isBudget ? BudgetCompromise::query()
+                            $compromise = $isBudget ? \Modules\Budget\Models\BudgetCompromise::query()
                             ->find($financePayOrder->document_sourceable_id) : null;
-                            /**
-                             * Se buscan todas las BudgetStage (etapas presupuestarias)
-                             * pertenecintes al compromiso relacionado con la orden de pago
-                             * para ser eliminadas
+                            /*
+                             | Se buscan todas las BudgetStage (etapas presupuestarias)
+                             | pertenecintes al compromiso relacionado con la orden de pago
+                             | para ser eliminadas
                              */
                             if (isset($compromise)) {
                                 $compromisedYear = explode("-", $compromise->compromised_at)[0];
 
-                                BudgetStage::query()
+                                \Modules\Budget\Models\BudgetStage::query()
                                 ->where([
                                     'budget_compromise_id'  => $compromise->id,
                                     'stageable_type'        => FinancePayOrder::class,
@@ -1838,12 +1731,13 @@ class FinancePayOrderController extends Controller
                                 //Se cambia el status del documento del compromiso a En Proceso
                                 $compromise->document_status_id = $documentStatusPR->id;
                                 $compromise->save();
-                                /** Se verifica que el compromiso no sea un aporte de nómina
-                                 * de lo contrario solo se anularán la etapa presuspuestaria
-                                 * CAUsado y se mantiene COMprometido
-                                */
+                                /*
+                                 | Se verifica que el compromiso no sea un aporte de nómina
+                                 | de lo contrario solo se anularán la etapa presuspuestaria
+                                 | CAUsado y se mantiene COMprometido
+                                 */
                                 $CodePayroll = $isPayroll
-                                ? \App\Models\CodeSetting::where(
+                                ? CodeSetting::where(
                                     "model",
                                     \Modules\Payroll\Models\Payroll::class
                                 )->first()
@@ -1852,14 +1746,14 @@ class FinancePayOrderController extends Controller
                                 $regexPattern = '/^AP - \\d+' . $CodePayroll?->format_prefix . '/';
 
                                 if (!preg_match($regexPattern, $compromise->document_number)) {
-                                    BudgetStage::query()
+                                    \Modules\Budget\Models\BudgetStage::query()
                                     ->where(
                                         'budget_compromise_id',
                                         $compromise->id
                                     )->where('type', 'COM')->delete();
 
-                                    /** Se buscan los ítems del compromiso que no estén anulados*/
-                                    $budgetCompromiseDetails = BudgetCompromiseDetail::query()
+                                    /* Se buscan los ítems del compromiso que no estén anulados*/
+                                    $budgetCompromiseDetails = \Modules\Budget\Models\BudgetCompromiseDetail::query()
                                     ->where([
                                         'budget_compromise_id' => $compromise->id,
                                         'document_status_id'   => null
@@ -1876,7 +1770,7 @@ class FinancePayOrderController extends Controller
                                         $total = $taxAmount != 0
                                         ? $taxAmount : $budgetCompromiseDetail['amount'];
 
-                                        $budgetAccountOpen = BudgetAccountOpen::with('budgetAccount')
+                                        $budgetAccountOpen = \Modules\Budget\Models\BudgetAccountOpen::with('budgetAccount')
                                         ->where(
                                             'budget_sub_specific_formulation_id',
                                             $formulation->id
@@ -1951,19 +1845,15 @@ class FinancePayOrderController extends Controller
                             }
                         }
                     } elseif ($request->cancel_pay_order_option_id == 2) {
-                        /**Anulación Con remisión, se libera el compromiso
-                         * y se camnbia su estatus a ELaborado y queda COMprometido
-                        */
+                        /* Anulación Con remisión, se libera el compromiso y se camnbia su estatus a ELaborado y queda COMprometido */
                         $documentStatusPR = DocumentStatus::where('action', 'PR')->first();
                         //se busca el compromiso asociado a la orden de pago
-                        $compromise = $isBudget ? BudgetCompromise::query()
+                        $compromise = $isBudget ? \Modules\Budget\Models\BudgetCompromise::query()
                         ->find($financePayOrder->document_sourceable_id) : null;
 
-                        /**
-                         * Se busca toda la etapa presupuestaria asociadas a esta orden de compra
-                         */
+                        /* Se busca toda la etapa presupuestaria asociadas a esta orden de compra */
                         if (isset($compromise)) {
-                            BudgetStage::query()
+                            \Modules\Budget\Models\BudgetStage::query()
                             ->where([
                                 'budget_compromise_id'  => $compromise->id,
                                 'stageable_type'        => FinancePayOrder::class,
@@ -1979,11 +1869,11 @@ class FinancePayOrderController extends Controller
                                 ])->first() ?? null;
 
                                 if (isset($payroll)) {
-                                    /**
-                                    * Se procede a realizar todo el proceso de anulación
-                                    * de los aportes de nómina hasta la etapa presupuestaria
-                                    * Comprometido.
-                                    */
+                                    /*
+                                     | Se procede a realizar todo el proceso de anulación
+                                     | de los aportes de nómina hasta la etapa presupuestaria
+                                     | Comprometido.
+                                     */
                                     $this->cancelContribution(
                                         $payroll->code,
                                         $request->canceled_at,
@@ -1998,6 +1888,7 @@ class FinancePayOrderController extends Controller
                 }
             });
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $message = str_replace("\n", "", $e->getMessage());
             if (strpos($message, 'ERROR') !== false && strpos($message, 'DETAIL') !== false) {
                 $pattern = '/ERROR:(.*?)DETAIL/';
@@ -2028,20 +1919,19 @@ class FinancePayOrderController extends Controller
      *
      * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
      *
-     * @param  String $code
-     * @param  String $description
-     * @param  Boolean $option (true = Anulación de todo el proceso,
-     * false = Anula solo el proceso de emision y orden de pago)
+     * @param  string $code Código o número de documento a búscar
+     * @param  string $description Descripción de la anulación
+     * @param  boolean $option (true = Anulación de todo el proceso, false = Anula solo el proceso de emision y orden de pago)
      *
      * @return void
      */
     private function cancelContribution($code, $date, $description, $option = false)
     {
-        /** Se buscan todas las ordenes de pago asociadas a este compromiso */
+        /* Se buscan todas las ordenes de pago asociadas a este compromiso */
         // Patrón de la expresión regular relacionada con el código de nómina
         $documentStatusAN = DocumentStatus::where('action', 'AN')->first(); //Status del documento ANulado
         $regexPattern = "AP - \\d+$code";
-        $compromiseContribution = BudgetCompromise::query()
+        $compromiseContribution = \Modules\Budget\Models\BudgetCompromise::query()
         ->where(
             'document_number',
             '~',
@@ -2058,17 +1948,14 @@ class FinancePayOrderController extends Controller
             foreach ($compromiseContribution as $compContribution) {
                 $compromisedYear = explode("-", $compContribution->compromised_at)[0];
 
-                /**
-                 * Se buscan todas las etapas presupuestarias
-                 */
+                /* Se buscan todas las etapas presupuestarias */
 
                 //Etapa relacionada con la emisión de pago
-                $paymentExecuteBugetStages = BudgetStage::query()
+                $paymentExecuteBugetStages = \Modules\Budget\Models\BudgetStage::query()
                 ->where([
                     'budget_compromise_id'  => $compContribution->id,
                     'stageable_type'        => FinancePaymentExecute::class,
-                    //'stageable_id'          => $financePaymentExecute->id
-                    ])
+                ])
                 ->where('type', 'PAG')->get() ?? null;
 
                 //Se realiza todo el proceso de anulación para las emisiones de pago si existen
@@ -2082,20 +1969,18 @@ class FinancePayOrderController extends Controller
                             $financePaymentExecute->description = $description;
                             $financePaymentExecute->document_status_id = $documentStatusAN->id;
 
-                            /** se eliminan las retenciones asociadas a la emisión de pago */
+                            /* se eliminan las retenciones asociadas a la emisión de pago */
                             $financePaymentExecute->financePaymentDeductions()->delete();
-                            /**Se guadan los cambios en la emisión de pago */
+                            /* Se guadan los cambios en la emisión de pago */
                             $financePaymentExecute->save();
 
                             if ($isAccounting) {
-                                /**
-                                 * Reverso de Asiento contable de la emisión de pago
-                                 */
-                                $accountEntry = AccountingEntry::where(
+                                /* Reverso de Asiento contable de la emisión de pago */
+                                $accountEntry = \Modules\Accounting\Models\AccountingEntry::where(
                                     'reference',
                                     $financePaymentExecute->code
                                 )->first();
-                                $accountEntryNew = AccountingEntry::create([
+                                $accountEntryNew = \Modules\Accounting\Models\AccountingEntry::create([
                                     'from_date' => $date,
                                     // Código de la ejecución de pago como referencia
                                     'reference' => $financePaymentExecute->code,
@@ -2109,17 +1994,15 @@ class FinancePayOrderController extends Controller
                                     'approved' => false,
                                 ]);
 
-                                $accountingItems = AccountingEntryAccount::query()
+                                $accountingItems = \Modules\Accounting\Models\AccountingEntryAccount::query()
                                 ->where(
                                     'accounting_entry_id',
                                     $accountEntry->id,
                                 )->get();
 
                                 foreach ($accountingItems as $account) {
-                                    /**
-                                     * Se crea la relación de cuenta a ese asiento
-                                     */
-                                    AccountingEntryAccount::create([
+                                    /* Se crea la relación de cuenta a ese asiento */
+                                    \Modules\Accounting\Models\AccountingEntryAccount::create([
                                         'accounting_entry_id' => $accountEntryNew->id,
                                         'accounting_account_id' => $account['accounting_account_id'],
                                         'debit' => $account['assets'],
@@ -2127,8 +2010,8 @@ class FinancePayOrderController extends Controller
                                     ]);
                                 }
 
-                                /** Crea la relación entre el asiento contable y el registro de emisión de pago */
-                                AccountingEntryable::create([
+                                /* Crea la relación entre el asiento contable y el registro de emisión de pago */
+                                \Modules\Accounting\Models\AccountingEntryable::create([
                                     'accounting_entry_id' => $accountEntryNew->id,
                                     'accounting_entryable_type' => FinancePaymentExecute::class,
                                     'accounting_entryable_id' => $financePaymentExecute->id,
@@ -2136,7 +2019,7 @@ class FinancePayOrderController extends Controller
                             }
 
                             //Se eliminan las estapas presupuestarias
-                            BudgetStage::query()
+                            \Modules\Budget\Models\BudgetStage::query()
                             ->where([
                                 'budget_compromise_id'  => $compContribution->id,
                                 'stageable_type'        => FinancePaymentExecute::class,
@@ -2169,7 +2052,7 @@ class FinancePayOrderController extends Controller
                 }
 
                 //Etapa relacionada con la orden de pago
-                $payOrderBugetStages = BudgetStage::query()
+                $payOrderBugetStages = \Modules\Budget\Models\BudgetStage::query()
                 ->where([
                     'budget_compromise_id'  => $compContribution->id,
                     'stageable_type'        => FinancePayOrder::class,
@@ -2193,11 +2076,9 @@ class FinancePayOrderController extends Controller
                             $financePayOrder->save();
 
                             if ($isAccounting) {
-                                /**
-                                 * Reverso de Asiento contable de la orden de pago
-                                 */
-                                $accountEntry = AccountingEntry::where('reference', $financePayOrder->code)->first();
-                                $accountEntryNew = AccountingEntry::create([
+                                /* Reverso de Asiento contable de la orden de pago */
+                                $accountEntry = \Modules\Accounting\Models\AccountingEntry::where('reference', $financePayOrder->code)->first();
+                                $accountEntryNew = \Modules\Accounting\Models\AccountingEntry::create([
                                     'from_date' => $date,
                                     // Código de la ejecución de pago como referencia
                                     'reference' => $financePayOrder->code,
@@ -2211,16 +2092,14 @@ class FinancePayOrderController extends Controller
                                     'approved' => false,
                                 ]);
 
-                                $accountingItems = AccountingEntryAccount::query()
+                                $accountingItems = \Modules\Accounting\Models\AccountingEntryAccount::query()
                                 ->where(
                                     'accounting_entry_id',
                                     $accountEntry->id,
                                 )->get();
                                 foreach ($accountingItems as $account) {
-                                    /**
-                                     * Se crea la relación de cuenta a ese asiento
-                                     */
-                                    AccountingEntryAccount::create([
+                                    /* Se crea la relación de cuenta a ese asiento */
+                                    \Modules\Accounting\Models\AccountingEntryAccount::create([
                                         'accounting_entry_id' => $accountEntryNew->id,
                                         'accounting_account_id' => $account['accounting_account_id'],
                                         'debit' => $account['assets'],
@@ -2228,8 +2107,8 @@ class FinancePayOrderController extends Controller
                                     ]);
                                 }
 
-                                /** Crea la relación entre el asiento contable y el registro de orden de pago */
-                                AccountingEntryable::create([
+                                /* Crea la relación entre el asiento contable y el registro de orden de pago */
+                                \Modules\Accounting\Models\AccountingEntryable::create([
                                     'accounting_entry_id' => $accountEntryNew->id,
                                     'accounting_entryable_type' => FinancePayOrder::class,
                                     'accounting_entryable_id' => $financePayOrder->id,
@@ -2237,7 +2116,7 @@ class FinancePayOrderController extends Controller
                             }
 
                             //Se eliminan las estapas presupuestarias
-                            BudgetStage::query()
+                            \Modules\Budget\Models\BudgetStage::query()
                             ->where([
                                 'budget_compromise_id'  => $compContribution->id,
                                 'stageable_type'        => FinancePayOrder::class,
@@ -2250,14 +2129,14 @@ class FinancePayOrderController extends Controller
 
                 if ($option) {
                     //Se elimina Etapa presupuestaria COMprometido
-                    BudgetStage::query()
+                    \Modules\Budget\Models\BudgetStage::query()
                     ->where(
                         'budget_compromise_id',
                         $compContribution->id,
                     )->where('type', 'COM')->delete();
 
-                    /** Se buscan los ítems del compromiso */
-                    $budgetCompromiseDetails = BudgetCompromiseDetail::query()
+                    /* Se buscan los ítems del compromiso */
+                    $budgetCompromiseDetails = \Modules\Budget\Models\BudgetCompromiseDetail::query()
                     ->where([
                         'budget_compromise_id' => $compContribution->id,
                         'document_status_id'   => null
@@ -2274,7 +2153,7 @@ class FinancePayOrderController extends Controller
                         $total = $taxAmount != 0
                         ? $taxAmount : $budgetCompromiseDetail['amount'];
 
-                        $budgetAccountOpen = BudgetAccountOpen::with('budgetAccount')
+                        $budgetAccountOpen = \Modules\Budget\Models\BudgetAccountOpen::with('budgetAccount')
                         ->where(
                             'budget_sub_specific_formulation_id',
                             $formulation->id
@@ -2316,8 +2195,9 @@ class FinancePayOrderController extends Controller
     /**
      * Obtiene las fechas de inicio y fin de un periodo especificado dentro de un mes dado.
      *
-     * @param int $month el mes para el cual se está obteniendo el periodo (por defecto: 1)
-     * @param int $period el periodo a obtener (por defecto: 3)
+     * @param integer $month el mes para el cual se está obteniendo el periodo (por defecto: 1)
+     * @param integer $period el periodo a obtener (por defecto: 3)
+     *
      * @return array un arreglo que contiene las fechas de inicio y fin del periodo especificado
      */
     private function getPeriod($month = 1, $period = 3)

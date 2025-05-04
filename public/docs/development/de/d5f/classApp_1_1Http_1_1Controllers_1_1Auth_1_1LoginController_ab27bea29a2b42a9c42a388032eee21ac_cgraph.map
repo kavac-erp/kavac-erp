@@ -1,0 +1,25 @@
+<map id="login" name="login">
+<area shape="rect" id="Node000001" title="Gestiona una petición de acceso a la aplicación." alt="" coords="5,104,60,129"/>
+<area shape="rect" id="Node000002" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a926ec095edbc2f3e70493cd14198192b" title="Obtiene la instancia de peticiones de acceso fallidas." alt="" coords="125,104,314,129"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,114,111,114,111,119,60,119"/>
+<area shape="rect" id="Node000004" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a80ca8f38c89010fda0558e2f210704ba" title="Obtiene la instancia de la petición del usuario con sesión activa." alt="" coords="108,5,331,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="41,102,68,71,86,54,107,40,121,33,123,38,109,44,89,58,72,74,45,106"/>
+<area shape="rect" id="Node000006" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a08273dfbc1ff4990d1fd6446f805fa7f" title="Obtiene la instancia de la petición del usuario inactivo." alt="" coords="114,153,325,179"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="61,123,109,138,146,148,144,153,107,143,59,128"/>
+<area shape="rect" id="Node000008" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a5a8ed6520ebd7ecd55d21cc531f4db36" title="Obtiene la instancia de la petición del usuario bloqueado." alt="" coords="113,203,326,228"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="45,128,72,158,109,188,127,196,125,201,107,192,68,162,41,131"/>
+<area shape="rect" id="Node000010" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#ae32415576e8245b435be09d06e561c4c" title="Valida la petición de acceso del usuario." alt="" coords="164,55,275,80"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="59,104,107,89,150,78,151,83,109,94,61,109"/>
+<area shape="rect" id="Node000003" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a7475524fbb2e38dd6c9f7a6661b0bb81" title="Obtiene el campo usado como nombre de usuario para el acceso a la aplicación." alt="" coords="444,104,531,129"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="314,114,430,114,430,119,314,119"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="291,28,332,39,397,67,453,95,451,100,395,71,330,45,290,33"/>
+<area shape="rect" id="Node000005" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a9a09982111e0ef54094e8d852544a721" title="Obtiene el mensaje a mostrar de la sesión activa." alt="" coords="379,5,596,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="331,15,365,15,365,21,331,21"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="289,151,430,124,431,130,289,156"/>
+<area shape="rect" id="Node000007" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a61d49861a3061b572669cc436c8867c5" title="Obtiene el mensaje a mostrar de la cuenta inactiva." alt="" coords="385,153,590,179"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="325,163,371,163,371,169,325,169"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="300,200,329,188,344,176,352,164,362,151,377,138,403,127,430,120,431,125,405,132,380,143,366,154,357,167,348,180,332,192,302,205"/>
+<area shape="rect" id="Node000009" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a96d814961dfbac6feee462ca03bdff51" title="Obtiene el mensaje a mostrar para la cuenta bloqueada." alt="" coords="388,203,587,228"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="326,213,374,213,374,218,326,218"/>
+<area shape="poly" id="edge13_Node000010_Node000003" title=" " alt="" coords="275,75,431,104,430,109,275,80"/>
+</map>

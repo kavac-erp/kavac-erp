@@ -20,6 +20,15 @@ use Modules\Payroll\Models\PayrollInstructionDegree;
 use Modules\Payroll\Models\PayrollStudyType;
 use Modules\Payroll\Models\Profession;
 
+/**
+ * @class ProfessionalStaffExportFromButton
+ * @brief Clase que exporta el listado de personal de la nómina
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class ProfessionalStaffExportFromButton extends DataExport implements
     ShouldAutoSize,
     WithHeadings,
@@ -29,6 +38,11 @@ class ProfessionalStaffExportFromButton extends DataExport implements
 {
     use RegistersEventListeners;
 
+    /**
+     * Encabezados de la hoja
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return [
@@ -51,6 +65,14 @@ class ProfessionalStaffExportFromButton extends DataExport implements
             'nivel_de_idioma2',
         ];
     }
+
+    /**
+     * Mapea los datos de la hoja
+     *
+     * @param array|object $data Datos de la hoja
+     *
+     * @return array
+     */
     public function map($data): array
     {
         $staff = PayrollStaff::find($data['payroll_staff_id']);
@@ -114,18 +136,28 @@ class ProfessionalStaffExportFromButton extends DataExport implements
         return $map;
     }
 
+    /**
+     * Titulo de la hoja
+     *
+     * @return string
+     */
     public function title(): string
     {
         return 'Datos Profesionales';
     }
 
+    /**
+     * Registra los eventos de la hoja
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                /** Se crea una instancia Worksheet para acceder a las dos sheet. */
+                /* Se crea una instancia Worksheet para acceder a las dos sheet. */
                 $sheet = $event->sheet->getDelegate();
-                /** Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
+                /* Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
                 $validationRangeA = 'validation!$A$2:$A$5000';
                 $validationRangeB = 'validation!$B$2:$B$5000';
                 $validationRangeC = 'validation!$C$2:$C$5000';

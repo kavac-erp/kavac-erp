@@ -1,4 +1,5 @@
 <map id="financePayOrders" name="financePayOrders">
-<area shape="rect" id="node1" title="The financePayOrders that belong to the FinancePaymentExecute." alt="" coords="231,5,365,32"/>
-<area shape="rect" id="node2" href="$d1/de7/classModules_1_1Finance_1_1Models_1_1FinancePaymentExecute.html#af6982b0a3852d11291d8a14ed2f8b104" title="Verifica si el registro esde una retención." alt="" coords="5,5,183,32"/>
+<area shape="rect" id="Node000001" title="Obtiene la relación con las órdenes de pago." alt="" coords="231,5,365,31"/>
+<area shape="rect" id="Node000002" href="$d1/de7/classModules_1_1Finance_1_1Models_1_1FinancePaymentExecute.html#af6982b0a3852d11291d8a14ed2f8b104" title="Verifica si el registro es de una retención." alt="" coords="5,5,183,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,21,183,21,183,15,217,15"/>
 </map>

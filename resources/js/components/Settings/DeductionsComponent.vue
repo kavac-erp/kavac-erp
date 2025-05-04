@@ -7,7 +7,7 @@
             <span>Deducciones</span>
         </a>
         <div class="modal fade text-left" tabindex="-1" role="dialog" id="add_deduction">
-            <div class="modal-dialog vue-crud" role="document">
+            <div class="modal-dialog vue-crud" role="document" style="">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -18,104 +18,109 @@
                             Deducción
                         </h6>
                     </div>
-                    <div class="modal-body">
-                        <form-errors :listErrors="errors"></form-errors>
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group is-required">
-                                    <label>Nombre:</label>
-                                    <input type="text" placeholder="Nombre" data-toggle="tooltip"
-                                           title="Indique el nombre de la deducción (requerido)"
-                                           class="form-control input-sm" v-model="record.name">
-                                    <input type="hidden" v-model="record.id">
+                    <div class="with-overflow-90vh">
+                        <div class="modal-body">
+                            <form-errors :listErrors="errors"></form-errors>
+                            <div class="row">
+                                <div class="col-12 col-lg-6">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group is-required">
+                                                <label>Nombre:</label>
+                                                <input type="text" placeholder="Nombre" data-toggle="tooltip"
+                                                    title="Indique el nombre de la deducción (requerido)"
+                                                    class="form-control input-sm" v-model="record.name">
+                                                <input type="hidden" v-model="record.id">
+                                            </div>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="form-group" v-if="accountingAccount">
+                                                <label>Cuenta Contable:</label>
+                                                <select2 :options="accounting_accounts"
+                                                        v-model="record.accounting_account_id"></select2>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="form-group">
+                                                <label>Activa</label>
+                                                <div class="custom-control custom-switch" data-toggle="tooltip"
+                                                    title="Indique si la deducción se encuentra activa">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="deductionActive" v-model="record.active" :value="true">
+                                                    <label class="custom-control-label" for="deductionActive"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Descripción:</label>
+                                                <ckeditor :editor="ckeditor.editor" data-toggle="tooltip"
+                                                            title="Indique la descripción de la deducción"
+                                                            :config="ckeditor.editorConfig" class="form-control"
+                                                            tag-name="textarea" rows="3" v-model="record.description"></ckeditor>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="form-group" v-if="accountingAccount">
-                                    <label>Cuenta Contable:</label>
-                                    <select2 :options="accounting_accounts"
-                                             v-model="record.accounting_account_id"></select2>
+                                <div class="col-12 col-lg-6">
+                                    <formula-calculator formulaInput='formula' :withAmountButton="true"/>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label>Descripción:</label>
-                                    <ckeditor :editor="ckeditor.editor" data-toggle="tooltip"
-                                              title="Indique la descripción de la deducción"
-                                              :config="ckeditor.editorConfig" class="form-control"
-                                              tag-name="textarea" rows="3" v-model="record.description"></ckeditor>
-                                </div>
+
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <formula-calculator formulaInput='formula' :withAmountButton="true"/>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label>Activa</label>
-                                    <div class="custom-control custom-switch" data-toggle="tooltip" 
-										 title="Indique si la deducción se encuentra activa">
-										<input type="checkbox" class="custom-control-input" 
-											   id="deductionActive" v-model="record.active" :value="true">
-										<label class="custom-control-label" for="deductionActive"></label>
-									</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
-									@click="clearFilters" data-dismiss="modal">
-								Cerrar
-							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
-									@click="reset()">
-								Cancelar
-							</button>
-							<button type="button" @click="createRecord('deductions')" 
-									class="btn btn-primary btn-sm btn-round btn-modal-save">
-								Guardar
-							</button>
-                        </div>
-                    </div>
-                    <div class="modal-body modal-table">
-                        <v-client-table :columns="columns" :data="records" :options="table_options">
-                            <div slot="description" slot-scope="props" class="text-justify">
-                                <div class="mt-3" v-html="props.row.description"></div>
-                            </div>
-                            <div slot="active" slot-scope="props" class="text-center">
-                                <span v-if="props.row.active === true" class="text-bold text-success">SI</span>
-                                <span v-else class="text-bold text-danger">NO</span>
-                            </div>
-                            <div slot="accounting_account" slot-scope="props" class="text-center">
-                                <span v-if="props.row.accounting_account !== null">
-                                    {{ props.row.accounting_account.group }}.
-                                    {{ props.row.accounting_account.subgroup }}.
-                                    {{ props.row.accounting_account.item }}.
-                                    {{ props.row.accounting_account.generic }}.
-                                    {{ props.row.accounting_account.specific }}.
-                                    {{ props.row.accounting_account.subspecific }}
-                                </span>
-                                <span v-else>
-                                    NO REGISTRADA
-                                </span>
-                            </div>
-                            <div slot="id" slot-scope="props" class="text-center">
-                                <button @click="initUpdate(props.row.id, $event)"
-                                        class="btn btn-warning btn-xs btn-icon btn-action"
-                                        title="Modificar registro" data-toggle="tooltip" type="button">
-                                    <i class="fa fa-edit"></i>
+                        <div class="modal-footer">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
+                                        @click="clearFilters" data-dismiss="modal">
+                                    Cerrar
                                 </button>
-                                <button @click="deleteRecord(props.row.id, 'deductions')"
-                                        class="btn btn-danger btn-xs btn-icon btn-action"
-                                        title="Eliminar registro" data-toggle="tooltip"
-                                        type="button">
-                                    <i class="fa fa-trash-o"></i>
+                                <button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
+                                        @click="reset()">
+                                    Cancelar
+                                </button>
+                                <button type="button" @click="createRecord('deductions')"
+                                        class="btn btn-primary btn-sm btn-round btn-modal-save">
+                                    Guardar
                                 </button>
                             </div>
-                        </v-client-table>
+                        </div>
+                        <div class="modal-body modal-table">
+                            <v-client-table :columns="columns" :data="records" :options="table_options">
+                                <div slot="description" slot-scope="props" class="text-justify">
+                                    <div class="mt-3" v-html="props.row.description"></div>
+                                </div>
+                                <div slot="active" slot-scope="props" class="text-center">
+                                    <span v-if="props.row.active === true" class="text-bold text-success">SI</span>
+                                    <span v-else class="text-bold text-danger">NO</span>
+                                </div>
+                                <div slot="accounting_account" slot-scope="props" class="text-center">
+                                    <span v-if="props.row.accounting_account !== null">
+                                        {{ props.row.accounting_account.group }}.
+                                        {{ props.row.accounting_account.subgroup }}.
+                                        {{ props.row.accounting_account.item }}.
+                                        {{ props.row.accounting_account.generic }}.
+                                        {{ props.row.accounting_account.specific }}.
+                                        {{ props.row.accounting_account.subspecific }}
+                                    </span>
+                                    <span v-else>
+                                        NO REGISTRADA
+                                    </span>
+                                </div>
+                                <div slot="id" slot-scope="props" class="text-center">
+                                    <button @click="initUpdate(props.row.id, $event)"
+                                            class="btn btn-warning btn-xs btn-icon btn-action"
+                                            title="Modificar registro" data-toggle="tooltip" type="button">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button @click="deleteRecord(props.row.id, 'deductions')"
+                                            class="btn btn-danger btn-xs btn-icon btn-action"
+                                            title="Eliminar registro" data-toggle="tooltip"
+                                            type="button">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </div>
+                            </v-client-table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -215,7 +220,7 @@
         },
         mounted() {
             const vm = this;
-            
+
             $("#add_deduction").on('show.bs.modal', function() {
                 vm.reset();
                 vm.getAccountingAccounts();

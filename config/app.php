@@ -17,6 +17,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Versión de la Aplicación
+    |--------------------------------------------------------------------------
+    |
+    | Este valor es el número de versión de la aplicación. El valor es usado para
+    | identificar la versión de la aplicación.
+    |
+    */
+
+    'version' => '1.0.5',
+
+    /*
+    |--------------------------------------------------------------------------
     | Entorno de la Aplicación
     |--------------------------------------------------------------------------
     |
@@ -54,6 +66,15 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | URL de archivos estáticos
+    |--------------------------------------------------------------------------
+    |
+    | Esta URL es usada para cargar archivos estáticos como CSS, JavaScript, etc.
+    |
+    */
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -134,6 +155,16 @@ return [
 
     'key' => env('APP_KEY'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Algoritmo de Cifrado
+    |--------------------------------------------------------------------------
+    |
+    | El algoritmo de cifrado usado por el servicio de cifrado de Illuminate.
+    | Por favor configurelo antes de desplegar la aplicación!
+    |
+    */
+
     'cipher' => 'AES-256-CBC',
 
     /*
@@ -149,7 +180,7 @@ return [
 
     'providers' => [
 
-        /*
+        /**
          * Proveedores de Servicios del Framework Laravel...
          */
         Illuminate\Auth\AuthServiceProvider::class,
@@ -176,11 +207,11 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Elibyy\TCPDF\ServiceProvider::class,
 
-        /*
+        /**
          * Proveedores de Servicios de Paquetes...
          */
 
-        /*
+        /**
          * Proveedores de Servicios de la Aplicación...
          */
         App\Providers\AppServiceProvider::class,
@@ -245,7 +276,5 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'PDF' => Elibyy\TCPDF\Facades\TCPDF::class,
-
     ],
-
 ];

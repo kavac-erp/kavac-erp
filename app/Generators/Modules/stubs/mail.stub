@@ -1,11 +1,12 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -25,8 +26,6 @@ class $CLASS$ extends Mailable
     /**
      * Crea una nueva instancia del mensaje.
      *
-     * @method __construct
-     *
      * @return void
      */
     public function __construct()
@@ -36,8 +35,6 @@ class $CLASS$ extends Mailable
 
     /**
      * Construye el mensaje.
-     *
-     * @method buils
      *
      * @return View     Retorna la vista del correo
      */

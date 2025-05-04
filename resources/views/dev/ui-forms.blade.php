@@ -585,7 +585,7 @@
                                     <div class="alert-icon">
                                         <i class="now-ui-icons travel_info"></i>
                                     </div>
-                                    <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+                                    <strong>Heads up!</strong> This alert needs your attention, but it is not super important.
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">
                                             <i class="now-ui-icons ui-1_simple-remove"></i>
@@ -600,7 +600,7 @@
                                     <div class="alert-icon">
                                         <i class="now-ui-icons ui-1_bell-53"></i>
                                     </div>
-                                    <strong>Warning!</strong> Better check yourself, you're not looking too good.
+                                    <strong>Warning!</strong> Better check yourself, you are not looking too good.
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">
                                             <i class="now-ui-icons ui-1_simple-remove"></i>

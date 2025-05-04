@@ -1,0 +1,13 @@
+<map id="createReport" name="createReport">
+<area shape="rect" id="Node000001" title="Genera un informe de productos en almacén en formato PDF." alt="" coords="244,104,351,129"/>
+<area shape="rect" id="Node000002" href="$de/dd3/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehousePDFController.html#a87474ca7d5b50c17e8fb30bac6dcd9ce" title="Crea un inventario de productos en un almacén específico." alt="" coords="69,5,132,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="270,97,236,69,195,44,163,33,132,25,133,20,164,27,197,40,239,65,274,92"/>
+<area shape="rect" id="Node000003" href="$de/dd3/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehousePDFController.html#a84bd235e5c280f24deba5902b97b8470" title="Crea un informe de productos en almacén para un producto específico." alt="" coords="35,55,167,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,103,151,83,153,77,234,98"/>
+<area shape="rect" id="Node000004" href="$de/dd3/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehousePDFController.html#aff46712a981fe3c02400d10c1b05d99f" title="Crea un informe para un tipo específico de almacén o producto." alt="" coords="44,104,157,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="230,119,158,119,158,114,230,114"/>
+<area shape="rect" id="Node000005" href="$de/dd3/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehousePDFController.html#a346aac18a8d3b0b77d007e862fe28608" title="Crea un informe de productos en almacén para un almacén específico." alt="" coords="23,153,178,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="234,135,153,156,151,151,232,130"/>
+<area shape="rect" id="Node000006" href="$de/dd3/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehousePDFController.html#aae84f24ba49c6fc693c5cb07615ba451" title="Crea un informe de productos en almacén." alt="" coords="5,203,196,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="274,140,239,167,197,192,163,205,161,200,195,188,236,163,270,136"/>
+</map>

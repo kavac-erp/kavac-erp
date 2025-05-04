@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Models;
 
 use App\Models\Profile as BaseProfile;
@@ -19,4 +17,5 @@ use App\Models\Profile as BaseProfile;
  */
 class Profile extends BaseProfile
 {
+    //
 }

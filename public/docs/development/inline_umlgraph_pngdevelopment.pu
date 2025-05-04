@@ -1,0 +1,8 @@
+@startuml inline_umlgraph_1.png
+class City {
+ +string name
+ +integer estate_id
+ +Estate estate()
+ +Collection<Institution> institutions()
+}
+@enduml

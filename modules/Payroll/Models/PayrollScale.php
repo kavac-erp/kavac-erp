@@ -15,6 +15,7 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos de las escalas o niveles de un escalafón
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -26,12 +27,14 @@ class PayrollScale extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'value', 'payroll_salary_scale_id', 'relationable_type', 'relationable_id', 'relationship_type'];
@@ -49,14 +52,12 @@ class PayrollScale extends Model implements Auditable
     }
 
     /**
-     * File morphs to models in relationable_type.
+     * Obtiene la relación morfológica con otros modelos
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function relationable()
     {
-        // morphTo($name = relationable, $type = relationable_type, $id = relationable_id)
-        // requires relationable_type and relationable_id fields on $this->table
         return $this->morphTo();
     }
 }

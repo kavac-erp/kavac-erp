@@ -21,19 +21,43 @@ use Modules\Asset\Models\AssetSubcategory;
 use Modules\Asset\Repositories\AssetParametersRepository;
 use Modules\Purchase\Models\PurchaseSupplier;
 
+/**
+ * @class VehiculoValidationSheetExport
+ * @brief Gestiona la exportación de datos de vehículos en el módulo de bienes
+ *
+ * @author Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class VehiculoValidationSheetExport implements
     FromCollection,
     WithEvents,
     WithHeadings,
     WithTitle
 {
+    /**
+     * Gestiona los parámetros de bienes
+     *
+     * @var AssetParametersRepository $params
+     */
     protected $params;
 
+    /**
+     * Método que define el nombre de la hoja de vehículos
+     *
+     * @return string
+     */
     public function title(): string
     {
         return 'validation';
     }
 
+    /**
+     * Método que define la colección de datos a exportar
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function collection(): Collection
     {
         $this->params = new AssetParametersRepository();
@@ -101,6 +125,11 @@ class VehiculoValidationSheetExport implements
         ));
     }
 
+    /**
+     * Método que define los encabezados de la hoja de vehículos
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return [
@@ -119,9 +148,13 @@ class VehiculoValidationSheetExport implements
         ];
     }
 
+    /**
+     * Método que define los eventos de la hoja de vehículos
+     * @return array
+     */
     public function registerEvents(): array
     {
-        /** @todo Instrucciones para ocultar la hoja de validaciones
+        /* @todo Instrucciones para ocultar la hoja de validaciones
          * Descomentar cuando este verificada la hoja
          */
         return [

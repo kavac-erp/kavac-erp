@@ -64,7 +64,6 @@
                                             'id' => 'department_id',
                                             'class' => 'select2',
                                             'data-toggle' => 'tooltip',
-                                            'disabled' => ( true),
                                             'onchange' => 'updateStaffSelect($(this), $("#payroll_staff_id"), "PayrollEmployment", "Payroll", "payrollStaff", [$("#payroll_position_id")])',
                                             'title' => __('Seleccione un departamento o dependencia'),
                                         ]) !!}
@@ -78,7 +77,6 @@
                                                 'id' => 'payroll_staff_id',
                                                 'class' => 'select2',
                                                 'data-toggle' => 'tooltip',
-                                                'disabled' => ( true),
                                                 'onchange' => 'updateSelectCustomPosition($(this), $("#payroll_position_id"), "PayrollEmployment", "Payroll", "")',
                                                 'title' => __('Seleccione una persona responsable del proyecto')
                                             ]) !!}
@@ -156,18 +154,20 @@
                                     ]) !!}
                                 </div>
                             </div>
-                            <div id="helpOnapreCode" class="col-12 col-lg-3">
-                                <div class="form-group">
-                                    {!! Form::label('onapre_code', __('Código ONAPRE'), ['class' => 'control-label']) !!}
-                                    {!! Form::text('onapre_code', (isset($model)) ? $model->onapre_code : old('onapre_code'), [
-                                        'class' => 'form-control input-sm',
-                                        'data-toggle' => 'tooltip',
-                                        'placeholder' => __('Código de la ONAPRE'),
-                                        'title' => __('Código asignado por la Oficina Nacional de Presupuesto (ONAPRE)')
-                                    ]) !!}
+                            @if(@config('institution.use_onapre'))
+                                <div id="helpOnapreCode" class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        {!! Form::label('onapre_code', __('Código ONAPRE'), ['class' => 'control-label']) !!}
+                                        {!! Form::text('onapre_code', (isset($model)) ? $model->onapre_code : old('onapre_code'), [
+                                            'class' => 'form-control input-sm',
+                                            'data-toggle' => 'tooltip',
+                                            'placeholder' => __('Código de la ONAPRE'),
+                                            'title' => __('Código asignado por la Oficina Nacional de Presupuesto (ONAPRE)')
+                                        ]) !!}
+                                    </div>
                                 </div>
-                            </div>
-                            <div id="helpName" class="col-12 col-lg-6">
+                            @endif
+                            <div id="helpName" class="col-12 col-lg-{{ config('institution.use_onapre') ? '6' : '9'}}">
                                 <div class="form-group is-required">
                                     {!! Form::label('name', __('Nombre'), ['class' => 'control-label']) !!}
                                     {!! Form::text('name', (isset($model)) ? $model->name : old('name'), [

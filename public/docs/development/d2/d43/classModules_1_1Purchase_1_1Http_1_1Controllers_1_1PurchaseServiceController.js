@@ -8,6 +8,6 @@ var classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseServiceController
     [ "show", "d2/d43/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseServiceController.html#ae4914d07a9bbe4aede7a5dea759f6287", null ],
     [ "store", "d2/d43/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseServiceController.html#a9ef485163104597c12185b53cdacf638", null ],
     [ "update", "d2/d43/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseServiceController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
-    [ "$messages", "d2/d43/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseServiceController.html#ae7715468b3957bb3cc52320a1da96b7e", null ],
-    [ "$validateRules", "d2/d43/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseServiceController.html#a08fdb9625ef4d58fe9846c962a0b0dd6", null ]
+    [ "$messages", "d2/d43/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseServiceController.html#aaf8d38bd4e7d07a3d97cc2f497f6d13f", null ],
+    [ "$validateRules", "d2/d43/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseServiceController.html#a19db8a4aa08742d71b20bee403d09b5d", null ]
 ];

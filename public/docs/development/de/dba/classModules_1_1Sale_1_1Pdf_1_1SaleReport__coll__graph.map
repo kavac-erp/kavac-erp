@@ -1,0 +1,5 @@
+<map id="SaleReport" name="SaleReport">
+<area shape="rect" id="Node000001" title="Gestiona los reportes del módulo de comercialización." alt="" coords="5,159,143,664"/>
+<area shape="rect" id="Node000002" href="$d2/d9e/interfaceApp_1_1Repositories_1_1Contracts_1_1ReportInterface.html" title="Interfaz para la gestión de reportes." alt="" coords="17,5,131,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,124,77,159,71,159,71,124"/>
+</map>

@@ -8,6 +8,13 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 
+/**
+ * @class PurchaseProductExport
+ * @brief Gestiona el proceso de exportación de datos de productos
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseProductExport extends \App\Exports\DataExport implements
     WithHeadings,
     ShouldAutoSize,
@@ -15,8 +22,10 @@ class PurchaseProductExport extends \App\Exports\DataExport implements
     WithCustomStartCell
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * Devuelve el listado de productos
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return PurchaseProduct::all();
@@ -35,9 +44,8 @@ class PurchaseProductExport extends \App\Exports\DataExport implements
     /**
      * Establece las cabeceras de los datos en el archivo a exportar
      *
-     * @method    headings
-     *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return    array    Arreglo con las cabeceras de los datos a exportar
      */
     public function headings(): array
@@ -50,8 +58,6 @@ class PurchaseProductExport extends \App\Exports\DataExport implements
 
     /**
      * Establece las columnas que van a ser exportadas
-     *
-     * @method    map
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *

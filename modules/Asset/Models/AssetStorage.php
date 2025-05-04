@@ -2,19 +2,20 @@
 
 namespace Modules\Asset\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
+use App\Models\Parish;
 use App\Traits\ModelsTrait;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class AssetStorage
- * @brief [descripción detallada]
+ * @brief Modelo que gestiona los almacenes de los bienes
  *
- * [descripción corta]
+ * Gestión de almacenes de bienes
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Oscar González <ojgonzalez@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -27,12 +28,14 @@ class AssetStorage extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'active', 'address','parish_id'];
@@ -41,19 +44,20 @@ class AssetStorage extends Model implements Auditable
      * Método que obtiene la parroquia donde esta ubicado el depósito
      *
      * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Parish
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parish()
     {
-        return $this->belongsTo(\App\Models\Parish::class);
+        return $this->belongsTo(Parish::class);
     }
 
     /**
      * Método que obtiene las instituciones que gestionan el almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * WarehouseInstitutionWarehouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assetInstitutionStorages()
     {

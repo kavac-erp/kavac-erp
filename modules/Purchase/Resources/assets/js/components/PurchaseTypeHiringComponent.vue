@@ -116,7 +116,7 @@ export default {
         /**
          * Método que borra todos los datos del formulario
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         reset() {
             const vm = this;
@@ -130,7 +130,7 @@ export default {
             };
             vm.errors = [];
             vm.$refs.purchaseShowError.refresh();
-        }, 
+        },
         createRecord(url) {
             const vm = this;
             vm.record.active = $('#active').prop('checked');

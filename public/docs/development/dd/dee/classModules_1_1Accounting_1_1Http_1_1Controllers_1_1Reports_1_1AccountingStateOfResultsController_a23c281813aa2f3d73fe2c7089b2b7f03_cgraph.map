@@ -1,0 +1,23 @@
+<map id="pdfSign" name="pdfSign">
+<area shape="rect" id="Node000001" title="Genera el reporte en pdf de estado de resultados." alt="" coords="5,153,76,179"/>
+<area shape="rect" id="Node000002" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#aa825cb7aedbc4c92b3fcc708263200bc" title="Sintetiza la información de una cuenta en un array con sus respectivas subcuentas." alt="" coords="124,104,268,129"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,152,141,131,143,136,77,157"/>
+<area shape="rect" id="Node000009" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a55459f9e07fdc6b85953811024ab61d3" title="Obtiene los datos de la moneda." alt="" coords="145,153,247,179"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="76,163,131,163,131,169,76,169"/>
+<area shape="rect" id="Node000010" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a4a9edafe924a4efeb9d1a9daf1bc1dfe" title="Establece los datos de la moneda." alt="" coords="146,203,246,228"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="77,175,143,196,141,201,75,180"/>
+<area shape="poly" id="edge9_Node000002_Node000002" title=" " alt="" coords="170,105,164,96,167,86,178,80,196,77,217,81,226,89,223,93,215,86,196,83,180,85,172,89,170,95,174,103"/>
+<area shape="rect" id="Node000003" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#aaf408629462a34c9e16a85f68f74ee0a" title="Cálculo de saldo de la cuenta tomando en cuenta todos sus subcuentas, hasta llegar al ultimo nivel de..." alt="" coords="316,104,497,129"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="268,114,302,114,302,119,268,119"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="372,106,365,96,369,86,383,80,407,77,436,81,448,90,444,94,434,86,407,83,384,85,372,89,370,95,376,102"/>
+<area shape="rect" id="Node000004" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#ab0ddffde595d12d9c85da6f4c1eb2605" title="Encuentra los tipos de cambio." alt="" coords="545,5,727,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="426,102,479,71,544,40,565,32,567,37,546,44,481,76,429,106"/>
+<area shape="rect" id="Node000005" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a6f3d70e44a5afea25eb600c5e19f6a29" title="Realiza la conversion de saldo." alt="" coords="563,55,709,80"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="466,101,562,80,563,86,467,107"/>
+<area shape="rect" id="Node000006" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a4412028831ce993246eb29b08f2ebb03" title="Obtiene las conversiones de cuentas." alt="" coords="575,104,697,129"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="498,114,562,114,562,119,498,119"/>
+<area shape="rect" id="Node000007" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#aa4c79afa7ea1ba7a95b832f2b6ab8ec4" title="Obtiene el identificador de la moneda." alt="" coords="579,153,693,179"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="467,127,567,148,565,154,466,132"/>
+<area shape="rect" id="Node000008" href="$dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html#a678f5c49204c69d24b2b293794996ecd" title="Establece las conversiones de cuentas." alt="" coords="576,203,696,228"/>
+<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="430,127,482,157,546,188,571,196,569,201,544,192,479,162,427,132"/>
+</map>

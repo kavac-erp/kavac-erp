@@ -1,4 +1,8 @@
 <map id="createAccounts" name="createAccounts">
-<area shape="rect" id="node1" title="[createAccounts crea una cuenta con los parametros recibidos]" alt="" coords="155,5,277,32"/>
-<area shape="rect" id="node2" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#adb1b7b0256254b1d874030d21086272a" title="[fatherMaker crea las cuentas madres de una cuenta con los parametros recibidos]" alt="" coords="5,5,107,32"/>
+<area shape="rect" id="Node000001" title="Crea una cuenta con los parametros recibidos." alt="" coords="257,31,380,56"/>
+<area shape="rect" id="Node000002" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#adb1b7b0256254b1d874030d21086272a" title="Crea las cuentas madres de una cuenta con los parametros recibidos." alt="" coords="108,5,209,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,34,209,29,210,23,244,29"/>
+<area shape="rect" id="Node000003" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#a9ef485163104597c12185b53cdacf638" title="Crea una nueva cuenta patrimonial." alt="" coords="5,31,60,56"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="244,46,60,46,60,41,244,41"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="95,33,61,41,60,35,94,28"/>
 </map>

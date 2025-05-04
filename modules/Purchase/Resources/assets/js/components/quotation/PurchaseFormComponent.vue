@@ -381,8 +381,9 @@ export default {
                 Invitación_de_la_empresa: null,
                 Proforma_o_Cotización: null,
             },
+            base_budget_id: "",
         };
-        },
+    },
     created() {
         this.getCurrencies();
         this.table_options.headings = {
@@ -433,9 +434,9 @@ export default {
         vm.record_base_budgets = vm.record_budgets;
         vm.filterRelatable = [];
         vm.record_base_budgets.forEach((element) => {
-        if(element.availability == "Disponible") {
+        if(element.availability == "AP") {
             var newArray = element.relatable.filter(function (el) {
-                if(el.purchase_requirement_item != null) {                     
+                if (el.purchase_requirement_item != null) {
                     return el.purchase_requirement_item.Quoted == null ;
                 }
             });
@@ -514,6 +515,9 @@ export default {
                     vm.record_items = vm.record_items.concat(record.relatable);
                 }
             });
+        } else {
+            vm.base_budget_id = vm.record_base_budgets.length > 0
+                ? vm.record_base_budgets[0].id : [];
         }
     },
     methods: {
@@ -806,7 +810,8 @@ export default {
 
         /**
          * [CalculateTot Calcula el total del debe y haber del asiento contable]
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+         * @author Argenis Osorio <aosorio@cenditel.gob.ve >
          * @param    {[type]} r     [información del registro]
          * @param    {[type]} pos [posición del registro]
          */
@@ -821,8 +826,8 @@ export default {
                 r['qty_price'] = r.quantity * r.unit_price;
                 r['iva'] = r.quantity * r.unit_price * (iva_percentage / 100);
 
-                // Verificar si el porcentaje de IVA ya existe en el objeto
-                // bases_imponibles
+                /* Verificar si el porcentaje de IVA ya existe en el objeto
+                bases_imponibles*/
                 if (!(iva_percentage in vm.bases_imponibles)) {
                     // Inicializar el total para el porcentaje de IVA
                     vm.bases_imponibles[iva_percentage] = 0;
@@ -843,7 +848,7 @@ export default {
         /**
          * Establece la cantidad de decimales correspondientes a la moneda que se maneja
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         cualculateLimitDecimal() {
             var res = "0.";
@@ -856,125 +861,170 @@ export default {
             return res;
         },
 
+        /**
+         * Método que permite crear o actualizar un registro
+         *
+         * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+         *
+         */
         createRecord() {
             /** Se obtiene y da formato para enviar el archivo a la ruta */
             const vm = this;
             var stop = false;
             let route = vm.route_list;
             var formData = new FormData();
-            for (var i = 0; i < vm.base_budget_list.length; i++) {
-                var relatable = JSON.parse(
-                    localStorage.getItem(vm.base_budget_list[i].id) || "[]"
+
+            /* Validación de que el total de la Cotización sea mayor que 0 */
+            if (vm.total == 0) {
+                vm.showMessage(
+                    "custom",
+                    "Error",
+                    "danger",
+                    "screen-error",
+                    "El Total de la cotización no puede ser cero"
                 );
-                if (vm.base_budget_list[i].relatable.length == relatable.length) {
-                    vm.base_budget_list[i].status = "QUOTED";
-                }
-                else {
-                    vm.base_budget_list[i].status = "PARTIALLY_QUOTED";
-                }
-                vm.base_budget_list[i].relatable.forEach((element) => {
-                    if (element["unit_price"] == 0) {
+                stop = true;
+            } else {
+                /* Validación de que el total de la Cotización sea menor o igual que
+                el total del Presupuesto base asociado */
+                axios.get("/purchase/base_budget/" + vm.base_budget_id)
+                .then((response) => {
+                    var query_total = parseFloat(response.data.records.subtotal);
+
+                    if (parseFloat(vm.total.toFixed(2)) > query_total.toFixed(2)) {
                         vm.showMessage(
                             "custom",
                             "Error",
                             "danger",
                             "screen-error",
-                            "Imposible realizar la cotizacion el item "
-                            + element.purchase_requirement_item.name
-                            + ". tiene un precio de 0 ."
+                            "El total de la Cotización no puede ser mayor que el"
+                            + " total del Presupuesto base asociado"
                         );
                         stop = true;
-                    }
-                });
-            }
-            if (stop) {
-                return;
-            }
-            if (vm.files["Acta_de_inicio"]) {
-                formData.append(
-                    "file_1",
-                    vm.files["Acta_de_inicio"],
-                    vm.files["Acta_de_inicio"]
-                        ? vm.files["Acta_de_inicio"].name : ""
-                );
-            }
-            if (vm.files["Invitación_de_la_empresa"]) {
-                formData.append(
-                    "file_2",
-                    vm.files["Invitación_de_la_empresa"],
-                    vm.files["Invitación_de_la_empresa"]
-                        ? vm.files["Invitación_de_la_empresa"].name
-                        : ""
-                );
-            }
-            if (vm.files["Proforma_o_Cotización"]) {
-                formData.append(
-                    "file_3",
-                    vm.files["Proforma_o_Cotización"],
-                    vm.files["Proforma_o_Cotización"]
-                    ? vm.files["Proforma_o_Cotización"].name
-                    : ""
-                );
-            }
+                    } else {
+                        for (var i = 0; i < vm.base_budget_list.length; i++) {
+                            var relatable = JSON.parse(
+                                localStorage.getItem(vm.base_budget_list[i].id) || "[]"
+                            );
 
-            formData.append("purchase_supplier_id", vm.purchase_supplier_id);
-            formData.append("date", vm.record.date);
-            formData.append("currency_id", vm.currency_id);
-            formData.append("subtotal", vm.sub_total);
-            formData.append("base_budget_list", JSON.stringify(vm.base_budget_list));
-            formData.append("record_items", JSON.stringify(vm.record_items));
-            vm.loading = true;
-
-            if (!vm.record_edit) {
-                axios.post("/purchase/quotation", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((response) => {
-                    vm.showMessage("store");
-                    vm.loading = false;
-                    location.href = `${window.app_url}/purchase/quotation`;
-                    //location.href = vm.route_list;
-                })
-                .catch((error) => {
-                    vm.errors = [];
-                    if (typeof error.response != "undefined") {
-                        for (var index in error.response.data.errors) {
-                            if (error.response.data.errors[index]) {
-                                vm.errors.push(error.response.data.errors[index][0]);
+                            if (vm.base_budget_list[i].relatable.length == relatable.length) {
+                                vm.base_budget_list[i].status = "QUOTED";
                             }
+                            else {
+                                vm.base_budget_list[i].status = "PARTIALLY_QUOTED";
+                            }
+
+                            vm.base_budget_list[i].relatable.forEach((element) => {
+                                if (element["unit_price"] == 0) {
+                                    vm.showMessage(
+                                        "custom",
+                                        "Error",
+                                        "danger",
+                                        "screen-error",
+                                        "Imposible realizar la cotizacion el item "
+                                        + element.purchase_requirement_item.name
+                                        + ". tiene un precio de 0 ."
+                                    );
+                                    stop = true;
+                                }
+                            });
+                        }
+
+                        if (stop) {
+                            return;
+                        }
+
+                        if (vm.files["Acta_de_inicio"]) {
+                            formData.append(
+                                "file_1",
+                                vm.files["Acta_de_inicio"],
+                                vm.files["Acta_de_inicio"]
+                                    ? vm.files["Acta_de_inicio"].name : ""
+                            );
+                        }
+
+                        if (vm.files["Invitación_de_la_empresa"]) {
+                            formData.append(
+                                "file_2",
+                                vm.files["Invitación_de_la_empresa"],
+                                vm.files["Invitación_de_la_empresa"]
+                                    ? vm.files["Invitación_de_la_empresa"].name
+                                    : ""
+                            );
+                        }
+
+                        if (vm.files["Proforma_o_Cotización"]) {
+                            formData.append(
+                                "file_3",
+                                vm.files["Proforma_o_Cotización"],
+                                vm.files["Proforma_o_Cotización"]
+                                ? vm.files["Proforma_o_Cotización"].name
+                                : ""
+                            );
+                        }
+
+                        formData.append("purchase_supplier_id", vm.purchase_supplier_id);
+                        formData.append("date", vm.record.date);
+                        formData.append("currency_id", vm.currency_id);
+                        formData.append("subtotal", vm.sub_total);
+                        formData.append("base_budget_list", JSON.stringify(vm.base_budget_list));
+                        formData.append("record_items", JSON.stringify(vm.record_items));
+                        vm.loading = true;
+
+                        if (!vm.record_edit) {
+                            axios.post("/purchase/quotation", formData, {
+                                headers: {
+                                    "Content-Type": "multipart/form-data",
+                                },
+                            })
+                            .then((response) => {
+                                vm.showMessage("store");
+                                vm.loading = false;
+                                location.href = `${window.app_url}/purchase/quotation`;
+                            })
+                            .catch((error) => {
+                                vm.errors = [];
+                                if (typeof error.response != "undefined") {
+                                    for (var index in error.response.data.errors) {
+                                        if (error.response.data.errors[index]) {
+                                            vm.errors.push(error.response.data.errors[index][0]);
+                                        }
+                                    }
+                                }
+                                vm.$refs.purchaseShowError.refresh();
+                                vm.loading = false;
+                            });
+                        }
+                        else {
+                            formData.append(
+                                "list_to_delete",
+                                JSON.stringify(vm.base_budget_list_deleted)
+                            );
+                            axios.post("/purchase/quotation/" + vm.record_edit.id, formData, {
+                                headers: { "Content-Type": "multipart/form-data" },
+                            })
+                            .then((response) => {
+                                vm.showMessage("update");
+                                vm.loading = false;
+                                location.href = `${window.app_url}/purchase/quotation`;
+                            })
+                            .catch((error) => {
+                                vm.errors = [];
+                                if (typeof error.response != "undefined") {
+                                    for (var index in error.response.data.errors) {
+                                        if (error.response.data.errors[index]) {
+                                            vm.errors.push(error.response.data.errors[index][0]);
+                                        }
+                                    }
+                                }
+                                vm.$refs.purchaseShowError.refresh();
+                                vm.loading = false;
+                            });
                         }
                     }
-                    vm.$refs.purchaseShowError.refresh();
-                    vm.loading = false;
-                });
-            }
-            else {
-                formData.append(
-                    "list_to_delete",
-                    JSON.stringify(vm.base_budget_list_deleted)
-                );
-                axios.post("/purchase/quotation/" + vm.record_edit.id, formData, {
-                    headers: { "Content-Type": "multipart/form-data" },
-                })
-                .then((response) => {
-                    vm.showMessage("update");
-                    vm.loading = false;
-                    location.href = `${window.app_url}/purchase/quotation`;
-                    //location.href = vm.route_list;
                 })
                 .catch((error) => {
-                    vm.errors = [];
-                    if (typeof error.response != "undefined") {
-                        for (var index in error.response.data.errors) {
-                            if (error.response.data.errors[index]) {
-                                vm.errors.push(error.response.data.errors[index][0]);
-                            }
-                        }
-                    }
-                    vm.$refs.purchaseShowError.refresh();
-                    vm.loading = false;
+                    console.error("Error al obtener los datos:", error);
                 });
             }
         },
@@ -987,7 +1037,7 @@ export default {
 
                 vm.base_budget_list_deleted = [];
                 if (vm.base_budget_list.length > 0) {
-                        vm.base_budget_list_deleted = vm.base_budget_list;
+                    vm.base_budget_list_deleted = vm.base_budget_list;
                 }
                 vm.base_budget_list = [];
                 vm.sub_total = 0;
@@ -997,6 +1047,7 @@ export default {
             else {
                 vm.load_data_edit = false;
             }
+
             if (res) {
                 axios.get("/currencies/info/" + res).then((response) => {
                     vm.record.currency = response.data.currency;
@@ -1006,7 +1057,7 @@ export default {
 
         purchase_supplier_id: function (res) {
             if (res) {
-                axios .get("/purchase/get-purchase-supplier-object/" + res)
+                axios.get("/purchase/get-purchase-supplier-object/" + res)
                 .then((response) => {
                     this.record.purchase_supplier_object = response.data;
                     this.record.purchase_supplier_id = res;
@@ -1021,7 +1072,7 @@ export default {
 
         currency_decimal_places: function () {
             if (this.record.currency) {
-                    return this.record.currency.decimal_places;
+                return this.record.currency.decimal_places;
             }
         },
 

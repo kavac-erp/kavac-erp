@@ -21,12 +21,14 @@ class PayrollLangProfUnique implements Rule
 {
     /**
      *  Identificador único del dato pofesional
+     *
      *  @var integer $payroll_prof_id
      */
     protected $payroll_prof_id;
 
     /**
      *  Identificador único del idioma
+     *
      *  @var integer $payroll_lang_id
      */
     protected $payroll_lang_id;
@@ -34,12 +36,10 @@ class PayrollLangProfUnique implements Rule
     /**
      * Crea una nueva instancia
      *
-     * @method __construct
-     *
      * @author William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
-     * @param Integer $payroll_prof_id  Identificador del dato profesional
-     * @param Integer $payroll_lang_id  Identificador del idioma
+     * @param integer $payroll_prof_id  Identificador del dato profesional
+     * @param integer $payroll_lang_id  Identificador del idioma
      *
      * @return void
      */

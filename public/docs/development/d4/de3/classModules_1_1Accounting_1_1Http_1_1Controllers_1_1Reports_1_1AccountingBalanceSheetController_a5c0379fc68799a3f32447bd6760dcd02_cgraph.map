@@ -1,0 +1,18 @@
+<map id="pdf" name="pdf">
+<area shape="rect" id="Node000001" title="Genera el reporte en pdf de balance general." alt="" coords="5,153,48,179"/>
+<area shape="rect" id="Node000002" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#aece89e986c4cfa1db456acdb13987406" title="Método para buscar las cuentas padre de una formulación." alt="" coords="99,29,242,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="31,152,54,109,72,85,94,64,102,59,105,63,98,68,76,88,59,112,36,155"/>
+<area shape="rect" id="Node000003" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#a55459f9e07fdc6b85953811024ab61d3" title="Obtiene la moneda." alt="" coords="120,79,221,104"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="41,151,65,132,95,113,109,107,111,111,97,118,68,136,44,155"/>
+<area shape="rect" id="Node000004" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#a5c67a4c228ee25967d4b59b72bc21bac" title="Realiza el cálculo de las cuentas de acuerdo a como suman." alt="" coords="96,128,245,153"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="48,160,84,153,85,158,49,165"/>
+<area shape="rect" id="Node000005" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#a0db19fdd230ae36f5cadc50c61a451b0" title="Realiza el cálculo de las cuentas de acuerdo a como suman." alt="" coords="293,179,476,204"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="48,165,280,181,280,187,48,170"/>
+<area shape="rect" id="Node000006" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#abc5a35a2b0439e6e613eeb2ed98f50dc" title="Realiza el cálculo de las cuentas de acuerdo a como suman." alt="" coords="109,229,232,255"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="47,177,97,208,126,221,123,226,95,212,45,181"/>
+<area shape="rect" id="Node000007" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#a4a9edafe924a4efeb9d1a9daf1bc1dfe" title="Establece la moneda." alt="" coords="121,279,221,304"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="36,177,59,220,76,243,98,264,110,271,107,276,94,268,72,247,54,223,31,180"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="146,30,141,21,144,11,154,5,171,3,191,6,199,15,195,18,188,11,171,8,156,10,148,15,146,20,151,28"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="226,151,318,173,317,178,225,156"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="225,227,317,205,318,210,226,232"/>
+</map>

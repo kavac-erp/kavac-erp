@@ -6,12 +6,11 @@ use App\Traits\ModelsTrait;
 use Nwidart\Modules\Facades\Module;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Modules\Budget\Models\BudgetAccount;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Accounting\Models\AccountingAccount;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use Modules\Payroll\Repositories\PayrollAssociatedParametersRepository;
+use Illuminate\Support\Str;
 
 /**
  * @class      PayrollConcept
@@ -20,6 +19,7 @@ use Modules\Payroll\Repositories\PayrollAssociatedParametersRepository;
  * Gestiona el modelo de conceptos
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -31,12 +31,14 @@ class PayrollConcept extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -44,9 +46,14 @@ class PayrollConcept extends Model implements Auditable
         'payroll_concept_type_id', 'payroll_salary_tabulator_id', 'is_strict',
         'accounting_account_id', 'budget_account_id', 'budget_project_id',
         'budget_centralized_action_id', 'budget_specific_action_id', 'assign_to',
-        'currency_id'
+        'currency_id', 'pay_order', 'arc'
     ];
 
+    /**
+     * Atributos personalizados a cargar en las consultas
+     *
+     * @var array $appends
+     */
     protected $appends = ['translate_formula'];
 
     /**
@@ -118,8 +125,9 @@ class PayrollConcept extends Model implements Auditable
      */
     public function accountingAccount()
     {
-        return (Module::has('Accounting'))
-            ? $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class) : null;
+        return (
+            Module::has('Accounting') && Module::isEnabled('Accounting')
+        ) ? $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class) : null;
     }
 
     /**
@@ -131,8 +139,9 @@ class PayrollConcept extends Model implements Auditable
      */
     public function budgetAccount()
     {
-        return (Module::has('Budget'))
-            ? $this->belongsTo(\Modules\Budget\Models\BudgetAccount::class) : null;
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->belongsTo(\Modules\Budget\Models\BudgetAccount::class) : null;
     }
 
     /**
@@ -144,24 +153,24 @@ class PayrollConcept extends Model implements Auditable
      */
     public function budgetProject()
     {
-        return (Module::has('Budget'))
-            ? $this->belongsTo(\Modules\Budget\Models\BudgetProject::class) : null;
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->belongsTo(\Modules\Budget\Models\BudgetProject::class) : null;
     }
+
     /**
      * Scope para buscar y filtrar datos de Parroquias
      *
-     * @method    scopeSearch
-     *
-     * @author
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Eloquent\Builder Objeto con la consulta
      * @param  string         $search    Cadena de texto a buscar
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSearch($query, $search)
     {
         return $query->where(DB::raw('upper(name)'), 'LIKE', '%' . strtoupper($search) . '%');
     }
+
     /**
      * Método que obtiene la información de la acción centralizada asociada al concepto
      *
@@ -171,8 +180,9 @@ class PayrollConcept extends Model implements Auditable
      */
     public function budgetCentralizedAction()
     {
-        return (Module::has('Budget'))
-            ? $this->belongsTo(\Modules\Budget\Models\BudgetCentralizedAction::class) : null;
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->belongsTo(\Modules\Budget\Models\BudgetCentralizedAction::class) : null;
     }
 
     /**
@@ -184,8 +194,9 @@ class PayrollConcept extends Model implements Auditable
      */
     public function budgetSpecificAction()
     {
-        return (Module::has('Budget'))
-            ? $this->belongsTo(\Modules\Budget\Models\BudgetSpecificAction::class) : null;
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->belongsTo(\Modules\Budget\Models\BudgetSpecificAction::class) : null;
     }
 
     /**
@@ -206,17 +217,10 @@ class PayrollConcept extends Model implements Auditable
     }
 
     /**
-     * Método que obtiene el concepto asociado a muchos tipos de liquidación
+     * Obtiene el atributo de la formula del concepto
      *
-     * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
-     *
-     * @return    \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return array|string
      */
-    // public function payrollSettlementTypes()
-    // {
-    //     return $this->hasMany(PayrollSettlementType::class);
-    // }
-
     public function getTranslateFormulaAttribute()
     {
         $parameters = new PayrollAssociatedParametersRepository();
@@ -263,5 +267,77 @@ class PayrollConcept extends Model implements Auditable
             }
         }
         return $formula;
+    }
+
+    /**
+     * Obtiene el atributo de la formula del concepto
+     *
+     * @return array|string
+     */
+    public function getTranslateBackFormula()
+    {
+        $parameters = new PayrollAssociatedParametersRepository();
+        $formula = str_replace('if', 'Si', $this->formula);
+        $typesParameters = ['associatedBenefit', 'associatedVacation', 'associatedWorkerFile', 'concept', 'parameter', 'tabulator', 'ari_register'];
+
+        foreach ($typesParameters as $typeParameter) {
+            if (in_array($typeParameter, ['parameter', 'concept', 'tabulator', 'ari_register'])) {
+                if ($typeParameter == 'parameter') {
+                    $types = Parameter::where(
+                        [
+                            'required_by' => 'payroll',
+                            'active'      => true,
+                        ]
+                    )->where('p_key', 'like', 'global_parameter_%')->get();
+                    foreach ($types as $type) {
+                        $jsonValue = json_decode($type->p_value);
+                        $formula = str_replace('parameter(' . $jsonValue->id . ')', $jsonValue->name, $formula);
+                    }
+                } elseif ($typeParameter == 'concept') {
+                    do {
+                        $conceptIds = $this->getConceptIdsFromFormula($formula);
+                        $types = PayrollConcept::query()->whereIn('id', $conceptIds)->get();
+
+                        foreach ($types as $type) {
+                            $formula = str_replace('concept(' . $type['id'] . ')', $type['formula'], $formula);
+                        }
+                    } while (count($this->getConceptIdsFromFormula($formula)) > 0);
+                } elseif ($typeParameter == 'tabulator') {
+                    $types = PayrollSalaryTabulator::all();
+                    foreach ($types as $type) {
+                        $formula = str_replace('tabulator(' . $type['id'] . ')', $type['name'], $formula);
+                    }
+                } elseif ($typeParameter == 'ari_register') {
+                    $formula = str_replace('ari_register', 'Registro ARI', $formula);
+                }
+            } else {
+                $types = $parameters->loadData($typeParameter);
+                foreach ($types as $type) {
+                    if (empty($type['children'])) {
+                        $formula = str_replace($type['id'], $type['name'], $formula);
+                    } else {
+                        foreach ($type['children'] as $children) {
+                            $formula = str_replace($children['id'], $children['name'], $formula);
+                        }
+                    }
+                }
+            }
+        }
+        return $formula;
+    }
+
+    /**
+     * Obtiene los IDs de los conceptos desde la fórmula
+     *
+     * @param string $formula Datos de la fórmula
+     *
+     * @return array
+     */
+    public function getConceptIdsFromFormula($formula)
+    {
+        $pattern = '/concept\((\d+)\)/';
+        preg_match_all($pattern, $formula, $matches);
+
+        return isset($matches) ? $matches[1] : [];
     }
 }

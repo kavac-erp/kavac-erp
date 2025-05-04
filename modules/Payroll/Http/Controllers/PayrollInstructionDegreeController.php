@@ -15,9 +15,9 @@ use Modules\Payroll\Models\PayrollInstructionDegree;
  * Clase que gestiona los grados de instrucción
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollInstructionDegreeController extends Controller
 {
@@ -27,10 +27,12 @@ class PayrollInstructionDegreeController extends Controller
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         /*$this->middleware('permission:payroll.instruction.degrees.list', ['only' => 'index']);*/
         $this->middleware('permission:payroll.instruction.degrees.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.instruction.degrees.edit', ['only' => ['edit', 'update']]);
@@ -41,6 +43,7 @@ class PayrollInstructionDegreeController extends Controller
      * Muestra todos los registros de grado de instruccíón
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de grado de instruccíón
      */
     public function index()
@@ -49,8 +52,9 @@ class PayrollInstructionDegreeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar un nuevo grado de instrucción
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -61,7 +65,9 @@ class PayrollInstructionDegreeController extends Controller
      * Valida y registra un nuevo grado de instrucción
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
+     *
      * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
@@ -77,8 +83,9 @@ class PayrollInstructionDegreeController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un grado de instrucción
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -86,8 +93,9 @@ class PayrollInstructionDegreeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para actualizar la información de un grado de instrucción
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -98,8 +106,10 @@ class PayrollInstructionDegreeController extends Controller
      * Actualiza la información del grado de instrucción
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
      * @param  integer $id                          Identificador del grado de instrucción a actualizar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
@@ -119,7 +129,9 @@ class PayrollInstructionDegreeController extends Controller
      * Elimina el grado de instrucción
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador del grado de instrucción a eliminar
+     *
      * @return \Illuminate\Http\JsonResponse    Json: objeto eliminado y mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -133,6 +145,7 @@ class PayrollInstructionDegreeController extends Controller
      * Obtiene los grados de instrucción registrados
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de grados de instrucción
      */
     public function getPayrollInstructionDegrees()

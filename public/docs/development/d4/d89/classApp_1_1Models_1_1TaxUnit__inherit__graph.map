@@ -1,0 +1,5 @@
+<map id="TaxUnit" name="TaxUnit">
+<area shape="rect" id="Node000001" title="Datos de Unidades Tributarias (U.T.)" alt="" coords="5,5,184,131"/>
+<area shape="rect" id="Node000002" href="$d4/d11/classModules_1_1Purchase_1_1Models_1_1TaxUnit.html" title="Extiende del modelo de unidad tributaria de la aplicación base." alt="" coords="63,179,126,244"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,145,97,178,92,178,92,145"/>
+</map>

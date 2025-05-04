@@ -27,6 +27,7 @@ class PayrollInactivityType extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
@@ -42,6 +43,7 @@ class PayrollInactivityType extends Model implements Auditable
      * Método que obtiene el tipo de inactividad asociadas a muchos datos laborales del trabajador
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payrollEmployments()

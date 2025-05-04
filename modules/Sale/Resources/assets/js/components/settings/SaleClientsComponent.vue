@@ -63,7 +63,7 @@
                                 <label for="name">Tipo de identificación:</label>
                                 <div class="d-flex">
                                     <div class="col-md-3 form-group is-required">
-                                        <select2 data-toggle="tooltip" title="Tipo de identificación" 
+                                        <select2 data-toggle="tooltip" title="Tipo de identificación"
                                             :options="id_types" v-model="record.id_type"></select2>
                                     </div>
                                     <div class="col-md-9 form-group is-required">
@@ -132,7 +132,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <h6 class="card-title">Correo electrónico <i class="fa fa-plus-circle cursor-pointer" @click="addEmail"></i></h6>
-                                        <div class="row" v-for="(clients_email, index) in record.sale_clients_email" 
+                                        <div class="row" v-for="(clients_email, index) in record.sale_clients_email"
                                              :key="index">
                                             <div class="col-md-4">
                                                 <div class="form-group is-required">
@@ -178,15 +178,15 @@
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('sale/register-clients')" 
+							<button type="button" @click="createRecord('sale/register-clients')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -305,7 +305,7 @@
              * Agrega una nueva columna para el registro de telefonos
              *
              * @author Jose Puentes <jpuentes@cenditel.gob.ve>
-             */ 
+             */
             addPhone: function() {
                 const vm = this;
                 vm.record.sale_clients_phone.push({
@@ -319,7 +319,7 @@
             *
             * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
             */
-            addEmail() {      
+            addEmail() {
                 let field = {id: '', email: '', sale_client_id: ''};
                 this.record.sale_clients_email.push(field);
             },

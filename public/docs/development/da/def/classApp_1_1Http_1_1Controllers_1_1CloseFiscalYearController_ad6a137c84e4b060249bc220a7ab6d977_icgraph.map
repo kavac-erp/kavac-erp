@@ -1,0 +1,5 @@
+<map id="getEntryAccounts" name="getEntryAccounts">
+<area shape="rect" id="Node000001" title="Obtiene información de las cuentas contables." alt="" coords="108,5,244,31"/>
+<area shape="rect" id="Node000002" href="$da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#a9ef485163104597c12185b53cdacf638" title="Almacena los asientos contables de cierre de ejercicio fiscal." alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,21,60,21,60,15,94,15"/>
+</map>

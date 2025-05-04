@@ -1,29 +1,25 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Finance\Models;
 
 use App\Models\Currency;
-use App\Models\Institution;
 use App\Models\Receiver;
+use App\Models\Institution;
 use App\Traits\ModelsTrait;
 use App\Models\DocumentStatus;
+use Illuminate\Support\Facades\DB;
 use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Auditable as AuditableTrait;
-use Modules\Accounting\Models\AccountingEntryable;
-
-use function React\Promise\Stream\first;
 
 /**
  * @class FinancePayOrder
- * @brief [descripción detallada]
+ * @brief Modelo de datos para las ordenes de pago
  *
- * [descripción corta]
+ * Gestiona el modelo de datos para las ordenes de pago
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -38,12 +34,14 @@ class FinancePayOrder extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'ordered_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -61,8 +59,6 @@ class FinancePayOrder extends Model implements Auditable
         'observations',
         'status',
         'budget_specific_action_id',
-        'finance_payment_method_id',
-        'finance_bank_account_id',
         'institution_id',
         'document_status_id',
         'currency_id',
@@ -74,6 +70,11 @@ class FinancePayOrder extends Model implements Auditable
         'period',
     ];
 
+    /**
+     * Lista de campos personalizados a retornar en las consultas
+     *
+     * @var array $appends
+     */
     protected $appends = ['accounting_entryable',
         'receiver_name',
         'status_aux',
@@ -81,6 +82,11 @@ class FinancePayOrder extends Model implements Auditable
         'is_payroll_contribution',
     ];
 
+    /**
+     * Obtiene el nombre del receptor de una orden de pago
+     *
+     * @return string
+     */
     public function getReceiverNameAttribute()
     {
         if ($this->name_sourceable_type != Receiver::class) {
@@ -96,18 +102,37 @@ class FinancePayOrder extends Model implements Auditable
     }
 
     /**
+     * Obtiene el id del receptor de una orden de pago
+     *
+     * @return integer|string
+     */
+    public function scopeReceiverId()
+    {
+        if ($this->name_sourceable_type != Receiver::class) {
+            $receiver = Receiver::where([
+                'receiverable_type' => $this->name_sourceable_type,
+                'receiverable_id' => $this->name_sourceable_id
+            ])->first();
+        } else {
+            $receiver = Receiver::find($this->name_sourceable_id);
+        }
+
+        return $receiver ? $receiver->id : '';
+    }
+
+    /**
      * Obtiene los datos del asiento contable asociado
      *
      * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
      *
-     * @return void
+     * @return object
      */
     public function getAccountingEntryableAttribute()
     {
         $accountingEntryable = null;
 
-        if (Module::has('Accounting')) {
-            $accountingEntryable = AccountingEntryable::query()
+        if (Module::has('Accounting') && Module::isEnabled('Accounting')) {
+            $accountingEntryable = \Modules\Accounting\Models\AccountingEntryable::query()
                 ->with(
                     'accountingEntry.accountingAccounts.account' .
                     ':id,group,generic,subspecific,subgroup,specific,denomination,item,institutional'
@@ -125,13 +150,12 @@ class FinancePayOrder extends Model implements Auditable
     /**
      * Obtiene el estatus de una orden de pago según varias caracteristicas
      *
-     * @author
+     * @author Francisco J. P. Ruíz <fpenya@cenditel.gob.ve>
      *
-     * @return
+     * @return string
      */
     public function getStatusAuxAttribute()
     {
-
         $document_status = $this->documentStatus()->first();
         $status = '';
 
@@ -156,9 +180,9 @@ class FinancePayOrder extends Model implements Auditable
     /**
      * Obtiene el estatus de emisión de pago relacionada a este modelo
      *
-     * @author
+     * @author Francisco J. P. Ruíz <fpenya@cenditel.gob.ve>
      *
-     * @return
+     * @return string
      */
     public function getStatusPaymentExecuteAttribute()
     {
@@ -192,7 +216,8 @@ class FinancePayOrder extends Model implements Auditable
     /**
      * Verifica si el registro viene de un aporte de nómina
      *
-     * @param Int $id identificador de la emisión de pago.
+     * @param integer $id identificador de la emisión de pago.
+     *
      * @return bool  true si el valor es relacionado con el aporte de nómina, false en caso contrario
      */
     public function getIsPayrollContributionAttribute(): bool
@@ -218,38 +243,19 @@ class FinancePayOrder extends Model implements Auditable
     }
 
     /**
-     * Get the budgetSpecificAction that owns the FinancePayOrder
+     * Obtiene la relación con la acción especifica del módulo de presupuesto si está presente
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function budgetSpecificAction()
     {
-        return (Module::has('Budget'))
-            ? $this->belongsTo(\Modules\Budget\Models\BudgetSpecificAction::class) : [];
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->belongsTo(\Modules\Budget\Models\BudgetSpecificAction::class) : [];
     }
 
     /**
-     * Get the financePaymentMethod that owns the FinancePayOrder
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function financePaymentMethod()
-    {
-        return $this->belongsTo(FinancePaymentMethods::class, 'finance_payment_method_id');
-    }
-
-    /**
-     * Get the financeBankAccount that owns the FinancePayOrder
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function financeBankAccount()
-    {
-        return $this->belongsTo(FinanceBankAccount::class);
-    }
-
-    /**
-     * Get the institution that owns the FinancePayOrder
+     * Obtiene la relación con la institución
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -259,7 +265,7 @@ class FinancePayOrder extends Model implements Auditable
     }
 
     /**
-     * Get the documentStatus that owns the FinancePayOrder
+     * Obtiene la relación con el estatus del documento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -269,7 +275,7 @@ class FinancePayOrder extends Model implements Auditable
     }
 
     /**
-     * Get the currency that owns the FinancePayOrder
+     * Obtiene la relación con la moneda
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -279,9 +285,10 @@ class FinancePayOrder extends Model implements Auditable
     }
 
     /**
-     * FinancePayOrder morphs to models in document_sourceable_type.
+     * Obtiene la relación morfológica con el documento fuente (que generó el proceso) para la orden de pago
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function documentSourceable()
@@ -290,9 +297,10 @@ class FinancePayOrder extends Model implements Auditable
     }
 
     /**
-     * FinancePayOrder morphs to models in name_sourceable_type.
+     * Obtiene la relación morfológica con el nombre fuente (que generó el proceso) para la orden de pago
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function nameSourceable()
@@ -301,7 +309,7 @@ class FinancePayOrder extends Model implements Auditable
     }
 
     /**
-     * The financePaymentExecute that belong to the FinancePayOrder
+     * Obtiene la relación con las ejecuciones de pago
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -327,8 +335,9 @@ class FinancePayOrder extends Model implements Auditable
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Eloquent\Builder $query     Objeto con la consulta
      * @param  string         $search    Cadena de texto a buscar
+
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSearch($query, $search)

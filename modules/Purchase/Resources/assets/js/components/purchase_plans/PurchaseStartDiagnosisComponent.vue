@@ -93,7 +93,7 @@ export default {
         }
     },
     created() {
-        // 
+        //
     },
     mounted() {
         if (this.records.purchase_process) {
@@ -135,9 +135,7 @@ export default {
 
         createRecord() {
             const vm = this;
-            // if (document.querySelector(`#${input_id}`)) {
             vm.loading = true;
-            // vm.files[input_id] = document.querySelector(`#${input_id}`).files[0];
 
             /** Se obtiene y da formato para enviar el archivo a la ruta */
             var formData = new FormData();

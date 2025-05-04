@@ -106,8 +106,10 @@
                     <li class="VuePagination__pagination-item page-item  VuePagination__pagination-item-prev-page" v-if="pag > 1">
                         <a class="page-link" @click="prevPag()">&lt;</a>
                     </li>
-                    <li :class="(pag ==number)?'VuePagination__pagination-item page-item active':'VuePagination__pagination-item page-item'" v-for="(number, index) in numbers" :key="index" v-if="records.length >= number">
-                        <a class="page-link active" role="button" @click.prevent="pag = number">{{number}}</a>
+                    <li :class="(pag ==number)?'VuePagination__pagination-item page-item active':'VuePagination__pagination-item page-item'" v-for="(number, index) in numbers" :key="index">
+                        <a class="page-link active" role="button" @click.prevent="pag = number" v-if="records.length >= number">
+                            {{number}}
+                        </a>
                     </li>
                     <li class="VuePagination__pagination-item page-item  VuePagination__pagination-item-next-page" v-if="records.length > pag">
                         <a class="page-link" @click="nextPag()">&gt;</a>

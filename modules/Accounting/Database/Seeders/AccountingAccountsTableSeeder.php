@@ -2,13 +2,12 @@
 
 namespace Modules\Accounting\Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Modules\Accounting\Models\AccountingAccount;
-use Modules\Accounting\Models\AccountingSeatAccount;
-use Modules\Accounting\Models\Accountable;
 use Exception;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Model;
+use Modules\Accounting\Models\Accountable;
+use Modules\Accounting\Models\AccountingAccount;
 
 /**
  * @class AccountingAccountsTableSeeder
@@ -16,26 +15,24 @@ use Exception;
  *
  * Gestiona la información por defecto a registrar inicialmente para las cuentas patrimoniales
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AccountingAccountsTableSeeder extends Seeder
 {
     /**
-     * @class AccountingAccountsTableSeeder
-     * @brief Información por defecto para cuentas patrimoniales
+     * Ejecuta el seeder de cuentas contables
      *
-     * Gestiona la información por defecto y la registra inicialmente para las cuentas patrimoniales
-     *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @return void
      */
     public function run()
     {
         Model::unguard();
 
-        /**
-        * Listadop de cuenta patrimoniales verificadas y actualizadas
+        /*
+        * Listado de cuentas patrimoniales verificadas y actualizadas
         */
         $accounting_acounts = [
             [
@@ -1701,6 +1698,19 @@ class AccountingAccountsTableSeeder extends Seeder
                 'subspecific' => '00', 'active' => true, 'original' => true, 'denomination' => 'CAPITAL INSTITUCIONAL'
             ],
             [
+                'group' => '3', 'subgroup' => '2', 'item' => '1', 'generic' => '01', 'specific' => '01',
+                'subspecific' => '00', 'active' => true, 'original' => true, 'denomination' => 'CAPITAL INSTITUCIONAL'
+            ],
+            [
+                'group' => '3', 'subgroup' => '2', 'item' => '1', 'generic' => '01', 'specific' => '01',
+                'subspecific' => '01', 'active' => true, 'original' => true, 'denomination' => 'CAPITAL INSTITUCIONAL'
+            ],
+            [
+                'group' => '3', 'subgroup' => '2', 'item' => '1', 'generic' => '01', 'specific' => '01',
+                'subspecific' => '01', 'institutional' => '001', 'active' => true, 'original' => true,
+                'denomination' => 'CAPITAL INSTITUCIONAL'
+            ],
+            [
                 'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '00', 'specific' => '00',
                 'subspecific' => '00', 'active' => true, 'original' => true,
                 'denomination' => 'TRANSFERENCIAS, DONACIONES DE CAPITAL Y APORTES POR CAPITALIZAR RECIBIDOS'
@@ -1715,13 +1725,43 @@ class AccountingAccountsTableSeeder extends Seeder
                 'denomination' => 'Transferencias de capital internas recibidas del sector privado'
             ],
             [
+                'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '01', 'specific' => '01',
+                'subspecific' => '01', 'active' => true, 'original' => true,
+                'denomination' => 'Transferencias de capital internas recibidas del sector privado'
+            ],
+            [
+                'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '01', 'specific' => '01',
+                'subspecific' => '01', 'institutional' => '001', 'active' => true, 'original' => true,
+                'denomination' => 'Transferencias de capital internas recibidas del sector privado'
+            ],
+            [
                 'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '01', 'specific' => '02',
                 'subspecific' => '00', 'active' => true, 'original' => true,
                 'denomination' => 'Transferencias de capital internas recibidas del sector público'
             ],
             [
+                'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '01', 'specific' => '02',
+                'subspecific' => '01', 'active' => true, 'original' => true,
+                'denomination' => 'Transferencias de capital internas recibidas del sector público'
+            ],
+            [
+                'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '01', 'specific' => '02',
+                'subspecific' => '01', 'institutional' => '001', 'active' => true, 'original' => true,
+                'denomination' => 'Transferencias de capital internas recibidas del sector público'
+            ],
+            [
                 'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '01', 'specific' => '03',
                 'subspecific' => '00', 'active' => true, 'original' => true,
+                'denomination' => 'Transferencias de capital recibidas del exterior'
+            ],
+            [
+                'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '01', 'specific' => '03',
+                'subspecific' => '01', 'active' => true, 'original' => true,
+                'denomination' => 'Transferencias de capital recibidas del exterior'
+            ],
+            [
+                'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '01', 'specific' => '03',
+                'subspecific' => '01', 'institutional' => '001', 'active' => true, 'original' => true,
                 'denomination' => 'Transferencias de capital recibidas del exterior'
             ],
             [
@@ -1738,8 +1778,26 @@ class AccountingAccountsTableSeeder extends Seeder
                 'subspecific' => '00', 'active' => true, 'original' => true, 'denomination' => 'Donaciones de capital internas recibidas'
             ],
             [
+                'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '02', 'specific' => '01',
+                'subspecific' => '01', 'active' => true, 'original' => true, 'denomination' => 'Donaciones de capital internas recibidas'
+            ],
+            [
+                'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '02', 'specific' => '01',
+                'subspecific' => '01', 'institutional' => '001', 'active' => true, 'original' => true,
+                'denomination' => 'Donaciones de capital internas recibidas'
+            ],
+            [
                 'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '02', 'specific' => '02',
                 'subspecific' => '00', 'active' => true, 'original' => true, 'denomination' => 'Donaciones de capital externas recibidas'
+            ],
+            [
+                'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '02', 'specific' => '02',
+                'subspecific' => '01', 'active' => true, 'original' => true, 'denomination' => 'Donaciones de capital externas recibidas'
+            ],
+            [
+                'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '02', 'specific' => '02',
+                'subspecific' => '01', 'institutional' => '001', 'active' => true, 'original' => true,
+                'denomination' => 'Donaciones de capital externas recibidas'
             ],
             [
                 'group' => '3', 'subgroup' => '2', 'item' => '2', 'generic' => '03', 'specific' => '00',
@@ -3371,7 +3429,7 @@ class AccountingAccountsTableSeeder extends Seeder
             ],
         ];
 
-        /**
+        /*
         * Listado de cuentas que actualizaron su código y deben ser eliminadas para sacarlas de la base de datos cargada
         * estas cuentas ya fueron actualizas en el listado de cuentas $accounting_acounts
         */
@@ -3432,10 +3490,9 @@ class AccountingAccountsTableSeeder extends Seeder
                                   'externo'
             ],
         ];
-        // DB::transaction(function () use ($accounting_acounts, $accounting_acounts_to_delete) {
-        foreach ($accounting_acounts as $account) {
 
-            /** @var Object que almacena la consulta de la cuenta, si esta no existe retorna null */
+        foreach ($accounting_acounts as $account) {
+            /* Almacena la consulta de la cuenta, si esta no existe retorna null */
             $acc = AccountingAccount::where('group', $account['group'])
                                 ->where('subgroup', $account['subgroup'])
                                 ->where('item', $account['item'])
@@ -3444,7 +3501,7 @@ class AccountingAccountsTableSeeder extends Seeder
                                 ->where('subspecific', $account['subspecific'])
                                 ->where('institutional', ($account['institutional']) ?? '000')->first();
 
-            /** @var Object que almacena la consulta de la cuenta de nivel superior de la cuanta actual, si esta no posee retorna false */
+            /* Almacena la consulta de la cuenta de nivel superior de la cuanta actual, si esta no posee retorna false */
             $parent = AccountingAccount::getParent(
                 $account['group'],
                 $account['subgroup'],
@@ -3474,7 +3531,7 @@ class AccountingAccountsTableSeeder extends Seeder
                                          : (($account['group'] == '5') ? false : null),
                     'inactivity_date' => (!$account['active']) ? date('Y-m-d') : null,
 
-                    /**
+                    /*
                     * Si existe, al ejecutar nuevamente el seeder o refrescar la base de datos evita que se asigne
                     * en la columna parent_id a si mismo como su parent
                     */
@@ -3485,7 +3542,7 @@ class AccountingAccountsTableSeeder extends Seeder
             );
         }
 
-        /**
+        /*
         * Listado de cuentas que deben ser eliminadas por actualización en el código
         * Se consultan, eliminan y actualizan los registros relacionados con la cuenta,
         * en caso de ya tener informacion relacionada se toman las medidas necesarias para evitar la perdida
@@ -3510,18 +3567,8 @@ class AccountingAccountsTableSeeder extends Seeder
                             ->where('group', '<>', $account['subspecific'])->first();
 
                 if (!is_null($acc_new)) {
-                    /**
-                    * Se actualizan los valores de las llaves foraneas en el modelo AccountingSeatAccount que tenia
-                    * la cuenta por el nuevo registro actualizado se actualiza la información en la base de datos
-                    */
-                    /*$accounting = AccountingSeatAccount::where('accounting_account_id',$account_to->id)->get();
-                    foreach ($accounting as $acc) {
-                        $acc->accounting_account_id = $acc_new->id;
-                        $acc->save();
-                    }*/
-
                     try {
-                        /**
+                        /*
                         * Se actualizan los valores de las llaves foraneas en el modelo Accountable que
                         * tenia la cuenta por el nuevo registro actualizado.
                         */
@@ -3531,14 +3578,11 @@ class AccountingAccountsTableSeeder extends Seeder
                             $acc->save();
                         }
                     } catch (Exception $e) {
+                        Log::error($e->getMessage());
                         continue;
                     }
                 }
-
-                // Se elimina el registro
-                //$account_to->delete();
             }
         }
-        // });
     }
 }

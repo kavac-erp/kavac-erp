@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class CreatePayrollFinancials
- * @brief [descripción detallada]
+ * @brief Migración para crear tabla de finanzas
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -18,16 +16,10 @@ use Illuminate\Database\Migrations\Migration;
 class CreatePayrollFinancials extends Migration
 {
     /**
- * @class CreatePayrollFinancials
- * @brief [descripción detallada]
- *
- * [descripción corta]
- *
- * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve>
- *
- * @license
- *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
- */
+     * Ejecuta la Migración
+     *
+     * @return void
+     */
     public function up()
     {
         if (!Schema::hasTable('payroll_financials')) {
@@ -50,6 +42,7 @@ class CreatePayrollFinancials extends Migration
      * Método que elimina las migraciones
      *
      * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve>
+     *
      * @return void
      */
     public function down()

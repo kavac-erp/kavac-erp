@@ -25,7 +25,8 @@
                     <div class="card-btns">
                         @include('buttons.previous', ['route' => url()->previous()])
                         @include('buttons.new', ['route' => route('payroll.professionals.create')])
-                                {!! Form::button('<i class="fa fa-upload"></i>', [
+                        @permission('payroll.professionals.import')
+                        {!! Form::button('<i class="fa fa-upload"></i>', [
                             'class'       => 'btn btn-sm btn-primary btn-custom',
                             'data-toggle' => 'tooltip',
                             'type'        => 'button',
@@ -35,6 +36,8 @@
                         <input  id="importFile" name="importFile"
                         type="file" style="display:none"
                         onchange="importData()">
+                        @endpermission
+                        @permission('payroll.professionals.export')
                         {!! Form::button('<i class="fa fa-download"></i>', [
                             'class'       => 'btn btn-sm btn-primary btn-custom',
                             'data-toggle' => 'tooltip',
@@ -42,6 +45,7 @@
                             'title'       => "Presione para descargar el documento con la información de los registros.",
                             'onclick'     => "exportData()"
                         ]) !!}
+                        @endpermission
                         @include('buttons.minimize')
                     </div>
                 </div>
@@ -65,7 +69,7 @@
             location.href = `${window.app_url}/payroll/registers/export/professional/all`;
         }
         function importData() {
-        var url = `${window.app_url}/payroll/registers/import/staffs/all`;
+        var url = `${window.app_url}/payroll/registers/import/professional/all`;
             var formData = new FormData();
             var importFile = document.querySelector('#importFile');
             formData.append("file", importFile.files[0]);
@@ -73,7 +77,7 @@
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-            }).then(response => {            
+            }).then(response => {
                 console.log(response.data);
                 var texterror = 'Su solicitud esta en proceso, esto puede tardar unos minutos. Se le notificara al terminar la operación';
                 if (typeof response.data.errors !== 'undefined' && response.data.errors.length > 0) {

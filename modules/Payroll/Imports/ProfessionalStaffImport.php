@@ -24,6 +24,15 @@ use Modules\Payroll\Models\PayrollInstructionDegree;
 use Modules\Payroll\Models\Profession;
 use Maatwebsite\Excel\Validators\Failure;
 
+/**
+ * @class ProfessionalStaffImport
+ * @brief Importa un archivo de datos profesionales del personal
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class ProfessionalStaffImport implements
     ToModel,
     WithValidation,
@@ -35,21 +44,28 @@ class ProfessionalStaffImport implements
     use SkipsErrors;
     use SkipsFailures;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @param string $fileErrosPath Ruta donde se guardan los archivos de errores
+     *
+     * @return void
+     */
     public function __construct(
         protected string $fileErrosPath,
-    ){
-
+    ) {
     }
 
     /**
-     * @param array $row
+     * Modelo para importar datos
+     *
+     * @param array $row Arreglo de columnas a importar
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-
     public function model(array $row)
     {
-        /** @var array Datos del tipo de bien al cual asociar la información del bien */
+        /* Datos del tipo de bien al cual asociar la información del bien */
         DB::transaction(function () use ($row) {
             $payrollProfessional = PayrollProfessional::updateOrCreate(
                 [
@@ -110,13 +126,22 @@ class ProfessionalStaffImport implements
         });
     }
 
+    /**
+     * Preparar los datos para ser importados (validaciones)
+     *
+     * @param array $data Arreglo con los datos
+     * @param integer $index Indice de la fila
+     *
+     * @return array
+     */
     public function prepareForValidation($data, $index)
     {
 
         if (isset($data["cedula_de_identidad"]) && !is_null($data["cedula_de_identidad"]) && $data["cedula_de_identidad"] != "" and $data["cedula_de_identidad"] != "null" and $data["cedula_de_identidad"] != null) {
             $usuario = PayrollStaff::where(['id_number' => $data["cedula_de_identidad"],])->first();
-            if ($usuario) {
-                $data["id"] = $usuario->id;
+            $data["id"] = $usuario?->id;
+            if (empty($data["id"])) {
+                $data["cedula_de_identidad_value"] = $data["cedula_de_identidad"];
             }
         }
         $data["es_estudiante"] = (isset($data["es_estudiante"]) && !is_null($data["es_estudiante"]) && (strtoupper($data["es_estudiante"] == "True") || strtoupper($data["es_estudiante"]) == "SI"));
@@ -206,8 +231,13 @@ class ProfessionalStaffImport implements
         return $data;
     }
 
+    /**
+     * Callback de error de validación
+     *
+     * @param object $failures Arreglo columnas que fallaron en la validación
+     */
     public function onFailure(Failure ...$failures)
-    {   
+    {
         foreach ($failures as $failure) {
             $validationErrors = [
                 'row' => $failure->row(),
@@ -220,10 +250,23 @@ class ProfessionalStaffImport implements
         }
     }
 
+    /**
+     * Reglas de validación
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [
             'cedula_de_identidad' => ['required'],
+            'cedula_de_identidad_value' => function ($attribute, $value, $onFailure) {
+                if ($value) {
+                    $onFailure(
+                        'La cédula de identidad (' . strip_tags($value) .
+                        ') no coincide con los registros en la base de datos del sistema'
+                    );
+                }
+            },
             'grado_de_instruccion' => ['required'],
             'es_estudiante' => ['required'],
             'tipo_de_estudio' => ['required_if:es_estudiante,TRUE'],

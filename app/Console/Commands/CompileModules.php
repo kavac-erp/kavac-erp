@@ -1,7 +1,5 @@
 <?php
 
-/** Gestiona los comandos personalizados de la aplicación */
-
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -24,7 +22,7 @@ class CompileModules extends Command
     /**
      * El nombre y firma del comando, así como las opciones y argumentos que recibe
      *
-     * @var string
+     * @var string $signature
      */
     protected $signature = 'module:compile
                             {module? : The module name to compile. Example: module:compile moduleName}
@@ -38,12 +36,12 @@ class CompileModules extends Command
     /**
      * Descripción del comando.
      *
-     * @var string
+     * @var string $description
      */
     protected $description = 'compile assets modules';
 
     /**
-     * Crea una nueva instancia al comando.
+     * Crea una nueva instancia del comando.
      *
      * @return void
      */
@@ -53,22 +51,30 @@ class CompileModules extends Command
     }
 
     /**
-     * Ejecuta el comando de la consola.
+     * Este método se encarga de compilar los módulos de la aplicación.
      *
-     * @return int
+     * @return integer Código de estado de la compilación.
      */
     public function handle()
     {
         $result = shell_exec("npm -v");
 
-        if (strpos($result, 'no encontrada') !== false || strpos($result, 'not found') !== false || $result === null) {
+        if (
+            strpos($result, 'no encontrada') !== false ||
+            strpos($result, 'not found') !== false ||
+            $result === null
+        ) {
             $this->line('');
             $this->line('<fg=red>El paquete node no esta instalado.</>');
             $this->line('<fg=red>Antes de continuar instale el paquete y repita el proceso.</>');
             $this->line('');
             return 0;
         }
+
+        // Establece si se debe compilar el núcleo de la aplicación
         $withCore = ($this->option('system')) ? true : false;
+
+        // Establece si se debe omitir la compilación de los archivos
         $withNoCompile = ($this->option('no-compile')) ? true : false;
 
         $this->line('');
@@ -78,39 +84,52 @@ class CompileModules extends Command
         $this->line('');
 
         if (!$this->argument('module')) {
+            // Archivo mix-manifest.json que contiene el listado de la aplicación base y los módulos compilados
             $mixManifest = public_path('mix-manifest.json');
             if (File::exists($mixManifest)) {
                 File::delete($mixManifest);
             }
         }
 
-        /** @var array Guarda el listado de los módulos compilados */
+        //
         $m = [];
-        /** @var string Modo de compilación. dev = desarrollo, prod = producción */
+
+        // Modo de compilación. dev = desarrollo, prod = producción
         $compileMode = ($this->option('prod')) ? 'prod' : 'dev';
-        /** @var string Establece si se debe ejecutar el comando de instalación de paquetes */
+
+        // Establece si se debe ejecutar el comando de instalación de paquetes
         $withInstall = ($this->option('install')) ? '&& npm install' : '';
-        /** @var string Establece si se debe ejecutar el comando de actualización de paquetes */
+
+        // Establece si se debe ejecutar el comando de actualización de paquetes
         $withUpdate = ($this->option('update')) ? '&& npm update' : '';
-        /** @var string Texto a mostrar como resultado de la ejecución */
+
+        // Texto a mostrar como resultado de la ejecución
         $successText = (!empty($withInstall)) ? 'instalados' : ((!empty($withUpdate)) ? 'actualizados' : '');
-        /** @var boolean Determina si se encuentra un error en la compilación */
+
+        // Determina si se encuentra un error en la compilación
         $hasError = false;
-        /** @var string Mensaje del error */
+
+        // Mensaje del error
         $errorMsg = '';
-        /** @var string Nombre del módulo que generó error al compilar */
+
+        // Nombre del módulo que generó error al compilar
         $errorModule = '';
 
-        /** @var object Objeto con información de los módulos habilitados en la aplicación */
+        // Objeto con información de los módulos habilitados en la aplicación
         $modules = Module::collections(1);
-        /** @var integer Total de módulos habilitados */
+
+        // Total de módulos habilitados
         $count = (!$this->argument('module')) ? count($modules) : 1;
-        /** @var integer contador que registra el número de modulo que se compila */
+
+        // Contador que registra el número de modulo que se compila
         $index = 1;
-        /** @var string Título de la acción a ejecutar */
-        $moduleCompileTitle = (!empty($withUpdate))
-                              ? "Actualizando paquetes y "
-                              : ((!empty($withInstall)) ? "Instalando paquetes y " : "");
+
+        // Título de la acción a ejecutar
+        $moduleCompileTitle = (
+            !empty($withUpdate)
+        ) ? "Actualizando paquetes y " : (
+            (!empty($withInstall)) ? "Instalando paquetes y " : ""
+        );
 
         if ($withCore) {
             $this->line('');
@@ -122,7 +141,9 @@ class CompileModules extends Command
                     " paquetes generales del sistema</>"
                 );
                 $this->line('');
+
                 $result = shell_exec(!empty($withUpdate) ? "npm update" : "npm install");
+
                 if (strpos($result, 'audited') === false) {
                     $hasError = true;
                     $errorMsg = $result;
@@ -188,7 +209,7 @@ class CompileModules extends Command
         if (!empty($m) && !$hasError) {
             if ($withCore) {
                 $this->line("");
-                $this->info("Se ha compilado los archivos de la aplicación");
+                $this->info("Se han compilado los archivos de la aplicación");
             }
             $this->line("");
             $this->info("Se han compilado los siguientes módulos:");

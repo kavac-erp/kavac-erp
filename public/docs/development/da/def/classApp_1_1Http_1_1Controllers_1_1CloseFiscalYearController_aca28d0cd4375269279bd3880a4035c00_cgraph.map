@@ -1,0 +1,5 @@
+<map id="approve" name="approve">
+<area shape="rect" id="Node000001" title="Aprueba el cierre de año fiscal." alt="" coords="5,5,80,31"/>
+<area shape="rect" id="Node000002" href="$da/def/classApp_1_1Http_1_1Controllers_1_1CloseFiscalYearController.html#a4be4d2d5d9333b37f6912cb1b67ea6ad" title="Obtiene los datos de la organización." alt="" coords="128,5,297,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,15,114,15,114,21,80,21"/>
+</map>

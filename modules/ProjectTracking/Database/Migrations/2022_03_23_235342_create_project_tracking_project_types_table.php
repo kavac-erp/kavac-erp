@@ -10,7 +10,7 @@ use Illuminate\Database\Migrations\Migration;
  *
  * Creación de la tabla project_tracking_project_types
  *
- * @author [José Jorge Briceño] [josejorgebriceno9@gmail.com]
+ * @author José Jorge Briceño <josejorgebriceno9@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

@@ -1,7 +1,7 @@
 <template>
     <div class="text-center">
-        <a class="btn-simplex btn-simplex-md btn-simplex-primary" href="#" title="Registros de modalidades de compras" data-toggle="tooltip" v-has-tooltip 
-            @click="addRecord('add_purchase_types', '/purchase/purchase_types', $event), 
+        <a class="btn-simplex btn-simplex-md btn-simplex-primary" href="#" title="Registros de modalidades de compras" data-toggle="tooltip" v-has-tooltip
+            @click="addRecord('add_purchase_types', '/purchase/purchase_types', $event),
                     readRecords(`/required-documents/supplier/purchase`)">
             <i class="now-ui-icons shopping_tag-content ico-3x"></i>
             <span>Modalidades de<br>Compras</span>
@@ -28,13 +28,6 @@
                                     <input type="text" placeholder="Nombre del tipo de compra" data-toggle="tooltip" v-has-tooltip v-model="record.name" title="Indique el nombre del tipo de compra (requerido)" class="form-control input-sm">
                                 </div>
                             </div>
-                            <!-- <div class="col-md-6">
-                                <div class="form-group is-required">
-                                    <label class="control-label" for="purchase_process">Proceso de compra:</label><br>
-                                    <select2 :options="purchaseProcesses" id="purchase_process" placeholder="Proceso de compra asociado" v-model="record.purchase_processes_id">
-                                    </select2>
-                                </div>
-                            </div> -->
                             <div class="col-md-12">
                                 <div class="form-group" data-toggle="tooltip" v-has-tooltip title="Indique la descripción para el tipo de compra">
                                     <label>Descripción:</label>
@@ -49,11 +42,14 @@
                                     <br>
                                     <table align="center" >
                                         <tr>
-                                            <div class="row col-xs-12" v-for="i in Math.ceil(required_documents.length / 3)">
-                                                <div v-for="required_document in required_documents.slice((i - 1) * 3, i * 3)">
+                                            <div class="row col-xs-12" v-for="i in Math.ceil(required_documents.length / 3)" :key="i">
+                                                <div
+                                                    v-for="(required_document, index) in required_documents.slice((i - 1) * 3, i * 3)"
+                                                    :key="index"
+                                                >
                                                     <td style="width:250px">
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
-                                                            <input type="checkbox" :id="required_document.id" 
+                                                            <input type="checkbox" :id="required_document.id"
                                                                     :value="required_document.id" v-model="checkedNames"
                                                                     title="Seleccione el documento">
                                                             <label :for="required_document.name"><strong>{{required_document.name}}</strong></label>
@@ -78,7 +74,7 @@
                                 <p v-html="props.row.description"></p>
                             </div>
                             <div slot="documents" slot-scope="props">
-                                <div v-for="document in props.row.documents">
+                                <div v-for="(document, index) in props.row.documents" :key="index">
                                     {{`${document.name}.`}}
                                 </div>
                             </div>
@@ -115,7 +111,6 @@ export default {
                 purchase_processes_id: '',
                 documents_id: [],
             },
-            //purchaseProcesses: [],
             edit: false,
         }
     },
@@ -136,12 +131,6 @@ export default {
                 documents_id: [],
             };
         },
-
-        // getPurchaseProcess() {
-        //     axios.get('/purchase/get-processes', this.record).then(response => {
-        //         this.purchaseProcesses = response.data
-        //     });
-        // },
         createRecord(url) {
             const vm = this;
             vm.record.documents_id = vm.checkedNames;
@@ -229,10 +218,7 @@ export default {
         };
     },
     mounted() {
-        //this.getPurchaseProcess();
-        // let module="purchase"; 
-        // let model="supplier";
-        // this.readRecords(`/required-documents/${model}/${module}`)
+        //
     }
 };
 </script>

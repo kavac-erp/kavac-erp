@@ -45,7 +45,8 @@
                         <i class="fa fa-trash-o"></i>
                     </button>
                     <payroll-review-benefits-request-pending-form
-                        :route_show="app_url + '/payroll/benefits-requests/show/' + props.row.id" :id="props.row.id">
+                        :route_show="app_url + '/payroll/benefits-requests/show/' + props.row.id" :id="props.row.id"
+                        :request_status="props.row.status">
                     </payroll-review-benefits-request-pending-form>
                 </div>
             </div>

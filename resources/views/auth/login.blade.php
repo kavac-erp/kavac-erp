@@ -44,7 +44,7 @@
         </div>
         <div class="form-group">
             <div class="login-captcha-grid">
-                <div class="captcha-addon text-right">{!! Captcha::img(); !!}</div>
+                <div class="captcha-addon text-right">{!! Captcha::img() !!}</div>
                 <div class="text-left text-light mb-0">
                     <i class="now-ui-icons arrows-1_refresh-69 cursor-pointer captcha-reload vertical-middle my-0 pt-1"
                        onclick="refresh_captcha()" data-toggle="tooltip" data-placement="right"
@@ -77,8 +77,8 @@
                     </div>
                     <div class="col-6 text-left">
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" name="remember" id="remember" data-toggle="tolltip" 
-                                   title="{{  __('Seleccione si desea que el sistema recuerde sus datos') }}" value="true" 
+                            <input type="checkbox" class="custom-control-input" name="remember" id="remember" data-toggle="tolltip"
+                                   title="{{  __('Seleccione si desea que el sistema recuerde sus datos') }}" value="true"
                                    {{ (old('remember'))?'checked':'' }}>
                             <label class="custom-control-label" for="remember"></label>
                         </div>

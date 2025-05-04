@@ -489,7 +489,7 @@
             /**
              * Función que reescribe el metodo para mostrar un mensaje de aleta
              *
-             * @author
+             * @author Argenis Osorio <aosorio at cenditel.gob.ve>
              */
             viewMessage() {
                 const vm = this;
@@ -525,7 +525,7 @@
                     else if(vm.action === 'Desincorporación'){
                         vm.equipments = response.data.records.asset_disincorporation_assets;
                     }
-                    
+
                 }).catch(error => {
                     if (typeof(error.response) !== "undefined") {
                         if (error.response.status == 403) {

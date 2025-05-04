@@ -9,7 +9,6 @@ use App\Models\Parameter;
 
 /**
  * @class      PurchaseParameterController
- *
  * @brief      Controlador de la gestión de los parámetros de Compras.
  *
  * @author     Argenis Osorio <asosorio@cenditel.gob.ve>
@@ -21,8 +20,6 @@ class PurchaseParameterController extends Controller
     /**
      * Método que devuelve los parámetros de configuración de Compras: Número de
      * decimales a mostrar y Redondeo de cifras.
-     *
-     * @method    index
      *
      * @author    Argenis Osorio <asosorio@cenditel.gob.ve>
      *
@@ -59,13 +56,11 @@ class PurchaseParameterController extends Controller
     /**
      * Crea o Actualiza los parámetros de Número de decimales y redondear.
      *
-     * @method    updateParameters
-     *
-     * @param     Request    $request    Objeto con información de la petición
+     * @param     Request    $request    Datos de la petición
      *
      * @author     Argenis Osorio <asosorio@cenditel.gob.ve>
      *
-     * @return    RedirectResponse     Redirecciona al usuario a la URL previa
+     * @return    \Illuminate\Http\RedirectResponse
      */
     public function updateParameters(Request $request)
     {

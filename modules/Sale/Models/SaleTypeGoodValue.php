@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de los valores de los atributos de tipos de bienes
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleTypeGoodValue extends Model implements Auditable
 {
@@ -27,6 +27,7 @@ class SaleTypeGoodValue extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
@@ -34,6 +35,7 @@ class SaleTypeGoodValue extends Model implements Auditable
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      *
      * @var array $fillable
      */
@@ -43,8 +45,8 @@ class SaleTypeGoodValue extends Model implements Auditable
      * Método que obtiene el atributo relacionado con el registro
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * SaleTypeGoodValue
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleTypeGoodValue()
     {

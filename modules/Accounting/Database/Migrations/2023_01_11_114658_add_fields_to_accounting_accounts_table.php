@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldsToAccountingAccountsTable
- * @brief [descripción detallada]
+ * @brief Ejecuta la migración para agregar los campos resource y egress a la tabla accounting_accounts
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Henry Paredes <hparedes@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

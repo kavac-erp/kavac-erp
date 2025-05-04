@@ -1,181 +1,166 @@
-@php
-    $keys = array_pop($field);
-@endphp
-
-<table cellspacing="0" cellpadding="1" border="1">
+<table cellspacing="0" cellpadding="4" border="1" style="font-size: 8rem;">
     <colgroup>
         <col span="1" style="width: 33.3%" />
         <col span="1" style="width: 33.3%" />
         <col span="1" style="width: 33.3%" />
     </colgroup>
     <thead>
-        <tr style="background-color: #BDBDBD;">
+        <tr style="border: solid 1px #000; font-weight:bold;" bgcolor="#D3D3D3" align="center">
+            <th span="1" style="text-align:center">Numeración</th>
             <th span="1" style="text-align:center">Trabajador</th>
+            <th span="1" style="text-align:center">Número de cédula</th>
+            <th span="1" style="text-align:center">Cargo</th>
             <th span="1" style="text-align:center">Fecha de ingreso a la institución</th>
             <th span="1" style="text-align:center">Años en la institución</th>
-            @if ($keys['conditions']['payroll_gender'])
+            @if ($columns['payroll_gender'])
                 <th span="1" style="text-align:center">Género</th>
             @endif
-            @if ($keys['conditions']['payroll_disability'])
+            @if ($columns['payroll_disability'])
                 <th span="1" style="text-align:center">Discapacidad</th>
             @endif
-            @if ($keys['conditions']['has_driver_license'])
+            @if ($columns['has_driver_license'])
                 <th span="1" style="text-align:center">Licencia</th>
             @endif
-            @if ($keys['conditions']['payroll_blood_type'])
+            @if ($columns['payroll_blood_type'])
                 <th span="1" style="text-align:center">Tipo de sangre</th>
             @endif
-            @if ($keys['conditions']['payroll_age'])
+            @if (($columns['payroll_age']))
                 <th span="1" style="text-align:center">Edad</th>
             @endif
-            @if ($keys['conditions']['payroll_instruction_degree'])
+            @if ($columns['payroll_instruction_degree'])
                 <th span="1" style="text-align:center">Grado de instrucción</th>
             @endif
-            @if ($keys['conditions']['payroll_professions'])
+            @if ($columns['payroll_professions'])
                 <th span="1" style="text-align:center">Profesión</th>
             @endif
-            @if ($keys['conditions']['payroll_study'])
+            @if ($columns['payroll_study'])
                 <th span="1" style="text-align:center">¿Estudia?</th>
             @endif
-            @if ($keys['conditions']['marital_status'])
+            @if ($columns['marital_status'])
                 <th span="1" style="text-align:center">Estado civil</th>
             @endif
-            @if ($keys['conditions']['payroll_childs'])
+            @if ($columns['payroll_childs'])
                 <th span="1" style="text-align:center">Hijos <br><span>Nombre&nbsp; Edad&nbsp; Escolaridad</span></th>
             @endif
-            @if ($keys['conditions']['payroll_is_active'])
+            @if ($columns['payroll_is_active'])
                 <th span="1" style="text-align:center">Activo</th>
             @endif
-            @if ($keys['conditions']['payroll_inactivity_types'])
+            @if ($columns['payroll_inactivity_types'])
                 <th span="1" style="text-align:center">Tipo de Inactividad</th>
             @endif
-            @if ($keys['conditions']['payroll_position_types'])
+            @if ($columns['payroll_position_types'])
                 <th span="1" style="text-align:center">Tipo de cargo</th>
             @endif
-            @if ($keys['conditions']['payroll_positions'])
-                <th span="1" style="text-align:center">Cargo</th>
-            @endif
-            @if ($keys['conditions']['payroll_staff_types'])
+            @if ($columns['payroll_staff_types'])
                 <th span="1" style="text-align:center">Tipo de personal</th>
             @endif
-            @if ($keys['conditions']['payroll_contract_types'])
+            @if ($columns['payroll_contract_types'])
                 <th span="1" style="text-align:center">Tipo de contrato</th>
             @endif
-            @if ($keys['conditions']['departments'])
+            @if ($columns['departments'])
                 <th span="1" style="text-align:center">Departamento</th>
             @endif
-            @if ($keys['conditions']['time_service'])
+            @if ($columns['time_service'])
                 <th span="1" style="text-align:center">Total años de servicio</th>
             @endif
-            
         </tr>
     </thead>
     <tbody>
-        @foreach ($field as $record)
-        @php
-            if($record['start_date'] != 'N/A') {
-                $start_date = date_create($record['start_date']);
-                $start_date = date_format($start_date, 'd-m-Y');
-            } else {
-                $start_date = 'N\A';
-            }
-        @endphp
-        <tr>
-            <td>{{ $record['payroll_staff'] }}</td>
-            <td>{{ $start_date }}</td>
-            <td>{{ $record['time_worked'] }}</td>
-            @if ($keys['conditions']['payroll_gender'])
-                <td>{{ $record['payroll_gender'] }}</td>
+    @foreach ($records as $record)
+        <tr style="text-align:center">
+            <!-- Numeración -->
+            <td >{{ $loop->iteration }}</td>
+            <!-- Trabajador -->
+            <td>{{ $record['first_name'] . " " . $record['last_name'] }}</td>
+            <!-- Número de cédula -->
+            <td>{{ number_format($record['id_number'], 0, '', '.') }}</td>
+            <!-- Cargo -->
+            <td>{{ isset($record['payroll_employment_no_appends']['payroll_positions'][0]) ? $record['payroll_employment_no_appends']['payroll_positions'][0]['name'] : 'N/A' }}</td>
+            <!-- Fecha de ingreso a la institución -->
+            <td>{{ isset($record['payroll_employment_no_appends']['start_date']) ? \Carbon\Carbon::createFromFormat('Y-m-d', $record['payroll_employment_no_appends']['start_date'])->format('d-m-Y') : 'N/A' }}</td>
+            <!-- Años en la institución -->
+            <td>{{ isset($record['payroll_employment_no_appends']['time_worked']) ? $record['payroll_employment_no_appends']['time_worked'] : 'N/A' }}</td>
+            <!-- Género -->
+             @if ($columns['payroll_gender'])
+                <td>{{ $record['payroll_gender'] ? $record['payroll_gender']['name'] : 'N/A' }}</td>
             @endif
-            @if ($keys['conditions']['payroll_disability'])
-                <td>{{ $record['payroll_disability'] }}</td>
+            <!-- Discapacidad -->
+            @if ($columns['payroll_disability'])
+                <td>{{ (isset($record['payroll_disability']) && $record['payroll_disability']['name']) ? $record['payroll_disability']['name'] : 'N/A'  }}</td>
             @endif
-            @if ($keys['conditions']['has_driver_license'])
-                <td>{{ $record['payroll_license'] }}</td>
+            <!-- Licencia -->
+            @if ($columns['has_driver_license'])
+                <td>{{ (isset($record['payroll_license_degree']) && $record['payroll_license_degree']['name']) ? $record['payroll_license_degree']['name'] : 'N/A'  }}</td>
             @endif
-            @if ($keys['conditions']['payroll_blood_type'])
-                <td>{{ $record['payroll_blood_type'] }}</td>
+            <!-- Tipo de sangre -->
+            @if ($columns['payroll_blood_type'])
+                <td>{{ $record['payroll_blood_type'] ? $record['payroll_blood_type']['name'] : 'N/A' }}</td>
             @endif
-            @if ($keys['conditions']['payroll_age'])
-                <td>{{ $record['payroll_age'] }}</td>
+            <!-- Edad -->
+            @if ($columns['payroll_age'])
+                <td>{{ isset($record['age']) ? $record['age'] : 'N/A'  }}</td>
             @endif
-            @if ($keys['conditions']['payroll_instruction_degree'])
-                <td>{{ $record['payroll_instruction_degree'] }}</td>
+            <!-- Grado de instrucción -->
+            @if ($columns['payroll_instruction_degree'])
+                <td>{{ $record['payroll_professional']['payroll_instruction_degree'] ? $record['payroll_professional']['payroll_instruction_degree']['name'] : 'N/A'  }}</td>
             @endif
-            @if ($keys['conditions']['payroll_professions'])
-                <td>{{ $record['payroll_profession'] }}</td>
+            <!-- Profesión -->
+            @if ($columns['payroll_professions'])
+                <td>{{ isset($record['payroll_professional']['payroll_studies'][0]) ? $record['payroll_professional']['payroll_studies'][0]['professions']['name'] : 'N/A'  }}</td>
             @endif
-            @if ($keys['conditions']['payroll_study'])
-                <td>{{ $record['payroll_study'] }}</td>
+            <!-- ¿Estudia? -->
+            @if ($columns['payroll_study'])
+                <td>{{ $record['payroll_professional']['is_student'] ? 'Si' : 'No'  }}</td>
             @endif
-            @if ($keys['conditions']['marital_status'])
-                <td>{{ $record['payroll_marital_status'] }}</td>
+            <!-- Estado civil -->
+            @if ($columns['marital_status'])
+                <td>{{ $record['payroll_socioeconomic']['marital_status'] ? $record['payroll_socioeconomic']['marital_status']['name'] : 'N/A'  }}</td>
             @endif
-            @if ($keys['conditions']['payroll_childs'])
-            <td style="padding-left: 0;">
-                <table style="border-collapse: collapse; margin: 0; padding: 0; width: 100%;" cellspacing="0" cellpadding="2" border="0.1" align="left">
-                    <tbody>
-                        @foreach ($record['payroll_childs_arrays'] as $payroll_child)
-                            @if (
-                                isset($payroll_child['payroll_relationship']) && 
-                                $payroll_child['payroll_relationship'] && 
-                                strpos($payroll_child['payroll_relationship']['name'], 'Hijo') !== false 
-                            )
-                            <tr style="font-size: 6rem;" align="left">
-                                <td> {{ $payroll_child['first_name']  . ' ' . $payroll_child['last_name']}} 
-                                </td>
-                                @php
-                                    $nacimiento = new DateTime($payroll_child['birthdate']);
-                                    $ahora = new DateTime(date("Y-m-d"));
-                                    $diferencia = $ahora->diff($nacimiento);
-                                    $age = $diferencia->format("%y");
-                                @endphp
-                                    <td>
-                                        {{ $age }}
-                                    </td>
-                                    @php
-                                        $level = '';
-                                        if($payroll_child['payroll_schooling_level_id'] !== null ) {
-                                            foreach ($record['schooling_levels'] as $schooling_level) {
-                                                if($schooling_level['id'] == $payroll_child['payroll_schooling_level_id']) {
-                                                    $level = $schooling_level['text'];
-                                                }
-                                            }
-                                        }
-                                    @endphp
-                                    <td>
-                                        {{ $level }}
-                                    </td>
-                                </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </td>                
+            <!-- Hijos -->
+            @if ($columns['payroll_childs'])
+                @if (isset($record['payroll_socioeconomic']['payroll_childrens']) && count($record['payroll_socioeconomic']['payroll_childrens']) > 0)
+                    <td style="padding: 0;">
+                        <table style="border-collapse: collapse; margin: 0; padding: 0; width: 100%;" cellspacing="0" cellpadding="2" border="0.01" align="left">
+                            <tbody>
+                                @foreach ($record['payroll_socioeconomic']['payroll_childrens'] as $child)
+                                    <tr style="font-size: 6rem;" align="left" width="100%">
+                                        <td width="100%">{{ $child['first_name'] . " " . $child['last_name'] . ", " . $child["age"] . ", " . (isset($child["payroll_schooling_level"]) ? $child["payroll_schooling_level"]["name"] : "N/A") }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </td>
+                @endif
             @endif
-            @if ($keys['conditions']['payroll_is_active'])
-                <td>{{ $record['payroll_is_active'] }}</td>
+            <!-- Activo -->
+            @if ($columns['payroll_is_active'])
+                <td>
+                    {{ (isset($record['payroll_employment_no_appends']['active']) && $record['payroll_employment_no_appends']['active']) ? 'Si' : 'No' }}
+                </td>
             @endif
-            @if ($keys['conditions']['payroll_inactivity_types'])
-                <td>{{ $record['payroll_inactivity_type'] }}</td>
+            <!-- Tipo de inactividad -->
+            @if ($columns['payroll_inactivity_types'])
+                <td> {{ isset($record['payroll_employment_no_appends']['payroll_inactivity_type']['name']) ? $record['payroll_employment_no_appends']['payroll_inactivity_type']['name'] : 'N/A' }} </td>
             @endif
-            @if ($keys['conditions']['payroll_position_types'])
-                <td>{{ $record['payroll_position_type'] }}</td>
+            <!-- Tipo de cargo -->
+            @if ($columns['payroll_position_types'])
+                <td> {{ isset($record['payroll_employment_no_appends']['payroll_position_type']['name']) ? $record['payroll_employment_no_appends']['payroll_position_type']['name'] : 'N/A' }}</td>
             @endif
-            @if ($keys['conditions']['payroll_positions'])
-                <td>{{ $record['payroll_position'] }}</td>
+            <!-- Tipo de personal -->
+            @if ($columns['payroll_staff_types'])
+                <td> {{ isset($record['payroll_employment_no_appends']['payroll_staff_type']) ? $record['payroll_employment_no_appends']['payroll_staff_type']['name'] : 'N/A' }} </td>
             @endif
-            @if ($keys['conditions']['payroll_staff_types'])
-                <td>{{ $record['payroll_staff_type'] }}</td>
+            <!-- Tipo de contrato -->
+            @if ($columns['payroll_contract_types'])
+                <td> {{ isset($record['payroll_employment_no_appends']['payroll_contract_type']) ? $record['payroll_employment_no_appends']['payroll_contract_type']['name'] : 'N/A' }} </td>
             @endif
-            @if ($keys['conditions']['payroll_contract_types'])
-                <td>{{ $record['payroll_contract_type'] }}</td>
+            <!-- Departamento -->
+            @if ($columns['departments'])
+                <td> {{ isset($record['payroll_employment_no_appends']['department']) ? $record['payroll_employment_no_appends']['department']['name'] : 'N/A' }} </td>
             @endif
-            @if ($keys['conditions']['departments'])
-                <td>{{ $record['department'] }}</td>
-            @endif
-            @if ($keys['conditions']['time_service'])
-                <td>{{ $record['time_service'] }}</td>
+            <!-- Tiempo de servicio -->
+            @if ($columns['time_service'])
+                <td> {{ isset($record['payroll_employment_no_appends']['total']) ? $record['payroll_employment_no_appends']['total'] : 'N/A' }} </td>
             @endif
         </tr>
         @endforeach

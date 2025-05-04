@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de los tipos de bienes
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleTypeGood extends Model implements Auditable
 {
@@ -27,12 +27,14 @@ class SaleTypeGood extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'description', 'define_attributes'];
@@ -41,14 +43,19 @@ class SaleTypeGood extends Model implements Auditable
      * Método que obtiene los tipos de bienes
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany Objeto con el registro relacionado al modelo
-     * SaleTypeGood
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleTypeGoodAttribute()
     {
         return $this->hasMany(SaleTypeGoodAttribute::class);
     }
 
+    /**
+     * Establece la relación con la lista de subservicios
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function saleListSubservices()
     {
         return $this->hasMany(SaleListSubservices::class);

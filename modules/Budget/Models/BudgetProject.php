@@ -2,12 +2,13 @@
 
 namespace Modules\Budget\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
-use Module;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class BudgetProject
@@ -16,9 +17,9 @@ use Module;
  * Gestiona el modelo de datos para los Proyectos
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetProject extends Model implements Auditable
 {
@@ -27,16 +28,16 @@ class BudgetProject extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista con campos de tipo fecha
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * The attributes that are mass assignable.
+     * Lista con campos del modelo
      *
-     * @var array
+     * @var array $fillable
      */
     protected $fillable = [
         'name', 'code', 'onapre_code', 'active', 'description', 'from_date', 'to_date',
@@ -44,9 +45,10 @@ class BudgetProject extends Model implements Auditable
     ];
 
     /**
-     * BudgetProject belongs to Department.
+     * Establece la relación con el departamento de la institución
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function department()
@@ -55,31 +57,34 @@ class BudgetProject extends Model implements Auditable
     }
 
     /**
-     * BudgetProject belongs to PayrollPosition.
+     * Establece la relación con la cargo de la persona
      *
      * @return array|\Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollPosition()
     {
-        return (Module::has('Payroll'))
-               ? $this->belongsTo(\Modules\Payroll\Models\PayrollPosition::class) : [];
+        return (
+            Module::has('Payroll') && Module::isEnabled('Payroll')
+        ) ? $this->belongsTo(\Modules\Payroll\Models\PayrollPosition::class) : [];
     }
 
     /**
-     * BudgetProject belongs to PayrollStaff.
+     * Establece la relación con el personal
      *
      * @return array|\Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollStaff()
     {
-        return (Module::has('Payroll'))
-               ? $this->belongsTo(\Modules\Payroll\Models\PayrollStaff::class) : [];
+        return (
+            Module::has('Payroll') && Module::isEnabled('Payroll')
+        ) ? $this->belongsTo(\Modules\Payroll\Models\PayrollStaff::class) : [];
     }
 
     /**
      * Obtiene información de las acciones específicas asociadas a un proyecto
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function specificActions()

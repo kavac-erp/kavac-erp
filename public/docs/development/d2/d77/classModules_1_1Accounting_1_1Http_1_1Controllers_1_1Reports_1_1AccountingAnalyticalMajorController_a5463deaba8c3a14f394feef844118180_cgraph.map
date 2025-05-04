@@ -1,0 +1,5 @@
+<map id="getAccAccount" name="getAccAccount">
+<area shape="rect" id="Node000001" title="Ruta para actualizar el listado de cuentas patrimoniales en un rango de fecha determinado." alt="" coords="5,5,124,31"/>
+<area shape="rect" id="Node000002" href="$d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html#aa2ce290074f3d7a429d99b4e1d1be9f6" title="Consulta y formatea las cuentas en un rango determinado." alt="" coords="172,5,283,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,15,158,15,158,21,124,21"/>
+</map>

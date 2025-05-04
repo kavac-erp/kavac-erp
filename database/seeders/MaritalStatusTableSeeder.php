@@ -16,14 +16,33 @@ use Illuminate\Database\Eloquent\Model;
  * Gestiona la información por defecto a registrar inicialmente para los Estados Civiles
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class MaritalStatusTableSeeder extends Seeder
 {
+    /**
+     * Contador de estados civiles cargados
+     *
+     * @var int $count
+     */
     protected $count;
+
+    /**
+     * Contador de permisos cargados
+     *
+     * @var int $countP
+     */
     protected $countP;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->count = 0;
@@ -31,7 +50,7 @@ class MaritalStatusTableSeeder extends Seeder
     }
 
     /**
-     * Run the database seeds.
+     * Ejecuta los seeers de base de datos
      *
      * @return void
      */
@@ -41,7 +60,7 @@ class MaritalStatusTableSeeder extends Seeder
 
         $adminRole = Role::where('slug', 'admin')->first();
 
-        /**
+        /*
          * Permisos disponibles para la gestión de estados civiles
          */
 

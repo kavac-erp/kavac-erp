@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,11 +11,9 @@ use App\Traits\ModelsTrait;
 
 /**
  * @class PayrollFamilyBurden
- * @brief [descripción detallada]
+ * @brief Gestiona la información, procesos, consultas y relaciones asociadas al modelo
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -30,12 +26,21 @@ class PayrollFamilyBurden extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
+
+    /**
+     * Lista de relaciones a cargar por defecto
+     *
+     * @var array $with
+     */
     protected $with = ['payrollDisability','payrollRelationship','payrollScholarshipType'];
+
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -58,31 +63,61 @@ class PayrollFamilyBurden extends Model implements Auditable
         'deleted_at',
     ];
 
+    /**
+     * Obtiene la relación con datos socioeconómicos
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function payrollSocioecomic()
     {
         return $this->belongsTo(PayrollSocioeconomic::class);
     }
 
+    /**
+     * Obtiene la relación con datos de niveles de escolaridad
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function payrollSchoolingLevel()
     {
         return $this->belongsTo(PayrollSchoolingLevel::class);
     }
 
+    /**
+     * Obtiene la relación con discapacidad
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function payrollDisability()
     {
         return $this->belongsTo(PayrollDisability::class);
     }
 
+    /**
+     * Obtiene la relación con datos de la relación laboral
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function payrollRelationship()
     {
         return $this->belongsTo(PayrollRelationship::class, 'payroll_relationships_id');
     }
 
+    /**
+     * Obtiene la relación con el género
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function payrollGender()
     {
         return $this->belongsTo(Gender::class, 'payroll_gender_id');
     }
 
+    /**
+     * Obtiene la relación con tipos de becas
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function payrollScholarshipType()
     {
         return $this->belongsTo(PayrollScholarshipType::class, 'payroll_scholarship_types_id');

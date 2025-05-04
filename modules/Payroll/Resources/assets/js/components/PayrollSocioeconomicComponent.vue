@@ -399,7 +399,6 @@
                     payroll_childrens: [],
                 },
                 errors: [],
-                //payroll_staffs: [],
                 payroll_socioeconomic: [],
                 marital_status: [],
                 payroll_relationships: [],

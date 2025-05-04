@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldsToPayrollVacationPoliciesTable
- * @brief [descripción detallada]
+ * @brief Migración para agregar campos adicionales a la tabla de políticas de vacaciones
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -30,7 +28,7 @@ class AddFieldsToPayrollVacationPoliciesTable extends Migration
             $table->boolean('worker_arises')->default(false)->nullable()->comment('¿El pago de vacaciones se realiza cuando nace el derecho a vacaciones del trabajador?');
 
             $table->string('generate_worker_arises', 15, 8)->nullable()->comment('Monto pago de vacaciones automáticamente');
-            
+
             $table->integer('min_days_advance')->nullable()->comment('Días de anticipación (mínimo)');
 
             $table->integer('max_days_advance')->nullable()->comment('Días de anticipación (máximo)');
@@ -51,7 +49,7 @@ class AddFieldsToPayrollVacationPoliciesTable extends Migration
                 $table->dropColumn('worker_arises');
 
                 $table->dropColumn('generate_worker_arises');
-            
+
                 $table->dropColumn('min_days_advance');
 
                 $table->dropColumn('max_days_advance');

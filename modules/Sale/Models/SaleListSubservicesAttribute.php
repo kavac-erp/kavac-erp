@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,11 +11,9 @@ use Modules\Sale\Models\SaleListSubservices;
 
 /**
  * @class SaleListSubservicesAttribute
- * @brief [descripción detallada]
+ * @brief Gestiona la información, procesos, consultas y relaciones asociadas al modelo
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -30,12 +26,14 @@ class SaleListSubservicesAttribute extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['id','value', 'sale_list_subservices_id'];
@@ -45,8 +43,8 @@ class SaleListSubservicesAttribute extends Model implements Auditable
      * Método que obtiene lista de Subservicios
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * SaleListSubservices
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleListSubservices()
     {

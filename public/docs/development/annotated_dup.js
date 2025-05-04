@@ -2,33 +2,35 @@ var annotated_dup =
 [
     [ "App", null, [
       [ "Console", null, [
-        [ "Commands", "d2/d2b/namespaceApp_1_1Console_1_1Commands.html", [
+        [ "Commands", null, [
           [ "CompileModules", "d1/d4e/classApp_1_1Console_1_1Commands_1_1CompileModules.html", "d1/d4e/classApp_1_1Console_1_1Commands_1_1CompileModules" ]
         ] ],
         [ "Kernel", "d9/d47/classApp_1_1Console_1_1Kernel.html", "d9/d47/classApp_1_1Console_1_1Kernel" ]
       ] ],
-      [ "Events", "d7/d8c/namespaceApp_1_1Events.html", [
+      [ "Events", null, [
         [ "NewMessage", "d2/d08/classApp_1_1Events_1_1NewMessage.html", "d2/d08/classApp_1_1Events_1_1NewMessage" ]
       ] ],
-      [ "Exceptions", "df/d90/namespaceApp_1_1Exceptions.html", [
+      [ "Exceptions", null, [
         [ "ClosedFiscalYearException", "df/db5/classApp_1_1Exceptions_1_1ClosedFiscalYearException.html", null ],
         [ "Handler", "d4/d9d/classApp_1_1Exceptions_1_1Handler.html", "d4/d9d/classApp_1_1Exceptions_1_1Handler" ],
         [ "RestrictedRegistryDeletionException", "de/dce/classApp_1_1Exceptions_1_1RestrictedRegistryDeletionException.html", null ]
       ] ],
-      [ "Exports", "d9/d16/namespaceApp_1_1Exports.html", [
-        [ "DataExport", "df/dfd/classApp_1_1Exports_1_1DataExport.html", "df/dfd/classApp_1_1Exports_1_1DataExport" ]
+      [ "Exports", null, [
+        [ "DataExport", "df/dfd/classApp_1_1Exports_1_1DataExport.html", "df/dfd/classApp_1_1Exports_1_1DataExport" ],
+        [ "MultiSheetExport", "da/d71/classApp_1_1Exports_1_1MultiSheetExport.html", "da/d71/classApp_1_1Exports_1_1MultiSheetExport" ]
       ] ],
       [ "Http", null, [
         [ "Controllers", null, [
-          [ "Admin", "d5/d9b/namespaceApp_1_1Http_1_1Controllers_1_1Admin.html", [
+          [ "Admin", null, [
             [ "AppManagementController", "d1/d0e/classApp_1_1Http_1_1Controllers_1_1Admin_1_1AppManagementController.html", "d1/d0e/classApp_1_1Http_1_1Controllers_1_1Admin_1_1AppManagementController" ],
             [ "BackupController", "d4/d83/classApp_1_1Http_1_1Controllers_1_1Admin_1_1BackupController.html", "d4/d83/classApp_1_1Http_1_1Controllers_1_1Admin_1_1BackupController" ],
             [ "InstitutionController", "d7/d9e/classApp_1_1Http_1_1Controllers_1_1Admin_1_1InstitutionController.html", "d7/d9e/classApp_1_1Http_1_1Controllers_1_1Admin_1_1InstitutionController" ],
-            [ "LogController", "d1/d5f/classApp_1_1Http_1_1Controllers_1_1Admin_1_1LogController.html", null ],
+            [ "LogController", "d1/d5f/classApp_1_1Http_1_1Controllers_1_1Admin_1_1LogController.html", "d1/d5f/classApp_1_1Http_1_1Controllers_1_1Admin_1_1LogController" ],
             [ "ModuleController", "d2/dad/classApp_1_1Http_1_1Controllers_1_1Admin_1_1ModuleController.html", "d2/dad/classApp_1_1Http_1_1Controllers_1_1Admin_1_1ModuleController" ],
-            [ "SettingController", "d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController.html", null ]
+            [ "SettingController", "d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController.html", "d0/d95/classApp_1_1Http_1_1Controllers_1_1Admin_1_1SettingController" ]
           ] ],
-          [ "Auth", "de/d21/namespaceApp_1_1Http_1_1Controllers_1_1Auth.html", [
+          [ "Auth", null, [
+            [ "ConfirmPasswordController", "df/d12/classApp_1_1Http_1_1Controllers_1_1Auth_1_1ConfirmPasswordController.html", null ],
             [ "ForgotPasswordController", "d5/d84/classApp_1_1Http_1_1Controllers_1_1Auth_1_1ForgotPasswordController.html", "d5/d84/classApp_1_1Http_1_1Controllers_1_1Auth_1_1ForgotPasswordController" ],
             [ "LoginController", "de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html", "de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController" ],
             [ "RegisterController", "d5/d17/classApp_1_1Http_1_1Controllers_1_1Auth_1_1RegisterController.html", "d5/d17/classApp_1_1Http_1_1Controllers_1_1Auth_1_1RegisterController" ],
@@ -36,11 +38,11 @@ var annotated_dup =
             [ "UserController", "d5/d9d/classApp_1_1Http_1_1Controllers_1_1Auth_1_1UserController.html", "d5/d9d/classApp_1_1Http_1_1Controllers_1_1Auth_1_1UserController" ],
             [ "VerificationController", "dc/d8c/classApp_1_1Http_1_1Controllers_1_1Auth_1_1VerificationController.html", "dc/d8c/classApp_1_1Http_1_1Controllers_1_1Auth_1_1VerificationController" ]
           ] ],
-          [ "Dev", "d5/d2e/namespaceApp_1_1Http_1_1Controllers_1_1Dev.html", [
-            [ "DevelopmentController", "d5/db0/classApp_1_1Http_1_1Controllers_1_1Dev_1_1DevelopmentController.html", null ],
+          [ "Dev", null, [
+            [ "DevelopmentController", "d5/db0/classApp_1_1Http_1_1Controllers_1_1Dev_1_1DevelopmentController.html", "d5/db0/classApp_1_1Http_1_1Controllers_1_1Dev_1_1DevelopmentController" ],
             [ "LogViewerController", "db/ddf/classApp_1_1Http_1_1Controllers_1_1Dev_1_1LogViewerController.html", "db/ddf/classApp_1_1Http_1_1Controllers_1_1Dev_1_1LogViewerController" ]
           ] ],
-          [ "Services", "dd/d7c/namespaceApp_1_1Http_1_1Controllers_1_1Services.html", [
+          [ "Services", null, [
             [ "LocatesController", "d3/d5a/classApp_1_1Http_1_1Controllers_1_1Services_1_1LocatesController.html", "d3/d5a/classApp_1_1Http_1_1Controllers_1_1Services_1_1LocatesController" ],
             [ "MessageController", "dc/dc4/classApp_1_1Http_1_1Controllers_1_1Services_1_1MessageController.html", "dc/dc4/classApp_1_1Http_1_1Controllers_1_1Services_1_1MessageController" ],
             [ "NotificationsController", "d2/d85/classApp_1_1Http_1_1Controllers_1_1Services_1_1NotificationsController.html", "d2/d85/classApp_1_1Http_1_1Controllers_1_1Services_1_1NotificationsController" ]
@@ -79,12 +81,15 @@ var annotated_dup =
           [ "TaxController", "de/d81/classApp_1_1Http_1_1Controllers_1_1TaxController.html", "de/d81/classApp_1_1Http_1_1Controllers_1_1TaxController" ],
           [ "TaxUnitController", "d3/d67/classApp_1_1Http_1_1Controllers_1_1TaxUnitController.html", "d3/d67/classApp_1_1Http_1_1Controllers_1_1TaxUnitController" ]
         ] ],
-        [ "Middleware", "d8/d29/namespaceApp_1_1Http_1_1Middleware.html", [
+        [ "Middleware", null, [
           [ "Authenticate", "dd/dee/classApp_1_1Http_1_1Middleware_1_1Authenticate.html", "dd/dee/classApp_1_1Http_1_1Middleware_1_1Authenticate" ],
           [ "CheckForMaintenanceMode", "d2/d9a/classApp_1_1Http_1_1Middleware_1_1CheckForMaintenanceMode.html", "d2/d9a/classApp_1_1Http_1_1Middleware_1_1CheckForMaintenanceMode" ],
+          [ "CustomVerifiedMiddleware", "d6/dca/classApp_1_1Http_1_1Middleware_1_1CustomVerifiedMiddleware.html", "d6/dca/classApp_1_1Http_1_1Middleware_1_1CustomVerifiedMiddleware" ],
           [ "EncryptCookies", "d6/dd0/classApp_1_1Http_1_1Middleware_1_1EncryptCookies.html", "d6/dd0/classApp_1_1Http_1_1Middleware_1_1EncryptCookies" ],
           [ "PreventRequestsDuringMaintenance", "d3/d0b/classApp_1_1Http_1_1Middleware_1_1PreventRequestsDuringMaintenance.html", "d3/d0b/classApp_1_1Http_1_1Middleware_1_1PreventRequestsDuringMaintenance" ],
           [ "RedirectIfAuthenticated", "d8/d89/classApp_1_1Http_1_1Middleware_1_1RedirectIfAuthenticated.html", "d8/d89/classApp_1_1Http_1_1Middleware_1_1RedirectIfAuthenticated" ],
+          [ "RestrictIpAddress", "d1/d48/classApp_1_1Http_1_1Middleware_1_1RestrictIpAddress.html", "d1/d48/classApp_1_1Http_1_1Middleware_1_1RestrictIpAddress" ],
+          [ "SecurityHeaders", "d1/d70/classApp_1_1Http_1_1Middleware_1_1SecurityHeaders.html", "d1/d70/classApp_1_1Http_1_1Middleware_1_1SecurityHeaders" ],
           [ "TrimStrings", "dd/d28/classApp_1_1Http_1_1Middleware_1_1TrimStrings.html", "dd/d28/classApp_1_1Http_1_1Middleware_1_1TrimStrings" ],
           [ "TrustHosts", "d0/dbd/classApp_1_1Http_1_1Middleware_1_1TrustHosts.html", "d0/dbd/classApp_1_1Http_1_1Middleware_1_1TrustHosts" ],
           [ "TrustProxies", "db/df4/classApp_1_1Http_1_1Middleware_1_1TrustProxies.html", "db/df4/classApp_1_1Http_1_1Middleware_1_1TrustProxies" ],
@@ -92,15 +97,19 @@ var annotated_dup =
         ] ],
         [ "Kernel", "d7/d20/classApp_1_1Http_1_1Kernel.html", "d7/d20/classApp_1_1Http_1_1Kernel" ]
       ] ],
-      [ "Listeners", "da/d17/namespaceApp_1_1Listeners.html", [
+      [ "Listeners", null, [
         [ "LoginEventHandler", "d9/df9/classApp_1_1Listeners_1_1LoginEventHandler.html", "d9/df9/classApp_1_1Listeners_1_1LoginEventHandler" ],
         [ "RecordFailedLoginAttempt", "d4/d22/classApp_1_1Listeners_1_1RecordFailedLoginAttempt.html", "d4/d22/classApp_1_1Listeners_1_1RecordFailedLoginAttempt" ]
       ] ],
-      [ "Mail", "d4/d8a/namespaceApp_1_1Mail.html", [
+      [ "Mail", null, [
+        [ "FailImportNotification", "d0/d6d/classApp_1_1Mail_1_1FailImportNotification.html", "d0/d6d/classApp_1_1Mail_1_1FailImportNotification" ],
+        [ "FailMailableClass", "d7/d0f/classApp_1_1Mail_1_1FailMailableClass.html", "d7/d0f/classApp_1_1Mail_1_1FailMailableClass" ],
+        [ "SendReceipts", "d9/d5d/classApp_1_1Mail_1_1SendReceipts.html", "d9/d5d/classApp_1_1Mail_1_1SendReceipts" ],
         [ "SystemMail", "d3/dc2/classApp_1_1Mail_1_1SystemMail.html", "d3/dc2/classApp_1_1Mail_1_1SystemMail" ],
         [ "UserRegister", "d9/d1d/classApp_1_1Mail_1_1UserRegister.html", "d9/d1d/classApp_1_1Mail_1_1UserRegister" ]
       ] ],
-      [ "Models", "d4/de2/namespaceApp_1_1Models.html", [
+      [ "Models", null, [
+        [ "City", "d5/d37/classApp_1_1Models_1_1City.html", "d5/d37/classApp_1_1Models_1_1City" ],
         [ "CodeSetting", "d5/d95/classApp_1_1Models_1_1CodeSetting.html", "d5/d95/classApp_1_1Models_1_1CodeSetting" ],
         [ "Contact", "dd/db3/classApp_1_1Models_1_1Contact.html", "dd/db3/classApp_1_1Models_1_1Contact" ],
         [ "Country", "d2/d87/classApp_1_1Models_1_1Country.html", "d2/d87/classApp_1_1Models_1_1Country" ],
@@ -134,7 +143,7 @@ var annotated_dup =
         [ "TaxUnit", "d7/d5c/classApp_1_1Models_1_1TaxUnit.html", "d7/d5c/classApp_1_1Models_1_1TaxUnit" ],
         [ "User", "dc/d3b/classApp_1_1Models_1_1User.html", "dc/d3b/classApp_1_1Models_1_1User" ]
       ] ],
-      [ "Notifications", "d0/da9/namespaceApp_1_1Notifications.html", [
+      [ "Notifications", null, [
         [ "ResetPasswordNotification", "d0/dce/classApp_1_1Notifications_1_1ResetPasswordNotification.html", "d0/dce/classApp_1_1Notifications_1_1ResetPasswordNotification" ],
         [ "System", "da/daf/classApp_1_1Notifications_1_1System.html", "da/daf/classApp_1_1Notifications_1_1System" ],
         [ "SystemNotification", "dc/d26/classApp_1_1Notifications_1_1SystemNotification.html", "dc/d26/classApp_1_1Notifications_1_1SystemNotification" ],
@@ -142,18 +151,18 @@ var annotated_dup =
         [ "UserRegistered", "d5/dd4/classApp_1_1Notifications_1_1UserRegistered.html", "d5/dd4/classApp_1_1Notifications_1_1UserRegistered" ],
         [ "VerifyEmailNotification", "d4/d42/classApp_1_1Notifications_1_1VerifyEmailNotification.html", "d4/d42/classApp_1_1Notifications_1_1VerifyEmailNotification" ]
       ] ],
-      [ "Observers", "d8/d73/namespaceApp_1_1Observers.html", [
+      [ "Observers", null, [
         [ "ModelObserver", "d6/d5e/classApp_1_1Observers_1_1ModelObserver.html", "d6/d5e/classApp_1_1Observers_1_1ModelObserver" ]
       ] ],
-      [ "Providers", "d2/dd0/namespaceApp_1_1Providers.html", [
+      [ "Providers", null, [
         [ "AppServiceProvider", "da/d86/classApp_1_1Providers_1_1AppServiceProvider.html", "da/d86/classApp_1_1Providers_1_1AppServiceProvider" ],
         [ "AuthServiceProvider", "d1/d0a/classApp_1_1Providers_1_1AuthServiceProvider.html", "d1/d0a/classApp_1_1Providers_1_1AuthServiceProvider" ],
         [ "BroadcastServiceProvider", "d1/d05/classApp_1_1Providers_1_1BroadcastServiceProvider.html", "d1/d05/classApp_1_1Providers_1_1BroadcastServiceProvider" ],
         [ "EventServiceProvider", "d8/d4e/classApp_1_1Providers_1_1EventServiceProvider.html", "d8/d4e/classApp_1_1Providers_1_1EventServiceProvider" ]
       ] ],
-      [ "Repositories", "d5/d76/namespaceApp_1_1Repositories.html", [
-        [ "Contracts", "df/d4b/namespaceApp_1_1Repositories_1_1Contracts.html", [
-          [ "ReportInterface", "d2/d9e/interfaceApp_1_1Repositories_1_1Contracts_1_1ReportInterface.html", "d2/d9e/interfaceApp_1_1Repositories_1_1Contracts_1_1ReportInterface" ]
+      [ "Repositories", null, [
+        [ "Contracts", null, [
+          [ "ReportInterface", "d2/d9e/interfaceApp_1_1Repositories_1_1Contracts_1_1ReportInterface.html", null ]
         ] ],
         [ "BackupRepository", "d5/d76/classApp_1_1Repositories_1_1BackupRepository.html", "d5/d76/classApp_1_1Repositories_1_1BackupRepository" ],
         [ "ParameterRepository", "d0/da4/classApp_1_1Repositories_1_1ParameterRepository.html", "d0/da4/classApp_1_1Repositories_1_1ParameterRepository" ],
@@ -183,7 +192,7 @@ var annotated_dup =
           [ "Role", "d3/d23/classApp_1_1Roles_1_1Models_1_1Role.html", "d3/d23/classApp_1_1Roles_1_1Models_1_1Role" ]
         ] ]
       ] ],
-      [ "Rules", "d1/dcc/namespaceApp_1_1Rules.html", [
+      [ "Rules", null, [
         [ "AgeToWork", "db/df9/classApp_1_1Rules_1_1AgeToWork.html", "db/df9/classApp_1_1Rules_1_1AgeToWork" ],
         [ "CodeSetting", "d1/d56/classApp_1_1Rules_1_1CodeSetting.html", "d1/d56/classApp_1_1Rules_1_1CodeSetting" ],
         [ "DateBeforeFiscalYear", "d9/de6/classApp_1_1Rules_1_1DateBeforeFiscalYear.html", "d9/de6/classApp_1_1Rules_1_1DateBeforeFiscalYear" ],
@@ -198,7 +207,7 @@ var annotated_dup =
         [ "UniqueParishCode", "d2/d24/classApp_1_1Rules_1_1UniqueParishCode.html", "d2/d24/classApp_1_1Rules_1_1UniqueParishCode" ],
         [ "UniqueParishName", "d3/d1b/classApp_1_1Rules_1_1UniqueParishName.html", "d3/d1b/classApp_1_1Rules_1_1UniqueParishName" ]
       ] ],
-      [ "Scopes", "de/d35/namespaceApp_1_1Scopes.html", [
+      [ "Scopes", null, [
         [ "OrganismScope", "de/d43/classApp_1_1Scopes_1_1OrganismScope.html", "de/d43/classApp_1_1Scopes_1_1OrganismScope" ]
       ] ]
     ] ],
@@ -211,6 +220,7 @@ var annotated_dup =
         [ "DatabaseSeeder", "d8/d63/classDatabase_1_1Seeders_1_1DatabaseSeeder.html", "d8/d63/classDatabase_1_1Seeders_1_1DatabaseSeeder" ],
         [ "DocumentStatusTableSeeder", "de/dfc/classDatabase_1_1Seeders_1_1DocumentStatusTableSeeder.html", "de/dfc/classDatabase_1_1Seeders_1_1DocumentStatusTableSeeder" ],
         [ "EstatesTableSeeder", "de/db6/classDatabase_1_1Seeders_1_1EstatesTableSeeder.html", "de/db6/classDatabase_1_1Seeders_1_1EstatesTableSeeder" ],
+        [ "GendersTableSeeder", "d9/dab/classDatabase_1_1Seeders_1_1GendersTableSeeder.html", "d9/dab/classDatabase_1_1Seeders_1_1GendersTableSeeder" ],
         [ "InstitutionSectorsTableSeeder", "d7/d0b/classDatabase_1_1Seeders_1_1InstitutionSectorsTableSeeder.html", "d7/d0b/classDatabase_1_1Seeders_1_1InstitutionSectorsTableSeeder" ],
         [ "InstitutionTypesTableSeeder", "dd/d47/classDatabase_1_1Seeders_1_1InstitutionTypesTableSeeder.html", "dd/d47/classDatabase_1_1Seeders_1_1InstitutionTypesTableSeeder" ],
         [ "MaritalStatusTableSeeder", "d8/daa/classDatabase_1_1Seeders_1_1MaritalStatusTableSeeder.html", "d8/daa/classDatabase_1_1Seeders_1_1MaritalStatusTableSeeder" ],
@@ -221,37 +231,89 @@ var annotated_dup =
         [ "ProfessionsTableSeeder", "d9/d7b/classDatabase_1_1Seeders_1_1ProfessionsTableSeeder.html", "d9/d7b/classDatabase_1_1Seeders_1_1ProfessionsTableSeeder" ],
         [ "RolesTableSeeder", "dd/d27/classDatabase_1_1Seeders_1_1RolesTableSeeder.html", "dd/d27/classDatabase_1_1Seeders_1_1RolesTableSeeder" ],
         [ "SettingsTableSeeder", "de/d9f/classDatabase_1_1Seeders_1_1SettingsTableSeeder.html", "de/d9f/classDatabase_1_1Seeders_1_1SettingsTableSeeder" ],
-        [ "UsersTableSeeder", "db/d1d/classDatabase_1_1Seeders_1_1UsersTableSeeder.html", null ]
+        [ "UsersTableSeeder", "db/d1d/classDatabase_1_1Seeders_1_1UsersTableSeeder.html", "db/d1d/classDatabase_1_1Seeders_1_1UsersTableSeeder" ]
       ] ]
     ] ],
     [ "Modules", null, [
       [ "Accounting", null, [
-        [ "Database", null, [
-          [ "Seeders", "df/d73/namespaceModules_1_1Accounting_1_1Database_1_1Seeders.html", [
-            [ "AccountingAccountsTableSeeder", "dc/d9a/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingAccountsTableSeeder.html", null ],
-            [ "AccountingDatabaseSeeder", "dc/ddc/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingDatabaseSeeder.html", "dc/ddc/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingDatabaseSeeder" ],
-            [ "AccountingRoleAndPermissionsTableSeeder", "df/da6/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingRoleAndPermissionsTableSeeder.html", "df/da6/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingRoleAndPermissionsTableSeeder" ]
+        [ "Console", null, [
+          [ "Command", null, [
+            [ "CreateReverceAccountingAccountforPayOrders", "dc/d5f/classModules_1_1Accounting_1_1Console_1_1Command_1_1CreateReverceAccountingAccountforPayOrders.html", "dc/d5f/classModules_1_1Accounting_1_1Console_1_1Command_1_1CreateReverceAccountingAccountforPayOrders" ],
+            [ "DeleteEntry", "df/d3c/classModules_1_1Accounting_1_1Console_1_1Command_1_1DeleteEntry.html", "df/d3c/classModules_1_1Accounting_1_1Console_1_1Command_1_1DeleteEntry" ],
+            [ "EntryDocumentStatusAprove", "df/d3a/classModules_1_1Accounting_1_1Console_1_1Command_1_1EntryDocumentStatusAprove.html", "df/d3a/classModules_1_1Accounting_1_1Console_1_1Command_1_1EntryDocumentStatusAprove" ]
           ] ]
+        ] ],
+        [ "Database", null, [
+          [ "Seeders", null, [
+            [ "AccountingAccountsTableSeeder", "dc/d9a/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingAccountsTableSeeder.html", "dc/d9a/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingAccountsTableSeeder" ],
+            [ "AccountingDatabaseSeeder", "dc/ddc/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingDatabaseSeeder.html", "dc/ddc/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingDatabaseSeeder" ],
+            [ "AccountingRoleAndPermissionsTableSeeder", "df/da6/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingRoleAndPermissionsTableSeeder.html", "df/da6/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingRoleAndPermissionsTableSeeder" ],
+            [ "AccountingUpdateDocumentStatusIdAccountingEntriesTableSeeder", "d6/d2f/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingUpdateDocumentStatusIdAccountingEntriesTableSeeder.html", "d6/d2f/classModules_1_1Accounting_1_1Database_1_1Seeders_1_1AccountingUpdateDocumentStatusIdAccountingEntriesTableSeeder" ]
+          ] ]
+        ] ],
+        [ "Exports", null, [
+          [ "AccountingAccountExport", "da/dbd/classModules_1_1Accounting_1_1Exports_1_1AccountingAccountExport.html", "da/dbd/classModules_1_1Accounting_1_1Exports_1_1AccountingAccountExport" ],
+          [ "AccountingAnalyticalMajorSheetExport", "d5/dc4/classModules_1_1Accounting_1_1Exports_1_1AccountingAnalyticalMajorSheetExport.html", "d5/dc4/classModules_1_1Accounting_1_1Exports_1_1AccountingAnalyticalMajorSheetExport" ],
+          [ "AccountingBalanceCheckUpSheetExport", "d3/da6/classModules_1_1Accounting_1_1Exports_1_1AccountingBalanceCheckUpSheetExport.html", "d3/da6/classModules_1_1Accounting_1_1Exports_1_1AccountingBalanceCheckUpSheetExport" ],
+          [ "AccountingBalanceSheetExport", "d3/d4d/classModules_1_1Accounting_1_1Exports_1_1AccountingBalanceSheetExport.html", "d3/d4d/classModules_1_1Accounting_1_1Exports_1_1AccountingBalanceSheetExport" ],
+          [ "AccountingDailyBookSheetExport", "de/d17/classModules_1_1Accounting_1_1Exports_1_1AccountingDailyBookSheetExport.html", "de/d17/classModules_1_1Accounting_1_1Exports_1_1AccountingDailyBookSheetExport" ],
+          [ "AccountingStateOfResultsExport", "df/d87/classModules_1_1Accounting_1_1Exports_1_1AccountingStateOfResultsExport.html", "df/d87/classModules_1_1Accounting_1_1Exports_1_1AccountingStateOfResultsExport" ]
         ] ],
         [ "Http", null, [
           [ "Controllers", null, [
+            [ "Reports", null, [
+              [ "AccountingAnalyticalMajorController", "d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController.html", "d2/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAnalyticalMajorController" ],
+              [ "AccountingAuxiliaryBookController", "dd/dc1/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAuxiliaryBookController.html", "dd/dc1/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAuxiliaryBookController" ],
+              [ "AccountingBalanceSheetController", "d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html", "d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController" ],
+              [ "AccountingCheckupBalanceController", "d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html", "d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController" ],
+              [ "AccountingDailyBookController", "d9/d28/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingDailyBookController.html", "d9/d28/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingDailyBookController" ],
+              [ "AccountingEntryController", "d6/d44/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingEntryController.html", "d6/d44/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingEntryController" ],
+              [ "AccountingReportsController", "d3/d7f/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingReportsController.html", "d3/d7f/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingReportsController" ],
+              [ "AccountingStateOfResultsController", "dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController.html", "dd/dee/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingStateOfResultsController" ]
+            ] ],
             [ "AccountingAccountController", "da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html", "da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController" ],
             [ "AccountingAccountConverterController", "d3/d55/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountConverterController.html", "d3/d55/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountConverterController" ],
             [ "AccountingDashboardController", "dc/d26/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingDashboardController.html", "dc/d26/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingDashboardController" ],
             [ "AccountingEntryCategoryController", "d9/d62/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingEntryCategoryController.html", "d9/d62/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingEntryCategoryController" ],
-            [ "AccountingEntryController", "d4/d4d/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingEntryController.html", "d4/d4d/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingEntryController" ]
+            [ "AccountingEntryController", "d4/d4d/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingEntryController.html", "d4/d4d/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingEntryController" ],
+            [ "AccountingSettingCategoryController", "d4/d28/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingSettingCategoryController.html", "d4/d28/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingSettingCategoryController" ],
+            [ "AccountingSettingController", "d6/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingSettingController.html", "d6/d77/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingSettingController" ]
           ] ]
         ] ],
+        [ "Imports", null, [
+          [ "AccountingAccountImport", "d0/d5d/classModules_1_1Accounting_1_1Imports_1_1AccountingAccountImport.html", "d0/d5d/classModules_1_1Accounting_1_1Imports_1_1AccountingAccountImport" ]
+        ] ],
         [ "Jobs", null, [
+          [ "AccountingManageEntries", "dd/d4a/classModules_1_1Accounting_1_1Jobs_1_1AccountingManageEntries.html", "dd/d4a/classModules_1_1Accounting_1_1Jobs_1_1AccountingManageEntries" ],
           [ "AccountingManageImport", "d8/de5/classModules_1_1Accounting_1_1Jobs_1_1AccountingManageImport.html", "d8/de5/classModules_1_1Accounting_1_1Jobs_1_1AccountingManageImport" ]
         ] ],
         [ "Models", null, [
           [ "Accountable", "db/d20/classModules_1_1Accounting_1_1Models_1_1Accountable.html", "db/d20/classModules_1_1Accounting_1_1Models_1_1Accountable" ],
           [ "AccountingAccount", "de/dea/classModules_1_1Accounting_1_1Models_1_1AccountingAccount.html", "de/dea/classModules_1_1Accounting_1_1Models_1_1AccountingAccount" ],
-          [ "AccountingEntryable", "d5/dab/classModules_1_1Accounting_1_1Models_1_1AccountingEntryable.html", "d5/dab/classModules_1_1Accounting_1_1Models_1_1AccountingEntryable" ]
+          [ "AccountingAccountConverter", "dd/dc2/classModules_1_1Accounting_1_1Models_1_1AccountingAccountConverter.html", "dd/dc2/classModules_1_1Accounting_1_1Models_1_1AccountingAccountConverter" ],
+          [ "AccountingEntry", "da/dd4/classModules_1_1Accounting_1_1Models_1_1AccountingEntry.html", "da/dd4/classModules_1_1Accounting_1_1Models_1_1AccountingEntry" ],
+          [ "AccountingEntryable", "d5/dab/classModules_1_1Accounting_1_1Models_1_1AccountingEntryable.html", "d5/dab/classModules_1_1Accounting_1_1Models_1_1AccountingEntryable" ],
+          [ "AccountingEntryAccount", "d9/d57/classModules_1_1Accounting_1_1Models_1_1AccountingEntryAccount.html", "d9/d57/classModules_1_1Accounting_1_1Models_1_1AccountingEntryAccount" ],
+          [ "AccountingEntryCategory", "d1/dc5/classModules_1_1Accounting_1_1Models_1_1AccountingEntryCategory.html", "d1/dc5/classModules_1_1Accounting_1_1Models_1_1AccountingEntryCategory" ],
+          [ "AccountingReportHistory", "d1/daa/classModules_1_1Accounting_1_1Models_1_1AccountingReportHistory.html", "d1/daa/classModules_1_1Accounting_1_1Models_1_1AccountingReportHistory" ],
+          [ "Currency", "d4/da0/classModules_1_1Accounting_1_1Models_1_1Currency.html", "d4/da0/classModules_1_1Accounting_1_1Models_1_1Currency" ],
+          [ "Department", "d2/dde/classModules_1_1Accounting_1_1Models_1_1Department.html", "d2/dde/classModules_1_1Accounting_1_1Models_1_1Department" ],
+          [ "ExchangeRate", "d6/daf/classModules_1_1Accounting_1_1Models_1_1ExchangeRate.html", "d6/daf/classModules_1_1Accounting_1_1Models_1_1ExchangeRate" ],
+          [ "Institution", "d4/da0/classModules_1_1Accounting_1_1Models_1_1Institution.html", "d4/da0/classModules_1_1Accounting_1_1Models_1_1Institution" ],
+          [ "Profile", "d8/d75/classModules_1_1Accounting_1_1Models_1_1Profile.html", "d8/d75/classModules_1_1Accounting_1_1Models_1_1Profile" ],
+          [ "Setting", "dd/d71/classModules_1_1Accounting_1_1Models_1_1Setting.html", "dd/d71/classModules_1_1Accounting_1_1Models_1_1Setting" ]
+        ] ],
+        [ "Providers", null, [
+          [ "AccountingServiceProvider", "d8/d39/classModules_1_1Accounting_1_1Providers_1_1AccountingServiceProvider.html", "d8/d39/classModules_1_1Accounting_1_1Providers_1_1AccountingServiceProvider" ],
+          [ "RouteServiceProvider", "d8/dac/classModules_1_1Accounting_1_1Providers_1_1RouteServiceProvider.html", "d8/dac/classModules_1_1Accounting_1_1Providers_1_1RouteServiceProvider" ]
         ] ]
       ] ],
       [ "Asset", null, [
+        [ "Actions", null, [
+          [ "Registers", null, [
+            [ "ExportAssetAction", "d1/d64/classModules_1_1Asset_1_1Actions_1_1Registers_1_1ExportAssetAction.html", "d1/d64/classModules_1_1Asset_1_1Actions_1_1Registers_1_1ExportAssetAction" ]
+          ] ]
+        ] ],
         [ "Database", null, [
           [ "Seeders", null, [
             [ "AssetAcquisitionTypesTableSeeder", "d4/d83/classModules_1_1Asset_1_1Database_1_1Seeders_1_1AssetAcquisitionTypesTableSeeder.html", "d4/d83/classModules_1_1Asset_1_1Database_1_1Seeders_1_1AssetAcquisitionTypesTableSeeder" ],
@@ -267,12 +329,24 @@ var annotated_dup =
             [ "AssetUseFunctionsTableSeeder", "de/d8d/classModules_1_1Asset_1_1Database_1_1Seeders_1_1AssetUseFunctionsTableSeeder.html", "de/d8d/classModules_1_1Asset_1_1Database_1_1Seeders_1_1AssetUseFunctionsTableSeeder" ]
           ] ]
         ] ],
+        [ "Exports", null, [
+          [ "Sheets", null, [
+            [ "FirstSheetExport", "db/ddc/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1FirstSheetExport.html", "db/ddc/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1FirstSheetExport" ],
+            [ "InmuebleValidationSheetExport", "d5/d7f/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1InmuebleValidationSheetExport.html", "d5/d7f/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1InmuebleValidationSheetExport" ],
+            [ "MuebleValidationSheetExport", "d6/d80/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1MuebleValidationSheetExport.html", "d6/d80/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1MuebleValidationSheetExport" ],
+            [ "SecondSheetExport", "db/d05/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1SecondSheetExport.html", "db/d05/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1SecondSheetExport" ],
+            [ "SemovienteValidationSheetExport", "dd/d23/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1SemovienteValidationSheetExport.html", "dd/d23/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1SemovienteValidationSheetExport" ],
+            [ "VehiculoValidationSheetExport", "d4/d66/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1VehiculoValidationSheetExport.html", "d4/d66/classModules_1_1Asset_1_1Exports_1_1Sheets_1_1VehiculoValidationSheetExport" ]
+          ] ],
+          [ "AssetExport", "da/d23/classModules_1_1Asset_1_1Exports_1_1AssetExport.html", "da/d23/classModules_1_1Asset_1_1Exports_1_1AssetExport" ]
+        ] ],
         [ "Http", null, [
-          [ "Controllers", "dc/d56/namespaceModules_1_1Asset_1_1Http_1_1Controllers.html", [
+          [ "Controllers", null, [
             [ "AssetAcquisitionTypeController", "d4/d45/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAcquisitionTypeController.html", "d4/d45/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAcquisitionTypeController" ],
             [ "AssetAdjustmentController", "d8/d51/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAdjustmentController.html", "d8/d51/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAdjustmentController" ],
             [ "AssetAsignationController", "df/ddc/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController.html", "df/ddc/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationController" ],
             [ "AssetAsignationDeliveryController", "d4/dbb/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationDeliveryController.html", "d4/dbb/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetAsignationDeliveryController" ],
+            [ "AssetBuildingController", "dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController.html", "dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetBuildingController" ],
             [ "AssetCategoryController", "d0/d35/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetCategoryController.html", "d0/d35/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetCategoryController" ],
             [ "AssetClasificationController", "d1/de3/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetClasificationController.html", "d1/de3/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetClasificationController" ],
             [ "AssetConditionController", "d7/d95/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetConditionController.html", "d7/d95/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetConditionController" ],
@@ -281,6 +355,7 @@ var annotated_dup =
             [ "AssetDepreciationController", "d7/d5e/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDepreciationController.html", "d7/d5e/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDepreciationController" ],
             [ "AssetDepreciationMethodController", "df/d75/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDepreciationMethodController.html", "df/d75/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDepreciationMethodController" ],
             [ "AssetDisincorporationController", "d5/dd6/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDisincorporationController.html", "d5/dd6/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDisincorporationController" ],
+            [ "AssetFloorController", "d9/df0/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetFloorController.html", "d9/df0/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetFloorController" ],
             [ "AssetInventoryController", "da/d18/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetInventoryController.html", "da/d18/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetInventoryController" ],
             [ "AssetInventoryReportController", "d2/d9c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetInventoryReportController.html", "d2/d9c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetInventoryReportController" ],
             [ "AssetReportController", "d2/d21/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetReportController.html", "d2/d21/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetReportController" ],
@@ -288,17 +363,39 @@ var annotated_dup =
             [ "AssetRequestDeliveryController", "d4/d68/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestDeliveryController.html", "d4/d68/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestDeliveryController" ],
             [ "AssetRequestEventController", "dc/de9/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestEventController.html", "dc/de9/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestEventController" ],
             [ "AssetRequestExtensionController", "dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestExtensionController.html", "dd/d79/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestExtensionController" ],
+            [ "AssetSectionController", "d8/d1d/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSectionController.html", "d8/d1d/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSectionController" ],
             [ "AssetSettingController", "d1/d7c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSettingController.html", "d1/d7c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSettingController" ],
             [ "AssetSpecificCategoryController", "da/d1d/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSpecificCategoryController.html", "da/d1d/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSpecificCategoryController" ],
             [ "AssetStatusController", "d6/d80/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetStatusController.html", "d6/d80/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetStatusController" ],
             [ "AssetStorageController", "db/d2a/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetStorageController.html", "db/d2a/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetStorageController" ],
             [ "AssetSubcategoryController", "de/dd0/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSubcategoryController.html", "de/dd0/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSubcategoryController" ],
+            [ "AssetSupplierBranchController", "db/d81/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSupplierBranchController.html", "db/d81/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSupplierBranchController" ],
+            [ "AssetSupplierController", "dc/dae/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSupplierController.html", "dc/dae/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSupplierController" ],
+            [ "AssetSupplierObjectController", "d7/d20/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSupplierObjectController.html", "d7/d20/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSupplierObjectController" ],
+            [ "AssetSupplierSpecialtyController", "df/de0/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSupplierSpecialtyController.html", "df/de0/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSupplierSpecialtyController" ],
+            [ "AssetSupplierTypeController", "d4/d6b/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSupplierTypeController.html", "d4/d6b/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSupplierTypeController" ],
             [ "AssetTypeController", "d9/d2a/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetTypeController.html", "d9/d2a/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetTypeController" ],
             [ "AssetUseFunctionController", "d9/dcf/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetUseFunctionController.html", "d9/dcf/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetUseFunctionController" ],
             [ "ExportController", "db/d13/classModules_1_1Asset_1_1Http_1_1Controllers_1_1ExportController.html", "db/d13/classModules_1_1Asset_1_1Http_1_1Controllers_1_1ExportController" ]
+          ] ],
+          [ "Resources", null, [
+            [ "AssetAsignationResource", "d4/d6d/classModules_1_1Asset_1_1Http_1_1Resources_1_1AssetAsignationResource.html", "d4/d6d/classModules_1_1Asset_1_1Http_1_1Resources_1_1AssetAsignationResource" ],
+            [ "AssetDepreciationResource", "d6/dc7/classModules_1_1Asset_1_1Http_1_1Resources_1_1AssetDepreciationResource.html", "d6/dc7/classModules_1_1Asset_1_1Http_1_1Resources_1_1AssetDepreciationResource" ],
+            [ "AssetReportResource", "d1/d91/classModules_1_1Asset_1_1Http_1_1Resources_1_1AssetReportResource.html", "d1/d91/classModules_1_1Asset_1_1Http_1_1Resources_1_1AssetReportResource" ],
+            [ "AssetResource", "dc/db3/classModules_1_1Asset_1_1Http_1_1Resources_1_1AssetResource.html", "dc/db3/classModules_1_1Asset_1_1Http_1_1Resources_1_1AssetResource" ]
           ] ]
         ] ],
-        [ "Models", "d5/df5/namespaceModules_1_1Asset_1_1Models.html", [
+        [ "Imports", null, [
+          [ "AssetImport", "d9/d61/classModules_1_1Asset_1_1Imports_1_1AssetImport.html", "d9/d61/classModules_1_1Asset_1_1Imports_1_1AssetImport" ]
+        ] ],
+        [ "Jobs", null, [
+          [ "AssetCreateAssets", "df/d9f/classModules_1_1Asset_1_1Jobs_1_1AssetCreateAssets.html", "df/d9f/classModules_1_1Asset_1_1Jobs_1_1AssetCreateAssets" ],
+          [ "AssetGenerateReport", "db/d10/classModules_1_1Asset_1_1Jobs_1_1AssetGenerateReport.html", "db/d10/classModules_1_1Asset_1_1Jobs_1_1AssetGenerateReport" ]
+        ] ],
+        [ "Mail", null, [
+          [ "AssetSendMail", "dc/d55/classModules_1_1Asset_1_1Mail_1_1AssetSendMail.html", "dc/d55/classModules_1_1Asset_1_1Mail_1_1AssetSendMail" ]
+        ] ],
+        [ "Models", null, [
           [ "Asset", "d1/d18/classModules_1_1Asset_1_1Models_1_1Asset.html", "d1/d18/classModules_1_1Asset_1_1Models_1_1Asset" ],
           [ "AssetAcquisitionType", "d1/d61/classModules_1_1Asset_1_1Models_1_1AssetAcquisitionType.html", "d1/d61/classModules_1_1Asset_1_1Models_1_1AssetAcquisitionType" ],
           [ "AssetAdjustmentAsset", "dd/ded/classModules_1_1Asset_1_1Models_1_1AssetAdjustmentAsset.html", "dd/ded/classModules_1_1Asset_1_1Models_1_1AssetAdjustmentAsset" ],
@@ -306,6 +403,7 @@ var annotated_dup =
           [ "AssetAsignationAsset", "dc/d02/classModules_1_1Asset_1_1Models_1_1AssetAsignationAsset.html", "dc/d02/classModules_1_1Asset_1_1Models_1_1AssetAsignationAsset" ],
           [ "AssetAsignationDelivery", "dd/d86/classModules_1_1Asset_1_1Models_1_1AssetAsignationDelivery.html", "dd/d86/classModules_1_1Asset_1_1Models_1_1AssetAsignationDelivery" ],
           [ "AssetBook", "d2/dbd/classModules_1_1Asset_1_1Models_1_1AssetBook.html", "d2/dbd/classModules_1_1Asset_1_1Models_1_1AssetBook" ],
+          [ "AssetBuilding", "db/d81/classModules_1_1Asset_1_1Models_1_1AssetBuilding.html", "db/d81/classModules_1_1Asset_1_1Models_1_1AssetBuilding" ],
           [ "AssetCategory", "da/d40/classModules_1_1Asset_1_1Models_1_1AssetCategory.html", "da/d40/classModules_1_1Asset_1_1Models_1_1AssetCategory" ],
           [ "AssetCondition", "dd/d44/classModules_1_1Asset_1_1Models_1_1AssetCondition.html", "dd/d44/classModules_1_1Asset_1_1Models_1_1AssetCondition" ],
           [ "AssetDepreciation", "d4/d94/classModules_1_1Asset_1_1Models_1_1AssetDepreciation.html", "d4/d94/classModules_1_1Asset_1_1Models_1_1AssetDepreciation" ],
@@ -314,6 +412,8 @@ var annotated_dup =
           [ "AssetDisincorporation", "de/dcb/classModules_1_1Asset_1_1Models_1_1AssetDisincorporation.html", "de/dcb/classModules_1_1Asset_1_1Models_1_1AssetDisincorporation" ],
           [ "AssetDisincorporationAsset", "dc/dbb/classModules_1_1Asset_1_1Models_1_1AssetDisincorporationAsset.html", "dc/dbb/classModules_1_1Asset_1_1Models_1_1AssetDisincorporationAsset" ],
           [ "AssetDisincorporationMotive", "dc/d90/classModules_1_1Asset_1_1Models_1_1AssetDisincorporationMotive.html", "dc/d90/classModules_1_1Asset_1_1Models_1_1AssetDisincorporationMotive" ],
+          [ "AssetDocumentRequiredDocument", "dd/dcb/classModules_1_1Asset_1_1Models_1_1AssetDocumentRequiredDocument.html", "dd/dcb/classModules_1_1Asset_1_1Models_1_1AssetDocumentRequiredDocument" ],
+          [ "AssetFloor", "d7/d48/classModules_1_1Asset_1_1Models_1_1AssetFloor.html", "d7/d48/classModules_1_1Asset_1_1Models_1_1AssetFloor" ],
           [ "AssetInstitutionStorage", "d1/dad/classModules_1_1Asset_1_1Models_1_1AssetInstitutionStorage.html", "d1/dad/classModules_1_1Asset_1_1Models_1_1AssetInstitutionStorage" ],
           [ "AssetInventory", "d0/dd6/classModules_1_1Asset_1_1Models_1_1AssetInventory.html", "d0/dd6/classModules_1_1Asset_1_1Models_1_1AssetInventory" ],
           [ "AssetInventoryAsset", "d4/db2/classModules_1_1Asset_1_1Models_1_1AssetInventoryAsset.html", "d4/db2/classModules_1_1Asset_1_1Models_1_1AssetInventoryAsset" ],
@@ -325,38 +425,69 @@ var annotated_dup =
           [ "AssetRequestExtension", "d9/d05/classModules_1_1Asset_1_1Models_1_1AssetRequestExtension.html", "d9/d05/classModules_1_1Asset_1_1Models_1_1AssetRequestExtension" ],
           [ "AssetRequiredItem", "d8/d71/classModules_1_1Asset_1_1Models_1_1AssetRequiredItem.html", "d8/d71/classModules_1_1Asset_1_1Models_1_1AssetRequiredItem" ],
           [ "AssetRules", "dc/d07/classModules_1_1Asset_1_1Models_1_1AssetRules.html", "dc/d07/classModules_1_1Asset_1_1Models_1_1AssetRules" ],
+          [ "AssetSection", "db/d7e/classModules_1_1Asset_1_1Models_1_1AssetSection.html", "db/d7e/classModules_1_1Asset_1_1Models_1_1AssetSection" ],
           [ "AssetSpecificCategory", "dc/dc7/classModules_1_1Asset_1_1Models_1_1AssetSpecificCategory.html", "dc/dc7/classModules_1_1Asset_1_1Models_1_1AssetSpecificCategory" ],
           [ "AssetStatus", "dc/d7c/classModules_1_1Asset_1_1Models_1_1AssetStatus.html", "dc/d7c/classModules_1_1Asset_1_1Models_1_1AssetStatus" ],
           [ "AssetStorage", "d4/d19/classModules_1_1Asset_1_1Models_1_1AssetStorage.html", "d4/d19/classModules_1_1Asset_1_1Models_1_1AssetStorage" ],
           [ "AssetSubcategory", "d8/ddd/classModules_1_1Asset_1_1Models_1_1AssetSubcategory.html", "d8/ddd/classModules_1_1Asset_1_1Models_1_1AssetSubcategory" ],
+          [ "AssetSupplier", "d5/daa/classModules_1_1Asset_1_1Models_1_1AssetSupplier.html", "d5/daa/classModules_1_1Asset_1_1Models_1_1AssetSupplier" ],
+          [ "AssetSupplierBranch", "df/dcf/classModules_1_1Asset_1_1Models_1_1AssetSupplierBranch.html", "df/dcf/classModules_1_1Asset_1_1Models_1_1AssetSupplierBranch" ],
+          [ "AssetSupplierObject", "d2/d45/classModules_1_1Asset_1_1Models_1_1AssetSupplierObject.html", "d2/d45/classModules_1_1Asset_1_1Models_1_1AssetSupplierObject" ],
+          [ "AssetSupplierSpecialty", "dc/d3a/classModules_1_1Asset_1_1Models_1_1AssetSupplierSpecialty.html", "dc/d3a/classModules_1_1Asset_1_1Models_1_1AssetSupplierSpecialty" ],
+          [ "AssetSupplierType", "d3/dd4/classModules_1_1Asset_1_1Models_1_1AssetSupplierType.html", "d3/dd4/classModules_1_1Asset_1_1Models_1_1AssetSupplierType" ],
           [ "AssetType", "de/d6a/classModules_1_1Asset_1_1Models_1_1AssetType.html", "de/d6a/classModules_1_1Asset_1_1Models_1_1AssetType" ],
-          [ "AssetUseFunction", "d7/d3b/classModules_1_1Asset_1_1Models_1_1AssetUseFunction.html", "d7/d3b/classModules_1_1Asset_1_1Models_1_1AssetUseFunction" ]
+          [ "AssetUseFunction", "d7/d3b/classModules_1_1Asset_1_1Models_1_1AssetUseFunction.html", "d7/d3b/classModules_1_1Asset_1_1Models_1_1AssetUseFunction" ],
+          [ "City", "da/df2/classModules_1_1Asset_1_1Models_1_1City.html", "da/df2/classModules_1_1Asset_1_1Models_1_1City" ],
+          [ "Country", "db/dae/classModules_1_1Asset_1_1Models_1_1Country.html", "db/dae/classModules_1_1Asset_1_1Models_1_1Country" ],
+          [ "Document", "d4/d1c/classModules_1_1Asset_1_1Models_1_1Document.html", "d4/d1c/classModules_1_1Asset_1_1Models_1_1Document" ],
+          [ "Estate", "df/dd2/classModules_1_1Asset_1_1Models_1_1Estate.html", "df/dd2/classModules_1_1Asset_1_1Models_1_1Estate" ],
+          [ "RequiredDocument", "dc/d34/classModules_1_1Asset_1_1Models_1_1RequiredDocument.html", "dc/d34/classModules_1_1Asset_1_1Models_1_1RequiredDocument" ],
+          [ "SectionAmount", "d3/d59/classModules_1_1Asset_1_1Models_1_1SectionAmount.html", "d3/d59/classModules_1_1Asset_1_1Models_1_1SectionAmount" ]
+        ] ],
+        [ "Pdf", null, [
+          [ "AssetReport", "db/d24/classModules_1_1Asset_1_1Pdf_1_1AssetReport.html", "db/d24/classModules_1_1Asset_1_1Pdf_1_1AssetReport" ]
+        ] ],
+        [ "Providers", null, [
+          [ "AssetServiceProvider", "d6/d73/classModules_1_1Asset_1_1Providers_1_1AssetServiceProvider.html", "d6/d73/classModules_1_1Asset_1_1Providers_1_1AssetServiceProvider" ]
         ] ],
         [ "Repositories", null, [
           [ "AssetParametersRepository", "de/d01/classModules_1_1Asset_1_1Repositories_1_1AssetParametersRepository.html", "de/d01/classModules_1_1Asset_1_1Repositories_1_1AssetParametersRepository" ]
         ] ],
         [ "Rules", null, [
-          [ "Setting", "dc/de0/namespaceModules_1_1Asset_1_1Rules_1_1Setting.html", [
+          [ "Setting", null, [
             [ "AssetCategoryUnique", "de/dcc/classModules_1_1Asset_1_1Rules_1_1Setting_1_1AssetCategoryUnique.html", "de/dcc/classModules_1_1Asset_1_1Rules_1_1Setting_1_1AssetCategoryUnique" ],
             [ "AssetSpecificCategoryUnique", "dd/d04/classModules_1_1Asset_1_1Rules_1_1Setting_1_1AssetSpecificCategoryUnique.html", "dd/d04/classModules_1_1Asset_1_1Rules_1_1Setting_1_1AssetSpecificCategoryUnique" ],
             [ "AssetSubcategoryUnique", "d5/d91/classModules_1_1Asset_1_1Rules_1_1Setting_1_1AssetSubcategoryUnique.html", "d5/d91/classModules_1_1Asset_1_1Rules_1_1Setting_1_1AssetSubcategoryUnique" ]
           ] ],
           [ "AcquisitionYear", "d7/d23/classModules_1_1Asset_1_1Rules_1_1AcquisitionYear.html", "d7/d23/classModules_1_1Asset_1_1Rules_1_1AcquisitionYear" ],
+          [ "ContractStartDate", "dc/d8b/classModules_1_1Asset_1_1Rules_1_1ContractStartDate.html", "dc/d8b/classModules_1_1Asset_1_1Rules_1_1ContractStartDate" ],
           [ "DateExtension", "de/da6/classModules_1_1Asset_1_1Rules_1_1DateExtension.html", "de/da6/classModules_1_1Asset_1_1Rules_1_1DateExtension" ],
           [ "RequiredItem", "d5/dc5/classModules_1_1Asset_1_1Rules_1_1RequiredItem.html", "d5/dc5/classModules_1_1Asset_1_1Rules_1_1RequiredItem" ]
+        ] ],
+        [ "Transformers", null, [
+          [ "FloorCollection", "d5/d72/classModules_1_1Asset_1_1Transformers_1_1FloorCollection.html", "d5/d72/classModules_1_1Asset_1_1Transformers_1_1FloorCollection" ]
         ] ]
       ] ],
       [ "Budget", null, [
         [ "Database", null, [
           [ "Seeders", null, [
             [ "BudgetAccountsTableSeeder", "d8/d2f/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetAccountsTableSeeder.html", "d8/d2f/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetAccountsTableSeeder" ],
-            [ "BudgetDatabaseSeeder", "da/dc0/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetDatabaseSeeder.html", "da/dc0/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetDatabaseSeeder" ]
+            [ "BudgetDatabaseSeeder", "da/dc0/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetDatabaseSeeder.html", "da/dc0/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetDatabaseSeeder" ],
+            [ "BudgetFinancementTypesAndSourcesTableSeeder", "dd/d62/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetFinancementTypesAndSourcesTableSeeder.html", "dd/d62/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetFinancementTypesAndSourcesTableSeeder" ],
+            [ "BudgetNotificationSettingsTableSeeder", "d7/d40/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetNotificationSettingsTableSeeder.html", "d7/d40/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetNotificationSettingsTableSeeder" ],
+            [ "BudgetRoleAndPermissionsTableSeeder", "d0/ddc/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetRoleAndPermissionsTableSeeder.html", "d0/ddc/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetRoleAndPermissionsTableSeeder" ],
+            [ "BudgetUpdateCompromiseCodesSeeder", "d2/d8e/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetUpdateCompromiseCodesSeeder.html", "d2/d8e/classModules_1_1Budget_1_1Database_1_1Seeders_1_1BudgetUpdateCompromiseCodesSeeder" ]
           ] ]
+        ] ],
+        [ "Exports", null, [
+          [ "BudgetSubSpecificFormulationExport", "d7/de0/classModules_1_1Budget_1_1Exports_1_1BudgetSubSpecificFormulationExport.html", "d7/de0/classModules_1_1Budget_1_1Exports_1_1BudgetSubSpecificFormulationExport" ],
+          [ "RecordsExport", "da/d86/classModules_1_1Budget_1_1Exports_1_1RecordsExport.html", "da/d86/classModules_1_1Budget_1_1Exports_1_1RecordsExport" ]
         ] ],
         [ "Http", null, [
           [ "Controllers", null, [
-            [ "Reports", "d2/d8f/namespaceModules_1_1Budget_1_1Http_1_1Controllers_1_1Reports.html", [
-              [ "BudgetaryAvailabilityController", "de/df9/classModules_1_1Budget_1_1Http_1_1Controllers_1_1Reports_1_1BudgetaryAvailabilityController.html", "de/df9/classModules_1_1Budget_1_1Http_1_1Controllers_1_1Reports_1_1BudgetaryAvailabilityController" ]
+            [ "Reports", null, [
+              [ "BudgetaryAvailabilityController", "de/df9/classModules_1_1Budget_1_1Http_1_1Controllers_1_1Reports_1_1BudgetaryAvailabilityController.html", "de/df9/classModules_1_1Budget_1_1Http_1_1Controllers_1_1Reports_1_1BudgetaryAvailabilityController" ],
+              [ "BudgetModificationReportsController", "d4/de5/classModules_1_1Budget_1_1Http_1_1Controllers_1_1Reports_1_1BudgetModificationReportsController.html", "d4/de5/classModules_1_1Budget_1_1Http_1_1Controllers_1_1Reports_1_1BudgetModificationReportsController" ]
             ] ],
             [ "BudgetAccountController", "d4/d82/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetAccountController.html", "d4/d82/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetAccountController" ],
             [ "BudgetAditionalCreditController", "d0/da6/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetAditionalCreditController.html", "d0/da6/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetAditionalCreditController" ],
@@ -372,6 +503,9 @@ var annotated_dup =
             [ "BudgetSubSpecificFormulationController", "d1/db2/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetSubSpecificFormulationController.html", "d1/db2/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetSubSpecificFormulationController" ],
             [ "BudgetTransferController", "d2/d35/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetTransferController.html", "d2/d35/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetTransferController" ]
           ] ]
+        ] ],
+        [ "Mail", null, [
+          [ "BudgetSendMail", "d9/d46/classModules_1_1Budget_1_1Mail_1_1BudgetSendMail.html", "d9/d46/classModules_1_1Budget_1_1Mail_1_1BudgetSendMail" ]
         ] ],
         [ "Models", null, [
           [ "BudgetAccount", "d9/d4a/classModules_1_1Budget_1_1Models_1_1BudgetAccount.html", "d9/d4a/classModules_1_1Budget_1_1Models_1_1BudgetAccount" ],
@@ -395,40 +529,101 @@ var annotated_dup =
           [ "Institution", "d2/d64/classModules_1_1Budget_1_1Models_1_1Institution.html", "d2/d64/classModules_1_1Budget_1_1Models_1_1Institution" ]
         ] ],
         [ "Providers", null, [
-          [ "BudgetServiceProvider", "dd/de9/classModules_1_1Budget_1_1Providers_1_1BudgetServiceProvider.html", "dd/de9/classModules_1_1Budget_1_1Providers_1_1BudgetServiceProvider" ]
+          [ "BudgetServiceProvider", "dd/de9/classModules_1_1Budget_1_1Providers_1_1BudgetServiceProvider.html", "dd/de9/classModules_1_1Budget_1_1Providers_1_1BudgetServiceProvider" ],
+          [ "RouteServiceProvider", "dd/d23/classModules_1_1Budget_1_1Providers_1_1RouteServiceProvider.html", "dd/d23/classModules_1_1Budget_1_1Providers_1_1RouteServiceProvider" ]
         ] ]
       ] ],
       [ "CitizenService", null, [
-        [ "Http", null, [
-          [ "Controllers", "d9/d60/namespaceModules_1_1CitizenService_1_1Http_1_1Controllers.html", [
-            [ "CitizenServiceEffectTypeController", "d6/d70/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceEffectTypeController.html", "d6/d70/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceEffectTypeController" ],
-            [ "CitizenServiceIndicatorController", "db/dbf/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceIndicatorController.html", "db/dbf/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceIndicatorController" ]
+        [ "Database", null, [
+          [ "Seeders", null, [
+            [ "CitizenServiceDatabaseSeeder", "d4/d4d/classModules_1_1CitizenService_1_1Database_1_1Seeders_1_1CitizenServiceDatabaseSeeder.html", "d4/d4d/classModules_1_1CitizenService_1_1Database_1_1Seeders_1_1CitizenServiceDatabaseSeeder" ],
+            [ "CitizenServiceRequestTypesTableSeeder", "de/dbb/classModules_1_1CitizenService_1_1Database_1_1Seeders_1_1CitizenServiceRequestTypesTableSeeder.html", "de/dbb/classModules_1_1CitizenService_1_1Database_1_1Seeders_1_1CitizenServiceRequestTypesTableSeeder" ],
+            [ "CitizenServiceRoleAndPermissionsTableSeeder", "db/d8e/classModules_1_1CitizenService_1_1Database_1_1Seeders_1_1CitizenServiceRoleAndPermissionsTableSeeder.html", "db/d8e/classModules_1_1CitizenService_1_1Database_1_1Seeders_1_1CitizenServiceRoleAndPermissionsTableSeeder" ]
           ] ]
         ] ],
-        [ "Models", "d4/dc7/namespaceModules_1_1CitizenService_1_1Models.html", [
+        [ "Http", null, [
+          [ "Controllers", null, [
+            [ "CitizenServiceController", "dd/dbb/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceController.html", "dd/dbb/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceController" ],
+            [ "CitizenServiceDepartmentController", "df/dfe/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceDepartmentController.html", "df/dfe/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceDepartmentController" ],
+            [ "CitizenServiceEffectTypeController", "d6/d70/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceEffectTypeController.html", "d6/d70/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceEffectTypeController" ],
+            [ "CitizenServiceIndicatorController", "db/dbf/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceIndicatorController.html", "db/dbf/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceIndicatorController" ],
+            [ "CitizenServiceRegisterController", "d6/d88/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceRegisterController.html", "d6/d88/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceRegisterController" ],
+            [ "CitizenServiceReportController", "d2/d14/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceReportController.html", "d2/d14/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceReportController" ],
+            [ "CitizenServiceRequestCloseController", "d3/d18/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceRequestCloseController.html", "d3/d18/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceRequestCloseController" ],
+            [ "CitizenServiceRequestController", "d2/d06/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceRequestController.html", "d2/d06/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceRequestController" ],
+            [ "CitizenServiceRequestTypeController", "d7/d45/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceRequestTypeController.html", "d7/d45/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceRequestTypeController" ],
+            [ "CitizenServiceSettingController", "df/de5/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceSettingController.html", "df/de5/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceSettingController" ]
+          ] ]
+        ] ],
+        [ "Models", null, [
           [ "CitizenServiceAddIndicator", "d3/d3f/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceAddIndicator.html", "d3/d3f/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceAddIndicator" ],
+          [ "CitizenServiceDepartment", "db/d61/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceDepartment.html", "db/d61/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceDepartment" ],
           [ "CitizenServiceEffectType", "dc/d88/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceEffectType.html", "dc/d88/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceEffectType" ],
-          [ "CitizenServiceIndicator", "d1/d04/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceIndicator.html", "d1/d04/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceIndicator" ]
+          [ "CitizenServiceIndicator", "d1/d04/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceIndicator.html", "d1/d04/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceIndicator" ],
+          [ "CitizenServiceReport", "d4/d9c/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceReport.html", "d4/d9c/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceReport" ],
+          [ "CitizenServiceRequestType", "d9/de8/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceRequestType.html", "d9/de8/classModules_1_1CitizenService_1_1Models_1_1CitizenServiceRequestType" ],
+          [ "City", "d8/d76/classModules_1_1CitizenService_1_1Models_1_1City.html", "d8/d76/classModules_1_1CitizenService_1_1Models_1_1City" ],
+          [ "Parish", "d8/d9b/classModules_1_1CitizenService_1_1Models_1_1Parish.html", "d8/d9b/classModules_1_1CitizenService_1_1Models_1_1Parish" ]
+        ] ],
+        [ "Pdf", null, [
+          [ "CitizenServiceReport", "d5/d47/classModules_1_1CitizenService_1_1Pdf_1_1CitizenServiceReport.html", "d5/d47/classModules_1_1CitizenService_1_1Pdf_1_1CitizenServiceReport" ]
+        ] ],
+        [ "Providers", null, [
+          [ "CitizenServiceServiceProvider", "d6/de1/classModules_1_1CitizenService_1_1Providers_1_1CitizenServiceServiceProvider.html", "d6/de1/classModules_1_1CitizenService_1_1Providers_1_1CitizenServiceServiceProvider" ],
+          [ "RouteServiceProvider", "db/dfb/classModules_1_1CitizenService_1_1Providers_1_1RouteServiceProvider.html", "db/dfb/classModules_1_1CitizenService_1_1Providers_1_1RouteServiceProvider" ]
         ] ]
       ] ],
       [ "DigitalSignature", null, [
         [ "Database", null, [
           [ "Seeders", null, [
+            [ "DigitalSignatureDatabaseSeeder", "d1/dc1/classModules_1_1DigitalSignature_1_1Database_1_1Seeders_1_1DigitalSignatureDatabaseSeeder.html", "d1/dc1/classModules_1_1DigitalSignature_1_1Database_1_1Seeders_1_1DigitalSignatureDatabaseSeeder" ],
             [ "DigitalSignatureRoleAndPermissionsTableSeeder", "da/d5a/classModules_1_1DigitalSignature_1_1Database_1_1Seeders_1_1DigitalSignatureRoleAndPermissionsTableSeeder.html", "da/d5a/classModules_1_1DigitalSignature_1_1Database_1_1Seeders_1_1DigitalSignatureRoleAndPermissionsTableSeeder" ]
           ] ]
+        ] ],
+        [ "Helpers", null, [
+          [ "Helper", "d3/d71/classModules_1_1DigitalSignature_1_1Helpers_1_1Helper.html", "d3/d71/classModules_1_1DigitalSignature_1_1Helpers_1_1Helper" ]
         ] ],
         [ "Http", null, [
           [ "Controllers", null, [
             [ "DigitalSignatureController", "de/dab/classModules_1_1DigitalSignature_1_1Http_1_1Controllers_1_1DigitalSignatureController.html", "de/dab/classModules_1_1DigitalSignature_1_1Http_1_1Controllers_1_1DigitalSignatureController" ]
           ] ]
         ] ],
-        [ "Repositories", "dd/dbd/namespaceModules_1_1DigitalSignature_1_1Repositories.html", [
+        [ "Models", null, [
+          [ "Signprofile", "de/dd5/classModules_1_1DigitalSignature_1_1Models_1_1Signprofile.html", "de/dd5/classModules_1_1DigitalSignature_1_1Models_1_1Signprofile" ],
+          [ "User", "de/d89/classModules_1_1DigitalSignature_1_1Models_1_1User.html", "de/d89/classModules_1_1DigitalSignature_1_1Models_1_1User" ]
+        ] ],
+        [ "Providers", null, [
+          [ "DigitalSignatureServiceProvider", "de/d63/classModules_1_1DigitalSignature_1_1Providers_1_1DigitalSignatureServiceProvider.html", "de/d63/classModules_1_1DigitalSignature_1_1Providers_1_1DigitalSignatureServiceProvider" ],
+          [ "RouteServiceProvider", "d8/d6c/classModules_1_1DigitalSignature_1_1Providers_1_1RouteServiceProvider.html", "d8/d6c/classModules_1_1DigitalSignature_1_1Providers_1_1RouteServiceProvider" ]
+        ] ],
+        [ "Repositories", null, [
           [ "ReportRepositorySign", "dc/d5e/classModules_1_1DigitalSignature_1_1Repositories_1_1ReportRepositorySign.html", "dc/d5e/classModules_1_1DigitalSignature_1_1Repositories_1_1ReportRepositorySign" ]
         ] ]
       ] ],
       [ "Finance", null, [
+        [ "Console", null, [
+          [ "Commands", null, [
+            [ "FixBankMovementCodes", "de/d73/classModules_1_1Finance_1_1Console_1_1Commands_1_1FixBankMovementCodes.html", "de/d73/classModules_1_1Finance_1_1Console_1_1Commands_1_1FixBankMovementCodes" ]
+          ] ]
+        ] ],
+        [ "Database", null, [
+          [ "Seeders", null, [
+            [ "FinanceAccountTypeTableSeeder", "dd/d8b/classModules_1_1Finance_1_1Database_1_1Seeders_1_1FinanceAccountTypeTableSeeder.html", "dd/d8b/classModules_1_1Finance_1_1Database_1_1Seeders_1_1FinanceAccountTypeTableSeeder" ],
+            [ "FinanceBanksTableSeeder", "d2/dd3/classModules_1_1Finance_1_1Database_1_1Seeders_1_1FinanceBanksTableSeeder.html", "d2/dd3/classModules_1_1Finance_1_1Database_1_1Seeders_1_1FinanceBanksTableSeeder" ],
+            [ "FinanceDatabaseSeeder", "df/d68/classModules_1_1Finance_1_1Database_1_1Seeders_1_1FinanceDatabaseSeeder.html", "df/d68/classModules_1_1Finance_1_1Database_1_1Seeders_1_1FinanceDatabaseSeeder" ],
+            [ "FinanceRoleAndPermissionsTableSeeder", "d3/de3/classModules_1_1Finance_1_1Database_1_1Seeders_1_1FinanceRoleAndPermissionsTableSeeder.html", "d3/de3/classModules_1_1Finance_1_1Database_1_1Seeders_1_1FinanceRoleAndPermissionsTableSeeder" ],
+            [ "FinanceUpdateDeductedAtPaymentDeductiosTableSeeder", "dc/d92/classModules_1_1Finance_1_1Database_1_1Seeders_1_1FinanceUpdateDeductedAtPaymentDeductiosTableSeeder.html", "dc/d92/classModules_1_1Finance_1_1Database_1_1Seeders_1_1FinanceUpdateDeductedAtPaymentDeductiosTableSeeder" ],
+            [ "FinanceUpdateStatusPayOrdersTableSeeder", "db/dc4/classModules_1_1Finance_1_1Database_1_1Seeders_1_1FinanceUpdateStatusPayOrdersTableSeeder.html", "db/dc4/classModules_1_1Finance_1_1Database_1_1Seeders_1_1FinanceUpdateStatusPayOrdersTableSeeder" ]
+          ] ]
+        ] ],
+        [ "Exports", null, [
+          [ "FinanceIvaExport", "d2/d87/classModules_1_1Finance_1_1Exports_1_1FinanceIvaExport.html", "d2/d87/classModules_1_1Finance_1_1Exports_1_1FinanceIvaExport" ]
+        ] ],
         [ "Http", null, [
-          [ "Controllers", "df/d77/namespaceModules_1_1Finance_1_1Http_1_1Controllers.html", [
+          [ "Controllers", null, [
+            [ "Reports", null, [
+              [ "FinanceReportsController", "d7/dbe/classModules_1_1Finance_1_1Http_1_1Controllers_1_1Reports_1_1FinanceReportsController.html", "d7/dbe/classModules_1_1Finance_1_1Http_1_1Controllers_1_1Reports_1_1FinanceReportsController" ]
+            ] ],
             [ "FinanceAccountTypeController", "d6/d94/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceAccountTypeController.html", "d6/d94/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceAccountTypeController" ],
             [ "FinanceBankAccountController", "de/d50/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceBankAccountController.html", "de/d50/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceBankAccountController" ],
             [ "FinanceBankController", "d3/dad/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceBankController.html", "d3/dad/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceBankController" ],
@@ -442,51 +637,112 @@ var annotated_dup =
             [ "FinanceSettingBankReconciliationFilesController", "db/d6a/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceSettingBankReconciliationFilesController.html", "db/d6a/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceSettingBankReconciliationFilesController" ]
           ] ]
         ] ],
-        [ "Models", "db/d99/namespaceModules_1_1Finance_1_1Models.html", [
+        [ "Models", null, [
+          [ "City", "dd/d54/classModules_1_1Finance_1_1Models_1_1City.html", "dd/d54/classModules_1_1Finance_1_1Models_1_1City" ],
           [ "FinanceAccountType", "d5/d17/classModules_1_1Finance_1_1Models_1_1FinanceAccountType.html", "d5/d17/classModules_1_1Finance_1_1Models_1_1FinanceAccountType" ],
           [ "FinanceBank", "d0/d59/classModules_1_1Finance_1_1Models_1_1FinanceBank.html", "d0/d59/classModules_1_1Finance_1_1Models_1_1FinanceBank" ],
           [ "FinanceBankingAgency", "d6/d2c/classModules_1_1Finance_1_1Models_1_1FinanceBankingAgency.html", "d6/d2c/classModules_1_1Finance_1_1Models_1_1FinanceBankingAgency" ],
           [ "FinanceBankingMovement", "de/d23/classModules_1_1Finance_1_1Models_1_1FinanceBankingMovement.html", "de/d23/classModules_1_1Finance_1_1Models_1_1FinanceBankingMovement" ],
           [ "FinanceCheckBook", "d5/d8b/classModules_1_1Finance_1_1Models_1_1FinanceCheckBook.html", "d5/d8b/classModules_1_1Finance_1_1Models_1_1FinanceCheckBook" ],
+          [ "FinanceConciliation", "d3/d31/classModules_1_1Finance_1_1Models_1_1FinanceConciliation.html", "d3/d31/classModules_1_1Finance_1_1Models_1_1FinanceConciliation" ],
+          [ "FinanceConciliationBankMovement", "d5/de8/classModules_1_1Finance_1_1Models_1_1FinanceConciliationBankMovement.html", "d5/de8/classModules_1_1Finance_1_1Models_1_1FinanceConciliationBankMovement" ],
           [ "FinancePaymentDeduction", "d5/dc7/classModules_1_1Finance_1_1Models_1_1FinancePaymentDeduction.html", "d5/dc7/classModules_1_1Finance_1_1Models_1_1FinancePaymentDeduction" ],
           [ "FinancePaymentExecute", "d1/de7/classModules_1_1Finance_1_1Models_1_1FinancePaymentExecute.html", "d1/de7/classModules_1_1Finance_1_1Models_1_1FinancePaymentExecute" ],
+          [ "FinancePaymentExecuteIva", "d3/d34/classModules_1_1Finance_1_1Models_1_1FinancePaymentExecuteIva.html", "d3/d34/classModules_1_1Finance_1_1Models_1_1FinancePaymentExecuteIva" ],
+          [ "FinancePaymentMethods", "df/dd1/classModules_1_1Finance_1_1Models_1_1FinancePaymentMethods.html", "df/dd1/classModules_1_1Finance_1_1Models_1_1FinancePaymentMethods" ],
           [ "FinancePayOrder", "d9/d5e/classModules_1_1Finance_1_1Models_1_1FinancePayOrder.html", "d9/d5e/classModules_1_1Finance_1_1Models_1_1FinancePayOrder" ],
           [ "FinancePayOrderFinancePaymentExecute", "d4/da6/classModules_1_1Finance_1_1Models_1_1FinancePayOrderFinancePaymentExecute.html", "d4/da6/classModules_1_1Finance_1_1Models_1_1FinancePayOrderFinancePaymentExecute" ],
-          [ "FinanceSettingBankReconciliationFiles", "d5/d49/classModules_1_1Finance_1_1Models_1_1FinanceSettingBankReconciliationFiles.html", "d5/d49/classModules_1_1Finance_1_1Models_1_1FinanceSettingBankReconciliationFiles" ]
+          [ "FinanceSettingBankReconciliationFiles", "d5/d49/classModules_1_1Finance_1_1Models_1_1FinanceSettingBankReconciliationFiles.html", "d5/d49/classModules_1_1Finance_1_1Models_1_1FinanceSettingBankReconciliationFiles" ],
+          [ "Image", "d3/dcb/classModules_1_1Finance_1_1Models_1_1Image.html", "d3/dcb/classModules_1_1Finance_1_1Models_1_1Image" ]
         ] ],
         [ "Providers", null, [
-          [ "FinanceServiceProvider", "d1/df7/classModules_1_1Finance_1_1Providers_1_1FinanceServiceProvider.html", "d1/df7/classModules_1_1Finance_1_1Providers_1_1FinanceServiceProvider" ]
+          [ "FinanceServiceProvider", "d1/df7/classModules_1_1Finance_1_1Providers_1_1FinanceServiceProvider.html", "d1/df7/classModules_1_1Finance_1_1Providers_1_1FinanceServiceProvider" ],
+          [ "RouteServiceProvider", "d8/d52/classModules_1_1Finance_1_1Providers_1_1RouteServiceProvider.html", "d8/d52/classModules_1_1Finance_1_1Providers_1_1RouteServiceProvider" ]
         ] ],
-        [ "Rules", "dd/d3a/namespaceModules_1_1Finance_1_1Rules.html", [
+        [ "Rules", null, [
           [ "ConciliationBankExist", "d3/d18/classModules_1_1Finance_1_1Rules_1_1ConciliationBankExist.html", "d3/d18/classModules_1_1Finance_1_1Rules_1_1ConciliationBankExist" ]
         ] ]
       ] ],
       [ "Payroll", null, [
         [ "Actions", null, [
-          [ "GetPayrollConceptParameters", "d7/d6c/classModules_1_1Payroll_1_1Actions_1_1GetPayrollConceptParameters.html", null ]
+          [ "GetPayrollArcAction", "da/d91/classModules_1_1Payroll_1_1Actions_1_1GetPayrollArcAction.html", "da/d91/classModules_1_1Payroll_1_1Actions_1_1GetPayrollArcAction" ],
+          [ "GetPayrollConceptParameters", "d7/d6c/classModules_1_1Payroll_1_1Actions_1_1GetPayrollConceptParameters.html", "d7/d6c/classModules_1_1Payroll_1_1Actions_1_1GetPayrollConceptParameters" ],
+          [ "PayrollPaymentRelationshipAction", "d1/d95/classModules_1_1Payroll_1_1Actions_1_1PayrollPaymentRelationshipAction.html", "d1/d95/classModules_1_1Payroll_1_1Actions_1_1PayrollPaymentRelationshipAction" ]
+        ] ],
+        [ "Console", null, [
+          [ "Commands", null, [
+            [ "LoadBasicPayrollStaffData", "d3/dcf/classModules_1_1Payroll_1_1Console_1_1Commands_1_1LoadBasicPayrollStaffData.html", "d3/dcf/classModules_1_1Payroll_1_1Console_1_1Commands_1_1LoadBasicPayrollStaffData" ],
+            [ "UpdateTimeParameters", "db/d4f/classModules_1_1Payroll_1_1Console_1_1Commands_1_1UpdateTimeParameters.html", "db/d4f/classModules_1_1Payroll_1_1Console_1_1Commands_1_1UpdateTimeParameters" ]
+          ] ]
         ] ],
         [ "Database", null, [
-          [ "Seeders", "d7/d0e/namespaceModules_1_1Payroll_1_1Database_1_1Seeders.html", [
+          [ "Seeders", null, [
+            [ "PayrollBloodTypesTableSeeder", "d6/da2/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollBloodTypesTableSeeder.html", "d6/da2/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollBloodTypesTableSeeder" ],
             [ "PayrollContractTypesTableSeeder", "de/d14/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollContractTypesTableSeeder.html", "de/d14/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollContractTypesTableSeeder" ],
+            [ "PayrollDatabaseSeeder", "d2/d6e/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollDatabaseSeeder.html", "d2/d6e/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollDatabaseSeeder" ],
             [ "PayrollInstructionDegreesTableSeeder", "de/db4/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollInstructionDegreesTableSeeder.html", "de/db4/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollInstructionDegreesTableSeeder" ],
             [ "PayrollLanguageLevelsTableSeeder", "d3/d90/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollLanguageLevelsTableSeeder.html", "d3/d90/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollLanguageLevelsTableSeeder" ],
             [ "PayrollLanguagesTableSeeder", "df/d92/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollLanguagesTableSeeder.html", "df/d92/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollLanguagesTableSeeder" ],
+            [ "PayrollLicenseDegreesTableSeeder", "d7/d4b/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollLicenseDegreesTableSeeder.html", "d7/d4b/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollLicenseDegreesTableSeeder" ],
+            [ "PayrollLoadBasicPayrollStaffDataTableSeeder", "d6/da6/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollLoadBasicPayrollStaffDataTableSeeder.html", "d6/da6/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollLoadBasicPayrollStaffDataTableSeeder" ],
             [ "PayrollNationalitiesTableSeeder", "d1/da5/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollNationalitiesTableSeeder.html", "d1/da5/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollNationalitiesTableSeeder" ],
+            [ "PayrollRelationshipsTableSeeder", "db/d4c/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollRelationshipsTableSeeder.html", "db/d4c/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollRelationshipsTableSeeder" ],
+            [ "PayrollReportConfigurationTableSeeder", "db/d2f/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollReportConfigurationTableSeeder.html", "db/d2f/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollReportConfigurationTableSeeder" ],
+            [ "PayrollRoleAndPermissionsTableSeeder", "db/d66/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollRoleAndPermissionsTableSeeder.html", "db/d66/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollRoleAndPermissionsTableSeeder" ],
             [ "PayrollSectorTypesTableSeeder", "d9/d04/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollSectorTypesTableSeeder.html", "d9/d04/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollSectorTypesTableSeeder" ],
+            [ "PayrollSettingsTableSeeder", "d6/dfd/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollSettingsTableSeeder.html", "d6/dfd/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollSettingsTableSeeder" ],
             [ "PayrollStaffTypesTableSeeder", "d8/d6f/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollStaffTypesTableSeeder.html", "d8/d6f/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollStaffTypesTableSeeder" ],
             [ "PayrollStudyTypesTableSeeder", "db/d22/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollStudyTypesTableSeeder.html", "db/d22/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollStudyTypesTableSeeder" ],
+            [ "PayrollUpdateCodePayrollsSeeder", "db/df8/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollUpdateCodePayrollsSeeder.html", "db/df8/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollUpdateCodePayrollsSeeder" ],
             [ "PayrollUpdateNumberPositionsAssignedTableSeeder", "da/d55/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollUpdateNumberPositionsAssignedTableSeeder.html", "da/d55/classModules_1_1Payroll_1_1Database_1_1Seeders_1_1PayrollUpdateNumberPositionsAssignedTableSeeder" ]
           ] ]
+        ] ],
+        [ "Emails", null, [
+          [ "PayrollStaffPdfReportRequestMail", "d2/d5e/classModules_1_1Payroll_1_1Emails_1_1PayrollStaffPdfReportRequestMail.html", "d2/d5e/classModules_1_1Payroll_1_1Emails_1_1PayrollStaffPdfReportRequestMail" ],
+          [ "PayrollVacationsRequestMail", "dc/d3e/classModules_1_1Payroll_1_1Emails_1_1PayrollVacationsRequestMail.html", "dc/d3e/classModules_1_1Payroll_1_1Emails_1_1PayrollVacationsRequestMail" ],
+          [ "SendRequestedReceipts", "d5/da2/classModules_1_1Payroll_1_1Emails_1_1SendRequestedReceipts.html", "d5/da2/classModules_1_1Payroll_1_1Emails_1_1SendRequestedReceipts" ]
         ] ],
         [ "Exceptions", null, [
           [ "FailedPayrollConceptException", "df/d2a/classModules_1_1Payroll_1_1Exceptions_1_1FailedPayrollConceptException.html", null ]
         ] ],
         [ "Exports", null, [
+          [ "Sheets", null, [
+            [ "PayrollConceptsSheet", "d1/d3c/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollConceptsSheet.html", "d1/d3c/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollConceptsSheet" ],
+            [ "PayrollEmploymentValidationExport", "d1/d61/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollEmploymentValidationExport.html", "d1/d61/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollEmploymentValidationExport" ],
+            [ "PayrollFinancialValidationExport", "de/dd7/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollFinancialValidationExport.html", "de/dd7/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollFinancialValidationExport" ],
+            [ "PayrollProfessionalValidationExport", "db/d43/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollProfessionalValidationExport.html", "db/d43/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollProfessionalValidationExport" ],
+            [ "PayrollSalaryTabulatorsSheet", "d8/d90/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollSalaryTabulatorsSheet.html", "d8/d90/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollSalaryTabulatorsSheet" ],
+            [ "PayrollSocioeconomicValidationExport", "d4/da3/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollSocioeconomicValidationExport.html", "d4/da3/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollSocioeconomicValidationExport" ],
+            [ "PayrollStaffAccountValidationExport", "d0/d72/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollStaffAccountValidationExport.html", "d0/d72/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollStaffAccountValidationExport" ],
+            [ "PayrollStaffValidationExport", "d2/df0/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollStaffValidationExport.html", "d2/df0/classModules_1_1Payroll_1_1Exports_1_1Sheets_1_1PayrollStaffValidationExport" ]
+          ] ],
+          [ "EmploymentStaffExport", "dc/d6c/classModules_1_1Payroll_1_1Exports_1_1EmploymentStaffExport.html", "dc/d6c/classModules_1_1Payroll_1_1Exports_1_1EmploymentStaffExport" ],
+          [ "FailRegisterImportExport", "d1/dde/classModules_1_1Payroll_1_1Exports_1_1FailRegisterImportExport.html", "d1/dde/classModules_1_1Payroll_1_1Exports_1_1FailRegisterImportExport" ],
+          [ "FailRegisterImportValuesExport", "d2/d51/classModules_1_1Payroll_1_1Exports_1_1FailRegisterImportValuesExport.html", "d2/d51/classModules_1_1Payroll_1_1Exports_1_1FailRegisterImportValuesExport" ],
+          [ "FinancialStaffExport", "d3/da3/classModules_1_1Payroll_1_1Exports_1_1FinancialStaffExport.html", "d3/da3/classModules_1_1Payroll_1_1Exports_1_1FinancialStaffExport" ],
+          [ "PayrollAriRegisterExport", "d0/d48/classModules_1_1Payroll_1_1Exports_1_1PayrollAriRegisterExport.html", "d0/d48/classModules_1_1Payroll_1_1Exports_1_1PayrollAriRegisterExport" ],
+          [ "PayrollExport", "dc/dab/classModules_1_1Payroll_1_1Exports_1_1PayrollExport.html", "dc/dab/classModules_1_1Payroll_1_1Exports_1_1PayrollExport" ],
+          [ "PayrollPdfExport", "d9/d67/classModules_1_1Payroll_1_1Exports_1_1PayrollPdfExport.html", "d9/d67/classModules_1_1Payroll_1_1Exports_1_1PayrollPdfExport" ],
+          [ "PayrollReceiptExport", "d3/d6f/classModules_1_1Payroll_1_1Exports_1_1PayrollReceiptExport.html", "d3/d6f/classModules_1_1Payroll_1_1Exports_1_1PayrollReceiptExport" ],
+          [ "PayrollReportConceptExport", "d3/d76/classModules_1_1Payroll_1_1Exports_1_1PayrollReportConceptExport.html", "d3/d76/classModules_1_1Payroll_1_1Exports_1_1PayrollReportConceptExport" ],
+          [ "PayrollReportStaffsExport", "d9/d35/classModules_1_1Payroll_1_1Exports_1_1PayrollReportStaffsExport.html", "d9/d35/classModules_1_1Payroll_1_1Exports_1_1PayrollReportStaffsExport" ],
+          [ "PayrollSalaryAdjustmentExport", "d6/d30/classModules_1_1Payroll_1_1Exports_1_1PayrollSalaryAdjustmentExport.html", "d6/d30/classModules_1_1Payroll_1_1Exports_1_1PayrollSalaryAdjustmentExport" ],
           [ "PayrollSalaryAssignmentExport", "de/d4c/classModules_1_1Payroll_1_1Exports_1_1PayrollSalaryAssignmentExport.html", "de/d4c/classModules_1_1Payroll_1_1Exports_1_1PayrollSalaryAssignmentExport" ],
-          [ "PayrollSalaryTabulatorExport", "df/d6b/classModules_1_1Payroll_1_1Exports_1_1PayrollSalaryTabulatorExport.html", "df/d6b/classModules_1_1Payroll_1_1Exports_1_1PayrollSalaryTabulatorExport" ]
+          [ "PayrollSalaryTabulatorExport", "df/d6b/classModules_1_1Payroll_1_1Exports_1_1PayrollSalaryTabulatorExport.html", "df/d6b/classModules_1_1Payroll_1_1Exports_1_1PayrollSalaryTabulatorExport" ],
+          [ "PayrollStaffAccountExport", "dc/deb/classModules_1_1Payroll_1_1Exports_1_1PayrollStaffAccountExport.html", "dc/deb/classModules_1_1Payroll_1_1Exports_1_1PayrollStaffAccountExport" ],
+          [ "PayrollTextFileExport", "d4/dfe/classModules_1_1Payroll_1_1Exports_1_1PayrollTextFileExport.html", "d4/dfe/classModules_1_1Payroll_1_1Exports_1_1PayrollTextFileExport" ],
+          [ "PayrollTimeSheetExport", "db/dca/classModules_1_1Payroll_1_1Exports_1_1PayrollTimeSheetExport.html", "db/dca/classModules_1_1Payroll_1_1Exports_1_1PayrollTimeSheetExport" ],
+          [ "PayrollVacationRequestExport", "d1/d55/classModules_1_1Payroll_1_1Exports_1_1PayrollVacationRequestExport.html", "d1/d55/classModules_1_1Payroll_1_1Exports_1_1PayrollVacationRequestExport" ],
+          [ "ProfessionalStaffExport", "dd/dde/classModules_1_1Payroll_1_1Exports_1_1ProfessionalStaffExport.html", "dd/dde/classModules_1_1Payroll_1_1Exports_1_1ProfessionalStaffExport" ],
+          [ "ProfessionalStaffExportFromButton", "d2/dd8/classModules_1_1Payroll_1_1Exports_1_1ProfessionalStaffExportFromButton.html", "d2/dd8/classModules_1_1Payroll_1_1Exports_1_1ProfessionalStaffExportFromButton" ],
+          [ "SocioStaffExport", "d8/d43/classModules_1_1Payroll_1_1Exports_1_1SocioStaffExport.html", "d8/d43/classModules_1_1Payroll_1_1Exports_1_1SocioStaffExport" ],
+          [ "StaffExport", "db/d04/classModules_1_1Payroll_1_1Exports_1_1StaffExport.html", "db/d04/classModules_1_1Payroll_1_1Exports_1_1StaffExport" ],
+          [ "StaffExportFromButton", "db/d73/classModules_1_1Payroll_1_1Exports_1_1StaffExportFromButton.html", "db/d73/classModules_1_1Payroll_1_1Exports_1_1StaffExportFromButton" ]
         ] ],
         [ "Http", null, [
-          [ "Controllers", "dc/d65/namespaceModules_1_1Payroll_1_1Http_1_1Controllers.html", [
+          [ "Controllers", null, [
+            [ "PayrollArcController", "d1/d4e/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollArcController.html", "d1/d4e/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollArcController" ],
+            [ "PayrollArcResponsibleController", "d0/d54/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollArcResponsibleController.html", "d0/d54/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollArcResponsibleController" ],
             [ "PayrollAriRegisterController", "dc/dee/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollAriRegisterController.html", "dc/dee/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollAriRegisterController" ],
             [ "PayrollBenefitsPolicyController", "da/dee/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollBenefitsPolicyController.html", "da/dee/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollBenefitsPolicyController" ],
             [ "PayrollBenefitsRequestController", "d0/db7/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollBenefitsRequestController.html", "d0/db7/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollBenefitsRequestController" ],
@@ -510,6 +766,7 @@ var annotated_dup =
             [ "PayrollNationalityController", "d7/d51/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollNationalityController.html", "d7/d51/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollNationalityController" ],
             [ "PayrollParameterController", "d2/de0/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollParameterController.html", "d2/de0/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollParameterController" ],
             [ "PayrollPaymentTypeController", "d7/dd4/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPaymentTypeController.html", "d7/dd4/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPaymentTypeController" ],
+            [ "PayrollPermissionPolicyController", "d8/d84/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPermissionPolicyController.html", "d8/d84/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPermissionPolicyController" ],
             [ "PayrollPermissionRequestController", "db/de8/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPermissionRequestController.html", "db/de8/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollPermissionRequestController" ],
             [ "PayrollProfessionalController", "d3/d4c/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollProfessionalController.html", "d3/d4c/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollProfessionalController" ],
             [ "PayrollRelationshipController", "d2/dba/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollRelationshipController.html", "d2/dba/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollRelationshipController" ],
@@ -522,12 +779,14 @@ var annotated_dup =
             [ "PayrollSchoolingLevelController", "df/d59/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSchoolingLevelController.html", "df/d59/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSchoolingLevelController" ],
             [ "PayrollSectorTypeController", "de/d40/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSectorTypeController.html", "de/d40/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSectorTypeController" ],
             [ "PayrollServiceController", "d2/d0f/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollServiceController.html", "d2/d0f/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollServiceController" ],
+            [ "PayrollSettingController", "da/d8f/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSettingController.html", "da/d8f/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSettingController" ],
             [ "PayrollSettlementTypeController", "d9/dc3/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSettlementTypeController.html", "d9/dc3/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSettlementTypeController" ],
             [ "PayrollSocioeconomicController", "d2/d60/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSocioeconomicController.html", "d2/d60/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSocioeconomicController" ],
             [ "PayrollStaffAccountController", "d6/d18/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffAccountController.html", "d6/d18/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffAccountController" ],
             [ "PayrollStaffController", "d1/d6d/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffController.html", "d1/d6d/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStaffController" ],
             [ "PayrollStudyTypeController", "da/d8c/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStudyTypeController.html", "da/d8c/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollStudyTypeController" ],
             [ "PayrollSupervisedGroupController", "da/dbe/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSupervisedGroupController.html", "da/dbe/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSupervisedGroupController" ],
+            [ "PayrollSuspensionVacationRequestController", "d3/dd8/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSuspensionVacationRequestController.html", "d3/dd8/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSuspensionVacationRequestController" ],
             [ "PayrollTextFileController", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController.html", "dd/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTextFileController" ],
             [ "PayrollTimeSheetController", "d0/df4/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTimeSheetController.html", "d0/df4/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTimeSheetController" ],
             [ "PayrollTimeSheetParameterController", "de/d43/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTimeSheetParameterController.html", "de/d43/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollTimeSheetParameterController" ],
@@ -535,28 +794,68 @@ var annotated_dup =
             [ "PayrollVacationPolicyController", "d7/d2c/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollVacationPolicyController.html", "d7/d2c/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollVacationPolicyController" ],
             [ "PayrollVacationRequestController", "dd/db9/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollVacationRequestController.html", "dd/db9/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollVacationRequestController" ],
             [ "SendPayrollPaymentTypeReceiptsController", "da/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1SendPayrollPaymentTypeReceiptsController.html", "da/d21/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1SendPayrollPaymentTypeReceiptsController" ]
+          ] ],
+          [ "Resources", null, [
+            [ "GuardSchemaResource", "d4/d5d/classModules_1_1Payroll_1_1Http_1_1Resources_1_1GuardSchemaResource.html", "d4/d5d/classModules_1_1Payroll_1_1Http_1_1Resources_1_1GuardSchemaResource" ],
+            [ "PaymentTypeResource", "de/d44/classModules_1_1Payroll_1_1Http_1_1Resources_1_1PaymentTypeResource.html", "de/d44/classModules_1_1Payroll_1_1Http_1_1Resources_1_1PaymentTypeResource" ],
+            [ "PayrollArcResource", "d8/d2d/classModules_1_1Payroll_1_1Http_1_1Resources_1_1PayrollArcResource.html", "d8/d2d/classModules_1_1Payroll_1_1Http_1_1Resources_1_1PayrollArcResource" ],
+            [ "PayrollResource", "d2/d8f/classModules_1_1Payroll_1_1Http_1_1Resources_1_1PayrollResource.html", "d2/d8f/classModules_1_1Payroll_1_1Http_1_1Resources_1_1PayrollResource" ],
+            [ "TimeSheetPendingResource", "d8/df0/classModules_1_1Payroll_1_1Http_1_1Resources_1_1TimeSheetPendingResource.html", "d8/df0/classModules_1_1Payroll_1_1Http_1_1Resources_1_1TimeSheetPendingResource" ],
+            [ "TimeSheetResource", "df/d3e/classModules_1_1Payroll_1_1Http_1_1Resources_1_1TimeSheetResource.html", "df/d3e/classModules_1_1Payroll_1_1Http_1_1Resources_1_1TimeSheetResource" ]
           ] ]
+        ] ],
+        [ "Imports", "d6/db3/namespaceModules_1_1Payroll_1_1Imports.html", [
+          [ "Staff", null, [
+            [ "RegisterStaffImport", "de/dc4/classModules_1_1Payroll_1_1Imports_1_1Staff_1_1RegisterStaffImport.html", "de/dc4/classModules_1_1Payroll_1_1Imports_1_1Staff_1_1RegisterStaffImport" ]
+          ] ],
+          [ "AriRegisterImport", "da/d5e/classModules_1_1Payroll_1_1Imports_1_1AriRegisterImport.html", "da/d5e/classModules_1_1Payroll_1_1Imports_1_1AriRegisterImport" ],
+          [ "CompleteStaffImport", "d7/d2b/classModules_1_1Payroll_1_1Imports_1_1CompleteStaffImport.html", "d7/d2b/classModules_1_1Payroll_1_1Imports_1_1CompleteStaffImport" ],
+          [ "EmploymentStaffImport", "d4/d8e/classModules_1_1Payroll_1_1Imports_1_1EmploymentStaffImport.html", "d4/d8e/classModules_1_1Payroll_1_1Imports_1_1EmploymentStaffImport" ],
+          [ "FinancialStaffImport", "da/dc3/classModules_1_1Payroll_1_1Imports_1_1FinancialStaffImport.html", "da/dc3/classModules_1_1Payroll_1_1Imports_1_1FinancialStaffImport" ],
+          [ "PayrollTimeSheetImport", "dd/d37/classModules_1_1Payroll_1_1Imports_1_1PayrollTimeSheetImport.html", "dd/d37/classModules_1_1Payroll_1_1Imports_1_1PayrollTimeSheetImport" ],
+          [ "ProfessionalStaffImport", "de/dba/classModules_1_1Payroll_1_1Imports_1_1ProfessionalStaffImport.html", "de/dba/classModules_1_1Payroll_1_1Imports_1_1ProfessionalStaffImport" ],
+          [ "SalaryAdjustmentImport", "d9/d08/classModules_1_1Payroll_1_1Imports_1_1SalaryAdjustmentImport.html", "d9/d08/classModules_1_1Payroll_1_1Imports_1_1SalaryAdjustmentImport" ],
+          [ "SalaryTabulatorImport", "d5/da5/classModules_1_1Payroll_1_1Imports_1_1SalaryTabulatorImport.html", "d5/da5/classModules_1_1Payroll_1_1Imports_1_1SalaryTabulatorImport" ],
+          [ "SocioStaffImport", "df/d71/classModules_1_1Payroll_1_1Imports_1_1SocioStaffImport.html", "df/d71/classModules_1_1Payroll_1_1Imports_1_1SocioStaffImport" ],
+          [ "StaffAccountImport", "d0/d8c/classModules_1_1Payroll_1_1Imports_1_1StaffAccountImport.html", "d0/d8c/classModules_1_1Payroll_1_1Imports_1_1StaffAccountImport" ],
+          [ "StaffImport", "d5/d50/classModules_1_1Payroll_1_1Imports_1_1StaffImport.html", "d5/d50/classModules_1_1Payroll_1_1Imports_1_1StaffImport" ],
+          [ "VacationsRequestImport", "db/da6/classModules_1_1Payroll_1_1Imports_1_1VacationsRequestImport.html", "db/da6/classModules_1_1Payroll_1_1Imports_1_1VacationsRequestImport" ]
         ] ],
         [ "Jobs", "d5/d88/namespaceModules_1_1Payroll_1_1Jobs.html", [
           [ "PayrollAriRegisterImportJob", "dd/d82/classModules_1_1Payroll_1_1Jobs_1_1PayrollAriRegisterImportJob.html", "dd/d82/classModules_1_1Payroll_1_1Jobs_1_1PayrollAriRegisterImportJob" ],
+          [ "PayrollCreatePaymentRelationship", "d2/dc8/classModules_1_1Payroll_1_1Jobs_1_1PayrollCreatePaymentRelationship.html", "d2/dc8/classModules_1_1Payroll_1_1Jobs_1_1PayrollCreatePaymentRelationship" ],
           [ "PayrollExportNotification", "d7/dd6/classModules_1_1Payroll_1_1Jobs_1_1PayrollExportNotification.html", "d7/dd6/classModules_1_1Payroll_1_1Jobs_1_1PayrollExportNotification" ],
+          [ "PayrollReportConceptExportJob", "da/dff/classModules_1_1Payroll_1_1Jobs_1_1PayrollReportConceptExportJob.html", "da/dff/classModules_1_1Payroll_1_1Jobs_1_1PayrollReportConceptExportJob" ],
+          [ "PayrollSalaryAdjustmentImportJob", "de/d4e/classModules_1_1Payroll_1_1Jobs_1_1PayrollSalaryAdjustmentImportJob.html", "de/d4e/classModules_1_1Payroll_1_1Jobs_1_1PayrollSalaryAdjustmentImportJob" ],
+          [ "PayrollSendArcJob", "d5/dd3/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendArcJob.html", "d5/dd3/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendArcJob" ],
+          [ "PayrollSendReceiptsEmailJob", "d0/d71/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendReceiptsEmailJob.html", "d0/d71/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendReceiptsEmailJob" ],
+          [ "PayrollSendRequestedReceiptsJob", "d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob.html", "d2/dd9/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendRequestedReceiptsJob" ],
+          [ "PayrollSendStaffPdfReportEmailJob", "d4/d98/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendStaffPdfReportEmailJob.html", "d4/d98/classModules_1_1Payroll_1_1Jobs_1_1PayrollSendStaffPdfReportEmailJob" ],
+          [ "PayrollStaffPdfReportExportJob", "dd/de3/classModules_1_1Payroll_1_1Jobs_1_1PayrollStaffPdfReportExportJob.html", "dd/de3/classModules_1_1Payroll_1_1Jobs_1_1PayrollStaffPdfReportExportJob" ],
           [ "PayrollUpdatePaymentRelationship", "df/d0d/classModules_1_1Payroll_1_1Jobs_1_1PayrollUpdatePaymentRelationship.html", "df/d0d/classModules_1_1Payroll_1_1Jobs_1_1PayrollUpdatePaymentRelationship" ],
+          [ "PayrollVacationsExportJob", "d2/de8/classModules_1_1Payroll_1_1Jobs_1_1PayrollVacationsExportJob.html", "d2/de8/classModules_1_1Payroll_1_1Jobs_1_1PayrollVacationsExportJob" ],
           [ "SendReceiptJob", "d9/d02/classModules_1_1Payroll_1_1Jobs_1_1SendReceiptJob.html", "d9/d02/classModules_1_1Payroll_1_1Jobs_1_1SendReceiptJob" ]
         ] ],
-        [ "Models", "dd/dd6/namespaceModules_1_1Payroll_1_1Models.html", [
+        [ "Mail", null, [
+          [ "PayrollSendMail", "d2/dd9/classModules_1_1Payroll_1_1Mail_1_1PayrollSendMail.html", "d2/dd9/classModules_1_1Payroll_1_1Mail_1_1PayrollSendMail" ]
+        ] ],
+        [ "Models", null, [
+          [ "Country", "d5/d56/classModules_1_1Payroll_1_1Models_1_1Country.html", "d5/d56/classModules_1_1Payroll_1_1Models_1_1Country" ],
           [ "Department", "dd/dfa/classModules_1_1Payroll_1_1Models_1_1Department.html", "dd/dfa/classModules_1_1Payroll_1_1Models_1_1Department" ],
           [ "Document", "d4/d86/classModules_1_1Payroll_1_1Models_1_1Document.html", "d4/d86/classModules_1_1Payroll_1_1Models_1_1Document" ],
           [ "Image", "dd/d56/classModules_1_1Payroll_1_1Models_1_1Image.html", "dd/d56/classModules_1_1Payroll_1_1Models_1_1Image" ],
           [ "Institution", "d4/dde/classModules_1_1Payroll_1_1Models_1_1Institution.html", "d4/dde/classModules_1_1Payroll_1_1Models_1_1Institution" ],
+          [ "MaritalStatus", "d8/d5b/classModules_1_1Payroll_1_1Models_1_1MaritalStatus.html", "d8/d5b/classModules_1_1Payroll_1_1Models_1_1MaritalStatus" ],
           [ "Parameter", "d6/dd3/classModules_1_1Payroll_1_1Models_1_1Parameter.html", "d6/dd3/classModules_1_1Payroll_1_1Models_1_1Parameter" ],
+          [ "Parish", "d3/d6c/classModules_1_1Payroll_1_1Models_1_1Parish.html", "d3/d6c/classModules_1_1Payroll_1_1Models_1_1Parish" ],
           [ "Payroll", "de/d3e/classModules_1_1Payroll_1_1Models_1_1Payroll.html", "de/d3e/classModules_1_1Payroll_1_1Models_1_1Payroll" ],
           [ "PayrollAcknowledgment", "d2/dc3/classModules_1_1Payroll_1_1Models_1_1PayrollAcknowledgment.html", "d2/dc3/classModules_1_1Payroll_1_1Models_1_1PayrollAcknowledgment" ],
           [ "PayrollAcknowledgmentFile", "d1/dc8/classModules_1_1Payroll_1_1Models_1_1PayrollAcknowledgmentFile.html", "d1/dc8/classModules_1_1Payroll_1_1Models_1_1PayrollAcknowledgmentFile" ],
+          [ "PayrollArcResponsible", "d0/dd8/classModules_1_1Payroll_1_1Models_1_1PayrollArcResponsible.html", "d0/dd8/classModules_1_1Payroll_1_1Models_1_1PayrollArcResponsible" ],
           [ "PayrollAriRegister", "d7/dc4/classModules_1_1Payroll_1_1Models_1_1PayrollAriRegister.html", "d7/dc4/classModules_1_1Payroll_1_1Models_1_1PayrollAriRegister" ],
           [ "PayrollBenefitsPolicy", "da/dbf/classModules_1_1Payroll_1_1Models_1_1PayrollBenefitsPolicy.html", "da/dbf/classModules_1_1Payroll_1_1Models_1_1PayrollBenefitsPolicy" ],
           [ "PayrollBenefitsRequest", "df/d71/classModules_1_1Payroll_1_1Models_1_1PayrollBenefitsRequest.html", "df/d71/classModules_1_1Payroll_1_1Models_1_1PayrollBenefitsRequest" ],
           [ "PayrollBloodType", "da/d90/classModules_1_1Payroll_1_1Models_1_1PayrollBloodType.html", "da/d90/classModules_1_1Payroll_1_1Models_1_1PayrollBloodType" ],
-          [ "PayrollChildren", "d6/de6/classModules_1_1Payroll_1_1Models_1_1PayrollChildren.html", "d6/de6/classModules_1_1Payroll_1_1Models_1_1PayrollChildren" ],
           [ "PayrollClassSchedule", "d1/d53/classModules_1_1Payroll_1_1Models_1_1PayrollClassSchedule.html", "d1/d53/classModules_1_1Payroll_1_1Models_1_1PayrollClassSchedule" ],
           [ "PayrollConcept", "d7/dd0/classModules_1_1Payroll_1_1Models_1_1PayrollConcept.html", "d7/dd0/classModules_1_1Payroll_1_1Models_1_1PayrollConcept" ],
           [ "PayrollConceptAssignOption", "d3/dd3/classModules_1_1Payroll_1_1Models_1_1PayrollConceptAssignOption.html", "d3/dd3/classModules_1_1Payroll_1_1Models_1_1PayrollConceptAssignOption" ],
@@ -567,12 +866,14 @@ var annotated_dup =
           [ "PayrollCourseFile", "d8/d86/classModules_1_1Payroll_1_1Models_1_1PayrollCourseFile.html", "d8/d86/classModules_1_1Payroll_1_1Models_1_1PayrollCourseFile" ],
           [ "PayrollDisability", "db/da8/classModules_1_1Payroll_1_1Models_1_1PayrollDisability.html", "db/da8/classModules_1_1Payroll_1_1Models_1_1PayrollDisability" ],
           [ "PayrollEmployment", "d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html", "d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment" ],
+          [ "PayrollEmploymentNoAppends", "d7/d61/classModules_1_1Payroll_1_1Models_1_1PayrollEmploymentNoAppends.html", "d7/d61/classModules_1_1Payroll_1_1Models_1_1PayrollEmploymentNoAppends" ],
           [ "PayrollEmploymentPayrollPosition", "d8/d82/classModules_1_1Payroll_1_1Models_1_1PayrollEmploymentPayrollPosition.html", "d8/d82/classModules_1_1Payroll_1_1Models_1_1PayrollEmploymentPayrollPosition" ],
           [ "PayrollExceptionType", "de/d21/classModules_1_1Payroll_1_1Models_1_1PayrollExceptionType.html", "de/d21/classModules_1_1Payroll_1_1Models_1_1PayrollExceptionType" ],
           [ "PayrollFamilyBurden", "d5/df5/classModules_1_1Payroll_1_1Models_1_1PayrollFamilyBurden.html", "d5/df5/classModules_1_1Payroll_1_1Models_1_1PayrollFamilyBurden" ],
           [ "PayrollFinancial", "d5/d06/classModules_1_1Payroll_1_1Models_1_1PayrollFinancial.html", "d5/d06/classModules_1_1Payroll_1_1Models_1_1PayrollFinancial" ],
           [ "PayrollGender", "d6/d20/classModules_1_1Payroll_1_1Models_1_1PayrollGender.html", "d6/d20/classModules_1_1Payroll_1_1Models_1_1PayrollGender" ],
           [ "PayrollGuardScheme", "d3/d2f/classModules_1_1Payroll_1_1Models_1_1PayrollGuardScheme.html", "d3/d2f/classModules_1_1Payroll_1_1Models_1_1PayrollGuardScheme" ],
+          [ "PayrollHistorySalaryAdjustment", "dc/dc1/classModules_1_1Payroll_1_1Models_1_1PayrollHistorySalaryAdjustment.html", "dc/dc1/classModules_1_1Payroll_1_1Models_1_1PayrollHistorySalaryAdjustment" ],
           [ "PayrollHoliday", "d4/de5/classModules_1_1Payroll_1_1Models_1_1PayrollHoliday.html", "d4/de5/classModules_1_1Payroll_1_1Models_1_1PayrollHoliday" ],
           [ "PayrollInactivityType", "de/d25/classModules_1_1Payroll_1_1Models_1_1PayrollInactivityType.html", "de/d25/classModules_1_1Payroll_1_1Models_1_1PayrollInactivityType" ],
           [ "PayrollInstructionDegree", "df/d20/classModules_1_1Payroll_1_1Models_1_1PayrollInstructionDegree.html", "df/d20/classModules_1_1Payroll_1_1Models_1_1PayrollInstructionDegree" ],
@@ -586,6 +887,8 @@ var annotated_dup =
           [ "PayrollPaymentPeriod", "dd/d61/classModules_1_1Payroll_1_1Models_1_1PayrollPaymentPeriod.html", "dd/d61/classModules_1_1Payroll_1_1Models_1_1PayrollPaymentPeriod" ],
           [ "PayrollPaymentType", "d5/d77/classModules_1_1Payroll_1_1Models_1_1PayrollPaymentType.html", "d5/d77/classModules_1_1Payroll_1_1Models_1_1PayrollPaymentType" ],
           [ "PayrollPaymentTypeTimeSheetParameter", "db/d73/classModules_1_1Payroll_1_1Models_1_1PayrollPaymentTypeTimeSheetParameter.html", "db/d73/classModules_1_1Payroll_1_1Models_1_1PayrollPaymentTypeTimeSheetParameter" ],
+          [ "PayrollPermissionPolicy", "d5/dbe/classModules_1_1Payroll_1_1Models_1_1PayrollPermissionPolicy.html", "d5/dbe/classModules_1_1Payroll_1_1Models_1_1PayrollPermissionPolicy" ],
+          [ "PayrollPermissionRequest", "d8/d57/classModules_1_1Payroll_1_1Models_1_1PayrollPermissionRequest.html", "d8/d57/classModules_1_1Payroll_1_1Models_1_1PayrollPermissionRequest" ],
           [ "PayrollPreviousJob", "d8/d9f/classModules_1_1Payroll_1_1Models_1_1PayrollPreviousJob.html", "d8/d9f/classModules_1_1Payroll_1_1Models_1_1PayrollPreviousJob" ],
           [ "PayrollProfessional", "d3/dfe/classModules_1_1Payroll_1_1Models_1_1PayrollProfessional.html", "d3/dfe/classModules_1_1Payroll_1_1Models_1_1PayrollProfessional" ],
           [ "PayrollRelationship", "d8/dad/classModules_1_1Payroll_1_1Models_1_1PayrollRelationship.html", "d8/dad/classModules_1_1Payroll_1_1Models_1_1PayrollRelationship" ],
@@ -609,30 +912,49 @@ var annotated_dup =
           [ "PayrollStudyType", "d6/d27/classModules_1_1Payroll_1_1Models_1_1PayrollStudyType.html", "d6/d27/classModules_1_1Payroll_1_1Models_1_1PayrollStudyType" ],
           [ "PayrollSupervisedGroup", "dc/d40/classModules_1_1Payroll_1_1Models_1_1PayrollSupervisedGroup.html", "dc/d40/classModules_1_1Payroll_1_1Models_1_1PayrollSupervisedGroup" ],
           [ "PayrollSupervisedGroupStaff", "d3/d9d/classModules_1_1Payroll_1_1Models_1_1PayrollSupervisedGroupStaff.html", "d3/d9d/classModules_1_1Payroll_1_1Models_1_1PayrollSupervisedGroupStaff" ],
+          [ "PayrollSuspensionVacationRequest", "d9/dc5/classModules_1_1Payroll_1_1Models_1_1PayrollSuspensionVacationRequest.html", "d9/dc5/classModules_1_1Payroll_1_1Models_1_1PayrollSuspensionVacationRequest" ],
           [ "PayrollTextFile", "dc/d9a/classModules_1_1Payroll_1_1Models_1_1PayrollTextFile.html", "dc/d9a/classModules_1_1Payroll_1_1Models_1_1PayrollTextFile" ],
           [ "PayrollTimeSheet", "d2/dfb/classModules_1_1Payroll_1_1Models_1_1PayrollTimeSheet.html", "d2/dfb/classModules_1_1Payroll_1_1Models_1_1PayrollTimeSheet" ],
           [ "PayrollTimeSheetParameter", "d6/d64/classModules_1_1Payroll_1_1Models_1_1PayrollTimeSheetParameter.html", "d6/d64/classModules_1_1Payroll_1_1Models_1_1PayrollTimeSheetParameter" ],
           [ "PayrollTimeSheetPending", "dc/d75/classModules_1_1Payroll_1_1Models_1_1PayrollTimeSheetPending.html", "dc/d75/classModules_1_1Payroll_1_1Models_1_1PayrollTimeSheetPending" ],
           [ "PayrollVacationPolicy", "df/de8/classModules_1_1Payroll_1_1Models_1_1PayrollVacationPolicy.html", "df/de8/classModules_1_1Payroll_1_1Models_1_1PayrollVacationPolicy" ],
           [ "PayrollVacationRequest", "d6/d93/classModules_1_1Payroll_1_1Models_1_1PayrollVacationRequest.html", "d6/d93/classModules_1_1Payroll_1_1Models_1_1PayrollVacationRequest" ],
+          [ "Profession", "dd/d60/classModules_1_1Payroll_1_1Models_1_1Profession.html", "dd/d60/classModules_1_1Payroll_1_1Models_1_1Profession" ],
           [ "Profile", "d5/dc2/classModules_1_1Payroll_1_1Models_1_1Profile.html", "d5/dc2/classModules_1_1Payroll_1_1Models_1_1Profile" ],
           [ "Role", "d1/d77/classModules_1_1Payroll_1_1Models_1_1Role.html", "d1/d77/classModules_1_1Payroll_1_1Models_1_1Role" ]
+        ] ],
+        [ "Providers", null, [
+          [ "PayrollServiceProvider", "d1/d5b/classModules_1_1Payroll_1_1Providers_1_1PayrollServiceProvider.html", "d1/d5b/classModules_1_1Payroll_1_1Providers_1_1PayrollServiceProvider" ],
+          [ "RouteServiceProvider", "d0/d0e/classModules_1_1Payroll_1_1Providers_1_1RouteServiceProvider.html", "d0/d0e/classModules_1_1Payroll_1_1Providers_1_1RouteServiceProvider" ]
         ] ],
         [ "Repositories", null, [
           [ "PayrollAssociatedParametersRepository", "d7/d1c/classModules_1_1Payroll_1_1Repositories_1_1PayrollAssociatedParametersRepository.html", "d7/d1c/classModules_1_1Payroll_1_1Repositories_1_1PayrollAssociatedParametersRepository" ]
         ] ],
         [ "Rules", null, [
+          [ "DaysRequested", "df/db2/classModules_1_1Payroll_1_1Rules_1_1DaysRequested.html", "df/db2/classModules_1_1Payroll_1_1Rules_1_1DaysRequested" ],
           [ "PayrollLangProfUnique", "d0/d32/classModules_1_1Payroll_1_1Rules_1_1PayrollLangProfUnique.html", "d0/d32/classModules_1_1Payroll_1_1Rules_1_1PayrollLangProfUnique" ],
+          [ "PayrollPositionRestriction", "da/dd6/classModules_1_1Payroll_1_1Rules_1_1PayrollPositionRestriction.html", "da/dd6/classModules_1_1Payroll_1_1Rules_1_1PayrollPositionRestriction" ],
           [ "PayrollSalaryScales", "da/d65/classModules_1_1Payroll_1_1Rules_1_1PayrollSalaryScales.html", "da/d65/classModules_1_1Payroll_1_1Rules_1_1PayrollSalaryScales" ],
           [ "PayrollScaleRequirements", "d8/d46/classModules_1_1Payroll_1_1Rules_1_1PayrollScaleRequirements.html", "d8/d46/classModules_1_1Payroll_1_1Rules_1_1PayrollScaleRequirements" ],
           [ "PayrollTimeSheetDataRequired", "d3/d4e/classModules_1_1Payroll_1_1Rules_1_1PayrollTimeSheetDataRequired.html", "d3/d4e/classModules_1_1Payroll_1_1Rules_1_1PayrollTimeSheetDataRequired" ],
           [ "PayrollTimeSheetPendingConceptsRequired", "dd/d88/classModules_1_1Payroll_1_1Rules_1_1PayrollTimeSheetPendingConceptsRequired.html", "dd/d88/classModules_1_1Payroll_1_1Rules_1_1PayrollTimeSheetPendingConceptsRequired" ]
         ] ],
-        [ "Transformers", null, [
-          [ "PayrollConceptServerTableResource", "d7/dec/classModules_1_1Payroll_1_1Transformers_1_1PayrollConceptServerTableResource.html", "d7/dec/classModules_1_1Payroll_1_1Transformers_1_1PayrollConceptServerTableResource" ]
+        [ "Transformers", "d2/d0b/namespaceModules_1_1Payroll_1_1Transformers.html", [
+          [ "PayrollConceptServerTableResource", "d7/dec/classModules_1_1Payroll_1_1Transformers_1_1PayrollConceptServerTableResource.html", "d7/dec/classModules_1_1Payroll_1_1Transformers_1_1PayrollConceptServerTableResource" ],
+          [ "PayrollSalaryAdjustmentResource", "da/d13/classModules_1_1Payroll_1_1Transformers_1_1PayrollSalaryAdjustmentResource.html", "da/d13/classModules_1_1Payroll_1_1Transformers_1_1PayrollSalaryAdjustmentResource" ],
+          [ "PayrollSalaryScaleResource", "db/d40/classModules_1_1Payroll_1_1Transformers_1_1PayrollSalaryScaleResource.html", "db/d40/classModules_1_1Payroll_1_1Transformers_1_1PayrollSalaryScaleResource" ],
+          [ "PayrollSalaryTabulatorResource", "d3/dae/classModules_1_1Payroll_1_1Transformers_1_1PayrollSalaryTabulatorResource.html", "d3/dae/classModules_1_1Payroll_1_1Transformers_1_1PayrollSalaryTabulatorResource" ],
+          [ "PayrollSalaryTabulatorScalesResource", "d0/d3a/classModules_1_1Payroll_1_1Transformers_1_1PayrollSalaryTabulatorScalesResource.html", "d0/d3a/classModules_1_1Payroll_1_1Transformers_1_1PayrollSalaryTabulatorScalesResource" ],
+          [ "PayrollScaleResource", "d8/db5/classModules_1_1Payroll_1_1Transformers_1_1PayrollScaleResource.html", "d8/db5/classModules_1_1Payroll_1_1Transformers_1_1PayrollScaleResource" ]
         ] ]
       ] ],
       [ "ProjectTracking", null, [
+        [ "Database", null, [
+          [ "Seeders", null, [
+            [ "ProjectTrackingDatabaseSeeder", "d0/ddb/classModules_1_1ProjectTracking_1_1Database_1_1Seeders_1_1ProjectTrackingDatabaseSeeder.html", "d0/ddb/classModules_1_1ProjectTracking_1_1Database_1_1Seeders_1_1ProjectTrackingDatabaseSeeder" ],
+            [ "ProjectTrackingRoleAndPermissionsTableSeeder", "d9/dd9/classModules_1_1ProjectTracking_1_1Database_1_1Seeders_1_1ProjectTrackingRoleAndPermissionsTableSeeder.html", "d9/dd9/classModules_1_1ProjectTracking_1_1Database_1_1Seeders_1_1ProjectTrackingRoleAndPermissionsTableSeeder" ]
+          ] ]
+        ] ],
         [ "Http", null, [
           [ "Controllers", "dc/d47/namespaceModules_1_1ProjectTracking_1_1Http_1_1Controllers.html", [
             [ "ProjectTrackingActivityPlanController", "dd/d5b/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingActivityPlanController.html", "dd/d5b/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingActivityPlanController" ],
@@ -651,7 +973,7 @@ var annotated_dup =
             [ "ProjectTrackingTypeProductsController", "de/d04/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTypeProductsController.html", "de/d04/classModules_1_1ProjectTracking_1_1Http_1_1Controllers_1_1ProjectTrackingTypeProductsController" ]
           ] ]
         ] ],
-        [ "Models", "d1/dbf/namespaceModules_1_1ProjectTracking_1_1Models.html", [
+        [ "Models", null, [
           [ "ProjectTrackingActivity", "d4/da6/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingActivity.html", "d4/da6/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingActivity" ],
           [ "ProjectTrackingActivityPlan", "d7/d46/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingActivityPlan.html", "d7/d46/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingActivityPlan" ],
           [ "ProjectTrackingActivityPlanActivity", "d9/dd5/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingActivityPlanActivity.html", "d9/dd5/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingActivityPlanActivity" ],
@@ -667,51 +989,113 @@ var annotated_dup =
           [ "ProjectTrackingTask", "db/ddd/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingTask.html", "db/ddd/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingTask" ],
           [ "ProjectTrackingTypeProducts", "d1/d3b/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingTypeProducts.html", "d1/d3b/classModules_1_1ProjectTracking_1_1Models_1_1ProjectTrackingTypeProducts" ]
         ] ],
-        [ "Providers", "d2/d16/namespaceModules_1_1ProjectTracking_1_1Providers.html", [
+        [ "Providers", null, [
           [ "ProjectTrackingServiceProvider", "d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider.html", "d3/dba/classModules_1_1ProjectTracking_1_1Providers_1_1ProjectTrackingServiceProvider" ],
           [ "RouteServiceProvider", "de/d29/classModules_1_1ProjectTracking_1_1Providers_1_1RouteServiceProvider.html", "de/d29/classModules_1_1ProjectTracking_1_1Providers_1_1RouteServiceProvider" ]
         ] ]
       ] ],
       [ "Purchase", null, [
-        [ "Database", null, [
-          [ "Seeders", "d8/d6b/namespaceModules_1_1Purchase_1_1Database_1_1Seeders.html", [
-            [ "PurchaseDatabaseSeeder", "df/dbc/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseDatabaseSeeder.html", "df/dbc/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseDatabaseSeeder" ],
-            [ "PurchaseRoleAndPermissionsTableSeeder", "d6/d39/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseRoleAndPermissionsTableSeeder.html", "d6/d39/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseRoleAndPermissionsTableSeeder" ]
+        [ "Console", null, [
+          [ "Commands", null, [
+            [ "UpdateStatusBudgetaryAvailability", "d8/df6/classModules_1_1Purchase_1_1Console_1_1Commands_1_1UpdateStatusBudgetaryAvailability.html", "d8/df6/classModules_1_1Purchase_1_1Console_1_1Commands_1_1UpdateStatusBudgetaryAvailability" ]
           ] ]
         ] ],
+        [ "Database", null, [
+          [ "Seeders", null, [
+            [ "PurchaseDatabaseSeeder", "df/dbc/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseDatabaseSeeder.html", "df/dbc/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseDatabaseSeeder" ],
+            [ "PurchaseProcessesTableSeeder", "d8/d5e/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseProcessesTableSeeder.html", "d8/d5e/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseProcessesTableSeeder" ],
+            [ "PurchaseProductTableSeederTableSeeder", "d7/d6e/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseProductTableSeederTableSeeder.html", "d7/d6e/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseProductTableSeederTableSeeder" ],
+            [ "PurchaseRoleAndPermissionsTableSeeder", "d6/d39/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseRoleAndPermissionsTableSeeder.html", "d6/d39/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseRoleAndPermissionsTableSeeder" ],
+            [ "PurchaseSupplierBranchesTableSeeder", "da/d7f/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseSupplierBranchesTableSeeder.html", "da/d7f/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseSupplierBranchesTableSeeder" ],
+            [ "PurchaseSupplierDataMigratePivoteTableSeeder", "db/dc7/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseSupplierDataMigratePivoteTableSeeder.html", "db/dc7/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseSupplierDataMigratePivoteTableSeeder" ],
+            [ "PurchaseSupplierObjectsTableSeeder", "d4/d4a/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseSupplierObjectsTableSeeder.html", "d4/d4a/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseSupplierObjectsTableSeeder" ],
+            [ "PurchaseSupplierSpecialtiesTableSeeder", "dd/d43/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseSupplierSpecialtiesTableSeeder.html", "dd/d43/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseSupplierSpecialtiesTableSeeder" ],
+            [ "PurchaseSupplierTypesTableSeeder", "de/d0a/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseSupplierTypesTableSeeder.html", "de/d0a/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseSupplierTypesTableSeeder" ],
+            [ "PurchaseTypeOperationsTableSeeder", "df/d93/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseTypeOperationsTableSeeder.html", "df/d93/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseTypeOperationsTableSeeder" ],
+            [ "PurchaseUpdateDirectHireCodesSeeder", "db/def/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseUpdateDirectHireCodesSeeder.html", "db/def/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseUpdateDirectHireCodesSeeder" ],
+            [ "PurchaseUpdateDirectHireDueDateSeeder", "de/dfe/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseUpdateDirectHireDueDateSeeder.html", "de/dfe/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseUpdateDirectHireDueDateSeeder" ],
+            [ "PurchaseUpdateDirectHireStatusSeeder", "d6/da5/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseUpdateDirectHireStatusSeeder.html", "d6/da5/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseUpdateDirectHireStatusSeeder" ],
+            [ "PurchaseUpdateQuotationStatusSeeder", "d7/de9/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseUpdateQuotationStatusSeeder.html", "d7/de9/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseUpdateQuotationStatusSeeder" ],
+            [ "PurchaseUpdateRequirementTableSeeder", "dc/d8a/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseUpdateRequirementTableSeeder.html", "dc/d8a/classModules_1_1Purchase_1_1Database_1_1Seeders_1_1PurchaseUpdateRequirementTableSeeder" ]
+          ] ]
+        ] ],
+        [ "Exports", null, [
+          [ "PurchaseProductExport", "d8/d51/classModules_1_1Purchase_1_1Exports_1_1PurchaseProductExport.html", "d8/d51/classModules_1_1Purchase_1_1Exports_1_1PurchaseProductExport" ]
+        ] ],
         [ "Http", null, [
-          [ "Controllers", "d4/d38/namespaceModules_1_1Purchase_1_1Http_1_1Controllers.html", [
-            [ "Reports", null, [
-              [ "Base", "de/d91/namespaceModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1Base.html", [
+          [ "Controllers", null, [
+            [ "Reports", "dd/da6/namespaceModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports.html", [
+              [ "Base", null, [
                 [ "ReportRepository", "da/ddf/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1Base_1_1ReportRepository.html", "da/ddf/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1Base_1_1ReportRepository" ]
               ] ],
-              [ "DirectHire", "de/df4/namespaceModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1DirectHire.html", [
+              [ "DirectHire", null, [
                 [ "PurchaseStartCertificateController", "dc/dd7/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1DirectHire_1_1PurchaseStartCertificateController.html", "dc/dd7/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1DirectHire_1_1PurchaseStartCertificateController" ]
               ] ],
               [ "PurchaseBaseBudgetController", "dd/d10/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1PurchaseBaseBudgetController.html", "dd/d10/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1PurchaseBaseBudgetController" ],
-              [ "PurchaseQuotationController", "d6/d09/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1PurchaseQuotationController.html", null ],
+              [ "PurchaseQuotationController", "d6/d09/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1PurchaseQuotationController.html", "d6/d09/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1PurchaseQuotationController" ],
               [ "PurchaseRequirementController", "d5/d65/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1PurchaseRequirementController.html", "d5/d65/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1Reports_1_1PurchaseRequirementController" ]
             ] ],
+            [ "PurchaseBaseBudgetController", "d9/d52/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseBaseBudgetController.html", "d9/d52/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseBaseBudgetController" ],
+            [ "PurchaseBudgetaryAvailabilityController", "df/d4d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseBudgetaryAvailabilityController.html", "df/d4d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseBudgetaryAvailabilityController" ],
+            [ "PurchaseController", "da/d80/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseController.html", "da/d80/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseController" ],
             [ "PurchaseDirectHireController", "d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController.html", "d4/d1d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseDirectHireController" ],
+            [ "PurchaseGeneralConditionController", "da/d8e/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseGeneralConditionController.html", "da/d8e/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseGeneralConditionController" ],
+            [ "PurchaseOrderController", "d8/d94/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseOrderController.html", "d8/d94/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseOrderController" ],
             [ "PurchaseParameterController", "d0/d22/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseParameterController.html", "d0/d22/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseParameterController" ],
+            [ "PurchasePlanController", "d3/db7/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchasePlanController.html", "d3/db7/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchasePlanController" ],
+            [ "PurchaseProcessController", "db/db1/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseProcessController.html", "db/db1/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseProcessController" ],
             [ "PurchaseProductController", "d8/db1/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseProductController.html", "d8/db1/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseProductController" ],
+            [ "PurchaseQuotationController", "df/d8f/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseQuotationController.html", "df/d8f/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseQuotationController" ],
+            [ "PurchaseRequirementController", "da/d50/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseRequirementController.html", "da/d50/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseRequirementController" ],
             [ "PurchaseServiceController", "d2/d43/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseServiceController.html", "d2/d43/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseServiceController" ],
+            [ "PurchaseSettingController", "dd/d0d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseSettingController.html", "dd/d0d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseSettingController" ],
+            [ "PurchaseSupplierBranchController", "df/d52/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseSupplierBranchController.html", "df/d52/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseSupplierBranchController" ],
+            [ "PurchaseSupplierController", "d2/d03/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseSupplierController.html", "d2/d03/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseSupplierController" ],
+            [ "PurchaseSupplierObjectController", "d4/d28/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseSupplierObjectController.html", "d4/d28/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseSupplierObjectController" ],
+            [ "PurchaseSupplierSpecialtyController", "d1/d2f/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseSupplierSpecialtyController.html", "d1/d2f/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseSupplierSpecialtyController" ],
+            [ "PurchaseSupplierTypeController", "db/d2d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseSupplierTypeController.html", "db/d2d/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseSupplierTypeController" ],
             [ "PurchaseTypeController", "d0/d4e/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseTypeController.html", "d0/d4e/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseTypeController" ]
+          ] ],
+          [ "Resources", null, [
+            [ "PurchaseBudgetAvailabilityPayrollResource", "da/d5d/classModules_1_1Purchase_1_1Http_1_1Resources_1_1PurchaseBudgetAvailabilityPayrollResource.html", "da/d5d/classModules_1_1Purchase_1_1Http_1_1Resources_1_1PurchaseBudgetAvailabilityPayrollResource" ],
+            [ "PurchaseBudgetAvailabilityResource", "d1/d6d/classModules_1_1Purchase_1_1Http_1_1Resources_1_1PurchaseBudgetAvailabilityResource.html", "d1/d6d/classModules_1_1Purchase_1_1Http_1_1Resources_1_1PurchaseBudgetAvailabilityResource" ]
           ] ]
         ] ],
-        [ "Models", "dd/dcd/namespaceModules_1_1Purchase_1_1Models.html", [
+        [ "Imports", null, [
+          [ "PurchaseProductImport", "d8/d2b/classModules_1_1Purchase_1_1Imports_1_1PurchaseProductImport.html", "d8/d2b/classModules_1_1Purchase_1_1Imports_1_1PurchaseProductImport" ]
+        ] ],
+        [ "Jobs", null, [
+          [ "PurchaseManageBaseBudget", "d4/d9d/classModules_1_1Purchase_1_1Jobs_1_1PurchaseManageBaseBudget.html", "d4/d9d/classModules_1_1Purchase_1_1Jobs_1_1PurchaseManageBaseBudget" ],
+          [ "PurchaseManageRequirements", "dd/dea/classModules_1_1Purchase_1_1Jobs_1_1PurchaseManageRequirements.html", "dd/dea/classModules_1_1Purchase_1_1Jobs_1_1PurchaseManageRequirements" ]
+        ] ],
+        [ "Models", null, [
           [ "BudgetCompromise", "d2/d0d/classModules_1_1Purchase_1_1Models_1_1BudgetCompromise.html", "d2/d0d/classModules_1_1Purchase_1_1Models_1_1BudgetCompromise" ],
           [ "BudgetCompromiseDetail", "d8/dbe/classModules_1_1Purchase_1_1Models_1_1BudgetCompromiseDetail.html", "d8/dbe/classModules_1_1Purchase_1_1Models_1_1BudgetCompromiseDetail" ],
+          [ "City", "d8/d90/classModules_1_1Purchase_1_1Models_1_1City.html", "d8/d90/classModules_1_1Purchase_1_1Models_1_1City" ],
           [ "Country", "d5/d53/classModules_1_1Purchase_1_1Models_1_1Country.html", "d5/d53/classModules_1_1Purchase_1_1Models_1_1Country" ],
+          [ "Currency", "d2/da1/classModules_1_1Purchase_1_1Models_1_1Currency.html", "d2/da1/classModules_1_1Purchase_1_1Models_1_1Currency" ],
+          [ "Department", "d6/d33/classModules_1_1Purchase_1_1Models_1_1Department.html", "d6/d33/classModules_1_1Purchase_1_1Models_1_1Department" ],
+          [ "Document", "d0/d9c/classModules_1_1Purchase_1_1Models_1_1Document.html", "d0/d9c/classModules_1_1Purchase_1_1Models_1_1Document" ],
           [ "DocumentStatus", "dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus.html", "dc/d61/classModules_1_1Purchase_1_1Models_1_1DocumentStatus" ],
           [ "Estate", "d5/dd7/classModules_1_1Purchase_1_1Models_1_1Estate.html", "d5/dd7/classModules_1_1Purchase_1_1Models_1_1Estate" ],
+          [ "FiscalYear", "de/daf/classModules_1_1Purchase_1_1Models_1_1FiscalYear.html", "de/daf/classModules_1_1Purchase_1_1Models_1_1FiscalYear" ],
+          [ "HistoryTax", "dd/d3b/classModules_1_1Purchase_1_1Models_1_1HistoryTax.html", "dd/d3b/classModules_1_1Purchase_1_1Models_1_1HistoryTax" ],
           [ "Institution", "de/d1f/classModules_1_1Purchase_1_1Models_1_1Institution.html", "de/d1f/classModules_1_1Purchase_1_1Models_1_1Institution" ],
+          [ "MeasurementUnit", "d3/df7/classModules_1_1Purchase_1_1Models_1_1MeasurementUnit.html", "d3/df7/classModules_1_1Purchase_1_1Models_1_1MeasurementUnit" ],
+          [ "Pivot", "d9/d1c/classModules_1_1Purchase_1_1Models_1_1Pivot.html", "d9/d1c/classModules_1_1Purchase_1_1Models_1_1Pivot" ],
+          [ "Profile", "d1/d4a/classModules_1_1Purchase_1_1Models_1_1Profile.html", "d1/d4a/classModules_1_1Purchase_1_1Models_1_1Profile" ],
+          [ "PurchaseBaseBudget", "de/daf/classModules_1_1Purchase_1_1Models_1_1PurchaseBaseBudget.html", "de/daf/classModules_1_1Purchase_1_1Models_1_1PurchaseBaseBudget" ],
           [ "PurchaseBudgetaryAvailability", "d9/d9d/classModules_1_1Purchase_1_1Models_1_1PurchaseBudgetaryAvailability.html", "d9/d9d/classModules_1_1Purchase_1_1Models_1_1PurchaseBudgetaryAvailability" ],
           [ "PurchaseCompromise", "df/d47/classModules_1_1Purchase_1_1Models_1_1PurchaseCompromise.html", "df/d47/classModules_1_1Purchase_1_1Models_1_1PurchaseCompromise" ],
           [ "PurchaseCompromiseDetail", "d8/d2e/classModules_1_1Purchase_1_1Models_1_1PurchaseCompromiseDetail.html", "d8/d2e/classModules_1_1Purchase_1_1Models_1_1PurchaseCompromiseDetail" ],
           [ "PurchaseDirectHire", "d7/dda/classModules_1_1Purchase_1_1Models_1_1PurchaseDirectHire.html", "d7/dda/classModules_1_1Purchase_1_1Models_1_1PurchaseDirectHire" ],
           [ "PurchaseDocumentRequiredDocument", "d2/d76/classModules_1_1Purchase_1_1Models_1_1PurchaseDocumentRequiredDocument.html", "d2/d76/classModules_1_1Purchase_1_1Models_1_1PurchaseDocumentRequiredDocument" ],
+          [ "PurchaseOrder", "db/d1d/classModules_1_1Purchase_1_1Models_1_1PurchaseOrder.html", "db/d1d/classModules_1_1Purchase_1_1Models_1_1PurchaseOrder" ],
+          [ "PurchasePivotModelsToRequirementItem", "d2/d54/classModules_1_1Purchase_1_1Models_1_1PurchasePivotModelsToRequirementItem.html", "d2/d54/classModules_1_1Purchase_1_1Models_1_1PurchasePivotModelsToRequirementItem" ],
+          [ "PurchasePlan", "d9/da2/classModules_1_1Purchase_1_1Models_1_1PurchasePlan.html", "d9/da2/classModules_1_1Purchase_1_1Models_1_1PurchasePlan" ],
+          [ "PurchaseProcess", "d5/d6b/classModules_1_1Purchase_1_1Models_1_1PurchaseProcess.html", "d5/d6b/classModules_1_1Purchase_1_1Models_1_1PurchaseProcess" ],
           [ "PurchaseProduct", "d1/dc1/classModules_1_1Purchase_1_1Models_1_1PurchaseProduct.html", "d1/dc1/classModules_1_1Purchase_1_1Models_1_1PurchaseProduct" ],
+          [ "PurchaseQuotation", "d7/d43/classModules_1_1Purchase_1_1Models_1_1PurchaseQuotation.html", "d7/d43/classModules_1_1Purchase_1_1Models_1_1PurchaseQuotation" ],
           [ "PurchaseRequirement", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement.html", "d2/dc4/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirement" ],
           [ "PurchaseRequirementItem", "d7/d1d/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirementItem.html", "d7/d1d/classModules_1_1Purchase_1_1Models_1_1PurchaseRequirementItem" ],
           [ "PurchaseService", "d5/d29/classModules_1_1Purchase_1_1Models_1_1PurchaseService.html", "d5/d29/classModules_1_1Purchase_1_1Models_1_1PurchaseService" ],
@@ -720,50 +1104,80 @@ var annotated_dup =
           [ "PurchaseSupplierObject", "d6/dd4/classModules_1_1Purchase_1_1Models_1_1PurchaseSupplierObject.html", "d6/dd4/classModules_1_1Purchase_1_1Models_1_1PurchaseSupplierObject" ],
           [ "PurchaseSupplierSpecialty", "d8/d92/classModules_1_1Purchase_1_1Models_1_1PurchaseSupplierSpecialty.html", "d8/d92/classModules_1_1Purchase_1_1Models_1_1PurchaseSupplierSpecialty" ],
           [ "PurchaseSupplierType", "d8/ddb/classModules_1_1Purchase_1_1Models_1_1PurchaseSupplierType.html", "d8/ddb/classModules_1_1Purchase_1_1Models_1_1PurchaseSupplierType" ],
-          [ "RequiredDocument", "dd/d8c/classModules_1_1Purchase_1_1Models_1_1RequiredDocument.html", "dd/d8c/classModules_1_1Purchase_1_1Models_1_1RequiredDocument" ]
+          [ "PurchaseType", "dc/def/classModules_1_1Purchase_1_1Models_1_1PurchaseType.html", "dc/def/classModules_1_1Purchase_1_1Models_1_1PurchaseType" ],
+          [ "PurchaseTypeHiring", "d4/db4/classModules_1_1Purchase_1_1Models_1_1PurchaseTypeHiring.html", "d4/db4/classModules_1_1Purchase_1_1Models_1_1PurchaseTypeHiring" ],
+          [ "PurchaseTypeOperation", "d7/d32/classModules_1_1Purchase_1_1Models_1_1PurchaseTypeOperation.html", "d7/d32/classModules_1_1Purchase_1_1Models_1_1PurchaseTypeOperation" ],
+          [ "RequiredDocument", "dd/d8c/classModules_1_1Purchase_1_1Models_1_1RequiredDocument.html", "dd/d8c/classModules_1_1Purchase_1_1Models_1_1RequiredDocument" ],
+          [ "Tax", "d6/db0/classModules_1_1Purchase_1_1Models_1_1Tax.html", "d6/db0/classModules_1_1Purchase_1_1Models_1_1Tax" ],
+          [ "TaxUnit", "d4/d11/classModules_1_1Purchase_1_1Models_1_1TaxUnit.html", "d4/d11/classModules_1_1Purchase_1_1Models_1_1TaxUnit" ],
+          [ "User", "d9/d68/classModules_1_1Purchase_1_1Models_1_1User.html", "d9/d68/classModules_1_1Purchase_1_1Models_1_1User" ]
+        ] ],
+        [ "Providers", null, [
+          [ "PurchaseServiceProvider", "d9/dc5/classModules_1_1Purchase_1_1Providers_1_1PurchaseServiceProvider.html", "d9/dc5/classModules_1_1Purchase_1_1Providers_1_1PurchaseServiceProvider" ],
+          [ "RouteServiceProvider", "d3/dcc/classModules_1_1Purchase_1_1Providers_1_1RouteServiceProvider.html", "d3/dcc/classModules_1_1Purchase_1_1Providers_1_1RouteServiceProvider" ]
         ] ]
       ] ],
       [ "Sale", null, [
         [ "Database", null, [
-          [ "Seeders", "d6/d7b/namespaceModules_1_1Sale_1_1Database_1_1Seeders.html", [
+          [ "Seeders", null, [
+            [ "SaleDatabaseSeeder", "d8/d0b/classModules_1_1Sale_1_1Database_1_1Seeders_1_1SaleDatabaseSeeder.html", "d8/d0b/classModules_1_1Sale_1_1Database_1_1Seeders_1_1SaleDatabaseSeeder" ],
             [ "SaleRoleAndPermissionsTableSeeder", "d3/d24/classModules_1_1Sale_1_1Database_1_1Seeders_1_1SaleRoleAndPermissionsTableSeeder.html", "d3/d24/classModules_1_1Sale_1_1Database_1_1Seeders_1_1SaleRoleAndPermissionsTableSeeder" ],
             [ "SaleSettingFrecuencyTableSeeder", "da/d32/classModules_1_1Sale_1_1Database_1_1Seeders_1_1SaleSettingFrecuencyTableSeeder.html", "da/d32/classModules_1_1Sale_1_1Database_1_1Seeders_1_1SaleSettingFrecuencyTableSeeder" ],
             [ "SaleSettingProductTypeTableSeeder", "d0/dc9/classModules_1_1Sale_1_1Database_1_1Seeders_1_1SaleSettingProductTypeTableSeeder.html", "d0/dc9/classModules_1_1Sale_1_1Database_1_1Seeders_1_1SaleSettingProductTypeTableSeeder" ]
           ] ]
         ] ],
         [ "Http", null, [
-          [ "Controllers", "d7/daa/namespaceModules_1_1Sale_1_1Http_1_1Controllers.html", [
+          [ "Controllers", null, [
             [ "Reports", null, [
               [ "SaleBillController", "dd/df3/classModules_1_1Sale_1_1Http_1_1Controllers_1_1Reports_1_1SaleBillController.html", "dd/df3/classModules_1_1Sale_1_1Http_1_1Controllers_1_1Reports_1_1SaleBillController" ],
               [ "SaleOrderReportController", "d3/ddc/classModules_1_1Sale_1_1Http_1_1Controllers_1_1Reports_1_1SaleOrderReportController.html", "d3/ddc/classModules_1_1Sale_1_1Http_1_1Controllers_1_1Reports_1_1SaleOrderReportController" ],
               [ "SaleQuoteReportController", "dd/dfb/classModules_1_1Sale_1_1Http_1_1Controllers_1_1Reports_1_1SaleQuoteReportController.html", "dd/dfb/classModules_1_1Sale_1_1Http_1_1Controllers_1_1Reports_1_1SaleQuoteReportController" ],
               [ "SaleServiceRequestController", "d8/dc3/classModules_1_1Sale_1_1Http_1_1Controllers_1_1Reports_1_1SaleServiceRequestController.html", "d8/dc3/classModules_1_1Sale_1_1Http_1_1Controllers_1_1Reports_1_1SaleServiceRequestController" ]
             ] ],
+            [ "ClientsPaymentController", "d1/d02/classModules_1_1Sale_1_1Http_1_1Controllers_1_1ClientsPaymentController.html", "d1/d02/classModules_1_1Sale_1_1Http_1_1Controllers_1_1ClientsPaymentController" ],
             [ "FrecuencyController", "df/d40/classModules_1_1Sale_1_1Http_1_1Controllers_1_1FrecuencyController.html", "df/d40/classModules_1_1Sale_1_1Http_1_1Controllers_1_1FrecuencyController" ],
             [ "PeriodicCostAttributeController", "d3/dc1/classModules_1_1Sale_1_1Http_1_1Controllers_1_1PeriodicCostAttributeController.html", "d3/dc1/classModules_1_1Sale_1_1Http_1_1Controllers_1_1PeriodicCostAttributeController" ],
             [ "PeriodicCostController", "d0/df3/classModules_1_1Sale_1_1Http_1_1Controllers_1_1PeriodicCostController.html", "d0/df3/classModules_1_1Sale_1_1Http_1_1Controllers_1_1PeriodicCostController" ],
             [ "SaleBillController", "d7/db7/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleBillController.html", "d7/db7/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleBillController" ],
+            [ "SaleChargeMoneyController", "dd/d1e/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleChargeMoneyController.html", "dd/d1e/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleChargeMoneyController" ],
+            [ "SaleClientsController", "db/d2e/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleClientsController.html", "db/d2e/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleClientsController" ],
             [ "SaleClientsEmailController", "d3/d72/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleClientsEmailController.html", "d3/d72/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleClientsEmailController" ],
             [ "SaleClientsPhoneController", "d7/d19/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleClientsPhoneController.html", "d7/d19/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleClientsPhoneController" ],
+            [ "SaleController", "df/da8/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleController.html", "df/da8/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleController" ],
+            [ "SaleFormPaymentController", "da/d32/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleFormPaymentController.html", "da/d32/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleFormPaymentController" ],
             [ "SaleGoodsAttributeController", "d4/d98/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleGoodsAttributeController.html", "d4/d98/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleGoodsAttributeController" ],
             [ "SaleGoodsToBeTradedController", "d5/d85/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleGoodsToBeTradedController.html", "d5/d85/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleGoodsToBeTradedController" ],
             [ "SaleListSubservicesController", "d6/d11/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleListSubservicesController.html", "d6/d11/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleListSubservicesController" ],
+            [ "SaleOrderManagementController", "d0/d5a/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleOrderManagementController.html", "d0/d5a/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleOrderManagementController" ],
+            [ "SaleOrderReportController", "dc/d39/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleOrderReportController.html", "dc/d39/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleOrderReportController" ],
             [ "SaleOrderSettingController", "d9/dae/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleOrderSettingController.html", "d9/dae/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleOrderSettingController" ],
             [ "SalePaymentController", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController.html", "d9/d89/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentController" ],
+            [ "SalePaymentMethodController", "d3/dff/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentMethodController.html", "d3/dff/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentMethodController" ],
             [ "SalePaymentReportController", "d0/d9c/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentReportController.html", "d0/d9c/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SalePaymentReportController" ],
+            [ "SaleReportController", "d6/dd6/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleReportController.html", "d6/dd6/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleReportController" ],
             [ "SaleServiceController", "d7/d7c/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleServiceController.html", "d7/d7c/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleServiceController" ],
+            [ "SaleSettingController", "d9/da4/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleSettingController.html", "d9/da4/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleSettingController" ],
+            [ "SaleSettingDepositController", "d2/de9/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleSettingDepositController.html", "d2/de9/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleSettingDepositController" ],
+            [ "SaleSettingProductController", "d0/dd9/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleSettingProductController.html", "d0/dd9/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleSettingProductController" ],
+            [ "SaleSettingProductTypeController", "d4/d19/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleSettingProductTypeController.html", "d4/d19/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleSettingProductTypeController" ],
             [ "SaleTypeGoodAttributeController", "da/dbf/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleTypeGoodAttributeController.html", "da/dbf/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleTypeGoodAttributeController" ],
             [ "SaleTypeGoodController", "da/d90/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleTypeGoodController.html", "da/d90/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleTypeGoodController" ],
+            [ "SaleWarehouseController", "d1/dc0/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleWarehouseController.html", "d1/dc0/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleWarehouseController" ],
             [ "SaleWarehouseReceptionController", "d8/d9f/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleWarehouseReceptionController.html", "d8/d9f/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleWarehouseReceptionController" ]
           ] ]
         ] ],
-        [ "Models", "dd/d68/namespaceModules_1_1Sale_1_1Models.html", [
-          [ "Institution", "d9/d98/classModules_1_1Sale_1_1Models_1_1Institution.html", "d9/d98/classModules_1_1Sale_1_1Models_1_1Institution" ],
+        [ "Models", null, [
+          [ "Institution", "d9/d98/classModules_1_1Sale_1_1Models_1_1Institution.html", null ],
+          [ "Parish", "d2/d72/classModules_1_1Sale_1_1Models_1_1Parish.html", "d2/d72/classModules_1_1Sale_1_1Models_1_1Parish" ],
           [ "PeriodicCost", "da/df1/classModules_1_1Sale_1_1Models_1_1PeriodicCost.html", "da/df1/classModules_1_1Sale_1_1Models_1_1PeriodicCost" ],
           [ "PeriodicCostAttribute", "de/d70/classModules_1_1Sale_1_1Models_1_1PeriodicCostAttribute.html", "de/d70/classModules_1_1Sale_1_1Models_1_1PeriodicCostAttribute" ],
           [ "Profile", "dc/d27/classModules_1_1Sale_1_1Models_1_1Profile.html", "dc/d27/classModules_1_1Sale_1_1Models_1_1Profile" ],
+          [ "SaleBill", "dd/d4f/classModules_1_1Sale_1_1Models_1_1SaleBill.html", "dd/d4f/classModules_1_1Sale_1_1Models_1_1SaleBill" ],
+          [ "SaleBillInventoryProduct", "d2/dd1/classModules_1_1Sale_1_1Models_1_1SaleBillInventoryProduct.html", "d2/dd1/classModules_1_1Sale_1_1Models_1_1SaleBillInventoryProduct" ],
           [ "SaleChargeMoney", "d1/d1d/classModules_1_1Sale_1_1Models_1_1SaleChargeMoney.html", "d1/d1d/classModules_1_1Sale_1_1Models_1_1SaleChargeMoney" ],
+          [ "SaleClient", "d2/d2f/classModules_1_1Sale_1_1Models_1_1SaleClient.html", "d2/d2f/classModules_1_1Sale_1_1Models_1_1SaleClient" ],
           [ "SaleClientsEmail", "d8/dca/classModules_1_1Sale_1_1Models_1_1SaleClientsEmail.html", "d8/dca/classModules_1_1Sale_1_1Models_1_1SaleClientsEmail" ],
+          [ "SaleClientsPhone", "df/d78/classModules_1_1Sale_1_1Models_1_1SaleClientsPhone.html", "df/d78/classModules_1_1Sale_1_1Models_1_1SaleClientsPhone" ],
           [ "SaleDiscount", "d0/da4/classModules_1_1Sale_1_1Models_1_1SaleDiscount.html", "d0/da4/classModules_1_1Sale_1_1Models_1_1SaleDiscount" ],
           [ "SaleFormPayment", "d9/dbb/classModules_1_1Sale_1_1Models_1_1SaleFormPayment.html", "d9/dbb/classModules_1_1Sale_1_1Models_1_1SaleFormPayment" ],
           [ "SaleGanttDiagram", "d5/d5b/classModules_1_1Sale_1_1Models_1_1SaleGanttDiagram.html", "d5/d5b/classModules_1_1Sale_1_1Models_1_1SaleGanttDiagram" ],
@@ -779,6 +1193,7 @@ var annotated_dup =
           [ "SaleProposalSpecification", "de/d31/classModules_1_1Sale_1_1Models_1_1SaleProposalSpecification.html", "de/d31/classModules_1_1Sale_1_1Models_1_1SaleProposalSpecification" ],
           [ "SaleQuote", "d0/d15/classModules_1_1Sale_1_1Models_1_1SaleQuote.html", "d0/d15/classModules_1_1Sale_1_1Models_1_1SaleQuote" ],
           [ "SaleQuoteProduct", "d3/d21/classModules_1_1Sale_1_1Models_1_1SaleQuoteProduct.html", "d3/d21/classModules_1_1Sale_1_1Models_1_1SaleQuoteProduct" ],
+          [ "SaleQuoteProducts", "d1/d70/classModules_1_1Sale_1_1Models_1_1SaleQuoteProducts.html", "d1/d70/classModules_1_1Sale_1_1Models_1_1SaleQuoteProducts" ],
           [ "SaleRegisterPayment", "d0/db4/classModules_1_1Sale_1_1Models_1_1SaleRegisterPayment.html", "d0/db4/classModules_1_1Sale_1_1Models_1_1SaleRegisterPayment" ],
           [ "SaleService", "d2/d80/classModules_1_1Sale_1_1Models_1_1SaleService.html", "d2/d80/classModules_1_1Sale_1_1Models_1_1SaleService" ],
           [ "SaleSettingDeposit", "d7/d07/classModules_1_1Sale_1_1Models_1_1SaleSettingDeposit.html", "d7/d07/classModules_1_1Sale_1_1Models_1_1SaleSettingDeposit" ],
@@ -799,6 +1214,13 @@ var annotated_dup =
         ] ],
         [ "Notifications", "db/de3/namespaceModules_1_1Sale_1_1Notifications.html", [
           [ "BillApproved", "dc/d04/classModules_1_1Sale_1_1Notifications_1_1BillApproved.html", "dc/d04/classModules_1_1Sale_1_1Notifications_1_1BillApproved" ]
+        ] ],
+        [ "Pdf", null, [
+          [ "SaleReport", "da/d92/classModules_1_1Sale_1_1Pdf_1_1SaleReport.html", "da/d92/classModules_1_1Sale_1_1Pdf_1_1SaleReport" ]
+        ] ],
+        [ "Providers", null, [
+          [ "RouteServiceProvider", "d8/d99/classModules_1_1Sale_1_1Providers_1_1RouteServiceProvider.html", "d8/d99/classModules_1_1Sale_1_1Providers_1_1RouteServiceProvider" ],
+          [ "SaleServiceProvider", "d9/def/classModules_1_1Sale_1_1Providers_1_1SaleServiceProvider.html", "d9/def/classModules_1_1Sale_1_1Providers_1_1SaleServiceProvider" ]
         ] ]
       ] ],
       [ "TechnicalSupport", null, [
@@ -841,6 +1263,9 @@ var annotated_dup =
             [ "WarehouseServiceController", "d5/dc8/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseServiceController.html", "d5/dc8/classModules_1_1Warehouse_1_1Http_1_1Controllers_1_1WarehouseServiceController" ]
           ] ]
         ] ],
+        [ "Imports", null, [
+          [ "WarehouseProductImport", "d8/d12/classModules_1_1Warehouse_1_1Imports_1_1WarehouseProductImport.html", "d8/d12/classModules_1_1Warehouse_1_1Imports_1_1WarehouseProductImport" ]
+        ] ],
         [ "Models", null, [
           [ "Warehouse", "d7/d0d/classModules_1_1Warehouse_1_1Models_1_1Warehouse.html", "d7/d0d/classModules_1_1Warehouse_1_1Models_1_1Warehouse" ],
           [ "WarehouseClose", "da/d9b/classModules_1_1Warehouse_1_1Models_1_1WarehouseClose.html", "da/d9b/classModules_1_1Warehouse_1_1Models_1_1WarehouseClose" ],
@@ -855,68 +1280,84 @@ var annotated_dup =
           [ "WarehouseProductValue", "d0/d6c/classModules_1_1Warehouse_1_1Models_1_1WarehouseProductValue.html", "d0/d6c/classModules_1_1Warehouse_1_1Models_1_1WarehouseProductValue" ],
           [ "WarehouseReport", "dc/d48/classModules_1_1Warehouse_1_1Models_1_1WarehouseReport.html", "dc/d48/classModules_1_1Warehouse_1_1Models_1_1WarehouseReport" ],
           [ "WarehouseRequest", "de/d07/classModules_1_1Warehouse_1_1Models_1_1WarehouseRequest.html", "de/d07/classModules_1_1Warehouse_1_1Models_1_1WarehouseRequest" ]
+        ] ],
+        [ "Pdf", null, [
+          [ "WarehouseReport", "d5/dff/classModules_1_1Warehouse_1_1Pdf_1_1WarehouseReport.html", "d5/dff/classModules_1_1Warehouse_1_1Pdf_1_1WarehouseReport" ]
+        ] ],
+        [ "Providers", null, [
+          [ "RouteServiceProvider", "d6/dc0/classModules_1_1Warehouse_1_1Providers_1_1RouteServiceProvider.html", "d6/dc0/classModules_1_1Warehouse_1_1Providers_1_1RouteServiceProvider" ],
+          [ "WarehouseServiceProvider", "d1/d70/classModules_1_1Warehouse_1_1Providers_1_1WarehouseServiceProvider.html", "d1/d70/classModules_1_1Warehouse_1_1Providers_1_1WarehouseServiceProvider" ]
         ] ]
       ] ]
     ] ],
-    [ "$CLASS", "dc/d05/class_0bCLASS.html", null ],
-    [ "AccountingAccountsTableSeeder", "d9/d3b/classAccountingAccountsTableSeeder.html", null ],
-    [ "AccountingConfigurationCategoryController", "d1/d00/classAccountingConfigurationCategoryController.html", null ],
-    [ "AccountingReportPdfAnalyticalMajorController", "df/d74/classAccountingReportPdfAnalyticalMajorController.html", null ],
-    [ "AccountingReportPdfAuxiliaryBookController", "d2/de1/classAccountingReportPdfAuxiliaryBookController.html", null ],
-    [ "AccountingReportPdfBalanceSheetController", "da/d20/classAccountingReportPdfBalanceSheetController.html", null ],
-    [ "AccountingReportPdfCheckupBalanceController", "d7/df0/classAccountingReportPdfCheckupBalanceController.html", null ],
-    [ "AccountingReportPdfDailyBookController", "d1/d0d/classAccountingReportPdfDailyBookController.html", null ],
-    [ "AccountingReportPdfStateOfResultsController", "d3/db4/classAccountingReportPdfStateOfResultsController.html", null ],
+    [ "AccountingReportPdfPatrimonialMovementController", "d9/d5a/classAccountingReportPdfPatrimonialMovementController.html", null ],
     [ "AccountingSeatCategoriesTableSeeder", "d1/d53/classAccountingSeatCategoriesTableSeeder.html", null ],
     [ "AddBankAccountFieldToPayrollTextFilesTable", "d1/d7b/classAddBankAccountFieldToPayrollTextFilesTable.html", "d1/d7b/classAddBankAccountFieldToPayrollTextFilesTable" ],
+    [ "AddBankReferenceToAccountingEntryAccountsTable", "d3/dcb/classAddBankReferenceToAccountingEntryAccountsTable.html", "d3/dcb/classAddBankReferenceToAccountingEntryAccountsTable" ],
     [ "AddCountryIdToPurchaseSuppliersTable", "d6/d3f/classAddCountryIdToPurchaseSuppliersTable.html", "d6/d3f/classAddCountryIdToPurchaseSuppliersTable" ],
+    [ "AddCurrencyIdToBudgetModificationsTable", "d9/d0b/classAddCurrencyIdToBudgetModificationsTable.html", "d9/d0b/classAddCurrencyIdToBudgetModificationsTable" ],
     [ "AddFielAttributesToSubservices", "de/d22/classAddFielAttributesToSubservices.html", "de/d22/classAddFielAttributesToSubservices" ],
-    [ "AddFieldAccountingAccountIdToFinanceBankAccounts", "d6/d6d/classAddFieldAccountingAccountIdToFinanceBankAccounts.html", "d6/d6d/classAddFieldAccountingAccountIdToFinanceBankAccounts" ],
     [ "AddFieldAccountingAccountIdToPurchaseSuppliersTable", "de/d44/classAddFieldAccountingAccountIdToPurchaseSuppliersTable.html", "de/d44/classAddFieldAccountingAccountIdToPurchaseSuppliersTable" ],
+    [ "AddFieldActiveToAccountingAccountConvertersTable", "de/d08/classAddFieldActiveToAccountingAccountConvertersTable.html", "de/d08/classAddFieldActiveToAccountingAccountConvertersTable" ],
+    [ "AddFieldArcToPayrollConceptsTable", "d5/df9/classAddFieldArcToPayrollConceptsTable.html", "d5/df9/classAddFieldArcToPayrollConceptsTable" ],
     [ "AddFieldAssetBookIdToAssetAdjustmentAssetsTable", "d2/dce/classAddFieldAssetBookIdToAssetAdjustmentAssetsTable.html", "d2/dce/classAddFieldAssetBookIdToAssetAdjustmentAssetsTable" ],
+    [ "AddFieldAssetInstitutionStoragesIdToAssetsTable", "d3/d0a/classAddFieldAssetInstitutionStoragesIdToAssetsTable.html", "d3/d0a/classAddFieldAssetInstitutionStoragesIdToAssetsTable" ],
     [ "AddFieldAssetStatusIdToAssetReportsTable", "d1/d66/classAddFieldAssetStatusIdToAssetReportsTable.html", "d1/d66/classAddFieldAssetStatusIdToAssetReportsTable" ],
     [ "AddFieldAssignToPayrollVacationPolicies", "dc/d81/classAddFieldAssignToPayrollVacationPolicies.html", "dc/d81/classAddFieldAssignToPayrollVacationPolicies" ],
     [ "AddFieldAuthorizedByFormedByAndDeliveredByToAssetAsignationsTable", "df/d5a/classAddFieldAuthorizedByFormedByAndDeliveredByToAssetAsignationsTable.html", "df/d5a/classAddFieldAuthorizedByFormedByAndDeliveredByToAssetAsignationsTable" ],
     [ "AddFieldAvailabiltyStatusToPayrollPaymentPeriodsTable", "dc/da4/classAddFieldAvailabiltyStatusToPayrollPaymentPeriodsTable.html", "dc/da4/classAddFieldAvailabiltyStatusToPayrollPaymentPeriodsTable" ],
+    [ "AddFieldBasicPayrollStaffDataToPayrollStaffPayrollTable", "d4/dde/classAddFieldBasicPayrollStaffDataToPayrollStaffPayrollTable.html", null ],
     [ "AddFieldBudgetAccountIdToWarehouseProductsTable", "db/d33/classAddFieldBudgetAccountIdToWarehouseProductsTable.html", "db/d33/classAddFieldBudgetAccountIdToWarehouseProductsTable" ],
     [ "AddFieldBudgetTaxKeyToBudgetCompromiseDetailsTable", "d7/dc0/classAddFieldBudgetTaxKeyToBudgetCompromiseDetailsTable.html", "d7/dc0/classAddFieldBudgetTaxKeyToBudgetCompromiseDetailsTable" ],
-    [ "AddFieldCodeToFinanceAccountTypesTable", "d0/de3/classAddFieldCodeToFinanceAccountTypesTable.html", "d0/de3/classAddFieldCodeToFinanceAccountTypesTable" ],
+    [ "AddFieldCitizenServiceDepartmentIdToCitizenServiceRequestsTable", "df/d74/classAddFieldCitizenServiceDepartmentIdToCitizenServiceRequestsTable.html", "df/d74/classAddFieldCitizenServiceDepartmentIdToCitizenServiceRequestsTable" ],
+    [ "AddFieldCodeToBudgetSubSpecificFormulationsTable", "df/db3/classAddFieldCodeToBudgetSubSpecificFormulationsTable.html", "df/db3/classAddFieldCodeToBudgetSubSpecificFormulationsTable" ],
     [ "AddFieldCodeToPayrollsTable", "da/d20/classAddFieldCodeToPayrollsTable.html", "da/d20/classAddFieldCodeToPayrollsTable" ],
     [ "AddFieldCodeToProjectTrackingActivityPlansTable", "d5/d8d/classAddFieldCodeToProjectTrackingActivityPlansTable.html", "d5/d8d/classAddFieldCodeToProjectTrackingActivityPlansTable" ],
     [ "AddFieldCodeToPurchaseDirectHiresTable", "df/dd6/classAddFieldCodeToPurchaseDirectHiresTable.html", "df/dd6/classAddFieldCodeToPurchaseDirectHiresTable" ],
     [ "AddFieldCodeToSaleBillsTable", "d0/dc9/classAddFieldCodeToSaleBillsTable.html", "d0/dc9/classAddFieldCodeToSaleBillsTable" ],
     [ "AddFieldCodeToSaleQuotesTable", "d0/d7a/classAddFieldCodeToSaleQuotesTable.html", "d0/d7a/classAddFieldCodeToSaleQuotesTable" ],
+    [ "AddFieldCurrencyIdToAccountingReportHistoriesTable", "da/de3/classAddFieldCurrencyIdToAccountingReportHistoriesTable.html", "da/de3/classAddFieldCurrencyIdToAccountingReportHistoriesTable" ],
+    [ "AddFieldCurrencyIdToAccountingSeatsTable", "da/d47/classAddFieldCurrencyIdToAccountingSeatsTable.html", "da/d47/classAddFieldCurrencyIdToAccountingSeatsTable" ],
     [ "AddFieldCurrencyIdToAssetDepreciationsTable", "d1/d14/classAddFieldCurrencyIdToAssetDepreciationsTable.html", null ],
-    [ "AddFieldCurrencyIdToFinancePayOrdersTable", "d9/d49/classAddFieldCurrencyIdToFinancePayOrdersTable.html", "d9/d49/classAddFieldCurrencyIdToFinancePayOrdersTable" ],
     [ "AddFieldCurrencyIdToProjectTrackingProjectsTable", "dd/dca/classAddFieldCurrencyIdToProjectTrackingProjectsTable.html", "dd/dca/classAddFieldCurrencyIdToProjectTrackingProjectsTable" ],
     [ "AddFieldCurrencyIdToProjectTrackingSubProjectsTable", "d5/dbf/classAddFieldCurrencyIdToProjectTrackingSubProjectsTable.html", "d5/dbf/classAddFieldCurrencyIdToProjectTrackingSubProjectsTable" ],
     [ "AddFieldDateToPurchaseBaseBudgetsTable", "d1/d88/classAddFieldDateToPurchaseBaseBudgetsTable.html", "d1/d88/classAddFieldDateToPurchaseBaseBudgetsTable" ],
     [ "AddFieldDateToPurchaseDirectHiresTable", "db/d47/classAddFieldDateToPurchaseDirectHiresTable.html", "db/d47/classAddFieldDateToPurchaseDirectHiresTable" ],
     [ "AddFieldDateToPurchaseRequirementsTable", "d7/d3a/classAddFieldDateToPurchaseRequirementsTable.html", "d7/d3a/classAddFieldDateToPurchaseRequirementsTable" ],
     [ "AddFieldDateVerificationToCitizenServiceRequestsTable", "da/d71/classAddFieldDateVerificationToCitizenServiceRequestsTable.html", "da/d71/classAddFieldDateVerificationToCitizenServiceRequestsTable" ],
-    [ "AddFieldDeductedAtToFinancePaymentDeductionsTable", "d6/d6e/classAddFieldDeductedAtToFinancePaymentDeductionsTable.html", "d6/d6e/classAddFieldDeductedAtToFinancePaymentDeductionsTable" ],
-    [ "AddFieldDescriptionToFinancePaymentExecutesTable", "d6/d83/classAddFieldDescriptionToFinancePaymentExecutesTable.html", "d6/d83/classAddFieldDescriptionToFinancePaymentExecutesTable" ],
+    [ "AddFieldDeleteAtToAccountingReportHistoriesTable", "d1/dc8/classAddFieldDeleteAtToAccountingReportHistoriesTable.html", "d1/dc8/classAddFieldDeleteAtToAccountingReportHistoriesTable" ],
+    [ "AddFieldDeletedAtToAssetAsignationDeliveriesTable", "d7/d75/classAddFieldDeletedAtToAssetAsignationDeliveriesTable.html", "d7/d75/classAddFieldDeletedAtToAssetAsignationDeliveriesTable" ],
+    [ "AddFieldDeletedAtToAssetDisincorporationAssetsTable", "d9/d04/classAddFieldDeletedAtToAssetDisincorporationAssetsTable.html", "d9/d04/classAddFieldDeletedAtToAssetDisincorporationAssetsTable" ],
+    [ "AddFieldDeletedAtToAssetInventoryAssetsTable", "d3/df3/classAddFieldDeletedAtToAssetInventoryAssetsTable.html", "d3/df3/classAddFieldDeletedAtToAssetInventoryAssetsTable" ],
+    [ "AddFieldDeletedAtToAssetRequestAssetsTable", "d8/d47/classAddFieldDeletedAtToAssetRequestAssetsTable.html", "d8/d47/classAddFieldDeletedAtToAssetRequestAssetsTable" ],
+    [ "AddFieldDescriptionToCitizenServiceDepartmentsTable", "d0/da2/classAddFieldDescriptionToCitizenServiceDepartmentsTable.html", "d0/da2/classAddFieldDescriptionToCitizenServiceDepartmentsTable" ],
+    [ "AddFieldDirectorIdToCitizenServiceDepartmentsTable", "d6/da4/classAddFieldDirectorIdToCitizenServiceDepartmentsTable.html", null ],
     [ "AddFieldDisaggregateTaxToBudgetAccountsTable", "d4/dae/classAddFieldDisaggregateTaxToBudgetAccountsTable.html", "d4/dae/classAddFieldDisaggregateTaxToBudgetAccountsTable" ],
     [ "AddFieldDocumentIdToAssetRequestEventsTable", "dd/db8/classAddFieldDocumentIdToAssetRequestEventsTable.html", "dd/db8/classAddFieldDocumentIdToAssetRequestEventsTable" ],
     [ "AddFieldDocumentsIdToPurchaseTypesTable", "df/d7f/classAddFieldDocumentsIdToPurchaseTypesTable.html", "df/d7f/classAddFieldDocumentsIdToPurchaseTypesTable" ],
     [ "AddFieldDocumentStatusIdToAccountingEntriesTable", "d0/d5f/classAddFieldDocumentStatusIdToAccountingEntriesTable.html", "d0/d5f/classAddFieldDocumentStatusIdToAccountingEntriesTable" ],
-    [ "AddFieldDocumentStatusIdToFinanceBankingMovementsTable", "d9/dc3/classAddFieldDocumentStatusIdToFinanceBankingMovementsTable.html", "d9/dc3/classAddFieldDocumentStatusIdToFinanceBankingMovementsTable" ],
-    [ "AddFieldDocumentStatusIdToFinancePayOrdersTable", "d6/d7a/classAddFieldDocumentStatusIdToFinancePayOrdersTable.html", "d6/d7a/classAddFieldDocumentStatusIdToFinancePayOrdersTable" ],
+    [ "AddFieldDocumentStatusIdToAssetDisincorporationTable", "d4/d7b/classAddFieldDocumentStatusIdToAssetDisincorporationTable.html", "d4/d7b/classAddFieldDocumentStatusIdToAssetDisincorporationTable" ],
+    [ "AddFieldDocumentStatusIdToBudgetSubSpecificFormulationsTable", "db/de1/classAddFieldDocumentStatusIdToBudgetSubSpecificFormulationsTable.html", "db/de1/classAddFieldDocumentStatusIdToBudgetSubSpecificFormulationsTable" ],
     [ "AddFieldDocumentStatusIdToPayrollTimeSheetsTable", "df/d98/classAddFieldDocumentStatusIdToPayrollTimeSheetsTable.html", "df/d98/classAddFieldDocumentStatusIdToPayrollTimeSheetsTable" ],
-    [ "AddFieldDocumentTypeToFinancePayOrdersTable", "dc/d1e/classAddFieldDocumentTypeToFinancePayOrdersTable.html", "dc/d1e/classAddFieldDocumentTypeToFinancePayOrdersTable" ],
-    [ "AddFieldFinanceBankIdToFinanceBankAccountsTable", "d2/de2/classAddFieldFinanceBankIdToFinanceBankAccountsTable.html", "d2/de2/classAddFieldFinanceBankIdToFinanceBankAccountsTable" ],
+    [ "AddFieldFileCounterCitizenServiceRequestsTable", "de/dda/classAddFieldFileCounterCitizenServiceRequestsTable.html", "de/dda/classAddFieldFileCounterCitizenServiceRequestsTable" ],
     [ "AddFieldFromYearToPayrollVacationPoliciesTable", "df/d4a/classAddFieldFromYearToPayrollVacationPoliciesTable.html", "df/d4a/classAddFieldFromYearToPayrollVacationPoliciesTable" ],
     [ "AddFieldGenderIdToPayrollStaffsTable", "dc/d9c/classAddFieldGenderIdToPayrollStaffsTable.html", "dc/d9c/classAddFieldGenderIdToPayrollStaffsTable" ],
     [ "AddFieldIdsAssetsToAssetRequestEventsTable", "d9/dff/classAddFieldIdsAssetsToAssetRequestEventsTable.html", "d9/dff/classAddFieldIdsAssetsToAssetRequestEventsTable" ],
+    [ "AddFieldInstitutionalToAccountingAccountsTable", "d3/d19/classAddFieldInstitutionalToAccountingAccountsTable.html", "d3/d19/classAddFieldInstitutionalToAccountingAccountsTable" ],
+    [ "AddFieldInstitutionDepartamentToAccountingSeatsTable", "db/d26/classAddFieldInstitutionDepartamentToAccountingSeatsTable.html", "db/d26/classAddFieldInstitutionDepartamentToAccountingSeatsTable" ],
+    [ "AddFieldInstitutionIdToAccountingEntryCategoriesTable", "d3/de7/classAddFieldInstitutionIdToAccountingEntryCategoriesTable.html", "d3/de7/classAddFieldInstitutionIdToAccountingEntryCategoriesTable" ],
+    [ "AddFieldInstitutionIdToAccountingReportHistoriesTable", "d7/d99/classAddFieldInstitutionIdToAccountingReportHistoriesTable.html", "d7/d99/classAddFieldInstitutionIdToAccountingReportHistoriesTable" ],
     [ "AddFieldInstitutionIdToAssetAsignationsTable", "d1/dac/classAddFieldInstitutionIdToAssetAsignationsTable.html", "d1/dac/classAddFieldInstitutionIdToAssetAsignationsTable" ],
     [ "AddFieldInstitutionIdToAssetDisincorporationsTable", "d6/d35/classAddFieldInstitutionIdToAssetDisincorporationsTable.html", "d6/d35/classAddFieldInstitutionIdToAssetDisincorporationsTable" ],
     [ "AddFieldInstitutionIdToAssetRequestsTable", "d6/d50/classAddFieldInstitutionIdToAssetRequestsTable.html", "d6/d50/classAddFieldInstitutionIdToAssetRequestsTable" ],
     [ "AddFieldInstitutionIdToAssetsTable", "dc/dfe/classAddFieldInstitutionIdToAssetsTable.html", "dc/dfe/classAddFieldInstitutionIdToAssetsTable" ],
+    [ "AddFieldInstitutionIdToBudgetSubSpecificFormulationsTable", "d2/d64/classAddFieldInstitutionIdToBudgetSubSpecificFormulationsTable.html", "d2/d64/classAddFieldInstitutionIdToBudgetSubSpecificFormulationsTable" ],
     [ "AddFieldInstitutionIdToPayrollTimeSheetPendingsTable", "d7/dfb/classAddFieldInstitutionIdToPayrollTimeSheetPendingsTable.html", "d7/dfb/classAddFieldInstitutionIdToPayrollTimeSheetPendingsTable" ],
     [ "AddFieldInstitutionIdToPayrollTimeSheetsTable", "d0/dac/classAddFieldInstitutionIdToPayrollTimeSheetsTable.html", "d0/dac/classAddFieldInstitutionIdToPayrollTimeSheetsTable" ],
     [ "AddFieldInstitutionIdToPayrollVacationRequestsTable", "d7/d7b/classAddFieldInstitutionIdToPayrollVacationRequestsTable.html", "d7/d7b/classAddFieldInstitutionIdToPayrollVacationRequestsTable" ],
     [ "AddFieldInstitutionIdToPurchaseDirectHiresTable", "d8/d80/classAddFieldInstitutionIdToPurchaseDirectHiresTable.html", "d8/d80/classAddFieldInstitutionIdToPurchaseDirectHiresTable" ],
     [ "AddFieldInstitutionIdToWarehouseRequestsTable", "d3/d35/classAddFieldInstitutionIdToWarehouseRequestsTable.html", "d3/d35/classAddFieldInstitutionIdToWarehouseRequestsTable" ],
+    [ "AddFieldInventoryCodeToCitizenServiceRequestsTable", "df/df8/classAddFieldInventoryCodeToCitizenServiceRequestsTable.html", "df/df8/classAddFieldInventoryCodeToCitizenServiceRequestsTable" ],
     [ "AddFieldIsStrictToPayrollConceptsTable", "d0/d08/classAddFieldIsStrictToPayrollConceptsTable.html", "d0/d08/classAddFieldIsStrictToPayrollConceptsTable" ],
     [ "AddFieldLocationPlaceToAssetAsignationsTable", "db/db3/classAddFieldLocationPlaceToAssetAsignationsTable.html", "db/db3/classAddFieldLocationPlaceToAssetAsignationsTable" ],
     [ "AddFieldMeasurementUnitIdToWarehouseProductsTable", "d3/dcc/classAddFieldMeasurementUnitIdToWarehouseProductsTable.html", "d3/dcc/classAddFieldMeasurementUnitIdToWarehouseProductsTable" ],
@@ -924,7 +1365,6 @@ var annotated_dup =
     [ "AddFieldMorphOrderToPurchaseQuotationsTable", "db/dbb/classAddFieldMorphOrderToPurchaseQuotationsTable.html", "db/dbb/classAddFieldMorphOrderToPurchaseQuotationsTable" ],
     [ "AddFieldMorphToPayrollConceptAssignOptionsTable", "d3/dbc/classAddFieldMorphToPayrollConceptAssignOptionsTable.html", "d3/dbc/classAddFieldMorphToPayrollConceptAssignOptionsTable" ],
     [ "AddFieldMorphToPayrollScalesTable", "df/dc9/classAddFieldMorphToPayrollScalesTable.html", "df/dc9/classAddFieldMorphToPayrollScalesTable" ],
-    [ "AddFieldMorToFinancePaymentDeductionsTable", "d5/d69/classAddFieldMorToFinancePaymentDeductionsTable.html", "d5/d69/classAddFieldMorToFinancePaymentDeductionsTable" ],
     [ "AddFieldNationalityIdToPayrollStaffsTable", "d9/d68/classAddFieldNationalityIdToPayrollStaffsTable.html", "d9/d68/classAddFieldNationalityIdToPayrollStaffsTable" ],
     [ "AddFieldNewExistToWarehouseInventoryProductRequestsTable", "d9/d9b/classAddFieldNewExistToWarehouseInventoryProductRequestsTable.html", "d9/d9b/classAddFieldNewExistToWarehouseInventoryProductRequestsTable" ],
     [ "AddFieldObservationsToPayrollGuardSchemePeriodsTable", "d3/d67/classAddFieldObservationsToPayrollGuardSchemePeriodsTable.html", "d3/d67/classAddFieldObservationsToPayrollGuardSchemePeriodsTable" ],
@@ -933,9 +1373,10 @@ var annotated_dup =
     [ "AddFieldObservationToCitizenServiceRequestsTable", "da/df3/classAddFieldObservationToCitizenServiceRequestsTable.html", "da/df3/classAddFieldObservationToCitizenServiceRequestsTable" ],
     [ "AddFieldOriginalToAccountingAccountsTable", "da/dff/classAddFieldOriginalToAccountingAccountsTable.html", "da/dff/classAddFieldOriginalToAccountingAccountsTable" ],
     [ "AddFieldOtherToCitizenServiceRequestsTable", "de/dbf/classAddFieldOtherToCitizenServiceRequestsTable.html", "de/dbf/classAddFieldOtherToCitizenServiceRequestsTable" ],
+    [ "AddFieldParentIdToAccountingAccounts", "d1/d71/classAddFieldParentIdToAccountingAccounts.html", "d1/d71/classAddFieldParentIdToAccountingAccounts" ],
     [ "AddFieldPassphraseToSignprofilesTable", "da/d8d/classAddFieldPassphraseToSignprofilesTable.html", "da/d8d/classAddFieldPassphraseToSignprofilesTable" ],
     [ "AddFieldPaymentMethodsToPurchaseDirectHiresTable", "d0/d38/classAddFieldPaymentMethodsToPurchaseDirectHiresTable.html", "d0/d38/classAddFieldPaymentMethodsToPurchaseDirectHiresTable" ],
-    [ "AddFieldPaymentNumberFinancePaymentExecutesTable", "df/d09/classAddFieldPaymentNumberFinancePaymentExecutesTable.html", "df/d09/classAddFieldPaymentNumberFinancePaymentExecutesTable" ],
+    [ "AddFieldPayOrderToPayrollConceptsTable", "d6/df5/classAddFieldPayOrderToPayrollConceptsTable.html", "d6/df5/classAddFieldPayOrderToPayrollConceptsTable" ],
     [ "AddFieldPayrollDisabilityIdToPayrollStaffsTable", "da/de5/classAddFieldPayrollDisabilityIdToPayrollStaffsTable.html", "da/de5/classAddFieldPayrollDisabilityIdToPayrollStaffsTable" ],
     [ "AddFieldPayrollPaymentTypeIdToPayrollBenefitsPoliciesTable", "d6/d04/classAddFieldPayrollPaymentTypeIdToPayrollBenefitsPoliciesTable.html", "d6/d04/classAddFieldPayrollPaymentTypeIdToPayrollBenefitsPoliciesTable" ],
     [ "AddFieldPayrollRoleIdToPayrollEmploymentInformationsTable", "d9/d3f/classAddFieldPayrollRoleIdToPayrollEmploymentInformationsTable.html", "d9/d3f/classAddFieldPayrollRoleIdToPayrollEmploymentInformationsTable" ],
@@ -950,12 +1391,16 @@ var annotated_dup =
     [ "AddFieldRejectedReasonToSaleBillsTable", "de/d1f/classAddFieldRejectedReasonToSaleBillsTable.html", "de/d1f/classAddFieldRejectedReasonToSaleBillsTable" ],
     [ "AddFieldRelationshipTypeToPayrollScalesTable", "d4/dfb/classAddFieldRelationshipTypeToPayrollScalesTable.html", "d4/dfb/classAddFieldRelationshipTypeToPayrollScalesTable" ],
     [ "AddFieldRequestDateToWarehouseRequestsTable", "d9/d51/classAddFieldRequestDateToWarehouseRequestsTable.html", "d9/d51/classAddFieldRequestDateToWarehouseRequestsTable" ],
+    [ "AddFieldRequirementCitizenServiceRequestTypesTable", "df/d52/classAddFieldRequirementCitizenServiceRequestTypesTable.html", "df/d52/classAddFieldRequirementCitizenServiceRequestTypesTable" ],
     [ "AddFieldRequirementTypeToPurchaseRequirementsTable", "de/dac/classAddFieldRequirementTypeToPurchaseRequirementsTable.html", "de/dac/classAddFieldRequirementTypeToPurchaseRequirementsTable" ],
     [ "AddFieldResponsableIdToProjectTrackingSubProjectsTable", "d1/d43/classAddFieldResponsableIdToProjectTrackingSubProjectsTable.html", "d1/d43/classAddFieldResponsableIdToProjectTrackingSubProjectsTable" ],
+    [ "AddFieldReversedAtToAccountingEntriesTable", "de/dc9/classAddFieldReversedAtToAccountingEntriesTable.html", "de/dc9/classAddFieldReversedAtToAccountingEntriesTable" ],
     [ "AddFieldReversedIdToAccountingEntriesTable", "d5/dd1/classAddFieldReversedIdToAccountingEntriesTable.html", "d5/dd1/classAddFieldReversedIdToAccountingEntriesTable" ],
     [ "AddFieldReversedToAccountingEntriesTable", "d0/df0/classAddFieldReversedToAccountingEntriesTable.html", "d0/df0/classAddFieldReversedToAccountingEntriesTable" ],
+    [ "AddFieldRifToPayrollStaffsTable", "d3/dc0/classAddFieldRifToPayrollStaffsTable.html", "d3/dc0/classAddFieldRifToPayrollStaffsTable" ],
+    [ "AddFieldSaleClientIdToSaleClientsPhonesTable", "db/d6e/classAddFieldSaleClientIdToSaleClientsPhonesTable.html", "db/d6e/classAddFieldSaleClientIdToSaleClientsPhonesTable" ],
     [ "AddFieldSaleSettingProductTypeIdToSaleSettingProductsTable", "d4/d7f/classAddFieldSaleSettingProductTypeIdToSaleSettingProductsTable.html", "d4/d7f/classAddFieldSaleSettingProductTypeIdToSaleSettingProductsTable" ],
-    [ "AddFieldSaleTypeGoodIdToSaleListSubservices", "dc/d70/classAddFieldSaleTypeGoodIdToSaleListSubservices.html", null ],
+    [ "AddFieldSaleTypeGoodIdToSaleListSubservicesTable", "df/d60/classAddFieldSaleTypeGoodIdToSaleListSubservicesTable.html", "df/d60/classAddFieldSaleTypeGoodIdToSaleListSubservicesTable" ],
     [ "AddFieldsApprovedByIdAndReceivedByIdToAssetAsignationDeliveriesTable", "d7/d6f/classAddFieldsApprovedByIdAndReceivedByIdToAssetAsignationDeliveriesTable.html", "d7/d6f/classAddFieldsApprovedByIdAndReceivedByIdToAssetAsignationDeliveriesTable" ],
     [ "AddFieldsAuthorizedByToAssetDisincorporationsTable", "d2/d72/classAddFieldsAuthorizedByToAssetDisincorporationsTable.html", "d2/d72/classAddFieldsAuthorizedByToAssetDisincorporationsTable" ],
     [ "AddFieldsAuthorizedSignaturesToPurchaseBaseBudgetsTables", "d5/d77/classAddFieldsAuthorizedSignaturesToPurchaseBaseBudgetsTables.html", "d5/d77/classAddFieldsAuthorizedSignaturesToPurchaseBaseBudgetsTables" ],
@@ -965,11 +1410,14 @@ var annotated_dup =
     [ "AddFieldsDaysToSaleSenttingFrecuenciesTable", "d7/de0/classAddFieldsDaysToSaleSenttingFrecuenciesTable.html", "d7/de0/classAddFieldsDaysToSaleSenttingFrecuenciesTable" ],
     [ "AddFieldSendNotifyToPurchaseBaseBudgetsTable", "d6/d35/classAddFieldSendNotifyToPurchaseBaseBudgetsTable.html", "d6/d35/classAddFieldSendNotifyToPurchaseBaseBudgetsTable" ],
     [ "AddFieldsGroupByToPayrollVacationPoliciesTable", "df/d69/classAddFieldsGroupByToPayrollVacationPoliciesTable.html", "df/d69/classAddFieldsGroupByToPayrollVacationPoliciesTable" ],
+    [ "AddFieldSkipMomentsToPayrollPaymentTypesTable", "d1/d69/classAddFieldSkipMomentsToPayrollPaymentTypesTable.html", "d1/d69/classAddFieldSkipMomentsToPayrollPaymentTypesTable" ],
     [ "AddFieldsMethodCategoryToPayrollPaymentTypesTable", "d8/d03/classAddFieldsMethodCategoryToPayrollPaymentTypesTable.html", "d8/d03/classAddFieldsMethodCategoryToPayrollPaymentTypesTable" ],
     [ "AddFieldSocialPurposeToPurchaseSuppliersTable", "de/d91/classAddFieldSocialPurposeToPurchaseSuppliersTable.html", "de/d91/classAddFieldSocialPurposeToPurchaseSuppliersTable" ],
+    [ "AddFieldSoftDeletedToAccountingSeatCategoriesTable", "d2/dbd/classAddFieldSoftDeletedToAccountingSeatCategoriesTable.html", "d2/dbd/classAddFieldSoftDeletedToAccountingSeatCategoriesTable" ],
     [ "AddFieldSoftDeleteToSaleBillInventoryProductsTable", "dc/d1c/classAddFieldSoftDeleteToSaleBillInventoryProductsTable.html", "dc/d1c/classAddFieldSoftDeleteToSaleBillInventoryProductsTable" ],
     [ "AddFieldSoruceDataToPayrollGuardSchemesTable", "dd/dc5/classAddFieldSoruceDataToPayrollGuardSchemesTable.html", null ],
     [ "AddFieldsPurchaseTypeIdDueDateAndHiringNumberToPurchaseDirectHiresTable", "de/dae/classAddFieldsPurchaseTypeIdDueDateAndHiringNumberToPurchaseDirectHiresTable.html", "de/dae/classAddFieldsPurchaseTypeIdDueDateAndHiringNumberToPurchaseDirectHiresTable" ],
+    [ "AddFieldsSalaryTabulatorAndConceptTypesToPayrollsTable", "d0/d0d/classAddFieldsSalaryTabulatorAndConceptTypesToPayrollsTable.html", "d0/d0d/classAddFieldsSalaryTabulatorAndConceptTypesToPayrollsTable" ],
     [ "AddFieldStateToAssetAsignationsTable", "da/dc9/classAddFieldStateToAssetAsignationsTable.html", "da/dc9/classAddFieldStateToAssetAsignationsTable" ],
     [ "AddFieldStatusParametersToPayrollVacationRequestsTable", "d3/d6f/classAddFieldStatusParametersToPayrollVacationRequestsTable.html", "d3/d6f/classAddFieldStatusParametersToPayrollVacationRequestsTable" ],
     [ "AddFieldStatusToBudgetCompromiseDetailsTable", "de/d7a/classAddFieldStatusToBudgetCompromiseDetailsTable.html", "de/d7a/classAddFieldStatusToBudgetCompromiseDetailsTable" ],
@@ -982,8 +1430,8 @@ var annotated_dup =
     [ "AddFieldsToBudgetCentralizedActionsTable", "dc/d17/classAddFieldsToBudgetCentralizedActionsTable.html", "dc/d17/classAddFieldsToBudgetCentralizedActionsTable" ],
     [ "AddFieldsToBudgetProjectsTable", "d4/dab/classAddFieldsToBudgetProjectsTable.html", "d4/dab/classAddFieldsToBudgetProjectsTable" ],
     [ "AddFieldsToBudgetSubSpecificFormulations", "df/de2/classAddFieldsToBudgetSubSpecificFormulations.html", "df/de2/classAddFieldsToBudgetSubSpecificFormulations" ],
-    [ "AddFieldsToFinancePaymentDeductionsTable", "db/d2a/classAddFieldsToFinancePaymentDeductionsTable.html", "db/d2a/classAddFieldsToFinancePaymentDeductionsTable" ],
-    [ "AddFieldsToFinanceSettingBankReconciliationFiles", "dc/d01/classAddFieldsToFinanceSettingBankReconciliationFiles.html", "dc/d01/classAddFieldsToFinanceSettingBankReconciliationFiles" ],
+    [ "AddFieldsToCitizenServiceReportsTable", "da/d5d/classAddFieldsToCitizenServiceReportsTable.html", "da/d5d/classAddFieldsToCitizenServiceReportsTable" ],
+    [ "AddFieldsToCitizenServiceRequestsTable", "d2/d37/classAddFieldsToCitizenServiceRequestsTable.html", "d2/d37/classAddFieldsToCitizenServiceRequestsTable" ],
     [ "AddFieldsToPayrollChildrensTable", "d4/de0/classAddFieldsToPayrollChildrensTable.html", "d4/de0/classAddFieldsToPayrollChildrensTable" ],
     [ "AddFieldsToPayrollConceptsTable", "de/d37/classAddFieldsToPayrollConceptsTable.html", "de/d37/classAddFieldsToPayrollConceptsTable" ],
     [ "AddFieldsToPayrollExceptionTypesTable", "d9/da1/classAddFieldsToPayrollExceptionTypesTable.html", "d9/da1/classAddFieldsToPayrollExceptionTypesTable" ],
@@ -992,11 +1440,14 @@ var annotated_dup =
     [ "AddFieldsToPayrollSalaryTabulatorsTable", "da/d1b/classAddFieldsToPayrollSalaryTabulatorsTable.html", "da/d1b/classAddFieldsToPayrollSalaryTabulatorsTable" ],
     [ "AddFieldsToPayrollStaffsTable", "d0/d30/classAddFieldsToPayrollStaffsTable.html", "d0/d30/classAddFieldsToPayrollStaffsTable" ],
     [ "AddFieldsToPayrollVacationPoliciesTable", "d7/d97/classAddFieldsToPayrollVacationPoliciesTable.html", "d7/d97/classAddFieldsToPayrollVacationPoliciesTable" ],
+    [ "AddFieldsToProductsFieldToSaleOrdersTable", "d3/db0/classAddFieldsToProductsFieldToSaleOrdersTable.html", "d3/db0/classAddFieldsToProductsFieldToSaleOrdersTable" ],
     [ "AddFieldsToProjectTrackingActivities", "d4/d4f/classAddFieldsToProjectTrackingActivities.html", "d4/d4f/classAddFieldsToProjectTrackingActivities" ],
     [ "AddFieldsToPurchaseBudgetaryAvailabilitiesTable", "d3/d1b/classAddFieldsToPurchaseBudgetaryAvailabilitiesTable.html", "d3/d1b/classAddFieldsToPurchaseBudgetaryAvailabilitiesTable" ],
     [ "AddFieldsToPurchaseRequirementsTable", "db/d0d/classAddFieldsToPurchaseRequirementsTable.html", "db/d0d/classAddFieldsToPurchaseRequirementsTable" ],
+    [ "AddFieldsToSaleBillInventoryProductsTable", "dd/ddd/classAddFieldsToSaleBillInventoryProductsTable.html", "dd/ddd/classAddFieldsToSaleBillInventoryProductsTable" ],
     [ "AddFieldsToSaleRegisterPayments", "d5/dcc/classAddFieldsToSaleRegisterPayments.html", "d5/dcc/classAddFieldsToSaleRegisterPayments" ],
     [ "AddFieldsToSaleWarehousesTable", "d3/dc7/classAddFieldsToSaleWarehousesTable.html", "d3/dc7/classAddFieldsToSaleWarehousesTable" ],
+    [ "AddFieldsToStatusFieldToSaleOrdersTable", "d6/d64/classAddFieldsToStatusFieldToSaleOrdersTable.html", "d6/d64/classAddFieldsToStatusFieldToSaleOrdersTable" ],
     [ "AddFieldTaxIdToPurchaseBaseBudgetsTable", "df/ddb/classAddFieldTaxIdToPurchaseBaseBudgetsTable.html", "df/ddb/classAddFieldTaxIdToPurchaseBaseBudgetsTable" ],
     [ "AddFieldTaxIdToWarehouseProductsTable", "d9/d53/classAddFieldTaxIdToWarehouseProductsTable.html", "d9/d53/classAddFieldTaxIdToWarehouseProductsTable" ],
     [ "AddFieldTimeSheetColumnsToPayrollTimeSheetPendingsTable", "d0/de6/classAddFieldTimeSheetColumnsToPayrollTimeSheetPendingsTable.html", "d0/de6/classAddFieldTimeSheetColumnsToPayrollTimeSheetPendingsTable" ],
@@ -1016,38 +1467,52 @@ var annotated_dup =
     [ "AddFieldTypeAssetToAssetReportsTable", "d7/d17/classAddFieldTypeAssetToAssetReportsTable.html", "d7/d17/classAddFieldTypeAssetToAssetReportsTable" ],
     [ "AddFieldTypeToPayrollSalaryScalesTable", "df/d69/classAddFieldTypeToPayrollSalaryScalesTable.html", "df/d69/classAddFieldTypeToPayrollSalaryScalesTable" ],
     [ "AddFieldUniformSizeAndMedicalHistoryToPayrollStaffsTable", "da/d59/classAddFieldUniformSizeAndMedicalHistoryToPayrollStaffsTable.html", "da/d59/classAddFieldUniformSizeAndMedicalHistoryToPayrollStaffsTable" ],
+    [ "AddFieldUpdatedAtToAssetAsignationAssetsTable", "dd/d64/classAddFieldUpdatedAtToAssetAsignationAssetsTable.html", null ],
     [ "AddFieldValueMaxToPayrollExceptionTypesTable", "da/d11/classAddFieldValueMaxToPayrollExceptionTypesTable.html", "da/d11/classAddFieldValueMaxToPayrollExceptionTypesTable" ],
     [ "AddFieldWorksheetCodeToPayrollEmploymentsTable", "d3/dc0/classAddFieldWorksheetCodeToPayrollEmploymentsTable.html", "d3/dc0/classAddFieldWorksheetCodeToPayrollEmploymentsTable" ],
-    [ "AddNewFieldsToFinancePaymentDeductionsTable", "d5/dcd/classAddNewFieldsToFinancePaymentDeductionsTable.html", "d5/dcd/classAddNewFieldsToFinancePaymentDeductionsTable" ],
-    [ "AddNewFieldsToFinancePayOrdersTable", "d0/d70/classAddNewFieldsToFinancePayOrdersTable.html", "d0/d70/classAddNewFieldsToFinancePayOrdersTable" ],
+    [ "AddFileNumberFieldToPurchaseSuppliers", "db/dd2/classAddFileNumberFieldToPurchaseSuppliers.html", "db/dd2/classAddFileNumberFieldToPurchaseSuppliers" ],
+    [ "AddForeignKeysToAssetAsignationsTable", "d4/d2a/classAddForeignKeysToAssetAsignationsTable.html", "d4/d2a/classAddForeignKeysToAssetAsignationsTable" ],
+    [ "AddInstitutionIdToAssetBuildingsTable", "df/d2f/classAddInstitutionIdToAssetBuildingsTable.html", "df/d2f/classAddInstitutionIdToAssetBuildingsTable" ],
+    [ "AddInstitutionIdToPurchaseRequirementsTable", "dd/d64/classAddInstitutionIdToPurchaseRequirementsTable.html", "dd/d64/classAddInstitutionIdToPurchaseRequirementsTable" ],
     [ "AddNewFieldsToPayrollConceptsTable", "d6/d0f/classAddNewFieldsToPayrollConceptsTable.html", "d6/d0f/classAddNewFieldsToPayrollConceptsTable" ],
     [ "AddNewFieldToBudgetModificationsTable", "df/dcf/classAddNewFieldToBudgetModificationsTable.html", "df/dcf/classAddNewFieldToBudgetModificationsTable" ],
     [ "AddNewFieldToPayrollPositionsTable", "d7/ddf/classAddNewFieldToPayrollPositionsTable.html", "d7/ddf/classAddNewFieldToPayrollPositionsTable" ],
+    [ "AddNewFieldToPurchaseBudgetaryAvailabilitiesTable", "df/df4/classAddNewFieldToPurchaseBudgetaryAvailabilitiesTable.html", "df/df4/classAddNewFieldToPurchaseBudgetaryAvailabilitiesTable" ],
+    [ "AddPurchaseSupplierObjectIdToPurchaseRequirementsTable", "d7/d1e/classAddPurchaseSupplierObjectIdToPurchaseRequirementsTable.html", "d7/d1e/classAddPurchaseSupplierObjectIdToPurchaseRequirementsTable" ],
+    [ "AddPurchaseTypeIdToPurchasePlansTable", "d1/d63/classAddPurchaseTypeIdToPurchasePlansTable.html", "d1/d63/classAddPurchaseTypeIdToPurchasePlansTable" ],
     [ "AddStateIdToPurchaseSuppliersTable", "d4/db9/classAddStateIdToPurchaseSuppliersTable.html", "d4/db9/classAddStateIdToPurchaseSuppliersTable" ],
     [ "AddUniqueFieldToAssetAcquisitionTypesTable", "dd/dec/classAddUniqueFieldToAssetAcquisitionTypesTable.html", "dd/dec/classAddUniqueFieldToAssetAcquisitionTypesTable" ],
     [ "AddUniqueFieldToAssetCategoriesTable", "d7/de2/classAddUniqueFieldToAssetCategoriesTable.html", "d7/de2/classAddUniqueFieldToAssetCategoriesTable" ],
     [ "AddUniqueFieldToAssetConditionsTable", "d4/dca/classAddUniqueFieldToAssetConditionsTable.html", "d4/dca/classAddUniqueFieldToAssetConditionsTable" ],
     [ "AddUniqueFieldToAssetStatusTable", "d5/d49/classAddUniqueFieldToAssetStatusTable.html", "d5/d49/classAddUniqueFieldToAssetStatusTable" ],
     [ "AddUniqueFieldToAssetUseFunctionsTable", "d7/d65/classAddUniqueFieldToAssetUseFunctionsTable.html", "d7/d65/classAddUniqueFieldToAssetUseFunctionsTable" ],
+    [ "AddUserIdToPurchasePlansTable", "df/d14/classAddUserIdToPurchasePlansTable.html", "df/d14/classAddUserIdToPurchasePlansTable" ],
+    [ "AssetExport", "d9/d46/classAssetExport.html", null ],
+    [ "AssetReport", "df/d34/classAssetReport.html", null ],
     [ "AssetSpecificcategoriesTableSeeder", "dd/d4f/classAssetSpecificcategoriesTableSeeder.html", null ],
     [ "BillReportController", "da/d54/classBillReportController.html", null ],
     [ "BudgatAccount", "d1/d6a/classBudgatAccount.html", null ],
     [ "BudgetAccountOpenController", "d3/d13/classBudgetAccountOpenController.html", null ],
-    [ "BudgetRoleAndPermissionsTableSeeder", "dd/df4/classBudgetRoleAndPermissionsTableSeeder.html", null ],
     [ "BudgetState", "de/d6a/classBudgetState.html", null ],
+    [ "Building", "d0/dfc/classBuilding.html", null ],
     [ "ChangeDescriptionToPurchaseTypesTable", "db/d24/classChangeDescriptionToPurchaseTypesTable.html", "db/d24/classChangeDescriptionToPurchaseTypesTable" ],
-    [ "ChangeFieldAccountingAccountIdToAccountablesTable", "dc/d55/classChangeFieldAccountingAccountIdToAccountablesTable.html", null ],
     [ "ChangeFieldDescriptionToPayrollTimeSheetParametersTable", "d0/d1b/classChangeFieldDescriptionToPayrollTimeSheetParametersTable.html", "d0/d1b/classChangeFieldDescriptionToPayrollTimeSheetParametersTable" ],
+    [ "ChangeFieldEmailToCitizenServiceRegistersTable", "d3/d5a/classChangeFieldEmailToCitizenServiceRegistersTable.html", "d3/d5a/classChangeFieldEmailToCitizenServiceRegistersTable" ],
+    [ "ChangeFieldIdNumberToSaleOrdersTable", "d6/dc2/classChangeFieldIdNumberToSaleOrdersTable.html", "d6/dc2/classChangeFieldIdNumberToSaleOrdersTable" ],
     [ "ChangeFieldNameToPayrollAcknowledgmentFilesTable", "d4/df5/classChangeFieldNameToPayrollAcknowledgmentFilesTable.html", "d4/df5/classChangeFieldNameToPayrollAcknowledgmentFilesTable" ],
     [ "ChangeFieldNewExistWarehouseInventoryProductRequestsTable", "d9/dd3/classChangeFieldNewExistWarehouseInventoryProductRequestsTable.html", "d9/dd3/classChangeFieldNewExistWarehouseInventoryProductRequestsTable" ],
     [ "ChangeFieldPayrollParametersToPayrollsTable", "dc/d6d/classChangeFieldPayrollParametersToPayrollsTable.html", "dc/d6d/classChangeFieldPayrollParametersToPayrollsTable" ],
+    [ "ChangeFieldPercentToCitizenServiceRegistersTable", "d5/de1/classChangeFieldPercentToCitizenServiceRegistersTable.html", "d5/de1/classChangeFieldPercentToCitizenServiceRegistersTable" ],
     [ "ChangeFieldProjectNameToCitizenServiceRegistersTable", "db/d1c/classChangeFieldProjectNameToCitizenServiceRegistersTable.html", "db/d1c/classChangeFieldProjectNameToCitizenServiceRegistersTable" ],
     [ "ChangeFieldQuantityWarehouseInventoryProductMovementsTable", "dc/dbc/classChangeFieldQuantityWarehouseInventoryProductMovementsTable.html", "dc/dbc/classChangeFieldQuantityWarehouseInventoryProductMovementsTable" ],
     [ "ChangeFieldQuantityWarehouseInventoryProductRequestsTable", "d8/df2/classChangeFieldQuantityWarehouseInventoryProductRequestsTable.html", "d8/df2/classChangeFieldQuantityWarehouseInventoryProductRequestsTable" ],
+    [ "ChangeFieldReportToAccountingReportHistoriesTable", "db/d93/classChangeFieldReportToAccountingReportHistoriesTable.html", "db/d93/classChangeFieldReportToAccountingReportHistoriesTable" ],
+    [ "ChangeFieldsDebitAndAssetsToAccountingSeatAccountsTable", "d8/dc8/classChangeFieldsDebitAndAssetsToAccountingSeatAccountsTable.html", "d8/dc8/classChangeFieldsDebitAndAssetsToAccountingSeatAccountsTable" ],
     [ "ChangeFieldsSaleGoodsToBeTradeds", "da/d61/classChangeFieldsSaleGoodsToBeTradeds.html", "da/d61/classChangeFieldsSaleGoodsToBeTradeds" ],
-    [ "ChangeFieldStatusToFinancePayOrdersTable", "d2/d3a/classChangeFieldStatusToFinancePayOrdersTable.html", "d2/d3a/classChangeFieldStatusToFinancePayOrdersTable" ],
+    [ "ChangeFieldStatusToSaleOrdersTable", "d6/d11/classChangeFieldStatusToSaleOrdersTable.html", "d6/d11/classChangeFieldStatusToSaleOrdersTable" ],
     [ "ChangeFieldsToBudgetCompromiseDetailsTable", "d2/d5a/classChangeFieldsToBudgetCompromiseDetailsTable.html", "d2/d5a/classChangeFieldsToBudgetCompromiseDetailsTable" ],
     [ "ChangeFieldsToPurchaseRequirementItemsTable", "d7/d5b/classChangeFieldsToPurchaseRequirementItemsTable.html", "d7/d5b/classChangeFieldsToPurchaseRequirementItemsTable" ],
+    [ "ChangeFieldsTotDebitTotAssetsToAccountingSeatsTable", "d0/d18/classChangeFieldsTotDebitTotAssetsToAccountingSeatsTable.html", "d0/d18/classChangeFieldsTotDebitTotAssetsToAccountingSeatsTable" ],
     [ "ChangeFieldsWarehouseInventoryProductsTable", "d6/d12/classChangeFieldsWarehouseInventoryProductsTable.html", "d6/d12/classChangeFieldsWarehouseInventoryProductsTable" ],
     [ "ChangeFieldToPayrollLanguageLanguageLevelProfessionalTable", "dd/d0e/classChangeFieldToPayrollLanguageLanguageLevelProfessionalTable.html", "dd/d0e/classChangeFieldToPayrollLanguageLanguageLevelProfessionalTable" ],
     [ "ChangeFieldToPayrollSocioeconomicInformationsTable", "d2/d15/classChangeFieldToPayrollSocioeconomicInformationsTable.html", "d2/d15/classChangeFieldToPayrollSocioeconomicInformationsTable" ],
@@ -1055,13 +1520,26 @@ var annotated_dup =
     [ "ChangePurchaseObjectSupplierTable", "d2/da8/classChangePurchaseObjectSupplierTable.html", "d2/da8/classChangePurchaseObjectSupplierTable" ],
     [ "ChangePurchaseSuppliersTable", "d2/d2b/classChangePurchaseSuppliersTable.html", "d2/d2b/classChangePurchaseSuppliersTable" ],
     [ "CitizenService", "d1/dfa/classCitizenService.html", null ],
+    [ "CreateAccountablesTable", "d7/d50/classCreateAccountablesTable.html", "d7/d50/classCreateAccountablesTable" ],
+    [ "CreateAccountingAccountConvertersTable", "d7/d83/classCreateAccountingAccountConvertersTable.html", "d7/d83/classCreateAccountingAccountConvertersTable" ],
     [ "CreateAccountingAccountConvertersTempTable", "df/d6e/classCreateAccountingAccountConvertersTempTable.html", "df/d6e/classCreateAccountingAccountConvertersTempTable" ],
+    [ "CreateAccountingAccountsTable", "d9/d43/classCreateAccountingAccountsTable.html", "d9/d43/classCreateAccountingAccountsTable" ],
+    [ "CreateAccountingEntriesTable", "d2/dd6/classCreateAccountingEntriesTable.html", "d2/dd6/classCreateAccountingEntriesTable" ],
+    [ "CreateAccountingEntryablesTable", "d9/d54/classCreateAccountingEntryablesTable.html", "d9/d54/classCreateAccountingEntryablesTable" ],
+    [ "CreateAccountingEntryAccountsTable", "df/d2d/classCreateAccountingEntryAccountsTable.html", "df/d2d/classCreateAccountingEntryAccountsTable" ],
+    [ "CreateAccountingEntryCategoriesTable", "d9/d49/classCreateAccountingEntryCategoriesTable.html", "d9/d49/classCreateAccountingEntryCategoriesTable" ],
+    [ "CreateAccountingReportHistoriesTable", "d7/d15/classCreateAccountingReportHistoriesTable.html", "d7/d15/classCreateAccountingReportHistoriesTable" ],
+    [ "CreateAccountingSeatAccountsTable", "d0/d17/classCreateAccountingSeatAccountsTable.html", "d0/d17/classCreateAccountingSeatAccountsTable" ],
+    [ "CreateAccountingSeatCategoriesTable", "d0/dcf/classCreateAccountingSeatCategoriesTable.html", "d0/dcf/classCreateAccountingSeatCategoriesTable" ],
+    [ "CreateAccountingSeatsTable", "dd/d8c/classCreateAccountingSeatsTable.html", "dd/d8c/classCreateAccountingSeatsTable" ],
     [ "CreateAssetAcquisitionTypesTable", "d0/d3e/classCreateAssetAcquisitionTypesTable.html", "d0/d3e/classCreateAssetAcquisitionTypesTable" ],
     [ "CreateAssetAdjustmentAssetsTable", "dd/d53/classCreateAssetAdjustmentAssetsTable.html", "dd/d53/classCreateAssetAdjustmentAssetsTable" ],
     [ "CreateAssetAsignationAssetsTable", "dc/d28/classCreateAssetAsignationAssetsTable.html", "dc/d28/classCreateAssetAsignationAssetsTable" ],
     [ "CreateAssetAsignationDeliveriesTable", "d7/dcb/classCreateAssetAsignationDeliveriesTable.html", "d7/dcb/classCreateAssetAsignationDeliveriesTable" ],
     [ "CreateAssetAsignationsTable", "de/dec/classCreateAssetAsignationsTable.html", "de/dec/classCreateAssetAsignationsTable" ],
     [ "CreateAssetBooksTable", "de/dac/classCreateAssetBooksTable.html", "de/dac/classCreateAssetBooksTable" ],
+    [ "CreateAssetBranchSupplierTable", "da/d19/classCreateAssetBranchSupplierTable.html", "da/d19/classCreateAssetBranchSupplierTable" ],
+    [ "CreateAssetBuildingsTable", "da/d24/classCreateAssetBuildingsTable.html", "da/d24/classCreateAssetBuildingsTable" ],
     [ "CreateAssetCategoriesTable", "d6/d18/classCreateAssetCategoriesTable.html", "d6/d18/classCreateAssetCategoriesTable" ],
     [ "CreateAssetConditionsTable", "d5/d46/classCreateAssetConditionsTable.html", "d5/d46/classCreateAssetConditionsTable" ],
     [ "CreateAssetDepreciationAssetsTable", "d8/d4f/classCreateAssetDepreciationAssetsTable.html", "d8/d4f/classCreateAssetDepreciationAssetsTable" ],
@@ -1070,9 +1548,12 @@ var annotated_dup =
     [ "CreateAssetDisincorporationAssetsTable", "d5/de3/classCreateAssetDisincorporationAssetsTable.html", "d5/de3/classCreateAssetDisincorporationAssetsTable" ],
     [ "CreateAssetDisincorporationMotivesTable", "df/d2c/classCreateAssetDisincorporationMotivesTable.html", "df/d2c/classCreateAssetDisincorporationMotivesTable" ],
     [ "CreateAssetDisincorporationsTable", "de/d66/classCreateAssetDisincorporationsTable.html", "de/d66/classCreateAssetDisincorporationsTable" ],
+    [ "CreateAssetDocumentRequiredDocumentsTable", "d4/d72/classCreateAssetDocumentRequiredDocumentsTable.html", "d4/d72/classCreateAssetDocumentRequiredDocumentsTable" ],
+    [ "CreateAssetFloorsTable", "de/d99/classCreateAssetFloorsTable.html", "de/d99/classCreateAssetFloorsTable" ],
     [ "CreateAssetInstitutionStoragesTable", "dc/d2e/classCreateAssetInstitutionStoragesTable.html", "dc/d2e/classCreateAssetInstitutionStoragesTable" ],
     [ "CreateAssetInventoriesTable", "de/daa/classCreateAssetInventoriesTable.html", "de/daa/classCreateAssetInventoriesTable" ],
     [ "CreateAssetInventoryAssetsTable", "d3/de2/classCreateAssetInventoryAssetsTable.html", "d3/de2/classCreateAssetInventoryAssetsTable" ],
+    [ "CreateAssetObjectSupplierTable", "da/ded/classCreateAssetObjectSupplierTable.html", "da/ded/classCreateAssetObjectSupplierTable" ],
     [ "CreateAssetReportsTable", "d8/ddd/classCreateAssetReportsTable.html", "d8/ddd/classCreateAssetReportsTable" ],
     [ "CreateAssetRequestAssetsTable", "df/db2/classCreateAssetRequestAssetsTable.html", "df/db2/classCreateAssetRequestAssetsTable" ],
     [ "CreateAssetRequestDeliveriesTable", "d7/d84/classCreateAssetRequestDeliveriesTable.html", "d7/d84/classCreateAssetRequestDeliveriesTable" ],
@@ -1081,29 +1562,49 @@ var annotated_dup =
     [ "CreateAssetRequestsTable", "db/d56/classCreateAssetRequestsTable.html", "db/d56/classCreateAssetRequestsTable" ],
     [ "CreateAssetRequiredItemsTable", "d5/d43/classCreateAssetRequiredItemsTable.html", "d5/d43/classCreateAssetRequiredItemsTable" ],
     [ "CreateAssetRulesTable", "d5/d68/classCreateAssetRulesTable.html", "d5/d68/classCreateAssetRulesTable" ],
+    [ "CreateAssetSectionsTable", "db/de4/classCreateAssetSectionsTable.html", "db/de4/classCreateAssetSectionsTable" ],
+    [ "CreateAssetSpecialtySupplierTable", "d3/d5e/classCreateAssetSpecialtySupplierTable.html", "d3/d5e/classCreateAssetSpecialtySupplierTable" ],
     [ "CreateAssetSpecificCategoriesTable", "d3/dea/classCreateAssetSpecificCategoriesTable.html", "d3/dea/classCreateAssetSpecificCategoriesTable" ],
     [ "CreateAssetsTable", "d4/d01/classCreateAssetsTable.html", "d4/d01/classCreateAssetsTable" ],
     [ "CreateAssetStatusTable", "df/dff/classCreateAssetStatusTable.html", "df/dff/classCreateAssetStatusTable" ],
     [ "CreateAssetStoragesTable", "d4/d13/classCreateAssetStoragesTable.html", "d4/d13/classCreateAssetStoragesTable" ],
     [ "CreateAssetSubcategoriesTable", "d7/d8c/classCreateAssetSubcategoriesTable.html", "d7/d8c/classCreateAssetSubcategoriesTable" ],
+    [ "CreateAssetSupplierBranchesTable", "d1/d2c/classCreateAssetSupplierBranchesTable.html", "d1/d2c/classCreateAssetSupplierBranchesTable" ],
+    [ "CreateAssetSupplierObjectsTable", "d8/db2/classCreateAssetSupplierObjectsTable.html", "d8/db2/classCreateAssetSupplierObjectsTable" ],
+    [ "CreateAssetSupplierSpecialtiesTable", "da/dfa/classCreateAssetSupplierSpecialtiesTable.html", "da/dfa/classCreateAssetSupplierSpecialtiesTable" ],
+    [ "CreateAssetSuppliersTable", "d2/dd0/classCreateAssetSuppliersTable.html", "d2/dd0/classCreateAssetSuppliersTable" ],
+    [ "CreateAssetSupplierTypesTable", "d0/d76/classCreateAssetSupplierTypesTable.html", "d0/d76/classCreateAssetSupplierTypesTable" ],
     [ "CreateAssetTypesTable", "db/d22/classCreateAssetTypesTable.html", "db/d22/classCreateAssetTypesTable" ],
     [ "CreateAssetUseFunctionsTable", "d4/de5/classCreateAssetUseFunctionsTable.html", "d4/de5/classCreateAssetUseFunctionsTable" ],
+    [ "CreateBudgetAccountOpensTable", "d0/d8c/classCreateBudgetAccountOpensTable.html", "d0/d8c/classCreateBudgetAccountOpensTable" ],
+    [ "CreateBudgetAccountsTable", "dc/d2c/classCreateBudgetAccountsTable.html", "dc/d2c/classCreateBudgetAccountsTable" ],
+    [ "CreateBudgetAditionalCreditAccountsTable", "de/d0e/classCreateBudgetAditionalCreditAccountsTable.html", "de/d0e/classCreateBudgetAditionalCreditAccountsTable" ],
+    [ "CreateBudgetAditionalCreditsTable", "db/dd0/classCreateBudgetAditionalCreditsTable.html", "db/dd0/classCreateBudgetAditionalCreditsTable" ],
+    [ "CreateBudgetAnalyticalMajorJobs", "da/d9f/classCreateBudgetAnalyticalMajorJobs.html", null ],
+    [ "CreateBudgetCentralizedActionsTable", "d5/da6/classCreateBudgetCentralizedActionsTable.html", "d5/da6/classCreateBudgetCentralizedActionsTable" ],
+    [ "CreateBudgetCompromiseDetailsTable", "d4/d7b/classCreateBudgetCompromiseDetailsTable.html", "d4/d7b/classCreateBudgetCompromiseDetailsTable" ],
+    [ "CreateBudgetCompromisesTable", "dc/dd3/classCreateBudgetCompromisesTable.html", "dc/dd3/classCreateBudgetCompromisesTable" ],
     [ "CreateBudgetFinancementSources", "d7/d2a/classCreateBudgetFinancementSources.html", "d7/d2a/classCreateBudgetFinancementSources" ],
     [ "CreateBudgetFinancementTypes", "da/d03/classCreateBudgetFinancementTypes.html", "da/d03/classCreateBudgetFinancementTypes" ],
+    [ "CreateBudgetModificationAccountsTable", "d4/dea/classCreateBudgetModificationAccountsTable.html", "d4/dea/classCreateBudgetModificationAccountsTable" ],
+    [ "CreateBudgetModificationsTable", "da/d60/classCreateBudgetModificationsTable.html", "da/d60/classCreateBudgetModificationsTable" ],
+    [ "CreateBudgetProjectsTable", "d8/d75/classCreateBudgetProjectsTable.html", "d8/d75/classCreateBudgetProjectsTable" ],
+    [ "CreateBudgetSpecificActionsTable", "d7/dfa/classCreateBudgetSpecificActionsTable.html", "d7/dfa/classCreateBudgetSpecificActionsTable" ],
+    [ "CreateBudgetStagesTable", "d0/df2/classCreateBudgetStagesTable.html", "d0/df2/classCreateBudgetStagesTable" ],
+    [ "CreateBudgetSubSpecificFormulationsTable", "d9/da0/classCreateBudgetSubSpecificFormulationsTable.html", "d9/da0/classCreateBudgetSubSpecificFormulationsTable" ],
     [ "CreateCitizenServiceAddIndicatorsTable", "df/d9f/classCreateCitizenServiceAddIndicatorsTable.html", "df/d9f/classCreateCitizenServiceAddIndicatorsTable" ],
+    [ "CreateCitizenServiceDepartmentsTable", "d0/dbd/classCreateCitizenServiceDepartmentsTable.html", "d0/dbd/classCreateCitizenServiceDepartmentsTable" ],
     [ "CreateCitizenServiceEffectTypesTable", "d4/d46/classCreateCitizenServiceEffectTypesTable.html", "d4/d46/classCreateCitizenServiceEffectTypesTable" ],
     [ "CreateCitizenServiceIndicatorsTable", "d1/dd1/classCreateCitizenServiceIndicatorsTable.html", "d1/dd1/classCreateCitizenServiceIndicatorsTable" ],
+    [ "CreateCitizenServiceRegistersTable", "dd/d56/classCreateCitizenServiceRegistersTable.html", "dd/d56/classCreateCitizenServiceRegistersTable" ],
+    [ "CreateCitizenServiceReportsTable", "da/def/classCreateCitizenServiceReportsTable.html", "da/def/classCreateCitizenServiceReportsTable" ],
+    [ "CreateCitizenServiceRequestsTable", "d5/d49/classCreateCitizenServiceRequestsTable.html", "d5/d49/classCreateCitizenServiceRequestsTable" ],
+    [ "CreateCitizenServiceRequestTypesTable", "d5/db6/classCreateCitizenServiceRequestTypesTable.html", "d5/db6/classCreateCitizenServiceRequestTypesTable" ],
     [ "CreateContactsTable", "d5/d7e/classCreateContactsTable.html", "d5/d7e/classCreateContactsTable" ],
     [ "CreateCountriesTable", "d9/d56/classCreateCountriesTable.html", "d9/d56/classCreateCountriesTable" ],
-    [ "CreateFinanceBankingMovementsTable", "d4/d0a/classCreateFinanceBankingMovementsTable.html", "d4/d0a/classCreateFinanceBankingMovementsTable" ],
-    [ "CreateFinancePaymentDeductionsTable", "df/de7/classCreateFinancePaymentDeductionsTable.html", "df/de7/classCreateFinancePaymentDeductionsTable" ],
-    [ "CreateFinancePaymentExecutesTable", "db/dc4/classCreateFinancePaymentExecutesTable.html", "db/dc4/classCreateFinancePaymentExecutesTable" ],
-    [ "CreateFinancePaymentMethodsTable", "d2/d22/classCreateFinancePaymentMethodsTable.html", "d2/d22/classCreateFinancePaymentMethodsTable" ],
-    [ "CreateFinancePayOrderFinancePaymentExecuteTable", "d4/da6/classCreateFinancePayOrderFinancePaymentExecuteTable.html", "d4/da6/classCreateFinancePayOrderFinancePaymentExecuteTable" ],
-    [ "CreateFinancePayOrdersTable", "de/de5/classCreateFinancePayOrdersTable.html", "de/de5/classCreateFinancePayOrdersTable" ],
-    [ "CreateFinanceSettingBankReconciliationFiles", "db/df7/classCreateFinanceSettingBankReconciliationFiles.html", null ],
     [ "CreatePayrollAcknowledgmentFilesTable", "d6/d57/classCreatePayrollAcknowledgmentFilesTable.html", "d6/d57/classCreatePayrollAcknowledgmentFilesTable" ],
     [ "CreatePayrollAcknowledgmentsTable", "d8/da9/classCreatePayrollAcknowledgmentsTable.html", "d8/da9/classCreatePayrollAcknowledgmentsTable" ],
+    [ "CreatePayrollArcResponsiblesTable", "dc/dc7/classCreatePayrollArcResponsiblesTable.html", "dc/dc7/classCreatePayrollArcResponsiblesTable" ],
     [ "CreatePayrollAriRegistersTable", "de/d27/classCreatePayrollAriRegistersTable.html", "de/d27/classCreatePayrollAriRegistersTable" ],
     [ "CreatePayrollBenefitsPoliciesTable", "d4/d5b/classCreatePayrollBenefitsPoliciesTable.html", "d4/d5b/classCreatePayrollBenefitsPoliciesTable" ],
     [ "CreatePayrollBenefitsRequestsTable", "db/d8a/classCreatePayrollBenefitsRequestsTable.html", "db/d8a/classCreatePayrollBenefitsRequestsTable" ],
@@ -1127,6 +1628,7 @@ var annotated_dup =
     [ "CreatePayrollFinancials", "dd/d01/classCreatePayrollFinancials.html", "dd/d01/classCreatePayrollFinancials" ],
     [ "CreatePayrollGuardSchemePeriodsTable", "d4/d75/classCreatePayrollGuardSchemePeriodsTable.html", "d4/d75/classCreatePayrollGuardSchemePeriodsTable" ],
     [ "CreatePayrollGuardSchemesTable", "de/dd5/classCreatePayrollGuardSchemesTable.html", "de/dd5/classCreatePayrollGuardSchemesTable" ],
+    [ "CreatePayrollHistorySalaryAdjustmentsTable", "d8/d7b/classCreatePayrollHistorySalaryAdjustmentsTable.html", "d8/d7b/classCreatePayrollHistorySalaryAdjustmentsTable" ],
     [ "CreatePayrollHolidaysTable", "da/da3/classCreatePayrollHolidaysTable.html", "da/da3/classCreatePayrollHolidaysTable" ],
     [ "CreatePayrollInactivityTypesTable", "dd/d6f/classCreatePayrollInactivityTypesTable.html", "dd/d6f/classCreatePayrollInactivityTypesTable" ],
     [ "CreatePayrollInstructionDegreesTable", "d0/d2e/classCreatePayrollInstructionDegreesTable.html", "d0/d2e/classCreatePayrollInstructionDegreesTable" ],
@@ -1174,6 +1676,7 @@ var annotated_dup =
     [ "CreatePayrollStudyTypesTable", "de/d79/classCreatePayrollStudyTypesTable.html", "de/d79/classCreatePayrollStudyTypesTable" ],
     [ "CreatePayrollSupervisedGroupsTable", "d3/d09/classCreatePayrollSupervisedGroupsTable.html", "d3/d09/classCreatePayrollSupervisedGroupsTable" ],
     [ "CreatePayrollSupervisedGroupStaffTable", "d4/dd6/classCreatePayrollSupervisedGroupStaffTable.html", "d4/dd6/classCreatePayrollSupervisedGroupStaffTable" ],
+    [ "CreatePayrollSuspensionVacationsRequests", "de/dc7/classCreatePayrollSuspensionVacationsRequests.html", "de/dc7/classCreatePayrollSuspensionVacationsRequests" ],
     [ "CreatePayrollTextFilesTable", "d2/df9/classCreatePayrollTextFilesTable.html", "d2/df9/classCreatePayrollTextFilesTable" ],
     [ "CreatePayrollTimeSheetParametersTable", "d7/d2c/classCreatePayrollTimeSheetParametersTable.html", "d7/d2c/classCreatePayrollTimeSheetParametersTable" ],
     [ "CreatePayrollTimeSheetPendingsTable", "d9/d69/classCreatePayrollTimeSheetPendingsTable.html", "d9/d69/classCreatePayrollTimeSheetPendingsTable" ],
@@ -1201,6 +1704,7 @@ var annotated_dup =
     [ "CreateProjectTrackingSubProjectsTable", "d7/dca/classCreateProjectTrackingSubProjectsTable.html", "d7/dca/classCreateProjectTrackingSubProjectsTable" ],
     [ "CreateProjectTrackingTasksTable", "da/d74/classCreateProjectTrackingTasksTable.html", "da/d74/classCreateProjectTrackingTasksTable" ],
     [ "CreateProjectTrackingTypeProductsTable", "d9/d48/classCreateProjectTrackingTypeProductsTable.html", "d9/d48/classCreateProjectTrackingTypeProductsTable" ],
+    [ "CreatePurchaseBaseBudgetsTable", "d1/d76/classCreatePurchaseBaseBudgetsTable.html", "d1/d76/classCreatePurchaseBaseBudgetsTable" ],
     [ "CreatePurchaseBranchSupplierTable", "d7/d0b/classCreatePurchaseBranchSupplierTable.html", "d7/d0b/classCreatePurchaseBranchSupplierTable" ],
     [ "CreatePurchaseBudgetaryAvailabilitiesTable", "d9/d6f/classCreatePurchaseBudgetaryAvailabilitiesTable.html", "d9/d6f/classCreatePurchaseBudgetaryAvailabilitiesTable" ],
     [ "CreatePurchaseCompromiseDetailsTable", "dc/d24/classCreatePurchaseCompromiseDetailsTable.html", "dc/d24/classCreatePurchaseCompromiseDetailsTable" ],
@@ -1208,33 +1712,58 @@ var annotated_dup =
     [ "CreatePurchaseDirectHiresTable", "da/d68/classCreatePurchaseDirectHiresTable.html", "da/d68/classCreatePurchaseDirectHiresTable" ],
     [ "CreatePurchaseDocumentRequiredDocumentsTable", "da/ddb/classCreatePurchaseDocumentRequiredDocumentsTable.html", "da/ddb/classCreatePurchaseDocumentRequiredDocumentsTable" ],
     [ "CreatePurchaseObjectSupplierTable", "d3/d21/classCreatePurchaseObjectSupplierTable.html", "d3/d21/classCreatePurchaseObjectSupplierTable" ],
+    [ "CreatePurchaseOrdersTable", "d2/de7/classCreatePurchaseOrdersTable.html", "d2/de7/classCreatePurchaseOrdersTable" ],
+    [ "CreatePurchasePivotModelsToRequirementItemsTable", "d4/d3e/classCreatePurchasePivotModelsToRequirementItemsTable.html", "d4/d3e/classCreatePurchasePivotModelsToRequirementItemsTable" ],
+    [ "CreatePurchasePivotsTable", "d3/d66/classCreatePurchasePivotsTable.html", "d3/d66/classCreatePurchasePivotsTable" ],
+    [ "CreatePurchasePlansTable", "d1/d89/classCreatePurchasePlansTable.html", "d1/d89/classCreatePurchasePlansTable" ],
+    [ "CreatePurchaseProcessesTable", "d7/d54/classCreatePurchaseProcessesTable.html", "d7/d54/classCreatePurchaseProcessesTable" ],
     [ "CreatePurchaseProductsTable", "d4/d00/classCreatePurchaseProductsTable.html", "d4/d00/classCreatePurchaseProductsTable" ],
+    [ "CreatePurchaseQuotationsTable", "d2/d2a/classCreatePurchaseQuotationsTable.html", "d2/d2a/classCreatePurchaseQuotationsTable" ],
+    [ "CreatePurchaseRequirementItemsTable", "d8/dac/classCreatePurchaseRequirementItemsTable.html", "d8/dac/classCreatePurchaseRequirementItemsTable" ],
+    [ "CreatePurchaseRequirementsTable", "de/dfe/classCreatePurchaseRequirementsTable.html", "de/dfe/classCreatePurchaseRequirementsTable" ],
     [ "CreatePurchaseServicesTable", "d5/daf/classCreatePurchaseServicesTable.html", "d5/daf/classCreatePurchaseServicesTable" ],
     [ "CreatePurchaseSpecialtySupplierTable", "d9/d7c/classCreatePurchaseSpecialtySupplierTable.html", "d9/d7c/classCreatePurchaseSpecialtySupplierTable" ],
     [ "CreatePurchaseStatesTable", "da/def/classCreatePurchaseStatesTable.html", "da/def/classCreatePurchaseStatesTable" ],
+    [ "CreatePurchaseSupplierBranchesTable", "dd/d87/classCreatePurchaseSupplierBranchesTable.html", "dd/d87/classCreatePurchaseSupplierBranchesTable" ],
+    [ "CreatePurchaseSupplierObjectsTable", "de/d39/classCreatePurchaseSupplierObjectsTable.html", "de/d39/classCreatePurchaseSupplierObjectsTable" ],
+    [ "CreatePurchaseSupplierSpecialtiesTable", "d4/d71/classCreatePurchaseSupplierSpecialtiesTable.html", "d4/d71/classCreatePurchaseSupplierSpecialtiesTable" ],
+    [ "CreatePurchaseSuppliersTable", "dc/da8/classCreatePurchaseSuppliersTable.html", "dc/da8/classCreatePurchaseSuppliersTable" ],
+    [ "CreatePurchaseSupplierTypesTable", "d1/df4/classCreatePurchaseSupplierTypesTable.html", "d1/df4/classCreatePurchaseSupplierTypesTable" ],
+    [ "CreatePurchaseTypeHiringsTable", "d9/dfe/classCreatePurchaseTypeHiringsTable.html", "d9/dfe/classCreatePurchaseTypeHiringsTable" ],
+    [ "CreatePurchaseTypeOperationsTable", "de/d45/classCreatePurchaseTypeOperationsTable.html", "de/d45/classCreatePurchaseTypeOperationsTable" ],
+    [ "CreatePurchaseTypesTable", "d5/d9e/classCreatePurchaseTypesTable.html", "d5/d9e/classCreatePurchaseTypesTable" ],
     [ "CreateSaleBillInventoryProductsTable", "d3/d46/classCreateSaleBillInventoryProductsTable.html", "d3/d46/classCreateSaleBillInventoryProductsTable" ],
     [ "CreateSaleBillsTable", "d5/d7f/classCreateSaleBillsTable.html", "d5/d7f/classCreateSaleBillsTable" ],
     [ "CreateSaleChargeMoneyTable", "d7/df4/classCreateSaleChargeMoneyTable.html", "d7/df4/classCreateSaleChargeMoneyTable" ],
     [ "CreateSaleClientsEmailsTable", "dd/d5b/classCreateSaleClientsEmailsTable.html", "dd/d5b/classCreateSaleClientsEmailsTable" ],
+    [ "CreateSaleClientsPhonesTable", "dc/daf/classCreateSaleClientsPhonesTable.html", "dc/daf/classCreateSaleClientsPhonesTable" ],
+    [ "CreateSaleClientsTable", "d9/d07/classCreateSaleClientsTable.html", "d9/d07/classCreateSaleClientsTable" ],
+    [ "CreateSaleCodeFormatsTable", "de/dd9/classCreateSaleCodeFormatsTable.html", "de/dd9/classCreateSaleCodeFormatsTable" ],
+    [ "CreateSaleDiscountsTable", "da/dc8/classCreateSaleDiscountsTable.html", "da/dc8/classCreateSaleDiscountsTable" ],
     [ "CreateSaleFormPaymentTable", "d2/d05/classCreateSaleFormPaymentTable.html", "d2/d05/classCreateSaleFormPaymentTable" ],
     [ "CreateSaleGanttDiagramsTable", "d0/d9f/classCreateSaleGanttDiagramsTable.html", "d0/d9f/classCreateSaleGanttDiagramsTable" ],
-    [ "CreateSaleGanttStagesTable", "da/d4f/classCreateSaleGanttStagesTable.html", null ],
+    [ "CreateSaleGanttDiagramStagesTable", "dd/d7c/classCreateSaleGanttDiagramStagesTable.html", "dd/d7c/classCreateSaleGanttDiagramStagesTable" ],
     [ "CreateSaleGoodsAttributesTable", "d2/d14/classCreateSaleGoodsAttributesTable.html", "d2/d14/classCreateSaleGoodsAttributesTable" ],
     [ "CreateSaleGoodsToBeTradedsTable", "d7/da4/classCreateSaleGoodsToBeTradedsTable.html", "d7/da4/classCreateSaleGoodsToBeTradedsTable" ],
     [ "CreateSaleGoodToBeTradedPayrollStaffTable", "d6/df5/classCreateSaleGoodToBeTradedPayrollStaffTable.html", "d6/df5/classCreateSaleGoodToBeTradedPayrollStaffTable" ],
     [ "CreateSaleListSubservicesAttributesTable", "dc/dc2/classCreateSaleListSubservicesAttributesTable.html", "dc/dc2/classCreateSaleListSubservicesAttributesTable" ],
     [ "CreateSaleListSubservicesTable", "dd/d94/classCreateSaleListSubservicesTable.html", "dd/d94/classCreateSaleListSubservicesTable" ],
+    [ "CreateSaleOrderManagementTable", "d4/df1/classCreateSaleOrderManagementTable.html", "d4/df1/classCreateSaleOrderManagementTable" ],
     [ "CreateSaleOrdersTable", "da/d31/classCreateSaleOrdersTable.html", "da/d31/classCreateSaleOrdersTable" ],
     [ "CreateSalePaymentManagementTable", "db/da4/classCreateSalePaymentManagementTable.html", "db/da4/classCreateSalePaymentManagementTable" ],
+    [ "CreateSalePaymentMethodsTable", "db/d8b/classCreateSalePaymentMethodsTable.html", "db/d8b/classCreateSalePaymentMethodsTable" ],
     [ "CreateSaleProposalRequirementsTable", "dd/d2b/classCreateSaleProposalRequirementsTable.html", "dd/d2b/classCreateSaleProposalRequirementsTable" ],
     [ "CreateSaleProposalSpecificationsTable", "da/dee/classCreateSaleProposalSpecificationsTable.html", "da/dee/classCreateSaleProposalSpecificationsTable" ],
+    [ "CreateSaleQuote", "d4/d56/classCreateSaleQuote.html", "d4/d56/classCreateSaleQuote" ],
     [ "CreateSaleQuoteTable", "dc/dad/classCreateSaleQuoteTable.html", "dc/dad/classCreateSaleQuoteTable" ],
     [ "CreateSaleRegisterPaymentsTable", "d4/d41/classCreateSaleRegisterPaymentsTable.html", "d4/d41/classCreateSaleRegisterPaymentsTable" ],
-    [ "CreateSaleReportsTable", "d1/d4a/classCreateSaleReportsTable.html", null ],
-    [ "CreateSaleServiceRequerimentsTable", "d3/d4a/classCreateSaleServiceRequerimentsTable.html", null ],
+    [ "CreateSaleServiceRequirementsTable", "da/d69/classCreateSaleServiceRequirementsTable.html", "da/d69/classCreateSaleServiceRequirementsTable" ],
     [ "CreateSaleServicesTable", "d7/dc7/classCreateSaleServicesTable.html", "d7/dc7/classCreateSaleServicesTable" ],
+    [ "CreateSaleSettingDepositsTable", "d9/d59/classCreateSaleSettingDepositsTable.html", "d9/d59/classCreateSaleSettingDepositsTable" ],
     [ "CreateSaleSettingFrecuenciesTable", "da/d7c/classCreateSaleSettingFrecuenciesTable.html", "da/d7c/classCreateSaleSettingFrecuenciesTable" ],
     [ "CreateSaleSettingProductAttributesTable", "d1/d02/classCreateSaleSettingProductAttributesTable.html", "d1/d02/classCreateSaleSettingProductAttributesTable" ],
+    [ "CreateSaleSettingProductsTable", "d4/d05/classCreateSaleSettingProductsTable.html", "d4/d05/classCreateSaleSettingProductsTable" ],
+    [ "CreateSaleSettingProductTypesTable", "dd/d45/classCreateSaleSettingProductTypesTable.html", "dd/d45/classCreateSaleSettingProductTypesTable" ],
     [ "CreateSaleTechnicalProposalsTable", "dd/db8/classCreateSaleTechnicalProposalsTable.html", "dd/db8/classCreateSaleTechnicalProposalsTable" ],
     [ "CreateSaleTypeGoodAttributesTable", "d1/d23/classCreateSaleTypeGoodAttributesTable.html", "d1/d23/classCreateSaleTypeGoodAttributesTable" ],
     [ "CreateSaleTypeGoodsTable", "da/df2/classCreateSaleTypeGoodsTable.html", "da/df2/classCreateSaleTypeGoodsTable" ],
@@ -1245,11 +1774,16 @@ var annotated_dup =
     [ "CreateSaleWarehouseInventoryRulesTable", "d3/d09/classCreateSaleWarehouseInventoryRulesTable.html", "d3/d09/classCreateSaleWarehouseInventoryRulesTable" ],
     [ "CreateSaleWarehouseMovementsTable", "d3/d99/classCreateSaleWarehouseMovementsTable.html", "d3/d99/classCreateSaleWarehouseMovementsTable" ],
     [ "CreateSaleWarehouseProductValuesTable", "d3/d8b/classCreateSaleWarehouseProductValuesTable.html", "d3/d8b/classCreateSaleWarehouseProductValuesTable" ],
+    [ "CreateSaleWarehouseReportsTable", "dc/d18/classCreateSaleWarehouseReportsTable.html", "dc/d18/classCreateSaleWarehouseReportsTable" ],
+    [ "CreateSaleWarehousesTable", "d3/d96/classCreateSaleWarehousesTable.html", "d3/d96/classCreateSaleWarehousesTable" ],
+    [ "CreateSectionAmountsTable", "d2/d39/classCreateSectionAmountsTable.html", "d2/d39/classCreateSectionAmountsTable" ],
+    [ "CreateSignprofilesTable", "d6/d03/classCreateSignprofilesTable.html", "d6/d03/classCreateSignprofilesTable" ],
     [ "CreateStaffClassificationsTable", "db/da0/classCreateStaffClassificationsTable.html", null ],
     [ "CreateTechnicalSupportRepairDiagnosticsTable", "de/df1/classCreateTechnicalSupportRepairDiagnosticsTable.html", "de/df1/classCreateTechnicalSupportRepairDiagnosticsTable" ],
     [ "CreateTechnicalSupportRepairsTable", "db/de0/classCreateTechnicalSupportRepairsTable.html", "db/de0/classCreateTechnicalSupportRepairsTable" ],
     [ "CreateTechnicalSupportRequestRepairAssetsTable", "dd/dcc/classCreateTechnicalSupportRequestRepairAssetsTable.html", "dd/dcc/classCreateTechnicalSupportRequestRepairAssetsTable" ],
     [ "CreateTechnicalSupportRequestRepairsTable", "db/dfa/classCreateTechnicalSupportRequestRepairsTable.html", "db/dfa/classCreateTechnicalSupportRequestRepairsTable" ],
+    [ "CreateTypeablesTable", "dd/d08/classCreateTypeablesTable.html", "dd/d08/classCreateTypeablesTable" ],
     [ "CreateWarehouseClosesTable", "d5/d1f/classCreateWarehouseClosesTable.html", "d5/d1f/classCreateWarehouseClosesTable" ],
     [ "CreateWarehouseInstitutionWarehousesTable", "d1/d4a/classCreateWarehouseInstitutionWarehousesTable.html", "d1/d4a/classCreateWarehouseInstitutionWarehousesTable" ],
     [ "CreateWarehouseInventoryProductMovementsTable", "d4/dea/classCreateWarehouseInventoryProductMovementsTable.html", "d4/dea/classCreateWarehouseInventoryProductMovementsTable" ],
@@ -1263,9 +1797,13 @@ var annotated_dup =
     [ "CreateWarehouseReportsTable", "d1/d30/classCreateWarehouseReportsTable.html", "d1/d30/classCreateWarehouseReportsTable" ],
     [ "CreateWarehouseRequestsTable", "df/d50/classCreateWarehouseRequestsTable.html", "df/d50/classCreateWarehouseRequestsTable" ],
     [ "CreateWarehousesTable", "d8/dac/classCreateWarehousesTable.html", "d8/dac/classCreateWarehousesTable" ],
+    [ "DataImports", "d0/df0/classDataImports.html", null ],
+    [ "DeleleBankMovement", "d7/d1c/classDeleleBankMovement.html", null ],
     [ "DeleteFieldCalculationWayToPayrollConceptsTable", "df/d78/classDeleteFieldCalculationWayToPayrollConceptsTable.html", "df/d78/classDeleteFieldCalculationWayToPayrollConceptsTable" ],
     [ "DeleteFieldContactsToPurchaseSuppliersTable", "d3/dc9/classDeleteFieldContactsToPurchaseSuppliersTable.html", "d3/dc9/classDeleteFieldContactsToPurchaseSuppliersTable" ],
+    [ "DeleteFieldDescriptionToSaleOrdersTable", "d3/d35/classDeleteFieldDescriptionToSaleOrdersTable.html", "d3/d35/classDeleteFieldDescriptionToSaleOrdersTable" ],
     [ "DeleteFieldDocumentIdToAssetRequestEventsTable", "d2/d36/classDeleteFieldDocumentIdToAssetRequestEventsTable.html", "d2/d36/classDeleteFieldDocumentIdToAssetRequestEventsTable" ],
+    [ "DeleteFieldFromPayrollSalaryAdjustmentsTable", "d9/dc6/classDeleteFieldFromPayrollSalaryAdjustmentsTable.html", "d9/dc6/classDeleteFieldFromPayrollSalaryAdjustmentsTable" ],
     [ "DeleteFieldMeasurementUnitIdToWarehouseInventoryProductsTable", "da/d32/classDeleteFieldMeasurementUnitIdToWarehouseInventoryProductsTable.html", "da/d32/classDeleteFieldMeasurementUnitIdToWarehouseInventoryProductsTable" ],
     [ "DeleteFieldNameToProjectTrackingActivities", "d3/dbe/classDeleteFieldNameToProjectTrackingActivities.html", "d3/dbe/classDeleteFieldNameToProjectTrackingActivities" ],
     [ "DeleteFieldPurchaseProcessesIdToPurchasePlans", "df/d97/classDeleteFieldPurchaseProcessesIdToPurchasePlans.html", "df/d97/classDeleteFieldPurchaseProcessesIdToPurchasePlans" ],
@@ -1273,13 +1811,17 @@ var annotated_dup =
     [ "DeleteFieldsFromPayrollVacationPoliciesTable", "d9/d1e/classDeleteFieldsFromPayrollVacationPoliciesTable.html", "d9/d1e/classDeleteFieldsFromPayrollVacationPoliciesTable" ],
     [ "DeleteFieldsToPayrollPaymentTypes", "d2/dea/classDeleteFieldsToPayrollPaymentTypes.html", "d2/dea/classDeleteFieldsToPayrollPaymentTypes" ],
     [ "DeleteFieldsToPayrollProfessionalInformationsTable", "d5/d7c/classDeleteFieldsToPayrollProfessionalInformationsTable.html", "d5/d7c/classDeleteFieldsToPayrollProfessionalInformationsTable" ],
+    [ "DeleteFieldSuspendedYearsToPayrollSuspensionVacationRequestsTable", "df/d42/classDeleteFieldSuspendedYearsToPayrollSuspensionVacationRequestsTable.html", "df/d42/classDeleteFieldSuspendedYearsToPayrollSuspensionVacationRequestsTable" ],
     [ "DeleteFieldToPayrollProfessionalInformationsTable", "db/d63/classDeleteFieldToPayrollProfessionalInformationsTable.html", "db/d63/classDeleteFieldToPayrollProfessionalInformationsTable" ],
     [ "DeleteFieldUniformSizeToPayrollStaffsTable", "d0/da2/classDeleteFieldUniformSizeToPayrollStaffsTable.html", "d0/da2/classDeleteFieldUniformSizeToPayrollStaffsTable" ],
     [ "DeletePayrollPaymentTypeIdToPayrollConceptAssignOptionsTable", "dc/d24/classDeletePayrollPaymentTypeIdToPayrollConceptAssignOptionsTable.html", "dc/d24/classDeletePayrollPaymentTypeIdToPayrollConceptAssignOptionsTable" ],
     [ "DeletePayrollSalaryAssignmentTypesTable", "de/df2/classDeletePayrollSalaryAssignmentTypesTable.html", "de/df2/classDeletePayrollSalaryAssignmentTypesTable" ],
     [ "DeletePurchaseSupplierObjectIdToPurchaseSuppliersTable", "db/d65/classDeletePurchaseSupplierObjectIdToPurchaseSuppliersTable.html", "db/d65/classDeletePurchaseSupplierObjectIdToPurchaseSuppliersTable" ],
+    [ "DeletePurchaseSupplierTypeIdToPurchaseRequirementsTable", "d2/db0/classDeletePurchaseSupplierTypeIdToPurchaseRequirementsTable.html", "d2/db0/classDeletePurchaseSupplierTypeIdToPurchaseRequirementsTable" ],
+    [ "DeletePurchaseTypeOperationIdToPurchasePlansTable", "d4/d2d/classDeletePurchaseTypeOperationIdToPurchasePlansTable.html", "d4/d2d/classDeletePurchaseTypeOperationIdToPurchasePlansTable" ],
     [ "DeleteSaleCodeFormatsTable", "d5/d4a/classDeleteSaleCodeFormatsTable.html", "d5/d4a/classDeleteSaleCodeFormatsTable" ],
     [ "DeleteTablePayrollSalaryAssignmentsTable", "d3/d66/classDeleteTablePayrollSalaryAssignmentsTable.html", "d3/d66/classDeleteTablePayrollSalaryAssignmentsTable" ],
+    [ "DeleteTablesSeatTable", "d2/d0c/classDeleteTablesSeatTable.html", "d2/d0c/classDeleteTablesSeatTable" ],
     [ "Dependency", "d9/de7/classDependency.html", null ],
     [ "DropFieldsToPurchaseServicesTable", "d8/dce/classDropFieldsToPurchaseServicesTable.html", "d8/dce/classDropFieldsToPurchaseServicesTable" ],
     [ "DropPayrollEmploymentInformationsTable", "d6/d07/classDropPayrollEmploymentInformationsTable.html", "d6/d07/classDropPayrollEmploymentInformationsTable" ],
@@ -1294,9 +1836,7 @@ var annotated_dup =
     [ "ParishTableSeeder", "d0/da4/classParishTableSeeder.html", null ],
     [ "PaymentMethod", "d1/d34/classPaymentMethod.html", null ],
     [ "PayrollGenderController", "d5/d39/classPayrollGenderController.html", null ],
-    [ "PayrollGendersTableSeeder", "dd/d13/classPayrollGendersTableSeeder.html", null ],
     [ "PayrollInactivityTipesTableSeeder", "da/d5a/classPayrollInactivityTipesTableSeeder.html", null ],
-    [ "PayrollSendReceiptsJob", "d3/d31/classPayrollSendReceiptsJob.html", null ],
     [ "php", "d2/d38/classAddFieldCodeToSaleOrdersTable_1_1php.html", null ],
     [ "Position", "da/d8b/classPosition.html", null ],
     [ "PositionController", "d2/d64/classPositionController.html", null ],
@@ -1306,6 +1846,8 @@ var annotated_dup =
     [ "ProjectTrackingSubProject", "d8/d88/classProjectTrackingSubProject.html", null ],
     [ "PurchaseStage", "dc/d92/classPurchaseStage.html", null ],
     [ "RemoveAssetRequiredItemsTable", "de/d61/classRemoveAssetRequiredItemsTable.html", "de/d61/classRemoveAssetRequiredItemsTable" ],
+    [ "RemoveFieldDepartmentIdToAccountingSeatsTable", "dc/d8f/classRemoveFieldDepartmentIdToAccountingSeatsTable.html", "dc/d8f/classRemoveFieldDepartmentIdToAccountingSeatsTable" ],
+    [ "RemoveFieldDescriptionToSaleOrdersTable", "d4/d07/classRemoveFieldDescriptionToSaleOrdersTable.html", "d4/d07/classRemoveFieldDescriptionToSaleOrdersTable" ],
     [ "RemoveFieldNameToSaleServicesTable", "db/d83/classRemoveFieldNameToSaleServicesTable.html", "db/d83/classRemoveFieldNameToSaleServicesTable" ],
     [ "RemoveFieldPayrollRoleIdToPayrollEmploymentInformationsTable", "df/d1d/classRemoveFieldPayrollRoleIdToPayrollEmploymentInformationsTable.html", "df/d1d/classRemoveFieldPayrollRoleIdToPayrollEmploymentInformationsTable" ],
     [ "RemoveFieldsToPayrollStaffsTable", "d4/d09/classRemoveFieldsToPayrollStaffsTable.html", null ],
@@ -1316,10 +1858,17 @@ var annotated_dup =
     [ "RemoveTablePayrollRoleTable", "d5/d28/classRemoveTablePayrollRoleTable.html", "d5/d28/classRemoveTablePayrollRoleTable" ],
     [ "RemoveTablePayrollWorkAgeSettingsTable", "d5/d01/classRemoveTablePayrollWorkAgeSettingsTable.html", "d5/d01/classRemoveTablePayrollWorkAgeSettingsTable" ],
     [ "RenameAccountingEntryCategoriesIdInAccountingEntriesTable", "d8/d4a/classRenameAccountingEntryCategoriesIdInAccountingEntriesTable.html", "d8/d4a/classRenameAccountingEntryCategoriesIdInAccountingEntriesTable" ],
-    [ "RenamePurchaseQuotationId", "d6/dc8/classRenamePurchaseQuotationId.html", "d6/dc8/classRenamePurchaseQuotationId" ],
+    [ "RenameFieldNameToAccountingReportHistoriesTable", "db/d2c/classRenameFieldNameToAccountingReportHistoriesTable.html", "db/d2c/classRenameFieldNameToAccountingReportHistoriesTable" ],
+    [ "RenameGeneratedByIdInAccountingSeatsTable", "d8/db6/classRenameGeneratedByIdInAccountingSeatsTable.html", "d8/db6/classRenameGeneratedByIdInAccountingSeatsTable" ],
+    [ "RenameProjecttrackingStaffClassificationsToProjectTrackingStaffClassifications", "d7/dd3/classRenameProjecttrackingStaffClassificationsToProjectTrackingStaffClassifications.html", "d7/dd3/classRenameProjecttrackingStaffClassificationsToProjectTrackingStaffClassifications" ],
+    [ "RenamePurchaseQuotationId", "d6/dc8/classRenamePurchaseQuotationId.html", null ],
+    [ "ResetAccountingReportHistoriesTable", "dc/df4/classResetAccountingReportHistoriesTable.html", "dc/df4/classResetAccountingReportHistoriesTable" ],
+    [ "ResetAllTables", "d7/d0b/classResetAllTables.html", "d7/d0b/classResetAllTables" ],
     [ "RolesServiceProvider", "da/de3/classRolesServiceProvider.html", null ],
     [ "SaleQuoteControlle", "d9/df6/classSaleQuoteControlle.html", null ],
     [ "SaleServiceRequeriment", "d5/dee/classSaleServiceRequeriment.html", null ],
+    [ "ServiceController", "d8/d1d/classServiceController.html", null ],
+    [ "SetDefaultCurrencyIdToBudgetModificationsTable", "df/d56/classSetDefaultCurrencyIdToBudgetModificationsTable.html", "df/d56/classSetDefaultCurrencyIdToBudgetModificationsTable" ],
     [ "StaffClassificationController", "d6/d14/classStaffClassificationController.html", null ],
     [ "StaffTypeController", "da/d7f/classStaffTypeController.html", null ],
     [ "UdateFieldForeingPayrollGenderIdToPayrollStaffsTable", "df/d86/classUdateFieldForeingPayrollGenderIdToPayrollStaffsTable.html", "df/d86/classUdateFieldForeingPayrollGenderIdToPayrollStaffsTable" ],
@@ -1328,11 +1877,13 @@ var annotated_dup =
     [ "UpdateConstraintToAssetCategoriesTable", "dc/dd7/classUpdateConstraintToAssetCategoriesTable.html", "dc/dd7/classUpdateConstraintToAssetCategoriesTable" ],
     [ "UpdateConstraintToAssetSubcategoriesTable", "d2/d42/classUpdateConstraintToAssetSubcategoriesTable.html", "d2/d42/classUpdateConstraintToAssetSubcategoriesTable" ],
     [ "UpdateContraintToAssetSpecificCategoriesTable", "dc/db7/classUpdateContraintToAssetSpecificCategoriesTable.html", "dc/db7/classUpdateContraintToAssetSpecificCategoriesTable" ],
+    [ "UpdateDataToPayrollConceptsTable", "da/d00/classUpdateDataToPayrollConceptsTable.html", "da/d00/classUpdateDataToPayrollConceptsTable" ],
     [ "UpdateDescriptionFieldToProjectTrackingDependenciesTable", "dd/de6/classUpdateDescriptionFieldToProjectTrackingDependenciesTable.html", "dd/de6/classUpdateDescriptionFieldToProjectTrackingDependenciesTable" ],
     [ "UpdateDescriptionFieldToProjectTrackingProjectTypesTable", "db/d37/classUpdateDescriptionFieldToProjectTrackingProjectTypesTable.html", "db/d37/classUpdateDescriptionFieldToProjectTrackingProjectTypesTable" ],
     [ "UpdateDescriptionFieldToProjectTrackingTypeProductsTable", "dd/d22/classUpdateDescriptionFieldToProjectTrackingTypeProductsTable.html", "dd/d22/classUpdateDescriptionFieldToProjectTrackingTypeProductsTable" ],
+    [ "UpdateFieldAccountingAccountIdToAccountablesTable", "d1/d4a/classUpdateFieldAccountingAccountIdToAccountablesTable.html", "d1/d4a/classUpdateFieldAccountingAccountIdToAccountablesTable" ],
     [ "UpdateFieldAcquisitionYearToAssetsTable", "db/d9f/classUpdateFieldAcquisitionYearToAssetsTable.html", "db/d9f/classUpdateFieldAcquisitionYearToAssetsTable" ],
-    [ "UpdateFieldConceptToFinanceBankingMovementsTable", "df/d5c/classUpdateFieldConceptToFinanceBankingMovementsTable.html", "df/d5c/classUpdateFieldConceptToFinanceBankingMovementsTable" ],
+    [ "UpdateFieldAddressToPayrollStaffsTable", "d9/df9/classUpdateFieldAddressToPayrollStaffsTable.html", "d9/df9/classUpdateFieldAddressToPayrollStaffsTable" ],
     [ "UpdateFieldDescriptionToPayrollTimeSheetParametersTable", "dc/db9/classUpdateFieldDescriptionToPayrollTimeSheetParametersTable.html", "dc/db9/classUpdateFieldDescriptionToPayrollTimeSheetParametersTable" ],
     [ "UpdateFieldDescriptionToPurchaseTypesTable", "dc/d8c/classUpdateFieldDescriptionToPurchaseTypesTable.html", "dc/d8c/classUpdateFieldDescriptionToPurchaseTypesTable" ],
     [ "UpdateFieldNameToPayrollBloodTypesTable", "db/d27/classUpdateFieldNameToPayrollBloodTypesTable.html", "db/d27/classUpdateFieldNameToPayrollBloodTypesTable" ],
@@ -1352,6 +1903,8 @@ var annotated_dup =
     [ "UpdateFieldNameToProjectTrackingStaffClassificationsTable", "d0/db9/classUpdateFieldNameToProjectTrackingStaffClassificationsTable.html", null ],
     [ "UpdateFieldNewValueToWarehouseInventoryProductMovementsTable", "de/dec/classUpdateFieldNewValueToWarehouseInventoryProductMovementsTable.html", "de/dec/classUpdateFieldNewValueToWarehouseInventoryProductMovementsTable" ],
     [ "UpdateFieldNullableToPayrollPaymentTypesTable", "d4/d08/classUpdateFieldNullableToPayrollPaymentTypesTable.html", "d4/d08/classUpdateFieldNullableToPayrollPaymentTypesTable" ],
+    [ "UpdateFieldPaymentStatusToPayrollPaymentPeriodsTable", "d8/d48/classUpdateFieldPaymentStatusToPayrollPaymentPeriodsTable.html", "d8/d48/classUpdateFieldPaymentStatusToPayrollPaymentPeriodsTable" ],
+    [ "UpdateFieldPayOrderToPayrollConceptsTable", "de/d31/classUpdateFieldPayOrderToPayrollConceptsTable.html", "de/d31/classUpdateFieldPayOrderToPayrollConceptsTable" ],
     [ "UpdateFieldPayrollParametersToPayrollsTable", "df/d2e/classUpdateFieldPayrollParametersToPayrollsTable.html", "df/d2e/classUpdateFieldPayrollParametersToPayrollsTable" ],
     [ "UpdateFieldPayrollPositionIdToPayrollPreviousJobsTable", "d5/dbb/classUpdateFieldPayrollPositionIdToPayrollPreviousJobsTable.html", "d5/dbb/classUpdateFieldPayrollPositionIdToPayrollPreviousJobsTable" ],
     [ "UpdateFieldPayrollProfessionalIdToPayrollClassSchedulesTable", "d7/dfa/classUpdateFieldPayrollProfessionalIdToPayrollClassSchedulesTable.html", "d7/dfa/classUpdateFieldPayrollProfessionalIdToPayrollClassSchedulesTable" ],
@@ -1363,9 +1916,12 @@ var annotated_dup =
     [ "UpdateFieldsPayrollScalesTable", "dd/da3/classUpdateFieldsPayrollScalesTable.html", "dd/da3/classUpdateFieldsPayrollScalesTable" ],
     [ "UpdateFieldsToAssetReportsTable", "dd/dc8/classUpdateFieldsToAssetReportsTable.html", "dd/dc8/classUpdateFieldsToAssetReportsTable" ],
     [ "UpdateFieldsToAssetTable", "dd/d6a/classUpdateFieldsToAssetTable.html", null ],
+    [ "UpdateFieldsToBudgetCentralizedActionsTable", "dc/db4/classUpdateFieldsToBudgetCentralizedActionsTable.html", "dc/db4/classUpdateFieldsToBudgetCentralizedActionsTable" ],
+    [ "UpdateFieldsToBudgetCompromisesTable", "d4/d03/classUpdateFieldsToBudgetCompromisesTable.html", "d4/d03/classUpdateFieldsToBudgetCompromisesTable" ],
+    [ "UpdateFieldsToBudgetProjectsTable", "dc/d43/classUpdateFieldsToBudgetProjectsTable.html", "dc/d43/classUpdateFieldsToBudgetProjectsTable" ],
+    [ "UpdateFieldsToBudgetStagesTable", "dc/d00/classUpdateFieldsToBudgetStagesTable.html", "dc/d00/classUpdateFieldsToBudgetStagesTable" ],
     [ "UpdateFieldsToCitizenServiceRegistersTable", "dc/d1d/classUpdateFieldsToCitizenServiceRegistersTable.html", "dc/d1d/classUpdateFieldsToCitizenServiceRegistersTable" ],
-    [ "UpdateFieldsToFinanceBankingMovementsTable", "db/d51/classUpdateFieldsToFinanceBankingMovementsTable.html", "db/d51/classUpdateFieldsToFinanceBankingMovementsTable" ],
-    [ "UpdateFieldsToFinancePaymentDeductionsTable", "dd/dae/classUpdateFieldsToFinancePaymentDeductionsTable.html", "dd/dae/classUpdateFieldsToFinancePaymentDeductionsTable" ],
+    [ "UpdateFieldsToCitizenserviceRequestsTable", "d8/d4d/classUpdateFieldsToCitizenserviceRequestsTable.html", "d8/d4d/classUpdateFieldsToCitizenserviceRequestsTable" ],
     [ "UpdateFieldsToPayrollConceptsTable", "d0/d1c/classUpdateFieldsToPayrollConceptsTable.html", "d0/d1c/classUpdateFieldsToPayrollConceptsTable" ],
     [ "UpdateFieldsToPayrollEmploymentsTable", "d8/d10/classUpdateFieldsToPayrollEmploymentsTable.html", "d8/d10/classUpdateFieldsToPayrollEmploymentsTable" ],
     [ "UpdateFieldsToPayrollFinancialsTable", "d1/d7c/classUpdateFieldsToPayrollFinancialsTable.html", "d1/d7c/classUpdateFieldsToPayrollFinancialsTable" ],
@@ -1380,10 +1936,11 @@ var annotated_dup =
     [ "UpdateFieldsToProjectTrackingProductsTable", "d5/dc9/classUpdateFieldsToProjectTrackingProductsTable.html", "d5/dc9/classUpdateFieldsToProjectTrackingProductsTable" ],
     [ "UpdateFieldsToProjectTrackingProjectsTable", "db/d09/classUpdateFieldsToProjectTrackingProjectsTable.html", "db/d09/classUpdateFieldsToProjectTrackingProjectsTable" ],
     [ "UpdateFieldsToProjectTrackingSubProjectsTable", "d8/d98/classUpdateFieldsToProjectTrackingSubProjectsTable.html", "d8/d98/classUpdateFieldsToProjectTrackingSubProjectsTable" ],
-    [ "UpdateFieldsToSaleBillInventoryProductsTable", "d3/de1/classUpdateFieldsToSaleBillInventoryProductsTable.html", null ],
     [ "UpdateFieldsToSaleBillsTable", "de/df9/classUpdateFieldsToSaleBillsTable.html", "de/df9/classUpdateFieldsToSaleBillsTable" ],
     [ "UpdateFieldsToSaleClients", "d6/d3b/classUpdateFieldsToSaleClients.html", "d6/d3b/classUpdateFieldsToSaleClients" ],
     [ "UpdateFieldsToSaleTechnicalProposalsTable", "da/d49/classUpdateFieldsToSaleTechnicalProposalsTable.html", "da/d49/classUpdateFieldsToSaleTechnicalProposalsTable" ],
+    [ "UpdateFieldsToSaleWarehouseInstitutionWarehousesTable", "dc/db7/classUpdateFieldsToSaleWarehouseInstitutionWarehousesTable.html", "dc/db7/classUpdateFieldsToSaleWarehouseInstitutionWarehousesTable" ],
+    [ "UpdateFieldsToSaleWarehouseInventoryProductsTable", "d1/d67/classUpdateFieldsToSaleWarehouseInventoryProductsTable.html", "d1/d67/classUpdateFieldsToSaleWarehouseInventoryProductsTable" ],
     [ "UpdateFieldsToSignprofilesTable", "d6/d51/classUpdateFieldsToSignprofilesTable.html", "d6/d51/classUpdateFieldsToSignprofilesTable" ],
     [ "UpdateFieldsToWarehouseReportsTable", "d3/d31/classUpdateFieldsToWarehouseReportsTable.html", "d3/d31/classUpdateFieldsToWarehouseReportsTable" ],
     [ "UpdateFieldsUniqueToBudgetCompromisesTable", "db/d93/classUpdateFieldsUniqueToBudgetCompromisesTable.html", "db/d93/classUpdateFieldsUniqueToBudgetCompromisesTable" ],
@@ -1411,6 +1968,7 @@ var annotated_dup =
     [ "UpdateSaleQuoteTable", "d0/d9c/classUpdateSaleQuoteTable.html", "d0/d9c/classUpdateSaleQuoteTable" ],
     [ "UpdateSaleSettingProductsTable", "d5/dc4/classUpdateSaleSettingProductsTable.html", "d5/dc4/classUpdateSaleSettingProductsTable" ],
     [ "UpdateSaleWarehouseMovements", "d5/d74/classUpdateSaleWarehouseMovements.html", "d5/d74/classUpdateSaleWarehouseMovements" ],
+    [ "updateStatusPayOrder", "d2/d32/classupdateStatusPayOrder.html", null ],
     [ "UpdateTaxIdFieldToBudgetCompromiseDetailsTable", "d8/db1/classUpdateTaxIdFieldToBudgetCompromiseDetailsTable.html", "d8/db1/classUpdateTaxIdFieldToBudgetCompromiseDetailsTable" ],
     [ "UpdateUniqueFieldSerialToAssetsTable", "d9/d4d/classUpdateUniqueFieldSerialToAssetsTable.html", "d9/d4d/classUpdateUniqueFieldSerialToAssetsTable" ],
     [ "WarehouseInstitutionWarehouse", "d0/d2b/classWarehouseInstitutionWarehouse.html", null ],

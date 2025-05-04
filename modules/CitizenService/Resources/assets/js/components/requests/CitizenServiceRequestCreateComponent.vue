@@ -50,13 +50,6 @@
                                title="Indique la cédula de identidad del solicitante" v-model="record.id_number">
                     </div>
                 </div>
-                <div class="col-md-4" id="helpCitizenServiceEmail">
-                    <div class="form-group is-required">
-                        <label for="email">Correo electrónico</label>
-                        <input type="email" id="email" class="form-control input-sm" data-toggle="tooltip"
-                               title="Indique el correo electrónico del solicitante" v-model="record.email">
-                    </div>
-                </div>
 				<div class="col-md-4" id="helpCitizenServiceRequestBirthDate">
                     <div class="form-group">
                         <label for="birth_date">Fecha de nacimiento</label>
@@ -77,6 +70,41 @@
                                        'allowMinus': 'false',
                                        'digits': 0"
                             v-model="record.age" />
+                    </div>
+                </div>
+                <div class="col-md-4" id="helpCitizenServiceEmail">
+                    <div class="form-group is-required">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" class="form-control input-sm" data-toggle="tooltip"
+                               title="Indique el correo electrónico del solicitante" v-model="record.email">
+                    </div>
+                </div>
+				<div v-if="isPayrollActive" class="col-md-4" id="helpCitizenGenderId">
+					<div class="form-group is-required">
+						<label for="gender_id">Género</label>
+						<select2  id="input_gender_id" :options="genders" v-model="record.gender_id"></select2>
+					</div>
+				</div>
+				<div v-else class="col-md-4" id="helpCitizenServiceRequestGender">
+                    <div class="form-group is-required">
+                        <label for="gender">Género</label>
+                        <input type="text" class="form-control input-sm" data-toggle="tooltip"
+							   v-input-mask data-inputmask-regex="[a-zA-ZÁ-ÿ\s]*"
+                               title="Indique el género del solicitante" v-model="record.gender">
+                    </div>
+                </div>
+				<div v-if="isPayrollActive" class="col-md-4" id="helpCitizenNationalityId">
+					<div class="form-group is-required">
+						<label for="nationality_id">Nacionalidad</label>
+						<select2  id="input_nationality_id" :options="nationalities" v-model="record.nationality_id"></select2>
+					</div>
+				</div>
+				<div v-else class="col-md-4" id="helpCitizenServiceRequestNationality">
+                    <div class="form-group is-required">
+                        <label for="nationality">Nacionalidad</label>
+                        <input type="text" class="form-control input-sm" data-toggle="tooltip"
+							   v-input-mask data-inputmask-regex="[a-zA-ZÁ-ÿ\s]*"
+                               title="Indique la nacionalidad del solicitante" v-model="record.nationality">
                     </div>
                 </div>
             </div>
@@ -127,7 +155,10 @@
                 </div>
             </div>
             <hr>
-		    <div class="row">
+			<h6 class="card-title">
+                Datos de Ubicación del Solicitante
+            </h6>
+			<div class="row">
 		    	<div class="col-md-4">
 					<div class="form-group is-required" id="helpCitizenServiceCountry">
 						<label for="countries">País</label>
@@ -165,6 +196,109 @@
                                title="Indique la dirección" v-model="record.address">
 					</div>
 				</div>
+				<div class="col-md-12" id="helpCitizenServiceRequestCommunity">
+                    <div class="form-group">
+                        <label>Comunidad:</label>
+                        <div class="col-md-12">
+                            <div class="custom-control custom-switch" data-toggle="tooltip"
+                                 title="Indique si la persona solitiante pertenece a una comunidad">
+                                <input type="radio" class="custom-control-input" @click="resetInfo()" id="active_community" name="active_community"
+                                       v-model="record.community" value="community">
+                                <label class="custom-control-label" for="active_community"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div v-if="record.community == 'community'" class="col-md-12">
+						<b>Datos de la Comunidad</b>
+				</div>
+				<div v-if="record.community == 'community'" class="col-md-4">
+                    <div class="form-group is-required">
+                        <label for="location">Ubicación</label>
+                        <input type="text" class="form-control input-sm" data-toggle="tooltip"
+							   v-input-mask data-inputmask-regex="[a-zA-ZÁ-ÿ\s]*"
+                               title="Indique la ubicación del solicitante" v-model="record.location">
+                    </div>
+                </div>
+				<div v-if="record.community == 'community'" class="col-md-4">
+                    <div class="form-group is-required">
+                        <label for="commune">Comuna</label>
+                        <input type="text" class="form-control input-sm" data-toggle="tooltip"
+							   v-input-mask data-inputmask-regex="[a-zA-ZÁ-ÿ\s]*"
+                               title="Indique la comuna al que pertenece el solicitante" v-model="record.commune">
+                    </div>
+                </div>
+				<div v-if="record.community == 'community'" class="col-md-4">
+                    <div class="form-group is-required">
+                        <label for="communal_council">Consejo Comunal</label>
+                        <input type="text" class="form-control input-sm" data-toggle="tooltip"
+							   v-input-mask data-inputmask-regex="[a-zA-ZÁ-ÿ\s]*"
+                               title="Indique el consejo comunal al que pertenece el solicitante" v-model="record.communal_council">
+                    </div>
+                </div>
+				<div class="col-md-12">
+					<div v-if="record.community == 'community'" class="col-md-4">
+						<div class="form-group is-required">
+							<label for="population_size">Cantidad de habitantes</label>
+							<input type="number" class="form-control input-sm" :step="1" min="1" data-toggle="tooltip"
+								   title="Indique la cantidad de habitantes de la comunidad" v-model="record.population_size">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4" id="helpCitizenServiceTypeInstitution">
+    				<div class="form-group">
+    					<label>Institución</label>
+    					<div class="col-md-12">
+							<div class="custom-control custom-switch">
+								<input type="checkbox" class="custom-control-input" id="type_institution"
+									   name="type_institution" v-model="record.type_institution" :value="true">
+								<label class="custom-control-label" for="type_institution"></label>
+							</div>
+    					</div>
+    				</div>
+    			</div>
+				<div class="row col-md-12" v-show="this.record.type_institution">
+					<div class="col-md-12">
+						<b>Datos de la institución</b>
+					</div>
+            	        <div class="col-md-4">
+							<div class="form-group is-required">
+								<label for="institution_name">Nombre de la institución</label>
+        						<input type="text" id="institution_name" class="form-control input-sm" data-toggle="tooltip"
+        						 	   v-input-mask data-inputmask-regex="[a-zA-ZÁ-ÿ\s]*"
+            	                       title="Indique el nombre de la institución" v-model="record.institution_name">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group is-required">
+								<label for="rif">RIF</label>
+        						<input type="text" id="rif" class="form-control input-sm" data-toggle="tooltip"
+									   placeholder="J000000000"
+            	                       title="Indique el rif de la institución" v-model="record.rif">
+            	            </div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group is-required">
+								<label for="institution_address">Dirección de la institución</label>
+        						<input type="text" id="institution_address" class="form-control input-sm"
+            	                       data-toggle="tooltip" title="Indique la dirección de la institución"
+            	                       v-model="record.institution_address">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="web">Dirección web</label>
+        						<input type="url" id="web" class="form-control input-sm" data-toggle="tooltip"
+            	                       title="Indique la dirección web" v-model="record.web">
+							</div>
+						</div>
+				</div>
+			</div>
+			<hr>
+			<h6 class="card-title">
+                Datos de la Solicitud
+            </h6>
+			<div class="row">
 				<div class="col-md-4" id="helpCitizenServiceMotiveRequest">
 					<div class="form-group is-required">
 						<label for="motive_request">Motivo de la solicitud</label>
@@ -174,9 +308,9 @@
 				</div>
 				<div class="col-md-4" id="helpCitizenServiceAttribute">
 					<div class="form-group is-required">
-						<label for="attribute">Atributos de la solicitud</label>
+						<label for="attribute">Descripción de la solicitud</label>
     					<input type="text" id="attribute" class="form-control input-sm" data-toggle="tooltip"
-                               title="Indique los atributos" v-model="record.attribute">
+                               title="Indique la descripción de la solicitud" v-model="record.attribute">
 					</div>
 				</div>
 				<div class="col-md-4" id="helpCitizenServiceRequestType">
@@ -277,58 +411,13 @@
 				<div class="col-md-4" id="helpCitizenServiceDepartment">
 					<div class="form-group is-required">
 						<label for="citizenserviceDepartment">Departamento</label>
-						<select2 :options="citizen_service_departments" v-model="record.citizen_service_department_id"></select2>
+						<select2 :options="citizen_service_departments" v-model="record.citizen_service_department_id" @input="setDirector()"></select2>
 					</div>
 				</div>
-			</div>
-    			<div class="col-md-4" id="helpCitizenServiceTypeInstitution">
-    				<div class="form-group">
-    					<label>Institución</label>
-    					<div class="col-12">
-							<div class="custom-control custom-switch">
-								<input type="checkbox" class="custom-control-input" id="type_institution"
-									   name="type_institution" v-model="record.type_institution" :value="true">
-								<label class="custom-control-label" for="type_institution"></label>
-							</div>
-    					</div>
-    				</div>
-    			</div>
-
-			<div v-show="this.record.type_institution">
-				<div class="col-md-12">
-					<b>Datos de la institución</b>
-				</div>
-				<div class="row">
-                    <div class="col-md-4">
-						<div class="form-group is-required">
-							<label for="institution_name">Nombre de la institución</label>
-        					<input type="text" id="institution_name" class="form-control input-sm" data-toggle="tooltip"
-        					 	   v-input-mask data-inputmask-regex="[a-zA-ZÁ-ÿ\s]*"
-                                   title="Indique el nombre de la institución" v-model="record.institution_name">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group is-required">
-							<label for="rif">RIF</label>
-        					<input type="text" id="rif" class="form-control input-sm" data-toggle="tooltip"
-								   placeholder="J000000000"
-                                   title="Indique el rif de la institución" v-model="record.rif">
-                        </div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group is-required">
-							<label for="institution_address">Dirección de la institución</label>
-        					<input type="text" id="institution_address" class="form-control input-sm"
-                                   data-toggle="tooltip" title="Indique la dirección de la institución"
-                                   v-model="record.institution_address">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="web">Dirección web</label>
-        					<input type="url" id="web" class="form-control input-sm" data-toggle="tooltip"
-                                   title="Indique la dirección web" v-model="record.web">
-						</div>
+				<div v-if="isPayrollActive" class="col-md-4" id="helpCitizenDirectorId">
+					<div class="form-group is-required">
+						<label for="director_id">Director y/o responsable de la solicitud</label>
+						<select2  id="input_director_id" :options="payroll_staffs" v-model="record.director_id" disabled></select2>
 					</div>
 				</div>
 			</div>
@@ -354,13 +443,22 @@
 </template>
 
 <script>
-	//import moment from 'moment';
 	export default {
 		data() {
 			return {
 				record: {
 					id: '',
 					date: '',
+					gender_id: '',
+					gender: '',
+					nationality_id: '',
+					nationality: '',
+					community: 'notCommunity',
+					location: '',
+					commune: '',
+					communal_council: '',
+					population_size: '',
+					director_id: '',
 					first_name: '',
 					last_name: '',
 					id_number: '',
@@ -398,6 +496,8 @@
 				},
 				errors: [],
 				records: [],
+				genders: [],
+				nationalities: [],
 				countries: [],
 				estates: [],
 				cities: [],
@@ -407,16 +507,16 @@
 				citizen_service_request_types: [],
 				citizen_service_departments: [],
 				citizen_service_documents: [],
+				payroll_staffs: [],
+				department_info: [],
+				director_info: [],
+				payroll: "",
 
 				mindate: "1900-01-01",
 				maxdate: "2099-12-31",
 			}
 		},
 		methods: {
-            // getCurrentDate() {
-            //     let date = new Date().toISOString().split("T")[0];
-            //     return date;
-            // },
 			async loadForm(id){
 				const vm = this;
 
@@ -429,13 +529,20 @@
 			},
 			/**
 			 * Método que borra todos los datos del formulario
-			 *
-			 *
 			 */
 			reset() {
 				this.record = {
 					id: '',
 					date: '',
+					gender_id: '',
+					gender: '',
+					nationality_id: '',
+					nationality: '',
+					community: 'notCommunity',
+					location: '',
+					commune: '',
+					communal_council: '',
+					population_size: '',
 					first_name: '',
 					last_name: '',
 					id_number: '',
@@ -473,6 +580,46 @@
 				};
 				this.citizenServiceRequestType = '';
 			},
+			resetInfo() {
+				const vm = this;
+				if (vm.record.community == 'community') {
+					vm.record.community = 'notCommunity';
+				}
+			},
+			getCitizenServiceDepartments() {
+				this.citizen_service_departments = [];
+				axios.get(`${window.app_url}/citizenservice/get-departments`).then(response => {
+					this.citizen_service_departments = response.data;
+					this.department_info = response.data;
+				});
+
+			},
+			setDirector() {
+				const vm = this;
+				vm.director_info = Object.values(vm.department_info).find(
+					department => department.id == vm.record.citizen_service_department_id);
+				if (vm.director_info) {
+					vm.record.director_id = vm.director_info.director_id;
+				}
+			},
+			getGenders() {
+				const vm = this;
+				axios.get(`${window.app_url}/get-genders`).then(response => {
+        			vm.genders = response.data;
+      			});
+			},
+			getNationalities() {
+				const vm = this;
+				axios.get(`${window.app_url}/payroll/get-nationalities`).then(response => {
+        			vm.nationalities = response.data;
+      			});
+			},
+			getPayrollStaffs() {
+      			const vm = this;
+      			axios.get(`${window.app_url}/payroll/get-staffs`).then(response => {
+        			vm.payroll_staffs = response.data;
+      			});
+			},
 			getCitizenServiceRequestType() {
                 const vm = this;
                 $.each(vm.citizen_service_request_types, function(index, field) {
@@ -492,18 +639,21 @@
 		},
 		mounted() {
 			const vm = this;
-			
+			vm.getGenders();
+			vm.getNationalities();
+			vm.getPayrollStaffs();
+
 			if(this.requestid){
 				this.loadForm(this.requestid);
 			}
-            // else {
-            //     vm.record.date = moment(String(new Date())).format('YYYY-MM-DD');
-            // }
 		},
 		props: {
 			requestid: {
                 type: Number
             },
+			isPayrollActive: {
+				type: String
+			}
 		},
 		created() {
 			const vm = this;

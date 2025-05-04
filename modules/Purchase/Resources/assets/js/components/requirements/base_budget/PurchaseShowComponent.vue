@@ -134,8 +134,8 @@
                                 </thead>
                                 <tbody>
                                     <tr
-                                        v-for="x in purchase_requirement_items"
-                                        class="row"
+                                        v-for="(x, index) in purchase_requirement_items"
+                                        class="row" :key="index"
                                     >
                                         <td
                                             style="border: 1px solid #dee2e6;"
@@ -280,7 +280,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="account in records.availabilityitem">
+                                    <tr v-for="(account, index) in records.availabilityitem" :key="index">
                                         <td class="col-md-3 text-center">
                                             {{ account.item_code }}
                                         </td>
@@ -374,7 +374,7 @@
                             </div>
                             <div class="col-3">
                                 <strong class="d-block">Firmado por</strong>
-                                {{ 
+                                {{
                                     records.purchase_requirement
                                     && records.purchase_requirement.second_signature
                                     ? records.purchase_requirement.second_signature.payroll_staff
@@ -422,30 +422,17 @@ export default {
                 "contrating_department.name",
                 "user_department.name",
                 "purchase_supplier_object.name",
-                // 'requirement_status'
             ],
-            /*
-            columns: [
-                'name',
-                'measurement_unit.name',
-                'technical_specifications',
-                'unit_price',
-                'quantity'
-            ],
-            */
             table_option_requirements: {
                 pagination: { edge: true },
-                //filterByColumn: true,
                 highlightMatches: true,
                 texts: {
                     filter: "Buscar:",
                     filterBy: "Buscar por {column}",
-                    //count:'Página {page}',
                     count: " ",
                     first: "PRIMERO",
                     last: "ÚLTIMO",
                     limit: "Registros",
-                    //page: 'Página:',
                     noResults: "No existen registros",
                 },
                 sortIcon: {
@@ -468,7 +455,6 @@ export default {
             "contrating_department.name": "Departamento contratante",
             "user_department.name": "Departamento Usuario",
             "purchase_supplier_object.name": "Tipo",
-            // 'requirement_status': 'Estado del requerimiento'
         };
         this.table_option_requirements.columnsClasses = {
             code: "col-xs-1",
@@ -477,7 +463,6 @@ export default {
             "contrating_department.name": "col-xs-2",
             "user_department.name": "col-xs-2",
             "purchase_supplier_object.name": "col-xs-2",
-            // 'requirement_status': 'col-xs-1',
         };
     },
     methods: {
@@ -513,7 +498,7 @@ export default {
          * Calcula el total de la suma de la Cantidad * Precio unitario más el
          * iva de todos los productos.
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         CalculateTot() {
             const vm = this;
@@ -544,7 +529,7 @@ export default {
         /**
          * Establece la cantidad de decimales correspondientes a la moneda que se maneja
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         cualculateLimitDecimal() {
             var res = "0.";

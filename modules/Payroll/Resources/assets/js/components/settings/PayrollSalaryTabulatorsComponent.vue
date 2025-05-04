@@ -245,7 +245,16 @@
                                                     <th>Nombre:</th>
                                                     <th 
                                                         v-for="(field_h, index) in payroll_salary_scale_h.payroll_scales" :key="index">
-                                                        <div style="min-width: 130px;"> {{field_h.name}} </div>
+                                                        <div v-if="payroll_salary_scale_h.type == 'list'" style="min-width: 130px;">
+                                                            {{field_h.name + " - " + payroll_options_h[field_h.value.replace(/['"]+/g, '')]}}
+                                                        </div>
+                                                        <div v-else-if="payroll_salary_scale_h.type =='range'" style="min-width: 130px;">
+                                                            {{field_h.name + " - desde " + JSON.parse(field_h.value)["from"] + " hasta " + JSON.parse(field_h.value)["to"]}}
+                                                        </div>
+                                                        <div v-else style="min-width: 130px;">
+                                                            {{field_h.name + " - " + field_h.value.replace(/['"]+/g, '')}}
+                                                        </div>
+                                                        
                                                     </th>
                                                 </tr>
                                                 <tr class="text-center"
@@ -271,8 +280,14 @@
                                                        && record.payroll_salary_tabulator_type == 'mixed'"
                                                     v-for="(field_v, index_v) in payroll_salary_scale_v.payroll_scales" 
                                                     :key="index_v">
-                                                    <th>
-                                                        {{field_v.name}}
+                                                    <th v-if="payroll_salary_scale_v.type == 'list'">
+                                                        {{field_v.name + " - " + payroll_options_v[field_v.value.replace(/['"]+/g, '')]}}
+                                                    </th>
+                                                    <th v-else-if="payroll_salary_scale_v.type == 'range'">
+                                                        {{field_v.name + " - desde " + JSON.parse(field_v.value)["from"] + " hasta " + JSON.parse(field_v.value)["to"]}}
+                                                    </th>
+                                                    <th v-else>
+                                                        {{field_v.name + " - " + field_v.value.replace(/['"]+/g, '')}}
                                                     </th>
                                                     <td class="td-with-border"
                                                         v-for="(field_h, index_h) in payroll_salary_scale_h.payroll_scales" :key="index_h">
@@ -306,8 +321,14 @@
                                                 <tr class="text-center"
                                                     v-for="(field, index) in payroll_salary_scale_v.payroll_scales" 
                                                     :key="index">
-                                                    <th>
-                                                        {{field.name}}
+                                                    <th v-if="payroll_salary_scale_v.type == 'list'">
+                                                        {{field.name + " - " + payroll_options_v[field.value.replace(/['"]+/g, '')]}}
+                                                    </th>
+                                                    <th v-else-if="payroll_salary_scale_v.type == 'range'">
+                                                        {{field.name + " - desde " + JSON.parse(field.value)["from"] + " hasta " + JSON.parse(field.value)["to"]}}
+                                                    </th>
+                                                    <th v-else>
+                                                        {{field.name + " - " + field.value.replace(/['"]+/g, '')}}
                                                     </th>
                                                     <td>
                                                         <div>
@@ -422,6 +443,8 @@
                 payroll_vertical_salary_scales:   [],
                 payroll_salary_scale_h:           [],
                 payroll_salary_scale_v:           [],
+                payroll_options_h:                [],
+                payroll_options_v:                [],
                 panel:                            'Form',
                 edit:                             false
 
@@ -502,6 +525,8 @@
 				};
                 vm.payroll_salary_scale_h = [];
                 vm.payroll_salary_scale_v = [];
+                vm.payroll_options_h = [];
+                vm.payroll_options_v = [];
                 vm.panel                  = 'Form';
                 vm.edit                   = false;
                 vm.changePanel(vm.panel);
@@ -694,6 +719,8 @@
                             id = vm.record.payroll_horizontal_salary_scale_id;
                             axios.get(`${window.app_url}/payroll/salary-scales/info/${id}`).then(response => {
                                 vm.payroll_salary_scale_h = response.data.record;
+                                vm.payroll_options_h = response.data.payroll_options;
+
                             });
                         };
                     } else {
@@ -701,6 +728,7 @@
                             id = vm.record.payroll_vertical_salary_scale_id;
                             axios.get(`${window.app_url}/payroll/salary-scales/info/${id}`).then(response => {
                                 vm.payroll_salary_scale_v = response.data.record;
+                                vm.payroll_options_v = response.data.payroll_options;
                             });
                         }
                     }

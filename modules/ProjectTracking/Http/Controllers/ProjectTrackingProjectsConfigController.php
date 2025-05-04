@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -10,11 +8,9 @@ use Illuminate\Routing\Controller;
 
 /**
  * @class ProjectTrackingProjectsConfigController
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -22,13 +18,9 @@ use Illuminate\Routing\Controller;
 class ProjectTrackingProjectsConfigController extends Controller
 {
     /**
-     * [descripción del método]
+     * Lista de configuraciónes de proyectos
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
@@ -36,13 +28,9 @@ class ProjectTrackingProjectsConfigController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario de configuración de proyectos
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -50,15 +38,11 @@ class ProjectTrackingProjectsConfigController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena los datos de una nueva configuración de proyecto
      *
-     * @method    store
+     * @param     Request    $request    Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function store(Request $request)
     {
@@ -66,15 +50,11 @@ class ProjectTrackingProjectsConfigController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información de una configuración de proyecto
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -82,15 +62,11 @@ class ProjectTrackingProjectsConfigController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario de edición de una configuración de proyecto
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -98,16 +74,12 @@ class ProjectTrackingProjectsConfigController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza los datos de una configuración de proyecto
      *
-     * @method    update
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function update(Request $request, $id)
     {
@@ -115,15 +87,11 @@ class ProjectTrackingProjectsConfigController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina los datos de una configuración de proyecto
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function destroy($id)
     {

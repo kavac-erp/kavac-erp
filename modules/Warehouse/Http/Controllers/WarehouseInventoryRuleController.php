@@ -17,9 +17,9 @@ use Modules\Warehouse\Models\WarehouseInventoryRule;
  * Clase que gestiona los datos de las reglas de abastecimiento del inventario
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseInventoryRuleController extends Controller
 {
@@ -27,13 +27,15 @@ class WarehouseInventoryRuleController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -41,19 +43,21 @@ class WarehouseInventoryRuleController extends Controller
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:warehouse.setting.rule');
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'warehouse_inventory_product_id' => ['required'],
             'minimum'                        => ['required']
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'warehouse_inventory_product_id.required' => 'El campo nombre del almacén es obligatorio.',
             'minimum.required'                        => 'El campo mínimo es obligatorio.'
@@ -64,7 +68,8 @@ class WarehouseInventoryRuleController extends Controller
      * Muestra un listado de las reglas de abastecimiento del inventario
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -83,8 +88,10 @@ class WarehouseInventoryRuleController extends Controller
      * Valida y registra una regla de de abastecimiento del inventario
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -104,9 +111,11 @@ class WarehouseInventoryRuleController extends Controller
      * Actualiza la información de una regla de abastecimiento del inventario
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id (Identificador único del producto en inventario)
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del producto en inventario
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, WarehouseInventoryRule $rule)
     {
@@ -125,8 +134,10 @@ class WarehouseInventoryRuleController extends Controller
      * Elimina una regla de inventario
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  Integer $id Identificador único del registro
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -137,6 +148,14 @@ class WarehouseInventoryRuleController extends Controller
         return response()->json(['record' => $rule, 'message' => 'Success'], 200);
     }
 
+    /**
+     * Listado de productos en almacén
+     *
+     * @param integer $warehouse Identificador del almacén
+     * @param integer $institution Identificador de la institución
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function vueList($warehouse = null, $institution = null)
     {
         if (is_null($warehouse) || is_null($institution)) {

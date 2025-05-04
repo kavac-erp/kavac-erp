@@ -1,0 +1,10 @@
+<map id="store" name="store">
+<area shape="rect" id="Node000001" title="Crea una nueva cuenta patrimonial." alt="" coords="5,31,60,56"/>
+<area shape="rect" id="Node000002" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#a38f6b507494819947970bb9e3647b07b" title="Crea una cuenta con los parametros recibidos." alt="" coords="259,5,381,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,29,108,15,178,9,245,9,245,15,178,14,108,21,61,35"/>
+<area shape="rect" id="Node000003" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#adb1b7b0256254b1d874030d21086272a" title="Crea las cuentas madres de una cuenta con los parametros recibidos." alt="" coords="109,31,210,56"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,41,95,41,95,46,60,46"/>
+<area shape="rect" id="Node000004" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#af00120301bc1c7e8bfee2c555ab6947d" title="Obtiene los registros de las cuentas patrimoniales." alt="" coords="108,80,211,105"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="61,51,114,72,113,77,59,56"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="210,33,245,27,245,32,211,38"/>
+</map>

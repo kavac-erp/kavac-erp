@@ -1,18 +1,20 @@
 <?php
 
-/** Controladores para la gestión de autenticación de usuarios */
-
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Session;
 use App\Rules\LdapRule;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Rules\HasActiveSession;
+use Illuminate\Http\JsonResponse;
 use Mews\Captcha\Facades\Captcha;
 use App\Http\Controllers\Controller;
-use App\Models\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -21,53 +23,46 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
  * @brief Gestiona información de autenticación
  *
  * Controlador para gestionar la autenticación de usuarios
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
     use AuthenticatesUsers;
 
     /**
      * Intentos fallidos restantes
      *
-     * @var    integer
+     * @var    integer $remainAttempts
      */
     protected $remainAttempts;
 
     /**
-     * Where to redirect users after login.
+     * Ruta a la cual redireccionar al usuario luego de autenticarse en la aplicación
      *
-     * @var string
+     * @var string $redirectTo
      */
     protected $redirectTo = '/';
 
     /**
      * Número máximo de intentos fallidos al tratar de autenticarse en la aplicación
      *
-     * @var    integer
+     * @var    integer $maxAttempts
      */
     protected $maxAttempts = 3;
 
     /**
      * Tiempo establecido para volver a intentar el acceso al sistema después de varios intentos fallidos
      *
-     * @var    integer
+     * @var    integer $decayMinutes
      */
     protected $decayMinutes = 2;
 
     /**
      * Crea una nueva instancia del controlador.
-     *
-     * @method  __construct
      *
      * @return void
      */
@@ -91,8 +86,6 @@ class LoginController extends Controller
     /**
      * Gestiona una petición de acceso a la aplicación.
      *
-     * @method  login
-     *
      * @param  Request  $request
      *
      * @return RedirectResponse|Response|JsonResponse
@@ -103,21 +96,24 @@ class LoginController extends Controller
     {
         $this->validateLogin($request);
 
-        /** @var User Objeto con información del usuario a autenticar */
-        $user = User::where('username', $request->username)->firstOrFail();
+        // Objeto con información del usuario a autenticar
+        $user = User::where('username', $request->username)->first();
 
         if ($user !== null) {
             if (!is_null($user->blocked_at)) {
                 return $this->sendLockedAccountResponse($request);
             } elseif (!$user->active) {
-                return $this->sendInactiveAccountRequest($request);
-            } elseif ($request->ip() !== '127.0.0.1' && Session::where('user_id', $user->id)->where('ip_address', '<>', $request->ip())->first()) {
-                return $this->sendHasActiveSessionRequest($request);
+                return ($this->sendInactiveAccountRequest($request));
+            } elseif (
+                $request->ip() !== '127.0.0.1' &&
+                Session::where('user_id', $user->id)->where('ip_address', '<>', $request->ip())->first()
+            ) {
+                return ($this->sendHasActiveSessionRequest($request));
             }
         }
 
         if (method_exists($this, 'hasTooManyLoginAttempts') && $this->hasTooManyLoginAttempts($request)) {
-            /** elimina la cantidad de intentos fallidos del usuario y se procede al bloqueo del mismo */
+            // elimina la cantidad de intentos fallidos del usuario y se procede al bloqueo del mismo
             $this->clearLoginAttempts($request);
 
             $this->fireLockoutEvent($request);
@@ -137,8 +133,6 @@ class LoginController extends Controller
     /**
      * Obtiene la instancia de peticiones de acceso fallidas.
      *
-     * @method sendFailedLoginResponse
-     *
      * @param  Request  $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -155,8 +149,6 @@ class LoginController extends Controller
     /**
      * Valida la petición de acceso del usuario.
      *
-     * @method  validateLogin
-     *
      * @param  Request  $request
      *
      * @return void
@@ -164,24 +156,22 @@ class LoginController extends Controller
     protected function validateLogin(Request $request)
     {
         $rules = [
-            $this->username() => ['required', 'exists:users', new LdapRule],
+            $this->username() => ['required', 'exists:users', new LdapRule()],
             'password' => ['required', 'string'],
         ];
         if (!env('TEST_UNIT', false)) {
             $rules['captcha'] = ['required', 'captcha'];
         }
         $validateMessages = [
-            $this->username() . '.required' => 'El nombre de usuario es obligatorio.',
-            $this->username() . '.exists' => 'Estas credenciales no coinciden con nuestros registros',
-            'password.required' => 'La contraseña es obligatoria.'
+            $this->username() . '.required' => __('El nombre de usuario es obligatorio.'),
+            $this->username() . '.exists' => __('Estas credenciales no coinciden con nuestros registros'),
+            'password.required' => __('La contraseña es obligatoria.')
         ];
         $this->validate($request, $rules, $validateMessages);
     }
 
     /**
-     * Obtiene el campo usado como nombre de usuario para el acceso a la aplicación, usado por el controlador.
-     *
-     * @method  username
+     * Obtiene el campo usado como nombre de usuario para el acceso a la aplicación
      *
      * @return string
      */
@@ -192,8 +182,6 @@ class LoginController extends Controller
 
     /**
      * El usuario ha sido autenticado en la aplicación.
-     *
-     * @method  authenticated
      *
      * @param  Request  $request
      * @param  mixed  $user
@@ -209,11 +197,9 @@ class LoginController extends Controller
     /**
      * Actualiza la imagen del captcha
      *
-     * @method    refreshCaptcha
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return    object            Objeto con los datos de la nueva imagen generada
+     * @return    object|string            Objeto con los datos de la nueva imagen generada
      */
     public function refreshCaptcha()
     {
@@ -223,11 +209,9 @@ class LoginController extends Controller
     /**
      * Obtiene la instancia de la petición del usuario bloqueado.
      *
-     * @method  sendLockedAccountResponse
-     *
      * @param Request  $request
      *
-     * @return Response
+     * @return Response|RedirectResponse
      */
     protected function sendLockedAccountResponse(Request $request)
     {
@@ -239,25 +223,23 @@ class LoginController extends Controller
     /**
      * Obtiene el mensaje a mostrar para la cuenta bloqueada.
      *
-     * @method  getLockedAccountMessage
-     *
      * @return string
      */
     protected function getLockedAccountMessage()
     {
         return Lang::has('auth.locked')
                ? Lang::get('auth.locked')
-               : 'Tú cuenta esta bloqueada. Por favor contacte a soporte por ayuda.';
+               : __('Tú cuenta esta bloqueada. Por favor contacte a soporte por ayuda.');
     }
 
     /**
      * Obtiene la instancia de la petición del usuario inactivo
      *
-     * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  \Illuminate\Http\Request $request
      *
-     * @return void
+     * @return RedirectResponse
      */
     public function sendInactiveAccountRequest(Request $request)
     {
@@ -269,23 +251,23 @@ class LoginController extends Controller
     /**
      * Obtiene el mensaje a mostrar de la cuenta inactiva
      *
-     * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return void
+     * @return string
      */
     public function getInactiveAccountMessage()
     {
-        return 'Usted no esta autorizado para acceder a la aplicación. La cuenta está inactiva.';
+        return __('Usted no esta autorizado para acceder a la aplicación. La cuenta está inactiva.');
     }
 
     /**
      * Obtiene la instancia de la petición del usuario con sesión activa
      *
-     * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  \Illuminate\Http\Request $request
      *
-     * @return void
+     * @return RedirectResponse
      */
     public function sendHasActiveSessionRequest(Request $request)
     {
@@ -297,12 +279,45 @@ class LoginController extends Controller
     /**
      * Obtiene el mensaje a mostrar de la sesión activa
      *
-     * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return void
+     * @return string
      */
     public function getHasActiveSessionMessage()
     {
-        return 'Usted ya tiene una sesión activa en la aplicación. Para iniciar sesión en este equipo debe cerrar la sesión activa.';
+        return __(
+            'Usted ya tiene una sesión activa en la aplicación. ' .
+            'Para iniciar sesión en este equipo debe cerrar la sesión activa.'
+        );
+    }
+
+    /**
+     * Proceso para salir del sistema.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        if (config('session.driver') === 'redis') {
+            $user = $request->user();
+            $redis = Redis::connection();
+            $redis->del('session_user:' . $user->id);
+        }
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        if ($response = $this->loggedOut($request)) {
+            return $response;
+        }
+
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 204)
+            : redirect('/');
     }
 }

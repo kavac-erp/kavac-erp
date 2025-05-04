@@ -1,3 +1,9 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d6/d27/classModules_1_1Payroll_1_1Models_1_1PayrollStudyType.html" title="Datos de tipos de estudio." alt="" coords="5,5,139,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d3/d83/classApp_1_1Models_1_1Document.html" title="Datos de los documentos." alt="" coords="5,55,95,80"/>
+<area shape="rect" id="Node000001" href="$d4/d1c/classModules_1_1Asset_1_1Models_1_1Document.html" title="Extiende del modelo de documento de la aplicación base." alt="" coords="143,5,232,31"/>
+<area shape="poly" id="edge78_Node000000_Node000001" title=" " alt="" coords="98,47,150,28,152,33,100,52"/>
+<area shape="rect" id="Node000002" href="$d4/d86/classModules_1_1Payroll_1_1Models_1_1Document.html" title="Datos de documentos." alt="" coords="143,55,232,80"/>
+<area shape="poly" id="edge79_Node000000_Node000002" title=" " alt="" coords="108,65,142,65,142,70,108,70"/>
+<area shape="rect" id="Node000003" href="$d0/d9c/classModules_1_1Purchase_1_1Models_1_1Document.html" title="Extension de la clase Document de la aplicación base." alt="" coords="143,104,232,129"/>
+<area shape="poly" id="edge80_Node000000_Node000003" title=" " alt="" coords="100,82,152,101,150,106,98,87"/>
 </map>

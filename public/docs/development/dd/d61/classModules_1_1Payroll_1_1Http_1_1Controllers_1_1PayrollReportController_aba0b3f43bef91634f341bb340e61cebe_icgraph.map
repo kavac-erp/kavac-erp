@@ -1,0 +1,5 @@
+<map id="getReportColumns" name="getReportColumns">
+<area shape="rect" id="Node000001" title="Obtiene las columnas del reporte." alt="" coords="136,5,279,31"/>
+<area shape="rect" id="Node000002" href="$dd/d61/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollReportController.html#a053e9eda79799399373f5e1799595dfe" title="Genera el reporte solicitado." alt="" coords="5,5,88,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,21,88,21,88,15,122,15"/>
+</map>

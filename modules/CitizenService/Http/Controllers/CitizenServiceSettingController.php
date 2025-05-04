@@ -10,19 +10,37 @@ use Modules\CitizenService\Models\CitizenServiceRequest;
 use App\Models\CodeSetting;
 use App\Rules\CodeSetting as CodeSettingRule;
 
+/**
+ * @class CitizenServiceSettingController
+ * @brief Controlador de la configuración de loficina de atención al ciudadano
+ *
+ * Clase que gestiona el controlador de la configuración de la OAC
+ *
+ * @author Ing. Yenifer Ramirez <yramirez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CitizenServiceSettingController extends Controller
 {
     use ValidatesRequests;
 
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Método constructor de la clase
+     *
+     * @return void
      */
     public function __construct()
     {
-         /** Establece permisos de acceso para cada método del controlador */
+         // Establece permisos de acceso para cada método del controlador
          $this->middleware('permission:citizenservice.setting.index', ['only' => 'index']);
     }
+
+    /**
+     * Obtiene los códigos configurados para la OAC
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $codeSettings = CodeSetting::where('module', 'citizenservice')->get();
@@ -31,8 +49,9 @@ class CitizenServiceSettingController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar configuraciones de la OAC
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -40,9 +59,11 @@ class CitizenServiceSettingController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Registra una nueva configuración de la OAC
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -79,8 +100,9 @@ class CitizenServiceSettingController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de una configuración
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -88,8 +110,9 @@ class CitizenServiceSettingController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar la configuración de la OAC
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -97,19 +120,24 @@ class CitizenServiceSettingController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza los datos de una configuración
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return void
      */
     public function update(Request $request)
     {
+        //
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Renderable
+     * Elimina una configuración
+     *
+     * @return void
      */
     public function destroy()
     {
+        //
     }
 }

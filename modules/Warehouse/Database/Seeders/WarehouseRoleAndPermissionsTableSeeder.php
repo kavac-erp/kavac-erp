@@ -11,11 +11,10 @@ use App\Roles\Models\Permission;
  * @class WarehouseRoleAndPermissionsTableSeeder
  * @brief Inicializa los roles y permisos del módulo de almacén
  *
- *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseRoleAndPermissionsTableSeeder extends Seeder
 {
@@ -23,6 +22,7 @@ class WarehouseRoleAndPermissionsTableSeeder extends Seeder
      * Método que registra los valores iniciales de los roles y permisos del módulo
      *
      * @author  Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function run()
@@ -37,9 +37,7 @@ class WarehouseRoleAndPermissionsTableSeeder extends Seeder
         );
 
         $permissions = [
-            /**
-             * Panel de Control
-             */
+            /* Panel de Control */
             [
                 'name' => 'Acceso al panel de control de almacén',
                 'slug' => 'warehouse.dashboard',
@@ -47,9 +45,7 @@ class WarehouseRoleAndPermissionsTableSeeder extends Seeder
                 'model' => '', 'model_prefix' => 'Almacén',
                 'slug_alt' => 'panel.control.ver', 'short_description' => 'panel de control de almacén'
             ],
-            /**
-             * Configuración General de Bienes
-             **/
+            /* Configuración General de Bienes */
             [
                 'name' => 'Configuración General del módulo de almacén',
                 'slug' => 'warehouse.setting',
@@ -57,9 +53,7 @@ class WarehouseRoleAndPermissionsTableSeeder extends Seeder
                 'model' => '', 'model_prefix' => 'Almacén',
                 'slug_alt' => 'configuracion.ver', 'short_description' => 'configuración general de almacén'
             ],
-            /**
-             * Configuración de Almacenes
-             **/
+            /* Configuración de Almacenes */
             [
                 'name' => 'Configuración de los Almacenes',
                 'slug' => 'warehouse.setting.warehouse',
@@ -88,9 +82,7 @@ class WarehouseRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Warehouse\Models\Warehouse', 'model_prefix' => 'Almacén',
                 'slug_alt' => 'configuracion.almacen.eliminar', 'short_description' => 'Eliminar almacenes'
             ],
-            /**
-             * Configuración de los productos almacenables
-             **/
+            /* Configuración de los productos almacenables */
             [
                 'name' => 'Configuración de los productos almacenables',
                 'slug' => 'warehouse.setting.product',
@@ -147,9 +139,7 @@ class WarehouseRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.almacen.producto.entrega',
                 'short_description' => 'Entregar productos almacenables'
             ],
-            /**
-             * Configuración de los atributos de los productos almacenables
-             **/
+            /* Configuración de los atributos de los productos almacenables */
             [
                 'name' => 'Configuración de los atributos de los productos almacenables',
                 'slug' => 'warehouse.setting.attribute',
@@ -190,9 +180,7 @@ class WarehouseRoleAndPermissionsTableSeeder extends Seeder
             //     'short_description' => 'configuración de los cierres de almacén'
             // ],
 
-            /**
-             * Solicitudes de Almacén
-             **/
+            /* Solicitudes de Almacén */
             [
                 'name' => 'Ver solicitud de almacén',
                 'slug' => 'warehouse.request.list',
@@ -235,9 +223,7 @@ class WarehouseRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Warehouse\Models\WarehouseRequest', 'model_prefix' => 'Almacén',
                 'slug_alt' => 'almacen.solicitud.usuario', 'short_description' => 'Ver solicitudes por usuario'
             ],
-            /**
-             * Movimientos de Almacén
-             **/
+            /* Movimientos de Almacén */
             [
                 'name' => 'Ver movimiento de artículos de almacén',
                 'slug' => 'warehouse.movement.list',
@@ -293,9 +279,7 @@ class WarehouseRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'almacen.movimiento.confirmar',
                 'short_description' => 'Confirmar movimientos de almacén'
             ],
-            /**
-             * Ingresos de Almacén
-             **/
+            /* Ingresos de Almacén */
             [
                 'name' => 'Crear ingreso de almacén',
                 'slug' => 'warehouse.inventory.create',
@@ -338,9 +322,7 @@ class WarehouseRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Warehouse\Models\WarehouseInventoryProduct', 'model_prefix' => 'Almacén',
                 'slug_alt' => 'almacen.ingreso.rechazar', 'short_description' => 'Rechazar ingreso de almacén'
             ],
-            /**
-             * Reportes de Bienes
-             */
+            /* Reportes de Bienes */
             [
                 'name' => 'Crear reporte de inventario',
                 'slug' => 'warehouse.report.create',

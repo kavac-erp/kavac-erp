@@ -5,9 +5,10 @@ namespace Modules\Payroll\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Modules\Payroll\Models\PayrollRelationship;
 
-/*
+/**
  * @class PayrollRelationshipsTableSeeder
  * @brief Inserta o actualiza la base de datos con datos de los tipos de parentescos
  *
@@ -24,8 +25,6 @@ class PayrollRelationshipsTableSeeder extends Seeder
     /**
      * Ejecuta los seeds de la base de datos
      *
-     * @method run
-     *
      * @return void
      */
     public function run(): void
@@ -38,6 +37,7 @@ class PayrollRelationshipsTableSeeder extends Seeder
             modules/Payroll/Resources/Data/PayrollRelationship.json */
             $payrollRelationships = get_json_resource('Data/PayrollRelationship.json', 'payroll');
         } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             error_log($th->getMessage());
             throw $th;
         }
@@ -50,6 +50,7 @@ class PayrollRelationshipsTableSeeder extends Seeder
                 );
             });
         } catch (\Throwable $e) {
+            Log::error($e->getMessage());
             error_log($e->getMessage());
             throw $e;
         }

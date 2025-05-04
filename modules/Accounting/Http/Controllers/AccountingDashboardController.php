@@ -2,14 +2,14 @@
 
 namespace Modules\Accounting\Http\Controllers;
 
-use Auth;
 use DateTime;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use Illuminate\Contracts\Support\Renderable;
-use Modules\Accounting\Models\AccountingReportHistory;
-use Modules\Accounting\Models\AccountingEntry;
-use Modules\Accounting\Models\Currency;
 use Modules\Accounting\Models\Profile;
+use Modules\Accounting\Models\Currency;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Accounting\Models\AccountingEntry;
+use Modules\Accounting\Models\AccountingReportHistory;
 
 /**
  * @class AccountingDashboardController
@@ -17,23 +17,23 @@ use Modules\Accounting\Models\Profile;
  *
  * Clase que gestiona la informacion del dashboard de contabilidad
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AccountingDashboardController extends Controller
 {
     /**
      * Define la configuración de la clase
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /**
-         * Establece permisos de acceso para cada método del controlador
-         */
+        /* Establece permisos de acceso para cada método del controlador */
         $this->middleware(
             'permission:accounting.dashboard',
             ['only' => ['index', 'get_operations', 'get_report_histories']]
@@ -41,8 +41,10 @@ class AccountingDashboardController extends Controller
     }
 
     /**
-     * [index Despliega la vista principal]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * Despliega la vista principal
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @return Renderable
      */
     public function index()
@@ -51,21 +53,17 @@ class AccountingDashboardController extends Controller
     }
 
     /**
-     * [getOperations Obtiene las ultimas 10 operaciones de creacion de asientos contables realizadas]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @return [Response]
+     * Obtiene las ultimas 10 operaciones de creacion de asientos contables realizadas
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return JsonResponse
      */
     public function getOperations()
     {
-        /**
-         * [$currency información de la modena por defecto establecida en la aplicación]
-         * @var [Modules\Accounting\Models\Currency]
-         */
+        /* información de la modena por defecto establecida en la aplicación */
         $currency    = Currency::where('default', true)->first();
-        /**
-         * [$records información de los ultimos 10 asientos contables generados]
-         * @var array
-         */
+        /* información de los ultimos 10 asientos contables generados */
         $records = [];
 
         $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
@@ -86,15 +84,13 @@ class AccountingDashboardController extends Controller
     /**
      * Obtiene los registros de los ultimos reportes generados
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @return JsonResponse
      */
     public function getReportHistories()
     {
-        /**
-         * [$report_histories almacenara la informacion de los reportes]
-         * @var array
-         */
+        /* almacenara la informacion de los reportes */
         $report_histories = [];
 
         $reports = [];
@@ -117,8 +113,7 @@ class AccountingDashboardController extends Controller
             }
         }
         foreach ($reports as $report) {
-
-            /**
+            /*
             * Se calcula el intervalo de tiempo entre la fecha en la que se genero el reporte
             * y la fecha actual en semanas y dias
             */

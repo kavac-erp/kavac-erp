@@ -1,3 +1,3 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d5/dab/classModules_1_1Accounting_1_1Models_1_1AccountingEntryable.html" title="Clase que gestiona la relacion N&#45;M entre asientos contables y otros registros." alt="" coords="5,5,161,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d3/da6/classModules_1_1Accounting_1_1Exports_1_1AccountingBalanceCheckUpSheetExport.html" title="Gestiona la exportación de datos del reporte de balance de comprobación." alt="" coords="5,5,209,45"/>
 </map>

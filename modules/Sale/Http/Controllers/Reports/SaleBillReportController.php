@@ -9,8 +9,6 @@ use Modules\Sale\Models\Profile;
 use Modules\Sale\Models\Institution;
 use Modules\Sale\Models\SaleBill;
 use App\Repositories\ReportRepository;
-use Modules\DigitalSignature\Repositories\ReportRepositorySign;
-use Auth;
 
 /**
  * @class BillReportController
@@ -19,17 +17,15 @@ use Auth;
  * Gestiona los reportes de facturas del módulo de Comercialización.
  *
  * @author    Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
- * @license  <a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *                LICENCIA DE SOFTWARE CENDITEL
- *            </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleBillReportController extends Controller
 {
     /**
      * Método que carga la vista para visualizar los filtros para los reportes
      * de facturas.
-     *
-     * @method    index
      *
      * @author    Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
      *
@@ -47,9 +43,9 @@ class SaleBillReportController extends Controller
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param     Requert    $request    Informacion de la consulta
+     * @param     \Illuminate\Http\Request    $request    Informacion de la consulta
      *
-     * @return    Response
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function filterRecords(Request $request)
     {
@@ -84,10 +80,10 @@ class SaleBillReportController extends Controller
     /**
      * Genera Pdf
      *
-     * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param     Array    $value    Listado de identificadores
+     * @param     array|string    $value    Listado de identificadores
      */
     public function pdf($value = [])
     {
@@ -95,7 +91,7 @@ class SaleBillReportController extends Controller
         // Validar acceso para el registro
         if (!auth()->user()->isAdmin()) {
             $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
-            if ($report && $report->queryAccess($user_profile['institution']['id'])) {
+            if (isset($report) && $report && $report->queryAccess($user_profile['institution']['id'])) {
                 return view('errors.403');
             }
         }
@@ -107,25 +103,15 @@ class SaleBillReportController extends Controller
                                     }]);
         }])->whereIn('id', $listIds)->get()->toArray();
 
-        /**
-         * [$pdf base para generar el pdf]
-         *
-         * @author    Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-         * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
-         *
-         * @var [App\Repositories\ReportRepository]
-         */
+        /* base para generar el pdf*/
         $pdf = new ReportRepository();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definición de las caracteristicas generales de la página pdf */
         if (auth()->user()->isAdmin()) {
             $institution = Institution::first();
         } else {
             $institution = Institution::find($user_profile->institution->id);
         }
-        // dd($bills);
         $pdf->setConfig(['institution' => $institution, 'urlVerify' => url('/sale/reports/bills/pdf/' . $value)]);
         $pdf->setHeader('Reporte de comercialización', 'Reporte de facturas');
         $pdf->setFooter(true, $institution->rif . ' ' . $institution->legal_address);

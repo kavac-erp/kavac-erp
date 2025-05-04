@@ -1,0 +1,7 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d7/db0/interfaceApp_1_1Roles_1_1Contracts_1_1RoleHasRelations.html" title="Interface para la gestión de roles y sus relaciones." alt="" coords="5,5,143,31"/>
+<area shape="rect" id="Node000001" href="$d3/d23/classApp_1_1Roles_1_1Models_1_1Role.html" title="Modelo para la gestión de roles." alt="" coords="191,5,241,31"/>
+<area shape="poly" id="edge113_Node000000_Node000001" title=" " alt="" coords="156,15,190,15,190,21,156,21"/>
+<area shape="rect" id="Node000002" href="$d1/d77/classModules_1_1Payroll_1_1Models_1_1Role.html" title="Datos de roles." alt="" coords="289,5,340,31"/>
+<area shape="poly" id="edge114_Node000001_Node000002" title=" " alt="" coords="255,15,289,15,289,21,255,21"/>
+</map>

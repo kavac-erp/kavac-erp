@@ -1,7 +1,7 @@
 <template>
     <div>
-        <a class="btn btn-info btn-xs btn-icon btn-action" 
-           href="#" title="Ver información de la operación" data-toggle="tooltip" 
+        <a class="btn btn-info btn-xs btn-icon btn-action"
+           href="#" title="Ver información de la operación" data-toggle="tooltip"
            @click="addRecord('view_operation_warehouse', route_list, $event)">
             <i class="fa fa-info-circle"></i>
         </a>
@@ -13,16 +13,16 @@
                             <span aria-hidden="true">×</span>
                         </button>
                         <h6>
-                            <i class="icofont icofont-read-book ico-2x"></i> 
+                            <i class="icofont icofont-read-book ico-2x"></i>
                             Información de la operación registrada
                         </h6>
                     </div>
-                    
+
                     <div class="modal-body">
 
                         <div class="alert alert-danger" v-if="errors.length > 0">
                             <ul>
-                                <li v-for="error in errors">{{ error }}</li>
+                                <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                             </ul>
                         </div>
                         <ul class="nav nav-tabs custom-tabs justify-content-center" role="tablist">
@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="tab-pane" id="productWarehouse" role="tabpanel">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -82,17 +82,17 @@
                                     <v-client-table :columns="columns" :data="records" :options="table_options">
                                         <div slot="code" slot-scope="props" class="text-center">
                                             <span>
-                                                {{ props.row.warehouse_inventory_product.code }} 
+                                                {{ props.row.warehouse_inventory_product.code }}
                                             </span>
                                         </div>
                                         <div slot="warehouse_inventory_product.warehouse_product.description" slot-scope="props" class="text-center">
                                             <span>
-                                                {{ prepareText(props.row.warehouse_inventory_product.warehouse_product.description) }} 
+                                                {{ prepareText(props.row.warehouse_inventory_product.warehouse_product.description) }}
                                             </span>
                                         </div>
                                         <div slot="quantity" slot-scope="props">
                                             <span>
-                                                {{ props.row.quantity }} 
+                                                {{ props.row.quantity }}
                                                 {{ (props.row.warehouse_inventory_product.warehouse_product.measurement_unit)
                                                         ? props.row.warehouse_inventory_product.warehouse_product.measurement_unit.acronym
                                                         : ''
@@ -101,7 +101,7 @@
                                         </div>
                                         <div slot="unit_value" slot-scope="props">
                                             <span>
-                                                {{ props.row.warehouse_inventory_product.unit_value }} 
+                                                {{ props.row.warehouse_inventory_product.unit_value }}
                                                 {{ (props.row.warehouse_inventory_product.currency)
                                                     ? props.row.warehouse_inventory_product.currency.symbol
                                                     : ''
@@ -115,8 +115,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        
-                        <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+
+                        <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
                                 data-dismiss="modal">
                             Cerrar
                         </button>
@@ -167,7 +167,7 @@
         methods: {
             /**
              * Método que borra todos los datos del formulario
-             * 
+             *
              * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve | roldandvg@gmail.com>
              */
             reset() {
@@ -183,9 +183,9 @@
                 const vm = this;
                 vm.errors = [];
                 vm.reset();
-                
+
                 document.getElementById("info_general_warehouse").click();
-                
+
                 $(".modal-body #url_search").val( vm.operation.type_operation + '/' + vm.operation.code );
                 document.getElementById('warehouse_created_at').innerText = (vm.operation.created_at)
                     ? vm.operation.created_at

@@ -1,0 +1,5 @@
+<map id="getRecordsAccounting" name="getRecordsAccounting">
+<area shape="rect" id="Node000001" title="Consulta los registros del modelo AccountingAccount que posean conversión." alt="" coords="100,5,267,31"/>
+<area shape="rect" id="Node000002" href="$d2/d5d/classModules_1_1Finance_1_1Http_1_1Controllers_1_1FinanceMovementsController.html#a459ed16587e3a50b39b672c7e473abc5" title="Muestra el formulario de edición de un movimiento bancario." alt="" coords="5,5,52,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,21,52,21,52,15,86,15"/>
+</map>

@@ -1,8 +1,9 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $CLASS_NAMESPACE$;
 
 use Illuminate\Routing\Controller;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$

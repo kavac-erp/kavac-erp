@@ -1,13 +1,12 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Parish;
 use Illuminate\Http\Request;
 use App\Rules\UniqueParishCode;
 use App\Rules\UniqueParishName;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class ParishController
@@ -16,6 +15,7 @@ use App\Rules\UniqueParishName;
  * Controlador para gestionar Parroquias
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -24,13 +24,11 @@ class ParishController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:parish.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:parish.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:parish.delete', ['only' => 'destroy']);
@@ -39,8 +37,6 @@ class ParishController extends Controller
 
     /**
      * Listado de todas las parroquias registradas
-     *
-     * @method    index
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -68,8 +64,6 @@ class ParishController extends Controller
     /**
      * Registra una nueva parroquia
      *
-     * @method    store
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Request    $request    Objeto con información de la petición
@@ -89,7 +83,7 @@ class ParishController extends Controller
             'municipality_id.required' => ('El campo municipio es obligatorio.'),
         ]);
 
-        /** @var Parish Objeto con información de la parroquia registrada */
+        // Objeto con información de la parroquia registrada
         $parish = Parish::create([
             'name' => $request->name,
             'code' => $request->code,
@@ -101,8 +95,6 @@ class ParishController extends Controller
 
     /**
      * Actualiza los datos de una parroquia
-     *
-     * @method    update
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -129,8 +121,6 @@ class ParishController extends Controller
 
     /**
      * Elimina una parroquia
-     *
-     * @method    destroy
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

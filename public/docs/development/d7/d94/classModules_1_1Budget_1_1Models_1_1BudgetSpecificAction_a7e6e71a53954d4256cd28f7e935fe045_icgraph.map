@@ -1,4 +1,5 @@
 <map id="specificable" name="specificable">
-<area shape="rect" id="node1" title="Crea un campo para obtener información del código y nombre de la acción específica." alt="" coords="220,5,320,32"/>
-<area shape="rect" id="node2" href="$d7/d94/classModules_1_1Budget_1_1Models_1_1BudgetSpecificAction.html#ad346fb3f2f169d51d08ee16bdd66449e" title="Crea un campo para obtener el nombre de la institución." alt="" coords="5,5,172,32"/>
+<area shape="rect" id="Node000001" title="Establece la relación morfológica con las acciones específicas." alt="" coords="220,5,319,31"/>
+<area shape="rect" id="Node000002" href="$d7/d94/classModules_1_1Budget_1_1Models_1_1BudgetSpecificAction.html#ad346fb3f2f169d51d08ee16bdd66449e" title="Crea un campo para obtener el nombre de la institución." alt="" coords="5,5,172,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="206,21,172,21,172,15,206,15"/>
 </map>

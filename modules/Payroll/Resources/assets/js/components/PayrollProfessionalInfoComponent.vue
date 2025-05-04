@@ -196,8 +196,8 @@
                                 </div>
                             </div>
                             <hr v-show="record.payroll_languages.length>0">
-                            <h6 
-                                class="text-center" 
+                            <h6
+                                class="text-center"
                                 v-if="
                                     (record.payroll_course
                                     && record.payroll_course.length > 0)
@@ -325,7 +325,6 @@
                     payroll_studies:[],
                 },
                 errors: [],
-                //payroll_staffs: [],
                 payroll_professional: [],
                 payroll_instruction_degrees: [],
                 professions: [],
@@ -345,11 +344,11 @@
         methods: {
             /**
              * Método que borra todos los datos del formulario
-             * 
+             *
              * @author  Pablo Sulbarán <psulbaran@cenditel.gob.ve>
              */
             reset() {
-            },  
+            },
         },
     }
 </script>

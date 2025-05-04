@@ -16,11 +16,11 @@
         @foreach($assets as $fields)
             <tr align="C">
                 <td width="9.09090909%" align="center" valign="middle">
-                    {{ 
+                    {{
                         $fields->asset_details
                             ? $fields->asset_details['code']
-                            : 'N/P' 
-                    }} 
+                            : 'N/P'
+                    }}
                 </td>
                 <td width="9.09090909%" align="center" valign="middle">
                     {{
@@ -36,7 +36,7 @@
                             : 'N/P'
                     }}
                 </td>
-                <td width="9.09090909%" align="center" valign="middle"> 
+                <td width="9.09090909%" align="center" valign="middle">
                     {{
                         $fields->asset_details
                             ? $fields->asset_details['model']
@@ -97,7 +97,7 @@
         @endforeach
     </table>
 @endif
-@if (array_key_exists('race', $assets[0]['asset_details']))     
+@if (array_key_exists('race', $assets[0]['asset_details']))
     <table cellspacing="0" cellpadding="1" border="1">
         <tr>
             <th style="background-color: #BDBDBD;" width="9.09090909%" align="center" valign="middle">Código interno del bien</th>
@@ -195,7 +195,7 @@
         @endforeach
     </table>
 @endif
-@if (array_key_exists('license_plate', $assets[0]['asset_details']))    
+@if (array_key_exists('license_plate', $assets[0]['asset_details']))
     <table cellspacing="0" cellpadding="1" border="1">
         <tr>
             <th style="background-color: #BDBDBD;" width="10%" align="center" valign="middle">Código interno del bien</th>
@@ -216,74 +216,74 @@
                         $fields->asset_details
                             ? $fields->asset_details['code']
                             : 'N/P'
-                    }} 
+                    }}
                 </td>
                 <td width="10%" align="center" valign="middle">
                     {{
                         $fields->assetSpecificCategory
                             ? $fields->assetSpecificCategory['name']
                             : 'N/P'
-                    }} 
+                    }}
                 </td>
                 <td width="10%" align="center" valign="middle">
                     {{
                         $fields->asset_details
                             ? $fields->asset_details['brand']
                             : 'N/P'
-                    }} 
+                    }}
                 </td>
                 <td width="10%" align="center" valign="middle">
                     {{
                         $fields->asset_details
                             ? $fields->asset_details['model']
                             : 'N/P'
-                    }} 
+                    }}
                 </td>
                 <td width="10%" align="center" valign="middle">
                     {{
                         $fields->color
-                    }} 
+                    }}
                 </td>
                 <td width="10%" align="center" valign="middle">
                     {{
                         $fields->asset_details
                             ? $fields->asset_details['manufacture_year']
                             : 'N/P'
-                    }} 
+                    }}
                 </td>
                 <td width="10%" align="center" valign="middle">
                     {{
                         $fields->asset_details
                             ? $fields->asset_details['bodywork_number']
                             : 'N/P'
-                    }} 
+                    }}
                 </td>
                 <td width="10%" align="center" valign="middle">
                     {{
                         $fields->asset_details
                             ? $fields->asset_details['engine_number']
                             : 'N/P'
-                    }} 
+                    }}
                 </td>
                 <td width="10%" align="center" valign="middle">
                     {{
                         $fields->asset_details
                             ? $fields->asset_details['license_plate']
                             : 'N/P'
-                    }} 
+                    }}
                 </td>
                 <td width="10%" align="center" valign="middle">
                     {{
                         $fields->acquisition_value
                             ? $fields->acquisition_value
                             : 'N/P'
-                    }} 
+                    }}
                 </td>
             </tr>
         @endforeach
     </table>
 @endif
-@if (array_key_exists('construction_year', $assets[0]['asset_details'])) 
+@if (array_key_exists('construction_year', $assets[0]['asset_details']))
     @foreach($assets as $fields)
         <table>
             <tr align="C">
@@ -296,7 +296,7 @@
                         }}
                 </td>
             </tr>
-        </table>    
+        </table>
         <table>
             <tr>
                 <td colspan="3">
@@ -340,7 +340,7 @@
             </tr>
         </table>
         <table>
-                
+
             <tr>
                 <td colspan="1">
                     <strong>Localización: </strong>
@@ -354,9 +354,9 @@
                     <strong>Dirección: </strong>
                         {{
                             $fields->asset_details
-                                ? $fields->country . ', ' . $fields->estate . ', ' . $fields->municipality . ', ' . 
-                                    $fields->parish . ', ' . $fields->asset_details['urbanization_sector'] . ', ' . 
-                                    $fields->asset_details['avenue_street'] . ', ' . $fields->asset_details['house'] 
+                                ? $fields->country . ', ' . $fields->estate . ', ' . $fields->municipality . ', ' .
+                                    $fields->parish . ', ' . $fields->asset_details['urbanization_sector'] . ', ' .
+                                    $fields->asset_details['avenue_street'] . ', ' . $fields->asset_details['house']
                                     . ', Piso: ' . $fields->asset_details['floor']
                                 : 'N/P'
                         }}
@@ -367,7 +367,7 @@
                             $fields->acquisition_value
                                 ? $fields->acquisition_value
                                 : 'N/P'
-                        }} 
+                        }}
                 </td>
             </tr>
         </table>
@@ -411,7 +411,7 @@
                 <td width="9,090909091%" align="center" valign="middle">
                     {{
                         $fields->asset_details
-                            ? $fields->asset_details['contract_start_date'] . ' - ' . 
+                            ? $fields->asset_details['contract_start_date'] . ' - ' .
                                 $fields->asset_details['contract_end_date']
                             : 'N/P'
                     }}
@@ -458,7 +458,7 @@
                             'Sur:' . ' ' . $fields->asset_details['south_boundaries'] . ', ' .
                             'Este:' . ' ' . $fields->asset_details['east_boundaries'] . ', ' .
                             'Oste:' . ' ' . $fields->asset_details['west_boundaries']
-                        : 'N/P' 
+                        : 'N/P'
                     }}
                 </td>
                 <td width="9,090909091%" align="center" valign="middle">

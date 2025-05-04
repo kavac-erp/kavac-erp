@@ -38,3 +38,20 @@
 div.multiselect {
     margin: 0px;
 }
+
+.btn-warning-alternative {
+  background-color: #BF7F16;
+}
+
+.btn-warning-alternative:hover {
+  background-color: #d89221;
+}
+
+.btn-warning-alternative:hover, .btn-warning-alternative:focus, .btn-warning-alternative:active, .btn-warning-alternative.active, .btn-warning-alternative:active:focus, .btn-warning-alternative:active:hover, .btn-warning-alternative.active:focus, .btn-warning-alternative.active:hover, .show > .btn-warning-alternative.dropdown-toggle, .show > .btn-warning-alternative.dropdown-toggle:focus, .show > .btn-warning-alternative.dropdown-toggle:hover {
+  background-color: #BF7F16;
+}
+
+.btn-warning-alternative:not(:disabled):not(.disabled):active, .btn-warning-alternative:not(:disabled):not(.disabled).active, .show > .btn-warning-alternative.dropdown-toggle {
+  background-color: #9b6816;
+  color: white;
+}

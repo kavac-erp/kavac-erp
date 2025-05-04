@@ -33,8 +33,11 @@
 						@include('buttons.minimize')
 					</div>
 				</div>
-				<budgetmod type_modification="{!! $type !!}"
-							edit_object="{{ (isset($model)) ? $model : '' }}"></budgetmod>
+				<budgetmod
+					type_modification="{!! $type !!}"
+					edit_object="{{ (isset($model)) ? $model : '' }}"
+					route_list="{{ route('budget.modifications.index') }}"
+				/>
 			</div>
 		</div>
 	</div>

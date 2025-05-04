@@ -1,5 +1,5 @@
 <template>
-    <div id="CloseFiscalYearInfo" class="modal fade" tabindex="-1" role="dialog" 
+    <div id="CloseFiscalYearInfo" class="modal fade" tabindex="-1" role="dialog"
          aria-labelledby="CloseFiscalYearInfoModal" aria-hidden="true">
         <div class="modal-dialog vue-crud" role="document" style="max-width:60rem">
             <div class="modal-content">
@@ -33,7 +33,7 @@
                                     <div v-if="Object.values(record.resource_entries).length > 0">
                                         <tr v-for="(row, index) in record.resource_entries" :key="index" class="row">
                                             <td style="border: 1px solid #dee2e6;" tabindex="0" class="col-8 text-left">
-                                                {{ row.account.denomination }}
+                                                {{ row.account.code }} - {{ row.account.denomination }}
                                             </td>
                                             <td style="border: 1px solid #dee2e6;" tabindex="0" class="col-2 text-right">
                                                 {{ addDecimals(row.debit) }}
@@ -80,7 +80,7 @@
                                     <div v-if="Object.values(record.egress_entries).length > 0">
                                         <tr v-for="(row, index) in record.egress_entries" :key="index" class="row">
                                             <td style="border: 1px solid #dee2e6;" tabindex="0" class="col-8 text-left">
-                                                {{ row.account.denomination }}
+                                                {{ row.account.code }} - {{ row.account.denomination }}
                                             </td>
                                             <td style="border: 1px solid #dee2e6;" tabindex="0" class="col-2 text-right">
                                                 {{ addDecimals(row.debit) }}
@@ -138,7 +138,7 @@
         methods: {
             /**
              * Método que borra todos los datos del formulario
-             * 
+             *
              * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
              */
             reset() {
@@ -152,6 +152,13 @@
                 } else {
                     decimal_places = 0;
                 }
+
+                if (parseFloat(value).toFixed(decimal_places) > 0) {
+                    return new Intl.NumberFormat('es-VE').format(
+                        parseFloat(value).toFixed(decimal_places),
+                    );
+                }
+
                 return parseFloat(value).toFixed(decimal_places);
             },
             getCurrencySymbol() {

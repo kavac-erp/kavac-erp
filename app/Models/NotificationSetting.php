@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +9,15 @@ use Illuminate\Database\Eloquent\Model;
  * @brief Datos de configuración de notificaciones
  *
  * Gestiona la configuración de notificaciones para los usuarios del sistema
+ *
+ * @property int    $id
+ * @property string $module
+ * @property string $module_name
+ * @property string $model
+ * @property string $name
+ * @property string $slug
+ * @property string $description
+ * @property string $perm_required
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -34,7 +41,7 @@ class NotificationSetting extends Model
     protected $fillable = ['module', 'module_name', 'model', 'name', 'slug', 'description', 'perm_required'];
 
     /**
-     * NotificationSetting belongs to Many Users.
+     * Obtiene los usuarios asociados a una configuración de notificación
      *
      * @method  users
      *

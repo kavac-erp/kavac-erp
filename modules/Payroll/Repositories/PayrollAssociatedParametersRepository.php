@@ -9,6 +9,7 @@ namespace Modules\Payroll\Repositories;
  * Clase que gestiona los parámetros asociados a la generación de nómina
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -16,31 +17,38 @@ class PayrollAssociatedParametersRepository
 {
     /**
      * Arreglo con los registros asociados a la configuración de vacaciones
-     * @var Array $associatedVacation
+     *
+     * @var array $associatedVacation
      */
     protected $associatedVacation;
 
     /**
      * Arreglo con los registros asociados al expediente del trabajador
-     * @var Array $associatedWorkerFile
+     *
+     * @var array $associatedWorkerFile
      */
     protected $associatedWorkerFile;
 
     /**
      * Arreglo con los registros asociados a la configuración de prestaciones sociales
-     * @var Array $associatedBenefit
+     *
+     * @var array $associatedBenefit
      */
     protected $associatedBenefit;
 
     /**
      * Arreglo con los registros de opciones a asignar el concepto
-     * @var Array $assignTo
+     *
+     * @var array $assignTo
      */
     protected $assignTo;
 
+    /**
+     * Crea una nueva instancia de la clase
+     */
     public function __construct()
     {
-        /** Define los campos de la configuración de vacaciones a emplear en el formulario */
+        /* Define los campos de la configuración de vacaciones a emplear en el formulario */
         $this->associatedVacation = [
             [
                 'id'       => 'VACATION_DAYS',
@@ -62,7 +70,7 @@ class PayrollAssociatedParametersRepository
             ]
         ];
 
-        /** Define los campos del expediente del trabajador a emplear en el formulario */
+        /* Define los campos del expediente del trabajador a emplear en el formulario */
         $this->associatedWorkerFile = [
             [
                 'id'       => 'STAFF',
@@ -228,7 +236,7 @@ class PayrollAssociatedParametersRepository
             ]
         ];
 
-        /** Define los campos de la configuración de prestaciones sociales a emplear en el formulario */
+        /* Define los campos de la configuración de prestaciones sociales a emplear en el formulario */
         $this->associatedBenefit = [
             [
                 'id'       => 'BENEFIT_DAYS',
@@ -257,7 +265,7 @@ class PayrollAssociatedParametersRepository
             ]
         ];
 
-        /** Define las opciones del campo "asignar a" a emplear en el formulario */
+        /* Define las opciones del campo "asignar a" a emplear en el formulario */
         $this->assignTo = [
             [
                 'id'          => 'all',
@@ -278,62 +286,6 @@ class PayrollAssociatedParametersRepository
                 ],
                 'where'    => null
             ],
-            /**[
-                'id'         => 'all_except_staffs_in_vacation',
-                'name'       => 'Todos excepto trabajadores que se encuentren en período de vacaciones',
-                'model'      => 'Modules\Payroll\Models\PayrollStaff',
-                'optionModel'      => 'Modules\Payroll\Models\PayrollStaff',
-                'type'       => '',
-                'with'       => [
-                    'field' => 'payrollVacationRequests'
-                ],
-                'doesntHave' => [
-                    'field' => 'payrollVacationRequests'
-                ],
-                'orWhereHas' => [
-                    'field' => 'payrollVacationRequests',
-                    'where' =>   ['status', 'approved'],
-                    'where' =>   ['end_date', '<', 'dateNow'],
-                    'orWhere' => ['start_date', '>', 'dateNow'],
-                ],
-                'where'      => null,
-            ],
-            [
-                'id'    => 'all_except_staffs_at_rest',
-                'name'  => 'Todos excepto trabajadores que se encuentren de reposo',
-                'model' => 'Modules\Payroll\Models\PayrollStaff',
-                'optionModel' => 'Modules\Payroll\Models\PayrollStaff',
-                'type'  => '',
-                'whereHas' => null,
-                'where'    => null
-            ],
-            [
-                'id'    => 'all_except_staffs_in_vacation_and_rest',
-                'name'  => 'Todos excepto trabajadores que se encuentren en período de vacaciones y reposo',
-                'model' => 'Modules\Payroll\Models\PayrollStaff',
-                'optionModel' => 'Modules\Payroll\Models\PayrollStaff',
-                'type'  => '',
-                'whereHas' => null,
-                'where'    => null
-            ],*/
-            /**[
-                'id'    => 'all_except_staff_on_leave',
-                'name'  => 'Todos excepto trabajadores que se encuentren de permiso',
-                'model' => 'Modules\Payroll\Models\PayrollStaff',
-                'optionModel' => 'Modules\Payroll\Models\PayrollStaff',
-                'type'  => '',
-                'whereHas' => null,
-                'where'    => null
-            ],
-            [
-                'id'    => 'all_retired_staff',
-                'name'  => 'Todos los trabajadores jubilados',
-                'model' => 'Modules\Payroll\Models\PayrollStaff',
-                'optionModel' => 'Modules\Payroll\Models\PayrollStaff',
-                'type'  => '',
-                'whereHas' => null,
-                'where'    => null
-            ],*/
             [
                 'id'    => 'all_except_disabled_staff',
                 'name'  => 'Todos excepto trabajadores discapacitados',
@@ -373,16 +325,6 @@ class PayrollAssociatedParametersRepository
                         'whereYear' => 'birthdate'
                     ],
                     'where' => null,
-                    /*'where' => null,
-                    'whereHas'   => [
-                        'field' => 'payrollSocioeconomic',
-                        'where' => ['payroll_relationships_id', 3],
-                        'whereRaw' => [
-                            'function' => 'DATEDIFF',
-                            'field'    => 'birthdate',
-                            'type'     => 'between'
-                        ]
-                    ]*/
                 ],
             ],
             [
@@ -520,46 +462,6 @@ class PayrollAssociatedParametersRepository
                     'whereIn' => ['payroll_instruction_degree_id', ['ids']],
                 ],
             ],
-            /**[
-                'id'    => 'staff_according_antiquity_years',
-                'name'  => 'Trabajadores de acuerdo a sus años de antiguedad en la institución',
-                'model' => 'Modules\Payroll\Models\PayrollStaff',
-                'optionModel' => 'Modules\Payroll\Models\PayrollStaff',
-                'optionField' => 'Modules\Payroll\Models\PayrollStaff',
-                'type'  => 'range'
-            ],
-            [
-                'id'    => 'staff_according_antiquity_years',
-                'name'  => 'Trabajadores de acuerdo a sus años de antiguedad en la administración pública',
-                'model' => 'Modules\Payroll\Models\PayrollStaff',
-                'optionModel' => 'Modules\Payroll\Models\PayrollStaff',
-                'optionField' => 'Modules\Payroll\Models\PayrollStaff',
-                'type'  => 'range'
-            ],
-            [
-                'id'    => 'staff_according_rol',
-                'name'  => 'Trabajadores de acuerdo al rol al que pertenece',
-                'model' => 'Modules\Payroll\Models\Role',
-                'optionModel' => 'Modules\Payroll\Models\Role',
-                'optionField' => 'Modules\Payroll\Models\Role',
-                'type'  => 'list'
-            ],
-            [
-                'id'    => 'staff_according_staff_type',
-                'name'  => 'Trabajadores de acuerdo al tipo de personal al que pertenece',
-                'model' => 'Modules\Payroll\Models\PayrollStaffType',
-                'optionModel' => 'Modules\Payroll\Models\PayrollStaffType',
-                'optionField' => 'Modules\Payroll\Models\PayrollStaffType',
-                'type'  => 'list',
-                'whereHas' => [
-                    'field' => 'payrollEmployment',
-                    'where' => null,
-                    'whereHas' => [
-                        'field' => 'payrollStaffType',
-                        'where' => null
-                    ],
-                ],
-            ],*/
             [
                 'id'    => 'staff_according_gender',
                 'name'  => 'Trabajadores de acuerdo al género al que pertenece',
@@ -569,25 +471,15 @@ class PayrollAssociatedParametersRepository
                 'type'  => 'list',
                 'whereIn' => ['payroll_gender_id', ['ids']],
             ],
-            /*[
-                'id'    => 'staff_according_years_old',
-                'name'  => 'Trabajadores de acuerdo a la edad que poseen',
-                'model' => 'Modules\Payroll\Models\PayrollStaff',
-                'optionModel' => 'Modules\Payroll\Models\PayrollStaff',
-                'optionField' => 'Modules\Payroll\Models\PayrollStaff',
-                'type'  => 'range'
-            ]*/
         ];
     }
 
     /**
      * Listado de parámetros
      *
-     * @method    loadData
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Array      Devuelve un arreglo con todas las opciones correspondientes
+     * @return    array      Devuelve un arreglo con todas las opciones correspondientes
      */
     public function loadData($type)
     {

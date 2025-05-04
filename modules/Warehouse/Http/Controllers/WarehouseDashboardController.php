@@ -13,19 +13,33 @@ use Modules\Warehouse\Models\WarehouseRequest;
 class WarehouseDashboardController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Muestra el panel de control del módulo de almacén
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
         return view('warehouse::dashboard');
     }
 
+    /**
+     * Obtiene el reporte de almacén
+     *
+     * @param integer $type_operation Tipo de operación
+     * @param string $code Código de la operación
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getOperation($type_operation, $code)
     {
         return response()->json(['result' => true, 'redirect' => '/warehouse/reports/show/' . $code], 200);
     }
 
+    /**
+     * Listado de operaciones de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function vueListOperations()
     {
         $tables = ['warehouse_movements', 'warehouse_requests'];
@@ -62,6 +76,14 @@ class WarehouseDashboardController extends Controller
         return response()->json(['records' => $result]);
     }
 
+    /**
+     * Obtiene información de las operaciones de almacén
+     *
+     * @param integer $type_operation Tipo de operación
+     * @param string $code Código de la operación
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function vueInfo($type_operation, $code)
     {
         if ($type_operation == 'movements') {
@@ -97,6 +119,11 @@ class WarehouseDashboardController extends Controller
         }
     }
 
+    /**
+     * Obtiene un listado de mínimo de productos en almacén
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function vueListMinProducts()
     {
         $fields = WarehouseInventoryProduct::with(
@@ -163,6 +190,14 @@ class WarehouseDashboardController extends Controller
         return response()->json(['records' => $warehouse_products, 'productsQuantity' => $productsQuantity]);
     }
 
+
+    /**
+     * Obtiene las solicitudes de productos a almacén
+     *
+     * @param array $products Lista de productos
+     *
+     * @return array
+     */
     public function getCodeProductsRequest($products)
     {
         $codeProducts = [];

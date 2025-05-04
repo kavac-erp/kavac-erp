@@ -9,6 +9,8 @@ var classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleWarehouseReceptionControl
     [ "getTaxes", "d8/d9f/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleWarehouseReceptionController.html#a9710b4ee4b39cf755a6153feea5c8999", null ],
     [ "index", "d8/d9f/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleWarehouseReceptionController.html#a149eb92716c1084a935e04a8d95f7347", null ],
     [ "rejectedReception", "d8/d9f/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleWarehouseReceptionController.html#a6aaeee0de5793b22507bf05e6887793a", null ],
+    [ "store", "d8/d9f/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleWarehouseReceptionController.html#a9ef485163104597c12185b53cdacf638", null ],
+    [ "update", "d8/d9f/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleWarehouseReceptionController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
     [ "vueInfo", "d8/d9f/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleWarehouseReceptionController.html#a33c93a58e2d349e7e235a94a1691a76d", null ],
     [ "vueList", "d8/d9f/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleWarehouseReceptionController.html#aca78b35dd9df5b11e63e88796cf08c66", null ]
 ];

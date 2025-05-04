@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /*
 |--------------------------------------------------------------------------
@@ -9,8 +10,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Aquí es donde puede registrar las rutas API para su aplicación. Estas
-| estas rutas son cargadas por el RouteServiceProvider dentro de un grupo que 
-| es asignado al grupo "api" middleware. ¡Disfruta construyendo tu API!
+| rutas son cargadas por el RouteServiceProvider dentro de un grupo que
+| es asignado al grupo "api" middleware.
 |
 */
 
@@ -19,5 +20,5 @@ Route::group([
     'middleware' => 'auth:api', 'prefix' => '$LOWER_NAME$', 'namespace' => '$MODULE_NAMESPACE$\Http\Controllers'
 ], function () {
     /** Descripción corta de la acción que ejecuta la ruta */
-    Route::get('/', '$STUDLY_NAME$Controller@index');
+    Route::get('/', [$STUDLY_NAME$::class, 'index']);
 });

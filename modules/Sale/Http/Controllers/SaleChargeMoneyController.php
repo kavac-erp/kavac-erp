@@ -8,29 +8,42 @@ use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleChargeMoney;
 
+/**
+ * @class SaleChargeMoneyController
+ * @brief Controlador que gestiona los cargos de dinero
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleChargeMoneyController extends Controller
 {
     use ValidatesRequests;
 
-  /**
-   * Define la configuración de la clase
-   *
-   * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-   */
+    /**
+     * Lista de elementos a mostrar en select
+     *
+     * @var array $data
+     */
+    protected $data = [];
 
+    /**
+     * Define la configuración de la clase
+     *
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting.charge.money', ['only' => 'index']);
     }
 
-  /** @var array Lista de elementos a mostrar */
-    protected $data = [];
-
-  /**
-   * Display a listing of the resource.
-   * @return JsonResponse
-   */
+    /**
+     * Listado de registros de cargos de dinero
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         $data = [];
@@ -39,39 +52,41 @@ class SaleChargeMoneyController extends Controller
             $list_attributes = [];
             $attrib = json_decode($record->attributes_charge_money, true);
 
-          //list of attributes for options UPDATE content
             foreach ($attrib as $row) {
                 $list_attributes[] = ["attributes" => $row];
             }
 
             $data[] = [
-            'id' => $record->id,
-            'name_charge_money' => $record->name_charge_money,
-            'description_charge_money' => $record->description_charge_money,
-            'created_at' => $record->created_at,
-            'updated_at' => $record->updated_at,
-            'name_attributes' => implode(", ", $attrib),
-            'list_attributes' => $list_attributes
+                'id' => $record->id,
+                'name_charge_money' => $record->name_charge_money,
+                'description_charge_money' => $record->description_charge_money,
+                'created_at' => $record->created_at,
+                'updated_at' => $record->updated_at,
+                'name_attributes' => implode(", ", $attrib),
+                'list_attributes' => $list_attributes
             ];
         }
 
         return response()->json(['records' => $data], 200);
     }
 
-  /**
-   * Show the form for creating a new resource.
-   * @return Renderable
-   */
+    /**
+     * Muestra el formulario para crear un cargo de dinero
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         return view('sale::create');
     }
 
-  /**
-   * Store a newly created resource in storage.
-   * @param  Request $request
-   * @return JsonResponse
-   */
+    /**
+     * Almacena un nuevo cargo de dinero
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         $attributes = [];
@@ -84,26 +99,28 @@ class SaleChargeMoneyController extends Controller
         $this->saleChargeMoneyValidate($request);
 
         $charge_money = SaleChargeMoney::create([
-        'name_charge_money' => $request->name_charge_money,
-        'description_charge_money' => $request->description_charge_money,
-        'attributes_charge_money' => json_encode($attributes, JSON_FORCE_OBJECT)
+            'name_charge_money' => $request->name_charge_money,
+            'description_charge_money' => $request->description_charge_money,
+            'attributes_charge_money' => json_encode($attributes, JSON_FORCE_OBJECT)
         ]);
 
         return response()->json(['record' => $charge_money, 'message' => 'Success'], 200);
     }
 
-  /**
-    * Validacion de los datos
-    *
-    * @method    saleChargeMoneyValidate
-    * @author Ing. Jose Puentes <jpuentes@cenditel.gob.ve>
-    * @param     object    Request    $request
-    */
+    /**
+     * Validacion de los datos
+     *
+     * @author Ing. Jose Puentes <jpuentes@cenditel.gob.ve>
+     *
+     * @param     Request    $request Datos de la petición
+     *
+     * @return    void
+     */
     public function saleChargeMoneyValidate(Request $request)
     {
         $attributes = [
-        'name_charge_money' => 'Nombre del método de cobro',
-        'description_charge_money' => 'Descripción del método de cobro'
+            'name_charge_money' => 'Nombre del método de cobro',
+            'description_charge_money' => 'Descripción del método de cobro'
         ];
         $validation = [];
         $validation['name_charge_money'] = ['required', 'max:100'];
@@ -111,32 +128,41 @@ class SaleChargeMoneyController extends Controller
         $this->validate($request, $validation, [], $attributes);
     }
 
-  /**
-   * Show the specified resource.
-   * @return Renderable
-   */
+    /**
+     * Muestra información de un cargo de dinero
+     *
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\View\View
+     */
     public function show($id)
     {
         return view('sale::show');
     }
 
-  /**
-   * Show the form for editing the specified resource.
-   * @return Renderable
-   */
+    /**
+     * Muestra el formulario para editar un cargo de dinero
+     *
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\View\View
+     */
     public function edit($id)
     {
         return view('sale::edit');
     }
 
-  /**
-   * Update the specified resource in storage.
-   * @param  Request $request
-   * @return JsonResponse
-   */
+    /**
+     * Actualiza la información de un cargo de dinero
+     *
+     * @param  Request $request Datos de la petición
+     * @param  integer $id     Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $id)
     {
-      /** @var object Datos del metodo de cobro */
+        /* Datos del metodo de cobro */
         $charge_money = SaleChargeMoney::find($id);
 
         $this->saleChargeMoneyValidate($request);
@@ -155,10 +181,14 @@ class SaleChargeMoneyController extends Controller
         return response()->json(['message' => 'Success'], 200);
     }
 
-  /**
-   * Remove the specified resource from storage.
-   * @return JsonResponse
-   */
+    /**
+     * Elimina un cargo de dinero
+     *
+     * @param Request $request Datos de la petición
+     * @param integer $id     Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy(Request $request, $id)
     {
         $charge_money = SaleChargeMoney::find($id);
@@ -167,11 +197,12 @@ class SaleChargeMoneyController extends Controller
         return response()->json(['record' => $charge_money, 'message' => 'Success'], 200);
     }
 
-  /**
+    /**
      * Obtiene las formas de cobro registrados
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return JsonResponse    Json con los datos de las formas de cobro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSaleChargeMonies()
     {

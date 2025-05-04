@@ -1,11 +1,10 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
-use App\Models\MaritalStatus;
 use Illuminate\Http\Request;
+use App\Models\MaritalStatus;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class MaritalStatusController
@@ -14,6 +13,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar Estados Civiles
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -22,13 +22,11 @@ class MaritalStatusController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:marital.status.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:marital.status.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:marital.status.delete', ['only' => 'destroy']);
@@ -37,8 +35,6 @@ class MaritalStatusController extends Controller
 
     /**
      * Listado de todos los registros de estados civiles
-     *
-     * @method  index
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -51,8 +47,6 @@ class MaritalStatusController extends Controller
 
     /**
      * Registra un nuevo estado civil
-     *
-     * @method  store
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -72,7 +66,7 @@ class MaritalStatusController extends Controller
             ]);
         }
 
-        /** @var MaritalStatus Objeto con información del estado civil registrado */
+        // Objeto con información del estado civil registrado
         $maritalStatus = MaritalStatus::updateOrCreate(['name' => $request->name]);
 
         return response()->json(['record' => $maritalStatus, 'message' => 'Success'], 200);
@@ -80,8 +74,6 @@ class MaritalStatusController extends Controller
 
     /**
      * Actualiza la información de un estado civil
-     *
-     * @method  update
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -105,8 +97,6 @@ class MaritalStatusController extends Controller
     /**
      * Elimina un estado civil
      *
-     * @method  destroy
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  MaritalStatus  $maritalStatus    Objeto con información del estado civil a eliminar
@@ -122,8 +112,6 @@ class MaritalStatusController extends Controller
     /**
      * Obtiene los estados civiles registrados
      *
-     * @method  getMaritalStatus
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  integer $id                      Identificador del estado civil a buscar, este parámetro es opcional
@@ -132,7 +120,7 @@ class MaritalStatusController extends Controller
      */
     public function getMaritalStatus($id = null)
     {
-        /** @var array Arreglo con el filtro a través del ID del registro en caso de ser indicado */
+        // Arreglo con el filtro a través del ID del registro en caso de ser indicado
         $filterId = (!is_null($id)) ? ['id' => $id] : [];
         return response()->json(template_choices('App\Models\MaritalStatus', 'name', $filterId, true));
     }

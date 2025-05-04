@@ -1,0 +1,5 @@
+<map id="AssetImport" name="AssetImport">
+<area shape="rect" id="Node000001" title="Gestiona la importación de datos de bienes." alt="" coords="29,413,203,619"/>
+<area shape="rect" id="Node000002" href="$de/d01/classModules_1_1Asset_1_1Repositories_1_1AssetParametersRepository.html" title="Gestiona los parámetros requeridos para el registro de biene." alt="" coords="5,5,227,351"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,351,119,397,113,397,113,351"/>
+</map>

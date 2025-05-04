@@ -1,24 +1,22 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Asset\Models;
 
-use App\Models\Currency;
+use App\Models\Institution;
+use App\Traits\ModelsTrait;
 use App\Models\DocumentStatus;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AuditableTrait;
-use App\Traits\ModelsTrait;
 
 /**
  * @class AssetDepreciation
- * @brief [descripción detallada]
+ * @brief Modelo que gestiona los datos de depreciación de bienes
  *
- * [descripción corta]
+ * Gestiona la depreciación de bienes
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -31,20 +29,20 @@ class AssetDepreciation extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['code', 'year', 'amount', 'document_status_id', 'institution_id'];
 
     /**
      * Método que obtiene el estatus del documento asociado a la depreciación
-     *
-     * @method  documentStatus
      *
      * @return  \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -56,8 +54,6 @@ class AssetDepreciation extends Model implements Auditable
     /**
      * Método que obtiene la institución asociada a la depreciación
      *
-     * @method  institution
-     *
      * @return  \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function institution()
@@ -67,8 +63,6 @@ class AssetDepreciation extends Model implements Auditable
 
     /**
      * Método que obtiene los bienes asociados a la depreciación
-     *
-     * @method  assetDepreciationAssets
      *
      * @return  \Illuminate\Database\Eloquent\Relations\HasMany
      */

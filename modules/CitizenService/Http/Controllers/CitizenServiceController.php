@@ -6,10 +6,22 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 
+/**
+ * @class CitizenServiceController
+ * @brief Controlador de la oficina de atención al ciudadano
+ *
+ * Clase que gestiona el controlador de la OAC
+ *
+ * @author Ing. Yenifer Ramirez <yramirez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CitizenServiceController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra el listado de las oficinas de la OAC
+     *
      * @return Renderable
      */
     public function index()
@@ -18,7 +30,8 @@ class CitizenServiceController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear una nueva oficina de la OAC
+     *
      * @return Renderable
      */
     public function create()
@@ -27,16 +40,20 @@ class CitizenServiceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Almacena una nueva oficina de la OAC
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return void
      */
     public function store(Request $request)
     {
+        //
     }
 
     /**
-     * Show the specified resource.
+     * Muestra detalles de una oficina de la OAC
+     *
      * @return Renderable
      */
     public function show()
@@ -45,7 +62,8 @@ class CitizenServiceController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar una oficina de la OAC
+     *
      * @return Renderable
      */
     public function edit()
@@ -54,19 +72,24 @@ class CitizenServiceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza información de una oficina de la OAC
+     *
+     * @param  Request $request datos de la petición
+     *
+     * @return void
      */
     public function update(Request $request)
     {
+        //
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Renderable
+     * Elimina una oficina de la OAC
+     *
+     * @return void
      */
     public function destroy()
     {
+        //
     }
 }

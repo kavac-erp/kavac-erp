@@ -1,0 +1,3 @@
+<map id="AddForeignKeysToAssetAsignationsTable" name="AddForeignKeysToAssetAsignationsTable">
+<area shape="rect" id="Node000001" title="Agrega las llaves foraneas building_id, floor_id, y section_id a la tabla asset_asignations." alt="" coords="5,5,249,105"/>
+</map>

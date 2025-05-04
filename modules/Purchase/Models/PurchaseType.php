@@ -2,13 +2,20 @@
 
 namespace Modules\Purchase\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
-use App\Models\RequiredDocument;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Purchase\Models\RequiredDocument;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
+/**
+ * @class PurchaseType
+ * @brief Gestiona la información, procesos, consultas y relaciones de ls tipos de compra
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseType extends Model implements Auditable
 {
     use SoftDeletes;
@@ -17,18 +24,21 @@ class PurchaseType extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'description', 'purchase_processes_id', 'documents_id'];
 
      /**
-     * Lista de documentos requeridos
+     * Lista de atributos personalizados a cargar con el modelo
+     *
      * @var array $appends
      */
     protected $appends = ['documents'];
@@ -36,7 +46,7 @@ class PurchaseType extends Model implements Auditable
     /**
      * Metodo Accessors para obtener todos los documentos requeridos
      *
-     * @return \App\Models\RequiredDocument
+     * @return \Modules\Purchase\Models\RequiredDocument[]|void
      */
     public function getDocumentsAttribute()
     {
@@ -46,24 +56,22 @@ class PurchaseType extends Model implements Auditable
         }
     }
     /**
-     * PurchaseType belongs to PurchaseProcess.
+     * Establece la relación con los procesos de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function purchaseProcess()
     {
-        // belongsTo(RelatedModel, foreignKey = purchaseProcess_id, keyOnRelatedModel = id)
         return $this->belongsTo(PurchaseProcess::class, 'purchase_processes_id');
     }
 
     /**
-     * PurchaseType has many PurchasePlan.
+     * Establece la relación con los planes de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function purchasePlan()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = purchaseType_id, localKey = id)
         return $this->hasMany(PurchasePlan::class);
     }
 }

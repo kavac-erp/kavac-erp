@@ -7,10 +7,12 @@ if (! function_exists('budget_available')) {
      * Determina la disponibilidad presupuestaria de una cuenta
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  string  $year               Año de la formulación presupuestaria
      * @param  integer $specific_action_id Identificador de la acción específica
      * @param  integer $account_id         Identificador de la cuenta presupuestaria
-     * @return Devuelve el monto de la disponibilidad de la cuenta
+     *
+     * @return float|integer Devuelve el monto de la disponibilidad de la cuenta
      */
     function budget_available($year, $specific_action_id, $account_id)
     {
@@ -50,9 +52,11 @@ if (! function_exists('budget_check_opened_account')) {
      * Determina si la cuenta esta aperturada para el año de ejecución presupuestaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @param  string  $year               Año de la ejecución presupuestaria
      * @param  integer $specific_action_id Identificador de la acción específica
      * @param  integer $account_id         Identificador de la cuenta presupuestaria
+     *
      * @return boolean                     Devuelve verdadero si la cuenta esta aperturada,
      *                                     de lo contrario retorna falso
      */

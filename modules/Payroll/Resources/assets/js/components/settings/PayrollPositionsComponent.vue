@@ -6,8 +6,7 @@
             title="Registros de cargos"
             data-toggle="tooltip"
             @click="
-                addRecord('add_payroll_position', 'payroll/positions', $event)
-            "
+                addRecord('add_payroll_position', 'payroll/positions', $event)"
         >
             <i class="icofont icofont-briefcase-alt-1 ico-3x"></i>
             <span>Cargos</span>
@@ -128,12 +127,12 @@
                             <div class="col-md-6">
                                 <div class="form-group is-required">
                                     <label for="number_positions_assigned">
-                                        Cantidad de cargos asignados:
+                                        Cantidad de cargos por estructura:
                                     </label>
                                     <input
                                         type="text"
                                         id="number_positions_assigned"
-                                        placeholder="Cantidad de cargos asignados"
+                                        placeholder="Cantidad de cargos por estructura"
                                         class="form-control input-sm"
                                         v-model="record.number_positions_assigned"
                                         data-toggle="tooltip"
@@ -192,13 +191,20 @@
                                 </span>
                             </div>
                             <div
+                                slot="number_of_positions_held" 
+                                slot-scope="props">
+                                <span>
+                                    {{ props.row.responsible ? props.row.payroll_responsibility_count : props.row.payroll_employments_count }}
+                                </span>
+
+                            </div>
+                            <div
                                 v-if="!props.row.responsible"
                                 slot="number_positions_available"
                                 slot-scope="props"
                             >
                                 {{
-                                    props.row.number_positions_assigned
-                                    - loadPositionsData(props.row.id)
+                                    (props.row.number_positions_assigned - props.row.payroll_employments_count)
                                 }}
                             </div>
                             <div
@@ -207,7 +213,7 @@
                                 slot-scope="props"
                             >
                                 {{
-                                    queryResponsibility(props.row.id)
+                                    props.row.payroll_responsibility_count == 0 ? 1 : props.row.payroll_responsibility_count - 1
                                 }}
                             </div>
                             <div
@@ -255,6 +261,9 @@
                             </div>
                         </v-client-table>
                     </div>
+                    <div class="card-footer text-right">
+                        <p> {{ totalPayrollPositions }} Cargos por estructura | {{ totalEmploymentCount }} Cargos ocupados | {{ totalAvailablePositions }} Cargos disponibles</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -272,14 +281,21 @@
                     number_positions_assigned: '',
                     responsible: ''
                 },
+                totalPayrollPositions: 0,
+                totalEmploymentCount: 0,
+                totalAvailablePositions: 0,
                 count: [],
                 query: [],
                 errors: [],
                 records: [],
+                totalPayrollPositions: 0,
+                totalEmploymentCount: 0,
+                totalAvailablePositions: 0,
                 columns: [
                     'name',
                     'description',
                     'number_positions_assigned',
+                    'number_of_positions_held',
                     'number_positions_available',
                     'responsible',
                     'id'
@@ -372,6 +388,9 @@
                 await axios.get(`${window.app_url}/payroll/get-payroll-employments-positions-count`)
                 .then((response) => {
                     this.count = response.data.records;
+                    this.totalPayrollPositions = response.data.totalPayrollPositions;
+                    this.totalEmploymentCount = response.data.totalEmploymentCount;
+                    this.totalAvailablePositions = response.data.totalAvailablePositions;
                 })
                 .catch((error) => {
                     console.log('error')
@@ -383,7 +402,8 @@
             this.table_options.headings = {
                 'name': 'Nombre',
                 'description': 'Descripción',
-                'number_positions_assigned': 'Cantidad de cargos asignados',
+                'number_positions_assigned': 'Cantidad de cargos por estructura',
+                'number_of_positions_held': 'Cantidad de cargos ocupados',
                 'number_positions_available': 'Cantidad de cargos disponibles',
                 'responsible': 'Cargo de responsabilidad',
                 'id': 'Acción'
@@ -393,18 +413,19 @@
             this.table_options.columnsClasses = {
                 'name': 'col-md-3',
                 'description': 'col-md-2',
-                'number_positions_assigned': 'col-md-2 text-center',
-                'number_positions_available': 'col-md-2 text-center',
+                'number_positions_assigned': 'col-md-1 text-center',
+                'number_of_positions_held': 'col-md-1 text-center',
+                'number_positions_available': 'col-md-1 text-center',
                 'responsible': 'col-md-2 text-center',
                 'id': 'col-md-2'
             };
         },
         async mounted () {
             const vm = this;
-            $("#add_payroll_position").on('show.bs.modal', function() {
+            $("#add_payroll_position").on('show.bs.modal', async function() {
                 vm.reset();
-                vm.getPayrollEmploymentsPositions();
-                vm.getResponsibilities();
+                await vm.getPayrollEmploymentsPositions();
+                await vm.getResponsibilities();
             });
         },
     };

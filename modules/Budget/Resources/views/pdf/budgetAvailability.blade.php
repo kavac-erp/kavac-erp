@@ -5,10 +5,6 @@
             <td width="25%" style="font-weight: bold;">Expresado en:</td>
             <td width="75%">{{ $currencySymbol }}</td>
         </tr>
-        {{-- <tr>
-            <td width="25%" style="font-weight: bold;">Código de la institución:</td>
-            <td width="75%">{{ $institution['onapre_code'] }}</td>
-        </tr> --}}
         <tr>
             <td width="25%" style="font-weight: bold;">Institución:</td>
             <td width="75%">{{ $institution['name'] }}</td>
@@ -47,9 +43,6 @@
 
 <table cellspacing="0" cellpadding="4" border="1" style="font-size: 7rem;">
     @php
-        // dd($records);
-        // $total_programmed = 0;
-        // $total_compromised = 0;
         $total_amount_available = 0;
     @endphp
     @foreach ($records as $budgetAccounts)
@@ -83,10 +76,6 @@
                         {{ $budgetAccount['code'] ?? $budgetAccount['budgetAccount']['code'] }}</td>
                     <td style="border: solid 1px #808080; {{ $styles }}" align="left">
                         {{ $budgetAccount['denomination'] ?? $budgetAccount['budgetAccount']['denomination'] }}</td>
-                    {{-- <td style="font-size: 8rem; border-bottom: 1px solid #999; {{ $styles }}" align="center">
-                        {{ number_format($budgetAccount['programmed'], 2, ",", ".") }}</td>
-                    <td style="font-size: 8rem; border-bottom: 1px solid #999; {{ $styles }}" align="center">
-                        {{ number_format($budgetAccount['compromised'], 2, ",", ".") }}</td> --}}
                     <td style="border: solid 1px #808080; {{ $styles }}" align="center">
                         {{ number_format($budgetAccount['self_available'], 2, ',', '.') }}</td>
                 </tr>
@@ -103,11 +92,8 @@
                         <td style="border: solid 1px #808080; {{ $styles }}" align="center">
                             {{ $budgetAccount['code'] ?? $budgetAccount['budgetAccount']['code'] }}</td>
                         <td style="border: solid 1px #808080; {{ $styles }}" align="left">
-                            {{ $budgetAccount['denomination'] ?? $budgetAccount['budgetAccount']['denomination'] }}</td>
-                        {{-- <td style="font-size: 8rem; border-bottom: 1px solid #999; {{ $styles }}" align="center">
-                            {{ number_format($budgetAccount['programmed'], 2, ",", ".") }}</td>
-                        <td style="font-size: 8rem; border-bottom: 1px solid #999; {{ $styles }}" align="center">
-                            {{ number_format($budgetAccount['compromised'], 2, ",", ".") }}</td> --}}
+                            {{ $budgetAccount['denomination'] ?? $budgetAccount['budgetAccount']['denomination'] }}
+                        </td>
                         <td style="border: solid 1px #808080; {{ $styles }}" align="center">
                             {{ number_format($modification['self_available'], 2, ',', '.') }}</td>
                     </tr>
@@ -116,8 +102,6 @@
             @php
                 $item = $budgetAccount->budgetAccount->item ?? $budgetAccount->item;
                 if ($item === '00') {
-                    // $total_programmed += $budgetAccount['programmed'];
-                    // $total_compromised += $budgetAccount['compromised'];
                     $total_amount_available += $budgetAccount['self_available'];
                 }
             @endphp
@@ -131,12 +115,6 @@
         <td style="font-size: 8rem; border-bottom: 1px solid #999;" align="left" width="80%">
             Total
         </td>
-        {{-- <td style="font-size: 8rem; border-bottom: 1px solid #999; " align="center" width="15%">
-            {{ number_format($total_programmed, 2, ",", ".") }}
-        </td>
-        <td style="font-size: 8rem; border-bottom: 1px solid #999;" align="center" width="14%">
-            {{ number_format($total_compromised, 2, ",", ".") }}
-        </td> --}}
         <td style="font-size: 8rem; border-bottom: 1px solid #999;" align="center" width="20%">
             {{ number_format($total_amount_available, 2, ',', '.') }}
         </td>

@@ -51,13 +51,24 @@
                     <div class="col-6">
                         <div class="form-group" id="user">
                             {!! Form::label('staff', __('Empleado'), []) !!}
-                            {!! Form::select('staff', (isset($persons))?$persons:[], isset($model) && $model->profile ? $model->profile->id : old('staff'), [
+
+                            {{-- Update --}}
+                            @if(isset($model) && $model->profile && $model->profile->employee_id)
+                                {!! Form::select('staff', ['' => 'Seleccione...'] + $allPersons->toArray(), $model->profile->employee_id, [
                                     'class' => 'form-control select2', 'onchange' => 'hasStaff()',
                                     'id' => 'staff',
-                                    'disabled' => (isset($model) && $model->profile!==null && $model->profile->institution_id!==null) ? true : false,
+                                    'disabled' => false,
                                     'data-old' => old('staff')
-                                ]
-                            ) !!}
+                                ]) !!}
+                            {{-- Create --}}
+                            @else
+                                {!! Form::select('staff', ['' => 'Seleccione...'] + $allPersons->toArray(), null, [
+                                    'class' => 'form-control select2', 'onchange' => 'hasStaff()',
+                                    'id' => 'staff',
+                                    'disabled' => (isset($model) && $model->profile !== null) ? false : true,
+                                    'data-old' => old('staff')
+                                ]) !!}
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -126,7 +137,7 @@
          * @param  {string}  module_name    Nombre del módulo que ejecuta la acción
          */
         function updateStaffSelect(parent_element, target_element, edit) {
-            var module_name = (typeof(module_name) !== "undefined")?'/' + module_name:'';
+            var module_name = (typeof(module_name) !== "undefined") ? '/' + module_name : '';
             var parent_id = parent_element.val();
             var parent_name = parent_element.attr('id');
 
@@ -139,7 +150,8 @@
                     if (response.data.result) {
                         target_element.attr('disabled', false);
                         target_element.empty().append('<option value="">{{ __('Seleccione...') }}</option>');
-                        $.each(response.data.records, function(index, record) {
+                        var filteredRecords = response.data.records.filter(record => record.employee_id !== null && record.user_id === null);
+                        $.each(filteredRecords, function(index, record) {
                             target_element.append(
                                 `<option value="${record['id']}">${record['first_name']} ${record['last_name']}</option>`
                             );
@@ -158,8 +170,7 @@
                 }).catch(error => {
                     logs('app', 244, error, 'updateSelect');
                 })
-            }
-            else {
+            } else {
                 target_element.attr('disabled', true);
             }
         }

@@ -2,12 +2,13 @@
 
 namespace Modules\Budget\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
+use App\Models\Tax;
 use App\Traits\ModelsTrait;
 use Nwidart\Modules\Facades\Module;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class BudgetCompromiseDetail
@@ -16,9 +17,9 @@ use Nwidart\Modules\Facades\Module;
  * Gestiona el modelo de datos para los detalles de los compromisos Compromisos de Presupuesto
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetCompromiseDetail extends Model implements Auditable
 {
@@ -28,12 +29,14 @@ class BudgetCompromiseDetail extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * Lista de atributos que pueden ser asignados masivamente
+     * Lista con campos del modelo
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -44,7 +47,7 @@ class BudgetCompromiseDetail extends Model implements Auditable
     /**
      * Agrega campos personalizados
      *
-     * @var array
+     * @var array $appends
      */
     protected $appends = ['total'];
 
@@ -53,7 +56,7 @@ class BudgetCompromiseDetail extends Model implements Auditable
      *
      * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
      *
-     * @return void
+     * @return float
      */
     public function getTotalAttribute()
     {
@@ -61,7 +64,7 @@ class BudgetCompromiseDetail extends Model implements Auditable
     }
 
     /**
-     * BudgetCompromiseDetail belongs to BudgetCompromise.
+     * Obtiene la relación con el compromiso presupuestario
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -71,19 +74,20 @@ class BudgetCompromiseDetail extends Model implements Auditable
     }
 
     /**
-     * Get the budgetAccount that owns the BudgetCompromiseDetail
+     * Obtiene la relación con la cuenta presupuestaria
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function budgetAccount()
     {
-        return (Module::has('Accounting') && Module::isEnabled('Accounting')) ?
-               $this->belongsTo(\Modules\Accounting\Models\BudgetAccount::class) :
-               $this->belongsTo(BudgetAccount::class);
+        return (
+            Module::has('Accounting') && Module::isEnabled('Accounting')
+        ) ? $this->belongsTo(\Modules\Accounting\Models\BudgetAccount::class)
+        : $this->belongsTo(BudgetAccount::class);
     }
 
     /**
-     * Get the budgetSubSpecificFormulation that owns the BudgetCompromiseDetail
+     * Obtiene la relación con la formulación presupuestaria
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -95,14 +99,12 @@ class BudgetCompromiseDetail extends Model implements Auditable
     /**
      * Método que obtiene el Impuesto asociado
      *
-     * @method  tax
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con el registro relacionado al modelo Tax
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function tax()
     {
-        return $this->belongsTo('App\\Models\\Tax');
+        return $this->belongsTo(Tax::class);
     }
 }

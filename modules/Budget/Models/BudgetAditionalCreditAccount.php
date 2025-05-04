@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos para las cuentas de los créditos adicionales
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetAditionalCreditAccount extends Model implements Auditable
 {
@@ -26,20 +26,26 @@ class BudgetAditionalCreditAccount extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista con campos de tipo fecha
      *
      * @var array
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * Lista de campos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = [
         'amount', 'budget_sub_specific_formulation_id', 'budget_account_id', 'budget_aditional_credit_id'
     ];
 
     /**
-     * BudgetAditionalCreditAccount belongs to BudgetSpecificAction.
+     * Obtiene la relación con la formulación de presupuesto
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function formulation()
@@ -48,9 +54,10 @@ class BudgetAditionalCreditAccount extends Model implements Auditable
     }
 
     /**
-     * BudgetAditionalCreditAccount belongs to BudgetAccount.
+     * Establece la relación con la cuenta presupuestaria
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account()
@@ -59,9 +66,10 @@ class BudgetAditionalCreditAccount extends Model implements Auditable
     }
 
     /**
-     * BudgetAditionalCreditAccount belongs to BudgetAditionalCredit.
+     * Establece la relación con el crédito adicional
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function aditionalCredit()

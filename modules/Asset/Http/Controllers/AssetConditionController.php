@@ -3,10 +3,11 @@
 namespace Modules\Asset\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Modules\Asset\Models\AssetCondition;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
+use Modules\Asset\Models\AssetCondition;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
  * @class      AssetConditionController
@@ -15,6 +16,7 @@ use Illuminate\Validation\Rule;
  * Clase que gestiona la condición física de los bienes institucionales
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -24,12 +26,14 @@ class AssetConditionController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -38,18 +42,20 @@ class AssetConditionController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         //$this->middleware('permission:asset.setting.condition');
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'     => ['required', 'regex:/^[a-zA-ZÁ-ÿ\s]*$/u', 'max:100', Rule::unique('asset_conditions')],
 
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required'     => 'El campo condición física es obligatorio.',
             'name.max'          => 'El campo condición física no debe contener más de 100 caracteres.',
@@ -62,7 +68,8 @@ class AssetConditionController extends Controller
      * Muestra un listado de las condiciones físicas de los bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function index()
     {
@@ -74,19 +81,16 @@ class AssetConditionController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
+     *
+     * @param     Request         $request    Datos de la petición
+     *
+     * @return    JsonResponse    Objeto con los registros a mostrar
      */
     public function store(Request $request)
     {
         $this->validate($request, $this->validateRules, $this->messages);
 
-
-        /**
-         * Objeto asociado al modelo AssetCondition
-         *
-         * @var Object $condition
-         */
+        /* Objeto asociado al modelo AssetCondition */
         $condition = AssetCondition::create([
             'name' => $request->input('name')
         ]);
@@ -99,17 +103,25 @@ class AssetConditionController extends Controller
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * @param     \Illuminate\Http\Request                $request      Datos de la petición
-     * @param     \Modules\Asset\Models\AssetCondition    $condition    Datos de la condición física
-     * @return    \Illuminate\Http\JsonResponse           Objeto con los registros a mostrar
+     *
+     * @param     Request           $request      Datos de la petición
+     * @param     AssetCondition    $condition    Datos de la condición física
+     *
+     * @return    JsonResponse      Objeto con los registros a mostrar
      */
     public function update(Request $request, AssetCondition $condition)
     {
         $validateRules  = $this->validateRules;
         $validateRules  = array_replace(
             $validateRules,
-            ['name' => ['required', 'regex:/^[a-zA-ZÁ-ÿ\s]*$/u', 'max:100',
-                            Rule::unique('asset_conditions')->ignore($condition->id)]]
+            [
+                'name' => [
+                    'required',
+                    'regex:/^[a-zA-ZÁ-ÿ\s]*$/u',
+                    'max:100',
+                    Rule::unique('asset_conditions')->ignore($condition->id)
+                ]
+            ]
         );
 
         $this->validate($request, $validateRules, $this->messages);
@@ -124,8 +136,10 @@ class AssetConditionController extends Controller
      * Elimina la condición física de un bien
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     \Modules\Asset\Models\AssetCondition    $condition    Datos de la condición física
-     * @return    \Illuminate\Http\JsonResponse           Objeto con los registros a mostrar
+     *
+     * @param     AssetCondition    $condition    Datos de la condición física
+     *
+     * @return    JsonResponse      Objeto con los registros a mostrar
      */
     public function destroy(AssetCondition $condition)
     {
@@ -137,10 +151,16 @@ class AssetConditionController extends Controller
      * Obtiene el listado de las condiciones físicas de los bienes institucionales a implementar en elementos select
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return    Array    Arreglo con los registros a mostrar
+     *
+     * @return    array    Arreglo con los registros a mostrar
      */
     public function getConditions()
     {
-        return template_choices('Modules\Asset\Models\AssetCondition', 'name', '', true);
+        return template_choices(
+            'Modules\Asset\Models\AssetCondition',
+            'name',
+            '',
+            true
+        );
     }
 }

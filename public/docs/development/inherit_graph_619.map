@@ -1,4 +1,3 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d1/d87/classApp_1_1Models_1_1Gender.html" title="Datos de género." alt="" coords="5,5,75,32"/>
-<area shape="rect" id="node2" href="$d6/d20/classModules_1_1Payroll_1_1Models_1_1PayrollGender.html" title="Datos de género." alt="" coords="123,5,236,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d6/da2/classCreateProjectTrackingActivitiesTable.html" title="Ejecuta el proceso de migración de la estructura de tablas en base de datos." alt="" coords="5,5,231,45"/>
 </map>

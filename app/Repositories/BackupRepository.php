@@ -1,7 +1,5 @@
 <?php
 
-/** Repositorios del sistema */
-
 namespace App\Repositories;
 
 use Exception;
@@ -25,9 +23,11 @@ use Illuminate\Support\Facades\Storage;
 class BackupRepository
 {
     /**
-     * Construct function
+     * Constructor de la clase
      *
-     * @method  __construct
+     * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -37,8 +37,6 @@ class BackupRepository
     /**
      * Gestiona la creación de respaldos de la base de datos
      *
-     * @method  create
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return  boolean Devuelve verdadero al crear el respaldo
@@ -46,12 +44,12 @@ class BackupRepository
     public function create()
     {
         try {
-            /** start the backup process */
+            // Ejecuta el comando para iniciar el proceso de respaldo
             Artisan::call('backup:run');
-            /** @var string Información del resultado de la ejecución del comando */
+            // Información del resultado de la ejecución del comando
             $output = Artisan::output();
 
-            /** log the results */
+            // Registra un log de información con el respaldo generado
             Log::info(
                 "Backpack\BackupManager -- " .
                 __('se ha generado un nuevo backup desde la interfaz administrativa') . ". \r\n" .
@@ -60,6 +58,8 @@ class BackupRepository
 
             Session::flash('message', ['type' => 'other', 'text' => __('Nuevo backup generado')]);
         } catch (Exception $e) {
+            // Registra un log de la excepción
+            Log::error($e->getMessage());
             Session::flash('message', ['type' => 'other', 'text' => $e->getMessage()]);
         }
 
@@ -68,8 +68,6 @@ class BackupRepository
 
     /**
      * Ejecuta la acción necesaria para restaurar los datos a partir de un respaldo
-     *
-     * @method     restore(string $filename, \Illuminate\Http\Request $request)
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -81,25 +79,25 @@ class BackupRepository
      */
     public function restore($filename, $request)
     {
-        /** @var string Ruta en la que se realiza el respaldo de la base de datos */
+        // Ruta en la que se realiza el respaldo de la base de datos
         $path = Storage::disk(config('backup.backup.destination.disks')[0])->getAdapter()->getPathPrefix();
-        /** @var ZipArchive Instancia a la clase */
+        // Instancia a la clase
         $zip = new ZipArchive();
-        /** @var object Objeto con información del archivo a descomprimir */
+        // Objeto con información del archivo a descomprimir
         $res = $zip->open($path . config('app.name') . "/" . $filename);
         if ($res === true) {
             try {
                 $request->session()->regenerate();
-                /** @var string Nombre del archivo a descomprimir */
+                // Nombre del archivo a descomprimir
                 $snapName = str_replace(".zip", "", $filename);
                 $zip->renameName('db-dumps/postgresql-kavac.sql', $snapName . '.sql');
                 $zip->extractTo($path);
                 $zip->close();
-                /** @var string Código de respuesta en la restauración de datos */
+                // Código de respuesta en la restauración de datos
                 $exitCode = Artisan::call('snapshot:load ' . $snapName);
-                /** @var string Datos de respuesta en la ejecución del comando */
+                // Datos de respuesta en la ejecución del comando
                 $output = Artisan::output();
-                /** log the results */
+                // Registra un log con los resultados de la ejecución del comando
                 Log::info(
                     "Backpack\BackupManager -- " .
                     'se ha generado una nueva restauración de la base de datos desde la interfaz administrativa' .
@@ -108,6 +106,8 @@ class BackupRepository
                 );
                 return (strpos($output, 'loaded') > 0);
             } catch (Exception $e) {
+                // Registra un log de la excepción
+                Log::error($e->getMessage());
                 return false;
             }
         }
@@ -118,8 +118,6 @@ class BackupRepository
     /**
      * Muestra el listado de archivos de respaldo
      *
-     * @method  getList
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  string $disk Nombre del disco del sistema de archivos
@@ -129,15 +127,14 @@ class BackupRepository
      */
     public function getList($disk, $dir)
     {
-        /** @var object Objeto con información del disco a usar para obtener el listado de archivos disponibles */
+        // Objeto con información del disco a usar para obtener el listado de archivos disponibles
         $storage_disk = Storage::disk($disk[0]);
-        /** @var object Objeto con información de los archivos disponibles */
+        // Objeto con información de los archivos disponibles
         $files = $storage_disk->files($dir);
-        /** @var array Listado con información detallada de los archivos a restaurar */
+        // Listado con información detallada de los archivos a restaurar
         $backups = [];
-        /** make an array of backup files, with their filesize and creation date */
+        // Genera un arreglo con la información detallada de los archivos de respaldo (tamaño y fecha de creación)
         foreach ($files as $k => $f) {
-            /** only take the zip files into account */
             if (substr($f, -4) == '.zip' && $storage_disk->exists($f)) {
                 $backups[] = [
                     'file_path' => $f,
@@ -147,14 +144,12 @@ class BackupRepository
                 ];
             }
         }
-        /** reverse the backups, so the newest one would be on top */
+        // Reordena el arreglo para mostrar los archivos de respaldo desde el mas nuevo al mas antiguo
         return array_reverse($backups);
     }
 
     /**
      * Obtiene un archivo
-     *
-     * @method  getFile
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -166,14 +161,14 @@ class BackupRepository
      */
     public function getFile($disk, $dir, $file_name)
     {
-        /** @var string Ruta del archivo */
+        // Ruta del archivo
         $file = $dir . '/' . $file_name;
-        /** @var object Objeto con información del disco a usar para obtener el archivo */
+        // Objeto con información del disco a usar para obtener el archivo
         $storage_disk = Storage::disk($disk[0]);
         if ($storage_disk->exists($file)) {
-            /** @var string|object Driver del disco a usar */
+            // Driver del disco a usar
             $fs = Storage::disk($disk[0])->getDriver();
-            /** @var string Contenido del archivo */
+            // Contenido del archivo
             $stream = $fs->readStream($file);
             return [true, 'stream' => $stream, 'fs' => $fs, 'file' => $file];
         }
@@ -184,19 +179,17 @@ class BackupRepository
     /**
      * Elimina un archivo
      *
-     * @method  delFile
-     *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param  string $disk      Disk name
      * @param  string $dir       Directory name
      * @param  string $file_name File name
      *
-     * @return array             File data
+     * @return boolean
      */
     public function delFile($disk, $dir, $file_name)
     {
-        /** @var object Objeto con información del disco del sistema de archivos */
+        // Objeto con información del disco del sistema de archivos
         $storage_disk = Storage::disk($disk[0]);
         if ($storage_disk->exists($dir . '/' . $file_name)) {
             $storage_disk->delete($dir . '/' . $file_name);
@@ -208,27 +201,25 @@ class BackupRepository
     }
 
     /**
-     * Show readeable human file size
-     *
-     * @method  humanFileSize
+     * Muestra el tamaño del archivo en formato legible
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param  float   $size       File size to convert
-     * @param  integer $precision  Precision for the file size
+     * @param  float   $size       Tamaño del archivo a convertir
+     * @param  integer $precision  Precisión para el tamaño del archivo
      *
-     * @return string              Return readeable human file size
+     * @return string
      */
     public function humanFileSize($size, $precision = 2)
     {
-        /** @var array Listado de unidades de capacidad */
+        // Listado de unidades de capacidad
         $units = ['B','kB','MB','GB','TB','PB','EB','ZB','YB'];
-        /** @var integer base de cálculo para determinar el tamaño en formato legible */
+        // base de cálculo para determinar el tamaño en formato legible
         $step = 1024;
-        /** @var integer Contador */
+        // Contador
         $i = 0;
         while (($size / $step) > 0.9) {
-            /** @var float Tamaño del archivo */
+            // Tamaño del archivo
             $size = $size / $step;
             $i++;
         }

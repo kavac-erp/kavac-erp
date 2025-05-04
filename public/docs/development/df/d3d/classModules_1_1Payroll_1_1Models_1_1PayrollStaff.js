@@ -3,6 +3,7 @@ var classModules_1_1Payroll_1_1Models_1_1PayrollStaff =
     [ "assetAsignation", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#accfab0b8eb51f3a89621c2816c520a79", null ],
     [ "budgetCentralizedActions", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#ad3b6280395a0e01f2fa8f9840137f24a", null ],
     [ "budgetProjects", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#a082d5ea26dbc635c3a3bb4b14c275cc9", null ],
+    [ "citizenServiceDepartments", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#ac5468f0d9ffc8c4cd33b186f08e43aa9", null ],
     [ "citizenServiceRegister", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#a19d92eacd48c9eec8a7f5b0291ff6ccc", null ],
     [ "getFullNameAttribute", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#aa181056681985471df183665692b1beb", null ],
     [ "parish", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#aef3d34e9777b62d80e5c39f5b381176e", null ],
@@ -12,6 +13,7 @@ var classModules_1_1Payroll_1_1Models_1_1PayrollStaff =
     [ "payrollConceptAssignOptions", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#abea835ff97072aee3b7e5de9ae91f85c", null ],
     [ "payrollDisability", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#acd92ac5bca8d67835338d7b3e7328bdb", null ],
     [ "payrollEmployment", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#abdc1b682ad22924fb86daea08fec392e", null ],
+    [ "payrollEmploymentNoAppends", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#ae602313ab880579997a2eef27c67a5a6", null ],
     [ "payrollFinancial", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#a47d9dd16fc742f24480c408a67fe7bf3", null ],
     [ "payrollGender", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#aaa0bb8721647e51ff9a687b8f199b8c3", null ],
     [ "payrollLicenseDegree", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#a2342f67b83bc2c322d0f7a99a0b77ec3", null ],
@@ -26,8 +28,12 @@ var classModules_1_1Payroll_1_1Models_1_1PayrollStaff =
     [ "payrollVacationRequests", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#a6281b9a206f5d3d9b7e57a6f1fbeda5d", null ],
     [ "phones", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#af4fe82a2a1c2ebe71c2633cd53c27ecb", null ],
     [ "saleGoodsToBeTraded", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#a1227846009821201dc7e7cdef16d27a0", null ],
+    [ "scopeFilterPayrollStaff", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#ae76336ae48f337dd72ccf2d1f44546e7", null ],
+    [ "scopeGetCitizenServiceDepartmentCoordinator", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#a94d9a36767efd571e24e3932c09137bd", null ],
+    [ "scopeGetCitizenServiceDepartmentDirector", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#a1b0b4b4fc8fbd5046cba06ef50e00b67", null ],
+    [ "scopeSearch", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#ad664ab03bbc7e886fe33f681fc2baed6", null ],
     [ "$dates", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#a6ed295a3b7371b42773cab86fd367af8", null ],
     [ "$fillable", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#a13601d3af66d109458e268a3eb4afc49", null ],
-    [ "$table", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#ae8876a14058f368335baccf35af4a22b", null ],
-    [ "$with", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#a575ec3cd45566351149a2d4f1d4bbd58", null ]
+    [ "$table", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#adab5438224e48204d162e89b273b36b3", null ],
+    [ "$with", "df/d3d/classModules_1_1Payroll_1_1Models_1_1PayrollStaff.html#a3b8033ad34a94c5e640232d8091bd02a", null ]
 ];

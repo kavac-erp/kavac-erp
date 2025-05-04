@@ -1,0 +1,15 @@
+<map id="verifySize" name="verifySize">
+<area shape="rect" id="Node000001" title="Verifica que el tamaño de la imagen corresponda con el mínimo y máximo permitido." alt="" coords="499,157,585,182"/>
+<area shape="rect" id="Node000002" href="$d8/d99/classApp_1_1Repositories_1_1UploadImageRepository.html#a01c7d99692e9d1d3dde729a9372885ba" title="Instrucciones para verificar y subir una imagen a la ruta indicada en el servidor." alt="" coords="344,157,451,182"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="485,172,451,172,451,167,485,167"/>
+<area shape="rect" id="Node000003" href="$d4/d5c/classApp_1_1Http_1_1Controllers_1_1ImageController.html#a2a4286cb11044f2e7d139ff2dafb4b08" title="Registra una nueva imagen." alt="" coords="67,5,235,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="379,147,344,101,321,79,295,60,265,46,234,37,236,32,267,41,297,55,324,75,348,98,383,144"/>
+<area shape="rect" id="Node000004" href="$d5/dd6/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDisincorporationController.html#a5fb0bcc700ffb8694a96c31f3f5d0af8" title="Valida y registra una nueva desincorporación de bienes institucionales." alt="" coords="29,70,273,125"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="343,155,295,140,252,127,253,122,297,135,345,150"/>
+<area shape="rect" id="Node000005" href="$de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#a5fb0bcc700ffb8694a96c31f3f5d0af8" title="Valida y registra una nueva solicitud de bienes institucionales." alt="" coords="5,149,296,189"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="330,172,296,172,296,167,330,167"/>
+<area shape="rect" id="Node000006" href="$d3/d18/classModules_1_1CitizenService_1_1Http_1_1Controllers_1_1CitizenServiceRequestCloseController.html#a5fb0bcc700ffb8694a96c31f3f5d0af8" title="Almacena los datos de una nuevo cierre de solicitud." alt="" coords="37,214,264,269"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="345,189,297,204,253,217,252,211,295,199,343,184"/>
+<area shape="rect" id="Node000007" href="$d3/dd8/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollSuspensionVacationRequestController.html#a5fb0bcc700ffb8694a96c31f3f5d0af8" title="Valida y registra una nueva solicitud de suspension de vacaciones." alt="" coords="35,293,267,347"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="383,195,347,239,324,263,297,282,268,297,266,292,295,278,320,259,343,236,378,192"/>
+</map>

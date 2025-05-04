@@ -5,16 +5,9 @@ namespace Modules\Sale\Http\Controllers\Reports;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
-use App\Models\CodeSetting;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Repositories\ReportRepository;
 use Modules\Sale\Models\SaleQuote;
-use Modules\Sale\Models\SaleQuoteProduct;
-use Modules\Sale\Models\SaleWarehouseInventoryProduct;
-use Modules\Sale\Models\SaleWarehouseMovement;
-use Modules\Sale\Models\SaleTypeGood;
-use App\Models\HistoryTax;
 use App\Models\Institution;
 
 /**
@@ -24,9 +17,9 @@ use App\Models\Institution;
  * Clase que gestiona la generacion de reportes de quotes
  *
  * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleQuoteReportController extends Controller
 {
@@ -36,10 +29,12 @@ class SaleQuoteReportController extends Controller
      * Define la configuración de la clase
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         //$this->middleware('permission:warehouse.report.', ['only' => 'create']);
     }
 
@@ -47,7 +42,8 @@ class SaleQuoteReportController extends Controller
      * Muestra un listado para generar el reporte de Quotes
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return Renderable
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -57,8 +53,11 @@ class SaleQuoteReportController extends Controller
     /**
      * Obtiene la lista de quotes en base a los filtros del usuario en el reporte
      *
-     * @method    quotesSearch
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
+     * @param Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function quotesSearch(Request $request)
     {
@@ -106,8 +105,11 @@ class SaleQuoteReportController extends Controller
     /**
      * Genera el archivo PDF en base a los quotes seleccionados por el usuario
      *
-     * @method    pdf
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
+     * @param string $values identificadores de las cotizaciones
+     *
+     * @return void
      */
     public function pdf($values = [])
     {
@@ -127,10 +129,7 @@ class SaleQuoteReportController extends Controller
                 $quotes->whereIn('id', $ids);
             }
         }
-        /**
-         * [$pdf base para generar el pdf]
-         * @var [Modules\Accounting\Pdf\Pdf]
-        */
+        /* base para generar el pdf */
         $pdf = new ReportRepository();
 
         /*
@@ -138,6 +137,7 @@ class SaleQuoteReportController extends Controller
         */
         $institution = null;
         $is_admin = auth()->user()->isAdmin();
+        $user_profile = auth()->user()?->profile;
 
         if (!$is_admin && $user_profile && $user_profile['institution']) {
             $institution = Institution::find($user_profile['institution']['id']);
@@ -145,7 +145,7 @@ class SaleQuoteReportController extends Controller
             $institution = '';
         }
 
-        $pdf->setConfig(['institution' => Institution::first()]);
+        $pdf->setConfig(['institution' => $institution ?? Institution::first()]);
         $pdf->setHeader('Reporte de Cotizaciones');
         $pdf->setFooter();
         $pdf->setBody('sale::quotes.quotes-pdf', true, [

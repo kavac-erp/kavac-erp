@@ -11,9 +11,9 @@ use Illuminate\Database\Eloquent\Model;
  * Gestiona el modelo de datos de los valores de los atributos de los productos de almacén
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleWarehouseProductValue extends Model
 {
@@ -29,8 +29,8 @@ class SaleWarehouseProductValue extends Model
      * Método que obtiene el producto relacionado con el registro
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseProductAttribute
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleWarehouseInventoryProduct()
     {

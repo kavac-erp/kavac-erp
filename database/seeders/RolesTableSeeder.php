@@ -14,13 +14,14 @@ use Illuminate\Support\Facades\DB;
  * Gestiona la información por defecto a registrar inicialmente para los Roles
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class RolesTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Ejecuta los seeers de base de datos
      *
      * @return void
      */
@@ -75,7 +76,7 @@ class RolesTableSeeder extends Seeder
 
         $rolesText = trim($rolesText, ', ');
         $this->command->info(
-            "<fg=green>Se cargó y/o actualizó un total de</><fg=yellow> " . count($roles). " </>" .
+            "<fg=green>Se cargó y/o actualizó un total de</><fg=yellow> " . count($roles) . " </>" .
             "<fg=green>Roles</><fg=yellow> [$rolesText] </>"
         );
         $this->command->line("");

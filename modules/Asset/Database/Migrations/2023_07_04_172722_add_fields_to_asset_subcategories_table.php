@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldsToAssetSubcategoriesTable
- * @brief [descripción detallada]
+ * @brief Agrega campos a la tabla asset_subcategories
  *
- * [descripción corta]
+ * Agrega campos a la tabla asset_subcategories
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

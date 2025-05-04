@@ -1,9 +1,8 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Purchase\Models;
 
+use Nwidart\Modules\Facades\Module;
 use App\Models\DocumentStatus as BaseDocumentStatus;
 
 /**
@@ -13,41 +12,49 @@ use App\Models\DocumentStatus as BaseDocumentStatus;
  * Modelo que extiende las funcionalidades del modelo base DocumentStatus
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class DocumentStatus extends BaseDocumentStatus
 {
     /**
-     * DocumentStatus has many BudgetSubSpecificFormulations.
+     * Establece la relación con las formulaciones presupuestarias del módulo de presupuesto si esta presente
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function budgetSubSpecificFormulations()
     {
-        return $this->hasMany(BudgetSubSpecificFormulation::class);
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->hasMany(\Modules\Budget\Models\BudgetSubSpecificFormulation::class) : [];
     }
 
     /**
-     * DocumentStatus has many BudgetModifications.
+     * Establece la relación con las modificaciones presupuestarias del módulo de presupuesto si esta presente
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function budgetModifications()
     {
-        return $this->hasMany(BudgetModification::class);
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->hasMany(\Modules\Budget\Models\BudgetModification::class) : [];
     }
 
     /**
-     * DocumentStatus has many BudgetCompromise.
+     * Establece la relación con los compromisos presupuestarios del módulo de presupuesto si esta presente
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function budgetCompromise()
     {
-        return $this->hasMany(BudgetCompromise::class);
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->hasMany(BudgetCompromise::class) : [];
     }
 }

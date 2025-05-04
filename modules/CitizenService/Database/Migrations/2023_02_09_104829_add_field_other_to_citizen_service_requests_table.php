@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldOtherToCitizenServiceRequestsTable
- * @brief [descripción detallada]
+ * @brief Agrega el campo other a la tabla de solicitudes de servicios
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Yenifer Ramírez <yramirez@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

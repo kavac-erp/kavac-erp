@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -30,12 +28,14 @@ class PeriodicCost extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'description', 'value', 'currency_id', 'frecuency_id', 'attributes'];
@@ -44,8 +44,8 @@ class PeriodicCost extends Model implements Auditable
      * Método que obtiene el tipo de moneda asignado al costo fijo
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * Currency
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency()
     {
@@ -56,8 +56,8 @@ class PeriodicCost extends Model implements Auditable
      * Método que obtiene la periodicidad de pago del costo fijo
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * Frecuency
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function frecuency()
     {
@@ -68,8 +68,8 @@ class PeriodicCost extends Model implements Auditable
      * Método que obtiene la lista de atributos de un costo fijo
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany Objeto con el registro relacionado al modelo
-     * PeriodicCostAttribute
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function periodicCostAttribute()
     {

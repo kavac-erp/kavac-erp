@@ -17,14 +17,33 @@ use Illuminate\Database\Eloquent\Model;
  * Gestiona la información por defecto a registrar inicialmente para las Monedas
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class CurrenciesTableSeeder extends Seeder
 {
+    /**
+     * Contador de monedas cargadas
+     *
+     * @var int $count
+     */
     protected $count;
+
+    /**
+     * Contador de permisos cargados
+     *
+     * @var int $countP
+     */
     protected $countP;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->count = 0;
@@ -32,7 +51,7 @@ class CurrenciesTableSeeder extends Seeder
     }
 
     /**
-     * Run the database seeds.
+     * Ejecuta los seeers de base de datos
      *
      * @return void
      */
@@ -69,7 +88,7 @@ class CurrenciesTableSeeder extends Seeder
             ],
         ];
 
-        /** @var object Almacena información del pais */
+        /* Almacena información del pais */
         $country = Country::where('name', 'Venezuela')->first();
 
         $this->command->line("");
@@ -79,7 +98,7 @@ class CurrenciesTableSeeder extends Seeder
         DB::transaction(function () use ($adminRole, $permissions, $country) {
             Currency::withTrashed()->updateOrCreate(
                 ['country_id' => $country->id, 'symbol' => 'Bs.'],
-                ['name' => 'Bolívar', 'default' => true, 'deleted_at' => null]
+                ['name' => 'Bolívar', 'plural_name' => 'Bolívares', 'default' => true, 'deleted_at' => null]
             );
             $this->count = 1;
 

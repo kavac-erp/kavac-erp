@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +13,13 @@ use App\Traits\ModelsTrait;
  * @brief Datos de Estados
  *
  * Gestiona el modelo de datos para los tipos de cambio
+ *
+ * @property  string  $start_at
+ * @property  string  $end_at
+ * @property  string  $amount
+ * @property  string  $active
+ * @property  string  $from_currency_id
+ * @property  string  $to_currency_id
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -49,9 +54,7 @@ class ExchangeRate extends Model implements Auditable
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     /**
-     * ExchangeRate belongs to Currency.
-     *
-     * @method  fromCurrency
+     * Método que obtiene la moneda desde la que se realiza una conversión
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -63,9 +66,7 @@ class ExchangeRate extends Model implements Auditable
     }
 
     /**
-     * ExchangeRate belongs to Currency.
-     *
-     * @method  toCurrency
+     * Método que obtiene la moneda a la que se realiza una conversión
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -79,8 +80,6 @@ class ExchangeRate extends Model implements Auditable
     /**
      * Método mutador que permite obtener información del campo start_at en formato de fecha sin marca de tiempo
      *
-     * @method     getStartAtAttribute()
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return     string                 Devuelve la fecha en formato año-mes-día
@@ -93,8 +92,6 @@ class ExchangeRate extends Model implements Auditable
 
     /**
      * Método mutador que permite obtener información del campo end_at en formato de fecha sin marca de tiempo
-     *
-     * @method     getEndAtAttribute()
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

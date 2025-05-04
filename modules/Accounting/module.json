@@ -1,5 +1,5 @@
 {
-    "version": "1.0.4",
+    "version": "1.0.5",
     "name": "Accounting",
     "alias": "accounting",
     "name_es": "Contabilidad",
@@ -9,6 +9,10 @@
         {
             "name": "Ing. Juan Rosas",
             "email": ["juan.rosasr01@gmail.com"]
+        },
+        {
+            "name": "Ing. Francisco Escala",
+            "email": ["fescala@cenditel.gob.ve"]
         }
     ],
     "logo": "accounting-logo.png",

@@ -38,7 +38,7 @@
                     <div class="form-group is-required">
                         <label>Trabajador:</label>
                         <select2
-                            :options="payroll_staffs" 
+                            :options="payroll_staffs"
                             id="payroll_staff_id"
                             v-model="record.payroll_staff_id"
                             :disabled="isEditMode"
@@ -53,8 +53,8 @@
                 >
                     <div class="form-group is-required">
                         <label>Banco:</label>
-                        <select2 
-                            :options="banks" 
+                        <select2
+                            :options="banks"
                             id="finance_bank_id"
                             v-model="record.finance_bank_id">
                         </select2>
@@ -66,7 +66,7 @@
                         v-if="account_types.length > 0"
                     >
                         <label>Tipo de Cuenta:</label>
-                        <select2 
+                        <select2
                             :options="account_types"
                             id="finance_account_type_id"
                             v-model="record.finance_account_type_id">
@@ -118,17 +118,6 @@
             >
                 <i class="fa fa-save"></i>
             </button>
-            <!--
-            <button
-                type="button"
-                @click="generateRecord()"
-                data-toggle="tooltip"
-                title="Guardar registro"
-                class="btn btn-success btn-icon btn-round"
-            >
-                <i class="fa fa-save"></i>
-            </button>
-            -->
         </div>
     </section>
 </template>

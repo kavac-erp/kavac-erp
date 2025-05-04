@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use App\Traits\ModelsTrait;
@@ -15,6 +13,19 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * @brief Datos de los documentos
  *
  * Gestiona el modelo de datos para los documentos
+ *
+ * @property  string  $code
+ * @property  string  $file
+ * @property  string  $url
+ * @property  string  $signs
+ * @property  string  $archive_number
+ * @property  string  $extension
+ * @property  string  $physical_support
+ * @property  string  $digital_file
+ * @property  string  $digital_support_original
+ * @property  string  $digital_support_signed
+ * @property  string  $documentable_type
+ * @property  string  $documentable_id
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -40,14 +51,12 @@ class Document extends Model implements Auditable
      * @var array $fillable
      */
     protected $fillable = [
-        'code', 'file', 'url', 'signs', 'archive_number', 'physical_support', 'digital_support_original',
-        'digital_support_signed', 'documentable_type', 'documentable_id'
+        'code', 'file', 'url', 'signs', 'archive_number', 'extension', 'physical_support', 'digital_file',
+        'digital_support_original', 'digital_support_signed', 'documentable_type', 'documentable_id'
     ];
 
     /**
-     * Document morphs to models in documentable_type
-     *
-     * @method  documentable
+     * Obtiene el modelo con el que se relaciona el documento
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
      *

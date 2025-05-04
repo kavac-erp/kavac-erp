@@ -60,9 +60,9 @@
         </div>
         <!-- Final de filtros de la tabla -->
         <hr>
-        <v-client-table
+        <v-server-table
             :columns="columns"
-            :data="records"
+            :url="'purchase/quotations/vue-list'"
             :options="table_options"
         >
             <div slot="date" slot-scope="props">
@@ -181,7 +181,7 @@
                     </template>
                 </div>
             </div>
-        </v-client-table>
+        </v-server-table>
     </section>
 </template>
 <script>

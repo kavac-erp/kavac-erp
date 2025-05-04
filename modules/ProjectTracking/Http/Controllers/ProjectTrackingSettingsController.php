@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -15,11 +13,11 @@ use Modules\ProjectTracking\Models\ProjectTrackingSubProject;
 
 /**
  * @class ProjectTrackingSettingsController
- * @brief [controlador dedicado a conectar las distintas funcionalidades para la configuracion de modulo seguimiento]
+ * @brief Controlador dedicado a conectar las distintas funcionalidades para la configuracion de modulo seguimiento
  *
- * [controlador dedicado a conectar las distintas funcionalidades para la configuracion de modulo seguimiento]
+ * Controlador dedicado a conectar las distintas funcionalidades para la configuracion de modulo seguimiento
  *
- * @author    [Francisco Escala] [fjescala@gmail.com]
+ * @author    Francisco Escala <fjescala@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -27,24 +25,22 @@ use Modules\ProjectTracking\Models\ProjectTrackingSubProject;
 class ProjectTrackingSettingsController extends Controller
 {
     /**
-     * [descripción del método]
-     *
-     * @method    index
+     * Configuración general del módulo de seguimiento de proyectos
      *
      * @author    Oscar González <xxmaestroyixx@gmail.com/ojgonzalez@cenditel.gob.ve>
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
-        /** @var object Contiene los registros de proyectos */
+        /* Contiene los registros de proyectos */
         $projects = ProjectTrackingProject::all();
-        /** @var object Contiene los registros de subproyectos */
+        /* Contiene los registros de subproyectos */
         $subprojects = ProjectTrackingSubProject::all();
-        /** @var object Contiene los registros de productos */
+        /* Contiene los registros de productos */
         $products = ProjectTrackingProduct::all();
         $codeSettings = CodeSetting::where('module', 'projecttracking')->get();
-        /** @var object Contiene información sobre la configuración de código para los formularios */
+        /* Contiene información sobre la configuración de código para los formularios */
         $pjCode = $codeSettings->where('table', 'project_tracking_projects')->first();
         $spCode = $codeSettings->where('table', 'project_tracking_sub_projects')->first();
         $pdCode = $codeSettings->where('table', 'project_tracking_products')->first();
@@ -59,13 +55,9 @@ class ProjectTrackingSettingsController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario de configuración del módulo de seguimiento de proyectos
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -73,19 +65,17 @@ class ProjectTrackingSettingsController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena la configuración del módulo de seguimiento de proyectos
      *
-     * @method    store
+     * @author    Oscar González [xxmaestroyixx@gmail.com/ojgonzalez@cenditel.gob.ve]
      *
-     * @author    [Oscar González] [xxmaestroyixx@gmail.com/ojgonzalez@cenditel.gob.ve]
+     * @param     Request    $request    Datos de la petición
      *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        /** Reglas de validación para la configuración de códigos */
+        /* Reglas de validación para la configuración de códigos */
         $request->validate([
             'projects_code' => [new CodeSettingRule()],
             'sub_projects_code' => [new CodeSettingRule()],
@@ -93,13 +83,13 @@ class ProjectTrackingSettingsController extends Controller
             'activity_plans_code' => [new CodeSettingRule()],
         ]);
 
-        /** @var array Arreglo con información de los campos de códigos configurados */
+        /* Arreglo con información de los campos de códigos configurados */
         $codes = $request->input();
-        /** @var boolean Define el estatus verdadero para indicar que no se ha registrado información */
+        /* Define el estatus verdadero para indicar que no se ha registrado información */
         $saved = false;
 
         foreach ($codes as $key => $value) {
-            /** @var string Define el modelo al cual hace referencia el código */
+            /* Define el modelo al cual hace referencia el código */
             $model = '';
 
             if ($key !== '_token' && !is_null($value)) {
@@ -107,18 +97,18 @@ class ProjectTrackingSettingsController extends Controller
                 list($prefix, $digits, $sufix) = CodeSetting::divideCode($value);
 
                 if ($table === "projects") {
-                    /** @var string Define el modelo para los registros de proyectos */
-                    $model = \Modules\ProjectTracking\Models\ProjectTrackingProject::class;
+                    /* Define el modelo para los registros de proyectos */
+                    $model = ProjectTrackingProject::class;
                 } elseif ($table === "sub") {
-                    /** @var string Define el modelo para los registros de subproyectos */
+                    /* Define el modelo para los registros de subproyectos */
                     $table = 'sub_projects';
                     $field = 'code';
-                    $model = \Modules\ProjectTracking\Models\ProjectTrackingSubProject::class;
+                    $model = ProjectTrackingSubProject::class;
                 } elseif ($table === "products") {
-                    /** @var string Define el modelo para los registros de productos */
-                    $model = \Modules\ProjectTracking\Models\ProjectTrackingProduct::class;
+                    /* Define el modelo para los registros de productos */
+                    $model = ProjectTrackingProduct::class;
                 } elseif ($table === "activity") {
-                    /** @var string Define el modelo para los registros de plan de actividad */
+                    /* Define el modelo para los registros de plan de actividad */
                     $table = 'activity_plans';
                     $field = 'code';
                     $model = \Modules\ProjectTracking\Models\ProjectTrackingActivityPlan::class;
@@ -142,7 +132,7 @@ class ProjectTrackingSettingsController extends Controller
                     ]);
                 }
 
-                /** @var boolean Define el estatus verdadero para indicar que se ha registrado información */
+                /* Define el estatus verdadero para indicar que se ha registrado información */
                 $saved = true;
             }
         }
@@ -160,15 +150,11 @@ class ProjectTrackingSettingsController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información de la configuración
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -176,15 +162,11 @@ class ProjectTrackingSettingsController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario de edición de la configuración
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -192,16 +174,12 @@ class ProjectTrackingSettingsController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza la configuración
      *
-     * @method    update
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function update(Request $request, $id)
     {
@@ -209,15 +187,11 @@ class ProjectTrackingSettingsController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina la configuración
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function destroy($id)
     {

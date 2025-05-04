@@ -14,10 +14,10 @@ use Modules\Purchase\Models\PurchaseType;
  *
  * Clase que gestiona los tipos de compras
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PurchaseTypeController extends Controller
 {
@@ -25,13 +25,15 @@ class PurchaseTypeController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -39,26 +41,30 @@ class PurchaseTypeController extends Controller
      * Define la configuración de la clase
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'                  => ['required', 'unique:purchase_types,name'],
             //'purchase_processes_id' => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             [ 'name.required'   => 'El campo nombre es obligatorio.'],
             [ 'name.unique'     => 'El campo nombre ya existe.'],
             //[ 'purchase_processes_id.required' => 'El campo proceso de compra es obligatorio.']
         ];
     }
+
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Muestra un listado de tipos de proveedor
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -66,8 +72,9 @@ class PurchaseTypeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear un nuevo tipo de proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -75,9 +82,11 @@ class PurchaseTypeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena un nuevo tipo de proveedor
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -94,8 +103,9 @@ class PurchaseTypeController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un tipo de proveedor
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -116,8 +126,9 @@ class PurchaseTypeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar un tipo de proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -125,9 +136,11 @@ class PurchaseTypeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza un tipo de proveedor
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -135,10 +148,8 @@ class PurchaseTypeController extends Controller
             $request,
             [
             'name' => ['required', 'unique:purchase_types,name,' . $id],
-            //'purchase_processes_id' => ['required'],
             ],
             $this->messages
-            //[ 'purchase_processes_id.required' => 'El campo proceso de compra es obligatorio.']
         );
 
         $record                        = PurchaseType::find($id);
@@ -152,8 +163,9 @@ class PurchaseTypeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina un tipo de proveedor
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -168,11 +180,9 @@ class PurchaseTypeController extends Controller
     /**
      * Método que permite obtener un listado de las modalidades de compra ya registrados
      *
-     * @method     getPurchaseType
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return     JsonResponse
+     * @return     \Illuminate\Http\JsonResponse
      */
     public function getPurchaseType()
     {

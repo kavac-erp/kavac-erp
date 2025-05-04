@@ -4,17 +4,26 @@ declare(strict_types=1);
 
 namespace Modules\Payroll\Http\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Payroll\Models\PayrollSupervisedGroup;
 
+/**
+ * @class GuardSchemaResource
+ * @brief Representa un recurso para el esquema de guardia
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class GuardSchemaResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transforma el recurso a un arreglo.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return array
      */
     public function toArray($request)
     {
@@ -65,6 +74,12 @@ class GuardSchemaResource extends JsonResource
             'deleted_at' => $this->resource->deleted_at,
         ];
     }
+
+    /**
+     * Obtiene el grupo supervisado correspondiente al esquema de guardia
+     *
+     * @return PayrollSupervisedGroup|null
+     */
     protected function getPayrollSuperviedGroup(): ?PayrollSupervisedGroup
     {
         $data = $this->resource->payrollSupervisedGroup;

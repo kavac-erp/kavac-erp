@@ -1,10 +1,9 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Deduction;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
@@ -14,6 +13,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar las deducciones y/o retenciones
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -21,8 +21,6 @@ class DeductionController extends Controller
 {
     /**
      * Listado de todas las deducciones registradas
-     *
-     * @method    index
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -35,8 +33,6 @@ class DeductionController extends Controller
 
     /**
      * Registra una nueva deducción
-     *
-     * @method    store
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -52,7 +48,7 @@ class DeductionController extends Controller
         ]);
 
         $request->merge(['active' => (!is_null($request->active) && $request->active !== false)]);
-        /** @var Deduction Objeto con información de la deducción registrada */
+        // Objeto con información de la deducción registrada
         $deduction = Deduction::create($request->all());
 
         return response()->json(['record' => $deduction, 'message' => 'Success'], 200);
@@ -60,8 +56,6 @@ class DeductionController extends Controller
 
     /**
      * Actualiza los datos de una deducción
-     *
-     * @method    update
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -73,7 +67,7 @@ class DeductionController extends Controller
     public function update(Request $request, Deduction $deduction)
     {
         $this->validate($request, [
-            'name' => ['required', 'unique:deductions,name,'.$deduction->id],
+            'name' => ['required', 'unique:deductions,name,' . $deduction->id],
             'formula' => ['required']
         ]);
 
@@ -90,8 +84,6 @@ class DeductionController extends Controller
     /**
      * Elimina una deducción
      *
-     * @method    destroy
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Deduction    $deduction    Objeto con datos de la deducción a eliminar
@@ -107,9 +99,9 @@ class DeductionController extends Controller
     /**
      * Listado de deducciones
      *
-     * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return void
+     * @return JsonResponse JSON con el listado de deducciones
      */
     public function list()
     {

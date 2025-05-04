@@ -56,7 +56,6 @@
                                         'id' => 'department_id',
                                         'class' => 'select2',
                                         'data-toggle' => 'tooltip',
-                                        'disabled' => (true),
                                         'onchange' => 'updateStaffSelect($(this), $("#payroll_staff_id"), "PayrollEmployment", "Payroll", "payrollStaff", [$("#payroll_position_id")])',
                                         'title' => __('Seleccione un departamento o dependencia'),
                                     ]) !!}
@@ -69,7 +68,6 @@
                                         {!! Form::select('payroll_staff_id', $staffs, null, [
                                             'id' => 'payroll_staff_id',
                                             'class' => 'select2', 'data-toggle' => 'tooltip',
-                                            'disabled' => (true),
                                             'onchange' => 'updateSelectCustomPosition($(this), $("#payroll_position_id"), "PayrollEmployment", "Payroll", "")',
                                             'title' => __('Seleccione una persona responsable del proyecto')
                                         ]) !!}
@@ -83,7 +81,6 @@
                                         {!! Form::select('payroll_position_id', $positions, null, [
                                             'id' => 'payroll_position_id',
                                             'class' => 'select2', 'data-toggle' => 'tooltip',
-                                            'disabled' => ( true),
                                             'title' => __('Seleccione el cargo de la persona responsable del proyecto')
                                         ]) !!}
                                     </div>

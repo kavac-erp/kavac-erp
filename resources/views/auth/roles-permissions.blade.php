@@ -74,9 +74,15 @@
         const relatedPermissions = (roleEl) => {
             const id = roleEl.getAttribute('id').split("_")[1];
             const perms = JSON.parse(roleEl.dataset.permissions) || [];
-            
+
             perms.forEach((p) => {
-                document.getElementById(`perm_${p}`).checked = roleEl.checked;
+                const permCheckbox = document.getElementById(`perm_${p}`);
+                permCheckbox.checked = roleEl.checked;
+
+                /* Cambia la propiedad 'disabled' según el estado del rol, si un
+                rol está activado, sus permisos relacionados ahora se activan y
+                bloquean en la interfaz */
+                permCheckbox.disabled = roleEl.checked;
             });
         }
     </script>

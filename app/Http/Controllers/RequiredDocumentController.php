@@ -1,11 +1,10 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
-use App\Models\RequiredDocument;
 use Illuminate\Http\Request;
+use App\Models\RequiredDocument;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class RequiredDocumentController
@@ -14,6 +13,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar documentos requeridos
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -22,13 +22,11 @@ class RequiredDocumentController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:document.required.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:document.required.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:document.required.delete', ['only' => 'destroy']);
@@ -37,8 +35,6 @@ class RequiredDocumentController extends Controller
 
     /**
      * Listado de todos los requerimientos de documentos registrados
-     *
-     * @method    index
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -57,8 +53,6 @@ class RequiredDocumentController extends Controller
     /**
      * Registra un nuevo requerimiento de documentos
      *
-     * @method    store
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Request       $request    Objeto con información de la petición
@@ -73,7 +67,7 @@ class RequiredDocumentController extends Controller
             'name' => ['required'],
         ]);
 
-        /** @var RequiredDocument Objeto con información del requerimiento de documento registrado */
+        // Objeto con información del requerimiento de documento registrado
         $requiredDocument = RequiredDocument::create([
             'name' => $request->name,
             'description' => $request->description ?? null,
@@ -87,8 +81,6 @@ class RequiredDocumentController extends Controller
 
     /**
      * Actualiza la información de un requerimiento de documento
-     *
-     * @method    update
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -118,8 +110,6 @@ class RequiredDocumentController extends Controller
 
     /**
      * Elimina un requerimiento de documento
-     *
-     * @method    destroy
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

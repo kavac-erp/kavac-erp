@@ -247,11 +247,6 @@
     </div>
 </template>
 <script>
-/*
- * 
- *
- * 
- */
 export default {
     data() {
         return {
@@ -303,10 +298,6 @@ export default {
             'currency', 'measurement_unit', 'department', 'payroll_staffs', 'history_tax', 'attributes'];
         this.table_options.filterable = ['sale_type_good', 'name', 'description', 'unit_price',
             'currency', 'measurement_unit', 'department', 'payroll_staffs', 'history_tax', 'attributes'];
-        /*this.table_options.columnsClasses = {
-            'name': 'col-md-5',
-            'id': 'col-md-2'
-        };*/
         this.getCurrencies();
         this.getTaxes();
         this.getMeasurementUnits();
@@ -400,7 +391,7 @@ export default {
          * Reescribe el metodo para cambiar su comportamiento por defecto
          * Método que carga el formulario con los datos a modificar
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          *
          * @param  {integer} index Identificador del registro a ser modificado
          * @param {object} event   Objeto que gestiona los eventos

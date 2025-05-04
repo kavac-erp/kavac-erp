@@ -8,6 +8,13 @@ use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SalePaymentMethod;
 
+/**
+ * @class SalePaymentMethodController
+ * @brief Controlador que gestiona los métodos de pago
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SalePaymentMethodController extends Controller
 {
     use ValidatesRequests;
@@ -16,22 +23,24 @@ class SalePaymentMethodController extends Controller
      * Define la configuración de la clase
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
+     *
+     * @return void
      */
-
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador *//*
+        // Establece permisos de acceso para cada método del controlador/*
         $this->middleware('permission:sale.payment.method.list', ['only' => 'index']);
         $this->middleware('permission:sale.payment.method.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:sale.payment.method.edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:sale.payment.method.delete', ['only' => 'destroy']);*/
+        $this->middleware('permission:sale.payment.method.delete', ['only' => 'destroy']);
     }
 
     /**
      * Muestra todos los registros de tipos de personal
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @return JsonResponse    Json con los datos
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -39,20 +48,23 @@ class SalePaymentMethodController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar un nuevo método de pago
+     *
+     * @return void
      */
     public function create()
     {
-        //return view('sale::create');
+        //
     }
 
     /**
-     * Valida y registra un nuevo metodo de pago
+     * Valida y registra un nuevo método de pago
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
-     * @return JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
+     *
+     * @param  \Illuminate\Http\Request $request    Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -68,15 +80,17 @@ class SalePaymentMethodController extends Controller
     /**
      * Validacion de los datos
      *
-     * @method    salePaymentMethodeValidate
      * @author Ing. Jose Puentes <jpuentes@cenditel.gob.ve>
-     * @param     object    Request    $request
+     *
+     * @param     Request    $request Datos de la petición
+     *
+     * @return    void
      */
     public function salePaymentMethodeValidate(Request $request)
     {
         $attributes = [
-        'name' => 'Nombre',
-        'description' => 'Descripción'
+            'name' => 'Nombre',
+            'description' => 'Descripción'
         ];
         $validation = [];
         $validation['name'] = ['required', 'max:100'];
@@ -85,30 +99,34 @@ class SalePaymentMethodController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un método de pago
+     *
+     * @return void
      */
     public function show()
     {
-        //return view('sale::show');
+        //
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar la información del método de pago
+     *
+     * @return void
      */
     public function edit()
     {
-        //return view('sale::edit');
+        //
     }
 
     /**
      * Actualiza la información del metodo de pago
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
      * @param  integer $id                          Identificador del datos a actualizar
-     * @return JsonResponse        Json con mensaje de confirmación de la operación
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -126,8 +144,10 @@ class SalePaymentMethodController extends Controller
      * Elimina el metodo de pago
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador del metodo de pago a eliminar
-     * @return JsonResponse    Json: objeto eliminado y mensaje de confirmación de la operación
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -140,7 +160,8 @@ class SalePaymentMethodController extends Controller
      * Obtiene los tipos de pago registrados
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @return JsonResponse    Json con los datos de los tipos de pago
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSalePaymentMethod()
     {

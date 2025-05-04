@@ -1,7 +1,12 @@
 <template>
     <section id="payrollReviewBenefitsRequestPendingFormComponent">
         <a class="btn btn-default btn-xs btn-icon btn-action" href="#" title="Revisar solicitud" data-toggle="tooltip"
-            @click="addRecord('view_review_benefits_request_pending' + id, route_show, $event)">
+            :disabled="disabled(request_status)"
+            @click="
+            (!disabled(request_status)) ?
+                addRecord('view_review_benefits_request_pending' + id, route_show, $event) :
+                viewMessage()
+            ">
             <i class="fa fa-filter"></i>
         </a>
 
@@ -166,6 +171,10 @@ export default {
             type: Number,
             required: true
         },
+        request_status: {
+            type: String,
+            required: true
+        },
     },
     methods: {
         /**
@@ -245,7 +254,38 @@ export default {
                 approval_date: '',
                 motive: ''
             };
-        }
+        },
+
+        /**
+         * Función que desabilita el botón de revisar solicitud.
+         *
+         * @param {String} status Estatus de la solicitud
+         *
+         * @author Pedro Contreras <pmcontreras@cenditel.gob.ve>
+         */
+            disabled(status = ''){
+            if(status === 'approved'){
+                return true;
+            }
+            else if(status === 'rejected'){
+                return true;
+            }
+            else return false;
+        },
+
+        /**
+         * Función que reescribe el método para mostrar un mensaje de alerta
+         *
+         * @author
+         */
+            viewMessage() {
+            const vm = this;
+            vm.showMessage(
+                'custom', 'Alerta', 'danger', 'screen-error',
+                'Esta solicitud ya fue aprobada o rechazada'
+            );
+            return false;
+        },
     },
 };
 </script>

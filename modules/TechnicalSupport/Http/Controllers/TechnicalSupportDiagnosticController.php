@@ -11,7 +11,7 @@ class TechnicalSupportDiagnosticController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @return Renderable
+     * @return void
      */
     public function index()
     {
@@ -33,7 +33,7 @@ class TechnicalSupportDiagnosticController extends Controller
     /**
      * Store a newly created resource in storage.
      * @param  Request $request
-     * @return Renderable
+     * @return void
      */
     public function store(Request $request)
     {
@@ -61,7 +61,7 @@ class TechnicalSupportDiagnosticController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @return Renderable
+     * @return void
      */
     public function update(Request $request)
     {
@@ -69,7 +69,7 @@ class TechnicalSupportDiagnosticController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @return Renderable
+     * @return void
      */
     public function destroy()
     {
@@ -77,6 +77,6 @@ class TechnicalSupportDiagnosticController extends Controller
 
     public function createDiagnostic($id)
     {
-        dd($id);
+        //
     }
 }

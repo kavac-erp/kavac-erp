@@ -55,10 +55,8 @@
                                 @foreach($backups as $backup)
                                     <tr>
                                         <td>{{ $backup['file_name'] }}</td>
-                                        {{-- <td>{{ humanFilesize($backup['file_size']) }}</td> --}}
                                         <td class="text-right">{{ $backup['file_size'] }}</td>
                                         <td class="text-center">
-                                            {{--{{ formatTimeStamp($backup['last_modified'], 'F jS, Y, g:ia (T)') }}--}}
                                             {{ date('d-m-Y', $backup['last_modified']) }}
                                         </td>
                                         <td class="text-center">

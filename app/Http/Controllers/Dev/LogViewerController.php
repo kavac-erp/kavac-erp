@@ -1,10 +1,7 @@
 <?php
 
-/** Controladores para la visualización de herramientas para desarrolladores */
-
 namespace App\Http\Controllers\Dev;
 
-use Illuminate\Http\Request;
 use Arcanedev\LogViewer\Http\Controllers\LogViewerController as ArcanedevLogViewerController;
 
 /**
@@ -17,8 +14,6 @@ class LogViewerController extends ArcanedevLogViewerController
 {
     /**
      * Muestra el panel de control de logs del sistema.
-     *
-     * @method  index
      *
      * @return \Illuminate\View\View
      */

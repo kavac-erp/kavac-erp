@@ -1,11 +1,11 @@
 <template>
     <section id="payrollPaymentTypesFormComponent">
-        <a class="btn-simplex btn-simplex-md btn-simplex-primary" href="javascript:;" title="Registros de tipos de pago"
+        <a class="btn-simplex btn-simplex-md btn-simplex-primary" href="javascript:;" title="Registros de tipos de nómina"
             data-toggle="tooltip" @click="addRecord('add_payroll_payment_type', 'payroll/payment-types', $event)">
             <i class="icofont icofont-law-document ico-3x"></i>
-            <span>Tipos de<br>Pago</span>
+            <span>Tipos de<br>Nómina</span>
         </a>
-        <div class="modal fade text-left" tabindex="-1" role="dialog" id="add_payroll_payment_type">
+        <div class="modal fade text-left" tabindex="-1" role="dialog" id="add_payroll_payment_type" style="overflow-y: scroll;">
             <div class="modal-dialog vue-crud" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -14,7 +14,7 @@
                         </button>
                         <h6 class="d-flex align-items-center">
                             <i class="icofont icofont-law-document ico-3x"></i>
-                            Tipo de Pago de Nómina
+                            Tipos de Nómina
                         </h6>
                     </div>
                     <div class="modal-body">
@@ -43,7 +43,7 @@
                                 <div class="form-group is-required">
                                     <label for="code">Código:</label>
                                     <input type="text" id="code" placeholder="Código" data-toggle="tooltip"
-                                        title="Indique el códigoe del tipo de pago (requerido)"
+                                        title="Indique el código del tipo de nómina (requerido)"
                                         class="form-control input-sm" v-model="record.code">
                                     <input type="hidden" name="id" id="id" v-model="record.id">
                                 </div>
@@ -54,7 +54,7 @@
                                 <div class="form-group is-required">
                                     <label for="name">Nombre:</label>
                                     <input type="text" id="name" placeholder="Nombre" data-toggle="tooltip"
-                                        title="Indique el nombre del tipo de pago (requerido)" class="form-control input-sm"
+                                        title="Indique el nombre del tipo de nómina (requerido)" class="form-control input-sm"
                                         v-model="record.name">
                                 </div>
                             </div>
@@ -67,7 +67,7 @@
                                         <div class="custom-control custom-switch" data-toggle="tooltip"
                                             title="¿Generar recibos de pago?">
                                             <input type="checkbox" class="custom-control-input" id="receiptOfpayment"
-                                                v-model="record.receipt" :value="true">
+                                                v-model="record.receipt" :value="true" :disabled="record.skip_moments">
                                             <label class="custom-control-label" for="receiptOfpayment"></label>
                                         </div>
                                     </div>
@@ -81,41 +81,41 @@
                                             title="¿Generar orden de pago de forma automática?">
                                             <input type="checkbox" class="custom-control-input"
                                                 @change="alertMessage(record.order)" id="paymentTypeOrder"
-                                                v-model="record.order" :value="true">
+                                                v-model="record.order" :value="true" :disabled="record.skip_moments">
                                             <label class="custom-control-label" for="paymentTypeOrder"></label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- ./orden de pago -->
-                            <!-- individual -->
-                            <!-- <div class="col-md-2" v-if="record.order">
+                            <!-- omitir momentos presupuestarios -->
+                            <div class="col-md-4">
                                 <div class=" form-group">
-                                    <label>¿Individual?</label>
+                                    <label>¿Omitir momentos presupuestarios?</label>
                                     <div class="col-12">
                                         <div class="custom-control custom-switch" data-toggle="tooltip"
-                                            title="¿Individual?">
-                                            <input type="checkbox" class="custom-control-input"
-                                                    id="paymentTypeIndividual" v-model="record.individual"
-                                                    :value="true">
-                                            <label class="custom-control-label" for="paymentTypeIndividual"></label>
+                                            title="¿Omitir momentos presupuestarios?">
+                                            <input type="checkbox" class="custom-control-input" id="skipMoments"
+                                                v-model="record.skip_moments" :value="true" @change="updateCheckValues()">
+                                            <label class="custom-control-label" for="skipMoments"></label>
                                         </div>
                                     </div>
                                 </div>
-                            </div> -->
-                            <!-- ./individual -->
+                            </div>
+                            <!-- ./omitir momentos presupuestarios -->
                             <!-- periodicidad de pago -->
                             <div class="col-md-4">
                                 <div class="form-group is-required" v-if="userPermission == false">
                                     <label>Periodicidad de pago</label>
-                                    <select2 :options="payment_periodicities"
-                                        @input="record.periods_number = ''; record.payroll_payment_periods = [];"
+                                    <select2
+                                        :options="payment_periodicities"
+                                        @input="initVars()"
                                         v-model="record.payment_periodicity"></select2>
                                 </div>
                                 <div class="form-group is-required" v-if="userPermission == true">
                                     <label>Periodicidad de pago</label>
                                     <select2 :options="payment_periodicities"
-                                        @change="record.periods_number = ''; record.payroll_payment_periods = [];"
+                                        @change="initVars()"
                                         v-model="record.payment_periodicity" disabled="true"></select2>
                                 </div>
 
@@ -125,7 +125,7 @@
                                 <div class="form-group">
                                     <label for="periods">Períodos:</label>
                                     <input type="text" id="periods" placeholder="0" readonly data-toggle="tooltip"
-                                        title="Número de períodos del tipo de pago" class="form-control input-sm"
+                                        title="Número de períodos del tipo de nómina" class="form-control input-sm"
                                         v-model="record.periods_number">
                                 </div>
                             </div>
@@ -290,17 +290,15 @@ export default {
                 order: false,
                 receipt: false,
                 individual: false,
+                skip_moments: false,
                 payment_periodicity: '',
                 periods_number: '',
-                //correlative:             false,
                 start_date: '',
                 finance_bank_account_id: '',
                 finance_payment_method_id: '',
                 accounting_account_id: '',
                 accounting_entry_category_id: '',
-                //payment_relationship:    '',
                 payroll_concepts: [],
-                //associated_records:      [],
                 payroll_payment_periods: []
 
             },
@@ -327,7 +325,7 @@ export default {
                 { "id": "biannual", "text": "Semestral" },
                 { "id": "annual", "text": "Anual" },
             ],
-            
+
             days: [
                 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'
             ],
@@ -337,7 +335,6 @@ export default {
             accounting_accounts: [],
             accounting_entry_categories: [],
             payroll_concepts: [],
-            //associated_records:    []
         }
     },
     props: {
@@ -396,7 +393,6 @@ export default {
                 vm.getFinanceBankAccounts();
                 vm.getFinancePaymentMethods();
             }
-            //vm.getOptions('payroll/get-associated-records');
         });
     },
     computed: {
@@ -587,7 +583,10 @@ export default {
         }
     },
     methods: {
-
+        initVars() {
+            this.record.periods_number = '';
+            this.record.payroll_payment_periods = [];
+        },
         /**
          * Método que permite borrar todos los datos del formulario
          *
@@ -608,11 +607,8 @@ export default {
                 finance_payment_method_id: '',
                 accounting_account_id: '',
                 accounting_entry_category_id: '',
-                //correlative:             false,
                 start_date: '',
-                //payment_relationship:    '',
                 payroll_concepts: [],
-                //associated_records:      [],
                 payroll_payment_periods: []
             };
             vm.payroll_payment_periods = [];
@@ -916,6 +912,21 @@ export default {
                 vm.loading = false;
             }
         },
+
+        /**
+         * Método que actualiza los checks de recibos de pago y orden de pago en caso que
+         * se omitan los momentos presupuestarios
+         *
+         * @author    Daniel Contreras <dcontreras@cenditel.gob.ve> | <exodiadaniel@gmail.com>
+         */
+        updateCheckValues() {
+            const vm = this;
+
+            if (vm.record.skip_moments) {
+                vm.record.receipt = false;
+                vm.record.order = false;
+            }
+        }
     }
 };
 </script>

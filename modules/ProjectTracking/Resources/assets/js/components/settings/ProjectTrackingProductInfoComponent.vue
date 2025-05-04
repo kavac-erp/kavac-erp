@@ -1,7 +1,8 @@
 <template>
     <div>
         <a class="btn btn-info btn-xs btn-icon btn-action" href="javascript:void(0)"
-            title="Ver información del registro" data-toggle="tooltip" @click="initRecord(url)">
+            title="Ver información del registro" aria-label="Ver información del registro" data-toggle="tooltip"
+            @click="initRecord(url)">
             <i class="fa fa-eye"></i>
         </a>
         <div class="modal fade text-left" tabindex="-1" role="dialog" :id='"view_product" + modal_id'>
@@ -87,7 +88,8 @@
                                             <strong>Responsable del producto:</strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                    {{ record.responsable.first_name ? record.responsable.first_name : record.responsable.name }} 
+                                                    {{ record.responsable.first_name ? record.responsable.first_name :
+                                                        record.responsable.name }}
                                                     {{ record.responsable.last_name }}
                                                 </span>
                                             </div>
@@ -95,10 +97,10 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <strong>Tipo de produto:</strong>
+                                            <strong>Tipo de producto: </strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                    {{ record.type_product.name }}
+                                                    {{ record?.product_types ? record.product_types[0].name : 'N/A' }}
                                                 </span>
                                             </div>
                                         </div>

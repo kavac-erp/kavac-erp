@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * @class ProjectTrackingTypeProducts
@@ -16,7 +15,7 @@ use App\Traits\ModelsTrait;
  *
  * Gestiona el modelo de datos de los tipos de productos
  *
- * @author    [Francisco Escala] [fjescala@gmail.com]
+ * @author    Francisco Escala <fjescala@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -27,18 +26,19 @@ class ProjectTrackingTypeProducts extends Model implements Auditable
     use AuditableTrait;
     use ModelsTrait;
 
-
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
-    protected $fillable = ['name','description'];
+    protected $fillable = ['name', 'description'];
 
     /**
      * Método que obtiene la información de las actividades asociados al tipo de proyecto
@@ -52,13 +52,39 @@ class ProjectTrackingTypeProducts extends Model implements Auditable
         return $this->hasMany(ProjectTrackingActivity::class);
     }
 
-    public function project()
+    /**
+     * Método que obtiene la información de los proyectos asociados a un tipo de producto
+     *
+     * @author    Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
+     *
+     * @return    \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function projects(): MorphToMany
     {
-        return $this->belongsToMany(ProjectTrackingProject::class);
+        return $this->morphedByMany(ProjectTrackingProject::class, 'typeable');
     }
 
-    public function products()
+    /**
+     * Método que obtiene la información de los subproyectos asociados a un tipo de producto
+     *
+     * @author    Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
+     *
+     * @return    \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function subProjects(): MorphToMany
     {
-        return $this->belongsToMany(ProjectTrackingProduct::class);
+        return $this->morphedByMany(ProjectTrackingSubProject::class, 'typeable');
+    }
+
+    /**
+     * Método que obtiene la información de los productos asociados a un tipo de producto
+     *
+     * @author    Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
+     *
+     * @return    \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function products(): MorphToMany
+    {
+        return $this->morphedByMany(ProjectTrackingProduct::class, 'typeable');
     }
 }

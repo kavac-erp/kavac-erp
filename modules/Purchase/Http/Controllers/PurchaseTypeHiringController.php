@@ -14,10 +14,10 @@ use Modules\Purchase\Models\PurchaseTypeHiring;
  *
  * Clase que gestiona los tipos de contrataciones
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 
 class PurchaseTypeHiringController extends Controller
@@ -25,7 +25,8 @@ class PurchaseTypeHiringController extends Controller
     use ValidatesRequests;
 
     /**
-     * Display a listing of the resource.
+     * Muestra un listado de los tipos de contrataciones
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
@@ -35,8 +36,9 @@ class PurchaseTypeHiringController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar un nuevo tipo de contratación
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -44,8 +46,10 @@ class PurchaseTypeHiringController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
+     * Almacena un nuevo tipo de contratación
+     *
+     * @param  Request $request Datos de la petición
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -79,8 +83,9 @@ class PurchaseTypeHiringController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un tipo de contratación
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -88,8 +93,9 @@ class PurchaseTypeHiringController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar un tipo de contratación
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -97,8 +103,11 @@ class PurchaseTypeHiringController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
+     * Actualiza un tipo de contratación
+     *
+     * @param  Request $request Datos de la petición
+     * @param  integer $id      ID del tipo de contratación
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
@@ -138,7 +147,8 @@ class PurchaseTypeHiringController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un tipo de contratación
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
@@ -146,6 +156,7 @@ class PurchaseTypeHiringController extends Controller
         PurchaseTypeHiring::find($id)->delete();
         return response()->json([
             'records' => PurchaseTypeHiring::with('purchaseTypeOperation')->orderBy('id', 'ASC')->get(),
-            'message' => 'Success'], 200);
+            'message' => 'Success'
+        ], 200);
     }
 }

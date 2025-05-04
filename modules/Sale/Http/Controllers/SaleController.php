@@ -3,14 +3,21 @@
 namespace Modules\Sale\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 
+/**
+ * @class SaleController
+ * @brief Controlador que gestiona los datos del módulo de comercialización
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Muestra el listado de registros
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -18,8 +25,9 @@ class SaleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear un registro
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -27,17 +35,21 @@ class SaleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Almacena un nuevo registro
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return void
      */
     public function store(Request $request)
     {
+        //
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un registro
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -45,8 +57,9 @@ class SaleController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar datos de un registro
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -54,19 +67,24 @@ class SaleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza un registro
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return void
      */
     public function update(Request $request)
     {
+        //
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Renderable
+     * Elimina un registro
+     *
+     * @return void
      */
     public function destroy()
     {
+        //
     }
 }

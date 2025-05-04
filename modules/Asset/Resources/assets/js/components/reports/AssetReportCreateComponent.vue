@@ -35,17 +35,17 @@
                     <div class="form-group pr-3 px-md-5">
                         <label>General</label>
                         <div class="custom-control custom-switch">
-                            <input 
+                            <input
                                 id="sel_general_report"
-                                type="radio" 
-                                name="type_report" 
-                                value="general" 
+                                type="radio"
+                                name="type_report"
+                                value="general"
                                 class="custom-control-input sel_type_report"
                                 style="margin-bottom: 1rem !important;"
                                 v-model="record.type_report"
                             />
-                            <label 
-                                class="custom-control-label" 
+                            <label
+                                class="custom-control-label"
                                 for="sel_general_report">
                             </label>
                         </div>
@@ -53,16 +53,16 @@
                     <div class="form-group">
                         <label>Por clasificación</label>
                         <div class="custom-control custom-switch">
-                            <input 
-                                type="radio" 
-                                name="type_report" 
-                                value="clasification" 
+                            <input
+                                type="radio"
+                                name="type_report"
+                                value="clasification"
                                 v-model="record.type_report"
-                                class="custom-control-input sel_type_report" 
+                                class="custom-control-input sel_type_report"
                                 id="sel_clasification_report"
                             >
-                            <label 
-                                class="custom-control-label" 
+                            <label
+                                class="custom-control-label"
                                 for="sel_clasification_report">
                             </label>
                         </div>
@@ -79,16 +79,16 @@
                             <div class="form-group pr-3 px-md-5">
                                 <label>Mueble</label>
                                 <div class="custom-control custom-switch">
-                                    <input 
+                                    <input
                                         id="sel_furniture_report"
-                                        type="radio" 
-                                        name="type_asset" 
-                                        value="furniture_active" 
+                                        type="radio"
+                                        name="type_asset"
+                                        value="furniture_active"
                                         class="custom-control-input sel_type_asset"
                                         v-model="record.type_asset"
                                     />
-                                    <label 
-                                        class="custom-control-label" 
+                                    <label
+                                        class="custom-control-label"
                                         for="sel_furniture_report">
                                     </label>
                                 </div>
@@ -96,16 +96,16 @@
                             <div class="form-group pr-3 px-md-5">
                                 <label>Inmueble</label>
                                 <div class="custom-control custom-switch">
-                                    <input 
+                                    <input
                                         id="sel_property_report"
-                                        type="radio" 
-                                        name="type_asset" 
-                                        value="property_active" 
+                                        type="radio"
+                                        name="type_asset"
+                                        value="property_active"
                                         class="custom-control-input sel_type_asset"
                                         v-model="record.type_asset"
                                     />
-                                    <label 
-                                        class="custom-control-label" 
+                                    <label
+                                        class="custom-control-label"
                                         for="sel_property_report">
                                     </label>
                                 </div>
@@ -113,16 +113,16 @@
                             <div class="form-group pr-3 px-md-5">
                                 <label>Vehículo</label>
                                 <div class="custom-control custom-switch">
-                                    <input 
+                                    <input
                                         id="sel_vehicle_report"
-                                        type="radio" 
-                                        name="type_asset" 
-                                        value="vehicle_active" 
+                                        type="radio"
+                                        name="type_asset"
+                                        value="vehicle_active"
                                         class="custom-control-input sel_type_asset"
                                         v-model="record.type_asset"
                                     />
-                                    <label 
-                                        class="custom-control-label" 
+                                    <label
+                                        class="custom-control-label"
                                         for="sel_vehicle_report">
                                     </label>
                                 </div>
@@ -130,16 +130,16 @@
                             <div class="form-group pr-3 px-md-5">
                                 <label>Semoviente</label>
                                 <div class="custom-control custom-switch">
-                                    <input 
+                                    <input
                                         id="sel_livestock_report"
-                                        type="radio" 
-                                        name="type_asset" 
-                                        value="livestock_active" 
+                                        type="radio"
+                                        name="type_asset"
+                                        value="livestock_active"
                                         class="custom-control-input sel_type_asset"
                                         v-model="record.type_asset"
                                     />
-                                    <label 
-                                        class="custom-control-label" 
+                                    <label
+                                        class="custom-control-label"
                                         for="sel_livestock_report">
                                     </label>
                                 </div>
@@ -181,16 +181,16 @@
                     <div class="col-md-6 form-group">
                         <label>Búsqueda por periodo</label>
                         <div class="custom-control custom-switch">
-                            <input 
-                                id="sel_search_date" 
-                                class="custom-control-input sel_type_search" 
+                            <input
+                                id="sel_search_date"
+                                class="custom-control-input sel_type_search"
                                 type="radio"
-                                name="type_search" 
-                                value="date" 
+                                name="type_search"
+                                value="date"
                                 v-model="record.type_search"
                             >
-                            <label 
-                                class="custom-control-label" 
+                            <label
+                                class="custom-control-label"
                                 for="sel_search_date">
                             </label>
                         </div>
@@ -199,16 +199,16 @@
                         <div class=" form-group">
                             <label>Búsqueda por mes</label>
                             <div class="custom-control custom-switch">
-                                <input 
-                                    type="radio" 
-                                    name="type_search" 
-                                    value="mes" 
+                                <input
+                                    type="radio"
+                                    name="type_search"
+                                    value="mes"
                                     v-model="record.type_search"
-                                    class="custom-control-input sel_type_search" 
+                                    class="custom-control-input sel_type_search"
                                     id="sel_search_mes"
                                 >
-                                <label 
-                                    class="custom-control-label" 
+                                <label
+                                    class="custom-control-label"
                                     for="sel_search_mes">
                                 </label>
                             </div>
@@ -248,11 +248,11 @@
                                     <span class="input-group-addon">
                                         <i class="now-ui-icons ui-1_calendar-60"></i>
                                     </span>
-                                    <input 
-                                        type="date" 
+                                    <input
+                                        type="date"
                                         data-toggle="tooltip"
                                         title="Indique la fecha minima de busqueda"
-                                        class="form-control input-sm" 
+                                        class="form-control input-sm"
                                         v-model="record.start_date"
                                     >
                                 </div>
@@ -265,11 +265,11 @@
                                     <span class="input-group-addon">
                                         <i class="now-ui-icons ui-1_calendar-60"></i>
                                     </span>
-                                    <input 
-                                        type="date" 
+                                    <input
+                                        type="date"
                                         data-toggle="tooltip"
                                         title="Indique la fecha maxima de busqueda"
-                                        class="form-control input-sm" 
+                                        class="form-control input-sm"
                                         v-model="record.end_date"
                                     >
                                 </div>
@@ -285,7 +285,7 @@
                 <div class="row">
                     <div class="col-md-3 form-group">
                         <label>Tipo de bien:</label>
-                        <select2 
+                        <select2
                             :options="asset_types"
                             @input="getAssetCategories()"
                             v-model="record.asset_type_id">
@@ -293,7 +293,7 @@
                     </div>
                     <div class="col-md-3 form-group">
                         <label>Categoria general:</label>
-                        <select2 
+                        <select2
                             :options="asset_categories"
                             @input="getAssetSubcategories()"
                             v-model="record.asset_category_id">
@@ -301,7 +301,7 @@
                     </div>
                     <div class="col-md-3 form-group">
                         <label>Subcategoria:</label>
-                        <select2 
+                        <select2
                             :options="asset_subcategories"
                             @input="getAssetSpecificCategories()"
                             v-model="record.asset_subcategory_id">
@@ -309,7 +309,7 @@
                     </div>
                     <div class="col-md-3 form-group">
                         <label>Categoria específica:</label>
-                        <select2 
+                        <select2
                             :options="asset_specific_categories"
                             v-model="record.asset_specific_category_id">
                         </select2>
@@ -318,7 +318,7 @@
                     <div class="form-group is-required">
                         <label>Código interno</label>
                         <input type="text" placeholder="Código interno del bien" data-toggle="tooltip"
-                            title="Indique el código interno del bien" class="form-control input-sm" 
+                            title="Indique el código interno del bien" class="form-control input-sm"
                             v-model="record.code"
                             @input="(event) =>
                             (record.code =
@@ -330,35 +330,35 @@
             </div>
             <div class="row">
                 <div class="col-12 text-right">
-                    <button 
-                        type="button" 
-                        class="btn btn-sm btn-info btn-custom" 
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-info btn-custom"
                         data-toggle="tooltip"
-                        @click="filterRecords()" 
+                        @click="filterRecords()"
                         v-show="this.record.type_report != ''"
                         title="Realizar la búsqueda de acuerdo a los filtros establecidos en el formulario"
                     >
-                        Realizar búsqueda 
+                        Realizar búsqueda
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
             </div>
             <hr>
-            <v-server-table 
-                :columns="columns" 
-                :url="url" 
-                :options="table_options" 
+            <v-server-table
+                :columns="columns"
+                :url="url"
+                :options="table_options"
                 ref="tableResults"
             >
-                <div 
-                    slot="asset_status.name" 
-                    slot-scope="props" 
+                <div
+                    slot="asset_status.name"
+                    slot-scope="props"
                     class="text-center"
                 >
                     <span>
                         {{
                             (props.row.asset_disincorporation_asset)
-                            ? (`${props.row.asset_status.name}: 
+                            ? (`${props.row.asset_status.name}:
                             ${props.row.asset_disincorporation_asset.asset_disincorporation.asset_disincorporation_motive.name}`)
                             : props.row.asset_status.name
                         }}
@@ -368,9 +368,9 @@
         </div>
 
         <div id="helpParamButtons" class="card-footer text-right">
-            <button 
-                class="btn btn-sm btn-primary btn-custom" 
-                type="button" 
+            <button
+                class="btn btn-sm btn-primary btn-custom"
+                type="button"
                 @click="createRecord()"
             >
                 <i class="fa fa-file-pdf-o"></i>
@@ -413,7 +413,7 @@
                 refresh: false,
                 errors: [],
                 records: [],
-               
+
                 columns: [
                     'code_sigecof',
                     'asset_details.code',
@@ -453,17 +453,17 @@
                         'department.name': 'Unidad administrativa',
                         'asset_asignation_asset.asset_asignation.location_place': 'Ubicación',
                     },
-                    
+
                     sortable: [
                         'code_sigecof',
-                        'asset_specific_category.name', 
+                        'asset_specific_category.name',
                         'asset_status.name',
                         'department.name'
                     ],
                     filterable: [
                         'code_sigecof',
                         'asset_details.code',
-                        'asset_specific_category.name', 
+                        'asset_specific_category.name',
                         'asset_status.name',
                         'department.name',
                         'asset_asignation_asset.asset_asignation.location_place'
@@ -535,7 +535,7 @@
                 }else{
                     vm.url = url + "/clasification/clasification"
                     vm.reset('general');
-                } 
+                }
             },
 
             'record.type_search': function (oldVal, newVal) {
@@ -594,12 +594,12 @@
                     this.record.vehicle_active = '';
                     this.record.livestock_active = '';
                     this.record.code = '';
-                    this.record.type_search = '';            
+                    this.record.type_search = '';
                 }else if(fields == 'general'){
-                    this.record.type_search = '';            
+                    this.record.type_search = '';
                 }else if(fields == 'date'){
                     this.record.start_date = '';
-                    this.record.end_date = '';                    
+                    this.record.end_date = '';
                 }else if (fields == 'mes'){
                     this.record.mes_id = '';
                     this.record.year = '';

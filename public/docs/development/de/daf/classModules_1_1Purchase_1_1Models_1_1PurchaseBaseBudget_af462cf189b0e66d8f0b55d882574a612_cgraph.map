@@ -1,0 +1,5 @@
+<map id="getStatusAuxAttribute" name="getStatusAuxAttribute">
+<area shape="rect" id="Node000001" title="Obtiene el estatus del presupuesto base." alt="" coords="5,5,172,31"/>
+<area shape="rect" id="Node000002" href="$de/daf/classModules_1_1Purchase_1_1Models_1_1PurchaseBaseBudget.html#a0187d577a6af80fcfd579fdb8d84cf86" title="Establece la relación con el modelo pivot." alt="" coords="220,5,337,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,15,207,15,207,21,172,21"/>
+</map>

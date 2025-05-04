@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -17,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de Lista de Subservicios
  *
  * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleListSubservices extends Model implements Auditable
 {
@@ -29,12 +27,14 @@ class SaleListSubservices extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['id','name','description','define_attributes', 'sale_type_good'];
@@ -43,8 +43,8 @@ class SaleListSubservices extends Model implements Auditable
      * Método que obtiene la lista de Subservicios
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany Objeto con el registro relacionado al modelo
-     * SaleListSubservicesAttribute
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleListSubservicesAttribute()
     {
@@ -54,9 +54,9 @@ class SaleListSubservices extends Model implements Auditable
     /**
      * Método que obtiene los tipos de servicios para los bienes a comercializar
      *
-     * @author Oscar González <ojgonzalez@cenditel.gob.ve>/<xxmaestroyixx@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo Objeto con el registro relacionado al modelo
-     * saleTypeGood
+     * @author Oscar González <ojgonzalez@cenditel.gob.ve> | <xxmaestroyixx@gmail.com>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleTypeGood()
     {

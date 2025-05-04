@@ -8,11 +8,28 @@
             </div>
             <div slot="increase_of_date" slot-scope="props" class="text-center">
                 <span>
-                    {{ format_date(props.row.increase_of_date, 'DD/MM/YYYY') }}
+                    {{
+                        props.row.payroll_history_salary_adjustments ?
+                            format_date(props.row.payroll_history_salary_adjustments[0].increase_of_date, 'DD/MM/YYYY')
+                        : 'N/A'
+                    }}
+                </span>
+            </div>
+            <div slot="end_increase_date" slot-scope="props" class="text-center">
+                <span>
+                    {{
+                        props.row.payroll_history_salary_adjustments ?
+                            (
+                            props.row.payroll_history_salary_adjustments[0].end_increase_date ?
+                                format_date(props.row.payroll_history_salary_adjustments[0].end_increase_date, 'DD/MM/YYYY') :
+                            "N/A"
+                            )
+                        : "N/A"
+                    }}
                 </span>
             </div>
             <div slot="increase_of_type" slot-scope="props" class="text-center">
-                <span v-for="type in increase_of_types">
+                <span v-for="(type, index) in increase_of_types" :key="index">
                     {{ type.id == props.row.increase_of_type ? type.text : '' }}
                 </span>
             </div>
@@ -47,7 +64,7 @@
         data() {
             return {
                 records: [],
-                columns: ['generation_date', 'increase_of_date', 'increase_of_type', 'value', 'salary_tabulator', 'id'],
+                columns: ['generation_date', 'increase_of_date', 'end_increase_date', 'increase_of_type', 'value', 'salary_tabulator', 'id'],
                 increase_of_types:         [
                     { id: '',               text: 'Seleccione...'},
                     { id: 'percentage',     text: 'Porcentual'},
@@ -61,13 +78,14 @@
             this.table_options.headings = {
                 'generation_date': 'Fecha de generación',
                 'increase_of_date': 'Fecha del aumento',
+                'end_increase_date': 'Fecha de culminación',
                 'increase_of_type': 'Tipo de aumento',
                 'value': 'Valor',
                 'salary_tabulator': 'Tabulador salarial',
                 'id': 'Acción'
             };
-            this.table_options.sortable = ['generation_date', 'increase_of_date', 'increase_of_type', 'value', 'salary_tabulator'];
-            this.table_options.filterable = ['generation_date', 'increase_of_date', 'increase_of_type', 'value', 'salary_tabulator'];
+            this.table_options.sortable = ['generation_date', 'increase_of_date', 'end_increase_date', 'increase_of_type', 'value', 'salary_tabulator'];
+            this.table_options.filterable = ['generation_date', 'increase_of_date', 'end_increase_date', 'increase_of_type', 'value', 'salary_tabulator'];
         },
 
         mounted() {
@@ -77,7 +95,7 @@
         methods: {
             /**
              * Método que borra todos los datos del formulario
-             * 
+             *
              * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
              */
             reset() {

@@ -1,19 +1,50 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
+use App\Traits\ModelsTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Asset\Models\AssetBuilding;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AuditableTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @class Istitution
  * @brief Datos de Organizaciones
  *
  * Gestiona el modelo de datos para las Organizaciones
+ *
+ * @property  string|integer  $id
+ * @property  string  $onapre_code
+ * @property  string  $rif
+ * @property  string  $acronym
+ * @property  string  $name
+ * @property  string  $business_name
+ * @property  string  $start_operations_date
+ * @property  string  $legal_base
+ * @property  string  $legal_form
+ * @property  string  $main_activity
+ * @property  string  $mission
+ * @property  string  $vision
+ * @property  string  $legal_address
+ * @property  string  $web
+ * @property  string  $composition_assets
+ * @property  string  $postal_code
+ * @property  boolean $active
+ * @property  boolean $default
+ * @property  boolean $retention_agent
+ * @property  int     $institution_sector_id
+ * @property  int     $institution_type_id
+ * @property  int     $municipality_id
+ * @property  int     $city_id
+ * @property  int     $logo_id
+ * @property  int     $banner_id
+ * @property  Image   $logo
+ * @property  Image   $banner
+ * @property  FiscalYear $fiscalYears
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -24,6 +55,7 @@ class Institution extends Model implements Auditable
 {
     use SoftDeletes;
     use AuditableTrait;
+    use ModelsTrait;
 
     /**
      * Lista de atributos para la gestión de fechas
@@ -45,13 +77,31 @@ class Institution extends Model implements Auditable
     ];
 
     /**
-     * Método que obtiene el logotipo de la Organización
+     * Ejecuta acciones generales del modelo
      *
-     * @method  logo
+     * @return void
+     */
+    protected static function booted()
+    {
+        // Scope global para consultar la institución a la que pertenece el usuario
+        static::addGlobalScope('user_institution', function (Builder $builder) {
+            // Objeto con información del usuario autenticado
+            $user = auth()->user();
+            if (
+                $user !== null && method_exists($user, 'profile') && !is_null($user->profile) &&
+                property_exists($user->profile, 'institution')
+            ) {
+                $builder->where('id', $user->profile->institution->id)->withTrashed();
+            }
+        });
+    }
+
+    /**
+     * Método que obtiene el logotipo de la Organización
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con el registro relacionado al modelo Image
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function logo()
     {
@@ -61,11 +111,9 @@ class Institution extends Model implements Auditable
     /**
      * Método que obtiene el banner de la Organización
      *
-     * @method  banner
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con el registro relacionado al modelo Image
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function banner()
     {
@@ -75,11 +123,9 @@ class Institution extends Model implements Auditable
     /**
      * Método que obtiene el sector de la Organización
      *
-     * @method  sector
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con el registro relacionado al modelo InstitutionSector
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function sector()
     {
@@ -89,11 +135,9 @@ class Institution extends Model implements Auditable
     /**
      * Método que obtiene el tipo de la Organización
      *
-     * @method  type
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con el registro relacionado al modelo InstitutionType
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function type()
     {
@@ -101,9 +145,9 @@ class Institution extends Model implements Auditable
     }
 
     /**
-     * Institution belongs to Municipality.
+     * Obtiene el municipio al que pertenece una Organización
      *
-     * @method municipality
+     * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -113,9 +157,9 @@ class Institution extends Model implements Auditable
     }
 
     /**
-     * Institution belongs to City.
+     * Obtiene la ciudad a la que pertenece una Organización
      *
-     * @method city
+     * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -127,11 +171,9 @@ class Institution extends Model implements Auditable
     /**
      * Método que obtiene los departamentos asociados a la intitución.
      *
-     * @method  departments
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con los registros relacionados al modelo Institution
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function departments()
     {
@@ -139,9 +181,9 @@ class Institution extends Model implements Auditable
     }
 
     /**
-     * Institution has many Profiles.
+     * Método que obtiene los perfiles de usuarios asociados a una Organización
      *
-     * @method  profiles
+     * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -151,7 +193,9 @@ class Institution extends Model implements Auditable
     }
 
     /**
-     * Institution has many FiscalYears.
+     * Método que obtiene los años fiscales asociados a una Organización
+     *
+     * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -164,35 +208,23 @@ class Institution extends Model implements Auditable
      * Método que obtiene las asignacion relacionadas con la institución
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return Array|\Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * AssetAsignation
+     *
+     * @return array|\Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assetAsignation()
     {
         return $this->hasMany(\Modules\Asset\Models\AssetAsignation::class);
     }
-    /**
-     * Filtra datos de la Organización de acuerdo al usuario autenticado
-     *
-     * @method     newQuery(boolean $excludeDeleted)
-     *
-     * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
-     *
-     * @param      boolean          $excludeDeleted    Determina si se excluyen los registros eliminados de la consulta
-     *
-     * @return     object           Objeto que contiene la consulta
-     */
-    public function newQuery($excludeDeleted = true)
-    {
-        /** @var User Objeto con información del usuario autenticado */
-        $user = auth()->user();
-        if (
-            $user !== null && method_exists($user, 'profile') && !is_null($user->profile) &&
-            property_exists($user->profile, 'institution')
-        ) {
-            return parent::newQuery($excludeDeleted)->where('id', $user->profile->institution->id);
-        }
 
-        return parent::newQuery($excludeDeleted);
+    /**
+     * Método que obtiene los edificios a la institucion
+     *
+     * @author Natanael Rojo <ndrojo@cenditel.gob.ve> | <rojonatanael99@gmail.com>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function buildings(): HasMany
+    {
+        return $this->hasMany(AssetBuilding::class);
     }
 }

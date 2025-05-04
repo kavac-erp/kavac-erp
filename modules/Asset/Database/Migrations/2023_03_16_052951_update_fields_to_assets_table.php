@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class UpdateFieldsToAssetTable
- * @brief [descripción detallada]
+ * @brief Actualiza los campos de la tabla assets
  *
- * [descripción corta]
+ * Actualiza los campos de la tabla assets
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

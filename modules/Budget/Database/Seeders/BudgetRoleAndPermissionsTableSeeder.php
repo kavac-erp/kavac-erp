@@ -22,14 +22,14 @@ use Modules\Budget\Models\BudgetSubSpecificFormulation;
  * Gestiona la información por defecto a registrar inicialmente para los Roles y Permisos del módulo de presupuesto
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class BudgetRoleAndPermissionsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */
@@ -44,7 +44,7 @@ class BudgetRoleAndPermissionsTableSeeder extends Seeder
             ['name' => 'Presupuesto', 'description' => 'Coordinador de presupuesto']
         );
 
-        /** @var array Listado de permisos a registrar */
+        /* Listado de permisos a registrar */
         $permissions = [
             [
                 'name' => 'Inicio del módulo de presupuesto',
@@ -416,9 +416,7 @@ class BudgetRoleAndPermissionsTableSeeder extends Seeder
                 'short_description' => 'Eliminar un tipo de financiamiento',
             ],
 
-            /**
-             * Permisos de los Registros comúnes > Fuentes de financiamiento.
-             */
+            /* Permisos de los Registros comúnes > Fuentes de financiamiento. */
             [
                 'name' => 'Obtener listado de las fuentes de financiamiento',
                 'slug' => 'budget.financementsources.index',
@@ -455,9 +453,7 @@ class BudgetRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'fuentes_financiamiento.eliminar',
                 'short_description' => 'Eliminar una fuente de financiamiento',
             ],
-            /**
-             * Permisos Compromisos.
-             */
+            /* Permisos para Compromisos. */
             [
                 'name' => 'Obtener listado de los Compromisos',
                 'slug' => 'budget.compromise.index',
@@ -506,12 +502,10 @@ class BudgetRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'compromisos.anular',
                 'short_description' => 'Eliminar Compromisos',
             ],
-            /**
-             * Permisos de reportes.
-             */
+            /* Permisos de reportes. */
             [
                 'name' => 'Obtener Mayor analítico',
-                'slug' => 'budget.analyticalMajor.index',
+                'slug' => 'budget.analyticalmajor.index',
                 'description' => 'Acceso para obtener Mayor analítico',
                 'model' => '',
                 'model_prefix' => 'presupuesto',
@@ -520,7 +514,7 @@ class BudgetRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Obtener Disponibilidad Presupuestaria',
-                'slug' => 'budget.budgetAvailability.index',
+                'slug' => 'budget.budgetavailability.index',
                 'description' => 'Acceso para obtener Disponibilidad Presupuestaria',
                 'model' => '',
                 'model_prefix' => 'presupuesto',
@@ -535,9 +529,7 @@ class BudgetRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'formulated.index',
                 'short_description' => 'Acceder al Mayor presupuesto formulado',
             ],
-            /**
-            * Dashboard
-            */
+            /* Permisos para el panel de control de presupuesto */
             [
                 'name'              => 'Vista principal del dashboard del módulo de presupuesto',
                 'slug'              => 'budget.dashboard',
@@ -561,7 +553,7 @@ class BudgetRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Notificar gestión de acciones centralizadas',
-                'slug' => 'notify.budget.centralized_actions',
+                'slug' => 'notify.budget.centralizedactions',
                 'description' => 'Notificar sobre gestión de datos de acciones centralizadas',
                 'model' => BudgetCentralizedAction::class,
                 'model_prefix' => 'presupuesto',
@@ -580,9 +572,7 @@ class BudgetRoleAndPermissionsTableSeeder extends Seeder
             [
                 'name' => 'Notificar etapa de compromiso',
                 'slug' => 'notify.budget.stage',
-                'description' => <<<EOT
-                    Notificar sobre etapas de compromisos. Precomprometido, Programado, Comprometido, Causado o Pagado
-                EOT,
+                'description' => 'Notificar sobre etapas de compromisos. Precomprometido, Programado, Comprometido, Causado o Pagado',
                 'model' => BudgetStage::class,
                 'model_prefix' => 'presupuesto',
                 'slug_alt' => 'notificar.presupuesto.etapa',
@@ -608,7 +598,7 @@ class BudgetRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Notificar gestión de acciones específicas',
-                'slug' => 'notify.budget.specific_action',
+                'slug' => 'notify.budget.specificaction',
                 'description' => 'Notificar sobre gestión de datos de acciones específicas',
                 'model' => BudgetSpecificAction::class,
                 'model_prefix' => 'presupuesto',
@@ -617,7 +607,7 @@ class BudgetRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Notificar gestión de formulaciones de presupuesto',
-                'slug' => 'notify.budget.sub_specific_formulation',
+                'slug' => 'notify.budget.subspecificformulation',
                 'description' => 'Notificar sobre gestión de datos de formulaciones de presupuesto',
                 'model' => BudgetSubSpecificFormulation::class,
                 'model_prefix' => 'presupuesto',

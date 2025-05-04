@@ -1,7 +1,8 @@
 <template>
     <div>
         <a class="btn btn-info btn-xs btn-icon btn-action" href="javascript:void(0)"
-            title="Ver información del registro" data-toggle="tooltip" @click="initRecord(url)">
+            title="Ver información del registro" aria-label="Ver información del registro" data-toggle="tooltip"
+            @click="initRecord(url)">
             <i class="fa fa-eye"></i>
         </a>
         <div class="modal fade text-left" tabindex="-1" role="dialog" :id='"view_team" + modal_id'>
@@ -26,7 +27,8 @@
                                             <strong>Nombre:</strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                    {{ record.employerRecord.first_name ? record.employerRecord.first_name : record.employerRecord.name }} 
+                                                    {{ record.employerRecord.first_name ?
+                                                        record.employerRecord.first_name : record.employerRecord.name }}
                                                 </span>
                                             </div>
                                         </div>
@@ -56,7 +58,10 @@
                                             <strong>Cargo:</strong>
                                             <div class="row" style="margin: 1px 0">
                                                 <span class="col-md-12">
-                                                    {{ record.employerRecord.payroll_employment ? record.employerRecord.payroll_employment.payroll_position.name : record.employerRecord.position ? record.employerRecord.position.name : '' }}
+                                                    {{ record.employerRecord.payroll_employment ?
+                                                        record.employerRecord.payroll_employment.payroll_position.name :
+                                                    record.employerRecord.position ? record.employerRecord.position.name
+                                                    : '' }}
                                                 </span>
                                             </div>
                                         </div>

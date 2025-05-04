@@ -60,6 +60,21 @@ small {font-size: 70%;}
 	box-shadow: 0px 5px 25px 0px $default-shadow;
 }
 
+.with-overflow-300 {
+	max-height:300px !important;
+	overflow:auto !important;
+}
+
+.with-overflow-400 {
+	max-height:400px !important;
+	overflow:auto !important;
+}
+
+.with-overflow-90vh {
+	max-height:90vh !important;
+	overflow:auto !important;
+}
+
 /** Estilos de bordes */
 .with-border {
 	border: 1px solid $color-gray;

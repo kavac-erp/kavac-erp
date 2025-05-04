@@ -1,0 +1,7 @@
+<map id="store" name="store">
+<area shape="rect" id="Node000001" title="Valida y registra un nuevo producto." alt="" coords="5,42,60,67"/>
+<area shape="rect" id="Node000002" href="$d0/dd9/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleSettingProductController.html#a1bb8f3568aae0f07a51d39397ba808a0" title="Obtiene los campos de un producto." alt="" coords="109,5,304,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,48,95,41,96,47,60,53"/>
+<area shape="rect" id="Node000003" href="$d0/dd9/classModules_1_1Sale_1_1Http_1_1Controllers_1_1SaleSettingProductController.html#adc7e5b9f7132cf747f7352fed7b71cfa" title="Realiza la validación de un costo fijo." alt="" coords="108,70,305,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,56,115,65,114,70,60,62"/>
+</map>

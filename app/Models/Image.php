@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,12 +13,15 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  *
  * Gestiona el modelo de datos para las imágenes
  *
+ * @property  string|integer  $id
  * @property  string  $file
  * @property  string  $url
  * @property  integer $max_width
  * @property  integer $max_height
  * @property  integer $min_width
  * @property  integer $min_height
+ * @property  string  $imageable_type
+ * @property  string  $imageable_id
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -51,11 +52,9 @@ class Image extends Model implements Auditable
     /**
      * Método que obtiene los logos de las organizaciones
      *
-     * @method  institutionLogos
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con los registros relacionados al modelo Institution
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function institutionLogos()
     {
@@ -65,11 +64,9 @@ class Image extends Model implements Auditable
     /**
      * Método que obtiene los banners de las organizaciones
      *
-     * @method  institutionBanners
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con los registros relacionados al modelo Institution
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function institutionBanners()
     {
@@ -79,11 +76,9 @@ class Image extends Model implements Auditable
     /**
      * Método que obtiene el perfil de una imagen
      *
-     * @method  profile
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con el registro relacionado al modelo Profile
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function profile()
     {
@@ -92,8 +87,6 @@ class Image extends Model implements Auditable
 
     /**
      * Image morphs to models in imageable_type
-     *
-     * @method  imageable
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

@@ -1,0 +1,5 @@
+<map id="getDeletedRecords" name="getDeletedRecords">
+<area shape="rect" id="Node000001" title="Obtiene un listado de los últimos 20 registros eliminados." alt="" coords="5,5,152,31"/>
+<area shape="rect" id="Node000002" href="$d1/d0e/classApp_1_1Http_1_1Controllers_1_1Admin_1_1AppManagementController.html#ab84fedfb677103f6539a48e41fbd95e1" title="Establece un listado de registros eliminados." alt="" coords="200,5,345,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,15,186,15,186,21,152,21"/>
+</map>

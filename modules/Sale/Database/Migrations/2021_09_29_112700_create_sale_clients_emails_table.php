@@ -11,9 +11,9 @@ use Illuminate\Database\Migrations\Migration;
  * Gestiona la creación o eliminación de la tabla de correo electrónico del cliente
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class CreateSaleClientsEmailsTable extends Migration
 {
@@ -21,6 +21,7 @@ class CreateSaleClientsEmailsTable extends Migration
      * Método que ejecuta las migraciones
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return void
      */
     public function up()

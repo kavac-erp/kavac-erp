@@ -58,8 +58,29 @@
     font-size: 0.8571em;
 
     &.btn-formula, &.btn-formula-clear {
-        font-size: .65rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
         font-weight: bold;
+
+        &.btn-function {
+            background-color: darkgray;
+        }
+
+        &.btn-operator {
+            background-color: #1A5FB4 !important;
+        }
+
+        &.btn-variable {
+            background-color: darkgray;
+            height: auto;
+            width: 176px;
+            min-height: 40px;
+        }
+
+        &.btn-cero, &.btn-function {
+            width: 84px;
+        }
     }
 }
 

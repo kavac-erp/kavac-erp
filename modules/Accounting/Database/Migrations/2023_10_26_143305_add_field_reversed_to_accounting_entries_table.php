@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldReversedToAccountingEntriesTable
- * @brief [descripción detallada]
+ * @brief Ejecuta la migración para agregar el campo reversed a la tabla accounting_entries
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

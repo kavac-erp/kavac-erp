@@ -1,12 +1,11 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Tax;
 use App\Models\HistoryTax;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @class TaxController
@@ -24,13 +23,11 @@ class TaxController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:tax.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:tax.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:tax.delete', ['only' => 'destroy']);
@@ -39,8 +36,6 @@ class TaxController extends Controller
 
     /**
      * Listado de todos los impuestos registrados
-     *
-     * @method    index
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -56,8 +51,6 @@ class TaxController extends Controller
 
     /**
      * Registra un nuevo impuesto
-     *
-     * @method    store
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -80,7 +73,7 @@ class TaxController extends Controller
             'percentage.required' => 'El campo porcentaje es obligatorio.',
         ]);
 
-        /** @var Tax Objeto con información del impuesto registrado */
+        // Objeto con información del impuesto registrado
         $tax = Tax::create([
             'name' => $request->name,
             'description' => $request->description,
@@ -99,8 +92,6 @@ class TaxController extends Controller
 
     /**
      * Actualiza la información de un impuesto
-     *
-     * @method    update
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -141,8 +132,6 @@ class TaxController extends Controller
     /**
      * Elimina un impuesto
      *
-     * @method    destroy
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     Tax        $tax    Objeto con información del impuesto a eliminar
@@ -157,8 +146,6 @@ class TaxController extends Controller
 
     /**
      * Listado de impuestos registrados
-     *
-     * @method    getAll
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -175,8 +162,6 @@ class TaxController extends Controller
     /**
      * Listado de impuestos registrados para select de vue
      *
-     * @method    getTaxesVueSelect
-     *
      * @author     Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
      * @return    JsonResponse    Objeto con información de los impuestos
@@ -188,8 +173,6 @@ class TaxController extends Controller
 
     /**
      * Listado de impuestos registrados para select de vue
-     *
-     * @method    getTax
      *
      * @author     Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *

@@ -26,14 +26,22 @@ final class PayrollExceptionType extends Model implements Auditable
     use AuditableTrait;
     use ModelsTrait;
 
-    /** @var array $dates Lista de atributos para la gestión de fechas */
+    /**
+     * Lista de atributos para la gestión de fechas
+     *
+     * @var array $dates
+     */
     protected $dates = ['deleted_at'];
 
-    /** @var array $fillable Lista de atributos que pueden ser asignados masivamente */
+    /**
+     * Lista de atributos que pueden ser asignados masivamente
+     *
+     * @var array $fillable
+     */
     protected $fillable = ['name', 'description', 'sign', 'affect_id', 'value_max'];
 
     /**
-     * Get the affect that owns the PayrollExceptionType
+     * Obtiene la relación con los tipos de excepciones
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

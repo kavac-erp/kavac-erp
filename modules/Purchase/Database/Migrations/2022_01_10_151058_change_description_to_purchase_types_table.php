@@ -10,7 +10,7 @@ use Illuminate\Database\Migrations\Migration;
  *
  * Agrega la propiedad nullable a la columna description
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

@@ -9,19 +9,29 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Purchase\Models\PurchaseProcess;
 use App\Models\Parameter;
 
+/**
+ * @class      PurchaseProcessController
+ * @brief      Controlador de la gestión de los procesos de compra
+ *
+ * @license   [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseProcessController extends Controller
 {
     use ValidatesRequests;
 
-    /** @var array Lista de elementos a mostrar */
+    /**
+     * Lista de elementos a mostrar
+     *
+     * @var array $data
+     */
     protected $data = [];
 
     /**
      * Método constructor de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -32,13 +42,11 @@ class PurchaseProcessController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @method  index
+     * Obtiene la lista de procesos de compra
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -46,13 +54,11 @@ class PurchaseProcessController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @method  create
+     * Muestra el formulario para registrar un nuevo proceso de compra
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return Renderable
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -60,15 +66,13 @@ class PurchaseProcessController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @method  store
+     * Almacena un nuevo proceso de compra
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param  Request $request
+     * @param  Request $request Datos de la petición
      *
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -88,13 +92,11 @@ class PurchaseProcessController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     *
-     * @method  show
+     * Muestra información sobre el proceso de compra
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return Renderable
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -102,13 +104,11 @@ class PurchaseProcessController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @method  edit
+     * Muestra el formulario para editar un proceso de compra
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return Renderable
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -116,15 +116,13 @@ class PurchaseProcessController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @method  update
+     * Actualiza la información de un proceso de compra
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @param  Request $request
+     * @param  Request $request Datos de la petición
      *
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request)
     {
@@ -150,13 +148,11 @@ class PurchaseProcessController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @method  destroy
+     * Elimina un proceso de compra
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(PurchaseProcess $purchaseProcess)
     {
@@ -167,11 +163,9 @@ class PurchaseProcessController extends Controller
     /**
      * Método que permite obtener un listado de procesos de compra ya registrados
      *
-     * @method     getProcesses
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return     JsonResponse
+     * @return     \Illuminate\Http\JsonResponse
      */
     public function getProcesses()
     {
@@ -188,13 +182,11 @@ class PurchaseProcessController extends Controller
     /**
      * Método que permite obtener un listado de documentos a solicitar para los procesos de compra
      *
-     * @method     getProcessDocuments
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param      Request $request    Datos de la petición
      *
-     * @return     JsonResponse
+     * @return     \Illuminate\Http\JsonResponse
      */
     public function getProcessDocuments(Request $request)
     {
@@ -205,7 +197,6 @@ class PurchaseProcessController extends Controller
             'required_by' => 'purchase',
             'active' => true,
         ])->first();
-        // return $request->all();
         if ($request->id) {
             $process = PurchaseProcess::find($request->id);
         }

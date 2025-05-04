@@ -27,6 +27,11 @@
                     <div class="card-btns">
                         @include('buttons.previous', ['route' => route('budget.subspecific-formulations.index')])
                         @include('buttons.print', ['route' => route('print.formulated', ['id' => $formulation->id])])
+                        <a href="{{ route('export', ['id' => $formulation->id]) }}" class="btn btn-sm btn-primary btn-custom" data-toggle="tooltip"
+                        title="{{ __('Exportar registro') }}" target="_blank">
+                            <i class="fa fa-file-excel-o"></i>
+                        </a>
+
                         @if ($enable)
                             {{-- @include('buttons.sign', ['route' => route('print.formulatedsign', ['id' => $formulation->id])]) --}}
                         @endif
@@ -47,14 +52,14 @@
                                     'method' => 'PUT', 'id' => 'form_assign'
                                 ]) !!}
                                     {!! Form::token() !!}
-                                    <div class="custom-control custom-switch" data-toggle="tooltip" 
+                                    <div class="custom-control custom-switch" data-toggle="tooltip"
                                         title="{{ __('Asignar presupuesto') }}">
                                         {!! Form::checkbox('assigned', true, ($formulation->assigned), [
                                             'class' => 'custom-control-input budget-assign', 'id' => 'assigned',
                                             'disabled' => ($formulation->assigned || $formulation->assigned==='1')
                                         ]) !!}
                                         <label class="custom-control-label" for="assigned"></label>
-                                    </div>                                    
+                                    </div>
                                 {!! Form::close() !!}
                             </label>
                         </div>
@@ -100,7 +105,7 @@
                     <div class="row form-group">
                         <div class="col-3 text-bold text-uppercase">{{ __('Tipo de financiamiento') }}:</div>
                         <div class="col-9">
-                            {{ $formulation->budgetFinancementSource ? $formulation->budgetFinancementSource->name : '' }}
+                            {{ $formulation?->budgetFinancementSource ? $formulation->budgetFinancementSource->name : 'N/A' }}
                         </div>
                     </div>
                     <div class="row form-group">
@@ -124,12 +129,7 @@
                             <tr>
                                 <th>{{ __('Código') }}</th>
                                 <th>{{ __('Denominación') }}</th>
-                                {{-- <th>{{ __('Real') }}</th>
-                                <th>{{ __('Estimado') }}</th> --}}
                                 <th>{{ __('Total Año') }}</th>
-                                {{-- @foreach (['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'] as $month)
-                                    <th>{{ $month }}</th>
-                                @endforeach --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -139,28 +139,26 @@
                                         {{ $accountOpen->budgetAccount->code }}
                                     </td>
                                     <td>{{ $accountOpen->budgetAccount->denomination }}</td>
-                                    {{-- <td>{{ $accountOpen->total_real_amount }}</td>
-                                    <td>{{ $accountOpen->total_estimated_amount }}</td> --}}
                                     <td class="text-right">
                                         {{ number_format(
                                             $accountOpen->total_year_amount,
                                             $formulation->currency->decimal_places, ",", "."
                                         ) }}
                                     </td>
-                                    {{-- <td>{{ $accountOpen->jan_amount }}</td>
-                                    <td>{{ $accountOpen->feb_amount }}</td>
-                                    <td>{{ $accountOpen->mar_amount }}</td>
-                                    <td>{{ $accountOpen->apr_amount }}</td>
-                                    <td>{{ $accountOpen->may_amount }}</td>
-                                    <td>{{ $accountOpen->jun_amount }}</td>
-                                    <td>{{ $accountOpen->jul_amount }}</td>
-                                    <td>{{ $accountOpen->aug_amount }}</td>
-                                    <td>{{ $accountOpen->sep_amount }}</td>
-                                    <td>{{ $accountOpen->oct_amount }}</td>
-                                    <td>{{ $accountOpen->nov_amount }}</td>
-                                    <td>{{ $accountOpen->dec_amount }}</td> --}}
                                 </tr>
                             @endforeach
+                            <tr>
+                                <td class="text-center text-dark text-bold">
+                                    {{ __('Total Formulado') }}&#160;
+                                    {{ $formulation->currency->symbol }}
+                                </td>
+                                <td></td>
+                                <td class="text-right text-dark text-bold">
+                                    {{ number_format(
+                                        $formulation->total_formulated, $formulation->currency->decimal_places, ",", "."
+                                    ) }}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -211,6 +209,10 @@
 
         var printFormulated = (id, esp) => {
             location.href = window.app_url + '/budget/print-formulated/' + id;
+        };
+
+        var export = (id, esp) => {
+            location.href = window.app_url + '/budget/export/' + id;
         };
     </script>
 @endsection

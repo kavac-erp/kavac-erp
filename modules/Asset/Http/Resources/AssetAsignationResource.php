@@ -5,12 +5,22 @@ namespace Modules\Asset\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Asset\Repositories\AssetParametersRepository;
 
+/**
+ * @class AssetAsignationResource
+ * @brief Clase que maneja el recurso para las asignaciones
+ *
+ * @author Francisco J. P. Ruiz <fpenya@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AssetAsignationResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transforma el recurso en un array.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
@@ -24,9 +34,9 @@ class AssetAsignationResource extends JsonResource
                 'name' => $this->institution->name,
             ],
             'headquarter' => [
-                'id' => $this->headquarter->id,
+                'id' => $this->headquarter?->id,
                 'label' => "Nodo",
-                'name' => $this->headquarter->name,
+                'name' => $this->headquarter?->name,
             ],
 
             'asset_type' => [
@@ -153,7 +163,7 @@ class AssetAsignationResource extends JsonResource
                 }
                 $details_fields[$value['name']] = [
                     'label' => $value['label'],
-                    'value' => $this->asset_details[$value['name']]
+                    'value' => $this->asset_details[$value['name']] ?? 'N/P',
                 ];
             }
         }
@@ -163,7 +173,9 @@ class AssetAsignationResource extends JsonResource
                 $common_fields['asset_asignation_name'] = $this->assetAsignationAsset->assetAsignation->payrollStaff->fullName;
                 $common_fields['asset_asignation_date'] = $this->assetAsignationAsset->assetAsignation->created_at;
                 $common_fields['asset_asignation_location'] = $this->assetAsignationAsset->assetAsignation->location_place;
-                $common_fields['asset_asignation_ids_asset'] = $this->assetAsignationAsset->assetAsignation->ids_assets;
+                $common_fields['asset_asignation_building'] = isset($this->assetAsignationAsset->assetAsignation->building) ? $this->assetAsignationAsset->assetAsignation->building->name : '';
+                $common_fields['asset_asignation_floor'] = isset($this->assetAsignationAsset->assetAsignation->floor) ? $this->assetAsignationAsset->assetAsignation->floor->name : '';
+                $common_fields['asset_asignation_section'] = isset($this->assetAsignationAsset->assetAsignation->section) ? $this->assetAsignationAsset->assetAsignation->section->name : '';
             }
         }
 
@@ -173,7 +185,6 @@ class AssetAsignationResource extends JsonResource
             $common_fields['asset_disincorporation_observation'] = $this->assetDisincorporationAsset->assetDisincorporation->observation;
         }
 
-        //dd($this->assetCategory->name, $this->assetCategory->id);
         return $common_fields;
     }
 }

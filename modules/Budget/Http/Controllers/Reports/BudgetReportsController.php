@@ -1,26 +1,27 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Budget\Http\Controllers\Reports;
 
-use App\Models\FiscalYear;
 use App\Models\Profile;
-use App\Repositories\ReportRepository;
-use Illuminate\Contracts\Support\Renderable;
+use App\Models\FiscalYear;
 use Illuminate\Http\Request;
+use App\Models\DocumentStatus;
 use Illuminate\Routing\Controller;
-use Maatwebsite\Excel\Facades\Excel;
-use Modules\Budget\Exports\RecordsExport;
-use Modules\Budget\Models\BudgetAccount;
-use Modules\Budget\Models\BudgetAccountOpen;
-use Modules\Budget\Models\BudgetCentralizedAction;
-use Modules\Budget\Models\BudgetCompromiseDetail;
-use Modules\Budget\Models\BudgetModificationAccount;
-use Modules\Budget\Models\BudgetProject;
-use Modules\Budget\Models\BudgetSubSpecificFormulation;
+use Illuminate\Support\Facades\Log;
 use Modules\Budget\Models\Currency;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Repositories\ReportRepository;
 use Modules\Budget\Models\Institution;
+use Modules\Budget\Models\BudgetAccount;
+use Modules\Budget\Models\BudgetProject;
+use Modules\Budget\Exports\RecordsExport;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Budget\Models\BudgetAccountOpen;
+use Modules\Budget\Models\BudgetCompromiseDetail;
+use Modules\Budget\Models\BudgetCentralizedAction;
+use Modules\Budget\Models\BudgetModificationAccount;
+use Modules\Budget\Jobs\CreateBudgetAnalyticalMajorJob;
+use Modules\Budget\Models\BudgetSubSpecificFormulation;
 
 /**
  * @class BudgetAccountOpenController
@@ -35,40 +36,28 @@ use Modules\Budget\Models\Institution;
  */
 class BudgetReportsController extends Controller
 {
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /**
-         * Establece permisos de acceso para cada método del controlador
-         */
-        $this->middleware('permission:budget.analyticalMajor.index', ['only' => 'budgetAnalyticalMajor']);
-        $this->middleware('permission:budget.budgetAvailability.index', ['only' => 'budgetAvailability']);
+        /* Establece permisos de acceso para cada método del controlador */
+        $this->middleware('permission:budget.analyticalmajor.index', ['only' => 'budgetAnalyticalMajor']);
+        $this->middleware('permission:budget.budgetavailability.index', ['only' => 'budgetAvailability']);
         $this->middleware('permission:budget.formulated.index', ['only' => 'getFormulatedView']);
     }
-    private $monthColumnNames = [
-        'jan_amount',
-        'feb_amount',
-        'mar_amount',
-        'apr_amount',
-        'may_amount',
-        'jun_amount',
-        'jul_amount',
-        'aug_amount',
-        'sep_amount',
-        'oct_amount',
-        'nov_amount',
-        'dec_amount',
-    ];
 
     /**
      * Genera los datos necesarios para el formulario de generacion de reporte de disponibilidad presupuestaria
      *
      * @author    Jonathan Alvarado <wizardx1407@gmail.com> | <jonathanalvarado1407@gmail.com>
      *
-     * @return    Renderable
+     * @return    Renderable|array
      */
     public function budgetAvailability($flag = null)
     {
-
         $budgetItems = $this->getBudgetAccounts();
         $budgetProjects = $this->getBudgetProjects(true);
         $budgetCentralizedActions = $this->getBudgetCentralizedActions(true);
@@ -118,7 +107,7 @@ class BudgetReportsController extends Controller
      *
      * @author    Jonathan Alvarado <wizardx1407@gmail.com> | <jonathanalvarado1407@gmail.com>
      *
-     * @return    Array Arreglo ordenado de cuentas presupuestarias
+     * @return    array Arreglo ordenado de cuentas presupuestarias
      */
     public function getBudgetAccounts()
     {
@@ -148,9 +137,12 @@ class BudgetReportsController extends Controller
      * @author  Jonathan Alvarado <wizardx1407@gmail.com> | <jonathanalvarado1407@gmail.com>
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param   bool accountsWithMovements
+     * @param   bool    $accountsWithMovements Indica si se consultan solo las cuentas con movimientos
+     * @param   object  $project Datos del proyecto
+     * @param   string  $initialDate Fecha inicial de consulta
+     * @param   string  $finalDate Fecha final de consulta
      *
-     * @return  Array Arreglo ordenado de cuentas presupuestarias para el reporte
+     * @return  array Arreglo ordenado de cuentas presupuestarias para el reporte
      */
     public function getBudgetAccountsOpen(bool $accountsWithMovements, object $project, string $initialDate, string $finalDate)
     {
@@ -335,7 +327,6 @@ class BudgetReportsController extends Controller
                         }
 
                         if (count($compromisedAmount) > 0) {
-                            // if ($modAccount->budgetAccount->id == '1247') dd($compromisedAmount);
                             foreach ($compromisedAmount as $key => $value) {
                                 $data = [
                                     'current' => $value['amount'],
@@ -589,7 +580,7 @@ class BudgetReportsController extends Controller
                     $finalAccount['modifications'] = collect($finalAccount['modifications'])->map(function ($mod) use (
                         &$accountCurrent,
                         &$available
-) {
+                    ) {
                         if ($mod['increment'] > 0) {
                             $accountCurrent = $accountCurrent + $mod['current'];
                             $available = $available + $mod['current'];
@@ -597,6 +588,8 @@ class BudgetReportsController extends Controller
                             $accountCurrent = $accountCurrent - $mod['current'];
                             $available = $available - $mod['current'];
                         } elseif ($mod['compromised'] > 0) {
+                            $available = $available - $mod['current'];
+                        } elseif ($mod['compromised'] < 0) {
                             $available = $available - $mod['current'];
                         }
 
@@ -642,14 +635,12 @@ class BudgetReportsController extends Controller
      *
      * @author José Briceño <josejorgebriceno9@gmail.com>
      *
-     * @method getAccountCompromisedAmout
+     * @param integer   $account_id     Datos de la cuenta presupuestaria
+     * @param string    $initialDate    Fecha inicial de consulta
+     * @param string    $finalDate      Fecha final de consulta
      *
-     * @param int $account_id
-     *
-     * @return Float Monto del compromiso para la cuenta presupuestaria con 'id' $account_id
-     *
+     * @return array Monto del compromiso para la cuenta presupuestaria con 'id' $account_id     *
      */
-
     public function getAccountCompromisedAmout(object $accout_id, $initialDate, $finalDate)
     {
         $compromised = BudgetCompromiseDetail::query()
@@ -662,27 +653,51 @@ class BudgetReportsController extends Controller
 
         $compromises = [];
 
+        $anulatedStatus = DocumentStatus::where('action', 'AN')->first();
+
         if (!$compromised->isEmpty()) {
             foreach ($compromised as $com) {
                 if ($com->budgetCompromise) {
                     $budgetCompromiseId = $com->budgetCompromise->id;
 
-                    if (!array_key_exists($budgetCompromiseId, $compromises)) {
-                        $compromises[$budgetCompromiseId] = [
+                    // Iteración con monto en positivo
+                    $positiveKey = $budgetCompromiseId;
+                    if (!array_key_exists($positiveKey, $compromises)) {
+                        $compromises[$positiveKey] = [
                             'amount' => 0,
                             'description' => '',
                             'date' => '',
                         ];
                     }
 
-                    // Actualizar los valores dentro de $compromises[$budgetCompromiseId]
-                    $compromises[$budgetCompromiseId]['amount'] += $com->amount;
-                    $compromises[$budgetCompromiseId]['description'] = $com->budgetCompromise->description;
+                    $compromises[$positiveKey]['amount'] += $com->amount;
+                    $compromises[$positiveKey]['description'] = $com->budgetCompromise->description;
 
                     if (gettype($com->budgetCompromise->compromised_at) === 'string') {
-                        $compromises[$budgetCompromiseId]['date'] = \Carbon\Carbon::rawCreateFromFormat('Y-m-d', $com->budgetCompromise->compromised_at);
+                        $compromises[$positiveKey]['date'] = \Carbon\Carbon::rawCreateFromFormat('Y-m-d', $com->budgetCompromise->compromised_at);
                     } else {
-                        $compromises[$budgetCompromiseId]['date'] = $com->budgetCompromise->compromised_at;
+                        $compromises[$positiveKey]['date'] = $com->budgetCompromise->compromised_at;
+                    }
+
+                    // Iteración con monto en negativo
+                    if ($anulatedStatus->id == $com->document_status_id) {
+                        $negativeKey = $budgetCompromiseId . '_negative';
+                        if (!array_key_exists($negativeKey, $compromises)) {
+                            $compromises[$negativeKey] = [
+                                'amount' => 0,
+                                'description' => '',
+                                'date' => '',
+                            ];
+                        }
+
+                        $compromises[$negativeKey]['amount'] += $com->amount * -1;
+                        $compromises[$negativeKey]['description'] = $com->budgetCompromise->description;
+
+                        if (gettype($com->budgetCompromise->compromised_at) === 'string') {
+                            $compromises[$negativeKey]['date'] = \Carbon\Carbon::rawCreateFromFormat('Y-m-d', $com->budgetCompromise->compromised_at);
+                        } else {
+                            $compromises[$negativeKey]['date'] = $com->budgetCompromise->compromised_at;
+                        }
                     }
                 }
             }
@@ -697,14 +712,11 @@ class BudgetReportsController extends Controller
      *
      * @author José Briceño <josejorgebriceno9@gmail.com>
      *
-     * @method getModifications
+     * @param int $account_budget_sub_specific_formulation_id Identificador de la cuenta presupuestaria
      *
-     * @param int $account_id
-     *
-     * @return Object Objecto que contiene aumentos y disminuciones
-     *
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|null Objecto que contiene aumentos y
+     *                                                                                               disminuciones
      */
-
     public function getAccountModifications(int $account_budget_sub_specific_formulation_id)
     {
         $modifications = BudgetModificationAccount::with('budgetModification')->where('budget_sub_specific_formulation_id', $account_budget_sub_specific_formulation_id)->get();
@@ -714,23 +726,31 @@ class BudgetReportsController extends Controller
     /**
      * Metodo para filtrar y retornar un array con las cuentas presupuestarias formuladas
      *
-     * @author    Jonathan Alvarado <wizardx1407@gmail.com> | <jonathanalvarado1407@gmail.com>
-     *
+     * @author    Jonathan Alvarado <wizardx1407@gmail.com> | <jonathanalvarado1407@gmail.com>     *
      * @author José Briceño <josejorgebriceno9@gmail.com>
      *
-     * @return    Array Arreglo ordenado de cuentas presupuestarias formuladas
+     * @param array     $budgetAccountsOpen Arreglo de cuentas presupuestarias abiertas
+     * @param integer   $initialCode Código inicial de la Cuenta presupuestaria
+     * @param integer   $finalCode Código final de la Cuenta presupuestaria
+     * @param string    $initialDate Fecha inicial de la Cuenta presupuestaria
+     * @param string    $finalDate Fecha final de la Cuenta presupuestaria
+     *
+     * @return    array Arreglo ordenado de cuentas presupuestarias formuladas
      */
-    public function filterBudgetAccounts(array $budgetAccountsOpen, int $initialCode, int $finalCode, string $initialDate, string $finalDate)
-    {
+    public function filterBudgetAccounts(
+        array $budgetAccountsOpen,
+        int $initialCode,
+        int $finalCode,
+        string $initialDate,
+        string $finalDate
+    ) {
         $filteredArray = array();
 
         foreach ($budgetAccountsOpen as $budgetItem) {
-            // dd($budgetItem, $initialCode, $finalCode, $initialDate, $finalDate);
             if ($budgetItem->code > $finalCode) {
                 break;
             }
 
-            // $specificAction = BudgetSubSpecificFormulation::where('id', $budgetItem->budget_sub_specific_formulation_id)->first()->specificAction;
             if (isset($budgetItem->budgetAccount)) {
                 $code = str_replace('.', '', $budgetItem->budgetAccount->getCodeAttribute());
             } else {
@@ -738,9 +758,7 @@ class BudgetReportsController extends Controller
             }
 
             if ($code >= $initialCode && $code <= $finalCode) {
-                // if (($initialDate <= $specificAction->from_date->toDateString()) && ($specificAction->to_date->toDateString() <= $finalDate)) {
                 array_push($filteredArray, $budgetItem);
-                // }
             }
         }
 
@@ -750,10 +768,12 @@ class BudgetReportsController extends Controller
     /**
      * Metodo para generar el reporte en PDF de disponibilad presupuestaria
      *
-     * @author    Jonathan Alvarado <wizardx1407@gmail.com> | <jonathanalvarado1407@gmail.com>
-     *
+     * @author    Jonathan Alvarado <wizardx1407@gmail.com> | <jonathanalvarado1407@gmail.com>     *
      * @author  José Briceño <josejorgebriceno9@gmail.com>
      *
+     * @param Request $request Datos de la petición
+     *
+     * @return void
      */
     public function getPdf(Request $request)
     {
@@ -825,10 +845,9 @@ class BudgetReportsController extends Controller
      *
      * @author José Briceño <josejorgebriceno9@gmail.com>
      *
-     * @method consolidatedReportPdf
+     * @param Request $request Datos de la petición
      *
-     * @param Request $request
-     *
+     * @return void
      */
 
     public function consolidatedReportPdf(Request $request)
@@ -909,11 +928,23 @@ class BudgetReportsController extends Controller
         ]);
     }
 
+    /**
+     * Muestra el formulario para generar el reporte de proyectos
+     *
+     * @return \Illuminate\View\View
+     */
     public function getProjectsView()
     {
         return view('budget::reports.projects');
     }
 
+    /**
+     * Obtiene los datos para generar el reporte de proyectos
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function getProjectsReportData(Request $request)
     {
         try {
@@ -936,7 +967,8 @@ class BudgetReportsController extends Controller
                 'data' => $query,
                 "message" => "Data para reporte de proyectos",
             ];
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $code = $e->getCode() ? (is_numeric($e->getCode()) ? $e->getCode() : 500) : 500;
             $msg = $e->getMessage() ?? "Error al obtener la data para el reporte de proyectos";
             $response = [
@@ -948,6 +980,13 @@ class BudgetReportsController extends Controller
         return response()->json($response, $code ?? 200);
     }
 
+    /**
+     * Genera el reporte de proyectos
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function getProjectsReportPdf(Request $request)
     {
         try {
@@ -976,7 +1015,8 @@ class BudgetReportsController extends Controller
                 'pdf' => $pdf,
                 'records' => $query,
             ]);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $code = $e->getCode() ? (is_numeric($e->getCode()) ? $e->getCode() : 500) : 500;
             $msg = $e->getMessage() ?? "Error al obtener la data para el reporte de proyectos";
             $response = [
@@ -989,12 +1029,10 @@ class BudgetReportsController extends Controller
     }
 
     /**
-     * Metodo que recopila todos los años que poseen formulaciones
+     * Método que recopila todos los años que poseen formulaciones
      *
-     * @author Jonathan Alvarado <email@email.com>
-     *
+     * @return \Illuminate\View\View
      */
-
     public function getFormulatedView()
     {
         $formulations_years = BudgetSubSpecificFormulation::select(['year'])->distinct()->get()->all();
@@ -1009,6 +1047,13 @@ class BudgetReportsController extends Controller
         ]);
     }
 
+    /**
+     * Obtiene los datos de las formulaciones
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function getFormulations(Request $request)
     {
         $entity = $request->input('is_project')
@@ -1040,9 +1085,15 @@ class BudgetReportsController extends Controller
         return response()->json($formulations);
     }
 
+    /**
+     * Obtiene los datos para el reporte de presupuesto formulado
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function getFormulatedReportData(Request $request)
     {
-
         $formulation_id = $request->input('formulation_id');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
@@ -1070,24 +1121,51 @@ class BudgetReportsController extends Controller
         return response()->json(['data' => $query]);
     }
 
+    /**
+     * Genera el reporte de presupuesto formulado
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function getFormulatedReportPdf(Request $request)
     {
         $request->validate([
-            'formulation_id' => ['required'],
+            'formulation_id' => $request->input('all_specific_actions') === 'true' ?
+                'nullable' :
+                ['required', 'array', 'not_in:0|null, ""'],
             'start_date' => ['required', 'before_or_equal:end_date'],
             'end_date' => ['required', 'after_or_equal:start_date'],
         ], [], [
-            'formulation_id' => 'Formulaciones',
-            'start_date' => 'Desde',
-            'end_date' => 'Hasta',
+            'formulation_id' => 'El campo Acción Especifica',
+            'start_date' => 'El campo Desde',
+            'end_date' => 'El campo Hasta',
         ]);
 
         try {
-            $formulation_id = $request->input('formulation_id');
+            $formulation_id = explode(',', $request->input('formulation_id')[0]);
             $start_date = $request->input('start_date');
             $end_date = $request->input('end_date');
+            $isProject = BudgetProject::class;
+            $isCentralizedAction = BudgetCentralizedAction::class;
 
-            $formulation = BudgetSubSpecificFormulation::find($formulation_id);
+            if ($request->all_specific_actions == 'true') {
+                if ($request->is_project) {
+                    $formulation = BudgetSubSpecificFormulation::query()->whereHas('specificAction', function ($query) use ($isProject) {
+                        $query->whereHasMorph('specificable', [BudgetProject::class], function ($query) use ($isProject) {
+                            return $query->where('specificable_type', $isProject)->where('specificable_id', 1);
+                        });
+                    })->get();
+                } else {
+                    $formulation = BudgetSubSpecificFormulation::query()->whereHas('specificAction', function ($query) use ($isCentralizedAction) {
+                        $query->whereHasMorph('specificable', [BudgetCentralizedAction::class], function ($query) use ($isCentralizedAction) {
+                            return $query->where('specificable_type', $isCentralizedAction)->where('specificable_id', 1);
+                        });
+                    })->get();
+                }
+            } else {
+                $formulation = BudgetSubSpecificFormulation::query()->whereIn('id', $formulation_id)->get();
+            }
 
             $pdf = new ReportRepository();
 
@@ -1101,9 +1179,16 @@ class BudgetReportsController extends Controller
 
             $date = 'Presupuesto Formulado desde ' . \Carbon\Carbon::rawCreateFromFormat('Y-m-d', $start_date)->format('d-m-Y') . ' hasta ' . \Carbon\Carbon::rawCreateFromFormat('Y-m-d', $end_date)->format('d-m-Y');
 
+            $totalFormulations = 0;
+
+            foreach ($formulation as $form) {
+                $totalFormulations += $form->total_formulated;
+            }
+
             $pdf->setConfig([
                 'institution' => $institution,
                 'orientation' => 'L',
+                'format' => 'A2 LANDSCAPE',
                 'urlVerify'   => url(''),
             ]);
 
@@ -1116,13 +1201,15 @@ class BudgetReportsController extends Controller
 
             $pdf->setBody('budget::pdf.formulations', true, [
                 'pdf' => $pdf,
-                'formulation' => $formulation,
+                'formulations' => $formulation,
+                'totalFormulations' => $totalFormulations,
                 'institution' => $institution,
                 'currencySymbol' => $currency['symbol'],
                 'fiscal_year' => $fiscal_year['year'],
                 'profile' => $profile,
             ]);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $code = $e->getCode() ? (is_numeric($e->getCode()) ? $e->getCode() : 500) : 500;
             $msg = $e->getMessage() ?? "Error al obtener los datos para el reporte de presupuestos formulados";
             $response = [
@@ -1134,6 +1221,13 @@ class BudgetReportsController extends Controller
         }
     }
 
+    /**
+     * Obtiene información delos proyectos
+     *
+     * @param bool $list Indica si debe retornar una lista
+     *
+     * @return array
+     */
     public function getBudgetProjects(bool $list = null)
     {
         $budgetProjects = BudgetProject::with(['specificActions'])->whereHas('specificActions', function ($query) {
@@ -1157,6 +1251,13 @@ class BudgetReportsController extends Controller
         return $budgetProjects;
     }
 
+    /**
+     * Obtiene información de las acciones centralizadas
+     *
+     * @param bool $list Indica si debe retornar una lista
+     *
+     * @return array
+     */
     public function getBudgetCentralizedActions(bool $list = null)
     {
         $budgetCentralizedActions = BudgetCentralizedAction::with(['specificActions'])->whereHas('specificActions', function ($query) {
@@ -1181,12 +1282,24 @@ class BudgetReportsController extends Controller
         return $budgetCentralizedActions;
     }
 
+    /**
+     * Muestra el formulario para la generación del reporte del mayor analítico
+     *
+     * @return \Illuminate\View\View
+     */
     public function budgetAnalyticalMajor()
     {
         $budgetAvailability = $this->budgetAvailability(true);
         return view('budget::reports.budgetAnalyticalMajor', $budgetAvailability);
     }
 
+    /**
+     * Genera el reporte de mayor analítico
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|void
+     */
     public function getbudgetAnalyticalMajorPdf(Request $request)
     {
         $data = $request->validate([
@@ -1241,6 +1354,8 @@ class BudgetReportsController extends Controller
                 'report_date' => \Carbon\Carbon::today()->format('d-m-Y'),
                 'initialDate' => '',
                 'finalDate' => '',
+                'report_type_id' => $data['report_type_id'],
+                'profile' => $profile,
             ]), now()->format('d-m-Y') . '_Reporte_Mayor_Analitico.csv');
         } else {
             $pdf = new ReportRepository();
@@ -1262,13 +1377,41 @@ class BudgetReportsController extends Controller
     }
 
     /**
-     * Método para buscar las cuentas padre de una formulación
+     * Crea el reporte de mayor analítico
      *
-     * @method    getAccountParents
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function createBudgetAnalyticalMajorPdf(Request $request)
+    {
+        $userId = auth()->user()->id;
+        $data = $request->validate([
+            'initialDate' => ['required', 'before:finalDate'],
+            'finalDate' => ['required', 'after:initialDate'],
+            'initialCode' => 'required',
+            'finalCode' => 'required',
+            'accountsWithMovements' => 'required',
+        ]);
+
+        $data = $request->toArray();
+        $created_at = \Carbon\Carbon::now();
+        CreateBudgetAnalyticalMajorJob::dispatch(
+            $data,
+            'budget::pdf.budgetAnalyticMajor',
+            'report-budget-analytic-major',
+            $userId,
+            $created_at
+        );
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Método para buscar las cuentas padre de una formulación
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return    Array con las cuentas padre de la formulación
+     * @return    array con las cuentas padre de la formulación
      */
     public function getAccountParents($child, $parents = [])
     {
@@ -1296,12 +1439,11 @@ class BudgetReportsController extends Controller
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @method getAccountCompromisedCausedAmount
+     * @param BudgetAccount $account Cuenta presupuestaria
+     * @param string $initialDate Fecha inicial
+     * @param string $finalDate   Fecha final
      *
-     * @param int $account
-     *
-     * @return Float Monto del causado para la cuenta presupuestaria $account
-     *
+     * @return float|array Monto del causado para la cuenta presupuestaria $account     *
      */
 
     public function getAccountCompromisedCausedAmount($account, $initialDate, $finalDate)
@@ -1311,7 +1453,7 @@ class BudgetReportsController extends Controller
                 $query
                     ->whereBetween('compromised_at', [$initialDate, $finalDate])
                     ->with(['budgetStages' => function ($q) {
-                        $q->with('stageable')->where('type', 'CAU');
+                        $q->withTrashed()->with('stageable')->where('type', 'CAU');
                     }]);
             }])
             ->where('budget_sub_specific_formulation_id', $account->budget_sub_specific_formulation_id)
@@ -1324,21 +1466,26 @@ class BudgetReportsController extends Controller
             'date' => '',
         ];
 
+        $anulatedStatus = DocumentStatus::where('action', 'AN')->first();
+
         if (count($compromised) > 0) {
             if (isset($compromised[0]) && isset($compromised[0]['budgetCompromise'])) {
                 foreach ($compromised as $com) {
                     if ($com->budgetCompromise) {
                         $budgetCompromiseId = $com->budgetCompromise->id;
 
+                        // Iteración con monto en positivo
+                        $positiveKey = $budgetCompromiseId;
+
                         // Verificamos si el identificador existe en $compromises y lo inicializamos si no
-                        if (!array_key_exists($budgetCompromiseId, $compromises)) {
+                        if (!array_key_exists($positiveKey, $compromises)) {
                             $amount = [
                                 'amount' => 0,
                                 'date' => ''
                             ];
                         } else {
                             // Si ya existe, obtenemos su valor actual
-                            $amount = $compromises[$budgetCompromiseId];
+                            $amount = $compromises[$positiveKey];
                         }
 
                         if ($com->budgetCompromise->budgetStages) {
@@ -1347,17 +1494,59 @@ class BudgetReportsController extends Controller
                                 if ($stage->type == 'CAU') {
                                     $stageCau = true;
                                 }
+                                $date = $stage->stageable->ordered_at ?? $stage->stageable->payment_date;
                                 // Seteamos la fecha desde el último elemento de budgetStages
-                                if (gettype($stage->stageable->ordered_at) === 'string') {
-                                    $amount['date'] = \Carbon\Carbon::rawCreateFromFormat('Y-m-d', $stage->stageable->ordered_at);
+                                if (gettype($date) === 'string') {
+                                    $amount['date'] = \Carbon\Carbon::rawCreateFromFormat('Y-m-d', $date);
                                 } else {
-                                    $amount['date'] = $stage->stageable->ordered_at;
+                                    $amount['date'] = $date;
                                 }
                             }
 
+                            $newAmount = $com->amount;
+
                             if ($stageCau) {
-                                $amount['amount'] += $com->amount;
-                                $compromises[$budgetCompromiseId] = $amount; // Actualizamos el valor en el arreglo $compromises
+                                $amount['amount'] += $newAmount;
+                                $compromises[$positiveKey] = $amount; // Actualizamos el valor en el arreglo $compromises
+                            }
+                        }
+
+                        if ($anulatedStatus->id == $com->document_status_id) {
+                            // Iteración con monto en negativo
+                            $negativeKey = $budgetCompromiseId . '_negative';
+
+                            // Verificamos si el identificador existe en $compromises y lo inicializamos si no
+                            if (!array_key_exists($negativeKey, $compromises)) {
+                                $amount = [
+                                    'amount' => 0,
+                                    'date' => ''
+                                ];
+                            } else {
+                                // Si ya existe, obtenemos su valor actual
+                                $amount = $compromises[$negativeKey];
+                            }
+
+                            if ($com->budgetCompromise->budgetStages) {
+                                $stageCau = false;
+                                foreach ($com->budgetCompromise->budgetStages as $stage) {
+                                    if ($stage->type == 'CAU') {
+                                        $stageCau = true;
+                                    }
+                                    $date = $stage->stageable->ordered_at ?? $stage->stageable->payment_date;
+                                    // Seteamos la fecha desde el último elemento de budgetStages
+                                    if (gettype($date) === 'string') {
+                                        $amount['date'] = \Carbon\Carbon::rawCreateFromFormat('Y-m-d', $date);
+                                    } else {
+                                        $amount['date'] = $date;
+                                    }
+                                }
+
+                                $newAmount = $com->amount * -1;
+
+                                if ($stageCau) {
+                                    $amount['amount'] += $newAmount;
+                                    $compromises[$negativeKey] = $amount; // Actualizamos el valor en el arreglo $compromises
+                                }
                             }
                         }
                     }
@@ -1375,12 +1564,11 @@ class BudgetReportsController extends Controller
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @method getAccountCompromisedPaidAmount
+     * @param BudgetAccount $account Cuenta presupuestaria
+     * @param string $initialDate Fecha inicial
+     * @param string $finalDate   Fecha final
      *
-     * @param int $account
-     *
-     * @return Float Monto del pagado para la cuenta presupuestaria $account
-     *
+     * @return array Monto del pagado para la cuenta presupuestaria $account     *
      */
 
     public function getAccountCompromisedPaidAmount($account, $initialDate, $finalDate)
@@ -1390,12 +1578,14 @@ class BudgetReportsController extends Controller
                 $query
                     ->whereBetween('compromised_at', [$initialDate, $finalDate])
                     ->with(['budgetStages' => function ($q) {
-                        $q->with('stageable')->where('type', 'PAG');
+                        $q->withTrashed()->with('stageable')->where('type', 'PAG');
                     }]);
             }])
             ->where('budget_sub_specific_formulation_id', $account->budget_sub_specific_formulation_id)
             ->where('budget_account_id', $account->budget_account_id)
             ->get();
+
+        $anulatedStatus = DocumentStatus::where('action', 'AN')->first();
 
         $compromises = [];
         $amount = [
@@ -1409,15 +1599,18 @@ class BudgetReportsController extends Controller
                     if ($com->budgetCompromise) {
                         $budgetCompromiseId = $com->budgetCompromise->id;
 
+                        // Iteración con monto en positivo
+                        $positiveKey = $budgetCompromiseId;
+
                         // Verificamos si el identificador existe en $compromises y lo inicializamos si no
-                        if (!array_key_exists($budgetCompromiseId, $compromises)) {
+                        if (!array_key_exists($positiveKey, $compromises)) {
                             $amount = [
                                 'amount' => 0,
                                 'date' => ''
                             ];
                         } else {
                             // Si ya existe, obtenemos su valor actual
-                            $amount = $compromises[$budgetCompromiseId];
+                            $amount = $compromises[$positiveKey];
                         }
 
                         if ($com->budgetCompromise->budgetStages) {
@@ -1426,17 +1619,59 @@ class BudgetReportsController extends Controller
                                 if ($stage->type == 'PAG') {
                                     $stagePag = true;
                                 }
+                                $date = $stage->stageable->paid_at ?? $stage->stageable->payment_date;
                                 // Seteamos la fecha desde el último elemento de budgetStages
-                                if (gettype($stage->stageable->ordered_at) === 'string') {
-                                    $amount['date'] = \Carbon\Carbon::rawCreateFromFormat('Y-m-d', $stage->stageable->paid_at);
+                                if (gettype($date) === 'string') {
+                                    $amount['date'] = \Carbon\Carbon::rawCreateFromFormat('Y-m-d', $date);
                                 } else {
-                                    $amount['date'] = $stage->stageable->paid_at;
+                                    $amount['date'] = $date;
                                 }
                             }
 
+                            $newAmount = $com->amount;
+
                             if ($stagePag) {
-                                $amount['amount'] += $com->amount;
-                                $compromises[$budgetCompromiseId] = $amount; // Actualizamos el valor en el arreglo $compromises
+                                $amount['amount'] += $newAmount;
+                                $compromises[$positiveKey] = $amount; // Actualizamos el valor en el arreglo $compromises
+                            }
+                        }
+
+                        if ($anulatedStatus->id == $com->document_status_id) {
+                            // Iteración con monto en negativo
+                            $negativeKey = $budgetCompromiseId . '_negative';
+
+                            // Verificamos si el identificador existe en $compromises y lo inicializamos si no
+                            if (!array_key_exists($negativeKey, $compromises)) {
+                                $amount = [
+                                    'amount' => 0,
+                                    'date' => ''
+                                ];
+                            } else {
+                                // Si ya existe, obtenemos su valor actual
+                                $amount = $compromises[$negativeKey];
+                            }
+
+                            if ($com->budgetCompromise->budgetStages) {
+                                $stagePag = false;
+                                foreach ($com->budgetCompromise->budgetStages as $stage) {
+                                    if ($stage->type == 'PAG') {
+                                        $stagePag = true;
+                                    }
+                                    $date = $stage->stageable->paid_at ?? $stage->stageable->payment_date;
+                                    // Seteamos la fecha desde el último elemento de budgetStages
+                                    if (gettype($date) === 'string') {
+                                        $amount['date'] = \Carbon\Carbon::rawCreateFromFormat('Y-m-d', $date);
+                                    } else {
+                                        $amount['date'] = $date;
+                                    }
+                                }
+
+                                $newAmount = $com->amount * -1;
+
+                                if ($stagePag) {
+                                    $amount['amount'] += $newAmount;
+                                    $compromises[$negativeKey] = $amount; // Actualizamos el valor en el arreglo $compromises
+                                }
                             }
                         }
                     }

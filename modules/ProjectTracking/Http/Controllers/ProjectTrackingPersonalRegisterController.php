@@ -1,10 +1,7 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\ProjectTracking\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -12,11 +9,9 @@ use Modules\ProjectTracking\Models\ProjectTrackingPersonalRegister;
 
 /**
  * @class ProjectTrackingPersonalRegisterController
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos del controlador
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -26,13 +21,9 @@ class ProjectTrackingPersonalRegisterController extends Controller
     use ValidatesRequests;
 
     /**
-     * [descripción del método]
+     * Obtiene todo el personal registrado
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -47,11 +38,9 @@ class ProjectTrackingPersonalRegisterController extends Controller
     /**
      * Retorna un json con todo el personal para ser usado en un componente <select2>
      *
-     * @method    getPersonal
-     *
      * @author    Oscar González <xxmaestroyixx@gmail.com>
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function getPersonal()
     {
@@ -71,13 +60,9 @@ class ProjectTrackingPersonalRegisterController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para un nuevo registro de personal en seguimiento de proyectos
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -85,15 +70,13 @@ class ProjectTrackingPersonalRegisterController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    store
+     * Almacena un nuevo registro de personal en seguimiento de proyectos
      *
      * @author    Oscar González <xxmaestroyixx@gmail.com>
      *
-     * @param     object    Request    $request    Objeto con información de la petición
+     * @param     Request    $request    Datos de la petición
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -121,15 +104,11 @@ class ProjectTrackingPersonalRegisterController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información sobre un registro de personal en seguimiento de proyectos
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -137,15 +116,11 @@ class ProjectTrackingPersonalRegisterController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario para editar un registro de personal en seguimiento de proyectos
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    void
      */
     public function edit($id)
     {
@@ -153,16 +128,14 @@ class ProjectTrackingPersonalRegisterController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    update
+     * Actualiza un registro de personal en seguimiento de proyectos
      *
      * @author    Oscar González <xxmaestroyixx@gmail.com>
      *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request)
     {
@@ -190,15 +163,13 @@ class ProjectTrackingPersonalRegisterController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
+     * Elimina un registro de personal en seguimiento de proyectos
      *
      * @author    Oscar González <xxmaestroyixx@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

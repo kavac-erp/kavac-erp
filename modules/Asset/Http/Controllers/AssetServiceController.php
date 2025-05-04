@@ -3,43 +3,54 @@
 namespace Modules\Asset\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Module;
+use Nwidart\Modules\Facades\Module;
 
-/*
+/**
  * @class ServiceController
  * @brief Controlador de Servicios del Módulo de Bienes
  *
  * Clase que gestiona los registros utilizados en los elemnetos del tipo select2
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetServiceController extends Controller
 {
+    /**
+     * Obtiene un listado de empleados para el select
+     *
+     * @return array
+     */
     public function getPayrollStaffs()
     {
-        return (Module::has('Payroll')) ?
-            template_choices(
-                'Modules\Payroll\Models\PayrollStaff',
-                ['id_number', '-', 'full_name'],
-                ['relationship' => 'PayrollEmployment', 'where' => ['active' => true]],
-                true
-            ) : [];
+        return (
+            Module::has('Payroll') && Module::isEnabled('Payroll')
+        ) ? template_choices(
+            'Modules\Payroll\Models\PayrollStaff',
+            ['id_number', '-', 'full_name'],
+            ['relationship' => 'PayrollEmployment', 'where' => ['active' => true]],
+            true
+        ) : [];
     }
-    // public function getPayrollPositionTypes()
-    // {
-    //     return (Module::has('Payroll')) ?
-    //         template_choices('Modules\Payroll\Models\PayrollPositionType', 'name', '', true) : [];
-    // }
-    // public function getPayrollPositions()
-    // {
-    //     return (Module::has('Payroll')) ?
-    //         template_choices('Modules\Payroll\Models\PayrollPosition', 'name', '', true) : [];
-    // }
+
+    /**
+     * Obtiene información del empleado
+     *
+     * @param integer $id Identificador del empleado
+     *
+     * @return array
+     */
     public function getPayrollStaffInfo($id)
     {
+        if (!Module::has('Payroll') || !Module::isEnabled('Payroll')) {
+            $emtyList = [
+                'id' => '',
+                'text' => 'Seleccione...'
+            ];
+            return [$emtyList, $emtyList, $emtyList];
+        }
         $payroll_position_id = [];
         $payroll_positions = \Modules\Payroll\Models\PayrollEmployment::where('payroll_staff_id', $id)->get();
         array_push($payroll_position_id, [
@@ -84,7 +95,7 @@ class AssetServiceController extends Controller
                 ['id' => (int)$payroll_type_id[1]["text"]],
                 true
             ) : [];
-            // dd($payroll_position_name, $payroll_position_type_name);
+
         $department_name = (Module::has('Payroll')) ?
             template_choices(
                 'Modules\Payroll\Models\Department',

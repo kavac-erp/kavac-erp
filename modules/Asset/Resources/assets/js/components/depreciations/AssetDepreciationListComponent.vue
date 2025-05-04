@@ -2,7 +2,7 @@
     <div>
         <div class="card-btns">
             <div class="d-inline-flex">
-                <a href="#" class="btn btn-sm btn-primary btn-custom" @click="redirect_back(route_list)"
+                <a href="#" class="btn btn-sm btn-primary btn-custom" @click="redirect_back()"
                     title="Ir atrás" data-toggle="tooltip">
                     <i class="fa fa-reply"></i>
                 </a>
@@ -28,24 +28,28 @@
                     </asset-depreciation-info>
                 </div>
                 <button
-                    v-if="props.row.document_status.action === 'PR'"
                     class="btn btn-success btn-xs btn-icon btn-action"
                     title="Aprobar"
                     data-toggle="tooltip"
                     type="button"
-                    @click="approve(props.row.id)"
+                    @click="'PR' === props.row.document_status.action ? approve(props.row.id) : 'javascript:void(0)'"
+                    :disabled="'PR' !== props.row.document_status.action"
                 >
                     <i class="fa fa-check"></i>
                 </button>
                 <button
-                    v-else
-                    disabled
-                    class="btn btn-success btn-xs btn-icon btn-action"
-                    title="Aprobar"
+                    class="btn btn-secondary btn-xs btn-icon btn-action"
+                    title="Anular"
                     data-toggle="tooltip"
                     type="button"
+                    @click="
+                        'AN' === props.row.document_status.action || props.row.has_approved_entry ?
+                        'javascript:void(0)' :
+                        cancel(props.row.id)
+                    "
+                    :disabled="'AN' === props.row.document_status.action || props.row.has_approved_entry"
                 >
-                    <i class="fa fa-check"></i>
+                    <i class="fa fa-close"></i>
                 </button>
             </div>
         </v-client-table>
@@ -103,7 +107,9 @@ export default {
         reset() {
             // 
         },
-
+        redirect_back: function (url) {
+            location.href = app_url + '/asset/settings';
+        },
         /**
          * Aprueba la depreciación para generar los asientos contables
          */
@@ -125,6 +131,45 @@ export default {
                     if (result) {
                         vm.loading = true;
                         let url = vm.setUrl('asset/depreciations/approve');
+                        await axios.post(url + '/' + id).then(response => {
+                            if (typeof(response.data.error) !== 'undefined') {
+                                /** Muestra un mensaje de error si sucede algún evento en la eliminación */
+                                vm.showMessage('custom', 'Alerta!', 'danger', 'screen-error', response.data.message);
+                                return false;
+                            }
+
+                            vm.showMessage('update');
+                            vm.loading = false;
+                            window.location.reload();
+                        }).catch(() => {
+                            console.log(error);
+                        });
+                    }
+                }
+            });
+        },
+
+        /**
+         * Anula la depreciación generada
+         */
+         cancel(id) {
+            const vm = this;
+            bootbox.confirm({
+                title: "¿Anular registro?",
+                message: "¿Está seguro de anular este registro? " + 
+                         "Se anularán todos los procesos asociados a esta depreciación.",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Cancelar'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Confirmar'
+                    }
+                },
+                callback: async function (result) {
+                    if (result) {
+                        vm.loading = true;
+                        let url = vm.setUrl('asset/depreciations/cancel');
                         await axios.post(url + '/' + id).then(response => {
                             if (typeof(response.data.error) !== 'undefined') {
                                 /** Muestra un mensaje de error si sucede algún evento en la eliminación */

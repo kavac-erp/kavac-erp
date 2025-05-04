@@ -7,5 +7,5 @@ var classModules_1_1Purchase_1_1Models_1_1Estate =
     [ "$dates", "d5/dd7/classModules_1_1Purchase_1_1Models_1_1Estate.html#a6ed295a3b7371b42773cab86fd367af8", null ],
     [ "$fillable", "d5/dd7/classModules_1_1Purchase_1_1Models_1_1Estate.html#a13601d3af66d109458e268a3eb4afc49", null ],
     [ "$hidden", "d5/dd7/classModules_1_1Purchase_1_1Models_1_1Estate.html#a2fea3b5f0fc46082dae25ed3e20d294b", null ],
-    [ "$with", "d5/dd7/classModules_1_1Purchase_1_1Models_1_1Estate.html#a575ec3cd45566351149a2d4f1d4bbd58", null ]
+    [ "$with", "d5/dd7/classModules_1_1Purchase_1_1Models_1_1Estate.html#a3b8033ad34a94c5e640232d8091bd02a", null ]
 ];

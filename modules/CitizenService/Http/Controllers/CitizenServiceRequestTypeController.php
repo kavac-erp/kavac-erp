@@ -7,20 +7,32 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\CitizenService\Models\CitizenServiceRequestType;
-use Illuminate\Validation\Rule;
 
+/**
+ * @class CitizenServiceRequestTypeController
+ * @brief Controlador tipos de solicitudes de la oficina de atención al ciudadano
+ *
+ * Clase que gestiona el controlador de tipos de solicitudes de la OAC
+ *
+ * @author Ing. Yenifer Ramirez <yramirez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CitizenServiceRequestTypeController extends Controller
 {
     use ValidatesRequests;
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -28,21 +40,23 @@ class CitizenServiceRequestTypeController extends Controller
      * Define la configuración de la clase
      *
      * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:citizenservice.request-types.create', ['only' => ['index', 'create', 'store']]);
-        $this->middleware('permission:citizenservice.request-types.edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:citizenservice.request-types.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:citizenservice.request.types.create', ['only' => ['index', 'create', 'store']]);
+        $this->middleware('permission:citizenservice.request.types.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:citizenservice.request.types.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'name'        => ['required', 'regex:/^[\D][a-zA-ZÁ-ÿ0-9\s]*/u', 'max:100'],
             'description' => ['required', 'regex:/^[\D][a-zA-ZÁ-ÿ0-9\s]*/u', 'max:200'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'name.required'         => 'El campo nombre es obligatorio.',
             'name.max'              => 'El campo nombre no debe contener más de 100 caracteres.',
@@ -53,18 +67,21 @@ class CitizenServiceRequestTypeController extends Controller
         ];
     }
     /**
-      * Define la configuración de la clase
-      *
-      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
-      */
+     * Define la configuración de la clase
+     *
+     * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         return response()->json(['records' => CitizenServiceRequestType::all()], 200);
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear un nuevo tipo de solicitud
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -75,8 +92,10 @@ class CitizenServiceRequestTypeController extends Controller
      * Valida y registra un nuevo tipo de solicitud
      *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * @param  Request $request
-     * @return JsonResponse
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -91,9 +110,11 @@ class CitizenServiceRequestTypeController extends Controller
 
         return response()->json(['record' => $citizenserviceRequestType, 'message' => 'Success'], 200);
     }
+
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra la información de un tipo de solicitud
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -101,8 +122,9 @@ class CitizenServiceRequestTypeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar la información de un tipo de solicitud
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -113,8 +135,11 @@ class CitizenServiceRequestTypeController extends Controller
      * Actualiza la información del tipo de solicitud
      *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * @param  Request $request
-     * @return JsonResponse
+     *
+     * @param  Request $request datos de la petición
+     * @param  integer $id      identificador del tipo de solicitud
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -137,7 +162,10 @@ class CitizenServiceRequestTypeController extends Controller
      * Elimina el tipo de solicitud
      *
      * @author Yennifer Ramirez <yramirez@cenditel.gob.ve>
-     * @return JsonResponse
+     *
+     * @param  integer $id identificador del tipo de solicitud
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -146,6 +174,11 @@ class CitizenServiceRequestTypeController extends Controller
         return response()->json(['record' => $citizenserviceRequestType, 'message' => 'Success'], 200);
     }
 
+    /**
+     * Obtiene un listado de tipos de solicitud
+     *
+     * @return array
+     */
     public function getRequestTypes()
     {
         return template_choices('Modules\CitizenService\Models\CitizenServiceRequestType', 'name', [], true, null);

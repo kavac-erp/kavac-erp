@@ -13,24 +13,33 @@ use Illuminate\Routing\Controller;
 use Nwidart\Modules\Facades\Module;
 use Modules\Purchase\Models\Document;
 use Modules\Purchase\Models\HistoryTax;
-use Illuminate\Support\Facades\Log;
 use Modules\Purchase\Models\Pivot;
-use Modules\Payroll\Models\PayrollEmployment;
 use Modules\Purchase\Models\PurchaseBaseBudget;
 use Modules\Purchase\Models\PurchasePivotModelsToRequirementItem;
 use Modules\Purchase\Models\PurchaseQuotation;
 use Modules\Purchase\Models\PurchaseRequirement;
 use Modules\Purchase\Models\PurchaseRequirementItem;
 use Modules\Purchase\Models\TaxUnit;
-use Response;
 
+/**
+ * @class PurchaseQuotationController
+ * @brief Gestiona los procesos de las cotizaciónes
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseQuotationController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:purchase.quotations.list', [
             'only' => 'index', 'vueList'
         ]);
@@ -46,8 +55,9 @@ class PurchaseQuotationController extends Controller
     }
 
     /**
-     * Muestra vista de principal de cotizacion
-     * @return Renderable
+     * Muestra vista de principal de cotización
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -61,43 +71,45 @@ class PurchaseQuotationController extends Controller
         $user_profile = Profile::with('institution')
             ->where('user_id', auth()->user()->id)->first();
 
-        if ($user_profile && $user_profile->institution !== null) {
-            foreach (
-                PayrollEmployment::with('payrollStaff', 'profile')
-                ->whereHas('profile', function ($query) use ($user_profile) {
-                    $query->where('institution_id', $user_profile->institution_id);
-                })->get() as $key => $employment
-            ) {
-                $text = '';
-                if ($employment->payrollStaff !== null) {
-                    if ($employment->payrollStaff->id_number) {
-                        $text = $employment->payrollStaff->id_number . ' - ' .
-                        $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
-                    } else {
-                        $text = $employment->payrollStaff->passport . ' - ' .
-                        $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+        if (Module::has('Payroll') && Module::isEnabled('Payroll')) {
+            if ($user_profile && $user_profile->institution !== null) {
+                foreach (
+                    \Modules\Payroll\Models\PayrollEmployment::with('payrollStaff', 'profile')
+                    ->whereHas('profile', function ($query) use ($user_profile) {
+                        $query->where('institution_id', $user_profile->institution_id);
+                    })->get() as $key => $employment
+                ) {
+                    $text = '';
+                    if ($employment->payrollStaff !== null) {
+                        if ($employment->payrollStaff->id_number) {
+                            $text = $employment->payrollStaff->id_number . ' - ' .
+                            $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+                        } else {
+                            $text = $employment->payrollStaff->passport . ' - ' .
+                            $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+                        }
+                        array_push($employments, [
+                            'id' => $employment->id,
+                            'text' => $text,
+                        ]);
                     }
-                    array_push($employments, [
-                        'id' => $employment->id,
-                        'text' => $text,
-                    ]);
                 }
-            }
-        } else {
-            foreach (PayrollEmployment::with('payrollStaff')->get() as $key => $employment) {
-                $text = '';
-                if ($employment->payrollStaff !== null) {
-                    if ($employment->payrollStaff->id_number) {
-                        $text = $employment->payrollStaff->id_number . ' - ' .
-                        $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
-                    } else {
-                        $text = $employment->payrollStaff->passport . ' - ' .
-                        $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+            } else {
+                foreach (\Modules\Payroll\Models\PayrollEmployment::with('payrollStaff')->get() as $key => $employment) {
+                    $text = '';
+                    if ($employment->payrollStaff !== null) {
+                        if ($employment->payrollStaff->id_number) {
+                            $text = $employment->payrollStaff->id_number . ' - ' .
+                            $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+                        } else {
+                            $text = $employment->payrollStaff->passport . ' - ' .
+                            $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+                        }
+                        array_push($employments, [
+                            'id' => $employment->id,
+                            'text' => $text,
+                        ]);
                     }
-                    array_push($employments, [
-                        'id' => $employment->id,
-                        'text' => $text,
-                    ]);
                 }
             }
         }
@@ -117,8 +129,9 @@ class PurchaseQuotationController extends Controller
     }
 
     /**
-     * Muestra vista de formulario de cotizacion
-     * @return Renderable
+     * Muestra vista de formulario de cotización
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -130,7 +143,7 @@ class PurchaseQuotationController extends Controller
             [],
             true
         );
-        // $currencies = template_choices('Modules\Purchase\Models\Currency', ['name'], [], true);
+
         $historyTax = HistoryTax::with('tax')->whereHas('tax', function ($query) {
             $query->where('active', true);
         })->where('operation_date', '<=', date('Y-m-d'))
@@ -159,36 +172,38 @@ class PurchaseQuotationController extends Controller
     }
 
     /**
-     * Metodo para registrar informacion de cotizacion
+     * Metodo para registrar información de cotización
+     *
      * @param  Request $request
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $this->validate(
             $request,
             [
-            'purchase_supplier_id' => 'required|integer',
-            'currency_id' => 'required|integer',
-            'file_1' => 'mimes:pdf',
-            'file_2' => 'mimes:pdf',
-            'file_3' => 'mimes:pdf',
-            'base_budget_list' => 'required',
-            'date' => 'required',
+                'purchase_supplier_id' => 'required|integer',
+                'currency_id' => 'required|integer',
+                'file_1' => 'mimes:pdf',
+                'file_2' => 'mimes:pdf',
+                'file_3' => 'mimes:pdf',
+                'base_budget_list' => 'required',
+                'date' => 'required',
             ],
             [
-            'file_1.required' => 'El archivo de acta de inicio es obligatorio.',
-            'file_1.mimes' => 'El archivo de acta de inicio debe ser de tipo pdf.',
-            'file_2.required' => 'El archivo de invitación de las empresas es obligatorio.',
-            'file_2.mimes' => 'El archivo de invitación de las empresas debe ser de tipo pdf.',
-            'file_3.required' => 'El archivo de proforma / Cotización es obligatorio.',
-            'file_3.mimes' => 'El archivo de proforma / Cotización debe ser de tipo pdf.',
-            'purchase_supplier_id.required' => 'El campo proveedor es obligatorio.',
-            'purchase_supplier_id.integer' => 'El campo proveedor debe ser numerico.',
-            'currency_id.required' => 'El campo de tipo de moneda es obligatorio.',
-            'currency_id.integer' => 'El campo de tipo de moneda debe ser numerico.',
-            'base_budget_list' => 'Debe seleccionar al menos un requerimiento.',
-            'date.required' => 'La fecha de generación es obligatoria.',
+                'file_1.required' => 'El archivo de acta de inicio es obligatorio.',
+                'file_1.mimes' => 'El archivo de acta de inicio debe ser de tipo pdf.',
+                'file_2.required' => 'El archivo de invitación de las empresas es obligatorio.',
+                'file_2.mimes' => 'El archivo de invitación de las empresas debe ser de tipo pdf.',
+                'file_3.required' => 'El archivo de proforma / Cotización es obligatorio.',
+                'file_3.mimes' => 'El archivo de proforma / Cotización debe ser de tipo pdf.',
+                'purchase_supplier_id.required' => 'El campo proveedor es obligatorio.',
+                'purchase_supplier_id.integer' => 'El campo proveedor debe ser numerico.',
+                'currency_id.required' => 'El campo de tipo de moneda es obligatorio.',
+                'currency_id.integer' => 'El campo de tipo de moneda debe ser numerico.',
+                'base_budget_list' => 'Debe seleccionar al menos un requerimiento.',
+                'date.required' => 'La fecha de generación es obligatoria.',
             ]
         );
 
@@ -271,9 +286,11 @@ class PurchaseQuotationController extends Controller
     }
 
     /**
-     * Metodo que muestra informacion de cotizacion
-     * @param  Request $id
-     * @return JsonResponse
+     * Metodo que muestra información de cotización
+     *
+     * @param  Request $id ID de la cotización
+     *
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -294,13 +311,14 @@ class PurchaseQuotationController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar una cotización
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
         $suppliers = template_choices('Modules\Purchase\Models\PurchaseSupplier', ['rif', '-', 'name'], [], true);
-        // $currencies = template_choices('Modules\Purchase\Models\Currency', ['name'], [], true);
+
         $historyTax = HistoryTax::with('tax')->whereHas('tax', function ($query) {
             $query->where('active', true);
         })->where('operation_date', '<=', date('Y-m-d'))->orderBy('operation_date', 'DESC')->first();
@@ -366,7 +384,6 @@ class PurchaseQuotationController extends Controller
             'record_base_budgets' => $record_base_budgets,
             'record_edit' => $record_edit,
             'base_budget_edit' => $base_budget_edit,
-            // 'currencies' => json_encode($currencies),
             'tax' => json_encode($historyTax),
             'tax_unit' => json_encode($taxUnit),
             'suppliers' => json_encode($suppliers),
@@ -374,13 +391,14 @@ class PurchaseQuotationController extends Controller
     }
 
     /**
-     * Metodo para eliminar informacion de cotizacion
-     * @return Renderable
+     * Metodo para eliminar información de cotización
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $record = PurchaseQuotation::with('relatable')->find($id);
-        // En la llave relatable trae los items relacionados con la cotizacion
+        // En la llave relatable trae los items relacionados con la cotización
         $document = new UploadDocRepository();
         $docs = Document::where('documentable_type', PurchaseQuotation::class)
             ->where('documentable_id', $id)->get();
@@ -400,7 +418,7 @@ class PurchaseQuotationController extends Controller
                 $base_budget->save();
             }
             if ($purchaseBase['status'] == 'PARTIALLY_QUOTED') {
-                //  de la cotizacion de este item
+                //  de la cotización de este item
                 $dualQuoted = false;
                 foreach ($requirement['purchaseRequirementItems'] as $value) {
                     $pivotItems = PurchasePivotModelsToRequirementItem::where([
@@ -447,11 +465,37 @@ class PurchaseQuotationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Obtiene listado de registros de cotizaciones
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
+    public function vueList(Request $request)
+    {
+        $records = PurchaseQuotation::query()
+        ->with(['purchaseSupplier', 'currency', 'relatable' =>
+                function ($query) {
+                    $query->with(['purchaseRequirementItem' => function ($query) {
+                        $query->with('purchaseRequirement')->get();
+                    }])->get();
+                },
+            ])
+        ->orderBy('id')
+        ->search($request->query('query'))
+        ->paginate($request->limit ?? 10);
 
+        return response()->json([
+            'data' => $records->items(),
+            'count' => $records->total(),
+        ], 200);
+    }
+
+    /**
+     * Actualiza la informacón de la cotización
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updatePurchaseQuotation(PurchaseQuotation $id, Request $request)
     {
         $this->validate(
@@ -562,7 +606,7 @@ class PurchaseQuotationController extends Controller
                 }
             }
             if ($record->status == 'PARTIALLY_QUOTED') {
-                //  de la cotizacion de este item
+                //  de la cotización de este item
                 if ($dualQuoted) {
                 } else {
                     if ($requirement && $purchaseBase && $purchaseBase['status'] == 'PARTIALLY_QUOTED') {
@@ -621,7 +665,7 @@ class PurchaseQuotationController extends Controller
             if ($base_budget->status == 'QUOTED') {
             }
             if ($base_budget->status == 'PARTIALLY_QUOTED') {
-                //  de la cotizacion de este item
+                //  de la cotización de este item
                 if ($dualQuoted) {
                     $base_budget->status = $record['status'];
                     $base_budget->save();
@@ -666,8 +710,10 @@ class PurchaseQuotationController extends Controller
     }
 
     /**
-     * [generateCodeAvailable genera el código disponible]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * Genera el código disponible para la cotización
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @return string código que se asignara
      */
     public function generateCodeAvailable()
@@ -705,7 +751,7 @@ class PurchaseQuotationController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function changeQuotationStatus(Request $request)
     {

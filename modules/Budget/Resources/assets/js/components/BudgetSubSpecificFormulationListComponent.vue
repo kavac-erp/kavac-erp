@@ -7,53 +7,27 @@
             </div>
             <div class="col-md-2">
                 <label for="" class="form-label">Fecha</label>
-                <input
-                    id="prefix"
-                    class="form-control"
-                    type="date"
-                    placeholder="Fecha"
-                    tabindex="1"
-                    v-model="filterBy.date"
-                />
+                <input id="prefix" class="form-control" type="date" placeholder="Fecha" tabindex="1"
+                    v-model="filterBy.date" />
             </div>
             <div class="col-md-2">
                 <label for="" class="form-label">Código</label>
-                <input
-                    id="prefix"
-                    class="form-control"
-                    type="text"
-                    placeholder="Código"
-                    tabindex="2"
-                    v-model="filterBy.code"
-                />
+                <input id="prefix" class="form-control" type="text" placeholder="Código" tabindex="2"
+                    v-model="filterBy.code" />
             </div>
             <div class="col-md-2">
                 <label class="form-label">Asignado</label>
-                <select2
-                    tabindex="2"
-                    :options="assignedOptions"
-                    v-model="filterBy.assigned"
-                >
+                <select2 tabindex="2" :options="assignedOptions" v-model="filterBy.assigned">
                 </select2>
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <button
-                        type="reset"
-                        class="btn btn-default btn-icon btn-xs-responsive px-3"
-                        aria-label="Search"
-                        @click="resetFilters()"
-                        title="Limpiar filtro"
-                    >
+                    <button type="reset" class="btn btn-default btn-icon btn-xs-responsive px-3"
+                        aria-label="Limpiar filtro" @click="resetFilters()" title="Limpiar filtro">
                         <i class="fa fa-eraser"></i>
                     </button>
-                    <button
-                        type="button"
-                        class="btn btn-info btn-icon btn-xs-responsive px-3"
-                        aria-label="Search"
-                        @click="filterTable()"
-                        title="Buscar"
-                    >
+                    <button type="button" class="btn btn-info btn-icon btn-xs-responsive px-3" aria-label="Buscar"
+                        @click="filterTable()" title="Buscar">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
@@ -66,72 +40,39 @@
                 {{ props.row.date ? format_date(props.row.date, 'DD/MM/YYYY') : "Sin fecha asignada" }}
             </div>
             <div slot="id" slot-scope="props" class="text-center">
-                <button
-                    @click="showRecord(props.row.id)"
-                    v-if="route_show"
-                    class="btn btn-info btn-xs btn-icon btn-action btn-tooltip"
-                    title="Ver registro"
-                    data-toggle="tooltip"
-                    data-placement="bottom"
-                    type="button"
-                >
+                <button @click="showRecord(props.row.id)" v-if="route_show"
+                    class="btn btn-info btn-xs btn-icon btn-action btn-tooltip" title="Ver registro"
+                    aria-label="Ver registro" data-toggle="tooltip" data-placement="bottom" type="button">
                     <i class="fa fa-eye"></i>
                 </button>
                 <template v-if="(lastYear && format_date(props.row.date, 'YYYY') <= lastYear)">
-                    <button
-                        class="btn btn-warning btn-xs btn-icon btn-action btn-tooltip"
-                        type="button"
-                        disabled
-                    >
+                    <button class="btn btn-warning btn-xs btn-icon btn-action btn-tooltip" type="button" disabled
+                        aria-label="Editar registro">
                         <i class="fa fa-edit"></i>
                     </button>
-                    <button
-                        class="btn btn-danger btn-xs btn-icon btn-action btn-tooltip"
-                        type="button"
-                        disabled
-                    >
+                    <button class="btn btn-danger btn-xs btn-icon btn-action btn-tooltip" type="button" disabled
+                        aria-label="Eliminar registro">
                         <i class="fa fa-trash-o"></i>
                     </button>
-                    <button
-                        class="btn btn-success btn-xs btn-icon btn-action btn-tooltip"
-                        type="button"
-                        disabled
-                    >
+                    <button class="btn btn-success btn-xs btn-icon btn-action btn-tooltip" type="button" disabled
+                        aria-label="Asignar Presupuesto">
                         <i class="fa fa-check"></i>
                     </button>
                 </template>
                 <template v-else>
-                    <button
-                        v-if="!props.row.assigned"
-                        class="btn btn-warning btn-xs btn-icon btn-action btn-tooltip"
-                        type="button"
-                        title="Modificar registro"
-                        data-placement="bottom"
-                        data-toggle="tooltip"
-                        @click="editForm(props.row.id)"
-                    >
+                    <button v-if="!props.row.assigned" class="btn btn-warning btn-xs btn-icon btn-action btn-tooltip"
+                        type="button" title="Modificar registro" aria-label="Editar registro" data-placement="bottom"
+                        data-toggle="tooltip" @click="editForm(props.row.id)">
                         <i class="fa fa-edit"></i>
                     </button>
-                    <button
-                        v-if="!props.row.assigned"
-                        class="btn btn-danger btn-xs btn-icon btn-action btn-tooltip"
-                        title="Eliminar registro"
-                        data-placement="bottom"
-                        data-toggle="tooltip"
-                        type="button"
-                        @click="deleteRecord(props.row.id, '')"
-                    >
+                    <button v-if="!props.row.assigned" class="btn btn-danger btn-xs btn-icon btn-action btn-tooltip"
+                        title="Eliminar registro" aria-label="Eliminar registro" data-placement="bottom"
+                        data-toggle="tooltip" type="button" @click="deleteRecord(props.row.id, '')">
                         <i class="fa fa-trash-o"></i>
                     </button>
-                    <button
-                        v-if="!props.row.assigned"
-                        class="btn btn-success btn-xs btn-icon btn-action btn-tooltip"
-                        type="button"
-                        data-placement="bottom"
-                        data-toggle="tooltip"
-                        title="Asignar Presupuesto"
-                        @click="asignR(props.row.id)"
-                    >
+                    <button v-if="!props.row.assigned" class="btn btn-success btn-xs btn-icon btn-action btn-tooltip"
+                        type="button" data-placement="bottom" data-toggle="tooltip" title="Asignar Presupuesto"
+                        aria-label="Asignar Presupuesto" @click="asignR(props.row.id)">
                         <i class="fa fa-check"></i>
                     </button>
                 </template>
@@ -143,7 +84,8 @@
                 {{ props.row.year }}
             </div>
             <div slot="specific_action" slot-scope="props">
-                {{ props.row.specific_action ? props.row.specific_action.code + ' - ' + props.row.specific_action.name : 'No definido' }}
+                {{ props.row.specific_action ? props.row.specific_action.code + ' - ' + props.row.specific_action.name :
+                    'No definido' }}
             </div>
             <div slot="total_formulated" slot-scope="props" class="text-right">
                 {{
@@ -187,6 +129,7 @@ export default {
                 { id: true, text: "Si" },
                 { id: false, text: "No" }
             ],
+            lastYear: '',
         };
     },
     created() {
@@ -275,7 +218,7 @@ export default {
          *
          * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
          */
-        reset() {},
+        reset() { },
         asignR(id) {
             const vm = this;
             var dialog = bootbox.confirm({
@@ -303,16 +246,16 @@ export default {
                                 vm.showMessage("store");
                             })
                             .catch(error => {
-                                if (typeof(error.response) !== "undefined") {
+                                if (typeof (error.response) !== "undefined") {
                                     vm.showMessage(
-                                            'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
+                                        'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
                                     );
                                 }
-                        });
+                            });
                     }
                 },
             });
-            setTimeout(function() {
+            setTimeout(function () {
                 vm.initRecords(vm.route_list, "");
             }, 2000);
         },

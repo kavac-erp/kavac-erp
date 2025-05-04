@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use App\Traits\ModelsTrait;
@@ -15,6 +13,11 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * @brief Datos de configuración de parámetros de la aplicación
  *
  * Gestiona la configuración de parámetros de la aplicación
+ *
+ * @property string  $p_key
+ * @property string  $p_value
+ * @property string  $required_by
+ * @property boolean $active
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *

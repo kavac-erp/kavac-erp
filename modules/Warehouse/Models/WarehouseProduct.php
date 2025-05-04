@@ -2,11 +2,12 @@
 
 namespace Modules\Warehouse\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
  * @class WarehouseProduct
@@ -15,9 +16,8 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos de los productos almacenables
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseProduct extends Model implements Auditable
 {
@@ -37,14 +37,22 @@ class WarehouseProduct extends Model implements Auditable
      *
      * @var array $fillable
      */
-    protected $fillable = ['name', 'description', 'define_attributes', 'measurement_unit_id', 'budget_account_id', 'accounting_account_id', 'history_tax_id'];
+    protected $fillable = [
+        'name',
+        'description',
+        'define_attributes',
+        'measurement_unit_id',
+        'budget_account_id',
+        'accounting_account_id',
+        'history_tax_id'
+    ];
 
     /**
      * Método que obtiene los atributos personalizados de un producto
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * WarehouseProductAttributes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function warehouseProductAttributes()
     {
@@ -55,8 +63,8 @@ class WarehouseProduct extends Model implements Auditable
      * Método que obtiene la unidad de medida del producto registrado
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * MeasurementUnit
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function measurementUnit()
     {
@@ -72,21 +80,31 @@ class WarehouseProduct extends Model implements Auditable
      */
     public function budgetAccount()
     {
-        return (Module::has('Budget'))
-               ? $this->belongsTo(\Modules\Budget\Models\BudgetAccount::class) : null;
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->belongsTo(\Modules\Budget\Models\BudgetAccount::class) : null;
     }
-    public function AccountingAccount()
+
+    /**
+     * Método que obtiene la información de la cuenta contable asociada al insumo
+     *
+     * @author    Yennifer Ramirez <yramirez@cenditel.gob.ve>
+     *
+     * @return    \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function accountingAccount()
     {
-        return (Module::has('Accounting'))
-               ? $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class) : null;
+        return (
+            Module::has('Accounting') && Module::isEnabled('Accounting')
+        ) ? $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class) : null;
     }
 
     /**
      * Método que obtiene el impuesto del producto registrado
      *
      * @author Daniel Contreras <dcointreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * HistoryTax
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function historyTax()
     {

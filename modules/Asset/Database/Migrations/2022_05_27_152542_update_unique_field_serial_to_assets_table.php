@@ -7,11 +7,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class UpdateUniqueFieldSerialToAssetsTable
- * @brief [descripción detallada]
+ * @brief Agrega unica clave única al campo serial de la tabla de bienes
  *
- * [descripción corta]
+ * Agrega unica clave única al campo serial de la tabla de bienes
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Francisco J. P. Ruiz <javierrupe19@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

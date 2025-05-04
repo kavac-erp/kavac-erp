@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Models;
 
 use App\Models\DocumentStatus;
@@ -13,11 +11,9 @@ use App\Traits\ModelsTrait;
 
 /**
  * @class PayrollTimeSheet
- * @brief [descripción detallada]
+ * @brief Gestiona la información, procesos, consultas y relaciones asociadas al modelo
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -30,14 +26,15 @@ class PayrollTimeSheet extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * The attributes that should be cast.
+     * Lista de atributos con el tipo de dato a retornar
      *
-     * @var array
+     * @var array $casts
      */
     protected $casts = [
         'time_sheet_data' => 'array',
@@ -46,6 +43,7 @@ class PayrollTimeSheet extends Model implements Auditable
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [

@@ -14,28 +14,37 @@ use Modules\Accounting\Models\Setting;
 use App\Repositories\ReportRepository;
 use Modules\DigitalSignature\Repositories\ReportRepositorySign;
 use DateTime;
-use Auth;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Date;
 
 /**
- * @class AccountingReportPdfAuxiliaryBookController
+ * @class AccountingAuxiliaryBookController
  * @brief Controlador para la generación del reporte de libro auxiliar
  *
  * Clase que gestiona el reporte de libro auxiliar
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @copyright <a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *                LICENCIA DE SOFTWARE CENDITEL</a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AccountingAuxiliaryBookController extends Controller
 {
     /**
+     * Variable para controlar el salto de página
+     *
+     * @var mixed $PageBreakTrigger
+     */
+    protected $PageBreakTrigger;
+
+    /**
      * Define la configuración de la clase
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:accounting.report.auxiliarybook', [
             'only' => [
                 'index',
@@ -48,32 +57,26 @@ class AccountingAuxiliaryBookController extends Controller
     }
 
     /**
-     * [pdfVue verifica las conversiones monetarias de un reporte de libro auxiliar]
+     * Verifica las conversiones monetarias de un reporte de libro auxiliar
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param string $account_id [variable con el id de la cuenta]
-     * @param string $date       [fecha para la generación de reporte, formato 'YYYY-mm']
-     * @param Currency $currency moneda en que se expresara el reporte
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param string $date            Fecha para la generación de reporte, formato 'YYYY-mm'
+     * @param Currency $currency      Moneda en que se expresará el reporte
+     * @param string|null $account_id Variable con el id de la cuenta
+     *
+     * @return JsonResponse
      */
     public function pdfVue($date, Currency $currency, $account_id = null)
     {
 
-        /**
-         * [$initDate fecha inicial de busqueda]
-         * @var string
-         */
+        /* Fecha inicial de búsqueda */
         $initDate = $date . '-01';
 
-        /**
-         * [$day ultimo dia correspondiente al mes]
-         * @var date
-         */
+        /* último dia correspondiente al mes */
         $day = date('d', (mktime(0, 0, 0, explode('-', $date)[1] + 1, 1, explode('-', $date)[0]) - 1));
 
-        /**
-         * [$endDate fecha final de busqueda]
-         * @var string
-         */
+        /* Fecha final de búsqueda */
         $endDate     = $date . '-' . $day;
 
         $institution_id = null;
@@ -89,10 +92,7 @@ class AccountingAuxiliaryBookController extends Controller
         $convertions = [];
 
         if (!$account_id) {
-            /**
-             * [$query cuenta patrimonial con su relacion en asientos contables]
-             * @var [Modules\Accounting\Models\AccountingEntry]
-             */
+            /* Cuenta patrimonial con su relación en asientos contables */
             $query = AccountingAccount::with([
                 'entryAccount.entries' => function ($query) use ($initDate, $endDate, $institution_id, $is_admin) {
                     if ($institution_id) {
@@ -122,9 +122,7 @@ class AccountingAuxiliaryBookController extends Controller
             ->orderBy('denomination', 'ASC')->get();
 
             foreach ($query as $account) {
-                /*
-                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                 */
+                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                 foreach ($account['entryAccount'] as $entryAccount) {
                     $inRange = false;
                     if ($entryAccount['entries']) {
@@ -309,11 +307,11 @@ class AccountingAuxiliaryBookController extends Controller
                             }
                         }
                     },])->find($account_id);
-            } else if ($accountData['entry_account'] == [] && explode('.', $accountData['code'])[6] != '000') {
+            } elseif ($accountData['entry_account'] == [] && explode('.', $accountData['code'])[6] != '000') {
                     return response()->json(
                         [
-                        'result' => false,
-                        'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
+                            'result' => false,
+                            'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
                         ],
                         200
                     );
@@ -329,8 +327,8 @@ class AccountingAuxiliaryBookController extends Controller
                 if ($acc == []) {
                     return response()->json(
                         [
-                        'result' => false,
-                        'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
+                            'result' => false,
+                            'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
                         ],
                         200
                     );
@@ -340,13 +338,11 @@ class AccountingAuxiliaryBookController extends Controller
                     /* Cuenta que es HIJA, PADRE de HIJAS (1.1.1.01.01.01.000) */
                     $cont = 0;
                     $accData = [];
-                    for ($childrenLenght=0; ; $childrenLenght++) {
+                    for ($childrenLenght = 0;; $childrenLenght++) {
                         if ($childrenLenght == count($accountArr['children'])) {
                             break;
                         }
-                        /*
-                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                         */
+                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                         foreach ($account['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
                             if ($entryAccount['entries']) {
                                 array_push($accData, [
@@ -358,24 +354,22 @@ class AccountingAuxiliaryBookController extends Controller
                     if ($accData == []) {
                         return response()->json(
                             [
-                            'result' => false,
-                            'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
+                                'result' => false,
+                                'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
                             ],
                             200
                         );
                     }
-                } else if (explode('.', $accountArr['code'])[5] == '00' && explode('.', $accountArr['code'])[4] != '00') {
+                } elseif (explode('.', $accountArr['code'])[5] == '00' && explode('.', $accountArr['code'])[4] != '00') {
                     /* Cuenta que es HIJA, PADRE de PADRES con HIJAS (1.1.1.01.01.00.000) */
                     $cont = 0;
                     $accData = [];
                     foreach ($accountArr['children'] as $accArrChildren) {
-                        for ($childrenCLenght=0; ; $childrenCLenght++) {
+                        for ($childrenCLenght = 0;; $childrenCLenght++) {
                             if ($childrenCLenght == count($accountArr['children'])) {
                                 break;
                             }
-                            /*
-                             * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                             */
+                            /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                             foreach ($account['children'][$childrenCLenght]['entryAccount'] as $entryAccount) {
                                 if ($entryAccount['entries']) {
                                     array_push($accData, [
@@ -383,7 +377,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     ]);
                                 }
                             }
-                            for ($childrenLenght=0; ; $childrenLenght++) {
+                            for ($childrenLenght = 0;; $childrenLenght++) {
                                 if ($childrenLenght == count($accArrChildren['children'])) {
                                     break;
                                 }
@@ -391,8 +385,8 @@ class AccountingAuxiliaryBookController extends Controller
                                     array_key_exists($childrenCLenght, $accountArr['children']) &&
                                     array_key_exists($childrenLenght, $accountArr['children'][$childrenCLenght]['children'])
                                 ) {
-                                    /*
-                                     * Se recorre y evalua la relacion en las conversiones necesarias a realizar
+                                    /**
+                                     * Se recorre y evalúa la relación en las conversiones necesarias a realizar
                                      */
                                     foreach ($account['children'][$childrenCLenght]['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
                                         if ($entryAccount['entries']) {
@@ -408,23 +402,21 @@ class AccountingAuxiliaryBookController extends Controller
                     if ($accData == []) {
                         return response()->json(
                             [
-                            'result' => false,
-                            'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
+                                'result' => false,
+                                'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
                             ],
                             200
                         );
                     }
-                } else if (explode('.', $accountArr['code'])[4] == '00' && explode('.', $accountArr['code'])[3] != '00') {
+                } elseif (explode('.', $accountArr['code'])[4] == '00' && explode('.', $accountArr['code'])[3] != '00') {
                     /* Cuenta que es HIJA, PADRE de PADRES que son PADRES de HIJAS (1.1.1.01.00.00.000) */
                     $cont = 0;
                     $accData = [];
-                    for ($childrenCCLenght=0; ; $childrenCCLenght++) {
+                    for ($childrenCCLenght = 0;; $childrenCCLenght++) {
                         if ($childrenCCLenght == count($accountArr['children'])) {
                             break;
                         }
-                        /*
-                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                         */
+                        /* Se recorre y evalía la relación en las conversiones necesarias a realizar */
                         foreach ($account['children'][$childrenCCLenght]['entryAccount'] as $entryAccount) {
                             if ($entryAccount['entries']) {
                                 array_push($accData, [
@@ -432,7 +424,7 @@ class AccountingAuxiliaryBookController extends Controller
                                 ]);
                             }
                         }
-                        for ($childrenCLenght=0; ; $childrenCLenght++) {
+                        for ($childrenCLenght = 0;; $childrenCLenght++) {
                             if ($childrenCLenght == count($accountArr['children'][$childrenCCLenght]['children'])) {
                                 break;
                             }
@@ -440,9 +432,7 @@ class AccountingAuxiliaryBookController extends Controller
                                 array_key_exists($childrenCCLenght, $accountArr['children']) &&
                                 array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCLenght]['children'])
                             ) {
-                                /*
-                                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                 */
+                                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                 foreach ($account['children'][$childrenCCLenght]['children'][$childrenCLenght]['entryAccount'] as $entryAccount) {
                                     if ($entryAccount['entries']) {
                                         array_push($accData, [
@@ -451,7 +441,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     }
                                 }
                             }
-                            for ($childrenLenght=0; ; $childrenLenght++) {
+                            for ($childrenLenght = 0;; $childrenLenght++) {
                                 if ($childrenLenght == count($accountArr['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])) {
                                     break;
                                 }
@@ -460,9 +450,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCLenght]['children']) &&
                                     array_key_exists($childrenLenght, $accountArr['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])
                                 ) {
-                                    /*
-                                     * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                     */
+                                    /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                     foreach ($account['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
                                         if ($entryAccount['entries']) {
                                             array_push($accData, [
@@ -477,23 +465,21 @@ class AccountingAuxiliaryBookController extends Controller
                     if ($accData == []) {
                         return response()->json(
                             [
-                            'result' => false,
-                            'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
+                                'result' => false,
+                                'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
                             ],
                             200
                         );
                     }
-                } else if (explode('.', $accountArr['code'])[3] == '00' && explode('.', $accountArr['code'])[2] != '0') {
+                } elseif (explode('.', $accountArr['code'])[3] == '00' && explode('.', $accountArr['code'])[2] != '0') {
                     /* Cuenta que es HIJA, PADRE de PADRES que son PADRES con HIJAS que tienen HIJAS (1.1.1.00.00.00.000) */
                     $cont = 0;
                     $accData = [];
-                    for ($childrenCCCLenght=0; ; $childrenCCCLenght++) { 
+                    for ($childrenCCCLenght = 0;; $childrenCCCLenght++) {
                         if ($childrenCCCLenght == count($accountArr['children'])) {
                             break;
                         }
-                        /*
-                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                         */
+                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                         foreach ($account['children'][$childrenCCCLenght]['entryAccount'] as $entryAccount) {
                             if ($entryAccount['entries']) {
                                 array_push($accData, [
@@ -501,7 +487,7 @@ class AccountingAuxiliaryBookController extends Controller
                                 ]);
                             }
                         }
-                        for ($childrenCCLenght=0; ; $childrenCCLenght++) {
+                        for ($childrenCCLenght = 0;; $childrenCCLenght++) {
                             if ($childrenCCLenght == count($accountArr['children'][$childrenCCCLenght]['children'])) {
                                 break;
                             }
@@ -509,9 +495,7 @@ class AccountingAuxiliaryBookController extends Controller
                                 array_key_exists($childrenCCCLenght, $accountArr['children']) &&
                                 array_key_exists($childrenCCLenght, $accountArr['children'][$childrenCCCLenght]['children'])
                             ) {
-                                /*
-                                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                 */
+                                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                 foreach ($account['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['entryAccount'] as $entryAccount) {
                                     if ($entryAccount['entries']) {
                                         array_push($accData, [
@@ -520,7 +504,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     }
                                 }
                             }
-                            for ($childrenCLenght=0; ; $childrenCLenght++) {
+                            for ($childrenCLenght = 0;; $childrenCLenght++) {
                                 if ($childrenCLenght == count($accountArr['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'])) {
                                     break;
                                 }
@@ -529,9 +513,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     array_key_exists($childrenCCLenght, $accountArr['children'][$childrenCCCLenght]['children']) &&
                                     array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'])
                                 ) {
-                                    /*
-                                     * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                     */
+                                    /* Se recorre y evalía la relación en las conversiones necesarias a realizar */
                                     foreach ($account['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['entryAccount'] as $entryAccount) {
                                         if ($entryAccount['entries']) {
                                             array_push($accData, [
@@ -540,7 +522,7 @@ class AccountingAuxiliaryBookController extends Controller
                                         }
                                     }
                                 }
-                                for ($childrenLenght=0; ; $childrenLenght++) {
+                                for ($childrenLenght = 0;; $childrenLenght++) {
                                     if ($childrenLenght == count($accountArr['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])) {
                                         break;
                                     }
@@ -550,9 +532,7 @@ class AccountingAuxiliaryBookController extends Controller
                                         array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children']) &&
                                         array_key_exists($childrenLenght, $accountArr['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])
                                     ) {
-                                        /*
-                                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                         */
+                                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                         foreach ($account['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
                                             if ($entryAccount['entries']) {
                                                 array_push($accData, [
@@ -568,23 +548,21 @@ class AccountingAuxiliaryBookController extends Controller
                     if ($accData == []) {
                         return response()->json(
                             [
-                            'result' => false,
-                            'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
+                                'result' => false,
+                                'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
                             ],
                             200
                         );
                     }
-                } else if (explode('.', $accountArr['code'])[2] == '0' && explode('.', $accountArr['code'])[1] != '0') {
+                } elseif (explode('.', $accountArr['code'])[2] == '0' && explode('.', $accountArr['code'])[1] != '0') {
                     /* Cuenta que es HIJA, PADRE de PADRES que son PADRES de otros PADRES con HIJAS que tienen HIJAS (1.1.0.00.00.00.000) */
                     $cont = 0;
                     $accData = [];
-                    for ($childrenCCCCLenght=0; ; $childrenCCCCLenght++) { 
+                    for ($childrenCCCCLenght = 0;; $childrenCCCCLenght++) {
                         if ($childrenCCCCLenght == count($accountArr['children'])) {
                             break;
                         }
-                        /*
-                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                         */
+                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                         foreach ($account['children'][$childrenCCCCLenght]['entryAccount'] as $entryAccount) {
                             if ($entryAccount['entries']) {
                                 array_push($accData, [
@@ -592,7 +570,7 @@ class AccountingAuxiliaryBookController extends Controller
                                 ]);
                             }
                         }
-                        for ($childrenCCCLenght=0; ; $childrenCCCLenght++) { 
+                        for ($childrenCCCLenght = 0;; $childrenCCCLenght++) {
                             if ($childrenCCCLenght == count($accountArr['children'][$childrenCCCCLenght]['children'])) {
                                 break;
                             }
@@ -600,9 +578,7 @@ class AccountingAuxiliaryBookController extends Controller
                                 array_key_exists($childrenCCCCLenght, $accountArr['children']) &&
                                 array_key_exists($childrenCCCLenght, $accountArr['children'][$childrenCCCCLenght]['children'])
                             ) {
-                                /*
-                                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                 */
+                                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                 foreach ($account['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['entryAccount'] as $entryAccount) {
                                     if ($entryAccount['entries']) {
                                         array_push($accData, [
@@ -611,7 +587,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     }
                                 }
                             }
-                            for ($childrenCCLenght=0; ; $childrenCCLenght++) {
+                            for ($childrenCCLenght = 0;; $childrenCCLenght++) {
                                 if ($childrenCCLenght == count($accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'])) {
                                     break;
                                 }
@@ -620,9 +596,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     array_key_exists($childrenCCCLenght, $accountArr['children'][$childrenCCCCLenght]['children']) &&
                                     array_key_exists($childrenCCLenght, $accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'])
                                 ) {
-                                    /*
-                                     * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                     */
+                                    /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                     foreach ($account['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['entryAccount'] as $entryAccount) {
                                         if ($entryAccount['entries']) {
                                             array_push($accData, [
@@ -631,7 +605,7 @@ class AccountingAuxiliaryBookController extends Controller
                                         }
                                     }
                                 }
-                                for ($childrenCLenght=0; ; $childrenCLenght++) {
+                                for ($childrenCLenght = 0;; $childrenCLenght++) {
                                     if ($childrenCLenght == count($accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'])) {
                                         break;
                                     }
@@ -641,9 +615,7 @@ class AccountingAuxiliaryBookController extends Controller
                                         array_key_exists($childrenCCLenght, $accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children']) &&
                                         array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'])
                                     ) {
-                                        /*
-                                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                         */
+                                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                         foreach ($account['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['entryAccount'] as $entryAccount) {
                                             if ($entryAccount['entries']) {
                                                 array_push($accData, [
@@ -652,7 +624,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             }
                                         }
                                     }
-                                    for ($childrenLenght=0; ; $childrenLenght++) {
+                                    for ($childrenLenght = 0;; $childrenLenght++) {
                                         if ($childrenLenght == count($accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])) {
                                             break;
                                         }
@@ -663,9 +635,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children']) &&
                                             array_key_exists($childrenLenght, $accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])
                                         ) {
-                                            /*
-                                             * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                             */
+                                            /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                             foreach ($account['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
                                                 if ($entryAccount['entries']) {
                                                     array_push($accData, [
@@ -682,22 +652,20 @@ class AccountingAuxiliaryBookController extends Controller
                     if ($accData == []) {
                         return response()->json(
                             [
-                            'result' => false,
-                            'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
+                                'result' => false,
+                                'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
                             ],
                             200
                         );
                     }
-                } else if (explode('.', $accountArr['code'])[1] == '0') {
+                } elseif (explode('.', $accountArr['code'])[1] == '0') {
                     /* Cuenta que es PADRE de PADRES (1.0.0.00.00.00.000) */
                     $accData = [];
-                    for ($childrenCCCCCLenght=0; ; $childrenCCCCCLenght++) { 
+                    for ($childrenCCCCCLenght = 0;; $childrenCCCCCLenght++) {
                         if ($childrenCCCCCLenght == count($accountArr['children'])) {
                             break;
                         }
-                        /*
-                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                         */
+                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                         foreach ($account['children'][$childrenCCCCCLenght]['entryAccount'] as $entryAccount) {
                             if ($entryAccount['entries']) {
                                 array_push($accData, [
@@ -705,7 +673,7 @@ class AccountingAuxiliaryBookController extends Controller
                                 ]);
                             }
                         }
-                        for ($childrenCCCCLenght=0; ; $childrenCCCCLenght++) {
+                        for ($childrenCCCCLenght = 0;; $childrenCCCCLenght++) {
                             if ($childrenCCCCLenght == count($accountArr['children'][$childrenCCCCCLenght]['children'])) {
                                 break;
                             }
@@ -713,9 +681,7 @@ class AccountingAuxiliaryBookController extends Controller
                                 array_key_exists($childrenCCCCCLenght, $accountArr['children']) &&
                                 array_key_exists($childrenCCCCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'])
                             ) {
-                                /*
-                                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                 */
+                                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                 foreach ($account['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['entryAccount'] as $entryAccount) {
                                     if ($entryAccount['entries']) {
                                         array_push($accData, [
@@ -724,7 +690,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     }
                                 }
                             }
-                            for ($childrenCCCLenght=0; ; $childrenCCCLenght++) { 
+                            for ($childrenCCCLenght = 0;; $childrenCCCLenght++) {
                                 if ($childrenCCCLenght == count($accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'])) {
                                     break;
                                 }
@@ -733,9 +699,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     array_key_exists($childrenCCCCLenght, $accountArr['children'][$childrenCCCCCLenght]['children']) &&
                                     array_key_exists($childrenCCCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'])
                                 ) {
-                                    /*
-                                     * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                     */
+                                    /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                     foreach ($account['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['entryAccount'] as $entryAccount) {
                                         if ($entryAccount['entries']) {
                                             array_push($accData, [
@@ -744,7 +708,7 @@ class AccountingAuxiliaryBookController extends Controller
                                         }
                                     }
                                 }
-                                for ($childrenCCLenght=0; ; $childrenCCLenght++) {
+                                for ($childrenCCLenght = 0;; $childrenCCLenght++) {
                                     if ($childrenCCLenght == count($accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'])) {
                                         break;
                                     }
@@ -754,9 +718,7 @@ class AccountingAuxiliaryBookController extends Controller
                                         array_key_exists($childrenCCCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children']) &&
                                         array_key_exists($childrenCCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'])
                                     ) {
-                                        /*
-                                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                         */
+                                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                         foreach ($account['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['entryAccount'] as $entryAccount) {
                                             if ($entryAccount['entries']) {
                                                 array_push($accData, [
@@ -765,7 +727,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             }
                                         }
                                     }
-                                    for ($childrenCLenght=0; ; $childrenCLenght++) {
+                                    for ($childrenCLenght = 0;; $childrenCLenght++) {
                                         if ($childrenCLenght == count($accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'])) {
                                             break;
                                         }
@@ -776,9 +738,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             array_key_exists($childrenCCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children']) &&
                                             array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'])
                                         ) {
-                                            /*
-                                             * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                             */
+                                            /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                             foreach ($account['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['entryAccount'] as $entryAccount) {
                                                 if ($entryAccount['entries']) {
                                                     array_push($accData, [
@@ -787,7 +747,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                 }
                                             }
                                         }
-                                        for ($childrenLenght=0; ; $childrenLenght++) {
+                                        for ($childrenLenght = 0;; $childrenLenght++) {
                                             if ($childrenLenght == count($accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])) {
                                                 break;
                                             }
@@ -799,9 +759,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                 array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children']) &&
                                                 array_key_exists($childrenLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])
                                             ) {
-                                                /*
-                                                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                                 */
+                                                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                                 foreach ($account['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
                                                     if ($entryAccount['entries']) {
                                                         array_push($accData, [
@@ -819,8 +777,8 @@ class AccountingAuxiliaryBookController extends Controller
                     if ($accData == []) {
                         return response()->json(
                             [
-                            'result' => false,
-                            'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
+                                'result' => false,
+                                'message' => 'No se ha encontrado ningún registro de Débito o Crédito en la fecha establecida.',
                             ],
                             200
                         );
@@ -828,9 +786,7 @@ class AccountingAuxiliaryBookController extends Controller
                 }
             }
 
-            /*
-             * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-             */
+            /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
             foreach ($account['entryAccount'] as $entryAccount) {
                 $inRange = false;
                 if ($entryAccount['entries']) {
@@ -890,18 +846,13 @@ class AccountingAuxiliaryBookController extends Controller
             }
         }
 
-        /**
-         * Se guarda un registro cada vez que se genera un reporte, en caso de que ya exista se actualiza
-        */
+        /* Se guarda un registro cada vez que se genera un reporte, en caso de que ya exista se actualiza */
         $url = 'auxiliaryBook/' . $date . '/' . $account_id;
 
         $currentDate = new DateTime();
         $currentDate = $currentDate->format('Y-m-d');
 
-        /**
-         * [$report almacena el registro del reporte del dia si existe]
-         * @var [type]
-         */
+        /* Almacena el registro del reporte del día si existe */
         $report = AccountingReportHistory::whereBetween('updated_at', [
                                                                         $currentDate . ' 00:00:00',
                                                                         $currentDate . ' 23:59:59'
@@ -909,9 +860,7 @@ class AccountingAuxiliaryBookController extends Controller
                                         ->where('report', 'Libro Auxiliar')
                                         ->where('institution_id', $institution_id)->first();
 
-        /*
-        * se crea o actualiza el registro del reporte
-        */
+        /* Se crea o actualiza el registro del reporte */
         if (!$report) {
             $report = AccountingReportHistory::create(
                 [
@@ -932,31 +881,25 @@ class AccountingAuxiliaryBookController extends Controller
     }
 
     /**
-     * [pdfVue verifica las conversiones monetarias de un reporte de libro auxiliar]
+     * Verifica las conversiones monetarias de un reporte de libro auxiliar
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param string $account_id [variable con el id de la cuenta]
-     * @param string $date       [fecha para la generación de reporte, formato 'YYYY-mm']
-     * @param Currency $currency moneda en que se expresara el reporte
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param string $date            Fecha para la generación de reporte, formato 'YYYY-mm'
+     * @param Currency $currency      Moneda en que se expresara el reporte
+     * @param string|null $account_id Variable con el id de la cuenta
+     *
+     * @return JsonResponse
      */
     public function pdfVueSign($date, Currency $currency, $account_id = null)
     {
-        /**
-         * [$initDate fecha inicial de busqueda]
-         * @var string
-         */
+        /* Fecha inicial de búsqueda */
         $initDate = $date . '-01';
 
-        /**
-         * [$day ultimo dia correspondiente al mes]
-         * @var date
-         */
+        /* Último día correspondiente al mes */
         $day = date('d', (mktime(0, 0, 0, explode('-', $date)[1] + 1, 1, explode('-', $date)[0]) - 1));
 
-        /**
-         * [$endDate fecha final de busqueda]
-         * @var string
-         */
+        /* Fecha final de búsqueda */
         $endDate     = $date . '-' . $day;
 
         $institution_id = null;
@@ -972,10 +915,7 @@ class AccountingAuxiliaryBookController extends Controller
         $convertions = [];
 
         if (!$account_id) {
-            /**
-             * [$query cuenta patrimonial con su relacion en asientos contables]
-             * @var [Modules\Accounting\Models\AccountingEntry]
-             */
+            /* Cuenta patrimonial con su relación en asientos contables */
             $query = AccountingAccount::with([
                 'entryAccount.entries' => function ($query) use ($initDate, $endDate, $institution_id, $is_admin) {
                     if ($institution_id) {
@@ -1005,9 +945,7 @@ class AccountingAuxiliaryBookController extends Controller
             ->orderBy('denomination', 'ASC')->get();
 
             foreach ($query as $account) {
-                /*
-                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                 */
+                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                 foreach ($account['entryAccount'] as $entryAccount) {
                     $inRange = false;
                     if ($entryAccount['entries']) {
@@ -1084,9 +1022,7 @@ class AccountingAuxiliaryBookController extends Controller
                         }
                     }
                 }])->find($account_id);
-            /*
-             * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-             */
+            /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
             foreach ($account['entryAccount'] as $entryAccount) {
                 $inRange = false;
                 if ($entryAccount['entries']) {
@@ -1146,18 +1082,13 @@ class AccountingAuxiliaryBookController extends Controller
             }
         }
 
-        /**
-         * Se guarda un registro cada vez que se genera un reporte, en caso de que ya exista se actualiza
-        */
+        /* Se guarda un registro cada vez que se genera un reporte, en caso de que ya exista se actualiza */
         $url = 'auxiliaryBookSign/' . $date . '/' . $account_id;
 
         $currentDate = new DateTime();
         $currentDate = $currentDate->format('Y-m-d');
 
-        /**
-         * [$report almacena el registro del reporte del dia si existe]
-         * @var [type]
-         */
+        /* Almacena el registro del reporte del día si existe */
         $report = AccountingReportHistory::whereBetween('updated_at', [
                                                                         $currentDate . ' 00:00:00',
                                                                         $currentDate . ' 23:59:59'
@@ -1165,9 +1096,7 @@ class AccountingAuxiliaryBookController extends Controller
                                         ->where('report', 'Libro Auxiliar')
                                         ->where('institution_id', $institution_id)->first();
 
-        /*
-        * se crea o actualiza el registro del reporte
-        */
+        /* Se crea o actualiza el registro del reporte */
         if (!$report) {
             $report = AccountingReportHistory::create(
                 [
@@ -1186,10 +1115,13 @@ class AccountingAuxiliaryBookController extends Controller
 
         return response()->json(['result' => true, 'id' => $report->id], 200);
     }
+
     /**
-     * [pdf vista en la que se genera el reporte en pdf]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  integer $report [id de reporte y su informacion]
+     * Vista en la que se genera el reporte en pdf
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param  integer $report id de reporte y su información
      */
     public function pdf($report)
     {
@@ -1214,22 +1146,13 @@ class AccountingAuxiliaryBookController extends Controller
 
         $currency = $report->currency;
 
-        /**
-         * [$initDate fecha inicial de busqueda]
-         * @var string
-         */
+        /* Fecha inicial de búsqueda */
         $initDate = $date . '-01';
 
-        /**
-         * [$day ultimo dia correspondiente al mes]
-         * @var date
-         */
+        /* Último día correspondiente al mes */
         $day = date('d', (mktime(0, 0, 0, explode('-', $date)[1] + 1, 1, explode('-', $date)[0]) - 1));
 
-        /**
-         * [$endDate fecha final de busqueda]
-         * @var string
-         */
+        /* Fecha final de búsqueda */
         $endDate = $date . '-' . $day;
 
         $institution_id = null;
@@ -1281,9 +1204,7 @@ class AccountingAuxiliaryBookController extends Controller
                     'code'         => $account->getCodeAttribute(),
                     'entryAccount' => [],
                 ]);
-                /*
-                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                 */
+                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                 foreach ($account['entryAccount'] as $entryAccount) {
                     if ($entryAccount['entries']) {
                         $r = [
@@ -1350,8 +1271,8 @@ class AccountingAuxiliaryBookController extends Controller
             $accountData = $account->toArray();
 
             if ($accountData['entry_account'] == []) {
-            // Cuenta auxiliar que es padre
-            $account = AccountingAccount::with([
+                // Cuenta auxiliar que es padre
+                $account = AccountingAccount::with([
                 'entryAccount.entries' => function ($query) use ($initDate, $endDate, $institution_id, $is_admin) {
                     if ($institution_id) {
                         if (
@@ -1466,9 +1387,7 @@ class AccountingAuxiliaryBookController extends Controller
                     'code'           => $account->getCodeAttribute(),
                     'entryAccount'   => [],
                 ];
-                /*
-                 * recorrido y formateo de informacion en arreglos para mostrar en pdf
-                 */
+                /* recorrido y formateo de información en arreglos para mostrar en pdf */
                 foreach ($account['entryAccount'] as $entryAccount) {
                     if ($entryAccount['entries']) {
                         $r = [
@@ -1480,7 +1399,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                 ],
                             ];
-    
+
                         if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                             $convertions = $this->calculateExchangeRates(
                                 $convertions,
@@ -1488,7 +1407,7 @@ class AccountingAuxiliaryBookController extends Controller
                                 $currency['id']
                             );
                         }
-    
+
                         $r['debit'] = ($entryAccount['debit'] != 0) ?
                                         $this->calculateOperation(
                                             $convertions,
@@ -1497,7 +1416,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             $entryAccount['entries']['from_date'],
                                             ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
                                         ) : 0;
-    
+
                         $r['assets'] = ($entryAccount['assets'] != 0) ?
                                         $this->calculateOperation(
                                             $convertions,
@@ -1506,7 +1425,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             $entryAccount['entries']['from_date'],
                                             ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
                                         ) : 0;
-    
+
                         array_push($acc[0]['entryAccount'], $r);
                     }
                 }
@@ -1515,24 +1434,22 @@ class AccountingAuxiliaryBookController extends Controller
                     /* Cuenta que es HIJA, PADRE de HIJAS (1.1.1.01.01.01.000) */
                     $cont = 0;
                     $accData = [];
-                    for ($childrenLenght=0; ; $childrenLenght++) {
-                    if ($childrenLenght == count($accountArr['children'])) {
-                        break;
-                    }
-                    /*
-                     * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                     */
-                    foreach ($account['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
-                        if ($entryAccount['entries']) {
-                            array_push($accData, [
+                    for ($childrenLenght = 0;; $childrenLenght++) {
+                        if ($childrenLenght == count($accountArr['children'])) {
+                            break;
+                        }
+                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
+                        foreach ($account['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
+                            if ($entryAccount['entries']) {
+                                array_push($accData, [
                                 'id'           => $account['children'][$childrenLenght]['id'],
                                 'denomination' => $account['children'][$childrenLenght]['denomination'],
                                 'code'         => $account['children'][$childrenLenght]->getCodeAttribute(),
                                 'entryAccount' => [],
-                            ]);
-                        }
-                        if ($entryAccount['entries']) {
-                            $r = [
+                                ]);
+                            }
+                            if ($entryAccount['entries']) {
+                                $r = [
                                     'debit'      => '0',
                                     'assets'     => '0',
                                     'entries'    => [
@@ -1541,50 +1458,48 @@ class AccountingAuxiliaryBookController extends Controller
                                         'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                     ],
                                 ];
-                            
-                            if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
-                                $convertions = $this->calculateExchangeRates(
+
+                                if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
+                                    $convertions = $this->calculateExchangeRates(
+                                        $convertions,
+                                        $entryAccount['entries'],
+                                        $currency['id']
+                                    );
+                                }
+
+
+                                $r['debit'] = ($entryAccount['debit'] != 0) ?
+                                $this->calculateOperation(
                                     $convertions,
-                                    $entryAccount['entries'],
-                                    $currency['id']
-                                );
+                                    $entryAccount['entries']['currency']['id'],
+                                    $entryAccount['debit'],
+                                    $entryAccount['entries']['from_date'],
+                                    ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
+                                ) : 0;
+
+                                $r['assets'] = ($entryAccount['assets'] != 0) ?
+                                $this->calculateOperation(
+                                    $convertions,
+                                    $entryAccount['entries']['currency']['id'],
+                                    $entryAccount['assets'],
+                                    $entryAccount['entries']['from_date'],
+                                    ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
+                                ) : 0;
+                                array_push($accData[$cont]['entryAccount'], $r);
+                                $cont++;
                             }
-                            
-                            
-                            $r['debit'] = ($entryAccount['debit'] != 0) ?
-                            $this->calculateOperation(
-                                $convertions,
-                                $entryAccount['entries']['currency']['id'],
-                                $entryAccount['debit'],
-                                $entryAccount['entries']['from_date'],
-                                ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                ) : 0;
-                                
-                            $r['assets'] = ($entryAccount['assets'] != 0) ?
-                            $this->calculateOperation(
-                                $convertions,
-                                $entryAccount['entries']['currency']['id'],
-                                $entryAccount['assets'],
-                                $entryAccount['entries']['from_date'],
-                                ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                ) : 0;
-                            array_push($accData[$cont]['entryAccount'], $r);
-                            $cont++;
                         }
                     }
-                    }
-                } else if (explode('.', $accountArr['code'])[5] == '00' && explode('.', $accountArr['code'])[4] != '00') {
+                } elseif (explode('.', $accountArr['code'])[5] == '00' && explode('.', $accountArr['code'])[4] != '00') {
                     /* Cuenta que es HIJA, PADRE de PADRES con HIJAS (1.1.1.01.01.00.000) */
                     $cont = 0;
                     $accData = [];
                     foreach ($accountArr['children'] as $accArrChildren) {
-                        for ($childrenCLenght=0; ; $childrenCLenght++) {
+                        for ($childrenCLenght = 0;; $childrenCLenght++) {
                             if ($childrenCLenght == count($accountArr['children'])) {
                                 break;
                             }
-                            /*
-                             * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                             */
+                            /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                             foreach ($account['children'][$childrenCLenght]['entryAccount'] as $entryAccount) {
                                 if ($entryAccount['entries']) {
                                     array_push($accData, [
@@ -1604,7 +1519,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                 'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                             ],
                                         ];
-                                    
+
                                     if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                         $convertions = $this->calculateExchangeRates(
                                             $convertions,
@@ -1612,8 +1527,8 @@ class AccountingAuxiliaryBookController extends Controller
                                             $currency['id']
                                         );
                                     }
-                                    
-                                    
+
+
                                     $r['debit'] = ($entryAccount['debit'] != 0) ?
                                     $this->calculateOperation(
                                         $convertions,
@@ -1621,8 +1536,8 @@ class AccountingAuxiliaryBookController extends Controller
                                         $entryAccount['debit'],
                                         $entryAccount['entries']['from_date'],
                                         ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                        ) : 0;
-                                        
+                                    ) : 0;
+
                                     $r['assets'] = ($entryAccount['assets'] != 0) ?
                                     $this->calculateOperation(
                                         $convertions,
@@ -1630,12 +1545,12 @@ class AccountingAuxiliaryBookController extends Controller
                                         $entryAccount['assets'],
                                         $entryAccount['entries']['from_date'],
                                         ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                        ) : 0;
+                                    ) : 0;
                                     array_push($accData[$cont]['entryAccount'], $r);
                                     $cont++;
                                 }
                             }
-                            for ($childrenLenght=0; ; $childrenLenght++) {
+                            for ($childrenLenght = 0;; $childrenLenght++) {
                                 if ($childrenLenght == count($accArrChildren['children'])) {
                                     break;
                                 }
@@ -1643,9 +1558,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     array_key_exists($childrenCLenght, $accountArr['children']) &&
                                     array_key_exists($childrenLenght, $accountArr['children'][$childrenCLenght]['children'])
                                 ) {
-                                    /*
-                                     * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                     */
+                                    /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                     foreach ($account['children'][$childrenCLenght]['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
                                         if ($entryAccount['entries']) {
                                             array_push($accData, [
@@ -1666,7 +1579,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                         'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                     ],
                                                 ];
-                                            
+
                                             if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                                 $convertions = $this->calculateExchangeRates(
                                                     $convertions,
@@ -1682,7 +1595,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                 $entryAccount['debit'],
                                                 $entryAccount['entries']['from_date'],
                                                 ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                ) : 0;
+                                            ) : 0;
 
                                             $r['assets'] = ($entryAccount['assets'] != 0) ?
                                             $this->calculateOperation(
@@ -1691,7 +1604,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                 $entryAccount['assets'],
                                                 $entryAccount['entries']['from_date'],
                                                 ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                ) : 0;
+                                            ) : 0;
                                             array_push($accData[$cont]['entryAccount'], $r);
                                             $cont++;
                                         }
@@ -1700,84 +1613,138 @@ class AccountingAuxiliaryBookController extends Controller
                             }
                         }
                     }
-                } else if (explode('.', $accountArr['code'])[4] == '00' && explode('.', $accountArr['code'])[3] != '00') {
+                } elseif (explode('.', $accountArr['code'])[4] == '00' && explode('.', $accountArr['code'])[3] != '00') {
                     /* Cuenta que es HIJA, PADRE de PADRES que son PADRES de HIJAS (1.1.1.01.00.00.000) */
                     $cont = 0;
                     $accData = [];
-                        for ($childrenCCLenght=0; ; $childrenCCLenght++) {
-                            if ($childrenCCLenght == count($accountArr['children'])) {
+                    for ($childrenCCLenght = 0;; $childrenCCLenght++) {
+                        if ($childrenCCLenght == count($accountArr['children'])) {
+                            break;
+                        }
+                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
+                        foreach ($account['children'][$childrenCCLenght]['entryAccount'] as $entryAccount) {
+                            if ($entryAccount['entries']) {
+                                array_push($accData, [
+                                    'id'           => $account['children'][$childrenCCLenght]['id'],
+                                    'denomination' => $account['children'][$childrenCCLenght]['denomination'],
+                                    'code'         => $account['children'][$childrenCCLenght]->getCodeAttribute(),
+                                    'entryAccount' => [],
+                                ]);
+                            }
+                            if ($entryAccount['entries']) {
+                                $r = [
+                                        'debit'      => '0',
+                                        'assets'     => '0',
+                                        'entries'    => [
+                                            'reference'  => $entryAccount['entries']['reference'],
+                                            'concept'    => $entryAccount['entries']['concept'],
+                                            'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
+                                        ],
+                                    ];
+
+                                if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
+                                    $convertions = $this->calculateExchangeRates(
+                                        $convertions,
+                                        $entryAccount['entries'],
+                                        $currency['id']
+                                    );
+                                }
+
+
+                                $r['debit'] = ($entryAccount['debit'] != 0) ?
+                                $this->calculateOperation(
+                                    $convertions,
+                                    $entryAccount['entries']['currency']['id'],
+                                    $entryAccount['debit'],
+                                    $entryAccount['entries']['from_date'],
+                                    ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
+                                ) : 0;
+
+                                $r['assets'] = ($entryAccount['assets'] != 0) ?
+                                $this->calculateOperation(
+                                    $convertions,
+                                    $entryAccount['entries']['currency']['id'],
+                                    $entryAccount['assets'],
+                                    $entryAccount['entries']['from_date'],
+                                    ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
+                                ) : 0;
+                                array_push($accData[$cont]['entryAccount'], $r);
+                                $cont++;
+                            }
+                        }
+                        for ($childrenCLenght = 0;; $childrenCLenght++) {
+                            if ($childrenCLenght == count($accountArr['children'][$childrenCCLenght]['children'])) {
                                 break;
                             }
-                            /*
-                             * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                             */
-                            foreach ($account['children'][$childrenCCLenght]['entryAccount'] as $entryAccount) {
-                                if ($entryAccount['entries']) {
-                                    array_push($accData, [
-                                        'id'           => $account['children'][$childrenCCLenght]['id'],
-                                        'denomination' => $account['children'][$childrenCCLenght]['denomination'],
-                                        'code'         => $account['children'][$childrenCCLenght]->getCodeAttribute(),
-                                        'entryAccount' => [],
-                                    ]);
-                                }
-                                if ($entryAccount['entries']) {
-                                    $r = [
-                                            'debit'      => '0',
-                                            'assets'     => '0',
-                                            'entries'    => [
-                                                'reference'  => $entryAccount['entries']['reference'],
-                                                'concept'    => $entryAccount['entries']['concept'],
-                                                'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
-                                            ],
-                                        ];
-                                    
-                                    if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
-                                        $convertions = $this->calculateExchangeRates(
-                                            $convertions,
-                                            $entryAccount['entries'],
-                                            $currency['id']
-                                        );
+                            if (
+                                array_key_exists($childrenCCLenght, $accountArr['children']) &&
+                                array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCLenght]['children'])
+                            ) {
+                                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
+                                foreach ($account['children'][$childrenCCLenght]['children'][$childrenCLenght]['entryAccount'] as $entryAccount) {
+                                    if ($entryAccount['entries']) {
+                                        array_push($accData, [
+                                            'id'           => $account['children'][$childrenCCLenght]['children'][$childrenCLenght]['id'],
+                                            'denomination' => $account['children'][$childrenCCLenght]['children'][$childrenCLenght]['denomination'],
+                                            'code'         => $account['children'][$childrenCCLenght]['children'][$childrenCLenght]->getCodeAttribute(),
+                                            'entryAccount' => [],
+                                        ]);
                                     }
-                                    
-                                    
-                                    $r['debit'] = ($entryAccount['debit'] != 0) ?
-                                    $this->calculateOperation(
-                                        $convertions,
-                                        $entryAccount['entries']['currency']['id'],
-                                        $entryAccount['debit'],
-                                        $entryAccount['entries']['from_date'],
-                                        ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
+                                    if ($entryAccount['entries']) {
+                                        $r = [
+                                                'debit'      => '0',
+                                                'assets'     => '0',
+                                                'entries'    => [
+                                                    'reference'  => $entryAccount['entries']['reference'],
+                                                    'concept'    => $entryAccount['entries']['concept'],
+                                                    'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
+                                                ],
+                                            ];
+
+                                        if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
+                                            $convertions = $this->calculateExchangeRates(
+                                                $convertions,
+                                                $entryAccount['entries'],
+                                                $currency['id']
+                                            );
+                                        }
+                                        $r['debit'] = ($entryAccount['debit'] != 0) ?
+                                        $this->calculateOperation(
+                                            $convertions,
+                                            $entryAccount['entries']['currency']['id'],
+                                            $entryAccount['debit'],
+                                            $entryAccount['entries']['from_date'],
+                                            ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
                                         ) : 0;
-                                        
-                                    $r['assets'] = ($entryAccount['assets'] != 0) ?
-                                    $this->calculateOperation(
-                                        $convertions,
-                                        $entryAccount['entries']['currency']['id'],
-                                        $entryAccount['assets'],
-                                        $entryAccount['entries']['from_date'],
-                                        ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
+                                        $r['assets'] = ($entryAccount['assets'] != 0) ?
+                                        $this->calculateOperation(
+                                            $convertions,
+                                            $entryAccount['entries']['currency']['id'],
+                                            $entryAccount['assets'],
+                                            $entryAccount['entries']['from_date'],
+                                            ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
                                         ) : 0;
-                                    array_push($accData[$cont]['entryAccount'], $r);
-                                    $cont++;
+                                        array_push($accData[$cont]['entryAccount'], $r);
+                                        $cont++;
+                                    }
                                 }
                             }
-                            for ($childrenCLenght=0; ; $childrenCLenght++) {
-                                if ($childrenCLenght == count($accountArr['children'][$childrenCCLenght]['children'])) {
+                            for ($childrenLenght = 0;; $childrenLenght++) {
+                                if ($childrenLenght == count($accountArr['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])) {
                                     break;
                                 }
                                 if (
                                     array_key_exists($childrenCCLenght, $accountArr['children']) &&
-                                    array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCLenght]['children'])
+                                    array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCLenght]['children']) &&
+                                    array_key_exists($childrenLenght, $accountArr['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])
                                 ) {
-                                    /*
-                                     * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                     */
-                                    foreach ($account['children'][$childrenCCLenght]['children'][$childrenCLenght]['entryAccount'] as $entryAccount) {
+                                    /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
+                                    foreach ($account['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
                                         if ($entryAccount['entries']) {
                                             array_push($accData, [
-                                                'id'           => $account['children'][$childrenCCLenght]['children'][$childrenCLenght]['id'],
-                                                'denomination' => $account['children'][$childrenCCLenght]['children'][$childrenCLenght]['denomination'],
-                                                'code'         => $account['children'][$childrenCCLenght]['children'][$childrenCLenght]->getCodeAttribute(),
+                                                'id'           => $account['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['id'],
+                                                'denomination' => $account['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['denomination'],
+                                                'code'         => $account['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]->getCodeAttribute(),
                                                 'entryAccount' => [],
                                             ]);
                                         }
@@ -1791,7 +1758,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                         'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                     ],
                                                 ];
-                                            
+
                                             if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                                 $convertions = $this->calculateExchangeRates(
                                                     $convertions,
@@ -1806,7 +1773,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                 $entryAccount['debit'],
                                                 $entryAccount['entries']['from_date'],
                                                 ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                ) : 0;
+                                            ) : 0;
                                             $r['assets'] = ($entryAccount['assets'] != 0) ?
                                             $this->calculateOperation(
                                                 $convertions,
@@ -1814,86 +1781,24 @@ class AccountingAuxiliaryBookController extends Controller
                                                 $entryAccount['assets'],
                                                 $entryAccount['entries']['from_date'],
                                                 ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                ) : 0;
+                                            ) : 0;
                                             array_push($accData[$cont]['entryAccount'], $r);
                                             $cont++;
                                         }
                                     }
                                 }
-                                for ($childrenLenght=0; ; $childrenLenght++) {
-                                    if ($childrenLenght == count($accountArr['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])) {
-                                        break;
-                                    }
-                                    if (
-                                        array_key_exists($childrenCCLenght, $accountArr['children']) &&
-                                        array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCLenght]['children']) &&
-                                        array_key_exists($childrenLenght, $accountArr['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])
-                                    ) {
-                                        /*
-                                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                         */
-                                        foreach ($account['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
-                                            if ($entryAccount['entries']) {
-                                                array_push($accData, [
-                                                    'id'           => $account['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['id'],
-                                                    'denomination' => $account['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['denomination'],
-                                                    'code'         => $account['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]->getCodeAttribute(),
-                                                    'entryAccount' => [],
-                                                ]);
-                                            }
-                                            if ($entryAccount['entries']) {
-                                                $r = [
-                                                        'debit'      => '0',
-                                                        'assets'     => '0',
-                                                        'entries'    => [
-                                                            'reference'  => $entryAccount['entries']['reference'],
-                                                            'concept'    => $entryAccount['entries']['concept'],
-                                                            'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
-                                                        ],
-                                                    ];
-                                                
-                                                if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
-                                                    $convertions = $this->calculateExchangeRates(
-                                                        $convertions,
-                                                        $entryAccount['entries'],
-                                                        $currency['id']
-                                                    );
-                                                }
-                                                $r['debit'] = ($entryAccount['debit'] != 0) ?
-                                                $this->calculateOperation(
-                                                    $convertions,
-                                                    $entryAccount['entries']['currency']['id'],
-                                                    $entryAccount['debit'],
-                                                    $entryAccount['entries']['from_date'],
-                                                    ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                    ) : 0;
-                                                $r['assets'] = ($entryAccount['assets'] != 0) ?
-                                                $this->calculateOperation(
-                                                    $convertions,
-                                                    $entryAccount['entries']['currency']['id'],
-                                                    $entryAccount['assets'],
-                                                    $entryAccount['entries']['from_date'],
-                                                    ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                    ) : 0;
-                                                array_push($accData[$cont]['entryAccount'], $r);
-                                                $cont++;
-                                            }
-                                        }
-                                    }
-                                }
                             }
                         }
-                } else if (explode('.', $accountArr['code'])[3] == '00' && explode('.', $accountArr['code'])[2] != '0') {
+                    }
+                } elseif (explode('.', $accountArr['code'])[3] == '00' && explode('.', $accountArr['code'])[2] != '0') {
                     /* Cuenta que es HIJA, PADRE de PADRES que son PADRES con HIJAS que tienen HIJAS (1.1.1.00.00.00.000) */
                     $cont = 0;
                     $accData = [];
-                    for ($childrenCCCLenght=0; ; $childrenCCCLenght++) { 
+                    for ($childrenCCCLenght = 0;; $childrenCCCLenght++) {
                         if ($childrenCCCLenght == count($accountArr['children'])) {
                             break;
                         }
-                        /*
-                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                         */
+                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                         foreach ($account['children'][$childrenCCCLenght]['entryAccount'] as $entryAccount) {
                             if ($entryAccount['entries']) {
                                 array_push($accData, [
@@ -1913,7 +1818,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                         ],
                                     ];
-                                
+
                                 if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                     $convertions = $this->calculateExchangeRates(
                                         $convertions,
@@ -1921,8 +1826,8 @@ class AccountingAuxiliaryBookController extends Controller
                                         $currency['id']
                                     );
                                 }
-                                
-                                
+
+
                                 $r['debit'] = ($entryAccount['debit'] != 0) ?
                                 $this->calculateOperation(
                                     $convertions,
@@ -1930,8 +1835,8 @@ class AccountingAuxiliaryBookController extends Controller
                                     $entryAccount['debit'],
                                     $entryAccount['entries']['from_date'],
                                     ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                    ) : 0;
-                                    
+                                ) : 0;
+
                                 $r['assets'] = ($entryAccount['assets'] != 0) ?
                                 $this->calculateOperation(
                                     $convertions,
@@ -1939,12 +1844,12 @@ class AccountingAuxiliaryBookController extends Controller
                                     $entryAccount['assets'],
                                     $entryAccount['entries']['from_date'],
                                     ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                    ) : 0;
+                                ) : 0;
                                 array_push($accData[$cont]['entryAccount'], $r);
                                 $cont++;
                             }
                         }
-                        for ($childrenCCLenght=0; ; $childrenCCLenght++) {
+                        for ($childrenCCLenght = 0;; $childrenCCLenght++) {
                             if ($childrenCCLenght == count($accountArr['children'][$childrenCCCLenght]['children'])) {
                                 break;
                             }
@@ -1952,9 +1857,7 @@ class AccountingAuxiliaryBookController extends Controller
                                 array_key_exists($childrenCCCLenght, $accountArr['children']) &&
                                 array_key_exists($childrenCCLenght, $accountArr['children'][$childrenCCCLenght]['children'])
                             ) {
-                                /*
-                                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                 */
+                                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                 foreach ($account['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['entryAccount'] as $entryAccount) {
                                     if ($entryAccount['entries']) {
                                         array_push($accData, [
@@ -1974,7 +1877,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                     'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                 ],
                                             ];
-                                        
+
                                         if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                             $convertions = $this->calculateExchangeRates(
                                                 $convertions,
@@ -1991,7 +1894,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             $entryAccount['debit'],
                                             $entryAccount['entries']['from_date'],
                                             ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                            ) : 0;
+                                        ) : 0;
 
                                         $r['assets'] = ($entryAccount['assets'] != 0) ?
                                         $this->calculateOperation(
@@ -2000,13 +1903,13 @@ class AccountingAuxiliaryBookController extends Controller
                                             $entryAccount['assets'],
                                             $entryAccount['entries']['from_date'],
                                             ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                            ) : 0;
+                                        ) : 0;
                                         array_push($accData[$cont]['entryAccount'], $r);
                                         $cont++;
                                     }
                                 }
                             }
-                            for ($childrenCLenght=0; ; $childrenCLenght++) {
+                            for ($childrenCLenght = 0;; $childrenCLenght++) {
                                 if ($childrenCLenght == count($accountArr['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'])) {
                                     break;
                                 }
@@ -2015,9 +1918,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     array_key_exists($childrenCCLenght, $accountArr['children'][$childrenCCCLenght]['children']) &&
                                     array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'])
                                 ) {
-                                    /*
-                                     * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                     */
+                                    /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                     foreach ($account['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['entryAccount'] as $entryAccount) {
                                         if ($entryAccount['entries']) {
                                             array_push($accData, [
@@ -2037,7 +1938,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                         'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                     ],
                                                 ];
-                                            
+
                                             if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                                 $convertions = $this->calculateExchangeRates(
                                                     $convertions,
@@ -2052,7 +1953,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                 $entryAccount['debit'],
                                                 $entryAccount['entries']['from_date'],
                                                 ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                ) : 0;
+                                            ) : 0;
                                             $r['assets'] = ($entryAccount['assets'] != 0) ?
                                             $this->calculateOperation(
                                                 $convertions,
@@ -2060,13 +1961,13 @@ class AccountingAuxiliaryBookController extends Controller
                                                 $entryAccount['assets'],
                                                 $entryAccount['entries']['from_date'],
                                                 ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                ) : 0;
+                                            ) : 0;
                                             array_push($accData[$cont]['entryAccount'], $r);
                                             $cont++;
                                         }
                                     }
                                 }
-                                for ($childrenLenght=0; ; $childrenLenght++) {
+                                for ($childrenLenght = 0;; $childrenLenght++) {
                                     if ($childrenLenght == count($accountArr['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])) {
                                         break;
                                     }
@@ -2076,9 +1977,7 @@ class AccountingAuxiliaryBookController extends Controller
                                         array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children']) &&
                                         array_key_exists($childrenLenght, $accountArr['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])
                                     ) {
-                                        /*
-                                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                         */
+                                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                         foreach ($account['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
                                             if ($entryAccount['entries']) {
                                                 array_push($accData, [
@@ -2098,7 +1997,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                             'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                         ],
                                                     ];
-                                                
+
                                                 if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                                     $convertions = $this->calculateExchangeRates(
                                                         $convertions,
@@ -2113,7 +2012,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                     $entryAccount['debit'],
                                                     $entryAccount['entries']['from_date'],
                                                     ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                    ) : 0;
+                                                ) : 0;
                                                 $r['assets'] = ($entryAccount['assets'] != 0) ?
                                                 $this->calculateOperation(
                                                     $convertions,
@@ -2121,7 +2020,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                     $entryAccount['assets'],
                                                     $entryAccount['entries']['from_date'],
                                                     ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                    ) : 0;
+                                                ) : 0;
                                                 array_push($accData[$cont]['entryAccount'], $r);
                                                 $cont++;
                                             }
@@ -2131,17 +2030,15 @@ class AccountingAuxiliaryBookController extends Controller
                             }
                         }
                     }
-                } else if (explode('.', $accountArr['code'])[2] == '0' && explode('.', $accountArr['code'])[1] != '0') {
+                } elseif (explode('.', $accountArr['code'])[2] == '0' && explode('.', $accountArr['code'])[1] != '0') {
                     /* Cuenta que es HIJA, PADRE de PADRES que son PADRES de otros PADRES con HIJAS que tienen HIJAS (1.1.0.00.00.00.000) */
                     $cont = 0;
                     $accData = [];
-                    for ($childrenCCCCLenght=0; ; $childrenCCCCLenght++) { 
+                    for ($childrenCCCCLenght = 0;; $childrenCCCCLenght++) {
                         if ($childrenCCCCLenght == count($accountArr['children'])) {
                             break;
                         }
-                        /*
-                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                         */
+                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                         foreach ($account['children'][$childrenCCCCLenght]['entryAccount'] as $entryAccount) {
                             if ($entryAccount['entries']) {
                                 array_push($accData, [
@@ -2161,7 +2058,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                         ],
                                     ];
-                                
+
                                 if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                     $convertions = $this->calculateExchangeRates(
                                         $convertions,
@@ -2169,8 +2066,8 @@ class AccountingAuxiliaryBookController extends Controller
                                         $currency['id']
                                     );
                                 }
-                                
-                                
+
+
                                 $r['debit'] = ($entryAccount['debit'] != 0) ?
                                 $this->calculateOperation(
                                     $convertions,
@@ -2178,8 +2075,8 @@ class AccountingAuxiliaryBookController extends Controller
                                     $entryAccount['debit'],
                                     $entryAccount['entries']['from_date'],
                                     ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                    ) : 0;
-                                    
+                                ) : 0;
+
                                 $r['assets'] = ($entryAccount['assets'] != 0) ?
                                 $this->calculateOperation(
                                     $convertions,
@@ -2187,12 +2084,12 @@ class AccountingAuxiliaryBookController extends Controller
                                     $entryAccount['assets'],
                                     $entryAccount['entries']['from_date'],
                                     ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                    ) : 0;
+                                ) : 0;
                                 array_push($accData[$cont]['entryAccount'], $r);
                                 $cont++;
                             }
                         }
-                        for ($childrenCCCLenght=0; ; $childrenCCCLenght++) { 
+                        for ($childrenCCCLenght = 0;; $childrenCCCLenght++) {
                             if ($childrenCCCLenght == count($accountArr['children'][$childrenCCCCLenght]['children'])) {
                                 break;
                             }
@@ -2200,9 +2097,7 @@ class AccountingAuxiliaryBookController extends Controller
                                 array_key_exists($childrenCCCCLenght, $accountArr['children']) &&
                                 array_key_exists($childrenCCCLenght, $accountArr['children'][$childrenCCCCLenght]['children'])
                             ) {
-                                /*
-                                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                 */
+                                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                 foreach ($account['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['entryAccount'] as $entryAccount) {
                                     if ($entryAccount['entries']) {
                                         array_push($accData, [
@@ -2222,7 +2117,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                     'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                 ],
                                             ];
-                                        
+
                                         if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                             $convertions = $this->calculateExchangeRates(
                                                 $convertions,
@@ -2239,7 +2134,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             $entryAccount['debit'],
                                             $entryAccount['entries']['from_date'],
                                             ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                            ) : 0;
+                                        ) : 0;
 
                                         $r['assets'] = ($entryAccount['assets'] != 0) ?
                                         $this->calculateOperation(
@@ -2248,13 +2143,13 @@ class AccountingAuxiliaryBookController extends Controller
                                             $entryAccount['assets'],
                                             $entryAccount['entries']['from_date'],
                                             ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                            ) : 0;
+                                        ) : 0;
                                         array_push($accData[$cont]['entryAccount'], $r);
                                         $cont++;
                                     }
                                 }
                             }
-                            for ($childrenCCLenght=0; ; $childrenCCLenght++) {
+                            for ($childrenCCLenght = 0;; $childrenCCLenght++) {
                                 if ($childrenCCLenght == count($accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'])) {
                                     break;
                                 }
@@ -2263,9 +2158,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     array_key_exists($childrenCCCLenght, $accountArr['children'][$childrenCCCCLenght]['children']) &&
                                     array_key_exists($childrenCCLenght, $accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'])
                                 ) {
-                                    /*
-                                     * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                     */
+                                    /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                     foreach ($account['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['entryAccount'] as $entryAccount) {
                                         if ($entryAccount['entries']) {
                                             array_push($accData, [
@@ -2285,7 +2178,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                         'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                     ],
                                                 ];
-                                            
+
                                             if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                                 $convertions = $this->calculateExchangeRates(
                                                     $convertions,
@@ -2293,8 +2186,8 @@ class AccountingAuxiliaryBookController extends Controller
                                                     $currency['id']
                                                 );
                                             }
-    
-    
+
+
                                             $r['debit'] = ($entryAccount['debit'] != 0) ?
                                             $this->calculateOperation(
                                                 $convertions,
@@ -2302,8 +2195,8 @@ class AccountingAuxiliaryBookController extends Controller
                                                 $entryAccount['debit'],
                                                 $entryAccount['entries']['from_date'],
                                                 ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                ) : 0;
-    
+                                            ) : 0;
+
                                             $r['assets'] = ($entryAccount['assets'] != 0) ?
                                             $this->calculateOperation(
                                                 $convertions,
@@ -2311,13 +2204,13 @@ class AccountingAuxiliaryBookController extends Controller
                                                 $entryAccount['assets'],
                                                 $entryAccount['entries']['from_date'],
                                                 ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                ) : 0;
+                                            ) : 0;
                                             array_push($accData[$cont]['entryAccount'], $r);
                                             $cont++;
                                         }
                                     }
                                 }
-                                for ($childrenCLenght=0; ; $childrenCLenght++) {
+                                for ($childrenCLenght = 0;; $childrenCLenght++) {
                                     if ($childrenCLenght == count($accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'])) {
                                         break;
                                     }
@@ -2327,9 +2220,7 @@ class AccountingAuxiliaryBookController extends Controller
                                         array_key_exists($childrenCCLenght, $accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children']) &&
                                         array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'])
                                     ) {
-                                        /*
-                                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                         */
+                                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                         foreach ($account['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['entryAccount'] as $entryAccount) {
                                             if ($entryAccount['entries']) {
                                                 array_push($accData, [
@@ -2349,7 +2240,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                             'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                         ],
                                                     ];
-                                                
+
                                                 if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                                     $convertions = $this->calculateExchangeRates(
                                                         $convertions,
@@ -2364,7 +2255,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                     $entryAccount['debit'],
                                                     $entryAccount['entries']['from_date'],
                                                     ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                    ) : 0;
+                                                ) : 0;
                                                 $r['assets'] = ($entryAccount['assets'] != 0) ?
                                                 $this->calculateOperation(
                                                     $convertions,
@@ -2372,13 +2263,13 @@ class AccountingAuxiliaryBookController extends Controller
                                                     $entryAccount['assets'],
                                                     $entryAccount['entries']['from_date'],
                                                     ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                    ) : 0;
+                                                ) : 0;
                                                 array_push($accData[$cont]['entryAccount'], $r);
                                                 $cont++;
                                             }
                                         }
                                     }
-                                    for ($childrenLenght=0; ; $childrenLenght++) {
+                                    for ($childrenLenght = 0;; $childrenLenght++) {
                                         if ($childrenLenght == count($accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])) {
                                             break;
                                         }
@@ -2389,9 +2280,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children']) &&
                                             array_key_exists($childrenLenght, $accountArr['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])
                                         ) {
-                                            /*
-                                             * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                             */
+                                            /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                             foreach ($account['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
                                                 if ($entryAccount['entries']) {
                                                     array_push($accData, [
@@ -2411,7 +2300,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                                 'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                             ],
                                                         ];
-                                                    
+
                                                     if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                                         $convertions = $this->calculateExchangeRates(
                                                             $convertions,
@@ -2426,7 +2315,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                         $entryAccount['debit'],
                                                         $entryAccount['entries']['from_date'],
                                                         ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                        ) : 0;
+                                                    ) : 0;
                                                     $r['assets'] = ($entryAccount['assets'] != 0) ?
                                                     $this->calculateOperation(
                                                         $convertions,
@@ -2434,7 +2323,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                         $entryAccount['assets'],
                                                         $entryAccount['entries']['from_date'],
                                                         ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                        ) : 0;
+                                                    ) : 0;
                                                     array_push($accData[$cont]['entryAccount'], $r);
                                                     $cont++;
                                                 }
@@ -2445,17 +2334,15 @@ class AccountingAuxiliaryBookController extends Controller
                             }
                         }
                     }
-                } else if (explode('.', $accountArr['code'])[1] == '0') {
+                } elseif (explode('.', $accountArr['code'])[1] == '0') {
                     /* Cuenta que es PADRE de PADRES (1.0.0.00.00.00.000) */
                     $cont = 0;
                     $accData = [];
-                    for ($childrenCCCCCLenght=0; ; $childrenCCCCCLenght++) { 
+                    for ($childrenCCCCCLenght = 0;; $childrenCCCCCLenght++) {
                         if ($childrenCCCCCLenght == count($accountArr['children'])) {
                             break;
                         }
-                        /*
-                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                         */
+                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                         foreach ($account['children'][$childrenCCCCCLenght]['entryAccount'] as $entryAccount) {
                             if ($entryAccount['entries']) {
                                 array_push($accData, [
@@ -2475,7 +2362,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                         ],
                                     ];
-                                
+
                                 if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                     $convertions = $this->calculateExchangeRates(
                                         $convertions,
@@ -2483,8 +2370,8 @@ class AccountingAuxiliaryBookController extends Controller
                                         $currency['id']
                                     );
                                 }
-                                
-                                
+
+
                                 $r['debit'] = ($entryAccount['debit'] != 0) ?
                                 $this->calculateOperation(
                                     $convertions,
@@ -2492,8 +2379,8 @@ class AccountingAuxiliaryBookController extends Controller
                                     $entryAccount['debit'],
                                     $entryAccount['entries']['from_date'],
                                     ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                    ) : 0;
-                                    
+                                ) : 0;
+
                                 $r['assets'] = ($entryAccount['assets'] != 0) ?
                                 $this->calculateOperation(
                                     $convertions,
@@ -2501,12 +2388,12 @@ class AccountingAuxiliaryBookController extends Controller
                                     $entryAccount['assets'],
                                     $entryAccount['entries']['from_date'],
                                     ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                    ) : 0;
+                                ) : 0;
                                 array_push($accData[$cont]['entryAccount'], $r);
                                 $cont++;
                             }
                         }
-                        for ($childrenCCCCLenght=0; ; $childrenCCCCLenght++) {
+                        for ($childrenCCCCLenght = 0;; $childrenCCCCLenght++) {
                             if ($childrenCCCCLenght == count($accountArr['children'][$childrenCCCCCLenght]['children'])) {
                                 break;
                             }
@@ -2514,9 +2401,7 @@ class AccountingAuxiliaryBookController extends Controller
                                 array_key_exists($childrenCCCCCLenght, $accountArr['children']) &&
                                 array_key_exists($childrenCCCCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'])
                             ) {
-                                /*
-                                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                 */
+                                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                 foreach ($account['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['entryAccount'] as $entryAccount) {
                                     if ($entryAccount['entries']) {
                                         array_push($accData, [
@@ -2536,7 +2421,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                     'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                 ],
                                             ];
-                                        
+
                                         if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                             $convertions = $this->calculateExchangeRates(
                                                 $convertions,
@@ -2553,7 +2438,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             $entryAccount['debit'],
                                             $entryAccount['entries']['from_date'],
                                             ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                            ) : 0;
+                                        ) : 0;
 
                                         $r['assets'] = ($entryAccount['assets'] != 0) ?
                                         $this->calculateOperation(
@@ -2562,13 +2447,13 @@ class AccountingAuxiliaryBookController extends Controller
                                             $entryAccount['assets'],
                                             $entryAccount['entries']['from_date'],
                                             ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                            ) : 0;
+                                        ) : 0;
                                         array_push($accData[$cont]['entryAccount'], $r);
                                         $cont++;
                                     }
                                 }
                             }
-                            for ($childrenCCCLenght=0; ; $childrenCCCLenght++) { 
+                            for ($childrenCCCLenght = 0;; $childrenCCCLenght++) {
                                 if ($childrenCCCLenght == count($accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'])) {
                                     break;
                                 }
@@ -2577,9 +2462,7 @@ class AccountingAuxiliaryBookController extends Controller
                                     array_key_exists($childrenCCCCLenght, $accountArr['children'][$childrenCCCCCLenght]['children']) &&
                                     array_key_exists($childrenCCCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'])
                                 ) {
-                                    /*
-                                     * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                     */
+                                    /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                     foreach ($account['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['entryAccount'] as $entryAccount) {
                                         if ($entryAccount['entries']) {
                                             array_push($accData, [
@@ -2599,7 +2482,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                         'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                     ],
                                                 ];
-                                            
+
                                             if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                                 $convertions = $this->calculateExchangeRates(
                                                     $convertions,
@@ -2607,8 +2490,8 @@ class AccountingAuxiliaryBookController extends Controller
                                                     $currency['id']
                                                 );
                                             }
-    
-    
+
+
                                             $r['debit'] = ($entryAccount['debit'] != 0) ?
                                             $this->calculateOperation(
                                                 $convertions,
@@ -2616,8 +2499,8 @@ class AccountingAuxiliaryBookController extends Controller
                                                 $entryAccount['debit'],
                                                 $entryAccount['entries']['from_date'],
                                                 ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                ) : 0;
-    
+                                            ) : 0;
+
                                             $r['assets'] = ($entryAccount['assets'] != 0) ?
                                             $this->calculateOperation(
                                                 $convertions,
@@ -2625,13 +2508,13 @@ class AccountingAuxiliaryBookController extends Controller
                                                 $entryAccount['assets'],
                                                 $entryAccount['entries']['from_date'],
                                                 ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                ) : 0;
+                                            ) : 0;
                                             array_push($accData[$cont]['entryAccount'], $r);
                                             $cont++;
                                         }
                                     }
                                 }
-                                for ($childrenCCLenght=0; ; $childrenCCLenght++) {
+                                for ($childrenCCLenght = 0;; $childrenCCLenght++) {
                                     if ($childrenCCLenght == count($accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'])) {
                                         break;
                                     }
@@ -2641,9 +2524,7 @@ class AccountingAuxiliaryBookController extends Controller
                                         array_key_exists($childrenCCCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children']) &&
                                         array_key_exists($childrenCCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'])
                                     ) {
-                                        /*
-                                         * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                         */
+                                        /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                         foreach ($account['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['entryAccount'] as $entryAccount) {
                                             if ($entryAccount['entries']) {
                                                 array_push($accData, [
@@ -2663,7 +2544,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                             'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                         ],
                                                     ];
-                                                
+
                                                 if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                                     $convertions = $this->calculateExchangeRates(
                                                         $convertions,
@@ -2671,8 +2552,8 @@ class AccountingAuxiliaryBookController extends Controller
                                                         $currency['id']
                                                     );
                                                 }
-        
-        
+
+
                                                 $r['debit'] = ($entryAccount['debit'] != 0) ?
                                                 $this->calculateOperation(
                                                     $convertions,
@@ -2680,8 +2561,8 @@ class AccountingAuxiliaryBookController extends Controller
                                                     $entryAccount['debit'],
                                                     $entryAccount['entries']['from_date'],
                                                     ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                    ) : 0;
-        
+                                                ) : 0;
+
                                                 $r['assets'] = ($entryAccount['assets'] != 0) ?
                                                 $this->calculateOperation(
                                                     $convertions,
@@ -2689,13 +2570,13 @@ class AccountingAuxiliaryBookController extends Controller
                                                     $entryAccount['assets'],
                                                     $entryAccount['entries']['from_date'],
                                                     ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                    ) : 0;
+                                                ) : 0;
                                                 array_push($accData[$cont]['entryAccount'], $r);
                                                 $cont++;
                                             }
                                         }
                                     }
-                                    for ($childrenCLenght=0; ; $childrenCLenght++) {
+                                    for ($childrenCLenght = 0;; $childrenCLenght++) {
                                         if ($childrenCLenght == count($accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'])) {
                                             break;
                                         }
@@ -2706,9 +2587,7 @@ class AccountingAuxiliaryBookController extends Controller
                                             array_key_exists($childrenCCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children']) &&
                                             array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'])
                                         ) {
-                                            /*
-                                             * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                             */
+                                            /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                             foreach ($account['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['entryAccount'] as $entryAccount) {
                                                 if ($entryAccount['entries']) {
                                                     array_push($accData, [
@@ -2728,7 +2607,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                                 'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                             ],
                                                         ];
-                                                    
+
                                                     if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                                         $convertions = $this->calculateExchangeRates(
                                                             $convertions,
@@ -2743,7 +2622,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                         $entryAccount['debit'],
                                                         $entryAccount['entries']['from_date'],
                                                         ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                        ) : 0;
+                                                    ) : 0;
                                                     $r['assets'] = ($entryAccount['assets'] != 0) ?
                                                     $this->calculateOperation(
                                                         $convertions,
@@ -2751,13 +2630,13 @@ class AccountingAuxiliaryBookController extends Controller
                                                         $entryAccount['assets'],
                                                         $entryAccount['entries']['from_date'],
                                                         ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                        ) : 0;
+                                                    ) : 0;
                                                     array_push($accData[$cont]['entryAccount'], $r);
                                                     $cont++;
                                                 }
                                             }
                                         }
-                                        for ($childrenLenght=0; ; $childrenLenght++) {
+                                        for ($childrenLenght = 0;; $childrenLenght++) {
                                             if ($childrenLenght == count($accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])) {
                                                 break;
                                             }
@@ -2769,9 +2648,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                 array_key_exists($childrenCLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children']) &&
                                                 array_key_exists($childrenLenght, $accountArr['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'])
                                             ) {
-                                                /*
-                                                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                                                 */
+                                                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                                                 foreach ($account['children'][$childrenCCCCCLenght]['children'][$childrenCCCCLenght]['children'][$childrenCCCLenght]['children'][$childrenCCLenght]['children'][$childrenCLenght]['children'][$childrenLenght]['entryAccount'] as $entryAccount) {
                                                     if ($entryAccount['entries']) {
                                                         array_push($accData, [
@@ -2791,7 +2668,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                                     'created_at' => $entryAccount['entries']['created_at']->format('d/m/Y'),
                                                                 ],
                                                             ];
-                                                        
+
                                                         if (!array_key_exists($entryAccount['entries']['currency']['id'], $convertions)) {
                                                             $convertions = $this->calculateExchangeRates(
                                                                 $convertions,
@@ -2806,7 +2683,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                             $entryAccount['debit'],
                                                             $entryAccount['entries']['from_date'],
                                                             ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                            ) : 0;
+                                                        ) : 0;
                                                         $r['assets'] = ($entryAccount['assets'] != 0) ?
                                                         $this->calculateOperation(
                                                             $convertions,
@@ -2814,7 +2691,7 @@ class AccountingAuxiliaryBookController extends Controller
                                                             $entryAccount['assets'],
                                                             $entryAccount['entries']['from_date'],
                                                             ($entryAccount['entries']['currency']['id'] == $currency['id']) ?? false
-                                                            ) : 0;
+                                                        ) : 0;
                                                         array_push($accData[$cont]['entryAccount'], $r);
                                                         $cont++;
                                                     }
@@ -2830,10 +2707,7 @@ class AccountingAuxiliaryBookController extends Controller
             }
         }
 
-        /**
-         * [$setting configuración general de la aplicación]
-         * @var [Modules\Accounting\Models\Setting]
-         */
+        /* Configuración general de la aplicación */
         $setting  = Setting::all()->first();
         $initDate = new DateTime($initDate);
         $endDate  = new DateTime($endDate);
@@ -2841,15 +2715,10 @@ class AccountingAuxiliaryBookController extends Controller
         $initDate = $initDate->format('d/m/Y');
         $endDate  = $endDate->format('d/m/Y');
 
-        /**
-         * [$pdf base para generar el pdf]
-         * @var [Modules\Accounting\Pdf\Pdf]
-         */
+        /* Base para generar el pdf */
         $pdf = new ReportRepository();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definición de las características generales de la página pdf */
         $institution = Institution::find(1);
         $pdf->setConfig(['institution' => $institution, 'urlVerify' => url('report/auxiliaryBook/' . $report->id)]);
         $pdf->setHeader('Reporte de Contabilidad', 'Reporte de libro Auxiliar');
@@ -2864,9 +2733,13 @@ class AccountingAuxiliaryBookController extends Controller
     }
 
     /**
-     * [pdf vista en la que se genera el reporte en pdf y se realiza la firma electrónica del mismo ]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  integer $report [id de reporte y su informacion]
+     * Vista en la que se genera el reporte en pdf y se realiza la firma electrónica del mismo
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param  integer $report id de reporte y su información
+     *
+     * @return mixed
      */
     public function pdfSign($report)
     {
@@ -2890,22 +2763,13 @@ class AccountingAuxiliaryBookController extends Controller
 
         $currency = $report->currency;
 
-        /**
-         * [$initDate fecha inicial de busqueda]
-         * @var string
-         */
+        /* Fecha inicial de búsqueda */
         $initDate = $date . '-01';
 
-        /**
-         * [$day ultimo dia correspondiente al mes]
-         * @var date
-         */
+        /* Último día correspondiente al mes */
         $day = date('d', (mktime(0, 0, 0, explode('-', $date)[1] + 1, 1, explode('-', $date)[0]) - 1));
 
-        /**
-         * [$endDate fecha final de busqueda]
-         * @var string
-         */
+        /* Fecha final de búsqueda */
         $endDate = $date . '-' . $day;
 
         $institution_id = null;
@@ -2957,9 +2821,7 @@ class AccountingAuxiliaryBookController extends Controller
                     'code'         => $account->getCodeAttribute(),
                     'entryAccount' => [],
                 ]);
-                /*
-                 * Se recorre y evalua la relacion en las conversiones necesarias a realizar
-                 */
+                /* Se recorre y evalúa la relación en las conversiones necesarias a realizar */
                 foreach ($account['entryAccount'] as $entryAccount) {
                     if ($entryAccount['entries']) {
                         $r = [
@@ -3029,9 +2891,7 @@ class AccountingAuxiliaryBookController extends Controller
                 'code'           => $account->getCodeAttribute(),
                 'entryAccount'   => [],
             ];
-            /*
-             * recorrido y formateo de informacion en arreglos para mostrar en pdf
-             */
+            /* Recorrido y formateo de información en arreglos para mostrar en pdf */
             foreach ($account['entryAccount'] as $entryAccount) {
                 if ($entryAccount['entries']) {
                     $r = [
@@ -3074,10 +2934,7 @@ class AccountingAuxiliaryBookController extends Controller
                 }
             }
         }
-        /**
-         * [$setting configuración general de la aplicación]
-         * @var [Modules\Accounting\Models\Setting]
-         */
+        /* Configuración general de la aplicación */
         $setting  = Setting::all()->first();
         $initDate = new DateTime($initDate);
         $endDate  = new DateTime($endDate);
@@ -3085,16 +2942,10 @@ class AccountingAuxiliaryBookController extends Controller
         $initDate = $initDate->format('d/m/Y');
         $endDate  = $endDate->format('d/m/Y');
 
-        /**
-         * [$pdf base para generar el pdf]
-         * @var [Modules\Accounting\Pdf\Pdf]
-         */
-        //$pdf = new ReportRepository();
+        /* Base para generar el pdf */
         $pdf = new ReportRepositorySign();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definición de las características generales de la página pdf */
         $institution = Institution::find(1);
         $pdf->setConfig(['institution' => $institution, 'urlVerify' => url('report/auxiliaryBook/' . $report->id)]);
         $pdf->setHeader('Reporte de Contabilidad', 'Reporte de libro Auxiliar');
@@ -3112,16 +2963,19 @@ class AccountingAuxiliaryBookController extends Controller
             return response()->json(['result' => $report['status'], 'message' => $report['message']], 200);
         }
     }
+
     /**
-     * [calculateOperation realiza la conversion de saldo]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  array   $convertions   [lista de tipos cambios para la moneda]
-     * @param  integer $entry_id      [identificador del asiento]
-     * @param  float   $value         [saldo del asiento]
-     * @param  float   $date         [fecha del asiento]
-     * @param  boolean $equalCurrency [bandera que indica si el tipo de moneda en el que esta el asiento es las misma
-     *                                que la que se desea expresar]
-     * @return float                  [resultdado de la operacion]
+     * Realiza la conversión de saldo
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param  array   $convertions   Lista de tipos cambios para la moneda
+     * @param  integer $currency_id   Identificador de la moneda
+     * @param  float   $value         Saldo del asiento
+     * @param  float   $date          Fecha del asiento
+     * @param  boolean $equalCurrency Bandera que indica si el tipo de moneda en el que esta el asiento es la misma
+     *                                que la que se desea expresar
+     * @return float                  Resultdado de la operacion
      */
     public function calculateOperation($convertions, $currency_id, $value, $date, $equalCurrency)
     {
@@ -3144,12 +2998,15 @@ class AccountingAuxiliaryBookController extends Controller
     }
 
     /**
-     * [calculateExchangeRates encuentra los tipos de cambio]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  array           $convertions [lista de conversiones]
-     * @param  AccountingEntry $entry       [asiento contable]
-     * @param  integer         $currency_id [identificador de la moneda a la cual se realizara la conversion]
-     * @return array                        [lista de conversiones actualizada]
+     * Encuentra los tipos de cambio
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param  array           $convertions Lista de conversiones
+     * @param  AccountingEntry $entry       Asiento contable
+     * @param  integer         $currency_id Identificador de la moneda a la cual se realizara la conversión
+     *
+     * @return array                        Lista de conversiones actualizada
      */
     public function calculateExchangeRates($convertions, $entry, $currency_id)
     {
@@ -3176,6 +3033,13 @@ class AccountingAuxiliaryBookController extends Controller
         return $convertions;
     }
 
+    /**
+     * Devuelve el valor de la bandera de salto de pagina
+     *
+     * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return    boolean
+     */
     public function getCheckBreak()
     {
         return $this->PageBreakTrigger;
@@ -3184,11 +3048,9 @@ class AccountingAuxiliaryBookController extends Controller
     /**
      * Método para buscar las cuentas padre de una formulación
      *
-     * @method    getAccountParents
-     *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @return    Array con las cuentas padre de la formulación
+     * @return    array con las cuentas padre de la formulación
      */
     public function getAccountParents($childData, $parents = [])
     {

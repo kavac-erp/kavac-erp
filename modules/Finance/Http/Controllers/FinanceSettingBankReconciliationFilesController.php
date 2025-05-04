@@ -19,9 +19,8 @@ use Modules\Finance\Models\FinanceSettingBankReconciliationFiles;
  *
  * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
  *
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class FinanceSettingBankReconciliationFilesController extends Controller
 {
@@ -31,12 +30,12 @@ class FinanceSettingBankReconciliationFilesController extends Controller
      * Define la configuración inicial de la clase.
      *
      * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /**
-         * Establece permisos de acceso para cada método del controlador
-         */
+        /* Establece permisos de acceso para cada método del controlador */
         $this->middleware('permission:finance.settingbankreconciliationfiles.index', ['only' => 'index']);
         $this->middleware('permission:finance.settingbankreconciliationfiles.store', ['only' => 'store']);
         $this->middleware('permission:finance.settingbankreconciliationfiles.update', ['only' => 'update']);
@@ -46,12 +45,11 @@ class FinanceSettingBankReconciliationFilesController extends Controller
     /**
      * Obtiene un listado de los registros almacenados.
      *
-     * @method index
-     *
      * @author Argenis Osorio <aosorio@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -61,12 +59,11 @@ class FinanceSettingBankReconciliationFilesController extends Controller
     /**
      * Almacena un registro recién creado en la base de datos.
      *
-     * @method store
-     *
      * @author Argenis Osorio <aosorio@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -144,22 +141,23 @@ class FinanceSettingBankReconciliationFilesController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de la configuración de conciliación bancaria
+     *
+     * @return void
      */
     public function show()
     {
+        //
     }
 
     /**
      * Actualiza un registro específico de la base de datos.
      *
-     * @method update
-     *
      * @author Argenis Osorio <aosorio@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -185,12 +183,11 @@ class FinanceSettingBankReconciliationFilesController extends Controller
     /**
      * Elimina un registro específico de la base de datos.
      *
-     * @method destroy
-     *
      * @author Argenis Osorio <aosorio@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

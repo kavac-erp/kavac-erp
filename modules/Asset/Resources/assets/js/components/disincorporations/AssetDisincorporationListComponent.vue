@@ -9,10 +9,10 @@
 			</div>
 			<div slot="motive" slot-scope="props" class="text-center">
 				<span>
-					{{ 
+					{{
 						(props.row.asset_disincorporation_motive)
 						?props.row.asset_disincorporation_motive.name
-						:'N/A' 
+						:'N/A'
 					}}
 				</span>
 			</div>
@@ -25,11 +25,11 @@
 					}}
 				</span>
 			</div>
-			<div 
+			<div
 				slot="status"
 				slot-scope="props"
 				class="text-center"
-				:style="{ color: props.row.document_status.color }" 
+				:style="{ color: props.row.document_status.color }"
 			>
 				<span class="badge h6">
 					{{ props.row.document_status.name }}
@@ -37,7 +37,7 @@
 			</div>
 			<div slot="id" slot-scope="props" class="text-center">
 				<div class="d-inline-flex">
-					<a 
+					<a
 						v-if="!isEnabled(props.row.document_status.action)"
 						@click="viewMessage"
 						class="btn btn-success btn-xs btn-icon btn-action"
@@ -58,11 +58,11 @@
 					>
 						<i class="fa fa-check"></i>
 					</button>
-					<a 
+					<a
 						v-if="!isEnabled(props.row.document_status.action)"
 						@click="viewMessage"
-						class="btn btn-danger btn-xs btn-icon btn-action" 
-						title="Rechazar" 
+						class="btn btn-danger btn-xs btn-icon btn-action"
+						title="Rechazar"
 						data-toggle="tooltip"
 						disabled
 					>
@@ -74,8 +74,8 @@
 							'RE',
 							props.row.document_status.id
 						)"
-						class="btn btn-danger btn-xs btn-icon btn-action" 
-						title="Rechazar" 
+						class="btn btn-danger btn-xs btn-icon btn-action"
+						title="Rechazar"
 						data-toggle="tooltip"
 					>
 						<i class="fa fa-ban"></i>
@@ -108,8 +108,8 @@
 						@click="viewMessage"
 						class="btn btn-primary btn-xs btn-icon"
 						href="#"
-                        title="Generar Reporte" 
-						data-toggle="tooltip" 
+                        title="Generar Reporte"
+						data-toggle="tooltip"
 						v-has-tooltip
 						disabled
 					>
@@ -118,16 +118,16 @@
 					<a v-else
 						class="btn btn-primary btn-xs btn-icon"
 						:href="asset_disincorporation_pdf + props.row.id"
-                        title="Generar Reporte" 
-						data-toggle="tooltip" 
+                        title="Generar Reporte"
+						data-toggle="tooltip"
 						v-has-tooltip target="_blank"
 					>
                         <i class="fa fa-print" style="text-align: center;"></i>
                     </a>
-					<button 
+					<button
 						@click="true ? '' : deleteRecord(props.row.id, '')"
 						class="btn btn-danger btn-xs btn-icon btn-action d-none"
-						title="Eliminar registro" 
+						title="Eliminar registro"
 						data-toggle="tooltip"
 						type="button"
 					>
@@ -167,17 +167,18 @@
 			/**
             * Determina si la desincorporación está en proceso.
             *
+			* @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+			*
             * @param {string} documentStatusAction - La acción de estado del documento a verificar.
+			*
             * @return {boolean} Devuelve true si la acción de estado del documento es "PR"
 			* (en proceso), de lo contrario devuelve false.
-			*
-			* @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
             */
 			isEnabled (documentStatusAction) {
-				return documentStatusAction === "PR" 
+				return documentStatusAction === "PR"
 			},
 			/**
-			 * Funcion que muestra un mensje de alerta cuando se intenta 
+			 * Funcion que muestra un mensje de alerta cuando se intenta
 			 * acceder a una funcionalidad no permitida
 			 *
 			 * @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
@@ -199,8 +200,8 @@
             * @param {number} id - El ID de la desincorporación
             * @param {string} action - La acción a realizar (AP para Aprobar, RE para Rechazar)
             * @param {number} document_status_id - El ID de estado actual de la desicorporación
-			* 
-			*@author Manuel Zambrano <mazambrano@cenditel.gob.ve>
+			*
+			* @author Manuel Zambrano <mazambrano@cenditel.gob.ve>
           	*/
 			changeDocumentStatus(id, action, document_status_id){
 				const vm = this;
@@ -218,7 +219,7 @@
 					callback: async function (result) {
 						if (result) {
 							await axios.patch(
-									`${window.app_url}/asset/disincorporations/change-status/${id}`, 
+									`${window.app_url}/asset/disincorporations/change-status/${id}`,
 									{
 										action: action,
 										document_status_id: document_status_id

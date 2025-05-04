@@ -7,11 +7,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldDocumentStatusIdToAccountingEntriesTable
- * @brief [descripción detallada]
+ * @brief Ejecuta la migración para agregar el campo document_status_id a la tabla accounting_entries
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Francisco J. P. Ruiz <javierrupe19@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

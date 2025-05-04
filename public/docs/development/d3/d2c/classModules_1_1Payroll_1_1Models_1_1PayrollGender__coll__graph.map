@@ -1,4 +1,5 @@
 <map id="PayrollGender" name="PayrollGender">
-<area shape="rect" id="node1" title="Datos de género." alt="" coords="5,145,244,237"/>
-<area shape="rect" id="node2" href="$d1/d87/classApp_1_1Models_1_1Gender.html" title="Datos de género." alt="" coords="80,5,169,97"/>
+<area shape="rect" id="Node000001" title="Datos de género." alt="" coords="5,139,235,224"/>
+<area shape="rect" id="Node000002" href="$d1/d87/classApp_1_1Models_1_1Gender.html" title="Datos de género." alt="" coords="79,5,161,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,104,123,138,117,138,117,104"/>
 </map>

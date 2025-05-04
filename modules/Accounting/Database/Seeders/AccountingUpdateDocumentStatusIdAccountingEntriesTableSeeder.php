@@ -1,22 +1,19 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Accounting\Database\Seeders;
 
 use App\Models\DocumentStatus;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Accounting\Models\AccountingEntry;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat\Wizard\Accounting;
 
 /**
- * @class $CLASS$
- * @brief [descripción detallada]
+ * @class AccountingUpdateDocumentStatusIdAccountingEntriesTableSeeder
+ * @brief Actualiza el estatus de los asientos contables
  *
- * [descripción corta]
+ * Actualiza el estatus de los asientos contables
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -26,9 +23,7 @@ class AccountingUpdateDocumentStatusIdAccountingEntriesTableSeeder extends Seede
     /**
      * Ejecuta los seeds de la base de datos
      *
-     * @method run
-     *
-     * @return void     [descripción de los datos devueltos]
+     * @return void
      */
     public function run()
     {

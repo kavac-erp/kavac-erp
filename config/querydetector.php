@@ -1,13 +1,13 @@
 <?php
 
 return [
-    /*
+    /**
      * Enable or disable the query detection.
      * If this is set to "null", the app.debug config value will be used.
      */
     'enabled' => env('APP_DEBUG', null),
 
-    /*
+    /**
      * Here you can whitelist model relations.
      *
      * Right now, you need to define the model relation both as the class name and the attribute name on the model.
@@ -21,7 +21,7 @@ return [
         //]
     ],
 
-    /*
+    /**
      * Define the output format that you want to use. Multiple classes are supported.
      * Available options are:
      *
@@ -51,7 +51,7 @@ return [
      */
     'output' => [
         //\BeyondCode\QueryDetector\Outputs\Alert::class,
-        \BeyondCode\QueryDetector\Outputs\Debugbar::class,
+        //\BeyondCode\QueryDetector\Outputs\Debugbar::class,
         //\BeyondCode\QueryDetector\Outputs\Log::class,
     ]
 ];

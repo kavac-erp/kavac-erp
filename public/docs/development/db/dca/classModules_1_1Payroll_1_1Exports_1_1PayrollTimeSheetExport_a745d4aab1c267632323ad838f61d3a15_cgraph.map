@@ -1,0 +1,7 @@
+<map id="headings" name="headings">
+<area shape="rect" id="Node000001" title="Establece las cabeceras de los datos en el archivo a exportar." alt="" coords="5,29,87,55"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="23,30,19,21,21,11,31,5,46,3,64,6,72,14,68,18,61,11,46,8,33,10,26,14,24,20,28,28"/>
+<area shape="rect" id="Node000002" href="$db/dca/classModules_1_1Payroll_1_1Exports_1_1PayrollTimeSheetExport.html#ab24fa179a41ab9c933c32181e3d3ed84" title="Genera el listado de registros de la hoja de tiempo." alt="" coords="135,29,220,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,39,121,39,121,45,87,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="155,30,150,21,153,11,162,5,177,3,195,6,203,14,199,18,193,11,177,8,164,10,157,14,156,20,160,28"/>
+</map>

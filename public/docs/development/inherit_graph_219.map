@@ -1,3 +1,3 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$dc/d90/classModules_1_1Asset_1_1Models_1_1AssetDisincorporationMotive.html" title="Datos de los motivos de la desincorporación de un bien." alt="" coords="5,5,216,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d4/d2a/classAddForeignKeysToAssetAsignationsTable.html" title="Agrega las llaves foraneas building_id, floor_id, y section_id a la tabla asset_asignations." alt="" coords="5,5,257,45"/>
 </map>

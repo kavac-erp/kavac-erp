@@ -2,30 +2,29 @@
 
 namespace Modules\Accounting\Http\Controllers;
 
-use App\Exceptions\ClosedFiscalYearException;
-use App\Models\CodeSetting;
-use App\Models\DocumentStatus;
-use App\Models\FiscalYear;
-use App\Models\Institution as DefaultInstitution;
-use App\Rules\DateBeforeFiscalYear;
-use Auth;
 use DateTime;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Models\FiscalYear;
+use App\Models\CodeSetting;
 use Illuminate\Http\Request;
+use App\Models\DocumentStatus;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Concerns\ToArray;
-use Modules\Accounting\Jobs\AccountingManageEntries;
-use Modules\Accounting\Models\Accountable;
-use Modules\Accounting\Models\AccountingAccount;
-use Modules\Accounting\Models\AccountingEntry;
-use Modules\Accounting\Models\AccountingEntryAccount;
-use Modules\Accounting\Models\AccountingEntryCategory;
+use App\Rules\DateBeforeFiscalYear;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Date;
+use Modules\Accounting\Models\Profile;
 use Modules\Accounting\Models\Currency;
 use Modules\Accounting\Models\Institution;
-use Modules\Accounting\Models\Profile;
-use Nwidart\Modules\Facades\Module;
+use Illuminate\Contracts\Support\Renderable;
+use App\Exceptions\ClosedFiscalYearException;
+use Modules\Accounting\Models\AccountingEntry;
+use Modules\Accounting\Models\AccountingAccount;
+use App\Models\Institution as DefaultInstitution;
+use Modules\Accounting\Jobs\AccountingManageEntries;
+use Modules\Accounting\Models\AccountingEntryAccount;
+use Modules\Accounting\Models\AccountingEntryCategory;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
  * @class AccountingEntryController
@@ -33,10 +32,10 @@ use Nwidart\Modules\Facades\Module;
  *
  * Clase que gestiona los asientos contables
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AccountingEntryController extends Controller
 {
@@ -45,73 +44,53 @@ class AccountingEntryController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:accounting.entries.list', ['only' => ['index', 'unapproved']]);
         $this->middleware('permission:accounting.entries.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:accounting.entries.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:accounting.entries.delete', ['only' => 'destroy']);
         // $this->middleware('permission:accounting.entries.approve', ['only' => 'approve']);
         $this->middleware('permission:accounting.entries.reverse', ['only' => 'reverse']);
-
     }
     /**
      * muestra la vista donde se mostraran los asientos contables aprobados
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @return Renderable
      */
     public function index()
     {
-        /**
-         * [$currency contendra la moneda manejada por defecto]
-         * @var Currency
-         */
+        /* contendra la moneda manejada por defecto */
         $currency = Currency::where('default', true)->first();
 
         $institutions = json_encode($this->getInstitutionAvailables('Todas'));
 
-        // $currencies = json_encode(template_choices(
-        //     'App\Models\Currency',
-        //     ['symbol', '-', 'name'],
-        //     [],
-        //     true
-        // ));
-
-        /**
-         * [$entries almacena el registro de asiento contable mas antiguo]
-         * @var AccountingEntry
-         */
+        /* almacena el registro de asiento contable mas antiguo */
         $entries = AccountingEntry::orderBy('from_date', 'ASC')->first();
 
-        /**
-         * [$entries almacena el registro de asiento contable no aprobados]
-         * @var AccountingEntry
-         */
+        /* almacena el registro de asiento contable no aprobados */
         $entriesNotApproved = $this->unapproved();
 
-        /**
-         * [$yearOld determinara el año mas antiguo para el filtrado]
-         * @var date
-         */
+        /* determinara el año mas antiguo para el filtrado */
         $yearOld = '';
 
         if ($entries && $entries->from_date !== null) {
             $yearOld = explode('-', $entries->from_date)[0];
         }
 
-        /** si no existe asientos contables la fecha mas antigua es la actual*/
+        /* si no existe asientos contables la fecha mas antigua es la actual*/
         if ($yearOld == '') {
             $yearOld = date('Y');
         }
 
-        /**
-         * [$categories contendra las categorias]
-         * @var array
-         */
+        /* contendra las categorias */
         $categories = [];
         array_push($categories, [
             'id' => 0,
@@ -133,9 +112,7 @@ class AccountingEntryController extends Controller
             $institution = DefaultInstitution::where(['active' => true, 'default' => true])->first();
         }
 
-        /**
-         * se convierte array a JSON
-         */
+        /* se convierte array a JSON */
         $categories = json_encode($categories);
 
         return view('accounting::entries.index', compact(
@@ -150,31 +127,21 @@ class AccountingEntryController extends Controller
     /**
      * Muestra un formulario para la creación de asientos contables
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @return Renderable
      */
     public function create()
     {
-        /**
-         * [$currency almacena la información del tipo de moneda por defecto]
-         * @var Currency
-         */
+        /* almacena la información del tipo de moneda por defecto */
         $currency = Currency::where('default', true)->orderBy('id', 'ASC')->first();
-
-        // $currencies = json_encode(template_choices('App\Models\Currency', ['symbol', '-', 'name'], [], true));
 
         $institutions = json_encode($this->getInstitutionAvailables('Seleccione...'));
 
-        /**
-         * [$AccountingAccounts almacena las cuentas pratrimoniales]
-         * @var json
-         */
+        /* almacena las cuentas pratrimoniales */
         $AccountingAccounts = $this->getGroupAccountingAccount();
 
-        /**
-         * [$categories contendra las categorias]
-         * @var array
-         */
+        /* contendra las categorias */
         $categories = [];
         array_push($categories, [
             'id' => '',
@@ -189,9 +156,7 @@ class AccountingEntryController extends Controller
             ]);
         }
 
-        /**
-         * se convierte array a JSON
-         */
+        /* se convierte array a JSON */
         $categories = json_encode($categories);
         $currency = json_encode($currency);
 
@@ -213,9 +178,11 @@ class AccountingEntryController extends Controller
     /**
      * Crea una nuevo asiento contable y crea los registros de las cuentas asociadas
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
-     * @return Renderable
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param  Request $request Datos de la petición realizada
+     *
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -315,8 +282,9 @@ class AccountingEntryController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Listado de registros
+     *
+     * @return JsonResponse
      */
     public function show($id)
     {
@@ -330,16 +298,15 @@ class AccountingEntryController extends Controller
     /**
      * Muestra el formulario para la edición de asientos contables
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @param  integer $id Identificador del asiento contable a modificar
+     *
      * @return Renderable
      */
     public function edit($id)
     {
-        /**
-         * [$entry asiento contable a editar]
-         * @var AccountingEntry
-         */
+        /* asiento contable a editar */
         $entry = AccountingEntry::with('accountingAccounts.account')->find($id);
 
         // Validar acceso para el registro
@@ -351,18 +318,12 @@ class AccountingEntryController extends Controller
             }
         }
 
-        // $currencies = json_encode(template_choices('App\Models\Currency', ['symbol', '-', 'name'], [], true));
         $institutions = json_encode($this->getInstitutionAvailables('Seleccione...'));
 
-        /**
-         * [$AccountingAccounts cuentas pratrimoniales]
-         * @var Json
-         */
+        /* cuentas pratrimoniales */
         $AccountingAccounts = $this->getGroupAccountingAccount();
 
-        /**
-         * se guarda en variables la información necesaria para la edición del asiento contable
-         */
+        /* se guarda en variables la información necesaria para la edición del asiento contable */
 
         $date = $entry->from_date;
         $reference = $entry->reference;
@@ -372,10 +333,7 @@ class AccountingEntryController extends Controller
         $institution = $entry->institution_id;
         $currency = $entry->currency_id;
 
-        /**
-         * [$categories lista de categorias]
-         * @var array
-         */
+        /* lista de categorias */
         $categories = [];
         array_push($categories, [
             'id' => '',
@@ -390,9 +348,7 @@ class AccountingEntryController extends Controller
             ]);
         }
 
-        /**
-         * se convierte array a JSON
-         */
+        /* se convierte array a JSON */
         $categories = json_encode($categories);
 
         $data_edit = [
@@ -418,10 +374,12 @@ class AccountingEntryController extends Controller
     /**
      * Actualiza los datos del asiento contable
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  Request $request Objeto con datos de la petición realizada
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param  Request $request Datos de la petición realizada
      * @param  integer $id      Identificador del asiento contable a modificar
-     * @return Renderable
+     *
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -488,10 +446,7 @@ class AccountingEntryController extends Controller
         // Validar acceso para el registro
         $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
 
-        /**
-         * [$entry informaciónd el asiento contable]
-         * @var AccountingEntry
-         */
+        /* informaciónd el asiento contable */
         $entry = AccountingEntry::find($id);
 
         if (!auth()->user()->isAdmin()) {
@@ -501,9 +456,7 @@ class AccountingEntryController extends Controller
             }
         }
 
-        /**
-         * se actualiza la información del registro del asiento contable
-         */
+        /* se actualiza la información del registro del asiento contable */
         AccountingManageEntries::dispatch($request->all(), $request->institution_id);
 
         return response()->json(['message' => 'Success'], 200);
@@ -512,8 +465,10 @@ class AccountingEntryController extends Controller
     /**
      * Elimina un asiento contable
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @param  integer $id Identificador del asiento contable a eliminar
+     *
      * @return JsonResponse
      */
     public function destroy($id)
@@ -521,10 +476,7 @@ class AccountingEntryController extends Controller
         // Validar acceso para el registro
         $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
 
-        /**
-         * [$entry informaciónd el asiento contable]
-         * @var AccountingEntry
-         */
+        /* información del asiento contable */
         $entry = AccountingEntry::find($id);
 
         if (!auth()->user()->isAdmin()) {
@@ -533,7 +485,7 @@ class AccountingEntryController extends Controller
             }
         }
 
-        /** El registro de asiento contable a eliminar */
+        /* El registro de asiento contable a eliminar */
         AccountingEntryAccount::where('accounting_entry_id', $id)->delete();
 
         AccountingEntry::where('reversed_id', $id)->delete();
@@ -544,190 +496,101 @@ class AccountingEntryController extends Controller
     }
 
     /**
-     * [filterRecords consulta y filta los registros de asientos contables]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  Request $request
-     * @param  integer $perPage [pagina anterior]
-     * @param  integer $page    [pagina actual a mostrar]
+     * Filtro de registros
+     *
+     * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve>
+     *
+     * @param Request $request Datos de la petición
+     * @param  integer $perPage Número de elementos por página
+     * @param integer $page Página de la consulta
+     *
      * @return JsonResponse
      */
     public function filterRecords(Request $request, $perPage = 10, $page = 1)
     {
-        /**
-         * [$records contendra los registros]
-         * @var array
-         */
-        $records = [];
-
-        /**
-         * [$FilterByOrigin registros luego de aplicar el filtrado por categoria de origen]
-         * @var array
-         */
-        $FilterByOrigin = [];
-
-        /**
-         * [$institution_id id de la institución para el filtrado]
-         * @var null
-         */
+        $user = auth()->user();
+        $user_profile = Profile::with('institution')->where('user_id', $user->id)->first();
         $institution_id = null;
 
-        $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
-
-        if (auth()->user()->isAdmin() && $request->institution) {
+        if ($user->isAdmin() && $request->institution) {
             $institution_id = $request->institution;
-        } elseif ($user_profile && $user_profile['institution'] && $user_profile['institution']['id'] == $request->institution) {
+        } elseif ($user_profile && $user_profile->institution && $user_profile->institution->id == $request->institution) {
             $institution_id = $request->institution;
         }
 
-        if ($request->typeSearch == 'reference') {
-            $allRecords = [];
+        $documentStatusEL = default_document_status_el();
 
-            $search = (!$request->search) ? $request->reference : $request->search;
-            /**
-             * Se realiza la consulta si selecciono una institución para el filtrado
-             */
+        $query = AccountingEntry::query()
+            ->withCount("pivotEntryable")
+            ->where('document_status_id', '!=', $documentStatusEL->id)
+            ->whereHas('documentStatus', function ($query) use ($documentStatusEL) {
+                $query->where('id', '!=', $documentStatusEL->id);
+            });
+
+        $search = $request->search ?: $request->reference;
+
+        if ($request->typeSearch == 'reference' || $request->typeSearch == 'origin') {
+            $query->where(function ($q) use ($search) {
+                $q->where('reference', 'like', "%{$search}%")
+                    ->orWhere('from_date', 'like', "%{$search}%")
+                    ->orWhere('concept', 'like', "%{$search}%");
+            });
+
             if ($institution_id) {
-                $allRecords = AccountingEntry::withCount("pivotEntryable")->column('reference', $search)
-                    ->column('from_date', $search)
-                    ->column('reference', $search)
-                    ->column('concept', $search)
-                    ->where('institution_id', $institution_id);
-            } else {
-                if (auth()->user()->isAdmin()) {
-                    $allRecords = AccountingEntry::withCount("pivotEntryable")->column('reference', $search)
-                        ->column('from_date', $search)
-                        ->column('reference', $search)
-                        ->column('concept', $search);
-                }
+                $query->where('institution_id', $institution_id);
             }
-        } elseif ($request->typeSearch == 'origin') {
-            /**
-             * realiza busqueda de todos los asientos, de lo contrario solo por una categoria especifica
-             * Se realiza la consulta si selecciono una institución o departamento para el filtrado
-             */
-            $allRecords = [];
 
-            $search = ($request->search) ? $request->search : '';
-
-            $query = AccountingEntry::withCount("pivotEntryable")->column('from_date', (($search) ? $search : ''))
-                ->column('reference', (($search) ? $search : ''))
-                ->column('concept', (($search) ? $search : ''));
-
-            if ($request->search) {
-                if ($institution_id) {
-                    /**
-                     * Se seleccionan los registros por institución
-                     */
-                    $allRecords = ($request->category == 0) ?
-                    $query->where('institution_id', $institution_id) :
-                    $query->where('institution_id', $institution_id)
-                        ->where('accounting_entry_category_id', $request->category);
-                } else {
-                    $allRecords = ($request->category == 0) ?
-                    $query :
-                    $query->where('accounting_entry_category_id', $request->category);
-                }
-            } else {
-                if ($institution_id) {
-                    /**
-                     * Se seleccionan los registros por institución
-                     */
-
-                    $allRecords = ($request->category == 0) ?
-                    $query->where('institution_id', $institution_id) :
-
-                    $query->where('institution_id', $institution_id)
-                        ->where('accounting_entry_category_id', $request->category);
-                } else {
-                    $allRecords = ($request->category == 0) ?
-                    $query :
-                    $query->where('accounting_entry_category_id', $request->category);
-                }
+            if ($request->typeSearch == 'origin' && $request->category) {
+                $query->where('accounting_entry_category_id', $request->category);
             }
         }
-        $allRecords = $allRecords->orderBy('approved', 'ASC')
-            ->orderBy('id', 'ASC')
-            ->orderBy('from_date', 'ASC')
-            ->orderBy('reference', 'ASC');
-        /**
-         * Filtrado para unos meses o años en general
-         */
 
         if ($request->filterDate == 'generic') {
-
-            /**
-             * [$fltForYear contendra los registros restantes del primer filtrado general]
-             * @var array
-             */
-            $fltForYear = [];
-            /**
-             * todas las fechas
-             */
-            if ($request->year == 0 && $request->month == 0) {
-                $records = $allRecords;
-            } else {
-                /**
-                 * filtardo por año
-                 */
-                if ($request->year == 0) { // todos los años
-                    $fltForYear = $allRecords;
-                } else {
-                    $records = $allRecords->whereYear("from_date", $request->year)->orderBy('reference', 'ASC');
-                }
+            if ($request->year) {
+                $query->whereYear('from_date', $request->year);
             }
-            /**
-             * filtrado por mes
-             */
-            if ($request->month == 0) { // todos los meses
-                $records = $fltForYear;
-            } else {
-                $records = $allRecords->whereMonth("from_date", $request->month)->orderBy('reference', 'ASC');
+            if ($request->month) {
+                $query->whereMonth('from_date', $request->month);
             }
         } else {
-            /**
-             * Filtrado en un rango especifico de fechas
-             */
-            $records = $allRecords->whereBetween(
-                "from_date",
-                [$request->init, $request->end]
-            )->orderBy('reference', 'ASC');
+            $query->whereBetween('from_date', [$request->init, $request->end]);
         }
 
-        $closeFiscalYear = FiscalYear::get();
-        $entriesId = [];
+        $closeFiscalYear = FiscalYear::query()->get();
+        $entriesId = $closeFiscalYear->flatMap(function ($fYear) {
+            return $fYear->entries ? collect($fYear->entries)->pluck('id') : collect();
+        })->filter()->toArray();
 
-        foreach ($closeFiscalYear as $fYear) {
-            if ($fYear->entries) {
-                foreach ($fYear->entries as $entry) {
-                    array_push($entriesId, $entry);
-                }
-            }
-        }
+        $query->whereNotIn('id', $entriesId);
 
-        $total = $allRecords->count();
-        $records = $allRecords->offset(($page - 1) * $perPage)->limit($perPage);
-        $records = $records->whereNotIn('id', $entriesId)->get();
-
-        $lastPage = max((int) ceil($total / $perPage), 1);
+        $total = $query->count();
+        $records = $query->orderBy('approved', 'ASC')
+            ->orderBy('id', 'ASC')
+            ->orderBy('from_date', 'ASC')
+            ->orderBy('reference', 'ASC')
+            ->offset(($page - 1) * $perPage)
+            ->limit($perPage)
+            ->get();
 
         foreach ($records as $record) {
             $record->concept = strip_tags($record->concept);
         }
 
-        return response()->json(
-            [
-                'records' => $records,
-                'total' => $total,
-                'lastPage' => $lastPage,
-            ],
-            200
-        );
+        $lastPage = max((int) ceil($total / $perPage), 1);
+
+        return response()->json([
+            'records' => $records,
+            'total' => $total,
+            'lastPage' => $lastPage,
+        ], 200);
     }
 
     /**
      * Obtiene los registros de las cuentas patrimoniales
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @return String|JSON [JSON con la información de las cuentas formateada]
+     *
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return string|JsonResponse JSON con la información de las cuentas formateada
      */
     public function getAccountingAccount()
     {
@@ -765,115 +628,19 @@ class AccountingEntryController extends Controller
         return json_encode($records);
     }
 
+    /**
+     * Obtiene las cuentas contables agrupadas
+     *
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param boolean $first Primera cuenta de la consulta
+     * @param integer|null $parent_id Identificador de la cuenta de nivel superior
+     *
+     * @return string|JsonResponse JSON con la información de las cuentas formateada
+     */
     public function getGroupAccountingAccount($first = true, $parent_id = null)
     {
-        /**
-         * [$records listado de registros]
-         * @var array
-         */
-        /*$records = [];
-
-        if ($first && !$parent_id) {
-        array_push($records, [
-        'id'   => '',
-        'text' => 'Seleccione...',
-        'disabled' => true,
-        ]);
-
-        $accounts = AccountingAccount::where('active', true)->where('original', true)->where('parent_id', null)
-        ->orderBy('group', 'ASC')
-        ->orderBy('subgroup', 'ASC')
-        ->orderBy('item', 'ASC')
-        ->orderBy('generic', 'ASC')
-        ->orderBy('specific', 'ASC')
-        ->orderBy('subspecific', 'ASC')->get();
-
-        foreach ($accounts as $acc) {
-        $childrens = $this->getGroupAccountingAccount(false, $acc->id);
-
-        $childless = 0;
-
-        if (count($childrens) > 0) {
-        foreach ($childrens as $child) {
-        if (array_key_exists('element', $child) && $child['element'] === 'HTMLOptGroupElement') {
-        $childless++;
-        }
-        }
-        }
-
-        if ($childless == count($childrens)){
-        array_push($records, [
-        'id'   => '',
-        'text' => '-------------------',
-        'disabled' => true,
-        ]);
-        array_push($records, [
-        "text"=> "{$acc->getCodeAttribute()} - {$acc->denomination}",
-        "children"=> $childrens,
-        "element"=> "HTMLOptGroupElement",
-        ]);
-        } else {
-        array_push($records, [
-        "id" => $acc->id,
-        "text"=> "{$acc->getCodeAttribute()} - {$acc->denomination}",
-        "disabled"=> true
-        ]);
-        $records = array_merge($records, $childrens);
-        }
-        }*/
-        /**
-         * se convierte array a JSON
-         */
-        /*return json_encode($records);
-        } else {
-        $sons = AccountingAccount::with('children')->where('active', true)->where('parent_id', $parent_id)
-        ->orderBy('group', 'ASC')
-        ->orderBy('subgroup', 'ASC')
-        ->orderBy('item', 'ASC')
-        ->orderBy('generic', 'ASC')
-        ->orderBy('specific', 'ASC')
-        ->orderBy('subspecific', 'ASC')->get();
-        foreach ($sons as $son) {
-        if (count($son->children) > 0 && $son->original) {
-        $childrens = $this->getGroupAccountingAccount(false, $son->id);
-
-        $childless = 0;
-
-        if (count($childrens) > 0) {
-        foreach ($childrens as $child) {
-        if (!array_key_exists('element', $child)) {
-        $childless++;
-        }
-        }
-        }
-
-        if ($childless == count($childrens)){
-        array_push($records, [
-        "text"=> "{$son->getCodeAttribute()} - {$son->denomination}",
-        "children"=> $childrens,
-        "element"=> "HTMLOptGroupElement",
-        ]);
-        } else {
-        array_push($records, [
-        "id" => $son->id,
-        "text"=> "{$son->getCodeAttribute()} - {$son->denomination}",
-        "disabled"=> true
-        ]);
-        $records = array_merge($records, $childrens);
-        }
-        } else {
-        array_push($records, [
-        "id"=> $son->id,
-        "text"=> "{$son->getCodeAttribute()} - {$son->denomination}",
-        ]);
-        }
-        }*/
-        /**
-         * se convierte array a JSON
-         */
-        /*return $records;
-        }*/
-        /** @var Object Colección con información de las cuentas contables regsitradas en el cátalogo de cuentas patrimoniales  */
+        /* Colección con información de las cuentas contables regsitradas en el cátalogo de cuentas patrimoniales  */
         $accountings = AccountingAccount::where('active', true)
             ->orderBy('group')
             ->orderBy('subgroup')
@@ -883,7 +650,7 @@ class AccountingEntryController extends Controller
             ->orderBy('subspecific')
             ->orderBy('institutional')
             ->toBase()->get();
-        /** @var Array Arreglo con el listado de opciones de cuentas patrimoniales a seleccionar */
+        /* Arreglo con el listado de opciones de cuentas patrimoniales a seleccionar */
         $records = $accountings->map(function ($a) {
             return [
                 'id' => $a->id,
@@ -900,9 +667,11 @@ class AccountingEntryController extends Controller
     }
 
     /**
-     * [unapproved vista con listado de asientos contable no aprobados]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @return AccountingEntry
+     * Vista con listado de asientos contable no aprobados
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|AccountingEntry|array
      */
     public function unapproved()
     {
@@ -920,21 +689,29 @@ class AccountingEntryController extends Controller
 
         if (auth()->user()->isAdmin()) {
             $entries = AccountingEntry::with('accountingAccounts.account')
-                ->where('approved', false)->orderBy('from_date', 'ASC')->get();
+            ->where([
+                'approved' => false,
+                'document_status_id' => default_document_status()->id
+            ])->orderBy('from_date', 'ASC')->get();
         } elseif ($user_profile['institution']['id']) {
             $entries = AccountingEntry::with('accountingAccounts.account')
-                ->where('approved', false)->where('institution_id', $user_profile['institution']['id'])
+            ->where([
+                'approved' => false,
+                'document_status_id' => default_document_status()->id
+            ])->where('institution_id', $user_profile['institution']['id'])
                 ->orderBy('from_date', 'ASC')->get();
         }
 
         return $entries;
-        // return view('accounting::entries.listing', compact('entries'));
     }
 
     /**
-     * [approve aprueba el asiento contable]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  Integer $id identificador del asiento contable
+     * Aprueba el asiento contable
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param  integer $id identificador del asiento contable
+     *
      * @return JsonResponse
      */
     public function approve($id)
@@ -942,10 +719,7 @@ class AccountingEntryController extends Controller
         // Validar acceso para el registro
         $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
 
-        /**
-         * [$entry contendra el asiento al que se le cambiará el estado]
-         * @var AccountingEntry
-         */
+        /* contendra el asiento al que se le cambiará el estado */
         $entry = AccountingEntry::find($id);
 
         if (!auth()->user()->isAdmin()) {
@@ -961,26 +735,9 @@ class AccountingEntryController extends Controller
                 $entry->approved = true;
                 $entry->document_status_id = $documentStatusAP->id;
                 $entry->save();
-
-                //Aprobar un movimiento bancario si existe.
-                if ($entry->reference && Module::has('Finance') && Module::isEnabled('Finance')) {
-                    /**
-                     * Se busca el movimiento bancario a partir de la referencia
-                     * con estatus 'En Proceso', para ser aprobado.
-                     */
-                    $bankingMovement = \Modules\Finance\Models\FinanceBankingMovement::query()
-                        ->where([
-                            'reference' => $entry->reference,
-                            'document_status_id' => DocumentStatus::where('action', 'PR')->first()->id,
-                        ])->first();
-
-                    if (isset($bankingMovement)) {
-                        $bankingMovement->document_status_id = $documentStatusAP->id;
-                        $bankingMovement->save();
-                    }
-                }
             });
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $message = str_replace("\n", "", $e->getMessage());
             if (strpos($message, 'ERROR') !== false && strpos($message, 'DETAIL') !== false) {
                 $pattern = '/ERROR:(.*?)DETAIL/';
@@ -1008,9 +765,9 @@ class AccountingEntryController extends Controller
      * Caso Admin muestra todas
      * Caso User muestra solo a la que pertenece
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
-     * @return Array
+     * @return array
      */
     public function getInstitutionAvailables($text)
     {
@@ -1046,10 +803,11 @@ class AccountingEntryController extends Controller
      *      }
      *  ]
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve | exodiadaniel@gmail.com>
      *
      * @param  Request $request
+     *
      * @return JsonResponse
      */
     public function converterToEntry(Request $request)
@@ -1111,59 +869,108 @@ class AccountingEntryController extends Controller
 
         return response()->json([
             'recordsAccounting' => $accounts,
-            //'accountingAccounts' => json_decode($this->getAccountingAccount()),
             'accountingAccounts' => json_decode($this->getGroupAccountingAccount()),
             'currency' => Currency::where('default', true)->first(),
-            //'categories'         => $categories,
         ], 200);
     }
 
     /**
      * Genera reverso de asiento contable
-     * 
+     *
      * @author Juan Rosas <juan.rosasr01@gmail.com>
+     *
+     * @param Request $request Datos de la petición
+     *
+     * @return JsonResponse
      */
-    function reverse(int $entryId) {
-        $accounts = AccountingEntryAccount::where('accounting_entry_id', $entryId)->get();
+    public function reverse(Request $request)
+    {
 
-        $entry = AccountingEntry::find($entryId);
-
-        $reverseEntry = AccountingEntry::create([
-            'from_date' => now()->format('Y-m-d'),
-            'concept' => 'Reverso '.$entry->reference.': '.$entry->concept,
-            'observations' => 'Reverso '.$entry->reference,
-            'reference' => $this->generateCodeAvailable(),
-            'tot_debit' => $entry->tot_assets,
-            'tot_assets' => $entry->tot_debit,
-            'accounting_entry_category_id' => $entry->accounting_entry_category_id,
-            'currency_id' => $entry->currency_id,
-            'approved' => true,
-            'institution_id' => $entry->institution_id,
-            'document_status_id' => $entry->document_status_id,
-            'reversed' => false,
-            'reversed_id' => $entry->id,
+        $this->validate($request, [
+            'entryId' => 'required',
+            'reversed_at' => ['required', 'date', new DateBeforeFiscalYear('fecha de reverso')],
+        ], [
+            'reversed_at.required' => 'El campo fecha del reverso es requerido',
+            'reversed_at.date' => 'El campo fecha del reverso debe ser de tipo fecha',
+            'entryId.required' => 'El campo asiento contable es requerido',
         ]);
 
-        foreach ($accounts as $account) {
-            AccountingEntryAccount::create([
-                'accounting_entry_id' => $reverseEntry->id,
-                'accounting_account_id' => $account->accounting_account_id,
-                'debit' => $account->assets,
-                'assets' => $account->debit
-            ]);
+        try {
+            $entry = AccountingEntry::findOrFail($request->entryId);
+
+            // Se verifica que la fecha de reverso no sea menor a las fecha del resgistro
+            if ($request->reversed_at < $entry->from_date) {
+                $errors[0] = ["La fecha de reverso no puede ser menor a la fecha de creación ("
+                . date_format(date_create($entry->from_date), 'd/m/Y') . ")"];
+                return response()->json(['result' => true, 'errors' => $errors], 422);
+            }
+
+            DB::transaction(function () use ($request, $entry) {
+
+                $accounts = AccountingEntryAccount::where('accounting_entry_id', $request->entryId)->get();
+
+                $reverseEntry = AccountingEntry::create([
+                    'from_date' => $request->reversed_at,
+                    'concept' => 'Reverso ' . $entry->reference . ': ' . $entry->concept,
+                    'observations' => 'Reverso ' . $entry->reference . ': ' . $entry->observations,
+                    'reference' => $this->generateCodeAvailable(),
+                    'tot_debit' => $entry->tot_assets,
+                    'tot_assets' => $entry->tot_debit,
+                    'accounting_entry_category_id' => $entry->accounting_entry_category_id,
+                    'currency_id' => $entry->currency_id,
+                    'approved' => true,
+                    'institution_id' => $entry->institution_id,
+                    'document_status_id' => $entry->document_status_id,
+                    'reversed' => false,
+                    'reversed_id' => $entry->id,
+                ]);
+
+                foreach ($accounts as $account) {
+                    AccountingEntryAccount::create([
+                        'accounting_entry_id' => $reverseEntry->id,
+                        'accounting_account_id' => $account->accounting_account_id,
+                        'debit' => $account->assets,
+                        'assets' => $account->debit
+                    ]);
+                }
+
+                $entry->reversed = true;
+                $entry->reversed_at = $request->reversed_at;
+
+                $entry->save();
+            });
+
+            return response()->json(['result' => false, 'redirect' => route('accounting.entries.index')], 200);
+        } catch (\Exception $e) {
+            $message = str_replace("\n", "", $e->getMessage());
+            if (strpos($message, 'ERROR') !== false && strpos($message, 'DETAIL') !== false) {
+                $pattern = '/ERROR:(.*?)DETAIL/';
+                preg_match($pattern, $message, $matches);
+                $errorMessage = trim($matches[1]);
+            } else {
+                $errorMessage = $message;
+            }
+
+            return response()->json(
+                ['message' =>
+                [
+                    'type' => 'custom',
+                    'title' => 'Alerta',
+                    'icon' => 'screen-error',
+                    'class' => 'growl-danger',
+                    'text' => 'No se pudo completar la operación. ' . ucfirst($errorMessage)
+                ]],
+                500
+            );
         }
-
-        $entry->reversed = true;
-        
-        $entry->save();
-
-        return response()->json(['result' => false, 'redirect' => route('accounting.entries.index')], 200);
-
     }
 
     /**
-     * [generateCodeAvailable genera el código disponible]
+     * Genera el código disponible
+     *
      * @author Juan Rosas <juan.rosasr01@gmail.com>
+     *
+     * @return string
      */
     public function generateCodeAvailable(): string
     {

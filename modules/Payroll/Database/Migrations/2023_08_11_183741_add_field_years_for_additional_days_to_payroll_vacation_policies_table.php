@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class AddFieldYearsForAdditionalDaysToPayrollVacationPoliciesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -21,7 +21,7 @@ class AddFieldYearsForAdditionalDaysToPayrollVacationPoliciesTable extends Migra
         });
     }
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

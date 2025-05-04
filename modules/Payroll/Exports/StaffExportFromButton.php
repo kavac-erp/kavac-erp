@@ -18,6 +18,15 @@ use Modules\Payroll\Models\PayrollGender;
 use Modules\Payroll\Models\PayrollLicenseDegree;
 use Modules\Payroll\Models\PayrollNationality;
 
+/**
+ * @class StaffExportFromButton
+ * @brief Clase que exporta el listado de registros del personal
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class StaffExportFromButton extends DataExport implements
     ShouldAutoSize,
     WithHeadings,
@@ -27,6 +36,11 @@ class StaffExportFromButton extends DataExport implements
 {
     use RegistersEventListeners;
 
+    /**
+     * Encabezados de la hoja
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return [
@@ -35,6 +49,7 @@ class StaffExportFromButton extends DataExport implements
             'code',
             'nacionalidad',
             'cedula_de_identidad',
+            'rif',
             'pasaporte',
             'correo_electronico',
             'fecha_de_nacimiento',
@@ -53,6 +68,13 @@ class StaffExportFromButton extends DataExport implements
         ];
     }
 
+    /**
+     * Mapeo de los datos de la hoja a exportar
+     *
+     * @param array $data Registros de la hoja
+     *
+     * @return array
+     */
     public function map($data): array
     {
         $nation = PayrollNationality::find($data['payroll_nationality_id']);
@@ -68,6 +90,7 @@ class StaffExportFromButton extends DataExport implements
             $data['code'],
             $nation?->name ?? '',
             $data['id_number'],
+            $data['rif'] ?? '',
             $data['passport'],
             $data['email'],
             Carbon::createFromFormat('Y-m-d', $data['birthdate'])->format('d-m-Y'),
@@ -86,18 +109,28 @@ class StaffExportFromButton extends DataExport implements
         ];
     }
 
+    /**
+     * Obtiene el titulo de la hoja
+     *
+     * @return string
+     */
     public function title(): string
     {
         return 'Datos Personales';
     }
 
+    /**
+     * Registra los eventos de la clase
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                /** Se crea una instancia Worksheet para acceder a las dos sheet. */
+                /* Se crea una instancia Worksheet para acceder a las dos sheet. */
                 $sheet = $event->sheet->getDelegate();
-                /** Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
+                /* Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
                 $validationRangeA = 'validation!$A$2:$A$5000';
                 $validationRangeB = 'validation!$B$2:$B$5000';
                 $validationRangeC = 'validation!$C$2:$C$5000';
@@ -107,13 +140,13 @@ class StaffExportFromButton extends DataExport implements
                 $validationRangeG = 'validation!$G$2:$G$5000';
 
                 $this->setFunctionList($sheet, 'D', 2, null, 'validateA', $validationRangeA);
-                $this->setFunctionList($sheet, 'I', 2, null, 'validateB', $validationRangeB);
-                $this->setFunctionList($sheet, 'M', 2, null, 'validateC', $validationRangeC);
-                $this->setFunctionList($sheet, 'N', 2, null, 'validateD', $validationRangeD);
-                $this->setFunctionList($sheet, 'Q', 2, null, 'validateE', $validationRangeE);
-                $this->setFunctionList($sheet, 'R', 2, null, 'validateF', $validationRangeF);
-                $this->setFunctionList($sheet, 'L', 2, null, 'validateG', $validationRangeG);
-                $this->setFunctionList($sheet, 'P', 2, null, 'validateG', $validationRangeG);
+                $this->setFunctionList($sheet, 'J', 2, null, 'validateB', $validationRangeB);
+                $this->setFunctionList($sheet, 'N', 2, null, 'validateC', $validationRangeC);
+                $this->setFunctionList($sheet, 'O', 2, null, 'validateD', $validationRangeD);
+                $this->setFunctionList($sheet, 'R', 2, null, 'validateE', $validationRangeE);
+                $this->setFunctionList($sheet, 'S', 2, null, 'validateF', $validationRangeF);
+                $this->setFunctionList($sheet, 'M', 2, null, 'validateG', $validationRangeG);
+                $this->setFunctionList($sheet, 'Q', 2, null, 'validateG', $validationRangeG);
             },
         ];
     }

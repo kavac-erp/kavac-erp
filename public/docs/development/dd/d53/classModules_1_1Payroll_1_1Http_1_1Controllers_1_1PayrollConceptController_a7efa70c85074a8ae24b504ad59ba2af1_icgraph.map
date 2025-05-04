@@ -1,0 +1,7 @@
+<map id="validateFormula" name="validateFormula">
+<area shape="rect" id="Node000001" title="Método que valida que la formula a agregar en el concepto sea una formula con un formato válido." alt="" coords="120,31,248,56"/>
+<area shape="rect" id="Node000002" href="$dd/d53/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollConceptController.html#a9ef485163104597c12185b53cdacf638" title="Valida y registra un nuevo concepto." alt="" coords="11,5,66,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,32,66,25,67,20,107,27"/>
+<area shape="rect" id="Node000003" href="$dd/d53/classModules_1_1Payroll_1_1Http_1_1Controllers_1_1PayrollConceptController.html#affb03cc19897a1800a0f411264d6c7cc" title="Actualiza la información de una asignación salarial." alt="" coords="5,55,72,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="107,59,73,65,72,59,106,54"/>
+</map>

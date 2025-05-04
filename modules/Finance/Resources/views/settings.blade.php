@@ -23,13 +23,6 @@
                 <div class="card-header">
                     <h6 class="card-title">
                         {{ __('Formatos de Códigos') }}
-                        {{--
-                            // Issue #96: Solicitaron que no se muestre el botón de ayuda en esta sección
-                            @include('buttons.help', [
-                                'helpId' => '',
-                                'helpSteps' => get_json_resource('', '')
-                            ])
-                        --}}
                     </h6>
                     <div class="card-btns">
                         @include('buttons.previous', ['route' => url()->previous()])
@@ -72,6 +65,17 @@
                                     ]) !!}
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('conciliations_code', 'Código de conciliación bancaria', []) !!}
+                                    {!! Form::text('conciliations_code', ($conciliationCode) ? $conciliationCode->format_code : old('conciliations_code'), [
+                                        'class' => 'form-control input-sm', 'data-toggle' => 'tooltip',
+                                        'title' => 'Formato para el código de conciliación bancaria',
+                                        'placeholder' => 'Ej. XXX-00000000-YYYY',
+                                        'readonly' => ($conciliationCode) ? true : false
+                                    ]) !!}
+                                </div>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
@@ -104,7 +108,7 @@
                             </div>
                         </div>
                     </div>
-                    @if (!$movementCode || !$payOrderCode || !$paymentExecutesCode)
+                    @if (!$movementCode || !$payOrderCode || !$paymentExecutesCode || !$conciliationCode)
                         <div class="card-footer text-right">
                             @include('layouts.form-buttons')
                         </div>

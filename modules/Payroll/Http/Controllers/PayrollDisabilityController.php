@@ -1,7 +1,5 @@
 <?php
 
-/** Controladores de talento humano */
-
 namespace Modules\Payroll\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -29,10 +27,12 @@ class PayrollDisabilityController extends Controller
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         /*$this->middleware('permission:payroll.disabilities.list', ['only' => ['index', 'vueList']]);*/
         $this->middleware('permission:payroll.disabilities.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.disabilities.edit', ['only' => ['edit', 'update']]);
@@ -42,11 +42,9 @@ class PayrollDisabilityController extends Controller
     /**
      * Muestra todos los registros de discapacidades
      *
-     * @method    index
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
-     * @return    Renderable    Json con los datos
+     * @return    \Illuminate\Http\JsonResponse    Json con los datos
      */
     public function index()
     {
@@ -54,13 +52,11 @@ class PayrollDisabilityController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para registrar una nueva discapacidad
      *
-     * @method    create
+     * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -70,13 +66,11 @@ class PayrollDisabilityController extends Controller
     /**
      * Valida y registra una nueva discapacidad
      *
-     * @method    store
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
-     * @param     object    Request    $request    Objeto con información de la petición
+     * @param     Request    $request    Datos de la petición
      *
-     * @return    Renderable    Json: objeto guardado y mensaje de confirmación de la operación
+     * @return    \Illuminate\Http\JsonResponse    objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
     {
@@ -93,15 +87,13 @@ class PayrollDisabilityController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra los datos de una discapacidad
      *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -109,15 +101,13 @@ class PayrollDisabilityController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para editar una discapacidad
      *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -127,14 +117,12 @@ class PayrollDisabilityController extends Controller
     /**
      * Actualiza la discapacidad
      *
-     * @method    update
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    Json con mensaje de confirmación de la operación
+     * @return    \Illuminate\Http\JsonResponse    Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
     {
@@ -153,13 +141,11 @@ class PayrollDisabilityController extends Controller
     /**
      * Elimina la discapacidad
      *
-     * @method    destroy
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    Json con mensaje de confirmación de la operación
+     * @return    \Illuminate\Http\JsonResponse    Json con mensaje de confirmación de la operación
      */
     public function destroy($id)
     {
@@ -171,11 +157,9 @@ class PayrollDisabilityController extends Controller
     /**
      * Obtiene las discapacidades registradas
      *
-     * @method    getPayrollDisabilities
-     *
      * @author    William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
      *
-     * @return    Renderable    Json con los datos
+     * @return    \Illuminate\Http\JsonResponse    Json con los datos
      */
     public function getPayrollDisabilities()
     {

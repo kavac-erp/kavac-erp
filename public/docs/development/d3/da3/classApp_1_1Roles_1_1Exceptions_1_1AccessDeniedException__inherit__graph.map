@@ -1,6 +1,9 @@
 <map id="AccessDeniedException" name="AccessDeniedException">
-<area shape="rect" id="node1" title="Excepciones para accesos denegados." alt="" coords="209,5,387,83"/>
-<area shape="rect" id="node2" href="$d0/da1/classApp_1_1Roles_1_1Exceptions_1_1LevelDeniedException.html" title="Excepciones para niveles de acceso denegados." alt="" coords="5,131,172,208"/>
-<area shape="rect" id="node3" href="$dd/db1/classApp_1_1Roles_1_1Exceptions_1_1PermissionDeniedException.html" title="Excepciones para los permisos de acceso denegados." alt="" coords="196,131,400,208"/>
-<area shape="rect" id="node4" href="$d4/d06/classApp_1_1Roles_1_1Exceptions_1_1RoleDeniedException.html" title="Excepciones para los roles de acceso denegados." alt="" coords="424,131,585,208"/>
+<area shape="rect" id="Node000001" title="Excepciones para accesos denegados." alt="" coords="201,5,371,71"/>
+<area shape="rect" id="Node000002" href="$d0/da1/classApp_1_1Roles_1_1Exceptions_1_1LevelDeniedException.html" title="Excepciones para niveles de acceso denegados." alt="" coords="5,119,164,184"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,80,143,121,141,116,216,75"/>
+<area shape="rect" id="Node000003" href="$dd/db1/classApp_1_1Roles_1_1Exceptions_1_1PermissionDeniedException.html" title="Excepciones para los permisos de acceso denegados." alt="" coords="188,119,384,184"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="289,84,289,119,283,119,283,84"/>
+<area shape="rect" id="Node000004" href="$d4/d06/classApp_1_1Roles_1_1Exceptions_1_1RoleDeniedException.html" title="Excepciones para los roles de acceso denegados." alt="" coords="408,119,561,184"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="356,75,429,116,427,121,353,80"/>
 </map>

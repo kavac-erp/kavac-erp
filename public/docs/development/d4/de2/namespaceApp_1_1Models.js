@@ -1,5 +1,6 @@
 var namespaceApp_1_1Models =
 [
+    [ "City", "d5/d37/classApp_1_1Models_1_1City.html", "d5/d37/classApp_1_1Models_1_1City" ],
     [ "CodeSetting", "d5/d95/classApp_1_1Models_1_1CodeSetting.html", "d5/d95/classApp_1_1Models_1_1CodeSetting" ],
     [ "Contact", "dd/db3/classApp_1_1Models_1_1Contact.html", "dd/db3/classApp_1_1Models_1_1Contact" ],
     [ "Country", "d2/d87/classApp_1_1Models_1_1Country.html", "d2/d87/classApp_1_1Models_1_1Country" ],

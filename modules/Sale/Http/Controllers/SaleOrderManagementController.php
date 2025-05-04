@@ -2,12 +2,18 @@
 
 namespace Modules\Sale\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleOrderManagement;
 
+/**
+ * @class SaleOrderManagementController
+ * @brief Controlador que gestiona los pedidos
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleOrderManagementController extends Controller
 {
     use ValidatesRequests;
@@ -16,22 +22,24 @@ class SaleOrderManagementController extends Controller
      * Define la configuración de la clase
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
+     *
+     * @return void
      */
-
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador *//*
+        // Establece permisos de acceso para cada método del controlador/*
         $this->middleware('permission:sale.payment.method.list', ['only' => 'index']);
         $this->middleware('permission:sale.payment.method.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:sale.payment.method.edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:sale.payment.method.delete', ['only' => 'destroy']);*/
+        $this->middleware('permission:sale.payment.method.delete', ['only' => 'destroy']);
     }
 
     /**
      * Muestra todos los registros de gestión de pedidos
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @return JsonResponse    Json con los datos
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -39,17 +47,21 @@ class SaleOrderManagementController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear un nuevo registro de gestión de pedidos
+     *
+     * @return void
      */
     public function create()
     {
-        //return view('sale::create');
+        //
     }
+
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
+     * Almacena un nuevo registro de gestión de pedidos
+     *
+     * @param Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -68,30 +80,36 @@ class SaleOrderManagementController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
+     * Muestra información de un pedido
+     *
+     * @param integer $id Identificador del pedido
+     *
+     * @return void
      */
     public function show($id)
     {
-        //return view('sale::show');
+        //
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
+     * Muestra el formulario para editar un registro de gestión de pedidos
+     *
+     * @param integer $id Identificador del pedido
+     *
+     * @return void
      */
     public function edit($id)
     {
-        //return view('sale::edit');
+        //
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
+     * Actualiza un registro de gestión de pedidos
+     *
+     * @param Request $request Datos de la petición
+     * @param integer $id Identificador del pedido
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -115,9 +133,11 @@ class SaleOrderManagementController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
+     * Elimina un pedido
+     *
+     * @param integer $id Identificador del pedido
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -126,10 +146,11 @@ class SaleOrderManagementController extends Controller
         return response()->json(['record' => $SaleOrderManagement, 'message' => 'Success'], 200);
     }
     /**
-     * Obtiene los tipos de  metodos de pago
+     * Obtiene los datos de pedidos
      *
      * @author Miguel Narvaez <mnarvaez@cenditel.gob.ve>
-     * @return JsonResponse    Json con los datos de los tipos de pago
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSaleOrderManagementMethod()
     {

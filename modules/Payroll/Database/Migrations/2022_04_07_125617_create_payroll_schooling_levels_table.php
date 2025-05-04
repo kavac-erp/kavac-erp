@@ -6,11 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class CreatePayrollSchoolingLevelsTable
- * @brief [descripción detallada]
+ * @brief Migración para crear la tabla de niveles de escolaridad
  *
- * [descripción corta]
- *
- * @author [José Briceño] [josejorgebriceno9@gmail.com]
+ * @author José Briceño <josejorgebriceno9@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

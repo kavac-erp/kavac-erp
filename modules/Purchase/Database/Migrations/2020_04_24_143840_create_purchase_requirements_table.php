@@ -4,10 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class CreatePurchaseRequirementsTable
+ * @brief Migración encargada de crear la tabla de requerimientos de compra
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CreatePurchaseRequirementsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -20,11 +27,11 @@ class CreatePurchaseRequirementsTable extends Migration
                 $table->text('description')->comment("Descripción del requerimiento");
 
                 /*
-                * -----------------------------------------------------------------------
-                * Clave foránea a la relación del año fiscal
-                * -----------------------------------------------------------------------
-                *
-                * Define la estructura de relación al año fiscal
+                | -----------------------------------------------------------------------
+                | Clave foránea a la relación del año fiscal
+                | -----------------------------------------------------------------------
+                |
+                | Define la estructura de relación al año fiscal
                 */
                 $table->bigInteger('fiscal_year_id')->unsigned()
                           ->comment('Identificador del año fiscal');
@@ -33,12 +40,12 @@ class CreatePurchaseRequirementsTable extends Migration
                           ->onUpdate('cascade');
 
                 /*
-                * -----------------------------------------------------------------------
-                * Clave foránea a la relación de la unidad contratante
-                * -----------------------------------------------------------------------
-                *
-                * Define la estructura de relación a la unidad o departamento contratante del
-                * requerimiento a registrar
+                | -----------------------------------------------------------------------
+                | Clave foránea a la relación de la unidad contratante
+                | -----------------------------------------------------------------------
+                |
+                | Define la estructura de relación a la unidad o departamento contratante del
+                | requerimiento a registrar
                 */
                 $table->bigInteger('contracting_department_id')->unsigned()->nullable()
                           ->comment('Identificador de la unidad o departamento contratante. Opcional');
@@ -47,12 +54,12 @@ class CreatePurchaseRequirementsTable extends Migration
                           ->onUpdate('cascade');
 
                 /*
-                * -----------------------------------------------------------------------
-                * Clave foránea a la relación de la unidad usuaria
-                * -----------------------------------------------------------------------
-                *
-                * Define la estructura de relación a la unidad o departamento usuaria del
-                * requerimiento a registrar
+                | -----------------------------------------------------------------------
+                | Clave foránea a la relación de la unidad usuaria
+                | -----------------------------------------------------------------------
+                |
+                | Define la estructura de relación a la unidad o departamento usuaria del
+                | requerimiento a registrar
                 */
                 $table->bigInteger('user_department_id')->unsigned()
                           ->comment('Identificador de la unidad o departamento usuaria del requerimiento');
@@ -61,12 +68,12 @@ class CreatePurchaseRequirementsTable extends Migration
                           ->onUpdate('cascade');
 
                 /*
-                * -----------------------------------------------------------------------
-                * Clave foránea a la relación del tipo de proveedor
-                * -----------------------------------------------------------------------
-                *
-                * Define la estructura de relación al tipo de proveedor según el requerimiento
-                * a ser registrado
+                | -----------------------------------------------------------------------
+                | Clave foránea a la relación del tipo de proveedor
+                | -----------------------------------------------------------------------
+                |
+                | Define la estructura de relación al tipo de proveedor según el requerimiento
+                | a ser registrado
                 */
                 $table->bigInteger('purchase_supplier_type_id')->unsigned()
                         ->comment('Identificador del tipo de requerimiento (tipo de proveedor)');
@@ -96,7 +103,7 @@ class CreatePurchaseRequirementsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

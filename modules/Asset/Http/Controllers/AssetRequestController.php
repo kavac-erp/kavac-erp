@@ -2,26 +2,25 @@
 
 namespace Modules\Asset\Http\Controllers;
 
+use App\Models\Image;
+use App\Models\Profile;
+use App\Models\Document;
+use App\Models\FiscalYear;
+use App\Models\CodeSetting;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
+use Modules\Asset\Models\Asset;
 use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Auth;
+use Modules\Asset\Models\AssetRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Repositories\UploadDocRepository;
 use App\Repositories\UploadImageRepository;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Document;
-use App\Models\Image;
-use Illuminate\Support\Facades\Auth;
-use App\Models\CodeSetting;
-use App\Models\FiscalYear;
-use Session;
+use Modules\Asset\Models\AssetRequestAsset;
+use Illuminate\Contracts\Support\Renderable;
 use Modules\Asset\Models\AssetRequestDelivery;
 use Modules\Asset\Models\AssetRequestExtension;
-use Modules\Asset\Models\AssetRequestAsset;
-use Modules\Asset\Models\AssetRequest;
-use Modules\Asset\Models\Asset;
-use App\Models\Profile;
-use Modules\Asset\Models\AssetReport;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @class      AssetRequestController
@@ -30,6 +29,7 @@ use Modules\Asset\Models\AssetReport;
  * Clase que gestiona las solicitudes de bienes institucionales
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -37,18 +37,31 @@ class AssetRequestController extends Controller
 {
     use ValidatesRequests;
 
-    /** @var array Lista de elementos a mostrar */
+    /**
+     * Lista de elementos a mostrar
+     *
+     * @var array $data
+     */
     protected $data = [];
+
+    /**
+     * Atributos personalizados
+     *
+     * @var array $customAttributes
+     */
+    protected $customAttributes;
 
     /**
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
 
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:asset.request.list', ['only' => 'index']);
         $this->middleware('permission:asset.request.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:asset.request.edit', ['only' => ['edit', 'update']]);
@@ -85,6 +98,7 @@ class AssetRequestController extends Controller
      * Muestra un listado de las solicitudes de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    Renderable
      */
     public function index()
@@ -96,6 +110,7 @@ class AssetRequestController extends Controller
      * Muestra el formulario para registrar una nueva solicitud
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    Renderable
      */
     public function create()
@@ -107,8 +122,11 @@ class AssetRequestController extends Controller
      * Valida y registra una nueva solicitud de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request                 $request    Datos de la petición
+     * @param     \App\Repositories\UploadImageRepository  $upImage    Instancia de la imagen a subir
      * @param     \App\Repositories\UploadDocRepository    $upDoc      Instancia del documento a subir
+     *
      * @return    \Illuminate\Http\JsonResponse            Objeto con los registros a mostrar
      */
     public function store(Request $request, UploadImageRepository $upImage, UploadDocRepository $upDoc)
@@ -173,11 +191,7 @@ class AssetRequestController extends Controller
             ? $user_profile->institution_id
             : null;
 
-        /**
-         * Objeto asociado al modelo AssetRequest
-         *
-         * @var Object $asset_request
-         */
+        /* Objeto asociado al modelo AssetRequest */
         $asset_request = AssetRequest::create([
             'code' => $code,
             'type' => $request->type,
@@ -207,7 +221,7 @@ class AssetRequestController extends Controller
             ]);
         }
 
-        /** Se guardan los docmentos, según sea el tipo (imágenes y/o documentos)*/
+        /* Se guardan los docmentos, según sea el tipo (imágenes y/o documentos)*/
         $documentFormat = ['doc', 'docx', 'pdf', 'odt'];
         $imageFormat = ['jpeg', 'jpg', 'png'];
 
@@ -241,7 +255,9 @@ class AssetRequestController extends Controller
      * Muestra el formulario para actualizar la información de las solicitudes de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     Integer                          $id    Identificador único de la solicitud
+     *
+     * @param     integer                          $id    Identificador único de la solicitud
+     *
      * @return    Renderable    Objeto con los datos a mostrar
      */
     public function edit($id)
@@ -254,8 +270,10 @@ class AssetRequestController extends Controller
      * Actualiza la información de las solicitudes de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @param     Integer                          $id         Identificador único de la solicitud
+     * @param     integer                          $id         Identificador único de la solicitud
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function update(Request $request, $id)
@@ -305,7 +323,7 @@ class AssetRequestController extends Controller
         $asset_request->agent_email = $request->agent_email;
         $asset_request->save();
 
-        /** Se eliminan los demas elementos de la solicitud */
+        /* Se eliminan los demas elementos de la solicitud */
         $asset_request_assets = AssetRequestAsset::where('asset_request_id', $asset_request->id)->get();
 
         foreach ($asset_request_assets as $asset_request_asset) {
@@ -316,7 +334,7 @@ class AssetRequestController extends Controller
             $asset_request_asset->delete();
         }
 
-        /** Se agregan los nuevos elementos a la solicitud */
+        /* Se agregan los nuevos elementos a la solicitud */
         foreach ($request->assets as $asset_id) {
             $asset = Asset::find($asset_id);
             $asset->asset_status_id = 6;
@@ -327,7 +345,7 @@ class AssetRequestController extends Controller
             ]);
         }
 
-        /** Se guardan los docmentos, según sea el tipo (imágenes y/o documentos)*/
+        /* Se guardan los docmentos, según sea el tipo (imágenes y/o documentos)*/
         $documentFormat = ['doc', 'docx', 'pdf', 'odt'];
         $imageFormat = ['jpeg', 'jpg', 'png'];
 
@@ -378,15 +396,17 @@ class AssetRequestController extends Controller
     /**
      * Mostrar un Archivo cargado en el regitro de solicitud de bienes
      *
-     * @author
-     * @param     String            $filename            Nombre del archivo
-     * @return
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @param     string            $filename            Nombre del archivo
+     *
+     * @return BinaryFileResponse
      */
     public function showDocuments($filename)
     {
-        if (\Storage::disk('pictures')->exists($filename)) {
+        if (Storage::disk('pictures')->exists($filename)) {
             $file = storage_path() . '/pictures/' . $filename;
-        } elseif (\Storage::disk('documents')->exists($filename)) {
+        } elseif (Storage::disk('documents')->exists($filename)) {
             $file = storage_path() . '/documents/' . $filename;
         }
 
@@ -395,8 +415,10 @@ class AssetRequestController extends Controller
     /**
      * Obtiene los archivos que fueron cargados a al registro de solicitud
      *
-     * @author
-     * @param     Integer            $id            Indentificador del Registro de solicitud
+     * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @param     integer            $id            Indentificador del Registro de solicitud
+     *
      * @return    \Illuminate\Http\JsonResponse         Objeto con los Archivos a mostrar
      */
     public function getRequestDocuments($id)
@@ -427,7 +449,9 @@ class AssetRequestController extends Controller
      * Elimina una solicitud de bienes institucionales
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Modules\Asset\Models\AssetRequest    $request    Datos de la solicitud de un bien
+     *
      * @return    \Illuminate\Http\JsonResponse         Objeto con los registros a mostrar
      */
     public function destroy(AssetRequest $request)
@@ -459,6 +483,7 @@ class AssetRequestController extends Controller
      * Otiene un listado de las solicitudes registradas
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function vueList()
@@ -468,7 +493,7 @@ class AssetRequestController extends Controller
             ? $user_profile->institution_id
             : null;
 
-        if (Auth()->user()->isAdmin()) {
+        if (auth()->user()->isAdmin()) {
             $assetRequests = AssetRequest::with([
                 'assetRequestEvents',
                 'assetRequestAssets' => function ($query) {
@@ -498,6 +523,7 @@ class AssetRequestController extends Controller
      * Otiene un listado de las solicitudes pendientes por ejecutar
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function vuePendingList()
@@ -507,7 +533,7 @@ class AssetRequestController extends Controller
             ? $user_profile->institution_id
             : null;
 
-        if (Auth()->user()->isAdmin()) {
+        if (auth()->user()->isAdmin()) {
             $assetRequests = AssetRequest::with('user')->where('state', 'Pendiente')->get();
         } else {
             $assetRequests = AssetRequest::with('user')
@@ -522,8 +548,10 @@ class AssetRequestController extends Controller
      * Actualiza el estado de una solicitud a aprobado
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @param     Integer                          $id         Identificador único de la solicitud
+     * @param     integer                          $id         Identificador único de la solicitud
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function approved(Request $request, $id)
@@ -547,8 +575,10 @@ class AssetRequestController extends Controller
      * Actualiza el estado de una solicitud a rechazado
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @param     Integer                          $id         Identificador único de la solicitud
+     * @param     integer                          $id         Identificador único de la solicitud
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function rejected(Request $request, $id)
@@ -572,8 +602,10 @@ class AssetRequestController extends Controller
      * Actualiza el estado de una solicitud a entregado
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @param     \Illuminate\Http\Request         $request    Datos de la petición
-     * @param     Integer                          $id         Identificador único de la solicitud
+     * @param     integer                          $id         Identificador único de la solicitud
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function deliver(Request $request, $id)
@@ -596,7 +628,9 @@ class AssetRequestController extends Controller
      * Obtiene la información de la solicitud registrada
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     Integer                          $id    Identificador único de la solicitud
+     *
+     * @param     integer                          $id    Identificador único de la solicitud
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function vueInfo($id)
@@ -616,7 +650,8 @@ class AssetRequestController extends Controller
      * Obtiene el listado de tipos de eventos de los bienes institucionales a implementar en elementos select
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return    Array Arreglo con los registros a mostrar
+     *
+     * @return    array Arreglo con los registros a mostrar
      */
     public function getTypes()
     {
@@ -635,14 +670,18 @@ class AssetRequestController extends Controller
      * Obtiene el listado de los bienes institucionales asociados a una solicitud
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param     Integer                          $id    Identificador único de la solicitud
+     *
+     * @param     integer                          $id    Identificador único de la solicitud
+     *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function getEquipments($id)
     {
         $assetRequest = AssetRequest::where('id', $id)->with(
             ['assetRequestAssets' => function ($query) {
-                $query->with('asset');
+                $query->with(['asset' => function ($query) {
+                    $query->with('assetSpecificCategory');
+                }]);
             }]
         )->first();
         return $assetRequest->assetRequestAssets;

@@ -16,7 +16,7 @@
                 <div class="modal-body">
                     <div class="alert alert-danger" v-if="errors.length > 0">
                         <ul>
-                            <li v-for="error in errors">{{ error }}</li>
+                            <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                         </ul>
                     </div>
                     <div class="row">
@@ -92,7 +92,7 @@
                                         <strong>Correo electrónico</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <div v-if="record.sale_client">
-                                                <p v-for="client_email in record.sale_client.sale_clients_email" class="col-md-12" id="client_email">
+                                                <p v-for="(client_email, index) in record.sale_client.sale_clients_email" class="col-md-12" id="client_email" :key="index">
                                                     {{ record.sale_client && record.sale_client.sale_clients_email ? client_email.email : 'No definido' }}
                                                 </p>
                                             </div>
@@ -105,7 +105,7 @@
                                         <strong>Número telefónico</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <div v-if="record.sale_client && record.sale_client.sale_clients_phone">
-                                                <p v-for="client_phone in record.sale_client.sale_clients_phone" class="col-md-12" id="client_phone">
+                                                <p v-for="(client_phone, index) in record.sale_client.sale_clients_phone" class="col-md-12" id="client_phone" :key="index">
                                                     {{ record.sale_client && record.sale_client.sale_clients_phone ? client_phone.phone : 'No definido' }}
                                                 </p>
                                             </div>
@@ -146,7 +146,7 @@
                                                 {{
                                                     record.payroll_staff_id
                                                         ? record.payroll_staff.first_name + ' ' + record.payroll_staff.last_name
-                                                            + ' - ' + record.payroll_staff.id_number 
+                                                            + ' - ' + record.payroll_staff.id_number
                                                         : 'No definido'
                                                 }}
                                             </span>
@@ -232,7 +232,7 @@
                                         <strong>Requerimiento</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <div v-if="record.sale_service_requirement">
-                                                <p v-for="requiremnt in record.sale_service_requirement">
+                                                <p v-for="(requiremnt, index) in record.sale_service_requirement" :key="index">
                                                     <span class="col-md-12" id="service_requirement">
                                                         {{ record.sale_service_requirement ? requiremnt.name : 'No definido' }}
                                                     </span>
@@ -250,16 +250,16 @@
                                         <strong>Subservicios</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <div v-if="record.sale_technical_proposal">
-                                                <div v-for="technical_proposal in record.sale_technical_proposal">
-                                                    <div v-for="subservices in technical_proposal.list_subservices">
-                                                        <p v-for="subservice in subservices">
+                                                <div v-for="(technical_proposal, index) in record.sale_technical_proposal" :key="index">
+                                                    <div v-for="(subservices, idx) in technical_proposal.list_subservices" :key="idx">
+                                                        <p v-for="(subservice, i) in subservices" :key="i">
                                                             <span class="col-md-12" id="service_requirement">
                                                                 {{ technical_proposal.list_subservices ? subservice.name : 'No definido' }}
                                                             </span>
                                                         </p>
                                                     </div>
                                                 </div>
-                                            </div>    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -268,12 +268,12 @@
                                         <strong>Duración</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <div v-if="record.sale_technical_proposal">
-                                                <div v-for="technical_proposal in record.sale_technical_proposal">
+                                                <div v-for="(technical_proposal, index) in record.sale_technical_proposal" :key="index">
                                                     <span class="col-md-12" id="service_requirement">
                                                         {{ technical_proposal.duration ? technical_proposal.duration : 'No definido' }}
                                                     </span>
                                                 </div>
-                                            </div>    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -282,12 +282,12 @@
                                         <strong>Duración</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <div v-if="record.sale_technical_proposal">
-                                                <div v-for="technical_proposal in record.sale_technical_proposal">
+                                                <div v-for="(technical_proposal, index) in record.sale_technical_proposal" :key="index">
                                                     <span class="col-md-12" id="service_requirement">
                                                         {{ record.sale_technical_proposal && technical_proposal.frecuency_id ? technical_proposal.frecuency.name : 'No definido' }}
                                                     </span>
                                                 </div>
-                                            </div>    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -296,14 +296,14 @@
                                         <strong>Especificaciones técnicas</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <div v-if="record.sale_technical_proposal">
-                                                <div v-for="technical_proposal in record.sale_technical_proposal">
-                                                    <p v-for="specification in technical_proposal.sale_proposal_specification">
+                                                <div v-for="(technical_proposal, index) in record.sale_technical_proposal" :key="index">
+                                                    <p v-for="(specification, idx) in technical_proposal.sale_proposal_specification" :key="idx">
                                                         <span class="col-md-12" id="service_requirement">
                                                             {{ technical_proposal.sale_proposal_specification ? specification.name : 'No definido' }}
                                                         </span>
                                                     </p>
                                                 </div>
-                                            </div>    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -312,14 +312,14 @@
                                         <strong>Requerimientos que serán suministrados por el cliente</strong>
                                         <div class="row" style="margin: 1px 0">
                                             <div v-if="record.sale_technical_proposal">
-                                                <div v-for="technical_proposal in record.sale_technical_proposal">
-                                                    <p v-for="requirement in technical_proposal.sale_proposal_requirement">
+                                                <div v-for="(technical_proposal, index) in record.sale_technical_proposal" :key="index">
+                                                    <p v-for="(requirement, idx) in technical_proposal.sale_proposal_requirement" :key="idx">
                                                         <span class="col-md-12" id="service_requirement">
                                                             {{ technical_proposal.sale_proposal_requirement ? requirement.name : 'No definido' }}
                                                         </span>
                                                     </p>
                                                 </div>
-                                            </div>    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -332,7 +332,7 @@
                                     <v-client-table :columns="columns_asstets" :data="records" :options="table_options"
                                     ref="tableResults">
                                         <div slot="inventory_serial" slot-scope="props" class="text-center">
-                                            <p v-for="assets in props.row.asset_asignation_assets">
+                                            <p v-for="(assets, index) in props.row.asset_asignation_assets" :key="index">
                                                 {{ props.row.asset_asignation_assets ? assets.asset.inventory_serial : '' }}
                                             </p>
                                         </div>
@@ -340,17 +340,17 @@
                                             {{ props.row.payroll_staff ? props.row.payroll_staff.first_name + ' ' + props.row.payroll_staff.last_name + ' - ' + props.row.payroll_staff.id_number : '' }}
                                         </div>
                                         <div slot="serial" slot-scope="props" class="text-center">
-                                            <p v-for="assets in props.row.asset_asignation_assets">
+                                            <p v-for="(assets, index) in props.row.asset_asignation_assets" :key="index">
                                                 {{ props.row.asset_asignation_assets ? assets.asset.serial : '' }}
                                             </p>
                                         </div>
                                         <div slot="marca" slot-scope="props" class="text-center">
-                                            <p v-for="assets in props.row.asset_asignation_assets">
+                                            <p v-for="(assets, index) in props.row.asset_asignation_assets" :key="index">
                                                 {{ props.row.asset_asignation_assets ? assets.asset.marca : '' }}
                                             </p>
                                         </div>
                                         <div slot="model" slot-scope="props" class="text-center">
-                                            <p v-for="assets in props.row.asset_asignation_assets">
+                                            <p v-for="(assets, index) in props.row.asset_asignation_assets" :key="index">
                                                 {{ props.row.asset_asignation_assets ? assets.asset.model : '' }}
                                             </p>
                                         </div>
@@ -509,7 +509,7 @@
 
                                 vm.stages.push(gantt_stage);
                             };
-                            
+
                             let activity = {
                                 description: gantt.description,
                                 end_date: gantt.end_date,
@@ -521,7 +521,7 @@
                                 stage_id: stage.stage,
                                 start_date: gantt.start_date,
                             };
-                            
+
                             vm.activities.push(activity);
                         };
                     }

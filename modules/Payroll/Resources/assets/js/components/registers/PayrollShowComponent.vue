@@ -37,7 +37,7 @@
         </div>
         <v-client-table :columns="columns" :data="records" :options="table_options">
             <div slot="payroll_staff" slot-scope="props">
-                {{ 
+                {{
                     props.row.payroll_staff
                         ? props.row.payroll_staff.first_name + ' ' + props.row.payroll_staff.last_name
                         : 'No definido'
@@ -163,10 +163,10 @@
             },
 
             /**
-            * Función que da formato al número con o sin redondear y con un número de decimales especificado en la configuración de los parametros de reporte  
+            * Función que da formato al número con o sin redondear y con un número de decimales especificado en la configuración de los parametros de reporte
             *
             * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve>
-            */            
+            */
             numberFormat(number) {
                 const vm = this;
                 if(number) {
@@ -174,12 +174,12 @@
                         return number.toFixed(vm.numberDecimals);
                     }
                     else return vm.myRound(number,vm.numberDecimals);
-                } 
+                }
                 return '';
             },
 
             /**
-            * Función que trunca el numero sin redondear y con un número de decimales especificado en la configuración de los parametros de reporte 
+            * Función que trunca el numero sin redondear y con un número de decimales especificado en la configuración de los parametros de reporte
             *
             * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve>
             */
@@ -189,7 +189,7 @@
             },
 
             /**
-            * Obtiene los datos de los parametros configurados para el reporte 
+            * Obtiene los datos de los parametros configurados para el reporte
             *
             * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve>
             */
@@ -197,7 +197,7 @@
                 const vm = this;
                 await axios.get(`${vm.app_url}/payroll/get-report-parameters`).then(response => {
                     vm.parameters = response.data.records;
-                    
+
                     for(var i=0; i<(vm.parameters).length; i++){
                         if(vm.parameters[i].p_key == 'number_decimals') {
                             vm.numberDecimals = vm.parameters[i].p_value;

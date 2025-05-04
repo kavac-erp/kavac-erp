@@ -10,11 +10,10 @@ use Modules\Asset\Models\AssetStatus;
  * @class AssetStatusTableSeeder
  * @brief Inicializar los Estados de uso de los bienes
  *
- *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetStatusTableSeeder extends Seeder
 {
@@ -22,6 +21,7 @@ class AssetStatusTableSeeder extends Seeder
      * Método que registra los valores iniciales de las formas de la condición física de un bien
      *
      * @author  Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function run()
@@ -42,8 +42,6 @@ class AssetStatusTableSeeder extends Seeder
             ['name' => 'Desincorporado']
 
         ];
-
-
 
         foreach ($asset_status as $status) {
             AssetStatus::updateOrCreate(

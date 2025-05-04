@@ -108,9 +108,9 @@
                                 <div class="form-group">
                                     <label for="" class="control-label">Atributos personalizados</label>
                                     <div class="col-12">
-                                        <div class="custom-control custom-switch" data-toggle="tooltip" 
+                                        <div class="custom-control custom-switch" data-toggle="tooltip"
                                              title="Establecer los atributos del insumo para gestionar las variantes">
-                                            <input type="checkbox" class="custom-control-input" id="define_attributes" 
+                                            <input type="checkbox" class="custom-control-input" id="define_attributes"
                                                    :value="true" v-model="record.define_attributes">
                                             <label class="custom-control-label" for="define_attributes"></label>
                                         </div>
@@ -126,7 +126,7 @@
                             </div>
                             <div class="row" style="margin: 20px 0">
 
-                                <div class="col-6" v-for="(attribute, index) in record.warehouse_product_attributes" 
+                                <div class="col-6" v-for="(attribute, index) in record.warehouse_product_attributes"
                                      :key="index">
 
                                     <div class="d-inline-flex">
@@ -154,15 +154,15 @@
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('warehouse/products')" 
+							<button type="button" @click="createRecord('warehouse/products')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -282,7 +282,6 @@
             exportData() {
                 //instrucciones para exportar registros
                 location.href = `${window.app_url}/warehouse/products/export/all`;
-                //location.href = '/warehouse/products/export/all';
             },
             importData() {
                 //instrucciones para exportar registros

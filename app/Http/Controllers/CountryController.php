@@ -1,7 +1,5 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Country;
@@ -14,6 +12,7 @@ use Illuminate\Http\Request;
  * Controlador para gestionar Países
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -26,7 +25,7 @@ class CountryController extends Controller
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        /// Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:country.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:country.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:country.delete', ['only' => 'destroy']);
@@ -60,10 +59,10 @@ class CountryController extends Controller
             'name' => ['required', 'max:100', 'unique:countries'],
             'prefix' => ['required', 'max:3', 'unique:countries']
         ], [
-            'name.required' => 'El campo nombre es obligatorio.',
-            'name.unique' => 'El campo nombre ya ha sido registrado.',
-            'prefix.required' => 'El campo prefijo es obligatorio.',
-            'prefix.unique' => 'El campo prefijo ya ha sido registrado.',
+            'name.required' => __('El campo nombre es obligatorio.'),
+            'name.unique' => __('El campo nombre ya ha sido registrado.'),
+            'prefix.required' => __('El campo prefijo es obligatorio.'),
+            'prefix.unique' => __('El campo prefijo ya ha sido registrado.'),
         ]);
 
         if (!restore_record(Country::class, ['name' => $request->name])) {
@@ -72,7 +71,7 @@ class CountryController extends Controller
             ]);
         }
 
-        /** @var Country Objeto con información del pais registrado */
+        // Objeto con información del pais registrado
         $country = Country::updateOrCreate([
             'name' => $request->name
         ], [

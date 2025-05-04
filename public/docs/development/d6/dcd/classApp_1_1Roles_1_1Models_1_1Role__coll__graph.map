@@ -1,4 +1,5 @@
 <map id="Role" name="Role">
-<area shape="rect" id="node1" title="Modelo para la gestión de roles." alt="" coords="38,204,159,281"/>
-<area shape="rect" id="node2" href="$d7/db0/interfaceApp_1_1Roles_1_1Contracts_1_1RoleHasRelations.html" title="Interface para la gestión de roles y sus relaciones." alt="" coords="5,5,192,156"/>
+<area shape="rect" id="Node000001" title="Modelo para la gestión de roles." alt="" coords="38,219,151,284"/>
+<area shape="rect" id="Node000002" href="$d7/db0/interfaceApp_1_1Roles_1_1Contracts_1_1RoleHasRelations.html" title="Interface para la gestión de roles y sus relaciones." alt="" coords="5,5,184,171"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,184,97,219,92,219,92,184"/>
 </map>

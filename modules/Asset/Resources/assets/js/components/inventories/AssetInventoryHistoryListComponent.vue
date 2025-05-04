@@ -21,14 +21,14 @@
 
 			<div class="card-body col-md-12">
 				<v-client-table :columns="columns" :data="records" :options="table_options">
-					
+
 					<div slot="created_at" slot-scope="props" class="text-center">
 						<span>
 							{{ (props.row.created_at)? format_date(props.row.created_at):'N/A' }}
 						</span>
 					</div>
 					<div slot="id" slot-scope="props" class="text-center">
-						
+
 						<div class="d-inline-flex">
 
 							<button @click="createReport(props.row.code, 'create_report')"
@@ -49,66 +49,6 @@
 				</v-client-table>
 			</div>
 		</div>
-
-		<!--div class="modal fade text-left" tabindex="-1" role="dialog" id="create_report">
-			<div class="modal-dialog modal-xs">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-						<h6>
-							<i class="icofont icofont-file-pdf ico-2x"></i>
-							Generar Reporte de Bienes?
-						</h6>
-					</div>
-
-					<div class="modal-body">
-						<div class="row">
-							<div class="col-md-12">
-								<strong>Tipo de Reporte</strong>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>General</label>
-									<div class="col-12">
-										<input type="radio" name="type_report" value="general" checked=""
-                                               id="sel_general_report"
-                                               class="form-control bootstrap-switch bootstrap-switch-mini sel_type_report"
-                                               data-on-label="SI" data-off-label="NO">
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Por Clasificación</label>
-									<div class="col-12">
-										<input type="radio" name="type_report" value="clasification" id="sel_clasification_report" class="form-control bootstrap-switch bootstrap-switch-mini sel_type_report" data-on-label="SI" data-off-label="NO">
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<label>Por Dependencia</label>
-									<div class="col-12">
-										<input type="radio" name="type_report" value="dependence" id="sel_dependence_report" class="form-control bootstrap-switch bootstrap-switch-mini sel_type_report" data-on-label="SI" data-off-label="NO">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-	                <div class="modal-footer">
-
-	                	<button data-bb-handler="cancel" type="button" class="btn btn-default btn-modal-close" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
-
-	                	<button data-bb-handler="confirm" type="button" class="btn btn-primary" @click="createReport('create_report')"><i class="fa fa-check"></i> Confirmar</button>
-
-		            </div>
-
-		        </div>
-		    </div>
-		</div-->
 	</div>
 </template>
 
@@ -156,14 +96,6 @@
 					type_report: 'general',
 				}
 			},
-			/*showReport(code, modal_id) {
-				const vm = this;
-				vm.reset();
-				vm.record.code = code;
-				if ($("#" + modal_id).length) {
-					$("#" + modal_id).modal('show');
-				}
-			},*/
 
 			createReport(code, modal_id) {
 				const vm = this;

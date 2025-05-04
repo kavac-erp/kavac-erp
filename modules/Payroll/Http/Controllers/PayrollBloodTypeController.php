@@ -3,7 +3,6 @@
 namespace Modules\Payroll\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Payroll\Models\PayrollBloodType;
@@ -15,9 +14,9 @@ use Modules\Payroll\Models\PayrollBloodType;
  * Clase que gestiona los tipos de sangre
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollBloodTypeController extends Controller
 {
@@ -27,10 +26,12 @@ class PayrollBloodTypeController extends Controller
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         /*$this->middleware('permission:payroll.blood.types.list', ['only' => 'index']);*/
         $this->middleware('permission:payroll.blood.types.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.blood.types.edit', ['only' => ['edit', 'update']]);
@@ -41,6 +42,7 @@ class PayrollBloodTypeController extends Controller
      * Muestra todos los registros de tipos de sangre
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos
      */
     public function index()
@@ -49,8 +51,9 @@ class PayrollBloodTypeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar un nuevo tipo de sangre
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -61,7 +64,9 @@ class PayrollBloodTypeController extends Controller
      * Valida y registra un nuevo tipo de sangre
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
+     *
      * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
@@ -77,8 +82,9 @@ class PayrollBloodTypeController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un tipo de sangre
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -86,8 +92,9 @@ class PayrollBloodTypeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para actualizar la información de un tipo de sangre
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -98,8 +105,10 @@ class PayrollBloodTypeController extends Controller
      * Actualiza la información de tipos de sangre
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
      * @param  integer $id                          Identificador del tipo de sangre a actualizar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
@@ -118,7 +127,9 @@ class PayrollBloodTypeController extends Controller
      * Elimina el tipo de sangre
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador del tipo de sangre a eliminar
+     *
      * @return \Illuminate\Http\JsonResponse    Json con mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -132,6 +143,7 @@ class PayrollBloodTypeController extends Controller
      * Obtiene los tipos de sangre
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de los tipos de sangre
      */
     public function getPayrollBloodTypes()

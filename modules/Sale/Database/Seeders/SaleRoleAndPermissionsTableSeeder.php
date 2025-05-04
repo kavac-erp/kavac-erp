@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -15,9 +13,9 @@ use App\Roles\Models\Permission;
  *
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleRoleAndPermissionsTableSeeder extends Seeder
 {
@@ -25,6 +23,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
      * Método que registra los valores iniciales de los roles y permisos del módulo
      *
      * @author  Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @return void
      */
     public function run()
@@ -39,9 +38,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
         );
 
         $permissions = [
-            /**
-             * Configuración General de Comercialización
-            **/
+            /* Configuración General de Comercialización */
             [
                 'name' => 'Configuración General del módulo de comercialización',
                 'slug' => 'sale.setting',
@@ -49,9 +46,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'model' => '', 'model_prefix' => 'Comercialización',
                 'slug_alt' => 'configuracion.ver', 'short_description' => 'configuración general de comercialización'
             ],
-            /**
-             * Configuración de Alamcenes
-            **/
+            /* Configuración de Alamcenes */
             [
                 'name' => 'Configuración de los Almacenes',
                 'slug' => 'sale.setting.warehouse',
@@ -59,9 +54,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Sale\Models\SaleWarehouse', 'model_prefix' => 'Comercialización',
                 'slug_alt' => 'configuracion.almacen', 'short_description' => 'configuración de los almacenes'
             ],
-            /**
-             * Configuración de los clientes
-            **/
+            /* Configuración de los clientes */
             [
                 'name' => 'Configuración de los clientes',
                 'slug' => 'sale.setting.client',
@@ -70,9 +63,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.cliente',
                 'short_description' => 'configuración de los clientes'
             ],
-            /**
-             * Configuración de los productos
-            **/
+            /* Configuración de los productos */
             [
                 'name' => 'Configuración de los productos',
                 'slug' => 'sale.setting.product',
@@ -81,9 +72,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.producto',
                 'short_description' => 'Configuración de los productos'
             ],
-            /**
-             * Configuración de los tipos de productos
-            **/
+            /* Configuración de los tipos de productos */
             [
                 'name' => 'Configuración de los tipos de productos',
                 'slug' => 'sale.setting.product.type',
@@ -92,9 +81,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.producto.tipo',
                 'short_description' => 'Configuración de los tipos de productos'
             ],
-            /**
-             * Configuración de los descuentos
-            **/
+            /* Configuración de los descuentos */
             [
                 'name' => 'Configuración de los descuentos',
                 'slug' => 'sale.setting.discount',
@@ -103,9 +90,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.descuento',
                 'short_description' => 'Configuración de los descuentos'
             ],
-            /**
-             * Configuración de los tipos de bien
-            **/
+            /* Configuración de los tipos de bien */
             [
                 'name' => 'Configuración de los tipos de bien',
                 'slug' => 'sale.setting.type.good',
@@ -114,9 +99,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.bien.tipo',
                 'short_description' => 'Configuración de los tipos de bien'
             ],
-            /**
-             * Configuración de la lista de subservicios
-            **/
+            /* Configuración de la lista de subservicios */
             [
                 'name' => 'Configuración de la lista de subservicios',
                 'slug' => 'sale.setting.subservices',
@@ -125,9 +108,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.subservicios',
                 'short_description' => 'Configuración de la lista de subservicios'
             ],
-            /**
-             * Configuración de los costos fijos
-            **/
+            /* Configuración de los costos fijos */
             [
                 'name' => 'Configuración de los costos fijos',
                 'slug' => 'sale.setting.periodic.cost',
@@ -136,9 +117,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.costos_fijos',
                 'short_description' => 'Configuración de los costos fijos'
             ],
-            /**
-             * Configuración de los métodos de cobro
-            **/
+            /* Configuración de los métodos de cobro */
             [
                 'name' => 'Configuración de los métodos de cobro',
                 'slug' => 'sale.setting.charge.money',
@@ -147,9 +126,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.metodos_cobro',
                 'short_description' => 'Configuración de los métodos de cobro'
             ],
-            /**
-             * Configuración de las formas de cobro
-            **/
+            /* Configuración de las formas de cobro */
             [
                 'name' => 'Configuración de las formas de cobro',
                 'slug' => 'sale.setting.form.payment',
@@ -158,9 +135,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.formas_cobro',
                 'short_description' => 'configuración de las formas de cobro'
             ],
-            /**
-             * Configuración de los periodos de tiempo
-            **/
+            /* Configuración de los periodos de tiempo */
             [
                 'name' => 'Configuración de los periodos de tiempo',
                 'slug' => 'sale.setting.frecuency',
@@ -169,9 +144,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.periodos_tiempo',
                 'short_description' => 'Configuración de los periodos de tiempo'
             ],
-            /**
-             * Configuración de los bienes a comercializar
-            **/
+            /* Configuración de los bienes a comercializar */
             [
                 'name' => 'Configuración de los bienes a comercializar',
                 'slug' => 'sale.setting.good.traded',
@@ -180,9 +153,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'configuracion.bienes_comercializar',
                 'short_description' => 'Configuración de los bienes a comercializar'
             ],
-            /**
-             * Solicitud de servicios
-            **/
+            /* Solicitud de servicios */
             [
                 'name' => 'Ver solicitud de servicios',
                 'slug' => 'sale.service.list',
@@ -211,9 +182,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Sale\Models\SaleService', 'model_prefix' => 'Comercialización',
                 'slug_alt' => 'comercializacion.servicio.eliminar', 'short_description' => 'eliminar solicitud de servicio'
             ],
-            /**
-             * Facturas
-            **/
+            /* Facturas */
             [
                 'name' => 'Ver facturas',
                 'slug' => 'sale.bill.list',
@@ -242,9 +211,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Sale\Models\SaleBill', 'model_prefix' => 'Comercialización',
                 'slug_alt' => 'comercializacion.factura.eliminar', 'short_description' => 'eliminar facturas'
             ],
-            /**
-             * Recepción de Almacén
-            **/
+            /* Recepció */
             [
                 'name' => 'Ver recepción de almacén',
                 'slug' => 'sale.warehouse.reception.list',
@@ -273,9 +240,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Sale\Models\SaleWarehouseInventoryProduct', 'model_prefix' => 'Comercialización',
                 'slug_alt' => 'comercializacion.recepcion.eliminar', 'short_description' => 'eliminar recepción de almacén'
             ],
-            /**
-             * Pagos
-            **/
+            /* Pagos */
             [
                 'name' => 'Ver pagos',
                 'slug' => 'sale.payment.list',
@@ -304,9 +269,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Sale\Models\SaleRegisterPayment', 'model_prefix' => 'Comercialización',
                 'slug_alt' => 'comercializacion.pago.eliminar', 'short_description' => 'eliminar pagos'
             ],
-            /**
-             * Pedidos
-            **/
+            /* Pedidos */
             [
                 'name' => 'Ver pedidos',
                 'slug' => 'sale.order.list',
@@ -335,9 +298,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Sale\Models\SaleOrderManagement', 'model_prefix' => 'Comercialización',
                 'slug_alt' => 'comercializacion.pedido.eliminar', 'short_description' => 'eliminar pedidos'
             ],
-            /**
-             * Cotizaciones
-            **/
+            /* Cotizaciones */
             [
                 'name' => 'Ver cotizaciones',
                 'slug' => 'sale.quote.list',
@@ -366,9 +327,7 @@ class SaleRoleAndPermissionsTableSeeder extends Seeder
                 'model' => 'Modules\Sale\Models\SaleQuote', 'model_prefix' => 'Comercialización',
                 'slug_alt' => 'comercializacion.cotizacion.eliminar', 'short_description' => 'eliminar cotizaciones'
             ],
-            /**
-            * Dashboard
-            */
+            /* Dashboard */
             [
                 'name'              => 'Vista principal del dashboard del módulo de comercialización',
                 'slug'              => 'sale.dashboard',

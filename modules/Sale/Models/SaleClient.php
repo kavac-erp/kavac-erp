@@ -8,21 +8,36 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
 
+/**
+ * @class SaleClient
+ * @brief Gestiona los datos de los clientes
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleClient extends Model implements Auditable
 {
     use SoftDeletes;
     use AuditableTrait;
     use ModelsTrait;
 
+    /**
+     * Listado de relaciones a cargar con el modelo
+     *
+     * @var array $with
+     */
     protected $with = ['parish', 'saleClientsEmail', 'saleClientsPhone'];
+
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -33,8 +48,8 @@ class SaleClient extends Model implements Auditable
      * Método que obtiene la lista de facturas del módulo de comercialización
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * SaleClients
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleBills()
     {
@@ -45,8 +60,8 @@ class SaleClient extends Model implements Auditable
      * Método que obtiene las direcciones de correo del cliente
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany Objeto con el registro relacionado al modelo
-     * saleClientsEmail
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleClientsEmail()
     {
@@ -57,19 +72,17 @@ class SaleClient extends Model implements Auditable
      * Método que obtiene los telefonos del cliente
      *
      * @author jose puentes <jpuentes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany Objeto con el registro relacionado al modelo
-     * saleClientsPhone
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleClientsPhone()
     {
         return $this->hasMany(SaleClientsPhone::class);
     }
 
-
     /**
      * Método que obtiene la solicitud asociado a una parroquia
      *
-     * @author
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parish()
@@ -81,8 +94,8 @@ class SaleClient extends Model implements Auditable
      * Método que obtiene los registros del formualrio de solicitud de servicios
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany Objeto con el registro relacionado al modelo
-     * saleService
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function saleService()
     {

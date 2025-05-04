@@ -1,29 +1,27 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Finance\Models;
 
-use App\Models\Receiver;
 use App\Models\Currency;
+use App\Models\Receiver;
 use App\Models\Deduction;
 use App\Traits\ModelsTrait;
 use App\Models\DocumentStatus;
+use Illuminate\Support\Facades\DB;
 use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Auditable as AuditableTrait;
-use Modules\Accounting\Models\AccountingEntryable;
 
 /**
  * @class FinancePaymentExecute
- * @brief [descripción detallada]
+ * @brief Modelo de datos para la ejecución de pagos
  *
- * [descripción corta]
+ * Gestiona el modelo de datos para la ejecución de pagos
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -36,12 +34,14 @@ class FinancePaymentExecute extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at', 'paid_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -57,12 +57,25 @@ class FinancePaymentExecute extends Model implements Auditable
         'observations',
         'status',
         'payment_number',
+        'general_bank_reference',
         'document_status_id',
-        'currency_id'
+        'currency_id',
+        'finance_payment_method_id',
+        'finance_bank_account_id',
     ];
 
+    /**
+     * Lista de campos personalizados a retornar en las consultas
+     *
+     * @var array $appends
+     */
     protected $appends = ['receiver_id', 'receiver_name', 'receiver_type', 'accounting_entryable', 'is_payroll', 'is_deduction'];
 
+    /**
+     * Obtiene los datos del nombre del receptor de una ejecución de pago
+     *
+     * @return string
+     */
     public function getReceiverNameAttribute()
     {
         $payOrder = FinancePayOrderFinancePaymentExecute::with('financePayOrder')->where('finance_payment_execute_id', $this->id)->first();
@@ -82,6 +95,11 @@ class FinancePaymentExecute extends Model implements Auditable
         return $receiver->description;
     }
 
+    /**
+     * Obtiene el identificador de un receptor de una ejecución de pago
+     *
+     * @return integer|string
+     */
     public function getReceiverIdAttribute()
     {
         $payOrder = FinancePayOrderFinancePaymentExecute::with('financePayOrder')->where('finance_payment_execute_id', $this->id)->first();
@@ -101,6 +119,11 @@ class FinancePaymentExecute extends Model implements Auditable
         return $receiver->id;
     }
 
+    /**
+     * Obtiene el tipo de receptor de una ejecución de pago
+     *
+     * @return string
+     */
     public function getReceiverTypeAttribute()
     {
         $payOrder = FinancePayOrderFinancePaymentExecute::with('financePayOrder')->where('finance_payment_execute_id', $this->id)->first();
@@ -131,8 +154,8 @@ class FinancePaymentExecute extends Model implements Auditable
     {
         $accountingEntryable = null;
 
-        if (Module::has('Accounting')) {
-            $accountingEntryable = AccountingEntryable::with(['accountingEntry' => function ($q) {
+        if (Module::has('Accounting') && Module::isEnabled('Accounting')) {
+            $accountingEntryable = \Modules\Accounting\Models\AccountingEntryable::with(['accountingEntry' => function ($q) {
                 $q->with(['accountingAccounts' => function ($qq) {
                     $qq->with('account');
                 }]);
@@ -147,7 +170,8 @@ class FinancePaymentExecute extends Model implements Auditable
     /**
      * Verifica si el registro viene de nómina
      *
-     * @param Int $id identificador de la emisión de pago.
+     * @param integer $id identificador de la emisión de pago.
+     *
      * @return bool  true si el valor es relacionado con la nómina o con el aporte. false en caso contrario
      */
     public function getIsPayrollAttribute(): bool
@@ -194,7 +218,7 @@ class FinancePaymentExecute extends Model implements Auditable
     }
 
     /**
-     * Verifica si el registro esde una retención
+     * Verifica si el registro es de una retención
      *
      * @return bool
      */
@@ -204,12 +228,12 @@ class FinancePaymentExecute extends Model implements Auditable
             if ($payOrder->document_sourceable_type == Deduction::class) {
                 return true;
             }
-            
         }
         return false;
     }
+
     /**
-     * The financePayOrders that belong to the FinancePaymentExecute
+     * Obtiene la relación con las órdenes de pago
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -219,7 +243,7 @@ class FinancePaymentExecute extends Model implements Auditable
     }
 
     /**
-     * Get all of the financePaymentDeductions for the FinancePaymentExecute
+     * Obtiene la relación con las deducciones pagadas
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -229,7 +253,17 @@ class FinancePaymentExecute extends Model implements Auditable
     }
 
     /**
-     * Get the documentStatus that owns the FinancePayOrder
+     * Obtiene la relación con la ejecución de pago de impuesto (IVA)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function financePaymentExecuteIva()
+    {
+        return $this->hasOne(FinancePaymentExecuteIva::class);
+    }
+
+    /**
+     * Obtiene la relación con el estatus del documento
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -239,13 +273,33 @@ class FinancePaymentExecute extends Model implements Auditable
     }
 
     /**
-     * Get the currency that owns the FinancePaymentExecute
+     * Obtiene la relación con la moneda
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency()
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    /**
+     * Obtiene la relación con el método de pago
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function financePaymentMethod()
+    {
+        return $this->belongsTo(FinancePaymentMethods::class, 'finance_payment_method_id');
+    }
+
+    /**
+     * Obtiene la relación con la cuenta bancaria
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function financeBankAccount()
+    {
+        return $this->belongsTo(FinanceBankAccount::class);
     }
 
     /**
@@ -265,8 +319,9 @@ class FinancePaymentExecute extends Model implements Auditable
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Eloquent\Builder $query     Objeto con la consulta
      * @param  string         $search    Cadena de texto a buscar
+
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSearch($query, $search)

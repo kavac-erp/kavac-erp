@@ -1,13 +1,12 @@
 <?php
 
-/** Controladores de uso exclusivo para usuarios administradores */
-
 namespace App\Http\Controllers\Admin;
 
+use App\Roles\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Roles\Models\Role;
 use App\Notifications\System as SystemNotification;
 
 /**
@@ -26,34 +25,32 @@ class LogController extends Controller
     /**
      * Método que genera eventos logs a partir de errores ocasionados en el FrontEnd
      *
-     * @method  frontEnd
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return JsonResponse     JSON con el resultado del evento
      */
     public function frontEnd(Request $request)
     {
-        /** @var string Vista que genera el error */
+        // Vista que genera el error
         $view = $request->view;
-        /** @var integer Línea que genera el error */
+        // Línea que genera el error
         $line = $request->line;
-        /** @var string Mensaje o descripción del evento de error generado */
+        // Mensaje o descripción del evento de error generado
         $msg  = $request->message;
-        /** @var integer Código de error generado */
+        // Código de error generado
         $code = $request->code;
-        /** @var string Tipo de error generado */
+        // Tipo de error generado
         $errorType = $request->type;
-        /** @var string URL que genera el error */
+        // URL que genera el error
         $url = $request->url;
-        /** @var string Método de la petición (get|post|put|patch|delete) */
+        // Método de la petición (get|post|put|patch|delete)
         $method = $request->method;
-        /** @var string|object Datos acerca de la traza de errores */
+        // Datos acerca de la traza de errores
         //$stacktrace = json_encode($request->r->config->data);
-        /** @var string Nombre de la función que generó el log. Esta variable es opcional */
+        // Nombre de la función que generó el log. Esta variable es opcional
         $function = (!is_null($request->func)) ? " en la función [{$request->func}]" : '';
 
-        /** @var string Mensaje de error generado */
+        // Mensaje de error generado
         $errorMessage = __('Error generado por la vista [:view]', ['view' => $view]) . "\n";
         $errorMessage .= __('Código: :code', ['code' => $code]) . "\n";
         $errorMessage .= __('Tipo: :type', ['type' => $errorType]) . "\n";
@@ -63,7 +60,7 @@ class LogController extends Controller
 
         Log::channel('front_end')->error($errorMessage);
 
-        /** @var Role Objeto con información del rol desarrollador */
+        // Objeto con información del rol desarrollador
         $devRole = Role::where('slug', 'dev')->first();
         if ($devRole) {
             foreach ($devRole->users()->where('active', true)->get() as $user) {

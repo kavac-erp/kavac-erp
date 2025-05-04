@@ -6,7 +6,7 @@
             <i class="icofont icofont-calculator-alt-1 ico-3x"></i>
             <span>Conceptos</span>
         </a>
-        <div id="add_payroll_concept" class="modal fade text-left" role="dialog">
+        <div id="add_payroll_concept" class="modal fade text-left" role="dialog" style="overflow-y: scroll;" >
             <div class="modal-dialog vue-crud" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -118,6 +118,22 @@
                                             </div>
                                         </div>
                                         <!-- ./activa -->
+                                        <!-- alimenta la arc -->
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>¿ARC?</label>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch" data-toggle="tooltip"
+                                                        title="¿El concepto alimenta la ARC?">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                                id="conceptArc" v-model="record.arc"
+                                                                :value="true">
+                                                        <label class="custom-control-label" for="conceptArc"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- ./alimenta la arc -->
                                         <!-- descripción -->
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -136,8 +152,8 @@
                                         <!-- ¿asignar a? -->
                                         <div class="col-12 form-group">
                                             <label>¿Asignar a?</label>
-                                            <div class="d-flex">
-                                                <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-12 col-md-7">
                                                     <div class="form-group is-required" style="z-index: unset;">
                                                         <label>Opciones:</label>
                                                         <v-multiselect data-toggle="tooltip"
@@ -150,7 +166,7 @@
                                                         </v-multiselect>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-12 col-md-5">
                                                     <div class="form-group is-required" style="z-index: unset;">
                                                         <label>Reglas:</label>
                                                         <div data-toggle="tooltip"
@@ -167,7 +183,7 @@
                                     <div v-if="record.assign_to" class="row align-items-baseline">
                                          <div class="col-md-4" v-for="field in record.assign_to" :key="field['id']">
                                             <div v-if="field['type'] && assign_options[field['id']] && record.assign_options[field['id']]">
-            
+
                                                 <!-- registro de opciones a asignar -->
                                                 <div v-if="field['type'] == 'list'" class="form-group is-required" style="z-index: unset;">
                                                     <label>{{ field['name'] }}</label>
@@ -181,16 +197,16 @@
                                                     </v-multiselect>
                                                 </div>
                                                 <!-- ./registro de opciones a asignar -->
-            
+
                                                 <!-- registro de rangos a asignar -->
                                                 <div v-if="field['type'] == 'range' && assign_options[field['id']]"
                                                     class="form-group" style="z-index: unset;">
                                                     <label>
                                                         {{ field['name'] == 'Todos los trabajadores con hijos' ?
-                                                                        'Rango de edad de los hijos' 
+                                                                        'Rango de edad de los hijos'
                                                                         :field['id'] == 'all_staff_according_start_date'?
                                                                             'A partir del año de servicio'
-                                                                            :field['name'] 
+                                                                            :field['name']
                                                         }}
                                                     </label>
                                                     <div class="row" style="align-items: baseline;">
@@ -206,7 +222,7 @@
                                                         </div>
                                                         <div class="col-6">
                                                             <div class="form-group is-required">
-                                                                <label>{{ field['id'] == 'all_staff_according_start_date'? 
+                                                                <label>{{ field['id'] == 'all_staff_according_start_date'?
                                                                             '': 'Máximo:'}}</label>
                                                                 <input type="number" min="0" step="1"
                                                                     placeholder="Máximo" data-toggle="tooltip"
@@ -221,9 +237,9 @@
                                             </div>
                                         </div>
                                     </div>
-            
+                                    <hr>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-12 mb-5 mb-xl-0 col-xl-7">
                                             <!-- fórmula -->
                                             <!-- Asistente de funciones -->
                                             <section class="container">
@@ -258,11 +274,11 @@
                                                                 </div>
                                                                 <div v-if="getInfoFunction['id'] == 'sum'" class="col-md-12">
                                                                     <button class="btn btn-sm btn-default btn-custom btn-mini btn-new float-right"
-                                                                            @click="addParameter()">
+                                                                            type="button" @click="addParameter()">
                                                                         <i class="fa fa-plus-circle"></i>
                                                                     </button>
                                                                     <button class="btn btn-sm btn-danger btn-custom btn-mini btn-new float-right"
-                                                                            @click="deleteParameter()">
+                                                                                type="button" @click="deleteParameter()">
                                                                         <i class="fa fa-minus-circle"></i>
                                                                     </button>
                                                                 </div>
@@ -281,8 +297,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row align-items-baseline">
-                                                                <div :class="[(variable_option && (param['id'] == 'inputFormTest')) ? 'col-md-12' : 'col-md-6']" 
-                                                                    v-for="(param, index) in getInfoFunction['parameters']" 
+                                                                <div :class="[(variable_option && (param['id'] == 'inputFormTest')) ? 'col-md-12' : 'col-md-6']"
+                                                                    v-for="(param, index) in getInfoFunction['parameters']"
                                                                     :key="index">
                                                                     <div v-if="(variable_option && (param['id'] == 'inputFormTest'))"
                                                                         :class="['form-group', param['required']]">
@@ -361,6 +377,7 @@
                                                                     <div class="form-group is-required">
                                                                         <label>Fórmula</label>
                                                                         <textarea type="text" id="formulaFunction"
+                                                                                  style="font-size: 1rem; font-weight: bold;"
                                                                                   class="form-control input-sm"
                                                                                   data-toggle="tooltip"
                                                                                   disabled
@@ -394,6 +411,7 @@
                                             <div class="form-group is-required" style="z-index: 0;" v-if="!useFunction">
                                                 <label>Fórmula</label>
                                                 <textarea type="text" id="formulaShow"
+                                                          style="font-size: 1rem; font-weight: bold;"
                                                           class="form-control input-sm"
                                                           data-toggle="tooltip"
                                                           disabled
@@ -512,96 +530,43 @@
                                                     </div>
                                                     <!-- ./opciones -->
                                                 </div>
-                                                <!-- <div class="col-md-6"
-                                                     v-if="(variable_option &&
-                                                     ((variable == 'worker_record') || (variable == 'vacation') || (variable == 'benefit')))">
-                                                    <div class="form-group">
-                                                        <label for="register">Operador</label>
-                                                        <select2 :options="operators"
-                                                                 v-model="operator"></select2>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6"
-                                                     v-if="(variable_option &&
-                                                 ((variable == 'worker_record') || (variable == 'vacation') || (variable == 'benefit')))">
-                                                    <div class="form-group">
-                                                        <label for="value">Valor</label>
-                                                        <select2 v-if="type == 'list'"
-                                                                 :options="subOptions"
-                                                                 :disabled="operator == ''"
-                                                                 v-model="value"></select2>
-                                                        <div class="col-12"
-                                                             v-else-if="type == 'boolean'">
-                                                            <p-check class="pretty p-switch p-fill p-bigger"
-                                                                     color="success" off-color="text-gray" toggle
-                                                                     data-toggle="tooltip"
-                                                                     title="Indique el valor de comparación (requerido)"
-                                                                     :disabled="operator == ''" 
-                                                                     v-model="value">
-                                                                <label slot="off-label"></label>
-                                                            </p-check>
-                                                        </div>
-                                                        <input v-else
-                                                               type="text"
-                                                               data-toggle="tooltip"
-                                                               title="Indique el valor de comparación (requerido)"
-                                                               class="form-control input-sm" v-model="value"
-                                                               :disabled="operator == ''" 
-                                                               v-input-mask data-inputmask="
-                                                                   'alias': 'numeric',
-                                                                   'allowMinus': 'false'">
-                                                    </div>
-                                                </div>-->
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-12 col-xl-5">
                                             <!-- ./calculadora -->
                                             <div class="formula-calculator">
-                                                <div class="form-group row">
-                                                    <div class="col-12 col-md-8 text-center mx-auto">
+                                            <formula-calculator formulaInput='formulaShow' :withDisplay="false" ref="formulaResults"/>
+                                            <div class="form-group row mb-n1">
+                                                    <div class="col-12 col-md-8 col-md-6 text-center mx-auto">
                                                         <button
-                                                            type="button" class="btn btn-info btn-sm btn-formula" data-toggle="tooltip" 
+                                                            type="button" class="btn btn-info btn-sm btn-formula btn-function" data-toggle="tooltip"
                                                             title="presione para abir asistente de funciones"
                                                             @click="openFunctionWizard()"
                                                             :style="{opacity: useFunction ? 0.5 : 1}">
                                                             <strong><i>f</i><small>(x)</small></strong>
                                                         </button>
-                                                        <button type="button" class="btn btn-info btn-sm btn-formula" data-toggle="tooltip" 
+                                                        <button type="button" class="btn btn-info btn-sm btn-formula btn-function" data-toggle="tooltip"
                                                             title="presione para abir asistente de funciones"
                                                             @click="openFunctionWizard(false, 'sum')"
                                                             :style="{opacity: useFunction ? 0.5 : 1}">&#8721;</button>
-                                                        <button type="button" class="btn btn-info btn-sm btn-formula" style="cursor:none;opacity: 0;">%</button>
-                                                        <button type="button" class="btn btn-info btn-sm btn-formula" style="cursor:none;opacity: 0;">%</button>
-                                                        <button type="button" class="btn btn-info btn-sm btn-formula" style="cursor:none;opacity: 0;">%</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <formula-calculator formulaInput='formulaShow' :withDisplay="false" ref="formulaResults"/>
                                             <div class="form-group row" v-if="variable_option">
                                                 <div class="col-12 col-md-8 text-center mx-auto">
-                                                    <div class="input-group w-75 mx-auto">
-                                                      <div class="input-group-prepend" v-if="!useFunction">
-                                                        <span class="input-group-text"
-                                                              style="cursor: pointer;"
-                                                              @click="openFunctionWizard(false, 'if')">
-                                                            <strong><i>f</i><small>(x) </small> </strong>
-                                                        </span>
-                                                      </div>
-                                                      <div class="input-group-append">
-                                                        <button 
-                                                            type="button" class="btn btn-info btn-sm btn-formula btn-variable"
-                                                            data-toggle="tooltip"
-                                                            title="Variable a usar cuando se realice el cálculo"
-                                                            @click="setVariable()">
-                                                            {{ updateNameVariable }}
-                                                        </button>
-                                                      </div>
-                                                    </div>
+                                                    <button
+                                                        type="button" class="btn btn-info btn-sm btn-formula btn-variable"
+                                                        data-toggle="tooltip"
+                                                        title="Variable a usar cuando se realice el cálculo"
+                                                        @click="setVariable()">
+                                                        {{ updateNameVariable }}
+                                                    </button>
                                                 </div>
                                             </div>
                                         <!-- ./calculadora -->
                                         </div>
                                     </div>
+                                    <hr>
                                 </div>
                                 <section id="w-budgetAccountingForm"
                                      :class="panel=='budgetAccountingForm' ?
@@ -702,7 +667,8 @@
                                 <div class="pull-right" v-if="panel == 'conceptForm'">
                                     <button type="button" class="btn btn-primary btn-wd btn-sm"
                                             :disabled="isDisableNextStep()" data-toggle="tooltip"
-                                            title="" @click="changePanel('budgetAccountingForm')">
+                                            title="Presione siguiente para ir a la sección de datos presupuestario/contables"
+                                            @click="changePanel('budgetAccountingForm')">
                                         Siguiente
                                     </button>
                                 </div>
@@ -718,15 +684,15 @@
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
                                     @click="clearFilters" data-dismiss="modal">
                                 Cerrar
                             </button>
-                            <button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+                            <button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
                                     @click="reset()">
                                 Cancelar
                             </button>
-                            <button type="button" @click="createRecord('payroll/concepts'); $refs.tableResults.refresh()" 
+                            <button type="button" @click="createRecord('payroll/concepts'); $refs.tableResults.refresh()"
                                     class="btn btn-primary btn-sm btn-round btn-modal-save">
                                 Guardar
                             </button>
@@ -768,6 +734,7 @@
                     name:                        '',
                     description:                 '',
                     active:                      false,
+                    arc:                         false,
                     formula:                     '',
                     formulaShow:                 '',
                     payroll_concept_type_id:     '',
@@ -784,6 +751,7 @@
                     budget_specific_action_id: '',
                     receiver: '',
                     receiver_account: '',
+                    pay_order: true,
                 },
                 fiscal_years: [],
                 variable:                  '',
@@ -799,6 +767,8 @@
                 getAccount:                false,
                 useFunction:               false,
                 idFunction:                '',
+                formulaHistory:            [],
+                formulaShowHistory:        [],
                 functions:                 [
                     { "id": "", "text": "Ninguno" },
                     {
@@ -834,20 +804,20 @@
                     {
                         "id": "sum",
                         "text": "SUM",
-                        "format": "(number1;number2;...;numberN)",
-                        "formatShow": "(Número 1;Número 2;...;Número N)",
+                        "format": "(number1;number2)",
+                        "formatShow": "(Número 1;Número 2)",
                         "description": "Devuelve la suma de los argumentos.",
                         "parameters": [
                             {
                                 "required": "is-required",
-                                "id": "number_1",
+                                "id": "number1",
                                 "name": "Número 1",
                                 "description": "Número 1, número 2,... son argumentos cuyo total se calculará.",
                                 "value": "+"
                             },
                             {
                                 "required": "",
-                                "id": "number_2",
+                                "id": "number2",
                                 "name": "Número 2",
                                 "description": "Número 1, número 2,... son argumentos cuyo total se calculará.",
                                 "value": "+"
@@ -933,6 +903,7 @@
         },
         async mounted() {
             const vm = this;
+
             await vm.getActualFiscalYear();
             $("#add_payroll_concept").on('show.bs.modal', function() {
                 vm.reset();
@@ -957,17 +928,37 @@
                     let formulaDisplayShow = (!vm.useFunction) ? vm.record['formulaShow'] : vm.formulaFunctionShow;
 
                     let symbols = ['+', '-', '/', '*', '%'];
-                    
+
                     if (value === 'backspace') {
+                        vm.formulaHistory.pop();
+                        vm.formulaShowHistory.pop();
+                        let dataF = vm.formulaHistory.pop();
+                        let dataSF = vm.formulaShowHistory.pop();
                         if (!vm.useFunction) {
-                            vm.record['formula'] = formulaDisplay.substring(0, formulaDisplay.length-1);
-                            vm.record['formulaShow'] = formulaDisplayShow.substring(0, formulaDisplayShow.length-1);
+                            vm.record['formula'] = ("undefined" != typeof(dataF)) ? dataF : "";
+                            vm.record['formulaShow'] = ("undefined" != typeof(dataSF)) ? dataSF : "";
                         } else {
                             vm.formulaFunction = formulaDisplay.substring(0, formulaDisplay.length-1);
                             vm.formulaFunctionShow = formulaDisplayShow.substring(0, formulaDisplayShow.length-1);
                         }
                         return false;
                     } else if (value === 'C') {
+                        vm.variable = '';
+                        vm.variable_option = '';
+                        $.each(vm.functions, function(index, field) {
+                            if (field['id'] == "sum") {
+                                $.each(vm.functions[index]['parameters'], function(index, field) {
+                                    let input = document.getElementById('number' + (index+1));
+                                    if (input) input.value = '';
+                                });
+                            } else if (field['id'] == "if") {
+                                $.each(vm.functions[index]['parameters'], function(index, field) {
+                                    let input = document.getElementById(field['id']);
+                                    if (input) input.value = '';
+                                });
+
+                            }
+                        });
                         if (!vm.useFunction) {
                             vm.record['formula'] = '';
                             vm.record['formulaShow'] = '';
@@ -980,13 +971,13 @@
 
                     if (formulaDisplay.length === 0 && symbols.includes(value)) {
                         vm.showMessage(
-                            'custom', 'Fórmula Inválida', 'warning', 'screen-warning', 
+                            'custom', 'Fórmula Inválida', 'warning', 'screen-warning',
                             'No esta permitido indicar símbolos como primer elemento de la fórmula'
                         );
                         return false;
                     } else if (symbols.includes(formulaDisplay.slice(-1)) && symbols.includes(value)) {
                         vm.showMessage(
-                            'custom', 'Fórmula Inválida', 'warning', 'screen-warning', 
+                            'custom', 'Fórmula Inválida', 'warning', 'screen-warning',
                             'No esta permitido indicar símbolos de forma consecutiva'
                         );
                         return false;
@@ -1025,47 +1016,30 @@
                         }
                     }
                 };
-
-                /**$('.btn-formula').on('click', function(e) {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                    let keys = vm.record.formula.indexOf('}');
-                    let showKeys = vm.record.formulaShow.indexOf('}');
-                    if (keys > 0 && showKeys > 0) {
-                        let firstFormula = vm.record.formula.substr(0, keys);
-                        let showFirstFormula = vm.record.formulaShow.substr(0, showKeys);
-                        let lastFormula = vm.record.formula.substr(keys, vm.record.formula.length);
-                        let showLastFormula = vm.record.formulaShow.substr(showKeys, vm.record.formula.length);
-                        let lastElement = vm.record.formula.substr(keys-1, 1);
-                        let showLastElement = vm.record.formulaShow.substr(showKeys-1, 1);
-                        let symbols = ['+', '-', '*', '/', '.'];
-                        if (symbols.includes($(this).html().trim().toString().substr(0, 1)) && symbols.includes(lastElement) && symbols.includes(showLastElement) ) {
-                            let lastFirstFormula = vm.record.formula.substr(0, keys-1)
-                            let showLastFirstFormula = vm.record.formulaShow.substr(0, showKeys-1)
-                            vm.record.formula = lastFirstFormula + $(this).html().trim().toString().substr(0, 1) + lastFormula;
-                            vm.record.formulaShow = showLastFirstFormula + $(this).html().trim().toString().substr(0, 1) + showLastFormula;
-                        } else {
-                            vm.record.formula = firstFormula + $(this).html().trim().toString().substr(0, 1) + lastFormula;
-                            vm.record.formulaShow = showFirstFormula + $(this).html().trim().toString().substr(0, 1) + showLastFormula;
-                        }
-                    } else {
-                        let lastElement = vm.record.formula.substr(vm.record.formula.length-1, 1)
-                        let showLastElement = vm.record.formulaShow.substr(vm.record.formula.length-1, 1)
-                        let symbols = ['+', '-', '*', '/', '.'];
-                        if (symbols.includes($(this).html().trim().toString().substr(0, 1)) && symbols.includes(lastElement) && symbols.includes(showLastElement) ) {
-                            let lastFirstFormula = vm.record.formula.substr(0, vm.record.formula.length-1)
-                            let showLastFirstFormula = vm.record.formulaShow.substr(0, vm.record.formulaShow.length-1)
-                            vm.record.formula = lastFirstFormula + $(this).html().trim().toString().substr(0, 1);
-                            vm.record.formulaShow = showLastFirstFormula + $(this).html().trim().toString().substr(0, 1);
-                        } else {
-                            vm.record.formula += $(this).html().trim().toString().substr(0, 1);
-                            //vm.record.formulaShow += $(this).html().trim().toString().substr(0, 1);
-                        }
-                    }
-                });*/
+                vm.record.pay_order = true;
             });
         },
         watch: {
+            'record.formula': {
+                handler(newVal) {
+                    const vm = this;
+                    if (newVal && "" != newVal) {
+                        vm.formulaHistory.push(newVal);
+                    }
+                },
+                deep: true,
+                immediate: false,
+            },
+            'record.formulaShow': {
+                handler(newVal) {
+                    const vm = this;
+                    if (newVal && "" != newVal) {
+                        vm.formulaShowHistory.push(newVal);
+                    }
+                },
+                deep: true,
+                immediate: false,
+            },
             /**
              * Método que supervisa los cambios en el campo variable y actualiza el listado de opciones
              *
@@ -1164,7 +1138,7 @@
                             vm.record.assign_options[field['id']] = [];
                             vm.assign_options[field['id']] = [];
                             vm.assign_options_loading = true;
-                            
+
                             axios.get(`${window.app_url}/payroll/get-concept-assign-options/${field['id']}`)
                             .then(response => {
                                 vm.assign_options_loading = false;
@@ -1201,14 +1175,10 @@
                         delete vm.record.assign_options[index];
                     }
                 });
-                
+
                 const timeOpen = setTimeout(addInstitutionId, 1000);
                 function addInstitutionId () {
                     vm.record.time = vm.record.time ? vm.record.time+1 : 1;
-                    /*let element = document.getElementById("reset");
-                    if (element) {
-                        element.click();
-                    }*/
                 }
             },
             getInfoFunction() {
@@ -1274,12 +1244,31 @@
             reset() {
                 const vm = this;
                 vm.variable = '';
+                vm.variable_option = '';
                 vm.errors = [];
+                vm.useFunction = false;
+                vm.formulaHistory = [];
+                vm.formulaShowHistory = [];
+                $.each(vm.functions, function(index, field) {
+                    if (field['id'] == "sum") {
+                        $.each(vm.functions[index]['parameters'], function(index, field) {
+                            let input = document.getElementById('number' + (index+1));
+                            if (input) input.value = '';
+                        });
+                    } else if (field['id'] == "if") {
+                        $.each(vm.functions[index]['parameters'], function(index, field) {
+                            let input = document.getElementById(field['id']);
+                            if (input) input.value = '';
+                        });
+
+                    }
+                });
                 vm.record = {
                     id:                          '',
                     name:                        '',
                     description:                 '',
                     active:                      false,
+                    arc:                         false,
                     formula:                     '',
                     formulaShow:                 '',
                     currency_id:                 '',
@@ -1295,6 +1284,7 @@
                     assign_options:              {},
                     receiver: '',
                     receiver_account: '',
+                    pay_order: true,
                 };
                 vm.getCurrencies();
                 //vm.getBudgetAccounts();
@@ -1316,15 +1306,15 @@
                                                 ? elementVal.options[elementVal.selectedIndex].text
                                                 : elementVal.value)
                                         );
-                            result += field["value"] + " " + ((value != '') ? value : vm.variable_option) + " " + elementOp.value + " " + elementVal.value + " ";
+                            result += field["value"] + " " + vm.variable_option + " " + elementOp.value + " " + elementVal.value + " ";
                         }
                     } else {
                         let element = document.getElementById(field["id"]);
                         if (element) {
                             resultShow = resultShow.replace(field["id"], element.value);
-                            result += field["value"] + " " + ((value != '') ? value : element.value) + " ";
+                            result += ((index > 0) ? (field["value"] + " ") : "") + element.value + " ";
                         }
-                    }                            
+                    }
                 });
                 vm.formulaFunction = result.trim();
                 vm.formulaFunctionShow = vm.getInfoFunction["text"] + resultShow;
@@ -1397,7 +1387,7 @@
                             vm.accounting_accounts.push({
                                 id:   this.id,
                                 text: `${this.code} - ${this.denomination}`,
-                                disabled: `${this.code}`.split('.')[6] == '000' ? true : false 
+                                disabled: `${this.code}`.split('.')[6] == '000' ? true : false
                             });
                         });
                     }
@@ -1410,7 +1400,7 @@
              *
              * @author    Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
              */
-            async getBudgetAccounts(specificActionId) { 
+            async getBudgetAccounts(specificActionId) {
                 const vm = this;
                 vm.budget_accounts = [];
                 if(specificActionId == ""){
@@ -1458,7 +1448,7 @@
             async getActualFiscalYear (){
                 const vm = this
                 await axios.get(`${window.app_url}/get-execution-year`).then(response => {
-                     vm.fiscal_years = response.data.year  
+                     vm.fiscal_years = response.data.year
                 }).catch(error => {
                          console.error(error);
                 });
@@ -1536,7 +1526,7 @@
                 let variables = ['parameter', 'tabulator', 'concept'];
                 let formulaDisplay = (!vm.useFunction) ? vm.record['formula'] : vm.formulaFunction;
                 let formulaDisplayShow = (!vm.useFunction) ? vm.record['formulaShow'] : vm.formulaFunctionShow;
-                
+
                 /** Se asigna los valores al campo determinado */
                 if (!vm.useFunction) {
                     formulaDisplay += (variables.includes(vm.variable))
@@ -1689,7 +1679,9 @@
                 let recordEdit = JSON.parse(JSON.stringify(vm.$refs.tableResults.data.filter((rec) => {
                     return rec.id === id;
                 })[0])) || vm.reset();
-                
+
+                vm.formulaHistory = [];
+                vm.formulaShowHistory = [];
                 recordEdit.formulaShow = recordEdit.translate_formula ?? recordEdit.formula;
                 recordEdit.is_strict = recordEdit.is_strict == true ? 'true' : 'false';
                 if (recordEdit.receiver) {
@@ -1700,7 +1692,7 @@
                 }
 
                 vm.record = await recordEdit;
-                
+
                 if (vm.record.budget_project_id) {
                     await vm.getSpecificActions('Project');
                 } else if (vm.record.budget_centralized_action_id) {
@@ -1722,7 +1714,7 @@
                 setTimeout(() => {
                 vm.updateAssignOptionsMethod();
                 vm.loading = false;
-                }, 1000);         
+                }, 1000);
             },
             /**
              * Reescribe el método deleteRecord para cambiar su comportamiento por defecto
@@ -1806,16 +1798,26 @@
                 const vm = this;
                 $.each(vm.functions, function(index, field) {
                     if (field['id'] == "sum") {
+                        let format = '(';
+                        let formatShow = '(';
                         let element = {
                             required: "",
-                            id: "number_" + (vm.functions[index]['parameters'].length + 1),
+                            id: "number" + (vm.functions[index]['parameters'].length + 1),
                             name: "Número " + (vm.functions[index]['parameters'].length + 1),
                             description: "Número 1, número 2,... son argumentos cuyo total se calculará.",
                             value: "+"
                         };
+                        for (let i = 1; i <= (vm.functions[index]['parameters'].length + 1); i++) {
+                            format += "number"+i+(i != (vm.functions[index]['parameters'].length + 1) ? ";" : "");
+                            formatShow += "Número "+i+(i != (vm.functions[index]['parameters'].length + 1) ? ";" : "");
+                        }
+                        format += ")";
+                        formatShow += ")";
+                        vm.functions[index]['format'] = format;
+                        vm.functions[index]['formatShow'] = formatShow;
                         vm.functions[index]['parameters'].push(element);
                         vm.functions[index]['currentParamenter'] = element;
-                        vm.idCurrentInput = "number_" + (vm.functions[index]['parameters'].length + 1);
+                        vm.idCurrentInput = "number" + (vm.functions[index]['parameters'].length + 1);
                     }
                 });
             },
@@ -1823,15 +1825,25 @@
                 const vm = this;
                 $.each(vm.functions, function(index, field) {
                     if (field['id'] == "sum") {
+                        let format = '(';
+                        let formatShow = '(';
+                        for (let i = 1; i <= (vm.functions[index]['parameters'].length - 1); i++) {
+                            format += "number"+i+(i != (vm.functions[index]['parameters'].length - 1) ? ";" : "");
+                            formatShow += "Número "+i+(i != (vm.functions[index]['parameters'].length - 1) ? ";" : "");
+                        }
+                        format += ")";
+                        formatShow += ")";
+                        vm.functions[index]['format'] = format;
+                        vm.functions[index]['formatShow'] = formatShow;
                         vm.functions[index]['currentParamenter'] = vm.functions[index]['parameters'].slice(vm.functions[index]['parameters'].length - 2, vm.functions[index]['parameters'].length - 1)[0];
                         vm.functions[index]['parameters'] = vm.functions[index]['parameters'].slice(0, vm.functions[index]['parameters'].length - 1);
-                        vm.idCurrentInput = "number_" + vm.functions[index]['parameters'].length - 1;
+                        vm.idCurrentInput = "number" + vm.functions[index]['parameters'].length - 1;
                     }
                 });
             },
             /**
              * Método que marca los items seleccionados de los select assing_options a partir de los que es estén a
-             * su vez seleccionados en assing_to del concepto a editar. 
+             * su vez seleccionados en assing_to del concepto a editar.
              *
              * @author    Angelo Osorio <adosorio@cenditel.gob.ve> | <danielking.321@gmail.com>
              * @return    {array}
@@ -1851,7 +1863,7 @@
                             // Consulta todos assign_options asociados al registro a editar
                             $.each(vm.record.payroll_concept_assign_options, async(indexone, assign_option) => {
 
-                                // Filtra los items se la lista assign_options que sean iguales al field id  
+                                // Filtra los items se la lista assign_options que sean iguales al field id
                                 if (assign_option.key == field['id']){
 
                                     // Para que el select lea la opción, se tiene que buscar en la lista todos sus
@@ -1866,7 +1878,7 @@
                             });
                         });
                     }
-                    
+
                     vm.assign_options_loading = false;
                 });
 
@@ -1918,7 +1930,7 @@
             async getProjects(id) {
                 const vm = this;
                 var budget_project_id = typeof id !== 'undefined' ? '/' + id : '';
-                //const url = vm.setUrl(`budget/get-projects${budget_project_id}`);
+
                 const url = vm.setUrl(`budget/get-projects-assigned`);
                 await axios.get(url).then(response => {
                     vm.projects = response.data;
@@ -1935,7 +1947,7 @@
             async getCentralizedActions(id) {
                 const vm = this;
                 var budget_centralized_action_id = typeof id !== 'undefined' ? '/' + id : '';
-                //const url = vm.setUrl(`budget/get-centralized-actions${budget_centralized_action_id}`);
+
                 const url = vm.setUrl(`budget/get-centralized-actions-assigned`);
                 await axios.get(url).then(response => {
                     vm.centralized_actions = response.data;
@@ -1974,7 +1986,7 @@
                             error,
                             'getSpecificActions'
                         );
-                    }); 
+                    });
                     if (vm.record.id && vm.record.budget_specific_action) {
                         vm.record.budget_specific_action_id = vm.record.budget_specific_action.id;
                     }

@@ -2,6 +2,7 @@
 
 namespace Modules\Sale\Models;
 
+use App\Models\Currency;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
@@ -13,9 +14,9 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * Gestiona el modelo de datos de los productos para los movimientos de almacén
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleWarehouseInventoryProductMovement extends Model implements Auditable
 {
@@ -34,8 +35,8 @@ class SaleWarehouseInventoryProductMovement extends Model implements Auditable
      * Método que obtiene el registro en el inventario del producto movilizado
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseInventoryProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleWarehouseInventoryProduct()
     {
@@ -46,8 +47,8 @@ class SaleWarehouseInventoryProductMovement extends Model implements Auditable
      * Método que obtiene el registro en el inventario del producto movilizado
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseInventoryProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleWarehouseProductValue()
     {
@@ -58,8 +59,8 @@ class SaleWarehouseInventoryProductMovement extends Model implements Auditable
      * Método que obtiene el registro en el inventario del producto que se va movilizar
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseInventoryProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleWarehouseInitialInventoryProduct()
     {
@@ -70,8 +71,8 @@ class SaleWarehouseInventoryProductMovement extends Model implements Auditable
      * Método que obtiene el movimiento de almacén asociado al registro
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseMovement
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function saleWarehouseMovement()
     {
@@ -82,10 +83,11 @@ class SaleWarehouseInventoryProductMovement extends Model implements Auditable
      * Método que obtiene la moneda en que se expresa el valor del producto
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo Currency
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency()
     {
-        return $this->belongsTo(\App\Models\Currency::class);
+        return $this->belongsTo(Currency::class);
     }
 }

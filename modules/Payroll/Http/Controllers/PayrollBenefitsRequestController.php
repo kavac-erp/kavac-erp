@@ -18,6 +18,7 @@ use App\Models\FiscalYear;
  * Clase que gestiona las solicitudes de prestaciones sociales
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -27,13 +28,15 @@ class PayrollBenefitsRequestController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -41,23 +44,25 @@ class PayrollBenefitsRequestController extends Controller
      * Define la configuración de la clase
      *
      * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return    void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:payroll.benefits-requests.list', ['only' => ['index', 'vueList']]);
-        $this->middleware('permission:payroll.benefits-requests.create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:payroll.benefits-requests.edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:payroll.benefits-requests.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:payroll.benefits.requests.list', ['only' => ['index', 'vueList']]);
+        $this->middleware('permission:payroll.benefits.requests.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:payroll.benefits.requests.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:payroll.benefits.requests.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'payroll_staff_id' => ['required'],
             'amount_requested' => ['required'],
             'motive'           => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'payroll_staff_id.required' => 'El campo trabajador es obligatorio.',
             'amount_requested.required' => 'El campo monto solicitado es obligatorio.',
@@ -68,11 +73,9 @@ class PayrollBenefitsRequestController extends Controller
     /**
      * Muestra un listado de las solicitudes de adelanto de prestaciones registradas
      *
-     * @method    index
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Renderable
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
@@ -82,18 +85,16 @@ class PayrollBenefitsRequestController extends Controller
     /**
      * Muestra el formulario para registrar una nueva solicitud de adelanto de prestaciones
      *
-     * @method    create
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @return    Renderable
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
 
-        $user = Auth()->user();
+        $user = auth()->user();
         $isAdmin = $user->hasRole('admin, payroll');
-        $profile = Auth()->user()->profile;
+        $profile = auth()->user()->profile;
         $userId = -1;
         if ($profile) {
             if ($profile->employee_id) {
@@ -104,13 +105,10 @@ class PayrollBenefitsRequestController extends Controller
             $userId = 0;
         }
         return view('payroll::requests.benefits.create-edit', compact('isAdmin', 'userId'));
-        /*return view('payroll::requests.benefits.create-edit');*/
     }
 
     /**
      * Valida y registra una nueva solicitud de adelanto de prestaciones
-     *
-     * @method    store
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
@@ -144,7 +142,7 @@ class PayrollBenefitsRequestController extends Controller
             $codeSetting->field
         );
 
-        $user = Auth()->user();
+        $user = auth()->user();
         $profileUser = $user->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
@@ -152,11 +150,7 @@ class PayrollBenefitsRequestController extends Controller
             $institution = Institution::where('active', true)->where('default', true)->first();
         }
 
-        /**
-         * Objeto asociado al modelo PayrollBenefitsRequest
-         *
-         * @var Object $payrollBenefitsRequest
-         */
+        /* Objeto asociado al modelo PayrollBenefitsRequest */
         $payrollBenefitsRequest = PayrollBenefitsRequest::create([
             'code'             => $code,
             'status'           => 'pending',
@@ -173,13 +167,11 @@ class PayrollBenefitsRequestController extends Controller
     /**
      * Muestra los datos de la información de la solicitud de adelanto de prestaciones seleccionada
      *
-     * @method    show
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer        $id    Identificador único de la solicitud de adelanto de prestaciones
+     * @param     integer        $id    Identificador único de la solicitud de adelanto de prestaciones
      *
-     * @return    Renderable
+     * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function show($id)
     {
@@ -190,23 +182,18 @@ class PayrollBenefitsRequestController extends Controller
     /**
      * Muestra el formulario para actualizar la información de una solicitud de adelanto de prestaciones
      *
-     * @method    edit
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer        $id    Identificador único del registro de solicitud de adelanto de prestaciones
+     * @param     integer        $id    Identificador único del registro de solicitud de adelanto de prestaciones
      *
-     * @return    Renderable
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
-        /**
-         * Objeto asociado al modelo PayrollBenefitsRequest
-         * @var    Object    $payrollBenefitsRequest
-         */
-        $user = Auth()->user();
+        /* Objeto asociado al modelo PayrollBenefitsRequest */
+        $user = auth()->user();
         $isAdmin = $user->hasRole('admin, payroll');
-        $profile = Auth()->user()->profile;
+        $profile = auth()->user()->profile;
         $userId = -1;
         if ($profile) {
             if ($profile->employee_id) {
@@ -224,26 +211,21 @@ class PayrollBenefitsRequestController extends Controller
     /**
      * Actualiza la información de la solicitud de adelanto de prestaciones
      *
-     * @method    update
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer                     $id         Identificador único asociado a la solicitud
+     * @param     integer                     $id         Identificador único asociado a la solicitud
      *
      * @param     \Illuminate\Http\Request    $request    Datos de la petición
      *
-     * @return    Renderable
+     * @return    \Illuminate\Http\JsonResponse           Objeto con los registros a mostrar
      */
     public function update(Request $request, $id)
     {
-        /**
-         * Objeto asociado al modelo PayrollBenefitsRequest
-         * @var    Object    $payrollBenefitsRequest
-         */
+        /* Objeto asociado al modelo PayrollBenefitsRequest */
         $payrollBenefitsRequest = PayrollBenefitsRequest::find($id);
         $this->validate($request, $this->validateRules, $this->messages);
 
-        $profileUser = Auth()->user()->profile;
+        $profileUser = auth()->user()->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
         } else {
@@ -264,20 +246,15 @@ class PayrollBenefitsRequestController extends Controller
     /**
      * Elimina una solicitud de adelanto de prestaciones
      *
-     * @method    destroy
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer        $id    Identificador único de la solicitud de adelanto de prestaciones a eliminar
+     * @param     integer        $id    Identificador único de la solicitud de adelanto de prestaciones a eliminar
      *
-     * @return    Renderable
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /**
-         * Objeto asociado al modelo PayrollBenefitsRequest
-         * @var    Object    $payrollBenefitsRequest
-         */
+        /* Objeto asociado al modelo PayrollBenefitsRequest */
         $payrollBenefitsRequest = PayrollBenefitsRequest::find($id);
         $payrollBenefitsRequest->delete();
 
@@ -287,15 +264,13 @@ class PayrollBenefitsRequestController extends Controller
     /**
      * Muestra un listado de las solicitudes de adelanto de prestaciones registradas
      *
-     * @method    vueList
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function vueList()
     {
-        $user = Auth()->user();
+        $user = auth()->user();
         $profileUser = $user->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
@@ -313,15 +288,13 @@ class PayrollBenefitsRequestController extends Controller
     /**
      * Muestra un listado de las solicitudes de adelanto de prestaciones pendientes registradas
      *
-     * @method    vuePendingList
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
      * @return    \Illuminate\Http\JsonResponse    Objeto con los registros a mostrar
      */
     public function vuePendingList()
     {
-        $user = Auth()->user();
+        $user = auth()->user();
         $profileUser = $user->profile;
         if (($profileUser) && isset($profileUser->institution_id)) {
             $institution = Institution::find($profileUser->institution_id);
@@ -341,11 +314,9 @@ class PayrollBenefitsRequestController extends Controller
     /**
      * Muestra el listado de solicitudes de adelanto de prestaciones según el trabajador seleccionado
      *
-     * @method    getBenefitsRequests
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer                          $id    Identificador único del trabajador registrado
+     * @param     integer $staff_id    Identificador único del trabajador registrado
      *
      * @return    \Illuminate\Http\JsonResponse           Objeto con los registros a mostrar
      */
@@ -359,22 +330,16 @@ class PayrollBenefitsRequestController extends Controller
     /**
      * Actualiza la información de la solicitud de adelanto de prestaciones seleccionada
      *
-     * @method    review
-     *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
      *
-     * @param     Integer                     $id         Identificador único asociado a la solicitud
-     *
      * @param     \Illuminate\Http\Request    $request    Datos de la petición
+     * @param     integer                     $id         Identificador único asociado a la solicitud
      *
-     * @return    Renderable
+     * @return    \Illuminate\Http\JsonResponse           Objeto con los registros a mostrar
      */
     public function review(Request $request, $id)
     {
-        /**
-         * Objeto asociado al modelo PayrollBenefitsRequest
-         * @var    Object    $payrollBenefitsRequest
-         */
+        /* Objeto asociado al modelo PayrollBenefitsRequest */
         $payrollBenefitsRequest = PayrollBenefitsRequest::find($id);
         $this->validate($request, $this->validateRules, $this->messages);
 

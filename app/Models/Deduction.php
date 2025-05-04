@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use App\Traits\ModelsTrait;
@@ -17,6 +15,7 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  *
  * Gestiona el modelo de datos para las Deducciones
  *
+ * @property  string|integer  $id
  * @property  string  $name
  * @property  string  $description
  * @property  string  $formula
@@ -56,12 +55,13 @@ class Deduction extends Model implements Auditable
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     /**
-     * Deduction belongs to AccountingAccount.
+     * Metodo que obtiene la Cuenta Contable de una deducción
      *
      * @return array|\Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function accountingAccount()
     {
-        return (Module::has('Accounting')) ? $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class) : [];
+        return (Module::has('Accounting') && Module::isEnabled('Accounting'))
+                ? $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class) : [];
     }
 }

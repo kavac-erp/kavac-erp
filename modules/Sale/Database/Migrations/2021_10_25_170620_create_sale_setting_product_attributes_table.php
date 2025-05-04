@@ -35,7 +35,7 @@ class CreateSaleSettingProductAttributesTable extends Migration
                 ->constrained()
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-            
+
             $table->timestamps();
             $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');
         });

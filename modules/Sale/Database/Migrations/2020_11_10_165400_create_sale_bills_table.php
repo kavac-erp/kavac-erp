@@ -11,9 +11,9 @@ use Illuminate\Database\Migrations\Migration;
  * Gestiona la creación o eliminación de la tabla de facturas del módulo de comercializción
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 
 class CreateSaleBillsTable extends Migration
@@ -22,6 +22,7 @@ class CreateSaleBillsTable extends Migration
      * Método que ejecuta las migraciones
      *
      * @author  Dcontreras <dcontreras@cenditel.gob.ve>
+     *
      * @return void
      */
 
@@ -29,7 +30,7 @@ class CreateSaleBillsTable extends Migration
     {
         Schema::create('sale_bills', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('Identificador único del registro');
-            
+
             $table->string('state', 100)->nullable()->comment('Estado de la solicitud');
             $table->foreignId('sale_client_id')->nullable()->constrained()
                       ->onDelete('restrict')->onUpdate('cascade');
@@ -48,7 +49,7 @@ class CreateSaleBillsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

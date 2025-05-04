@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos de talento humano de base de datos */
-
 namespace Modules\Payroll\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -29,12 +27,14 @@ class PayrollCourseFile extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'payroll_course_id', 'image_id'];
@@ -43,6 +43,7 @@ class PayrollCourseFile extends Model implements Auditable
      * Método que obtiene el curso asociado a un archivo de curso
      *
      * @author  William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollCourse()
@@ -54,6 +55,7 @@ class PayrollCourseFile extends Model implements Auditable
      * Método que obtiene la imagen asociada a un archivo de curso
      *
      * @author  William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function image()
@@ -65,6 +67,7 @@ class PayrollCourseFile extends Model implements Auditable
      * Obtiene todos los documentos asociados al curso
      *
      * @author William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function documents()

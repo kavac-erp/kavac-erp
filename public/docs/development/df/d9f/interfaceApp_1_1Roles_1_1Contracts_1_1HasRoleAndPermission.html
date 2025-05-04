@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.9.1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>KAVAC: Referencia de la Interfaz HasRoleAndPermission</title>
+<title>KAVAC: Referencia de la interface HasRoleAndPermission</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -17,7 +17,7 @@
 <script type="text/javascript" src="../../search/searchdata.js"></script>
 <script type="text/javascript" src="../../search/search.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
   $(document).ready(function() { init_search(); });
 /* @license-end */
 </script>
@@ -29,21 +29,17 @@
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr style="height: 56px;">
+ <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../logo-doc.png"/></td>
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">KAVAC
-   &#160;<span id="projectnumber">v1.0.4</span>
+  <td id="projectalign">
+   <div id="projectname">KAVAC<span id="projectnumber">&#160;v1.0.5</span>
    </div>
    <div id="projectbrief">Sistema de Gestión Organizacional</div>
   </td>
-   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
-          <img id="MSearchSelect" src="../../search/mag_sel.svg"
-               onmouseover="return searchBox.OnSearchSelectShow()"
-               onmouseout="return searchBox.OnSearchSelectHide()"
-               alt=""/>
-          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Buscar" accesskey="S"
                onfocus="searchBox.OnSearchFieldFocus(true)" 
                onblur="searchBox.OnSearchFieldFocus(false)" 
                onkeyup="searchBox.OnSearchFieldChange(event)"/>
@@ -57,10 +53,10 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Generado por Doxygen 1.9.1 -->
+<!-- Generado por Doxygen 1.9.8 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-var searchBox = new SearchBox("searchBox", "../../search",false,'Buscar','.html');
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
 /* @license-end */
 </script>
 </div><!-- top -->
@@ -75,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Buscar','.html'
   </div>
 </div>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(document).ready(function(){initNavTree('df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html','../../'); initResizable(); });
 /* @license-end */
 </script>
@@ -89,102 +85,108 @@ $(document).ready(function(){initNavTree('df/d9f/interfaceApp_1_1Roles_1_1Contra
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
-<iframe src="javascript:void(0)" frameborder="0" 
-        name="MSearchResults" id="MSearchResults">
-</iframe>
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
 </div>
 
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Métodos públicos</a>  </div>
-  <div class="headertitle">
-<div class="title">Referencia de la Interfaz HasRoleAndPermission</div>  </div>
+  <div class="headertitle"><div class="title">Referencia de la interface HasRoleAndPermission</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>Interface para la gestión de roles y permisos.  
  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#details">Más...</a></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Diagrama de colaboración para HasRoleAndPermission:</div>
+  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Diagrama de colaboración de HasRoleAndPermission:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="../../df/da0/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission__coll__graph.png" border="0" usemap="#aHasRoleAndPermission_coll__map" alt="Collaboration graph"/></div>
 <map name="aHasRoleAndPermission_coll__map" id="aHasRoleAndPermission_coll__map">
-<area shape="rect" title="Interface para la gestión de roles y permisos." alt="" coords="5,5,192,229"/>
+<area shape="rect" title="Interface para la gestión de roles y permisos." alt="" coords="5,5,184,271"/>
 </map>
 </div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Métodos públicos</h2></td></tr>
-<tr class="memitem:ac486419bbe80daa7aa5d64ac65dba209"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#ac486419bbe80daa7aa5d64ac65dba209">allowed</a> ($providedPermission, Model $entity, $owner=true, $ownerColumn='user_id')</td></tr>
-<tr class="memdesc:ac486419bbe80daa7aa5d64ac65dba209"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user is allowed to manipulate with entity.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#ac486419bbe80daa7aa5d64ac65dba209">Más...</a><br /></td></tr>
+<tr class="memitem:ac486419bbe80daa7aa5d64ac65dba209" id="r_ac486419bbe80daa7aa5d64ac65dba209"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#ac486419bbe80daa7aa5d64ac65dba209">allowed</a> ($providedPermission, Model $entity, $owner=true, $ownerColumn='user_id')</td></tr>
+<tr class="memdesc:ac486419bbe80daa7aa5d64ac65dba209"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user is allowed to manipulate with entity.  <br /></td></tr>
 <tr class="separator:ac486419bbe80daa7aa5d64ac65dba209"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbd95b18adc1a3ac700789ddb56742d5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#adbd95b18adc1a3ac700789ddb56742d5">attachPermission</a> ($permission)</td></tr>
-<tr class="memdesc:adbd95b18adc1a3ac700789ddb56742d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach permission to a user.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#adbd95b18adc1a3ac700789ddb56742d5">Más...</a><br /></td></tr>
+<tr class="memitem:adbd95b18adc1a3ac700789ddb56742d5" id="r_adbd95b18adc1a3ac700789ddb56742d5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#adbd95b18adc1a3ac700789ddb56742d5">attachPermission</a> ($permission)</td></tr>
+<tr class="memdesc:adbd95b18adc1a3ac700789ddb56742d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach permission to a user.  <br /></td></tr>
 <tr class="separator:adbd95b18adc1a3ac700789ddb56742d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c1d128db4084fbda0ddad4cac270edd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a2c1d128db4084fbda0ddad4cac270edd">attachRole</a> ($role)</td></tr>
-<tr class="memdesc:a2c1d128db4084fbda0ddad4cac270edd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach role to a user.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a2c1d128db4084fbda0ddad4cac270edd">Más...</a><br /></td></tr>
+<tr class="memitem:a2c1d128db4084fbda0ddad4cac270edd" id="r_a2c1d128db4084fbda0ddad4cac270edd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a2c1d128db4084fbda0ddad4cac270edd">attachRole</a> ($role)</td></tr>
+<tr class="memdesc:a2c1d128db4084fbda0ddad4cac270edd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach role to a user.  <br /></td></tr>
 <tr class="separator:a2c1d128db4084fbda0ddad4cac270edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1e7a197023f84cb2c6a24ae48309564"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#ae1e7a197023f84cb2c6a24ae48309564">checkPermission</a> ($permission)</td></tr>
-<tr class="memdesc:ae1e7a197023f84cb2c6a24ae48309564"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has a permission.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#ae1e7a197023f84cb2c6a24ae48309564">Más...</a><br /></td></tr>
+<tr class="memitem:ae1e7a197023f84cb2c6a24ae48309564" id="r_ae1e7a197023f84cb2c6a24ae48309564"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#ae1e7a197023f84cb2c6a24ae48309564">checkPermission</a> ($permission)</td></tr>
+<tr class="memdesc:ae1e7a197023f84cb2c6a24ae48309564"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has a permission.  <br /></td></tr>
 <tr class="separator:ae1e7a197023f84cb2c6a24ae48309564"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a796d605fcfbe45d904e2c0ed4ec22c32"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a796d605fcfbe45d904e2c0ed4ec22c32">checkRole</a> ($role)</td></tr>
-<tr class="memdesc:a796d605fcfbe45d904e2c0ed4ec22c32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has role.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a796d605fcfbe45d904e2c0ed4ec22c32">Más...</a><br /></td></tr>
+<tr class="memitem:a796d605fcfbe45d904e2c0ed4ec22c32" id="r_a796d605fcfbe45d904e2c0ed4ec22c32"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a796d605fcfbe45d904e2c0ed4ec22c32">checkRole</a> ($role)</td></tr>
+<tr class="memdesc:a796d605fcfbe45d904e2c0ed4ec22c32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has role.  <br /></td></tr>
 <tr class="separator:a796d605fcfbe45d904e2c0ed4ec22c32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad567673fa059bd82a20962a74fd0e64"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aad567673fa059bd82a20962a74fd0e64">detachAllPermissions</a> ()</td></tr>
-<tr class="memdesc:aad567673fa059bd82a20962a74fd0e64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detach all permissions from a user.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aad567673fa059bd82a20962a74fd0e64">Más...</a><br /></td></tr>
+<tr class="memitem:aad567673fa059bd82a20962a74fd0e64" id="r_aad567673fa059bd82a20962a74fd0e64"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aad567673fa059bd82a20962a74fd0e64">detachAllPermissions</a> ()</td></tr>
+<tr class="memdesc:aad567673fa059bd82a20962a74fd0e64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detach all permissions from a user.  <br /></td></tr>
 <tr class="separator:aad567673fa059bd82a20962a74fd0e64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d3391aa383b98e47bda3b1849b2069d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a9d3391aa383b98e47bda3b1849b2069d">detachAllRoles</a> ()</td></tr>
-<tr class="memdesc:a9d3391aa383b98e47bda3b1849b2069d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detach all roles from a user.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a9d3391aa383b98e47bda3b1849b2069d">Más...</a><br /></td></tr>
+<tr class="memitem:a9d3391aa383b98e47bda3b1849b2069d" id="r_a9d3391aa383b98e47bda3b1849b2069d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a9d3391aa383b98e47bda3b1849b2069d">detachAllRoles</a> ()</td></tr>
+<tr class="memdesc:a9d3391aa383b98e47bda3b1849b2069d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detach all roles from a user.  <br /></td></tr>
 <tr class="separator:a9d3391aa383b98e47bda3b1849b2069d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9e45bb70dc7cdf7a24e3f47d690c2ba"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#af9e45bb70dc7cdf7a24e3f47d690c2ba">detachPermission</a> ($permission)</td></tr>
-<tr class="memdesc:af9e45bb70dc7cdf7a24e3f47d690c2ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detach permission from a user.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#af9e45bb70dc7cdf7a24e3f47d690c2ba">Más...</a><br /></td></tr>
+<tr class="memitem:af9e45bb70dc7cdf7a24e3f47d690c2ba" id="r_af9e45bb70dc7cdf7a24e3f47d690c2ba"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#af9e45bb70dc7cdf7a24e3f47d690c2ba">detachPermission</a> ($permission)</td></tr>
+<tr class="memdesc:af9e45bb70dc7cdf7a24e3f47d690c2ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detach permission from a user.  <br /></td></tr>
 <tr class="separator:af9e45bb70dc7cdf7a24e3f47d690c2ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21de1874028b5cc385789943e25e2619"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a21de1874028b5cc385789943e25e2619">detachRole</a> ($role)</td></tr>
-<tr class="memdesc:a21de1874028b5cc385789943e25e2619"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detach role from a user.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a21de1874028b5cc385789943e25e2619">Más...</a><br /></td></tr>
+<tr class="memitem:a21de1874028b5cc385789943e25e2619" id="r_a21de1874028b5cc385789943e25e2619"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a21de1874028b5cc385789943e25e2619">detachRole</a> ($role)</td></tr>
+<tr class="memdesc:a21de1874028b5cc385789943e25e2619"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detach role from a user.  <br /></td></tr>
 <tr class="separator:a21de1874028b5cc385789943e25e2619"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98e8f81c4e0869a6adf4a36ca1a6860a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a98e8f81c4e0869a6adf4a36ca1a6860a">getPermissions</a> ()</td></tr>
-<tr class="memdesc:a98e8f81c4e0869a6adf4a36ca1a6860a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all permissions as collection.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a98e8f81c4e0869a6adf4a36ca1a6860a">Más...</a><br /></td></tr>
+<tr class="memitem:a98e8f81c4e0869a6adf4a36ca1a6860a" id="r_a98e8f81c4e0869a6adf4a36ca1a6860a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a98e8f81c4e0869a6adf4a36ca1a6860a">getPermissions</a> ()</td></tr>
+<tr class="memdesc:a98e8f81c4e0869a6adf4a36ca1a6860a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all permissions as collection.  <br /></td></tr>
 <tr class="separator:a98e8f81c4e0869a6adf4a36ca1a6860a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa676cae5ee8d7fb6862a8724adc2660d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aa676cae5ee8d7fb6862a8724adc2660d">getRoles</a> ()</td></tr>
-<tr class="memdesc:aa676cae5ee8d7fb6862a8724adc2660d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all roles as collection.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aa676cae5ee8d7fb6862a8724adc2660d">Más...</a><br /></td></tr>
+<tr class="memitem:aa676cae5ee8d7fb6862a8724adc2660d" id="r_aa676cae5ee8d7fb6862a8724adc2660d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aa676cae5ee8d7fb6862a8724adc2660d">getRoles</a> ()</td></tr>
+<tr class="memdesc:aa676cae5ee8d7fb6862a8724adc2660d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all roles as collection.  <br /></td></tr>
 <tr class="separator:aa676cae5ee8d7fb6862a8724adc2660d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad07eaf58ec35b72332e0b561feff5f90"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#ad07eaf58ec35b72332e0b561feff5f90">hasAllPermissions</a> ($permission)</td></tr>
-<tr class="memdesc:ad07eaf58ec35b72332e0b561feff5f90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has all permissions.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#ad07eaf58ec35b72332e0b561feff5f90">Más...</a><br /></td></tr>
+<tr class="memitem:ad07eaf58ec35b72332e0b561feff5f90" id="r_ad07eaf58ec35b72332e0b561feff5f90"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#ad07eaf58ec35b72332e0b561feff5f90">hasAllPermissions</a> ($permission)</td></tr>
+<tr class="memdesc:ad07eaf58ec35b72332e0b561feff5f90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has all permissions.  <br /></td></tr>
 <tr class="separator:ad07eaf58ec35b72332e0b561feff5f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7a85e59ac18d0fe68cb2aa74af02790"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aa7a85e59ac18d0fe68cb2aa74af02790">hasAllRoles</a> ($role)</td></tr>
-<tr class="memdesc:aa7a85e59ac18d0fe68cb2aa74af02790"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has all roles.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aa7a85e59ac18d0fe68cb2aa74af02790">Más...</a><br /></td></tr>
+<tr class="memitem:aa7a85e59ac18d0fe68cb2aa74af02790" id="r_aa7a85e59ac18d0fe68cb2aa74af02790"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aa7a85e59ac18d0fe68cb2aa74af02790">hasAllRoles</a> ($role)</td></tr>
+<tr class="memdesc:aa7a85e59ac18d0fe68cb2aa74af02790"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has all roles.  <br /></td></tr>
 <tr class="separator:aa7a85e59ac18d0fe68cb2aa74af02790"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa791a3bba10a2a446c0bf90a1870f487"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aa791a3bba10a2a446c0bf90a1870f487">hasOnePermission</a> ($permission)</td></tr>
-<tr class="memdesc:aa791a3bba10a2a446c0bf90a1870f487"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has at least one of the given permissions.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aa791a3bba10a2a446c0bf90a1870f487">Más...</a><br /></td></tr>
+<tr class="memitem:aa791a3bba10a2a446c0bf90a1870f487" id="r_aa791a3bba10a2a446c0bf90a1870f487"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aa791a3bba10a2a446c0bf90a1870f487">hasOnePermission</a> ($permission)</td></tr>
+<tr class="memdesc:aa791a3bba10a2a446c0bf90a1870f487"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has at least one of the given permissions.  <br /></td></tr>
 <tr class="separator:aa791a3bba10a2a446c0bf90a1870f487"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a654c49d70a8889620de2fbe33ad41659"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a654c49d70a8889620de2fbe33ad41659">hasOneRole</a> ($role)</td></tr>
-<tr class="memdesc:a654c49d70a8889620de2fbe33ad41659"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has at least one of the given roles.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a654c49d70a8889620de2fbe33ad41659">Más...</a><br /></td></tr>
+<tr class="memitem:a654c49d70a8889620de2fbe33ad41659" id="r_a654c49d70a8889620de2fbe33ad41659"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a654c49d70a8889620de2fbe33ad41659">hasOneRole</a> ($role)</td></tr>
+<tr class="memdesc:a654c49d70a8889620de2fbe33ad41659"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has at least one of the given roles.  <br /></td></tr>
 <tr class="separator:a654c49d70a8889620de2fbe33ad41659"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fce7d1ff646c3dce60c90dd70d9ec2a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a8fce7d1ff646c3dce60c90dd70d9ec2a">hasPermission</a> ($permission, $all=false)</td></tr>
-<tr class="memdesc:a8fce7d1ff646c3dce60c90dd70d9ec2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has a permission or permissions.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a8fce7d1ff646c3dce60c90dd70d9ec2a">Más...</a><br /></td></tr>
+<tr class="memitem:a8fce7d1ff646c3dce60c90dd70d9ec2a" id="r_a8fce7d1ff646c3dce60c90dd70d9ec2a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a8fce7d1ff646c3dce60c90dd70d9ec2a">hasPermission</a> ($permission, $all=false)</td></tr>
+<tr class="memdesc:a8fce7d1ff646c3dce60c90dd70d9ec2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has a permission or permissions.  <br /></td></tr>
 <tr class="separator:a8fce7d1ff646c3dce60c90dd70d9ec2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42f536dbbfc3a8f7c56b5773087a48f1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a42f536dbbfc3a8f7c56b5773087a48f1">hasRole</a> ($role, $all=false)</td></tr>
-<tr class="memdesc:a42f536dbbfc3a8f7c56b5773087a48f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has a role or roles.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a42f536dbbfc3a8f7c56b5773087a48f1">Más...</a><br /></td></tr>
+<tr class="memitem:a42f536dbbfc3a8f7c56b5773087a48f1" id="r_a42f536dbbfc3a8f7c56b5773087a48f1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a42f536dbbfc3a8f7c56b5773087a48f1">hasRole</a> ($role, $all=false)</td></tr>
+<tr class="memdesc:a42f536dbbfc3a8f7c56b5773087a48f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the user has a role or roles.  <br /></td></tr>
 <tr class="separator:a42f536dbbfc3a8f7c56b5773087a48f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07d981f1dd3ffe78519d1786f60fa769"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a07d981f1dd3ffe78519d1786f60fa769">level</a> ()</td></tr>
-<tr class="memdesc:a07d981f1dd3ffe78519d1786f60fa769"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get role level of a user.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a07d981f1dd3ffe78519d1786f60fa769">Más...</a><br /></td></tr>
+<tr class="memitem:a07d981f1dd3ffe78519d1786f60fa769" id="r_a07d981f1dd3ffe78519d1786f60fa769"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a07d981f1dd3ffe78519d1786f60fa769">level</a> ()</td></tr>
+<tr class="memdesc:a07d981f1dd3ffe78519d1786f60fa769"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get role level of a user.  <br /></td></tr>
 <tr class="separator:a07d981f1dd3ffe78519d1786f60fa769"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec9026ca8a39f4dc63a6b0d987ccfdf8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aec9026ca8a39f4dc63a6b0d987ccfdf8">rolePermissions</a> ()</td></tr>
-<tr class="memdesc:aec9026ca8a39f4dc63a6b0d987ccfdf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all permissions from roles.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aec9026ca8a39f4dc63a6b0d987ccfdf8">Más...</a><br /></td></tr>
+<tr class="memitem:aec9026ca8a39f4dc63a6b0d987ccfdf8" id="r_aec9026ca8a39f4dc63a6b0d987ccfdf8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aec9026ca8a39f4dc63a6b0d987ccfdf8">rolePermissions</a> ()</td></tr>
+<tr class="memdesc:aec9026ca8a39f4dc63a6b0d987ccfdf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all permissions from roles.  <br /></td></tr>
 <tr class="separator:aec9026ca8a39f4dc63a6b0d987ccfdf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9735549ca073c9bf252805dcc1da805e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a9735549ca073c9bf252805dcc1da805e">roles</a> ()</td></tr>
-<tr class="memdesc:a9735549ca073c9bf252805dcc1da805e"><td class="mdescLeft">&#160;</td><td class="mdescRight">User belongs to many roles.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a9735549ca073c9bf252805dcc1da805e">Más...</a><br /></td></tr>
+<tr class="memitem:a9735549ca073c9bf252805dcc1da805e" id="r_a9735549ca073c9bf252805dcc1da805e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a9735549ca073c9bf252805dcc1da805e">roles</a> ()</td></tr>
+<tr class="memdesc:a9735549ca073c9bf252805dcc1da805e"><td class="mdescLeft">&#160;</td><td class="mdescRight">User belongs to many roles.  <br /></td></tr>
 <tr class="separator:a9735549ca073c9bf252805dcc1da805e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af599098409e329da9385713572b9dcda"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#af599098409e329da9385713572b9dcda">syncPermissions</a> ($permissions)</td></tr>
-<tr class="memdesc:af599098409e329da9385713572b9dcda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sync permissions for a user.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#af599098409e329da9385713572b9dcda">Más...</a><br /></td></tr>
+<tr class="memitem:af599098409e329da9385713572b9dcda" id="r_af599098409e329da9385713572b9dcda"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#af599098409e329da9385713572b9dcda">syncPermissions</a> ($permissions)</td></tr>
+<tr class="memdesc:af599098409e329da9385713572b9dcda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sync permissions for a user.  <br /></td></tr>
 <tr class="separator:af599098409e329da9385713572b9dcda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a841ab4b5fba747e9b9d4155f80845ae0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a841ab4b5fba747e9b9d4155f80845ae0">syncRoles</a> ($<a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a9735549ca073c9bf252805dcc1da805e">roles</a>)</td></tr>
-<tr class="memdesc:a841ab4b5fba747e9b9d4155f80845ae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sync roles for a user.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a841ab4b5fba747e9b9d4155f80845ae0">Más...</a><br /></td></tr>
+<tr class="memitem:a841ab4b5fba747e9b9d4155f80845ae0" id="r_a841ab4b5fba747e9b9d4155f80845ae0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a841ab4b5fba747e9b9d4155f80845ae0">syncRoles</a> ($<a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#a9735549ca073c9bf252805dcc1da805e">roles</a>)</td></tr>
+<tr class="memdesc:a841ab4b5fba747e9b9d4155f80845ae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sync roles for a user.  <br /></td></tr>
 <tr class="separator:a841ab4b5fba747e9b9d4155f80845ae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1d5c621b06cc1a94c2c81627e9ac3e1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aa1d5c621b06cc1a94c2c81627e9ac3e1">userPermissions</a> ()</td></tr>
-<tr class="memdesc:aa1d5c621b06cc1a94c2c81627e9ac3e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">User belongs to many permissions.  <a href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aa1d5c621b06cc1a94c2c81627e9ac3e1">Más...</a><br /></td></tr>
+<tr class="memitem:aa1d5c621b06cc1a94c2c81627e9ac3e1" id="r_aa1d5c621b06cc1a94c2c81627e9ac3e1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html#aa1d5c621b06cc1a94c2c81627e9ac3e1">userPermissions</a> ()</td></tr>
+<tr class="memdesc:aa1d5c621b06cc1a94c2c81627e9ac3e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">User belongs to many permissions.  <br /></td></tr>
 <tr class="separator:aa1d5c621b06cc1a94c2c81627e9ac3e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Descripción detallada</h2>
@@ -192,9 +194,9 @@ Métodos públicos</h2></td></tr>
 <dl class="section author"><dt>Autor</dt><dd>ultraware\roles <a href="https://github.com/ultraware/roles.git">Ultraware\Roles</a> </dd></dl>
 
 <p class="definition">Definición en la línea <a class="el" href="../../d1/d35/Contracts_2HasRoleAndPermission_8php_source.html#l00017">17</a> del archivo <a class="el" href="../../d1/d35/Contracts_2HasRoleAndPermission_8php_source.html">Contracts/HasRoleAndPermission.php</a>.</p>
-</div><h2 class="groupheader">Documentación de las funciones miembro</h2>
-<a id="ac486419bbe80daa7aa5d64ac65dba209"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac486419bbe80daa7aa5d64ac65dba209">&#9670;&nbsp;</a></span>allowed()</h2>
+</div><h2 class="groupheader">Documentación de funciones miembro</h2>
+<a id="ac486419bbe80daa7aa5d64ac65dba209" name="ac486419bbe80daa7aa5d64ac65dba209"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac486419bbe80daa7aa5d64ac65dba209">&#9670;&#160;</a></span>allowed()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -245,8 +247,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="adbd95b18adc1a3ac700789ddb56742d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adbd95b18adc1a3ac700789ddb56742d5">&#9670;&nbsp;</a></span>attachPermission()</h2>
+<a id="adbd95b18adc1a3ac700789ddb56742d5" name="adbd95b18adc1a3ac700789ddb56742d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbd95b18adc1a3ac700789ddb56742d5">&#9670;&#160;</a></span>attachPermission()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -272,8 +274,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="a2c1d128db4084fbda0ddad4cac270edd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c1d128db4084fbda0ddad4cac270edd">&#9670;&nbsp;</a></span>attachRole()</h2>
+<a id="a2c1d128db4084fbda0ddad4cac270edd" name="a2c1d128db4084fbda0ddad4cac270edd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c1d128db4084fbda0ddad4cac270edd">&#9670;&#160;</a></span>attachRole()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -299,8 +301,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="ae1e7a197023f84cb2c6a24ae48309564"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1e7a197023f84cb2c6a24ae48309564">&#9670;&nbsp;</a></span>checkPermission()</h2>
+<a id="ae1e7a197023f84cb2c6a24ae48309564" name="ae1e7a197023f84cb2c6a24ae48309564"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1e7a197023f84cb2c6a24ae48309564">&#9670;&#160;</a></span>checkPermission()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -326,8 +328,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="a796d605fcfbe45d904e2c0ed4ec22c32"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a796d605fcfbe45d904e2c0ed4ec22c32">&#9670;&nbsp;</a></span>checkRole()</h2>
+<a id="a796d605fcfbe45d904e2c0ed4ec22c32" name="a796d605fcfbe45d904e2c0ed4ec22c32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a796d605fcfbe45d904e2c0ed4ec22c32">&#9670;&#160;</a></span>checkRole()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -353,8 +355,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="aad567673fa059bd82a20962a74fd0e64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad567673fa059bd82a20962a74fd0e64">&#9670;&nbsp;</a></span>detachAllPermissions()</h2>
+<a id="aad567673fa059bd82a20962a74fd0e64" name="aad567673fa059bd82a20962a74fd0e64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad567673fa059bd82a20962a74fd0e64">&#9670;&#160;</a></span>detachAllPermissions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -373,8 +375,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="a9d3391aa383b98e47bda3b1849b2069d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d3391aa383b98e47bda3b1849b2069d">&#9670;&nbsp;</a></span>detachAllRoles()</h2>
+<a id="a9d3391aa383b98e47bda3b1849b2069d" name="a9d3391aa383b98e47bda3b1849b2069d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d3391aa383b98e47bda3b1849b2069d">&#9670;&#160;</a></span>detachAllRoles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -393,8 +395,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="af9e45bb70dc7cdf7a24e3f47d690c2ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9e45bb70dc7cdf7a24e3f47d690c2ba">&#9670;&nbsp;</a></span>detachPermission()</h2>
+<a id="af9e45bb70dc7cdf7a24e3f47d690c2ba" name="af9e45bb70dc7cdf7a24e3f47d690c2ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9e45bb70dc7cdf7a24e3f47d690c2ba">&#9670;&#160;</a></span>detachPermission()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -420,8 +422,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="a21de1874028b5cc385789943e25e2619"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21de1874028b5cc385789943e25e2619">&#9670;&nbsp;</a></span>detachRole()</h2>
+<a id="a21de1874028b5cc385789943e25e2619" name="a21de1874028b5cc385789943e25e2619"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21de1874028b5cc385789943e25e2619">&#9670;&#160;</a></span>detachRole()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -447,8 +449,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="a98e8f81c4e0869a6adf4a36ca1a6860a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98e8f81c4e0869a6adf4a36ca1a6860a">&#9670;&nbsp;</a></span>getPermissions()</h2>
+<a id="a98e8f81c4e0869a6adf4a36ca1a6860a" name="a98e8f81c4e0869a6adf4a36ca1a6860a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98e8f81c4e0869a6adf4a36ca1a6860a">&#9670;&#160;</a></span>getPermissions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -467,8 +469,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="aa676cae5ee8d7fb6862a8724adc2660d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa676cae5ee8d7fb6862a8724adc2660d">&#9670;&nbsp;</a></span>getRoles()</h2>
+<a id="aa676cae5ee8d7fb6862a8724adc2660d" name="aa676cae5ee8d7fb6862a8724adc2660d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa676cae5ee8d7fb6862a8724adc2660d">&#9670;&#160;</a></span>getRoles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -487,8 +489,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="ad07eaf58ec35b72332e0b561feff5f90"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad07eaf58ec35b72332e0b561feff5f90">&#9670;&nbsp;</a></span>hasAllPermissions()</h2>
+<a id="ad07eaf58ec35b72332e0b561feff5f90" name="ad07eaf58ec35b72332e0b561feff5f90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad07eaf58ec35b72332e0b561feff5f90">&#9670;&#160;</a></span>hasAllPermissions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -514,8 +516,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="aa7a85e59ac18d0fe68cb2aa74af02790"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7a85e59ac18d0fe68cb2aa74af02790">&#9670;&nbsp;</a></span>hasAllRoles()</h2>
+<a id="aa7a85e59ac18d0fe68cb2aa74af02790" name="aa7a85e59ac18d0fe68cb2aa74af02790"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7a85e59ac18d0fe68cb2aa74af02790">&#9670;&#160;</a></span>hasAllRoles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -541,8 +543,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="aa791a3bba10a2a446c0bf90a1870f487"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa791a3bba10a2a446c0bf90a1870f487">&#9670;&nbsp;</a></span>hasOnePermission()</h2>
+<a id="aa791a3bba10a2a446c0bf90a1870f487" name="aa791a3bba10a2a446c0bf90a1870f487"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa791a3bba10a2a446c0bf90a1870f487">&#9670;&#160;</a></span>hasOnePermission()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -568,8 +570,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="a654c49d70a8889620de2fbe33ad41659"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a654c49d70a8889620de2fbe33ad41659">&#9670;&nbsp;</a></span>hasOneRole()</h2>
+<a id="a654c49d70a8889620de2fbe33ad41659" name="a654c49d70a8889620de2fbe33ad41659"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a654c49d70a8889620de2fbe33ad41659">&#9670;&#160;</a></span>hasOneRole()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -595,8 +597,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="a8fce7d1ff646c3dce60c90dd70d9ec2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8fce7d1ff646c3dce60c90dd70d9ec2a">&#9670;&nbsp;</a></span>hasPermission()</h2>
+<a id="a8fce7d1ff646c3dce60c90dd70d9ec2a" name="a8fce7d1ff646c3dce60c90dd70d9ec2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fce7d1ff646c3dce60c90dd70d9ec2a">&#9670;&#160;</a></span>hasPermission()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -633,8 +635,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="a42f536dbbfc3a8f7c56b5773087a48f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42f536dbbfc3a8f7c56b5773087a48f1">&#9670;&nbsp;</a></span>hasRole()</h2>
+<a id="a42f536dbbfc3a8f7c56b5773087a48f1" name="a42f536dbbfc3a8f7c56b5773087a48f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42f536dbbfc3a8f7c56b5773087a48f1">&#9670;&#160;</a></span>hasRole()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -671,8 +673,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="a07d981f1dd3ffe78519d1786f60fa769"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07d981f1dd3ffe78519d1786f60fa769">&#9670;&nbsp;</a></span>level()</h2>
+<a id="a07d981f1dd3ffe78519d1786f60fa769" name="a07d981f1dd3ffe78519d1786f60fa769"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07d981f1dd3ffe78519d1786f60fa769">&#9670;&#160;</a></span>level()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -691,8 +693,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="aec9026ca8a39f4dc63a6b0d987ccfdf8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec9026ca8a39f4dc63a6b0d987ccfdf8">&#9670;&nbsp;</a></span>rolePermissions()</h2>
+<a id="aec9026ca8a39f4dc63a6b0d987ccfdf8" name="aec9026ca8a39f4dc63a6b0d987ccfdf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec9026ca8a39f4dc63a6b0d987ccfdf8">&#9670;&#160;</a></span>rolePermissions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -711,8 +713,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="a9735549ca073c9bf252805dcc1da805e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9735549ca073c9bf252805dcc1da805e">&#9670;&nbsp;</a></span>roles()</h2>
+<a id="a9735549ca073c9bf252805dcc1da805e" name="a9735549ca073c9bf252805dcc1da805e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9735549ca073c9bf252805dcc1da805e">&#9670;&#160;</a></span>roles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -731,8 +733,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="af599098409e329da9385713572b9dcda"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af599098409e329da9385713572b9dcda">&#9670;&nbsp;</a></span>syncPermissions()</h2>
+<a id="af599098409e329da9385713572b9dcda" name="af599098409e329da9385713572b9dcda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af599098409e329da9385713572b9dcda">&#9670;&#160;</a></span>syncPermissions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -758,8 +760,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="a841ab4b5fba747e9b9d4155f80845ae0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a841ab4b5fba747e9b9d4155f80845ae0">&#9670;&nbsp;</a></span>syncRoles()</h2>
+<a id="a841ab4b5fba747e9b9d4155f80845ae0" name="a841ab4b5fba747e9b9d4155f80845ae0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a841ab4b5fba747e9b9d4155f80845ae0">&#9670;&#160;</a></span>syncRoles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -785,8 +787,8 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<a id="aa1d5c621b06cc1a94c2c81627e9ac3e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa1d5c621b06cc1a94c2c81627e9ac3e1">&#9670;&nbsp;</a></span>userPermissions()</h2>
+<a id="aa1d5c621b06cc1a94c2c81627e9ac3e1" name="aa1d5c621b06cc1a94c2c81627e9ac3e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1d5c621b06cc1a94c2c81627e9ac3e1">&#9670;&#160;</a></span>userPermissions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -805,7 +807,7 @@ Métodos públicos</h2></td></tr>
 
 </div>
 </div>
-<hr/>La documentación para este interfaz fue generada a partir del siguiente fichero:<ul>
+<hr/>La documentación de esta interface está generada del siguiente archivo:<ul>
 <li><a class="el" href="../../d1/d35/Contracts_2HasRoleAndPermission_8php_source.html">Contracts/HasRoleAndPermission.php</a></li>
 </ul>
 </div><!-- contents -->
@@ -814,7 +816,7 @@ Métodos públicos</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>App</b></li><li class="navelem"><b>Roles</b></li><li class="navelem"><b>Contracts</b></li><li class="navelem"><a class="el" href="../../df/d9f/interfaceApp_1_1Roles_1_1Contracts_1_1HasRoleAndPermission.html">HasRoleAndPermission</a></li>
-    <li class="footer">Generado el Sábado, 4 de Noviembre de 2023 16:16:44 para KAVAC por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

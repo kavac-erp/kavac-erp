@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +13,11 @@ use App\Traits\ModelsTrait;
  * @brief Datos de Municipios
  *
  * Gestiona el modelo de datos para los Municipios
+ *
+ * @property string|integer $id
+ * @property string $name
+ * @property string $code
+ * @property string $estate_id
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -51,18 +54,16 @@ class Municipality extends Model implements Auditable
     /**
      * Arreglo con las relaciones a cargar por defecto
      *
-     * @var    array
+     * @var    array $with
      */
     protected $with = ['estate'];
 
     /**
      * Método que obtiene el Estado de un Municipio
      *
-     * @method  estate
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con los registros relacionados al modelo Estate
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function estate()
     {
@@ -72,11 +73,9 @@ class Municipality extends Model implements Auditable
     /**
      * Método que obtiene las Parroquias asociadas a un Municipio
      *
-     * @method parish
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con los registros relacionados al modelo Parish
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function parish()
     {
@@ -84,9 +83,7 @@ class Municipality extends Model implements Auditable
     }
 
     /**
-     * Municipality has many Institutions.
-     *
-     * @method  institutions
+     * Método que obtiene las Organizaciones asociadas a un Municipio
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

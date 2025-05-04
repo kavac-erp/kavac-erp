@@ -1,12 +1,11 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Municipality;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\JsonResponse;
 use App\Rules\UniqueMunicipalityCode;
 
 /**
@@ -16,6 +15,7 @@ use App\Rules\UniqueMunicipalityCode;
  * Controlador para gestionar Municipios
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -24,13 +24,11 @@ class MunicipalityController extends Controller
     /**
      * Define la configuración de la clase
      *
-     * @method  __construct
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:municipality.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:municipality.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:municipality.delete', ['only' => 'destroy']);
@@ -39,8 +37,6 @@ class MunicipalityController extends Controller
 
     /**
      * Listado de todos los registros de los Municipios
-     *
-     * @method  index
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -53,8 +49,6 @@ class MunicipalityController extends Controller
 
     /**
      * Registra un nuevo Municipio
-     *
-     * @method  store
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -83,7 +77,7 @@ class MunicipalityController extends Controller
             ]);
         }
 
-        /** @var Municipality Objeto con información del municipio registrado */
+        // Objeto con información del municipio registrado
         $municipality = Municipality::updateOrCreate([
             'name' => $request->name,
             'estate_id' => $request->estate_id
@@ -96,8 +90,6 @@ class MunicipalityController extends Controller
 
     /**
      * Actualiza la información del Municipio
-     *
-     * @method  update
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -124,8 +116,6 @@ class MunicipalityController extends Controller
 
     /**
      * Elimina un Municipio
-     *
-     * @method  destroy
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

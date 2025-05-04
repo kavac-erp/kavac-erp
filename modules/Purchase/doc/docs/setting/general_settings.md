@@ -3,19 +3,19 @@
 
 ![Screenshot](../img/logokavac.png#imagen)
 
-El usuario selecciona el módulo de Compras en el menú lateral de los módulos del sistema, ahí visualizara las opciones **Configuración**, **Proveedores**, **Plan de compras**, **Requerimientos**, **Cotización**, **Disponibilidad Presupuestaria** y **Orden de compras**, debiendo pulsar **Configuración** 
+El usuario selecciona el módulo de Compras en el menú lateral de los módulos del sistema, ahí visualizara las opciones **Configuración**, **Proveedores**, **Planes de compras**, **Requerimientos**, **Cotizaciones**, **Órdenes de compras/servicios**, debiendo pulsar **Configuración**.
 
-![Screenshot](../img/configurar_compras.png)<div style="text-align: center;font-weight: bold">Figura 3: Menú del Módulo de Compras</div>
-
+![Screenshot](../img/configurar_compras.png)<div style="text-align: center;font-weight: bold">Figura 1: Menú del Módulo de Compras</div>
+<br>
 
 ## Registros Comunes
 
-La sección de registros comunes es una herramienta de la **Configuración del Módulo de Compras** que permite al administrador o un usuario con permisos especiales sobre el módulo de compras, ajustar el módulo a la organización usuaria a través de parámetros configurables.   Los datos registrados en esta sección serán considerados en todas las funcionalidades del módulo.
+La sección de registros comunes es una herramienta de la **Configuración del Módulo de Compras** que permite al administrador o usuario con permisos especiales sobre el módulo de compras, ajustar el módulo a la organización usuaria a través de parámetros configurables. Los datos registrados en esta sección serán considerados en todas las funcionalidades del módulo.
 
-El usuario ingresará a **Registros Comunes**, visualizando 6 iconos **Ramas de Proveedor**, **Objetos de Proveedor**,**Especialidades de Proveedor**, **Tipos de Proveedor**, **Documentos Requeridos** y **Modalidades de Compra**.
+El usuario ingresará a **Registros Comunes**, visualizando 8 iconos: **Ramas de Proveedor**, **Objetos de Proveedor**,**Especialidades de Proveedor**, **Tipos de Proveedor**, **Documentos Requeridos**, **Modalidades de Compra**, **Servicios** y **Catálogo de productos y servicios**.
 
-![Screenshot](../img/registros_comunes.png)<div style="text-align: center;font-weight: bold">Figura 4: Registros Comunes del Módulo de Compras</div>
-
+![Screenshot](../img/registros_comunes.png)<div style="text-align: center;font-weight: bold">Figura 2: Registros Comunes del Módulo de Compras</div>
+<br>
 
 ### Ramas de Proveedor
 
@@ -27,12 +27,13 @@ El usuario selecciona el icono **Ramas de proveedor**.
 
 ***Registro de rama de proveedor***
 
--   Complete el formulario **Rama de Proveedor** (ver Figura 4).   Asigne un nombre y descripción para la rama del proveedor a través de los campos **Nombre** y **Descripción**.
+-   Complete el formulario **Rama de Proveedor**.   Asigne un nombre y descripción para la rama del proveedor a través de los campos **Nombre** y **Descripción**.
 -   Presione el botón ![Screenshot](../img/save_3.png) **Guardar** para registrar los cambios efectuados.
 -   Presione el botón ![Screenshot](../img/cancel_1.png) **Cancelar** para limpiar datos del formulario.
 -   Presione el botón ![Screenshot](../img/close.png) **Cerrar** para cerrar el formulario.
 
-![Screenshot](../img/figure_2.png)<div style="text-align: center;font-weight: bold">Figura 4:  Formulario para registrar una rama de proveedor</div>
+![Screenshot](../img/figure_2.png)<div style="text-align: center;font-weight: bold">Figura 3:  Formulario para registrar una rama de proveedor</div>
+<br>
 
 ***Gestión de registros de rama de proveedor***
 
@@ -47,23 +48,23 @@ A través de esta funcionalidad se gestiona información sobre los diferentes ob
 El usuario selecciona el icono **Objetos de proveedor**. 
 
 ![Screenshot](../img/objetos_proveedor.png)
-
+<br>
 
 ***Registro de objetos de proveedor***
 
--   Complete el formulario **Objetos de Proveedor** (ver Figura 5).   Asigne un tipo, nombre y descripción para el objeto del proveedor a través de los campos **Tipo**, **Nombre** y **Descripción**.
+-   Complete el formulario **Objetos de Proveedor**. Asigne un tipo, nombre y descripción para el objeto del proveedor a través de los campos **Tipo**, **Nombre** y **Descripción**.
 -   Presione el botón ![Screenshot](../img/save_3.png) **Guardar** para registrar los cambios efectuados.
 -   Presione el botón ![Screenshot](../img/cancel_1.png) **Cancelar** para limpiar datos del formulario.
 -   Presione el botón ![Screenshot](../img/close.png) **Cerrar** para cerrar el formulario.
 
 
-![Screenshot](../img/figure_3.png)<div style="text-align: center;font-weight: bold">Figura 5: Formulario para registrar un objeto de proveedor</div>
+![Screenshot](../img/figure_3.png)<div style="text-align: center;font-weight: bold">Figura 4: Formulario para registrar un objeto de proveedor</div>
+<br>
 
 ***Gestión de registros de objetos de proveedor***
 
 -   Para editar un registro de **Objetos de Proveedor** presione el botón **Editar** ![Screenshot](../img/edit.png) del registro seleccionado de la tabla **Registros**.  A continuación complete el formulario **Objetos de proveedor** y presione el botón **Guardar** para almacenar los cambios efectuados.
 -   Para eliminar un registro de **Objetos de proveedor** presione el botón **Eliminar** ![Screenshot](../img/delete.png) del registro seleccionado de la tabla **Registros**. 
-
 
 
 ### Especialidad de Proveedor
@@ -73,18 +74,18 @@ A través de esta funcionalidad se gestiona información sobre las diferentes es
 El usuario selecciona el icono **Especialidad de proveedor**. 
 
 ![Screenshot](../img/Especialidad_proveedor.png)
-
+<br>
 
 ***Registro de especialidad de proveedor***
 
--   Complete el formulario **Especialidad de Proveedor** (ver Figura 6).   Asigne un nombre y descripción para la especialidad del proveedor a través de los campos **Nombre** y **Descripción**. 
+-   Complete el formulario **Especialidad de Proveedor**. Asigne un nombre y descripción para la especialidad del proveedor a través de los campos **Nombre** y **Descripción**. 
 -   Presione el botón ![Screenshot](../img/save_3.png) **Guardar** para registrar los cambios efectuados.
 -   Presione el botón ![Screenshot](../img/cancel_1.png) **Cancelar** para limpiar datos del formulario.
 -   Presione el botón ![Screenshot](../img/close.png) **Cerrar** para cerrar el formulario.
 
 
-![Screenshot](../img/figure_4.png)<div style="text-align: center;font-weight: bold">Figura 6: Formulario para registrar una especialidad de proveedor</div>
-
+![Screenshot](../img/figure_4.png)<div style="text-align: center;font-weight: bold">Figura 5: Formulario para registrar una especialidad de proveedor</div>
+<br>
 
 ***Gestión de registros de especialidad de proveedor***
 
@@ -99,16 +100,17 @@ A través de esta funcionalidad se gestiona información sobre los diferentes ti
 El usuario selecciona el icono **Tipos de proveedor**. 
 
 ![Screenshot](../img/Tipo_proveedor.png)
+<br>
 
 ***Registro de tipo de proveedor***
 
--   Complete el formulario **Tipo de Proveedor** (ver Figura 7).   Asigne un nombre para el tipo del proveedor a través del campo **Nombre**. 
+-   Complete el formulario **Tipo de Proveedor**. Asigne un nombre para el tipo del proveedor a través del campo **Nombre**. 
 -   Presione el botón ![Screenshot](../img/save_3.png) **Guardar** para registrar los cambios efectuados.
 -   Presione el botón ![Screenshot](../img/cancel_1.png) **Cancelar** para limpiar datos del formulario.
 -   Presione el botón ![Screenshot](../img/close.png) **Cerrar** para cerrar el formulario.
 
-![Screenshot](../img/figure_5.png)<div style="text-align: center;font-weight: bold">Figura 7: Formulario para registrar un tipo de proveedor</div>
-
+![Screenshot](../img/figure_5.png)<div style="text-align: center;font-weight: bold">Figura 6: Formulario para registrar un tipo de proveedor</div>
+<br>
 
 ***Gestión de registros de tipo de proveedor***
 
@@ -123,18 +125,18 @@ A través de esta funcionalidad se gestionan los tipos de documentos a consignar
 El usuario selecciona el icono **Documentos Requeridos**. 
 
 ![Screenshot](../img/Doc_requeridos.png)
-
+<br>
 
 ***Registro de documentos requeridos***
 
--   Complete el formulario **Documentos Requeridos** (ver Figura 8).   Asigne un nombre, tipo y descripción para el documento requerido a través de los campos **Nombre**, **Tipo** y **Descripción**. 
+-   Complete el formulario **Documentos Requeridos**. Asigne un nombre, tipo y descripción para el documento requerido a través de los campos **Nombre**, **Tipo** y **Descripción**. 
 -   Presione el botón ![Screenshot](../img/save_3.png) **Guardar** para registrar los cambios efectuados.
 -   Presione el botón ![Screenshot](../img/cancel_1.png) **Cancelar** para limpiar datos del formulario.
 -   Presione el botón ![Screenshot](../img/close.png) **Cerrar** para cerrar el formulario.
 
 
-![Screenshot](../img/figure_6.png)<div style="text-align: center;font-weight: bold">Figura 8: Formulario para registrar un documento requerido</div>
-
+![Screenshot](../img/figure_6.png)<div style="text-align: center;font-weight: bold">Figura 7: Formulario para registrar un documento requerido</div>
+<br>
 
 ***Gestión de registros de documentos requeridos***
 
@@ -149,28 +151,74 @@ A través de esta funcionalidad se gestionan las diferentes modalidades de compr
 El usuario selecciona el icono **Modalidades de Compras**. 
 
 ![Screenshot](../img/Modalidades.png)
-
+<br>
 
 ***Registro de modalidades de compra***
 
--   Complete el formulario **Modalidades de Compra** (ver Figura 9).   Asigne un nombre y descripción para la modalidad de compra a través de los campos **Nombre** y **Descripción**, seguidamente seleccione los documentos asociados a esa modalidad de compra.
+-   Complete el formulario **Modalidades de Compra**. Asigne un nombre y descripción para la modalidad de compra a través de los campos **Nombre** y **Descripción**, seguidamente seleccione los documentos asociados a esa modalidad de compra.
 -   Presione el botón ![Screenshot](../img/save_3.png) **Guardar** para registrar los cambios efectuados.
 -   Presione el botón ![Screenshot](../img/cancel_1.png) **Cancelar** para limpiar datos del formulario.
 -   Presione el botón ![Screenshot](../img/close.png) **Cerrar** para cerrar el formulario.
 
 
-![Screenshot](../img/figure_10.png)<div style="text-align: center;font-weight: bold">Figura 9: Formulario para registrar  modalidades de compras</div>
-
-!!! info "Formulario de registro"
-    -  **Seleccione los documentos para esta modalidad de compra**
-    
-    Para seleccionar cualquiera de los documentos a consignar se debe seleccionar con un clic los botones checkbox. 
-
-![Screenshot](../img/figure_9.png)
-
+![Screenshot](../img/figure_10.png)<div style="text-align: center;font-weight: bold">Figura 8: Formulario para registrar  modalidades de compras</div>
+<br>
 
 ***Gestión de registros de modalidades de compras***
 
 -   Para editar un registro de **modalidades de compras** presione el botón **Editar** ![Screenshot](../img/edit.png) del registro seleccionado de la tabla **Registros**.  A continuación complete el formulario **modalidades de compras** y presione el botón **Guardar** para almacenar los cambios efectuados.
 -   Para eliminar un registro de **modalidades de compras** presione el botón **Eliminar** ![Screenshot](../img/delete.png) del registro seleccionado de la tabla **Registros**. 
+
+### Servicios
+
+A través de esta funcionalidad se gestionan los diferentes servicios a emplear por la organización. Los registros realizados en esta sección corresponden a datos a incluir en la información básica de servicios en el módulo de compras.
+
+El usuario selecciona el icono **Servicios**. 
+
+![Screenshot](../img/servicios_compras.png)
+<br>
+
+***Registro de servicios***
+
+-   Complete el formulario **Servicios**. Asigne un nombre y descripción para el servicio a través de los campos **Nombre** y **Descripción**.
+-   Presione el botón ![Screenshot](../img/save_3.png) **Guardar** para registrar los cambios efectuados.
+-   Presione el botón ![Screenshot](../img/cancel_1.png) **Cancelar** para limpiar datos del formulario.
+-   Presione el botón ![Screenshot](../img/close.png) **Cerrar** para cerrar el formulario.
+
+
+![Screenshot](../img/registro_servicio.png)<div style="text-align: center;font-weight: bold">Figura 9: Formulario para registrar servicios</div>
+<br>
+
+***Gestión de registros de servicios***
+
+-   Para editar un registro de **Servicios** presione el botón **Editar** ![Screenshot](../img/edit.png) del registro seleccionado de la tabla **Registros**.  A continuación complete el formulario **Servicios** y presione el botón **Guardar** para almacenar los cambios efectuados.
+-   Para eliminar un registro de **Servicios** presione el botón **Eliminar** ![Screenshot](../img/delete.png) del registro seleccionado de la tabla **Registros**. 
+
+### Catálogo de productos y servicios
+
+A través de esta funcionalidad se gestionan los diferentes productos y servicios a emplear por la organización. Los registros realizados en esta sección corresponden a datos a incluir en la información básica de productos y servicios en el módulo de compras.
+
+El usuario selecciona el icono **Catálogo de productos y servicios**. 
+
+![Screenshot](../img/catalogo_compras.png)
+<br>
+
+***Registro de productos y servicios***
+
+-   Complete el formulario **Catálogo de Productos y Servicios**. Asigne un nombre y descripción para el servicio a través de los campos **Nombre** y **Descripción**.
+-   Presione el botón ![Screenshot](../img/save_3.png) **Guardar** para registrar los cambios efectuados.
+-   Presione el botón ![Screenshot](../img/cancel_1.png) **Cancelar** para limpiar datos del formulario.
+-   Presione el botón ![Screenshot](../img/close.png) **Cerrar** para cerrar el formulario.
+
+
+![Screenshot](../img/catalogo_servicio.png)<div style="text-align: center;font-weight: bold">Figura 10: Formulario para registrar productos y servicios</div>
+<br>
+
+***Gestión de registros de productos y servicios***
+
+-   Para editar un registro de **Catálogo de Productos y Servicios** presione el botón **Editar** ![Screenshot](../img/edit.png) del registro seleccionado de la tabla **Registros**.  A continuación complete el formulario **Catálogo de Productos y Servicios** y presione el botón **Guardar** para almacenar los cambios efectuados.
+-   Para eliminar un registro de **Productos y Servicios** presione el botón **Eliminar** ![Screenshot](../img/delete.png) del registro seleccionado de la tabla **Registros**. 
+-   Para subir los registros mediante hoja de cálculo presione el botón **Cargar** ![Screenshot](../img/cargar2.png) en el formulario de **Catálogo de Productos y Servicios**.
+-   Para descargar el documento con información de los registros presione el botón **Descargar** ![Screenshot](../img/descargar2.png) en el formulario de **Catálogo de Productos y Servicios**.
+
 

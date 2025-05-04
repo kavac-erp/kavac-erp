@@ -1,24 +1,23 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Asset\Http\Controllers;
 
 use App\Models\Institution;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Modules\Asset\Models\Asset;
-use Modules\Asset\Models\AssetAdjustmentAsset;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
 use Modules\Asset\Models\AssetBook;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Asset\Models\AssetAdjustmentAsset;
 
 /**
  * @class AssetAdjustmentController
- * @brief [descripción detallada]
+ * @brief Controlador de ajustes de bienes
  *
- * [descripción corta]
+ * Clase que gestiona los ajustes de bienes
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -26,13 +25,11 @@ use Modules\Asset\Models\AssetBook;
 class AssetAdjustmentController extends Controller
 {
     /**
-     * [descripción del método]
+     * Método que regresa una vista con la lista de ajustes de bienes
      *
-     * @method    index
+     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    Renderable    Devuelve la vista con la lista de ajustes de bienes
      */
     public function index()
     {
@@ -40,13 +37,11 @@ class AssetAdjustmentController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Método que regresa una vista para crear un ajuste de bien
      *
-     * @method    create
+     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    Renderable    Devuelve la vista para crear un ajuste de bien
      */
     public function create()
     {
@@ -54,15 +49,13 @@ class AssetAdjustmentController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Método que crea un ajuste de bien
      *
-     * @method    store
+     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
+     * @param     Request    $request    Datos de la petición
      *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    void
      */
     public function store(Request $request)
     {
@@ -70,15 +63,13 @@ class AssetAdjustmentController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Método que muestra un ajuste de bien
      *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    Renderable    Devuelve la vista con la información del ajuste de bien
      */
     public function show($id)
     {
@@ -86,15 +77,13 @@ class AssetAdjustmentController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Método que muestra la vista para editar un ajuste de bien
      *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    Renderable    Devuelve la vista para editar un ajuste de bien
      */
     public function edit($id)
     {
@@ -114,16 +103,14 @@ class AssetAdjustmentController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Método que actualiza un ajuste de bien
      *
-     * @method    update
+     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request   $request   Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    JsonResponse    Devuelve la lista de ajustes de bienes
      */
     public function update(Request $request, $id)
     {
@@ -148,15 +135,13 @@ class AssetAdjustmentController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Método que elimina un ajuste de bien
      *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    void
      */
     public function destroy($id)
     {

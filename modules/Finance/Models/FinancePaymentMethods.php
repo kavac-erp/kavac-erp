@@ -9,16 +9,16 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
 
 /**
- * @class FinanceAccountType
- * @brief Datos de tipos de cuentas bancarias
+ * @class FinancePaymentMethods
+ * @brief Modelo de datos para los métodos de pago
  *
- * Gestiona el modelo de datos para los tipos de cuentas bancarias
+ * Gestiona el modelo de datos para los métodos de pago
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * --colaborador Ing. Marco Ocanto
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @author Ing. Marco Ocanto
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class FinancePaymentMethods extends Model implements Auditable
 {
@@ -27,18 +27,24 @@ class FinancePaymentMethods extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista de atributos para la gestión de fechas
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * Lista de campos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = ['name','description'];
 
     /**
-     * FinanceAccountType has many FinanceBankAccount.
+     * Obtiene la relación con las cuentas bancarias
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function bankAccounts()
@@ -47,7 +53,7 @@ class FinancePaymentMethods extends Model implements Auditable
     }
 
     /**
-     * Get all of the financePayOrders for the FinancePaymentMethods
+     * Obtiene la relación con las órdenes de pago
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

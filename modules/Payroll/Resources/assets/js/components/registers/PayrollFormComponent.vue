@@ -124,7 +124,7 @@
                                                     <div class="row" style="margin: 1px 0">
                                                         <div class="col-md-12" :key="parameter['id']"
                                                             v-for="parameter in concept['parameters']">
-                                                            <div class="form-group is-required"> 
+                                                            <div class="form-group is-required">
                                                                 <label>{{ parameter['name'] }}:</label>
                                                                 <input :id="concept['id'] + '_parameter_' + parameter['id'] + '_' + staff['id']"
                                                                     class="form-control input-sm"
@@ -141,7 +141,7 @@
                                                                     :disabled="('object' !== typeof(parameter['value'])) ? parameter['value'] != '' : false"
                                                                     :value="('object' === typeof(parameter['value'])) ? parameter['value'][staff['id']] : parameter['value']"
                                                                     v-input-mask
-                                                                    data-inputmask="'alias': 'numeric', 'allowMinus': 'false', 'rightAlign': 'false'" 
+                                                                    data-inputmask="'alias': 'numeric', 'allowMinus': 'false', 'rightAlign': 'false'"
                                                                     v-else-if="parameter['value']">
 
                                                                 <input v-else :id="concept['id'] + '_parameter_' + parameter['id'] + '_' + staff['id']"
@@ -269,8 +269,6 @@
             const vm = this;
             if (vm.payroll_id) {
                 vm.showRecord(vm.payroll_id);
-            } else {
-                vm.record.created_at = vm.format_date(new Date(), 'YYYY-MM-DD');
             }
         },
         watch: {
@@ -319,7 +317,7 @@
                 vm.pending_concepts = [];
                 vm.payroll_assigned_periods = [];
                 vm.number_of_days_monday = '';
-                vm.record.created_at = moment(String(new Date())).format('YYYY-MM-DD');
+                vm.record.created_at = '';
             },
             /**
              * Método que obtiene un arreglo con los periodos de pago asociados al tipo de pago
@@ -408,11 +406,11 @@
                     };
                 };
                 /** @todo Validar si el periodo ya fue asignado en otro registro de nomina si no se esta editando un registro. */
-                if(!vm.record.id && vm.record.payroll_payment_type_id !== '') {
+                if(!vm.record.id && vm.record.payroll_payment_type_id !== '' && vm.record.payroll_payment_period_id !== '') {
                     await axios.get(`${window.app_url}/payroll/get-payroll-assigned-period/${vm.record.payroll_payment_period_id}/${vm.record.payroll_payment_type_id}`).then(response => {
                         if(response.data.assigned == true) {
                             bootbox.alert("El periodo de pago ya fue asignado a una registro de nomina, debe cerrar dicho periodo");
-                            result = false;    
+                            result = false;
                         }
                     });
 
@@ -558,9 +556,9 @@
             getParametersResettable(payroll_parameters) {
                 const vm = this;
                 let parameters = [];
-                $.each(payroll_parameters, function(index, field) { 
+                $.each(payroll_parameters, function(index, field) {
                     //se busca el parametros en los reiniciables
-                    let parameter = vm.payroll_parameters_resettable.find(({ name }) => name == field['name']); 
+                    let parameter = vm.payroll_parameters_resettable.find(({ name }) => name == field['name']);
                     if(typeof parameter !== "undefined") {
                         parameters.push({
                             'id': field['id'],
@@ -579,7 +577,7 @@
                     $.each(vm.payroll_assigned_periods, function(index, field) {
                         if(field['id'] == payment_period_id) {
                             assigned = true;
-                        } 
+                        }
                     });
                 }
                 return assigned;

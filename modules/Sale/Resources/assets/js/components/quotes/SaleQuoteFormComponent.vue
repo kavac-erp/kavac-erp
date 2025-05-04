@@ -14,13 +14,13 @@
             </span>
           </button>
           <ul>
-            <li v-for="error in errors">{{ error }}</li>
+            <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
           </ul>
         </div>
       </div>
       <h6 class="card-title">I Datos del solicitante:
-        <a class="btn btn-info btn-xs btn-icon btn-action display-inline" 
-          href="#" title="Ver información del registro" data-toggle="tooltip" 
+        <a class="btn btn-info btn-xs btn-icon btn-action display-inline"
+          href="#" title="Ver información del registro" data-toggle="tooltip"
           @click.prevent="showModal('view_sale_quote')">
           <i class="icofont icofont-business-man ico-2x"></i>
         </a>
@@ -64,7 +64,7 @@
                   </div>
                   <div slot="sale_clients_email" slot-scope="props">
                     <div v-if="props.row.sale_clients_email">
-                      <ul v-for="client_email in props.row.sale_clients_email">
+                      <ul v-for="(client_email, index) in props.row.sale_clients_email" :key="index">
                         <li>{{ client_email.email }}</li>
                       </ul>
                     </div>
@@ -107,11 +107,9 @@
         <div class="col-md-6" id="HelpPhone">
           <div class="form-group is-required">
             <label for="phone">Teléfono de contacto:</label>
-            <input type="text" class="form-control input-sm" placeholder="+00-000-0000000" 
+            <input type="text" class="form-control input-sm" placeholder="+00-000-0000000"
             v-model="record.phone" required v-input-mask
             data-inputmask="'mask': '+99-999-9999999'"/>
-            <!--<input type="text" id="phone" class="form-control input-sm" data-toggle="tooltip" required
-              title="Número de teléfono" v-model="record.phone" placeholder="+00-000-0000000" data-inputmask="'mask': '+99-999-9999999'"> -->
           </div>
         </div>
         <div class="col-md-6" id="HelpMail">
@@ -197,12 +195,12 @@
       <div class="row">
         <div class="col-md-12 text-center">
           <div class="d-inline-flex mt-4">
-            <button type="button" @click="resetProductClean($event)" class="btn btn-sm btn-primary btn-custom" 
+            <button type="button" @click="resetProductClean($event)" class="btn btn-sm btn-primary btn-custom"
               title="Limpiar información del producto" data-toggle="tooltip">
               <i class="fa fa-eraser"></i>
               Cancelar
             </button>
-            <button type="button" @click="addProductToQuote($event)" class="btn btn-sm btn-primary btn-custom" 
+            <button type="button" @click="addProductToQuote($event)" class="btn btn-sm btn-primary btn-custom"
               title="Agregar producto a la lista" data-toggle="tooltip">
               <i class="fa fa-plus-circle"></i>
               Agregar
@@ -678,7 +676,7 @@
         product.quantity = vm.record.quantity;
         //math total without tax
         product.total_without_tax = product.quantity * product.value;
-        
+
         if (vm.record.currency_id == '') {
           bootbox.alert("La cantidad de productos debe ser mayor que 0");
           return false;
@@ -726,8 +724,8 @@
       createQuote(url) {
         const vm = this;
         if (vm.record.id) {
-          vm.updateRecord(url);  
-        } 
+          vm.updateRecord(url);
+        }
         else{
           vm.createRecord(url);
         }
@@ -860,7 +858,7 @@
         product.quantity = product_load.quantity;
         //math total without tax
         product.total_without_tax = product_load.total_without_tax;
-        product.total = product_load.total; 
+        product.total = product_load.total;
         product.currency_id = product_load.currency_id;
         option_name = product.currency_id;
         let currency = product_load.currency;
@@ -873,10 +871,9 @@
         };
         product.history_tax_id = product_load.history_tax_id;
 
-        //product.history_tax_value = product_load.history_tax? parseFloat(product_load.history_tax.percentage) : 0;
         product.product_tax_value = product.total - product.total_without_tax;
         product.product_tax_value = product.product_tax_value.toFixed(2);
-        //product.total = product.total_without_tax + product.product_tax_value;
+
         let product_index = parseInt(vm.record.product_position_value);
         if (product_index > 0) {
           vm.record.sale_quote_products.splice(product_index - 1, 1);

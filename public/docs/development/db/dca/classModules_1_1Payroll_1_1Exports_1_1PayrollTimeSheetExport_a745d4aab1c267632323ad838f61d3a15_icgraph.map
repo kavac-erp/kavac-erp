@@ -1,0 +1,6 @@
+<map id="headings" name="headings">
+<area shape="rect" id="Node000001" title="Establece las cabeceras de los datos en el archivo a exportar." alt="" coords="104,29,185,55"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="163,18,158,11,145,8,133,10,128,14,126,20,130,28,125,30,121,21,123,12,131,5,145,3,160,6,167,14"/>
+<area shape="rect" id="Node000002" href="$db/dca/classModules_1_1Payroll_1_1Exports_1_1PayrollTimeSheetExport.html#acf0a3c3139011c3d0c00197bb36ac50c" title="Establece los datos que van a ser exportados." alt="" coords="5,29,56,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="90,45,57,45,57,39,90,39"/>
+</map>

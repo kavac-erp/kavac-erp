@@ -10,19 +10,18 @@ use Modules\Asset\Models\AssetUseFunction;
  * @class AssetUseFunctionsTableSeeder
  * @brief Inicializar Funciones de uso de los bienes
  *
- *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
-
 class AssetUseFunctionsTableSeeder extends Seeder
 {
     /**
      * Método que registra los valores iniciales de las funciones de uso de un bien
      *
      * @author  Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function run()
@@ -40,8 +39,6 @@ class AssetUseFunctionsTableSeeder extends Seeder
             ['name' => 'Industrial']
 
         ];
-
-
 
         foreach ($asset_use_functions as $asset_use_function) {
             AssetUseFunction::updateOrCreate(

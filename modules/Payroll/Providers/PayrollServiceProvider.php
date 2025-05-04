@@ -2,22 +2,40 @@
 
 namespace Modules\Payroll\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Modules\Payroll\Console\Commands\UpdateTimeParameters;
+use Modules\Payroll\Console\Commands\LoadBasicPayrollStaffData;
 
+/**
+ * @class PayrollServiceProvider
+ * @brief Service Provider del módulo de talento humano
+ *
+ * Gestiona el service provider del módulo de talento humano
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PayrollServiceProvider extends ServiceProvider
 {
     /**
+     * Nombre del módulo
+     *
      * @var string $moduleName
      */
     protected $moduleName = 'Payroll';
 
     /**
+     * Nombre en minúsculas del módulo
+     *
      * @var string $moduleNameLower
      */
     protected $moduleNameLower = 'payroll';
 
     /**
-     * Boot the application events.
+     * Carga los eventos del módulo.
      *
      * @return void
      */
@@ -28,10 +46,11 @@ class PayrollServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->registerCommands();
     }
 
     /**
-     * Register the service provider.
+     * Registra los proveedores de servicios
      *
      * @return void
      */
@@ -41,7 +60,7 @@ class PayrollServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register config.
+     * Registra la configuración
      *
      * @return void
      */
@@ -57,7 +76,7 @@ class PayrollServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register views.
+     * Registra las vistas.
      *
      * @return void
      */
@@ -75,7 +94,7 @@ class PayrollServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register translations.
+     * Registra las traducciones.
      *
      * @return void
      */
@@ -91,7 +110,7 @@ class PayrollServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register an additional directory of factories.
+     * Registra un directorio adicional para los factories
      *
      * @return void
      */
@@ -103,7 +122,7 @@ class PayrollServiceProvider extends ServiceProvider
     }
 
     /**
-     * Get the services provided by the provider.
+     * Obtiene los proveedores de servicios por proveedor
      *
      * @return array
      */
@@ -112,14 +131,35 @@ class PayrollServiceProvider extends ServiceProvider
         return [];
     }
 
+    /**
+     * Obtiene las rutas de los directorios de vistas
+     *
+     * @return array
+     */
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (\Config::get('view.paths') as $path) {
+        foreach (Config::get('view.paths') as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }
         }
         return $paths;
+    }
+
+    /**
+     * Registra los comandos del módulo
+     *
+     * @return void
+     */
+    public function registerCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            // Registrar comandos solo si se está ejecutando en la consola
+            $this->commands([
+                UpdateTimeParameters::class,
+                LoadBasicPayrollStaffData::class
+            ]);
+        }
     }
 }

@@ -3,36 +3,46 @@
 namespace Modules\Sale\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Sale\Models\SaleFormPayment;
 
-//use Illuminate\Support\Facades\Log;
-
+/**
+ * @class SaleFormPaymentController
+ * @brief Controlador que gestiona los datos de los formularios de pago
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleFormPaymentController extends Controller
 {
     use ValidatesRequests;
 
-  /**
-   * Define la configuración de la clase
-   *
-   * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-   */
-
+    /**
+     * Define la configuración de la clase
+     *
+     * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting.form.payment', ['only' => 'index']);
     }
 
-  /** @var array Lista de elementos a mostrar */
+    /**
+     * Lista de elementos a mostrar
+     *
+     * @var array $data
+     */
     protected $data = [];
 
-  /**
-   * Display a listing of the resource.
-   * @return JsonResponse
-   */
+    /**
+     * Listado de formas de pago para select
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         $data = [];
@@ -41,42 +51,43 @@ class SaleFormPaymentController extends Controller
             $list_attributes = [];
             $attrib = json_decode($record->attributes_form_payment, true);
 
-          //list of attributes for options UPDATE content
             foreach ($attrib as $row) {
                 $list_attributes[] = ["attributes" => $row];
             }
 
             $data[] = [
-            'id' => $record->id,
-            'name_form_payment' => $record->name_form_payment,
-            'description_form_payment' => $record->description_form_payment,
-            'created_at' => $record->created_at,
-            'updated_at' => $record->updated_at,
-            'name_attributes' => implode(", ", $attrib),
-            'list_attributes' => $list_attributes
+                'id' => $record->id,
+                'name_form_payment' => $record->name_form_payment,
+                'description_form_payment' => $record->description_form_payment,
+                'created_at' => $record->created_at,
+                'updated_at' => $record->updated_at,
+                'name_attributes' => implode(", ", $attrib),
+                'list_attributes' => $list_attributes
             ];
         }
 
         return response()->json(['records' => $data], 200);
     }
 
-  /**
-   * Show the form for creating a new resource.
-   * @return Renderable
-   */
+    /**
+     * Muestra el formulario para crear una nueva forma de pago
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         return view('sale::create');
     }
 
-  /**
-   * Store a newly created resource in storage.
-   * @param  Request $request
-   * @return JsonResponse
-   */
+    /**
+     * Almacena una nueva forma de pago
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
-      //Log::error( 'DEV- ' . print_r($request->list_attributes, 1));
         $attributes = [];
         if ($request->list_attributes && !empty($request->list_attributes)) {
             foreach ($request->list_attributes as $attribute) {
@@ -87,26 +98,28 @@ class SaleFormPaymentController extends Controller
         $this->saleFormPaymentValidate($request);
 
         $form_payment = SaleFormPayment::create([
-        'name_form_payment' => $request->name_form_payment,
-        'description_form_payment' => $request->description_form_payment,
-        'attributes_form_payment' => json_encode($attributes, JSON_FORCE_OBJECT)
+            'name_form_payment' => $request->name_form_payment,
+            'description_form_payment' => $request->description_form_payment,
+            'attributes_form_payment' => json_encode($attributes, JSON_FORCE_OBJECT)
         ]);
 
         return response()->json(['record' => $form_payment, 'message' => 'Success'], 200);
     }
 
-  /**
-    * Validacion de los datos
-    *
-    * @method    saleFormPaymentValidate
-    * @author Ing. Jose Puentes <jpuentes@cenditel.gob.ve>
-    * @param     object    Request    $request
-    */
+    /**
+     * Validacion de los datos
+     *
+     * @author Ing. Jose Puentes <jpuentes@cenditel.gob.ve>
+     *
+     * @param     Request    $request
+     *
+     * @return    void
+     */
     public function saleFormPaymentValidate(Request $request)
     {
         $attributes = [
-        'name_form_payment' => 'Nombre de la forma de cobro',
-        'description_form_payment' => 'Descripción de la forma de cobro'
+            'name_form_payment' => 'Nombre de la forma de cobro',
+            'description_form_payment' => 'Descripción de la forma de cobro'
         ];
         $validation = [];
         $validation['name_form_payment'] = ['required', 'max:100'];
@@ -114,34 +127,41 @@ class SaleFormPaymentController extends Controller
         $this->validate($request, $validation, [], $attributes);
     }
 
-  /**
-   * Show the specified resource.
-   * @param int $id
-   * @return Renderable
-   */
+    /**
+     * Muestra el formulario para editar una forma de pago
+     *
+     * @param integer $id Identificador de la forma de pago
+     *
+     * @return \Illuminate\View\View
+     */
     public function show($id)
     {
         return view('sale::show');
     }
 
-  /**
-   * Show the form for editing the specified resource.
-   * @return Renderable
-   */
+    /**
+     * Muestra el formulario para editar una forma de pago
+     *
+     * @param integer $id Identificador de la forma de pago
+     *
+     * @return \Illuminate\View\View
+     */
     public function edit($id)
     {
         return view('sale::edit');
     }
 
-  /**
-   * Update the specified resource in storage.
-   * @param  Request $request
-   * @param int $id
-   * @return JsonResponse
-   */
+    /**
+     * Actualiza la información de una forma de pago
+     *
+     * @param  Request $request Datos de la petición
+     * @param integer $id Identificador de la forma de pago
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $id)
     {
-      /** @var object Datos de la forma de cobro */
+        /* Datos de la forma de cobro */
         $form_payment = SaleFormPayment::find($id);
 
         $this->saleFormPaymentValidate($request);
@@ -161,11 +181,14 @@ class SaleFormPaymentController extends Controller
         return response()->json(['message' => 'Success'], 200);
     }
 
-  /**
-   * Remove the specified resource from storage.
-   * @param int $id
-   * @return Renderable
-   */
+    /**
+     * Elimina una forma de pago
+     *
+     * @param Request $request Datos de la petición
+     * @param integer $id Identificador de la forma de pago
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy(Request $request, $id)
     {
         $form_payment = SaleFormPayment::find($id);
@@ -174,11 +197,12 @@ class SaleFormPaymentController extends Controller
         return response()->json(['record' => $form_payment, 'message' => 'Success'], 200);
     }
 
-  /**
-     * Obtiene las formas de cobro registrados
+    /**
+     * Obtiene las formas de pago registradas
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return JsonResponse    Json con los datos de las formas de cobro
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSaleFormPayment()
     {

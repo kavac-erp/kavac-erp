@@ -1,0 +1,7 @@
+<map id="index" name="index">
+<area shape="rect" id="Node000001" title="Muestra un listado de respaldos del sistema." alt="" coords="5,13,64,38"/>
+<area shape="rect" id="Node000002" href="$d5/d76/classApp_1_1Repositories_1_1BackupRepository.html#ae14c2f6a659b648eba19441db09f3e69" title="Muestra el listado de archivos de respaldo." alt="" coords="112,5,365,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="64,23,98,23,98,28,64,28"/>
+<area shape="rect" id="Node000003" href="$d5/d76/classApp_1_1Repositories_1_1BackupRepository.html#ae17e1d0ac47e0f386ed880009b8d3a6f" title="Muestra el tamaño del archivo en formato legible." alt="" coords="413,5,667,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="365,23,400,23,400,28,365,28"/>
+</map>

@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldCurrencyIdToAssetDepreciationsTable
- * @brief [descripción detallada]
+ * @brief Agrega un campo currency_id a la tabla asset_depreciations
  *
- * [descripción corta]
+ * Agrega un campo currency_id a la tabla asset_depreciations
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

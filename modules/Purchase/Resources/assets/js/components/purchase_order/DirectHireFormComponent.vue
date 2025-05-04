@@ -17,20 +17,6 @@
                         Datos básicos
                     </a>
                 </li>
-                <!--li
-                    v-if="record.purchase_type_id"
-                    id="helpRequirementDocs"
-                    class="nav-item"
-                >
-                    <a
-                        class="nav-link"
-                        href="#requirement_docs"
-                        data-toggle="tab"
-                        title="Consignación de los documentos requeridos"
-                    >
-                        Documentos Requeridos para la Modalidad de Compra
-                    </a>
-                </!li-->
             </ul>
             <div class="tab-content">
                 <div id="default_data" class="tab-pane  active" role="tabpanel">
@@ -252,37 +238,36 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div id="" class="col-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="row">
                                 <div
-                                id="helpDueDate"
                                 class="col-md-6"
                                 >
                                     <div :class="['form-group', record.time_frame != 'delivery'? 'is-required' : '']">
-                                        <label for="funding_source">
+                                        <label class="control-label">
                                             Plazo de entrega
                                         </label>
                                         <input
-                                            type="number" 
+                                            type="number"
                                             pattern="^[0-9]"
-                                            min="1" step="1"
+                                            min="1"
+                                            step="1"
                                             id="due_date"
                                             v-model="record.due_date"
                                             class="form-control"
-                                            :disabled="record.time_frame == 'delivery'"
+                                            :disabled="!record.time_frame || record.time_frame == 'delivery'"
                                         >
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div
                                         class="form-group is-required"
-                                        id="helpSupplier"
+                                        id="time_frame"
                                     >
-                                        <label class="control-label" for="suppliers">
+                                        <label class="control-label">
                                             Período
                                         </label>
                                         <select2
-                                            id="timeFrame"
                                             :options="timeFrame"
                                             v-model="record.time_frame"
                                         ></select2>
@@ -290,7 +275,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div
                             id="helpHiringNumber"
                             class="col-12 col-sm-6 col-md-4 col-lg-3"
@@ -1040,14 +1025,11 @@ export default {
         });
 
         vm.filterQuotations = [];
-        
+
         vm.quotations.forEach((element) => {
             // borrar si pasa el cambio de mover toda la disponibilidad
             // presupuestaria al presupuesto base
             vm.filterQuotations.push(element);
-            // if(element.status == "APPROVED"){
-            //      vm.filterQuotations.push(element);
-            // }
         });
         vm.records = vm.filterQuotations;
         vm.records = vm.quotations;
@@ -1072,7 +1054,7 @@ export default {
                 vm.record.second_signature_id = vm.record_edit[i]['second_signature_id'];
                 vm.record.is_order = vm.record_edit[i]['is_order'];
                 vm.record.due_date = vm.record_edit[i]['due_date'];
-                vm.record.time_frame = vm.record_edit[i]['time_frame'];
+                Vue.set(vm.record, 'time_frame', vm.record_edit[i]['time_frame']);
                 vm.record.hiring_number = vm.record_edit[i]['hiring_number'];
 
                 vm.indexOf(vm.quotations,vm.quotations.id,true);
@@ -1091,6 +1073,30 @@ export default {
         });
     },
     methods: {
+        /**
+         * Obtiene un arreglo con las monedas registradas
+         *
+         * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+         *
+         * @param  {integer} id Identificador de la moneda a buscar, este parámetro es opcional
+         */
+        async getCurrencies(id) {
+            const vm = this;
+            let currency_id = (typeof (id) !== "undefined") ? '/' + id : '';
+            const url = vm.setUrl(`get-currencies${currency_id}`);
+            vm.currencies = [];
+            await axios.get(url).then(response => {
+                vm.currencies = [{'id': '', 'text': 'Seleccione...'}].concat(response.data);
+            }).catch(error => {
+                console.error(error);
+            });
+            if (vm.record_edit) {
+                for (var i = 0; i < vm.record_edit.length; i++) {
+                    vm.currency_id = vm.record_edit[i]['currency_id'];
+                }
+            }
+        },
+
         reset() {
             const vm = this;
             vm.record_items = [];
@@ -1243,7 +1249,7 @@ export default {
 
         /**
          * [CalculateTot Calcula el total e impuesto de los productos de la cotización]
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          * @param  {[type]} r   [información del registro]
          * @param  {[type]} pos [posición del registro]
          */
@@ -1280,7 +1286,7 @@ export default {
 
                 this.total += ((item.purchase_requirement_item.Quoted.quantity > 0
                 ? item.purchase_requirement_item.Quoted.quantity
-                : item.purchase_requirement_item.quantity) * 
+                : item.purchase_requirement_item.quantity) *
                 item.purchase_requirement_item.Quoted.unit_price) + percentage
             }
         },
@@ -1296,7 +1302,7 @@ export default {
         /**
          * Establece la cantidad de decimales correspondientes a la moneda que se maneja
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         cualculateLimitDecimal() {
             var res = "0.";
@@ -1381,7 +1387,6 @@ export default {
                     vm.showMessage('store');
                     vm.$refs.purchaseShowError.refresh();
                     vm.loading = false;
-                    //location.href = this.route_list;
                     location.href = `${window.app_url}${route}`;
                 }).catch(error => {
                     vm.errors = [];
@@ -1409,7 +1414,6 @@ export default {
                 }).then(response => {
                     vm.showMessage('update');
                     vm.loading = false;
-                    //location.href = this.route_list;
                     location.href = `${window.app_url}${route}`;
 
                 }).catch(error => {
@@ -1444,7 +1448,6 @@ export default {
                             vm.record.user_department_id
                             = vm.record_edit[0]['user_department_id'];
                         }
-                        // vm.getWarehouses();
                         vm.getWarehouseProducts();
                     });
             }
@@ -1495,9 +1498,13 @@ export default {
                         }
                     }
                 });
-        }
+        },
+
     },
     watch: {
+        "record.time_frame":function(newVal){
+            newVal == 'delivery' && (this.record.due_date = '');
+        },
         currency_id: function(res, ant) {
             if (res != ant && !this.load_data_edit) {
                 this.record_items = [];
@@ -1517,8 +1524,6 @@ export default {
                     this.record.currency = response.data.currency;
                 })
             }
-
-            
         },
         purchase_supplier_id(newVal) {
             if (newVal) {
@@ -1532,10 +1537,6 @@ export default {
                 });
             }
         },
-
-        "record.time_frame":function(newVal){
-            newVal == 'delivery' && (this.record.due_date = '');
-        }
     },
     computed: {
         currency_symbol: function() {
@@ -1551,7 +1552,7 @@ export default {
         },
         getRecordItems: function() {
             return this.record_items;
-        }
+        },
     }
 };
 </script>

@@ -6,12 +6,12 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class UpdateFieldsUniqueToBudgetCompromisesTable
- * @brief [descripción detallada]
+ * @brief Actualiza el tipo de dato del campo 'document_number' de la tabla 'budget_compromises'
  *
  * Quita la uniquidad de campos 'document_number' y estables la uniquidad en conjunto
  * de los campos 'created_at', 'document_number' y 'document_status_id'
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Francisco J. P. Ruiz <fpenya@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -29,7 +29,6 @@ class UpdateFieldsUniqueToBudgetCompromisesTable extends Migration
             Schema::table('budget_compromises', function (Blueprint $table) {
                 if (Schema::hasColumn('budget_compromises', 'document_number')){
                      $table->dropUnique('budget_compromises_document_number_unique');
-                    // $table->dropUnique(['document_number']);
                 }
                 if (Schema::hasColumns('budget_compromises',
                     ['created_at', 'document_number', 'document_status_id'])
@@ -38,7 +37,7 @@ class UpdateFieldsUniqueToBudgetCompromisesTable extends Migration
                 }
             });
         }
-        
+
     }
 
     /**

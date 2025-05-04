@@ -1,0 +1,7 @@
+<map id="pdfVue" name="pdfVue">
+<area shape="rect" id="Node000001" title="Genera el reporte en pdf de balance general." alt="" coords="5,31,72,56"/>
+<area shape="rect" id="Node000002" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#ab0ddffde595d12d9c85da6f4c1eb2605" title="Encuentra los tipos de cambio." alt="" coords="120,5,301,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,36,111,30,111,35,73,41"/>
+<area shape="rect" id="Node000003" href="$d4/de3/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingBalanceSheetController.html#a4a9edafe924a4efeb9d1a9daf1bc1dfe" title="Establece la moneda." alt="" coords="161,55,261,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="73,45,148,56,147,61,72,51"/>
+</map>

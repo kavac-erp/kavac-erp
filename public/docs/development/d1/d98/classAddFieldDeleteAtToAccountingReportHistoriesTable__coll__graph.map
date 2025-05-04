@@ -1,0 +1,3 @@
+<map id="AddFieldDeleteAtToAccountingReportHistoriesTable" name="AddFieldDeleteAtToAccountingReportHistoriesTable">
+<area shape="rect" id="Node000001" title="Ejecuta la migración para agregar el campo deleted_at a la tabla accounting_report_histories." alt="" coords="5,5,219,105"/>
+</map>

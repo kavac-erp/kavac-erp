@@ -1,4 +1,5 @@
 <map id="changeDocumentStatus" name="changeDocumentStatus">
-<area shape="rect" id="node1" title="Método que permite cambiar el estatus de la desincorporación (document_status)" alt="" coords="5,5,183,32"/>
-<area shape="rect" id="node2" href="$d5/dd6/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDisincorporationController.html#affb03cc19897a1800a0f411264d6c7cc" title="Actualiza la información de las desincorporaciones de bienes institucionales." alt="" coords="231,5,297,32"/>
+<area shape="rect" id="Node000001" title="Método que permite cambiar el estatus de la desincorporación (document_status)" alt="" coords="5,5,183,31"/>
+<area shape="rect" id="Node000002" href="$d5/dd6/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetDisincorporationController.html#affb03cc19897a1800a0f411264d6c7cc" title="Actualiza la información de las desincorporaciones de bienes institucionales." alt="" coords="231,5,297,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,15,217,15,217,21,183,21"/>
 </map>

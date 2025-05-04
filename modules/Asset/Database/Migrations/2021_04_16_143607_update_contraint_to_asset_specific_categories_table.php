@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class UpdateContraintToAssetSpecificCategoriesTable
- * @brief [descripción detallada]
+ * @brief Actualiza el constraint de la tabla de categorías específicas de bienes
  *
- * [descripción corta]
+ * Actualiza el constraint de la tabla de categorías específicas de bienes
  *
- * @author [Yennifer Ramirez] [yramirez@cenditel.gob.ve]
+ * @author Ing. Yennifer Ramirez <yramirez@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -52,7 +52,7 @@ class UpdateContraintToAssetSpecificCategoriesTable extends Migration
         Schema::disableForeignKeyConstraints();
         if (Schema::hasTable('asset_specific_categories')) {
             Schema::table('asset_specific_categories', function (Blueprint $table) {
-                
+
 
                 if (has_index_key(
                     'asset_specific_categories',

@@ -13,9 +13,9 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * Gestiona el modelo de datos de los productos almacenables solicitados
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseInventoryProductRequest extends Model implements Auditable
 {
@@ -32,8 +32,8 @@ class WarehouseInventoryProductRequest extends Model implements Auditable
      * Método que obtiene el producto asociado al inventario
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseInventoryProduct
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouseInventoryProduct()
     {
@@ -44,10 +44,9 @@ class WarehouseInventoryProductRequest extends Model implements Auditable
      * Método que obtiene la solicitud registrada
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * WarehouseRequest
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-
     public function warehouseRequest()
     {
         return $this->belongsTo(WarehouseRequest::class);

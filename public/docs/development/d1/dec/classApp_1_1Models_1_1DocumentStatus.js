@@ -1,6 +1,7 @@
 var classApp_1_1Models_1_1DocumentStatus =
 [
     [ "boot", "d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a1c673073300a0bd31d4a668fe4439191", null ],
+    [ "scopeGetStatus", "d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a4065c4b0be84da8918b26ba9ae6f00ce", null ],
     [ "$dates", "d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a6ed295a3b7371b42773cab86fd367af8", null ],
     [ "$fillable", "d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a13601d3af66d109458e268a3eb4afc49", null ],
     [ "$hidden", "d1/dec/classApp_1_1Models_1_1DocumentStatus.html#a2fea3b5f0fc46082dae25ed3e20d294b", null ],

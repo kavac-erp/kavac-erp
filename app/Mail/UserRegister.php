@@ -1,13 +1,12 @@
 <?php
 
-/** Gestión de correos del sistema */
-
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
  * @class UserRegister
@@ -20,24 +19,41 @@ use App\Models\User;
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
-class UserRegister extends Mailable
+class UserRegister extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
 
-    /** @var User Objeto con información del usuario */
+    /**
+     * Objeto con información del usuario
+     *
+     * @var User $user
+     */
     public $user;
-    /** @var string Contraseña de acceso generada por el sistema */
+
+    /**
+     * Contraseña de acceso generada por el sistema
+     *
+     * @var string $password
+     */
     public $password;
-    /** @var string Nombre de la aplicación */
+
+    /**
+     * Nombre de la aplicación
+     *
+     * @var string $appName
+     */
     public $appName;
-    /** @var string URL de la aplicación */
+
+    /**
+     * URL de la aplicación
+     *
+     * @var string $appUrl
+     */
     public $appUrl;
 
     /**
      * Crea una nueva instancia del mensaje.
-     *
-     * @method  __construct
      *
      * @return void
      */
@@ -51,8 +67,6 @@ class UserRegister extends Mailable
 
     /**
      * Construye el mensaje.
-     *
-     * @method  build
      *
      * @return $this
      */

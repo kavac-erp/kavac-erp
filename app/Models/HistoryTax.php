@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +12,10 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * @brief Datos de histórico de impuestos
  *
  * Gestiona el modelo de datos para los históricos de impuestos
+ *
+ * @property  string  $operation_date
+ * @property  string|float  $percentage
+ * @property  string  $tax_id
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -43,8 +45,6 @@ class HistoryTax extends Model implements Auditable
 
     /**
      * Método que obtiene el Impuesto asociado
-     *
-     * @method  tax
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

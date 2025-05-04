@@ -2,10 +2,12 @@
 
 namespace Modules\Asset\Models;
 
+use App\Models\User;
+use App\Traits\ModelsTrait;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AuditableTrait;
-use App\Models\User;
 
 /**
  * @class AssetRules
@@ -14,13 +16,15 @@ use App\Models\User;
  * Gestiona el modelo de datos de los cambios en las reglas por cada bien en el inventario
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetRules extends Model implements Auditable
 {
     use AuditableTrait;
+    use SoftDeletes;
+    use ModelsTrait;
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
@@ -33,8 +37,8 @@ class AssetRules extends Model implements Auditable
      * Método que obtiene el registro de inventario asociado al registro
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetInventory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetInventory()
     {
@@ -45,7 +49,8 @@ class AssetRules extends Model implements Auditable
      * Método que obtiene el usuario asociado al registro
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {

@@ -15,9 +15,9 @@ use App\Traits\ModelsTrait;
  * Gestiona el modelo de datos de las categorias generales de un bien
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetCategory extends Model implements Auditable
 {
@@ -43,7 +43,8 @@ class AssetCategory extends Model implements Auditable
      * Método que obtiene el tipo de bien asociado a la categoria
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo AssetType
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetType()
     {
@@ -54,19 +55,20 @@ class AssetCategory extends Model implements Auditable
      * Método que obtiene las subcategorias asociadas a la categoria
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * AssetSubcategories
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assetSubcategories()
     {
-        return $this->hasmany(AssetSubcategory::class);
+        return $this->hasMany(AssetSubcategory::class);
     }
 
     /**
      * Método que obtiene los bienes asociadps a la categoria
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo Asset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assets()
     {

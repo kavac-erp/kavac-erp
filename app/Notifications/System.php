@@ -1,7 +1,5 @@
 <?php
 
-/** Notificaciones de la aplicación */
-
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -25,21 +23,49 @@ class System extends Notification //implements ShouldQueue
 {
     use Queueable;
 
-    /** @var string Título de la notificación */
+    /**
+     * Título de la notificación
+     *
+     * @var string $title
+     */
     protected $title;
-    /** @var string Módulo que genera la notificación */
+
+    /**
+     * Módulo que genera la notificación
+     *
+     * @var string $module
+     */
     protected $module;
-    /** @var string Descripción de la notificación */
+
+    /**
+     * Descripción de la notificación
+     *
+     * @var string $description
+     */
     protected $description;
-    /** @var string Dirección de correo del usuario a notificar */
+
+    /**
+     * Determina si se notifica a través de correo o a través de notificaciones en tiempo real en la aplicación
+     *
+     * @var bool $notifyToEmail
+     */
     protected $notifyToEmail;
-    /** @var array Archivos adjuntos a enviar en el correo a notificar */
+
+    /**
+     * Archivos adjuntos a enviar en el correo a notificar
+     *
+     * @var array $filesToEmail
+     */
     protected array $filesToEmail;
 
     /**
-     * Create a new notification instance.
+     * Crea una nueva instancia de la notificación
      *
-     * @method  __construct
+     * @param  string  $title
+     * @param  string  $module
+     * @param  string  $description
+     * @param  bool    $notifyToEmail
+     * @param  array   $filesToEmail
      *
      * @return void
      */
@@ -53,9 +79,7 @@ class System extends Notification //implements ShouldQueue
     }
 
     /**
-     * Get the notification's delivery channels.
-     *
-     * @method  via
+     * Obtiene los canales de notificación
      *
      * @param  mixed  $notifiable
      *
@@ -67,9 +91,7 @@ class System extends Notification //implements ShouldQueue
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
-     * @method  toMail
+     * Gestiona el envío de la notificación por correo
      *
      * @param  mixed  $notifiable
      *
@@ -91,9 +113,7 @@ class System extends Notification //implements ShouldQueue
     }
 
     /**
-     * Get the array representation of the notification.
-     *
-     * @method  toArray
+     * Gestiona la notificación en la aplicación
      *
      * @param  mixed  $notifiable
      *
@@ -109,9 +129,7 @@ class System extends Notification //implements ShouldQueue
     }
 
     /**
-     * Get the array representation of the notification
-     *
-     * @method  toDatabase
+     * Gestiona la notificación en base de datos
      *
      * @param   mixed $notifiable
      *
@@ -127,9 +145,7 @@ class System extends Notification //implements ShouldQueue
     }
 
     /**
-     * Get the array representation of the notification
-     *
-     * @method  toBroadcast
+     * Gestiona la notificación en tiempo real
      *
      * @param   mixed $notifiable
      *

@@ -1,10 +1,14 @@
 {
-    "name": "nwidart/asset",
+    "name": "kavac/asset",
     "description": "",
     "authors": [
         {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com"
+            "name": "Ing. Roldan Vargas",
+            "email": "rvargas@cenditel.gob.ve"
+        },
+        {
+            "name": "Henry Paredes",
+            "email": "hparedes@cenditel.gob.ve"
         }
     ],
     "extra": {

@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Controlador de Sub Categoria
- * */
-
 namespace Modules\Asset\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -21,8 +17,9 @@ use Nwidart\Modules\Facades\Module;
  * @brief Datos de las subcategorias de un bien
  *
  * @author  Henry Paredes <hparedes@cenditel.gob.ve>
- * @license LICENCIA DE SOFTWARE CENDITEL
- * @link    http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetSubcategory extends Model implements Auditable
 {
@@ -58,7 +55,7 @@ class AssetSubcategory extends Model implements Auditable
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve> | <henryp2804@gmail.com>
      *
-     * @return Object    Objeto con las propiedades registrados
+     * @return object    Objeto con las propiedades registrados
      */
     public function getAssetTypeIdAttribute()
     {
@@ -73,8 +70,8 @@ class AssetSubcategory extends Model implements Auditable
      * Método que obtiene la categoria asociada a la subcategoria del bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AssetCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetCategory()
     {
@@ -85,19 +82,20 @@ class AssetSubcategory extends Model implements Auditable
      * Método que obtiene las categorias especificas asociadas a la subcategoria del bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo
-     * AssetSpecificCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assetSpecificCategories()
     {
-        return $this->hasmany(AssetSpecificCategory::class);
+        return $this->hasMany(AssetSpecificCategory::class);
     }
 
     /**
      * Método que obtiene los bienes asociados a la subcategoria del bien
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objeto con el registro relacionado al modelo Asset
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function assets()
     {
@@ -108,29 +106,29 @@ class AssetSubcategory extends Model implements Auditable
      * Método que obtiene la cuenta contable de gastos asociada a la subcategoria del bien
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AccountingAccount
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function accountingAccountDebit()
     {
         $exist_accounting = Module::has('Accounting') && Module::isEnabled('Accounting');
-        return $exist_accounting ?
-            $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class, 'accounting_account_debit') :
-            [];
+        return $exist_accounting
+               ? $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class, 'accounting_account_debit')
+               : [];
     }
 
     /**
      * Método que obtiene la cuenta contable de depreciación acumulada asociada a la subcategoria del bien
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo Objeto con el registro relacionado al modelo
-     * AccountingAccount
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function accountingAccountAsset()
     {
         $exist_accounting = Module::has('Accounting') && Module::isEnabled('Accounting');
-        return $exist_accounting ?
-            $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class, 'accounting_account_asset') :
-            [];
+        return $exist_accounting
+               ? $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class, 'accounting_account_asset')
+               : [];
     }
 }

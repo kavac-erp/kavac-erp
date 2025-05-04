@@ -1,0 +1,7 @@
+<map id="edit" name="edit">
+<area shape="rect" id="Node000001" title="Muestra el formulario para la edición de asientos contables." alt="" coords="5,31,52,56"/>
+<area shape="rect" id="Node000002" href="$d4/d4d/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingEntryController.html#ac86b4aba2156a6221e874e328c06bba6" title="Obtiene las cuentas contables agrupadas." alt="" coords="100,5,307,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="52,37,102,30,103,35,53,43"/>
+<area shape="rect" id="Node000003" href="$d4/d4d/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingEntryController.html#a7fd78c611ef067163bf0b574e7755c5f" title="Obtiene un listado con las instituciones registradas en el sistemas Caso Admin muestra todas Caso Use..." alt="" coords="115,55,291,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="53,44,102,51,101,56,52,49"/>
+</map>

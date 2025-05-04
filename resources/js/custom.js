@@ -53,7 +53,7 @@ $(document).ready(function() {
 
     if ($('select').length) {
         /** Implementación del plugin selec2 para los elementos del DOM de tipo Select */
-        $('select:not([id^="VueTables__limit_"])').select2({});            
+        $('select:not([id^="VueTables__limit_"])').select2({});
         $('.select2').attr({
             'title': 'Seleccione un registro de la lista',
             'data-toggle': 'tooltip'
@@ -65,12 +65,6 @@ $(document).ready(function() {
             }, 1500);
         });
     }
-
-    /*$('.card-header').hover(function() {
-        $(this).find('.card-btns').fadeIn('fast');
-    }, function() {
-        $(this).find('.card-btns').fadeOut('fast');
-    });*/
 
     // Close card
     $('.card .card-close').click(function() {
@@ -380,8 +374,6 @@ $(document).ready(function() {
                 $('div.dataTables_wrapper div.dataTables_filter').css('text-align', 'left');
                 $('div.dataTables_wrapper div.dataTables_length').css('text-align', 'right');
                 $('.dataTables_length select').select2();
-                
-                
             }
         };
         $('.datatable').dataTable(dt_options);
@@ -462,7 +454,7 @@ $(document).ready(function() {
                 group: 'Analistas'
             },
             {
-                name: 'Hyildayra Colmenares',
+                name: 'Hildayra Colmenares',
                 email: '<a href="mailto:hcolmenares@cenditel.gob.ve">hcolmenares@cenditel.gob.ve</a>',
                 group: 'Analistas'
             },
@@ -473,7 +465,7 @@ $(document).ready(function() {
             },
             {
                 name: 'Alberto Gil',
-                email: '<a href="mailto:agil@cenditel.gob.ve">argil@cenditel.gob.ve</a>',
+                email: '<a href="mailto:rgil@cenditel.gob.ve">rgil@cenditel.gob.ve</a>',
                 group: 'Analistas'
             },
             {
@@ -523,7 +515,7 @@ $(document).ready(function() {
             },
             {
                 name: 'Argenis Osorio',
-                email: '<a href="mailto:adosorio@cenditel.gob.ve">aosorio@cenditel.gob.ve</a>',
+                email: '<a href="mailto:aosorio@cenditel.gob.ve">aosorio@cenditel.gob.ve</a>',
                 group: 'Desarrolladores'
             },
             {
@@ -537,21 +529,12 @@ $(document).ready(function() {
                 group: 'Desarrolladores'
             },
             {
-                name: 'Miguel Narváez',
-                email: '<a href="mailto:mnarvaez@cenditel.gob.ve">mnarvaez@cenditel.gob.ve</a>',
-                group: 'Desarrolladores'
-            },
-            {
                 name: 'Francisco Ruiz',
                 email: '<a href="mailto:fruiz@cenditel.gob.ve">fruiz@cenditel.gob.ve</a>',
                 group: 'Desarrolladores'
             },
             {
                 name: 'Francisco Escala',
-                email: '<a href="mailto:fescala@cenditel.gob.ve">fescala@cenditel.gob.ve</a>',
-                group: 'Desarrolladores'
-            },
-            {
                 email: '<a href="mailto:fescala@cenditel.gob.ve">fescala@cenditel.gob.ve</a>',
                 group: 'Desarrolladores'
             },
@@ -581,13 +564,23 @@ $(document).ready(function() {
                 group: 'Desarrolladores'
             },
             {
+                name: 'Miguel Narváez',
+                email: '<a href="mailto:mnarvaez@cenditel.gob.ve">mnarvaez@cenditel.gob.ve</a>',
+                group: 'Desarrolladores'
+            },
+            {
                 name: 'Oscar J. González',
-                email: '<a href="mailto:ogonzalez@cenditel.gob.ve">ojgonzalez@cenditel.gob.ve</a>',
+                email: '<a href="mailto:ojgonzalez@cenditel.gob.ve">ojgonzalez@cenditel.gob.ve</a>',
                 group: 'Desarrolladores'
             },
             {
                 name: 'Pedro Contreras',
                 email: '<a href="mailto:pmcontreras@cenditel.gob.ve">pmcontreras@cenditel.gob.ve</a>',
+                group: 'Desarrolladores'
+            },
+            {
+                name: 'Natanael Rojo',
+                email: '<a href="mailto:nrojo@cenditel.gob.ve">nrojo@cenditel.gob.ve</a>',
                 group: 'Desarrolladores'
             },
             {
@@ -675,6 +668,7 @@ $(document).ready(function() {
             { name: 'Francisco Ruíz' },
             { name: 'Francisco Escala' },
             { name: 'José Briceño' },
+            { name: 'Natanael Rojo' },
         ]);
         bootbox.alert({
             className: 'modal-credits',
@@ -723,7 +717,7 @@ $(document).ready(function() {
     });
 
     /**
-     * Función que define el atributo href para dirigir a la documentación 
+     * Función que define el atributo href para dirigir a la documentación
      * de usuario según la ubicación en el sistema
      *
      * @author Luis Ramírez  <lgramirez@cenditel.gob.ve>
@@ -742,7 +736,7 @@ $(document).ready(function() {
                 }
             });
             if (module) {
-                link.href= `${app_url}`+'/docs/user'+'_' +`${module}`+'/';  
+                link.href= `${app_url}`+'/docs/user'+'_' +`${module}`+'/';
             }else{
                 link.href= `${app_url}`+'/docs/user/';
             }
@@ -789,7 +783,7 @@ function gritter_messages(msg_title, msg_class, msg_icon, type, msg_custom) {
     });
 }
 
-/*
+/**
  * Función que permite eliminar registros mediante ajax
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  * @param {string} url URL del controlador que realiza la acción de eliminación

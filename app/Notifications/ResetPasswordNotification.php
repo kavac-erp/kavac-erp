@@ -1,7 +1,5 @@
 <?php
 
-/** Notificaciones de la aplicación */
-
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -24,11 +22,10 @@ class ResetPasswordNotification extends ResetPassword
     use Queueable;
 
     /**
-     * Get the reset password notification mail message for the given URL.
-     *
-     * @method  buildMailMessage
+     * Envía notificación al usuario con el enlace para el reestablecimiento de la contraseña
      *
      * @param  string  $url
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     protected function buildMailMessage($url)

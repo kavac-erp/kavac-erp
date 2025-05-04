@@ -4,20 +4,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * @class CreateFinanceSettingBankReconciliationFiles
- *
- * @brief Configuraciones de los archivos de conciliación bancaria
- *
- * Clase que gestiona los métodos para la gestión de la configuración de
- * archivos de conciliación bancaria.
- *
- * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
- *
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
- */
 class CreateFinanceSettingBankReconciliationFilesTable extends Migration
 {
     /**

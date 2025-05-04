@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Asset\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,11 +10,9 @@ use App\Traits\ModelsTrait;
 
 /**
  * @class AssetDepreciationAsset
- * @brief [descripción detallada]
+ * @brief Modelo para la gestión de depreciación de bienes
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -29,12 +25,14 @@ class AssetDepreciationAsset extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -49,8 +47,6 @@ class AssetDepreciationAsset extends Model implements Auditable
     /**
      * Método que obtiene la depreciación asociada al bien
      *
-     * @method  assetDepreciation
-     *
      * @return  \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetDepreciation()
@@ -60,8 +56,6 @@ class AssetDepreciationAsset extends Model implements Auditable
 
     /**
      * Método que obtiene el bien asociado a la depreciación
-     *
-     * @method  asset
      *
      * @return  \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -73,8 +67,6 @@ class AssetDepreciationAsset extends Model implements Auditable
     /**
      * Método que obtiene el libro asociado al bien
      *
-     * @method  assetBook
-     *
      * @return  \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assetBook()
@@ -85,12 +77,11 @@ class AssetDepreciationAsset extends Model implements Auditable
     /**
      * Scope para buscar y filtrar datos de emisiones de pago
      *
-     * @method    scopeSearch
-     *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
-     * @param  \Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Eloquent\Builder $query Objeto con la consulta
      * @param  string         $search    Cadena de texto a buscar
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSearch($query, $search)

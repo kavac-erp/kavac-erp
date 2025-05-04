@@ -6,11 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class CreateProjectTrackingTypeProductsTable
- * @brief Migracion encargada de manejar la comunicacion con la base de datos y generar la tabla project_tracking_type_products
+ * @brief Migración encargada de manejar la comunicacion con la base de datos y generar la tabla project_tracking_type_products
  *
- *Migracion encargada de manejar la comunicacion con la base de datos y generar la tabla project_tracking_type_products
+ * Migración encargada de manejar la comunicacion con la base de datos y generar la tabla project_tracking_type_products
  *
- * @author    [Francisco Escala] [fjescala@gmail.com]
+ * @author    Francisco Escala <fjescala@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

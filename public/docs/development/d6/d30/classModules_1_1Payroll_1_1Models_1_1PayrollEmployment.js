@@ -16,7 +16,8 @@ var classModules_1_1Payroll_1_1Models_1_1PayrollEmployment =
     [ "profile", "d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html#a7bd7264f00dc27e7316ac4382a1f0f4c", null ],
     [ "purchaseBaseBudget", "d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html#acc16d12c819656e2e12c5f84d6d9ba82", null ],
     [ "purchaseDirectHires", "d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html#a440d9996ab37b8ac157babdc34f21218", null ],
-    [ "$appends", "d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html#a29ec873a375ecb374d2e2ec92490cd41", null ],
+    [ "scopeSearch", "d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html#ad664ab03bbc7e886fe33f681fc2baed6", null ],
+    [ "$appends", "d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html#a2f891c3ddc371402c455a71fbe376e29", null ],
     [ "$dates", "d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html#a6ed295a3b7371b42773cab86fd367af8", null ],
     [ "$fillable", "d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html#a13601d3af66d109458e268a3eb4afc49", null ],
     [ "$with", "d6/d30/classModules_1_1Payroll_1_1Models_1_1PayrollEmployment.html#a3b8033ad34a94c5e640232d8091bd02a", null ]

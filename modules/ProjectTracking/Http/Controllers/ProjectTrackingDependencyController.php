@@ -13,37 +13,49 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\ProjectTracking\Models\ProjectTrackingDependency;
 
 /**
- * Clase que gestiona las dependencias
- *
  * @class ProjectTrackingDependencyController
+ * @brief Clase que gestiona las dependencias
  *
  * @author  William Páez <wpaez@cenditel.gob.ve>
- * @license LICENCIA DE SOFTWARE CENDITEL
- * @link    http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class ProjectTrackingDependencyController extends Controller
 {
     use ValidatesRequests;
 
     /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
+    protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
+    protected $messages;
+
+    /**
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
         {
-            /**
-             * Define las reglas de validación para el formulario
-             * */
+            /* Define las reglas de validación para el formulario */
             $this->validateRules = [
                 'name'                                  => ['required'],
                 'description'                           => ['nullable', 'max:250'],
             ];
 
-            /**
-             * Define los mensajes de validación para las reglas del formulario
-             * */
+            /* Define los mensajes de validación para las reglas del formulario */
             $this->messages = [
                 'name.required'                                  => 'El campo nombre es obligatorio.',
             ];
@@ -54,6 +66,7 @@ class ProjectTrackingDependencyController extends Controller
      * Muestra todos los registros de dependencias
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de dependencias
      */
     public function index()
@@ -64,11 +77,9 @@ class ProjectTrackingDependencyController extends Controller
     /**
      * Retorna un json con todas las dependencias para ser usado en un componente <select2>
      *
-     * @method getDependencies
-     *
      * @author Oscar González <xxmaestroyixx@gmail.com>
      *
-     * @return Renderable    [descripción de los datos devueltos]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getDependencies()
     {
@@ -96,7 +107,7 @@ class ProjectTrackingDependencyController extends Controller
     /**
      * Mostrar el formulario para crear una nueva dependencia.
      *
-     * @return Renderable
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -106,9 +117,10 @@ class ProjectTrackingDependencyController extends Controller
     /**
      * Valida y registra una nueva dependencia
      *
+     * @author William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param \Illuminate\Http\Request $request Solicitud con los datos a guardar
      *
-     * @author William Páez <wpaez@cenditel.gob.ve>
      * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
@@ -126,7 +138,7 @@ class ProjectTrackingDependencyController extends Controller
     /**
      * Mostrar el recurso específico.
      *
-     * @return Renderable
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -136,7 +148,7 @@ class ProjectTrackingDependencyController extends Controller
     /**
      * Mostrar el formulario para el recurso específico
      *
-     * @return Renderable
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -146,10 +158,11 @@ class ProjectTrackingDependencyController extends Controller
     /**
      * Actualiza la información del cargo
      *
+     * @author William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param \Illuminate\Http\Request $request Solicitud con los datos a actualizar
      * @param integer                  $id      Identificador de la dependencia a actualizar
      *
-     * @author William Páez <wpaez@cenditel.gob.ve>
      * @return \Illuminate\Http\JsonResponse        Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
@@ -171,9 +184,10 @@ class ProjectTrackingDependencyController extends Controller
     /**
      * Elimina la dependencia
      *
+     * @author William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param integer $id Identificador de la dependencia a eliminar
      *
-     * @author William Páez <wpaez@cenditel.gob.ve>
      * @return \Illuminate\Http\JsonResponse    Json: objeto eliminado y mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -187,6 +201,7 @@ class ProjectTrackingDependencyController extends Controller
      * Obtiene las dependencias registradas
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de cargos
      */
     public function getProjectTrackingDependencies()

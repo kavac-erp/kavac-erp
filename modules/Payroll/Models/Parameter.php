@@ -13,11 +13,18 @@ use Modules\Payroll\Repositories\PayrollAssociatedParametersRepository;
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
+ * @property string $translate_formula Traduce el nombre del paraméetro asocido a una fórmula
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class Parameter extends BaseParameter
 {
+    /**
+     * Lista de atributos personalizados para mostrar en consultas
+     *
+     * @var array $appends
+     */
     protected $appends = ['translate_formula'];
 
     /**

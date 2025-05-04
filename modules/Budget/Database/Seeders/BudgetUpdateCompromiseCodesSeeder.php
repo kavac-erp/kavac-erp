@@ -9,10 +9,21 @@ use Modules\Budget\Models\BudgetCompromise;
 use App\Models\CodeSetting;
 use App\Models\FiscalYear;
 
+/**
+ * @class BudgetUpdateCompromiseCodesSeeder
+ * @brief Información por defecto para actualizar los códigos de compromisos
+ *
+ * Gestiona la información por defecto a registrar inicialmente para actualizar los códigos de compromisos
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class BudgetUpdateCompromiseCodesSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */

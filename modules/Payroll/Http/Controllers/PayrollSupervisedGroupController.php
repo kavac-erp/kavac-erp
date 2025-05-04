@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Http\Controllers;
 
 use App\Models\Department;
@@ -21,11 +19,9 @@ use Modules\Payroll\Models\PayrollTimeSheetPending;
 
 /**
  * @class PayrollSupervisedGroupController
- * @brief [descripción detallada]
+ * @brief Controlador de grupos supervisados
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -34,23 +30,36 @@ class PayrollSupervisedGroupController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación
+     *
+     * @var array $validateRules
+     */
     protected $validateRules;
+
+    /**
+     * Mensajes de validación
+     *
+     * @var array $messages
+     */
     protected $messages;
 
     /**
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:payroll.supervised_group.index', ['only' => 'index']);
-        $this->middleware('permission:payroll.supervised_group.create', ['only' => ['store']]);
-        $this->middleware('permission:payroll.supervised_group.edit', ['only' => ['update']]);
-        $this->middleware('permission:payroll.supervised_group.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:payroll.supervisedgroup.index', ['only' => 'index']);
+        $this->middleware('permission:payroll.supervisedgroup.create', ['only' => ['store']]);
+        $this->middleware('permission:payroll.supervisedgroup.edit', ['only' => ['update']]);
+        $this->middleware('permission:payroll.supervisedgroup.delete', ['only' => 'destroy']);
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'code' => ['required', 'unique:payroll_supervised_groups,code'],
             'supervisor_id' => ['required'],
@@ -58,7 +67,7 @@ class PayrollSupervisedGroupController extends Controller
             'supervised' => ['required']
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'code.required'        => 'El campo código es obligatorio.',
             'code.unique'          => 'El campo código ya ha sido registrado.',
@@ -69,13 +78,9 @@ class PayrollSupervisedGroupController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Obtiene todos los registros de grupos supervisados
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse    Json con los datos de los grupos supervisados
      */
     public function index()
     {
@@ -85,13 +90,9 @@ class PayrollSupervisedGroupController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el formulario para crear un nuevo registro de grupo supervisado
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -101,19 +102,15 @@ class PayrollSupervisedGroupController extends Controller
     /**
      * [descripción del método]
      *
-     * @method    store
+     * @param     Request    $request    Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $this->validate($request, $this->validateRules, $this->messages);
 
-        DB::transaction(function () use ($request) {
+        $payrollSupervisedGroup = DB::transaction(function () use ($request) {
             $payrollSupervisedGroup = PayrollSupervisedGroup::create([
                 'code' => $request->code,
                 'supervisor_id' => $request->supervisor_id,
@@ -126,21 +123,17 @@ class PayrollSupervisedGroupController extends Controller
                     'payroll_staff_id' => $value['id']
                 ]);
             }
-
-            return response()->json(['record' => $payrollSupervisedGroup, 'message' => 'Success'], 200);
+            return $payrollSupervisedGroup;
         });
+        return response()->json(['record' => $payrollSupervisedGroup, 'message' => 'Success'], 200);
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información de un grupo supervisado
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -148,15 +141,11 @@ class PayrollSupervisedGroupController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario para editar la información de un grupo supervisado
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -164,16 +153,12 @@ class PayrollSupervisedGroupController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza la información de un grupo supervisado
      *
-     * @method    update
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request  Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -200,21 +185,16 @@ class PayrollSupervisedGroupController extends Controller
                     'payroll_staff_id' => $value['id']
                 ]);
             }
-
-            return response()->json(['message' => 'Success'], 200);
         });
+        return response()->json(['message' => 'Success'], 200);
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Elimina un grupo supervisado
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [descripción de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -250,6 +230,13 @@ class PayrollSupervisedGroupController extends Controller
         return response()->json(['record' => $payrollSupervisedGroup, 'message' => 'Success'], 200);
     }
 
+    /**
+     * Obtiene el personal asignado a un grupo supervisado
+     *
+     * @param string $ids Identificadores del personal
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getGroupedStaff($ids = '')
     {
         $ids = explode(',', $ids);
@@ -326,9 +313,16 @@ class PayrollSupervisedGroupController extends Controller
         return response()->json($data);
     }
 
+    /**
+     * Obtiene los datos de grupos supervisados
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getPayrollSupervisedGroups(Request $request)
     {
-        $user = Auth()->user();
+        $user = auth()->user();
         $profileUser = $user->profile;
         $staffs = [];
         $timeSheet = null;

@@ -1,8 +1,9 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Illuminate\Contracts\Validation\Rule;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -20,8 +21,6 @@ class $CLASS$ implements Rule
     /**
      * Crea una nueva instancia de la regla
      *
-     * @method __construct
-     *
      * @return void     [descripción de los datos devueltos]
      */
     public function __construct()
@@ -31,8 +30,6 @@ class $CLASS$ implements Rule
 
     /**
      * Determina si pasa la regla de validación.
-     *
-     * @method passes
      *
      * @param  string  $attribute   Nombre del atributo
      * @param  mixed   $value       Valor del atributo a evaluar
@@ -46,8 +43,6 @@ class $CLASS$ implements Rule
 
     /**
      * Obtiene el mensaje de validación.
-     *
-     * @method message
      *
      * @return string    Devuelve una cadena de texto con el mensaje de error si la validación no es exitosa
      */

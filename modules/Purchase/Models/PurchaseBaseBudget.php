@@ -3,15 +3,22 @@
 namespace Modules\Purchase\Models;
 
 use App\Traits\ModelsTrait;
-use Composer\XdebugHandler\Status;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 use Modules\Purchase\Models\PurchaseBudgetaryAvailability;
 use Modules\Purchase\Models\PurchasePivotModelsToRequirementItem;
-use Nwidart\Modules\Facades\Module;
-use OwenIt\Auditing\Auditable as AuditableTrait;
-use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * @class PurchaseBaseBudget
+ * @brief Gestiona la información, procesos, consultas y relaciones asociadas al modelo
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseBaseBudget extends Model implements Auditable
 {
     use SoftDeletes;
@@ -20,12 +27,14 @@ class PurchaseBaseBudget extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -44,14 +53,39 @@ class PurchaseBaseBudget extends Model implements Auditable
         'send_notify'
     ];
 
+    /**
+     * Lista de atributos personalizados a cargar con el modelo
+     *
+     * @var array
+     */
     protected $appends = [
         'availability',
         'availabilityitem',
+        'purchaseBudgetaryAvailabilityDocument',
 
-        //Estado auxiliar para de terminar en que estatus se encuentra el presupuesto base
+        //Estado auxiliar para determinar en que estatus se encuentra el presupuesto base
         'status_aux'
     ];
 
+    /**
+     * Obtiene la información del archivo de documento de la disponibilidad presupuestaria
+     *
+     * @return Document|Model|object|null
+     */
+    public function getPurchaseBudgetaryAvailabilityDocumentAttribute()
+    {
+        $documentFile = Document::where([
+            'documentable_type' => 'Modules\Purchase\Models\PurchaseBudgetaryAvailability',
+            'documentable_id' => $this->id
+        ])->first();
+        return $documentFile;
+    }
+
+    /**
+     * Obtiene la disponibilidad presupuestaria del presupuesto base
+     *
+     * @return string
+     */
     public function getAvailabilityAttribute()
     {
         $answer = "";
@@ -59,6 +93,8 @@ class PurchaseBaseBudget extends Model implements Auditable
         if ($availability) {
             if ($availability->availability == 1) {
                 $answer = "Disponible";
+            } elseif ($availability->availability == 2) {
+                $answer = "AP"; //Aprobado/
             } else {
                 $answer = "No_Disponible";
             };
@@ -66,12 +102,22 @@ class PurchaseBaseBudget extends Model implements Auditable
         return $answer;
     }
 
+    /**
+     * Obtiene los detalles de la disponibilidad presupuestaria del presupuesto base
+     *
+     * @return array
+     */
     public function getAvailabilityItemAttribute()
     {
         $availability = PurchaseBudgetaryAvailability::where('purchase_base_budgets_id', $this->id)->get()->toArray();
         return $availability;
     }
 
+    /**
+     * Obtiene el estatus del presupuesto base
+     *
+     * @return string
+     */
     public function getStatusAuxAttribute()
     {
         $status = 'WAIT';
@@ -95,7 +141,6 @@ class PurchaseBaseBudget extends Model implements Auditable
             }
         }
 
-        // dd($staus_quotations, $staus_quotations_wait, $staus_quotations_approved);
         switch ($this->status) {
             case 'WAIT':
                 $status = 'WAIT';
@@ -103,9 +148,11 @@ class PurchaseBaseBudget extends Model implements Auditable
             case 'WAIT_QUOTATION':
                 if (!$this->send_notify) {
                     $status = 'WAIT_SEND_NOTIFICATION';
-                } elseif (strlen($this->availability) == 0 && $this->send_notify) {
+                } elseif (($this->availability == "" || $this->availability == 'No_Disponible') && $this->send_notify) {
                     $status = 'WAIT_BUDGET_AVAILABILITY';
-                } elseif (strlen($this->availability) != 0) {
+                } elseif ($this->availability == 'Disponible' && $this->send_notify) {
+                    $status = 'WAIT_APPROVE_BUDGET_AVAILABILITY';
+                } elseif ($this->availability == 'AP' && $this->send_notify) {
                     $status = 'WAIT_QUOTATION';
                 }
                 break;
@@ -129,86 +176,81 @@ class PurchaseBaseBudget extends Model implements Auditable
                 $status = 'BOUGHT';
                 break;
         }
-        return $status;
+
         // WAIT -> Por completar
-        // WAIT_BUDGET_AVAILABILITY -> Esper por disponibilidad presupuestria
+        // WAIT_BUDGET_AVAILABILITY -> Espera por disponibilidad presupuestria
+        // WAIT_APPROVE_BUDGET_AVAILABILITY -> Espera por aprobar disponibilidad presupuestria
         // WAIT_QUOTATION -> Espera por cotización
         // WAIT_APPROVE_PARTIAL_QUOTE -> Espera por aprobar cotización parcial
         // WAIT_APPROVE_QUOTE -> Espera por aprobar cotización
         // PARTIALLY_QUOTED -> Cotizado parcialmente
         // QUOTED -> Cotizado
         // BOUGHT -> Comprado
+        return $status;
     }
 
-
     /**
-     * PurchaseBaseBudget belongs to Currency.
+     * Establece la relación con el tipo de moneda asociada a un presupuesto base
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency()
     {
-        // belongsTo(RelatedModel, foreignKey = currency_id, keyOnRelatedModel = id)
         return $this->belongsTo(Currency::class);
     }
 
     /**
-     * PurchaseBaseBudget belongs to Tax.
+     * Establece la relación con el tipo de impuesto asociado a un presupuesto base
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function tax()
     {
-        // belongsTo(RelatedModel, foreignKey = tax_id, keyOnRelatedModel = id)
         return $this->belongsTo(Tax::class);
     }
+
     /**
-     * PurchaseBaseBudget has one PurchaseRequirement.
+     * Establece la relación con el requerimiento de compra asociado a un presupuesto base
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function purchaseRequirement()
     {
-        // hasOne(RelatedModel, foreignKeyOnRelatedModel = purchaseBaseBudget_id, localKey = id)
         return $this->hasOne(PurchaseRequirement::class);
     }
 
     /**
-     * PurchaseBaseBudget morphs many PurchasePivotModelsToRequirementItem.
+     * Establece la relación con los elementos de requerimiento de compra asociados a un presupuesto base
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function relatable()
     {
-        // morphMany(MorphedModel, morphableName, type = able_type, relatedKeyName = able_id, localKey = id)
         return $this->morphMany(PurchasePivotModelsToRequirementItem::class, 'relatable');
     }
 
     /**
-     * PurchaseBaseBudget has many Pivot.
+     * Establece la relación con el modelo pivot
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function pivotRelatable()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = purchaseBaseBudget_id, localKey = id)
         return $this->hasMany(Pivot::class, 'relatable_id');
     }
 
     /**
-     * PurchaseBaseBudget morphs to models in orderable_type.
+     * Establece la relación morfológica con la orden
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function orderable()
     {
-        // morphTo($name = orderable, $type = orderable_type, $id = orderable_id)
-        // requires orderable_type and orderable_id fields on $this->table
         return $this->morphTo();
     }
 
     /**
-     * PurchaseBaseBudget has many purchaseQuotation.
+     * Establece la relación con las cotizaciones asociadas a un presupuesto base
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -218,7 +260,7 @@ class PurchaseBaseBudget extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el personal que preparó el presupuesto base
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -232,7 +274,7 @@ class PurchaseBaseBudget extends Model implements Auditable
     }
 
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el personal que revisó el presupuesto base
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -244,8 +286,9 @@ class PurchaseBaseBudget extends Model implements Auditable
                     'reviewed_by_id'
                 ) : null;
     }
+
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el personal que verificó el presupuesto base
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -257,28 +300,28 @@ class PurchaseBaseBudget extends Model implements Auditable
                     'verified_by_id'
                 ) : null;
     }
+
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el personal que firmó, en primer lugar, el presupuesto base
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function firstSignature()
     {
-        // belongsTo(RelatedModel, foreignKey = payroll_employment_id, keyOnRelatedModel = id)
         return (Module::has('Payroll') && Module::isEnabled('Payroll'))
                 ? $this->belongsTo(
                     \Modules\Payroll\Models\PayrollEmployment::class,
                     'first_signature_id'
                 ) : null;
     }
+
     /**
-     * PurchaseDirectHire belongs to payroll_employment.
+     * Establece la relación con el personal que firmó, en segundo lugar, el presupuesto base
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function secondSignature()
     {
-        // belongsTo(RelatedModel, foreignKey = payroll_employment_id, keyOnRelatedModel = id)
         return (Module::has('Payroll') && Module::isEnabled('Payroll'))
                 ? $this->belongsTo(
                     \Modules\Payroll\Models\PayrollEmployment::class,
@@ -294,5 +337,28 @@ class PurchaseBaseBudget extends Model implements Auditable
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Scope para buscar y filtrar datos de presupuestos bases
+     *
+     * @method    scopeSearch
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder Objeto con la consulta
+     * @param  string         $search    Cadena de texto a buscar
+
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $search)
+    {
+        return $query
+            ->whereRaw("TO_CHAR(date, 'DD/MM/YYYY') LIKE '%" . strtoupper($search) . "%'")
+            ->orWhereHas('purchaseRequirement', function ($query) use ($search) {
+                $query->where('code', 'ilike', '%' . $search . '%');
+            })
+            ->orWhereHas('currency', function ($query) use ($search) {
+                $query->where('symbol', 'ilike', '%' . $search . '%')
+                    ->orWhere('name', 'ilike', '%' . $search . '%');
+            });
     }
 }

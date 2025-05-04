@@ -17,9 +17,8 @@ use App\Traits\ModelsTrait;
  *
  * @author Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
  *
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollEmploymentPayrollPosition extends Model implements Auditable
 {
@@ -27,6 +26,11 @@ class PayrollEmploymentPayrollPosition extends Model implements Auditable
     use AuditableTrait;
     use ModelsTrait;
 
+    /**
+     * Nombre de la tabla en la base de datos
+     *
+     * @var string $table
+     */
     protected $table = 'payroll_employment_payroll_position';
 
     /**

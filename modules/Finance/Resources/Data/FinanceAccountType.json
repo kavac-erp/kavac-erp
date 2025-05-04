@@ -1,0 +1,10 @@
+[
+    {
+        "name" : "CORRIENTE",
+        "code" : "00"
+    },
+    {
+        "name" : "AHORRO",
+        "code" : "01"
+    }
+]

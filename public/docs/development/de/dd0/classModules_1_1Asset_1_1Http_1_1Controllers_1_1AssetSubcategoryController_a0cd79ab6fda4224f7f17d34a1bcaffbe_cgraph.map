@@ -1,4 +1,5 @@
 <map id="getSubcategories" name="getSubcategories">
-<area shape="rect" id="node1" title="Obtiene el listado de subcategorias de un bien institucional." alt="" coords="5,5,140,32"/>
-<area shape="rect" id="node2" href="$de/dd0/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSubcategoryController.html#a7ddabae6dcf09c6fefd2ddd6dfd951dc" title=" " alt="" coords="188,5,320,32"/>
+<area shape="rect" id="Node000001" title="Obtiene el listado de subcategorias de un bien institucional." alt="" coords="5,5,140,31"/>
+<area shape="rect" id="Node000002" href="$de/dd0/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetSubcategoryController.html#a7ddabae6dcf09c6fefd2ddd6dfd951dc" title="Obtiene el listado de subcategorias de bienes." alt="" coords="188,5,320,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,15,174,15,174,21,140,21"/>
 </map>

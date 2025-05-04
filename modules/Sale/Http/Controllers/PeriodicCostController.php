@@ -13,8 +13,6 @@ use Modules\Sale\Models\PeriodicCost;
  * @class PeriodicCostController
  * @brief Gestiona información de Costos fijos
  *
- * [PeriodicCost: Costos Fijos]
- *
  * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
  *
  * @license
@@ -29,18 +27,21 @@ class PeriodicCostController extends Controller
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
 
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting.periodic.cost', ['only' => 'index']);
     }
+
     /**
-     * Muesta todos los registros de Costos fijos
+     * Muesta todos los registros de costos fijos
      *
-     * @method    index
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
      * @return \Illuminate\Http\JsonResponse con los registros de Periodos de tiempo
      */
     public function index()
@@ -49,11 +50,12 @@ class PeriodicCostController extends Controller
     }
 
     /**
-     * Valida y registra un nuevo Costo fijo
+     * Valida y registra un nuevo costo fijo
      *
-     * @method    store
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @param  \Illuminate\Http\Request  $request
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
      * @return \Illuminate\Http\JsonResponse con mensaje de exito
      */
     public function store(Request $request)
@@ -78,10 +80,11 @@ class PeriodicCostController extends Controller
     /**
      * Actualiza la información del costo fijo
      *
-     * @method    update
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @param     object    Request    $request         Objeto con datos de la petición
-     * @param     Modules\Sale\Models\PeriodicCost   $PeriodicCost    Registro con el costo fijo
+     *
+     * @param     Request    $request         Datos de la petición
+     * @param     \Modules\Sale\Models\PeriodicCost   $PeriodicCost    Registro con el costo fijo
+     *
      * @return \Illuminate\Http\JsonResponse con mensaje de exito
      */
     public function update(Request $request, PeriodicCost $PeriodicCost)
@@ -102,11 +105,12 @@ class PeriodicCostController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Elimina un costo fijo
      *
-     * @method    destroy
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @param  Modules\Sale\Models\PeriodicCost   $PeriodicCost    Registro con el costo fijo
+     *
+     * @param  \Modules\Sale\Models\PeriodicCost   $PeriodicCost    Registro con el costo fijo
+     *
      * @return \Illuminate\Http\JsonResponse con mensaje de exito
      */
     public function destroy(PeriodicCost $PeriodicCost)
@@ -119,9 +123,11 @@ class PeriodicCostController extends Controller
     /**
      * Realiza la validación de un costo fijo
      *
-     * @method    periodicCostValidate
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
-     * @param     object    Request    $request         Objeto con datos de la petición
+     *
+     * @param     Request    $request         Datos de la petición
+     *
+     * @return    void
      */
     public function periodicCostValidate(Request $request)
     {
@@ -149,10 +155,12 @@ class PeriodicCostController extends Controller
     /**
      * Agrega atributos a un costo fijo
      *
-     * @method    createAttributes
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
      * @param     array    $attributes         Arreglo con los atributos a agregar
      * @param     integer   $id        Identificador del Costo fijo
+     *
+     * @return void
      */
     public function createAttributes($attributes = [], $id = 0)
     {
@@ -171,7 +179,9 @@ class PeriodicCostController extends Controller
      * Muestra una lista de los atributos de un costo fijo
      *
      * @author PHD. Juan Vizcarrondo <jvizcarrondo@cenditel.gob.ve> | <juanvizcarrondo@gmail.com>
+     *
      * @param     integer   $periodic_cost_id        Identificador del Costo fijo
+     *
      * @return \Illuminate\Http\JsonResponse con los atributos del costo fijo
      */
     public function getPeriodicCostAttributes($periodic_cost_id)

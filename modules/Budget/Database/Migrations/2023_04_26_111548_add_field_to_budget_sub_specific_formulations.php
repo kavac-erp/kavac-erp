@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldToBudgetSubSpecificFormulations
- * @brief [descripción detallada]
+ * @brief Agrega el campo 'date' a la tabla 'budget_sub_specific_formulations'
  *
  * Clase que gestiona la creación de un nuevo campo para la tabla
  * de la formulación de presupuesto.

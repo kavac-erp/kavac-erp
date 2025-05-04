@@ -9,7 +9,7 @@
                 'danger', 'screen-error',
                 'No posee los permisos necesarios para ejecutar esta funcionalidad'
             )"
-            
+
             class="btn btn-xs btn-dark btn-icon btn-action"
             title="Anular registro"
             data-toggle="tooltip"
@@ -17,7 +17,7 @@
         >
             <i class="ion ion-android-close"></i>
         </button>
-        <!-- :disabled="!cancelBudgetCompromisePermission" -->
+
         <div
             class="modal fade text-left"
             tabindex="-1"
@@ -136,7 +136,7 @@
                             >
                                 Cerrar
                             </button>
-							<button type="button" 
+							<button type="button"
                                     class="btn btn-primary btn-sm btn-round btn-modal-save"
                                     @click="getMessage(`cancel_compromise${id}`)"
                             >
@@ -182,18 +182,6 @@ export default {
                 description : "",
                 canceled_at: '',
             },
-            // cancelPayOrderOptions: [
-            //         {'id': '', 'text': 'Seleccione...'},
-            //         {'id': 1, 'text': 'Sin Remisión'},
-            //         {'id': 2, 'text': 'Con Remisión'},
-            //     ],
-            // message : [
-            //     "¿Está seguro? Una vez anulada esta Orden de pago,"
-            //         +" todo el proceso se anulará hasta el compromiso.",
-            //     "¿Está seguro? Una vez anulada esta Oreden de pago,"
-            //         +" el estado del registro cambiaŕa a 'Anulado' y se podrá"
-            //         +" generar una nueva 'Orden de pago'."
-            // ],
             errors : [],
             url : 'budget/compromises/cancel',
         };
@@ -217,7 +205,7 @@ export default {
 
         /**
          * Método que obtiene el mensaje de alerta a tomar en cuenta antes de seguir con el proceso de anulación
-         * 
+         *
          * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
          */
         getMessage(modal_id) {
@@ -240,7 +228,6 @@ export default {
                 callback: function(result) {
                     try {
                         if (result) {
-                            // vm.showMessage('custom', '¡Ok!', 'success', 'screen-ok', 'Se continuará con el proceso');
                             vm.sendCancellation();
                         }
                         else {
@@ -259,8 +246,8 @@ export default {
 
         /**
          * Método que permite levantar el modal
-         * @param {*} modal_id 
-         * @param {*} event 
+         * @param {string} modal_id
+         * @param {object} event
          */
         async showModal(modal_id, event){
             event.preventDefault();
@@ -275,9 +262,9 @@ export default {
             const vm = this;
             vm.record.id = vm.id;
             let url = vm.setUrl(vm.url);
-            
+
             vm.loading = true;
-            
+
             await axios.post(url, vm.record).then(response => {
                 if (response.status == 200){
                     vm.showMessage('custom', '¡Éxito!', 'success', 'screen-ok', 'Registro Anulado');
@@ -313,14 +300,5 @@ export default {
             vm.loading = false;
         },
     },
-
-    // watch : {
-    //     'record.cancel_compromise_option_id' : function(value){
-        
-    //         value && this.getMessage(value, `cancel_compromise${this.id}`);
-    //     } 
-            
-    // },
-
 };
 </script>

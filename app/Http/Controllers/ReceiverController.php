@@ -1,10 +1,9 @@
 <?php
 
-/** Controladores base de la aplicación */
-
 namespace App\Http\Controllers;
 
 use App\Models\Receiver;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Nwidart\Modules\Facades\Module;
 
@@ -15,15 +14,16 @@ use Nwidart\Modules\Facades\Module;
  * Controlador para gestionar a los receptores de procesos
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class ReceiverController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Obtiene el listado de receptores de procesos
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
@@ -39,9 +39,9 @@ class ReceiverController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear registros
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function create()
     {
@@ -49,10 +49,11 @@ class ReceiverController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo registro
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     *
+     * @return void
      */
     public function store(Request $request)
     {
@@ -60,10 +61,11 @@ class ReceiverController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso solicitado
      *
      * @param  \App\Models\Receiver  $receiver
-     * @return \Illuminate\Http\Response
+     *
+     * @return void
      */
     public function show(Receiver $receiver)
     {
@@ -71,10 +73,11 @@ class ReceiverController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para la actualización de datos
      *
      * @param  \App\Models\Receiver  $receiver
-     * @return \Illuminate\Http\Response
+     *
+     * @return void
      */
     public function edit(Receiver $receiver)
     {
@@ -82,11 +85,12 @@ class ReceiverController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza información registrada
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Receiver  $receiver
-     * @return \Illuminate\Http\Response
+     *
+     * @return void
      */
     public function update(Request $request, Receiver $receiver)
     {
@@ -94,10 +98,11 @@ class ReceiverController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina el registro solicitado
      *
      * @param  \App\Models\Receiver  $receiver
-     * @return \Illuminate\Http\Response
+     *
+     * @return void
      */
     public function destroy(Receiver $receiver)
     {
@@ -107,10 +112,9 @@ class ReceiverController extends Controller
     /**
      * Muestra una lista de todos los beneficiarios registrados en el sistema
      *
-     * @method     getAllReceivers
-     *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
+     * @return JsonResponse
      */
     public function getAllReceivers(Request $request)
     {

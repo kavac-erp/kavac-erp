@@ -1,0 +1,7 @@
+<map id="pdfSign" name="pdfSign">
+<area shape="rect" id="Node000001" title="Vista en la que se genera el reporte en pdf y se realiza la firma electrónica del mismo." alt="" coords="5,31,76,56"/>
+<area shape="rect" id="Node000002" href="$dd/dc1/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAuxiliaryBookController.html#ab0ddffde595d12d9c85da6f4c1eb2605" title="Encuentra los tipos de cambio." alt="" coords="124,5,305,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,36,113,30,114,35,77,41"/>
+<area shape="rect" id="Node000003" href="$dd/dc1/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingAuxiliaryBookController.html#a6f3d70e44a5afea25eb600c5e19f6a29" title="Realiza la conversión de saldo." alt="" coords="142,55,287,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="77,45,129,53,128,58,76,51"/>
+</map>

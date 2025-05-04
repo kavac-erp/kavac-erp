@@ -12,21 +12,33 @@ use Modules\Purchase\Models\PurchaseType;
 use Modules\Purchase\Models\Document;
 use Nwidart\Modules\Facades\Module;
 
+/**
+ * @class      PurchasePlanController
+ * @brief      Controlador de la gestión de los planes de compra
+ *
+ * @license   [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchasePlanController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:purchase.purchase_plans.list', ['only' => 'index', 'vueList']);
-        $this->middleware('permission:purchase.purchase_plans.create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:purchase.purchase_plans.edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:purchase.purchase_plans.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:purchase.purchaseplans.list', ['only' => 'index', 'vueList']);
+        $this->middleware('permission:purchase.purchaseplans.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:purchase.purchaseplans.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:purchase.purchaseplans.delete', ['only' => 'destroy']);
     }
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Muestra el listado de planes de compra
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -35,8 +47,9 @@ class PurchasePlanController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar un nuevo plan de compra
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -71,9 +84,11 @@ class PurchasePlanController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena un nuevo plan de compra
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -104,8 +119,9 @@ class PurchasePlanController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return JsonResponse
+     * Obtiene información de un plan de compra
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -120,8 +136,9 @@ class PurchasePlanController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar un plan de compra
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -161,9 +178,11 @@ class PurchasePlanController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza un plan de compra
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -176,8 +195,9 @@ class PurchasePlanController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina un plan de compra
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -185,6 +205,13 @@ class PurchasePlanController extends Controller
         return response()->json(['message' => 'Success'], 200);
     }
 
+    /**
+     * Adjunta un documento al plan de compra
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return void
+     */
     public function uploadFile(Request $request)
     {
         $this->validate($request, [
@@ -215,6 +242,13 @@ class PurchasePlanController extends Controller
         $purchase_plan->save();
     }
 
+    /**
+     * Descarga el documento asociado a un plan de compra
+     *
+     * @param string $code Código del documento a descargar
+     *
+     * @return mixed|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function getDownload($code)
     {
         $doc = Document::where('code', $code)->first();

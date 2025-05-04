@@ -4,12 +4,22 @@ namespace Modules\Asset\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @class AssetAsignationResource
+ * @brief Clase que maneja el recurso para las subcategorías de bienes
+ *
+ * @author Fabián Palmera <fpalmera@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AssetSubcategoryResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transforma el recurso en un array.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)

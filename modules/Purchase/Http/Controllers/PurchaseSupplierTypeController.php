@@ -8,13 +8,21 @@ use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Purchase\Models\PurchaseSupplierType;
 
+/**
+ * @class PurchaseSupplierTypeController
+ * @brief Gestiona los procesos de los tipos de proveedores
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseSupplierTypeController extends Controller
 {
     use ValidatesRequests;
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Muestra una lista de tipos de proveedores
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -22,8 +30,9 @@ class PurchaseSupplierTypeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear un nuevo tipo de proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -31,9 +40,11 @@ class PurchaseSupplierTypeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena un nuevo tipo de proveedor
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -49,8 +60,9 @@ class PurchaseSupplierTypeController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de un tipo de proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -58,8 +70,9 @@ class PurchaseSupplierTypeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar un tipo de proveedor
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -67,13 +80,15 @@ class PurchaseSupplierTypeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza un tipo de proveedor
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        /** @var object Datos del tipo de proveedores */
+        /* Datos del tipo de proveedores */
         $supplierType = PurchaseSupplierType::find($id);
 
         $this->validate($request, [
@@ -87,12 +102,13 @@ class PurchaseSupplierTypeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina un tipo de proveedor
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        /** @var object Datos del tipo de proveedores */
+        /* Datos del tipo de proveedores */
         $supplierType = PurchaseSupplierType::find($id);
         $supplierType->delete();
         return response()->json(['record' => $supplierType, 'message' => 'Success'], 200);

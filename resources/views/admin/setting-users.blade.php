@@ -44,10 +44,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (App\Models\User::all() as $user)
+                            @foreach (App\Models\User::withTrashed()->get() as $user)
                                 <tr>
-                                    <td>{{ $user->username }}</td>
-                                    <td>
+                                    <td
+                                        @if ($user->deleted_at != null)
+                                            style="text-decoration: line-through"
+                                            title="Registro eliminado"
+                                            data-toggle="tooltip"
+                                        @endif
+                                    >
+                                        {{ $user->username }}
+                                    </td>
+                                    <td
+                                        @if ($user->deleted_at != null)
+                                            style="text-decoration: line-through"
+                                            title="Registro eliminado"
+                                            data-toggle="tooltip"
+                                        @endif
+                                    >
                                         @php
                                             $institution = ($user->profile && $user->profile->institution)
                                                 ? $user->profile->institution->acronym
@@ -56,14 +70,26 @@
                                         {{ $institution }}
                                     </td>
                                     <td class="text-center">
-                                        {!! Form::button('<i class="fa fa-info-circle"></i>', [
-                                            'class' => 'btn btn-info btn-xs btn-icon btn-action',
-                                            'data-toggle' => 'tooltip', 'type' => 'button',
-                                            'onclick' => 'view_user_info('.$user->id.')',
-                                            'title' => __('Ver información del usuario'),
-                                        ]) !!}
-                                        @include('buttons.edit', ['route' => route('users.edit', $user->id)])
-                                        @include('buttons.delete', ['route' => route('users.destroy', $user->id)])
+                                        @if ($user->deleted_at == null)
+                                            {!! Form::button('<i class="fa fa-info-circle"></i>', [
+                                                'class' => 'btn btn-info btn-xs btn-icon btn-action',
+                                                'data-toggle' => 'tooltip', 'type' => 'button',
+                                                'onclick' => 'view_user_info('.$user->id.')',
+                                                'title' => __('Ver información del usuario'),
+                                            ]) !!}
+                                            @include('buttons.edit', ['route' => route('users.edit', $user->id)])
+                                            @include('buttons.delete', [
+                                                'route' => route('users.destroy', $user->id),
+                                                'disabled' => (
+                                                    (auth()->user()->id !== $user->id && $user->profile && $user->profile->employee_id == null) ||
+                                                    (auth()->user()->id === $user->id)
+                                                )
+                                            ])
+                                        @else
+                                            @include('buttons.restore', [
+                                                'route' => route('restore.user', $user->id)
+                                            ])
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

@@ -6,7 +6,6 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Support\Facades\DB;
 use Modules\Sale\Models\SaleService;
 use Modules\Sale\Models\SaleTechnicalProposal;
 use Modules\Sale\Models\SaleProposalRequirement;
@@ -31,32 +30,36 @@ class SaleTechnicalProposalController extends Controller
     use ValidatesRequests;
 
     /**
-     * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     * Arreglo con las reglas de validación
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
     /**
      * Define la configuración de la clase
      *
-     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>>
+     * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return   void
      */
     public function __construct()
     {
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'sale_list_subservices' => ['required'],
             'frecuency_id'          => ['required'],
             'duration'              => ['required'],
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'sale_list_subservices.required' => 'El campo subservicio es obligatorio.',
             'frecuency_id.required'          => 'El campo duración es obligatorio.',
@@ -65,13 +68,9 @@ class SaleTechnicalProposalController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra el listado de las propuestas técnicas
      *
-     * @method    index
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function index()
     {
@@ -81,11 +80,7 @@ class SaleTechnicalProposalController extends Controller
     /**
      * [descripción del método]
      *
-     * @method    create
-     *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function create()
     {
@@ -96,8 +91,10 @@ class SaleTechnicalProposalController extends Controller
      * Muestra el formulario para completar la propuesta técnica
      *
      * @author    Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param     Integer                  $id    Identificador único del bien a asignar
-     * @return    Renderable
+     *
+     * @param     integer                  $id    Identificador del servicio
+     *
+     * @return    \Illuminate\View\View
      */
     public function saleCompleteTechnicalProposal($id)
     {
@@ -106,15 +103,11 @@ class SaleTechnicalProposalController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena los datos de la propuesta técnica
      *
-     * @method    store
+     * @param     Request    $request    Datos de la petición
      *
-     * @author    [nombre del autor] [correo del autor]
-     *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    void
      */
     public function store(Request $request)
     {
@@ -122,15 +115,11 @@ class SaleTechnicalProposalController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    show
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra información de la propuesta técnica
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function show($id)
     {
@@ -138,15 +127,11 @@ class SaleTechnicalProposalController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
-     *
-     * @author    [nombre del autor] [correo del autor]
+     * Muestra el formulario para la actualización de la propuesta técnica
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -156,17 +141,18 @@ class SaleTechnicalProposalController extends Controller
     /**
      * Registra o actualiza las propuestas técnicas
      *
-     * @method    update
-     *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  integer $id                          Identificador de la propuesta técnica
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        $technicalProposal = SaleTechnicalProposal::with(['saleProposalSpecification', 'saleProposalRequirement',
-                                                        'saleGanttDiagram'])->where('sale_service_id', $id)
-                                                        ->first();
+        $technicalProposal = SaleTechnicalProposal::with([
+            'saleProposalSpecification', 'saleProposalRequirement', 'saleGanttDiagram'
+        ])->where('sale_service_id', $id)->first();
 
         $this->validate($request, $this->validateRules, $this->messages);
 
@@ -250,13 +236,11 @@ class SaleTechnicalProposalController extends Controller
     /**
      * Elimina una propuesta técnica
      *
-     * @method    destroy
-     *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     * @return \Illuminate\Http\JsonResponse|void
      */
     public function destroy($id)
     {
@@ -267,6 +251,13 @@ class SaleTechnicalProposalController extends Controller
         }
     }
 
+    /**
+     * Obtiene información de una propuesta técnica
+     *
+     * @param integer $id Identificador del registro
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function vueInfo($id)
     {
         $technicalProposal = SaleTechnicalProposal::where('sale_service_id', $id)->with(['saleService',
@@ -280,7 +271,8 @@ class SaleTechnicalProposalController extends Controller
      * Muestra una lista de los bienes asignados a un trabajador para los select
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function getAsignationStaffs()

@@ -3,19 +3,19 @@
 namespace Modules\Accounting\Jobs;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Modules\Accounting\Models\AccountingAccount;
 
 /**
  * @class AccountingManageImport
- * @brief [descripción detallada]
+ * @brief Gestiona los procesos de importación de las cuentas contables
  *
- * [descripción corta]
+ * Procesa las importaciones de cuentas contables
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Francisco Escala <fescala@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -30,13 +30,12 @@ class AccountingManageImport implements ShouldQueue
     /**
      * Arreglo que contiene la información asociada a la solicitud
      *
-     * @var Array $data
+     * @var array $data
      */
     protected $data;
+
     /**
      * Crea una nueva instancia de trabajo.
-     *
-     * @method __construct
      *
      * @return void
      */
@@ -48,58 +47,28 @@ class AccountingManageImport implements ShouldQueue
     /**
      * Ejecuta el trabajo.
      *
-     * @method handle
-     *
-     * @return void
+     * @return AccountingAccount|void
      */
     public function handle()
     {
-        $code = explode('.', $this->data['codigo']);
+        $mother = explode('.', $this->data['sub_especifica']);
 
-/** Información de cuenta padre */
-        $parent = AccountingAccount::where('group', $code[0]);
+
+        /* Información de cuenta padre */
+        $parent = AccountingAccount::where('group', $mother[0]);
 
         if ($parent) {
-            for ($i = 1; $i <= 6; $i++) {
-                if ($i == 1 && $code[$i] == 0) {
-                    $parent->where('subgroup', '0');
-                    break;
-                } elseif ($i == 2 && $code[$i] == 0) {
-                    $parent->where('subgroup', '0')
-                        ->where('item', '0');
-                    break;
-                } elseif ($i == 3 && $code[$i] == 0) {
-                    $parent->where('subgroup', $code[1])
-                        ->where('item', '0')
-                        ->where('generic', '00');
-                    break;
-                } elseif ($i == 4 && $code[$i] == 0) {
-                    $parent->where('subgroup', $code[1])
-                        ->where('item', $code[2])
-                        ->where('generic', '00')
-                        ->where('specific', '00');
-                    break;
-                } elseif ($i == 5 && $code[$i] == 0) {
-                    $parent->where('subgroup', $code[1])
-                        ->where('item', $code[2])
-                        ->where('generic', $code[3])
-                        ->where('specific', '00')
-                        ->where('subspecific', '00');
-                    break;
-                } elseif ($i == 6 && $code[$i] == 0) {
-                    $parent->where('subgroup', $code[1])
-                        ->where('item', $code[2])
-                        ->where('generic', $code[3])
-                        ->where('specific', $code[4])
-                        ->where('subspecific', '00')
-                        ->where('institutional', '000');
-                    break;
-                }
-            }
+                    $parent->where('subgroup', $mother[1])
+                        ->where('item', $mother[2])
+                        ->where('generic', $mother[3])
+                        ->where('specific', $mother[4])
+                        ->where('subspecific', $mother[5])
+                        ->where('institutional', $mother[6]);
         }
 
         $parent_id = ($parent && $parent->first()) ? $parent->first()->id : null;
 
+        $code = explode('.', $this->data['codigo']);
         if (count($code) == 7) {
             return AccountingAccount::updateOrCreate(
                 [

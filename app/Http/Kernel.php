@@ -1,7 +1,5 @@
 <?php
 
-/** Configuración base de peticiones de la aplicación */
-
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -19,7 +17,7 @@ class Kernel extends HttpKernel
      *
      * Estos middleware se ejecutan durante cada solicitud de la aplicación.
      *
-     * @var array
+     * @var array $middleware
      */
     protected $middleware = [
         \App\Http\Middleware\TrustProxies::class,
@@ -33,7 +31,7 @@ class Kernel extends HttpKernel
     /**
      * Los grupos de middlewares de rutas de la aplicación.
      *
-     * @var array
+     * @var array $middlewareGroups
      */
     protected $middlewareGroups = [
         'web' => [
@@ -59,7 +57,7 @@ class Kernel extends HttpKernel
      *
      * Estos middleware pueden asignarse a grupos o usarse individualmente.
      *
-     * @var array
+     * @var array $routeMiddleware
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
@@ -71,7 +69,7 @@ class Kernel extends HttpKernel
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'verified' => \App\Http\Middleware\CustomVerifiedMiddleware::class,
 
         /**
          * App Roles and Permissions
@@ -86,7 +84,7 @@ class Kernel extends HttpKernel
      *
      * Esto obliga al middleware no global a estar siempre en el orden dado.
      *
-     * @var array
+     * @var array $middlewarePriority
      */
     protected $middlewarePriority = [
         \Illuminate\Session\Middleware\StartSession::class,

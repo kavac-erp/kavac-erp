@@ -15,9 +15,9 @@ use Modules\Sale\Models\SaleTypeGood;
  * Clase que gestiona los productos almacenables
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class SaleTypeGoodController extends Controller
 {
@@ -27,10 +27,12 @@ class SaleTypeGoodController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting.type.good');
     }
 
@@ -38,7 +40,8 @@ class SaleTypeGoodController extends Controller
      * Muestra un listado de los tipos de bienes registrados
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -49,8 +52,10 @@ class SaleTypeGoodController extends Controller
      * Valida y Registra un nuevo tipo de bien
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -84,9 +89,11 @@ class SaleTypeGoodController extends Controller
      * Actualiza la información del tipo de bien
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @param  \Modules\Sale\Models\SaleTypeGood $typeGood (Registro a ser actualizado)
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  \Modules\Sale\Models\SaleTypeGood $typeGood Registro a ser actualizado
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, SaleTypeGood $typeGood)
     {
@@ -105,7 +112,7 @@ class SaleTypeGoodController extends Controller
 
         $type_good_attribute = SaleTypeGoodAttribute::where('sale_type_good_id', $typeGood->id)->get();
 
-        /** Busco si en la solicitud se eliminaron atributos registrados anteriormente */
+        /* Se busca si en la solicitud se eliminaron atributos registrados anteriormente */
         foreach ($type_good_attribute as $type_good_att) {
             $equal = false;
             foreach ($request->sale_type_good_attribute as $att) {
@@ -123,7 +130,7 @@ class SaleTypeGoodController extends Controller
             }
         }
 
-        /** Registro los nuevos atributos */
+        /* Registro los nuevos atributos */
         if ($typeGood->define_attributes == true) {
             foreach ($request->sale_type_good_attribute as $att) {
                 $attribute = SaleTypeGoodAttribute::where('name', $att['name'])
@@ -144,8 +151,10 @@ class SaleTypeGoodController extends Controller
      * Elimina un Tipo de bien
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
      * @param  $id Identificador único del tipo de bien
-     * @return \Illuminate\Http\JsonResponse (JSON con los registros a mostrar)
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(SaleTypeGood $typeGood)
     {
@@ -158,7 +167,8 @@ class SaleTypeGoodController extends Controller
      * Muestra una lista de los atributos de un producto
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function getSaleTypeGoodsAttributes()
@@ -172,7 +182,8 @@ class SaleTypeGoodController extends Controller
      * Muestra una lista de los tipos de bienes
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function getSaleTypeGoods()

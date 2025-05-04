@@ -11,9 +11,9 @@ use Illuminate\Database\Migrations\Migration;
  * Gestiona la creación o eliminación de los campos de la tabla de productos almacenables
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AddFieldMeasurementUnitIdToWarehouseProductsTable extends Migration
 {
@@ -21,6 +21,7 @@ class AddFieldMeasurementUnitIdToWarehouseProductsTable extends Migration
      * Método que ejecuta las migraciones
      *
      * @author  Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function up()
@@ -39,6 +40,7 @@ class AddFieldMeasurementUnitIdToWarehouseProductsTable extends Migration
      * Método que elimina las migraciones
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return void
      */
     public function down()

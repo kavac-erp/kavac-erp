@@ -15,14 +15,14 @@ use App\Roles\Models\Permission;
  * Gestiona la información por defecto a registrar inicialmente para los Roles y Permisos del módulo de compras
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PurchaseRoleAndPermissionsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Método que ejecuta el seeder e inserta los datos en la base de datos.
      *
      * @return void
      */
@@ -235,7 +235,7 @@ class PurchaseRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Crear Orden de compra ',
-                'slug' => 'purchase.directHire.create',
+                'slug' => 'purchase.directhire.create',
                 'description' => 'Acceso para crear Orden de compra ',
                 'model' => 'Modules\Budget\Models\PurchaseDirectHire', 'model_prefix' => 'Compras',
                 'slug_alt' => 'orden.crear',
@@ -243,7 +243,7 @@ class PurchaseRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Editar Orden de compra ',
-                'slug' => 'purchase.directHire.edit',
+                'slug' => 'purchase.directhire.edit',
                 'description' => 'Acceso para editar Orden de compra ',
                 'model' => 'Modules\Budget\Models\PurchaseDirectHire', 'model_prefix' => 'Compras',
                 'slug_alt' => 'orden.editar',
@@ -251,7 +251,7 @@ class PurchaseRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Eliminar Orden de compra ',
-                'slug' => 'purchase.directHire.delete',
+                'slug' => 'purchase.directhire.delete',
                 'description' => 'Acceso para eliminar Orden de compra ',
                 'model' => 'Modules\Budget\Models\PurchaseDirectHire', 'model_prefix' => 'Compras',
                 'slug_alt' => 'orden.eliminar',
@@ -259,7 +259,7 @@ class PurchaseRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Ver Orden de compra ',
-                'slug' => 'purchase.directHire.list',
+                'slug' => 'purchase.directhire.list',
                 'description' => 'Acceso para ver Orden de compra ',
                 'model' => 'Modules\Budget\Models\PurchaseDirectHire', 'model_prefix' => 'Compras',
                 'slug_alt' => 'orden.ver',
@@ -268,7 +268,7 @@ class PurchaseRoleAndPermissionsTableSeeder extends Seeder
                //purchase_plans
             [
                 'name' => 'Crear Plan de compra ',
-                'slug' => 'purchase.purchase_plans.create',
+                'slug' => 'purchase.purchaseplans.create',
                 'description' => 'Acceso para Plan de compra ',
                 'model' => 'Modules\Budget\Models\PurchasePlan ', 'model_prefix' => 'Compras',
                 'slug_alt' => 'plan.crear',
@@ -276,7 +276,7 @@ class PurchaseRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Editar Plan de compra  ',
-                'slug' => 'purchase.purchase_plans.edit',
+                'slug' => 'purchase.purchaseplans.edit',
                 'description' => 'Acceso para editar Plan de compra  ',
                 'model' => 'Modules\Budget\Models\PurchasePlan ', 'model_prefix' => 'Compras',
                 'slug_alt' => 'plan.editar',
@@ -284,7 +284,7 @@ class PurchaseRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Eliminar Plan de compra  ',
-                'slug' => 'purchase.purchase_plans.delete',
+                'slug' => 'purchase.purchaseplans.delete',
                 'description' => 'Acceso para eliminar Plan de compra  ',
                 'model' => 'Modules\Budget\Models\PurchasePlan ', 'model_prefix' => 'Compras',
                 'slug_alt' => 'plan.eliminar',
@@ -292,7 +292,7 @@ class PurchaseRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Ver Plan de compra ',
-                'slug' => 'purchase.purchase_plans.list',
+                'slug' => 'purchase.purchaseplans.list',
                 'description' => 'Acceso para ver Plan de compra ',
                 'model' => 'Modules\Budget\Models\PurchasePlan ', 'model_prefix' => 'Compras',
                 'slug_alt' => 'plan.ver',
@@ -306,9 +306,7 @@ class PurchaseRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'compras.disponibilidad.solicitar',
                 'short_description' => 'Solicitar disponibilidad presupuestaria'
             ],
-            /**
-            * Dashboard
-            */
+            /* Dashboard */
             [
                 'name'              => 'Vista principal del dashboard del módulo de compras',
                 'slug'              => 'purchase.dashboard',
@@ -324,7 +322,7 @@ class PurchaseRoleAndPermissionsTableSeeder extends Seeder
 
         foreach ($permissions as $permission) {
             $per = Permission::updateOrCreate(
-                ['slug' => $permission['slug']],
+                ['slug' => strtolower($permission['slug'])],
                 [
                     'name' => $permission['name'], 'description' => $permission['description'],
                     'model' => $permission['model'], 'model_prefix' => $permission['model_prefix'],

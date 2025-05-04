@@ -12,15 +12,11 @@ use Modules\Warehouse\Pdf\WarehouseReport as ReportRepository;
 use Modules\Warehouse\Models\WarehouseInventoryProductRequest;
 use Modules\Warehouse\Models\WarehouseInventoryProduct;
 use Modules\Warehouse\Models\WarehouseInventoryRule;
-use Modules\Warehouse\Models\WarehouseRequest;
 use Modules\Warehouse\Models\WarehouseReport;
-use Modules\Warehouse\Models\Warehouse;
 use App\Models\Institution;
 use App\Models\FiscalYear;
 use App\Models\Currency;
-use Carbon\Carbon;
 use Modules\Warehouse\Models\WarehouseMovement;
-use Modules\Warehouse\Models\WarehouseInventoryProductMovement;
 
 /**
  * @class WarehouseReportController
@@ -29,9 +25,9 @@ use Modules\Warehouse\Models\WarehouseInventoryProductMovement;
  * Clase que gestiona los reportes de productos registrados en almacén
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseReportController extends Controller
 {
@@ -41,10 +37,12 @@ class WarehouseReportController extends Controller
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:warehouse.report.product.request', ['only' => 'requestProducts']);
         $this->middleware('permission:warehouse.report.least.inventory', ['only' => ['stocks', 'inventoryProducts']]);
     }
@@ -53,13 +51,19 @@ class WarehouseReportController extends Controller
      * Muestra un listado de los reportes generados
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return Renderable
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
         return view('warehouse::reports.create');
     }
 
+    /**
+     * Reporte de solicitudes de productos
+     *
+     * @return \Illuminate\View\View
+     */
     public function requestProducts()
     {
         if (isset(auth()->user()->profile) && isset(auth()->user()->profile->institution_id)) {
@@ -70,6 +74,11 @@ class WarehouseReportController extends Controller
         return view('warehouse::reports.warehouse-report-request-products', compact('institution'));
     }
 
+    /**
+     * Reporte de stock
+     *
+     * @return \Illuminate\View\View
+     */
     public function stocks()
     {
         if (isset(auth()->user()->profile) && isset(auth()->user()->profile->institution_id)) {
@@ -80,6 +89,11 @@ class WarehouseReportController extends Controller
         return view('warehouse::reports.warehouse-report-stocks', compact('institution'));
     }
 
+    /**
+     * Reporte de inventario de productos
+     *
+     * @return \Illuminate\View\View
+     */
     public function inventoryProducts()
     {
         if (isset(auth()->user()->profile) && isset(auth()->user()->profile->institution_id)) {
@@ -90,6 +104,13 @@ class WarehouseReportController extends Controller
         return view('warehouse::reports.warehouse-report-products', compact('institution'));
     }
 
+    /**
+     * Muestra un listado de los reportes generados
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function vueList(Request $request)
     {
         if ($request->current == "inventory-products") {
@@ -441,7 +462,8 @@ class WarehouseReportController extends Controller
                 }
             }
         } else {
-            $codeProducts = $this->getCodeProductsRequest($products->get(), $productsMovement->get());
+            //$codeProducts = $this->getCodeProductsRequest($products->get(), $productsMovement->get());
+            $codeProducts = $this->getCodeProductsRequest($products, $productsMovement);
             $productsQuantity = [];
             if (count($codeProducts)) {
                 foreach ($codeProducts as $codeProduct) {
@@ -455,8 +477,10 @@ class WarehouseReportController extends Controller
                         }
                     }
                     /* Cuenta la cantidad de los productos solicitado por movimiento*/
-                    if (count($productsMovement->get()) > 0) {
-                        foreach ($productsMovement->get() as $product) {
+                    //if (count($productsMovement->get()) > 0) {
+                    if (count($productsMovement) > 0) {
+                        //foreach ($productsMovement->get() as $product) {
+                        foreach ($productsMovement as $product) {
                             if (count($product->warehouseInventoryProductMovements) > 0) {
                                 foreach ($product->warehouseInventoryProductMovements as $movement) {
                                     if ($movement->warehouseInitialInventoryProduct['code'] == $codeProduct) {
@@ -476,9 +500,15 @@ class WarehouseReportController extends Controller
         return response()->json(['records' => $fields->get(), 'productsQuantity' => $productsQuantity], 200);
     }
 
+    /**
+     * Crea un nuevo reporte de inventario de productos
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request)
     {
-
         if ($request->current == "inventory-products") {
             $fields = WarehouseInventoryProduct::with(
                 [
@@ -828,7 +858,8 @@ class WarehouseReportController extends Controller
                 }
             }
         } else {
-            $codeProducts = $this->getCodeProductsRequest($products->get(), $productsMovement->get());
+            //$codeProducts = $this->getCodeProductsRequest($products->get(), $productsMovement->get());
+            $codeProducts = $this->getCodeProductsRequest($products, $productsMovement);
             $productsQuantity = [];
             if (count($codeProducts)) {
                 foreach ($codeProducts as $codeProduct) {
@@ -842,8 +873,10 @@ class WarehouseReportController extends Controller
                         }
                     }
                     /* Cuenta la cantidad de los productos solicitado por movimiento*/
-                    if (count($productsMovement->get()) > 0) {
-                        foreach ($productsMovement->get() as $product) {
+                    //if (count($productsMovement->get()) > 0) {
+                    if (count($productsMovement) > 0) {
+                        foreach ($productsMovement as $product) {
+                        //foreach ($productsMovement->get() as $product) {
                             if (count($product->warehouseInventoryProductMovements) > 0) {
                                 foreach ($product->warehouseInventoryProductMovements as $movement) {
                                     if ($movement->warehouseInitialInventoryProduct['code'] == $codeProduct) {
@@ -895,9 +928,7 @@ class WarehouseReportController extends Controller
             'filename'       => $filename
         ]);
 
-        /*
-         *  Definicion de las caracteristicas generales de la página
-         */
+        /* Definicion de las caracteristicas generales de la página */
         if ($report->type_report == 'stocks') {
             $body = 'warehouse::pdf.warehouse-report-stocks';
         }
@@ -941,6 +972,13 @@ class WarehouseReportController extends Controller
         return response()->json(['result' => true, 'redirect' => $url], 200);
     }
 
+    /**
+     * Descarga el reporte
+     *
+     * @param string $code Código del reporte
+     *
+     * @return mixed|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function show($code)
     {
         $file = storage_path() . '/reports/' . 'warehouse-report-' . $code . '.pdf';
@@ -948,6 +986,14 @@ class WarehouseReportController extends Controller
         return response()->download($file, $code, [], 'inline');
     }
 
+    /**
+     * Obtiene el código de la solicitud de productos
+     *
+     * @param array $products Lista de productos
+     * @param array $productsMovement Lista de movimientos de productos
+     *
+     * @return array
+     */
     public function getCodeProductsRequest($products, $productsMovement)
     {
         $codeProducts = [];

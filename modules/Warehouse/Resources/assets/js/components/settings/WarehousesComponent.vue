@@ -56,26 +56,13 @@
                                     <input type="hidden" v-model="record.id">
                                 </div>
                             </div>
-
-                            <!--<div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="" class="control-label">Principal</label>
-                                    <div class="col-12">
-                                        <div class="custom-control custom-switch" data-toggle="tooltip" 
-                                             title="Indique si es el almacén principal">
-                                            <input type="checkbox" class="custom-control-input" id="main" 
-                                                   :value="true" v-model="record.main">
-                                            <label class="custom-control-label" for="main"></label>
-                                        </div>
-                                </div>
-                            </div>-->
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="" class="control-label">Activo</label>
                                     <div class="col-12">
-                                        <div class="custom-control custom-switch" data-toggle="tolltip" 
+                                        <div class="custom-control custom-switch" data-toggle="tolltip"
                                              title="Indique si el estatus del almacén">
-                                            <input type="checkbox" class="custom-control-input" id="active" 
+                                            <input type="checkbox" class="custom-control-input" id="active"
                                                    :value="true" v-model="record.active">
                                             <label class="custom-control-label" for="active"></label>
                                         </div>
@@ -130,15 +117,15 @@
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('warehouse/warehouses')" 
+							<button type="button" @click="createRecord('warehouse/warehouses')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -179,21 +166,6 @@
                             </div>
                             <div slot="id" slot-scope="props" class="text-center">
                                 <div class="d-inline-flex">
-                                    <!-- <div v-if="multi_warehouse"> -->
-                                        <!-- <button @click="warehouseManage(props.index, $event)"
-                                                class="btn btn-danger btn-xs btn-icon btn-action"
-                                                title="Dejar de Gestionar Almacén" data-toggle="tooltip"
-                                                type="button"
-                                                v-if="props.row.manage">
-                                            <i class="fa fa-minus-circle"></i>
-                                        </button> -->
-                                        <!--<button @click="warehouseManage(props.index, $event)"
-                                                class="btn btn-success btn-xs btn-icon btn-action"
-                                                title="Gestionar Almacén" data-toggle="tooltip" type="button"
-                                                v-else>
-                                            <i class="fa fa-plus-circle"></i>
-                                        </button>-->
-                                    <!-- </div> -->
                                     <button @click="editRecord(props.index, $event)"
                                             class="btn btn-warning btn-xs btn-icon btn-action"
                                             title="Modificar registro" data-toggle="tooltip" type="button">
@@ -287,7 +259,7 @@
                 });
             },
             prepareText(text) {
-                return text.substr(3, text.length-4); 
+                return text.substr(3, text.length-4);
 
             },
             /**

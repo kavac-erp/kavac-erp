@@ -1,7 +1,5 @@
 <?php
 
-/** Gestiona los eventos de la aplicación */
-
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
@@ -27,6 +25,11 @@ class NewMessage implements ShouldBroadcast
     use InteractsWithSockets;
     use SerializesModels;
 
+    /**
+     * Contenido del mensaje
+     *
+     * @var string $message
+     */
     public $message;
 
     /**

@@ -1,16 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class RemoveAssetRequiredItemsTable
- * @brief [descripción detallada]
+ * @brief Elimina la tabla asset_required_items
  *
- * [descripción corta]
+ * Elimina la tabla asset_required_items
  *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

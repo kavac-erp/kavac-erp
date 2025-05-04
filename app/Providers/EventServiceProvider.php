@@ -1,7 +1,5 @@
 <?php
 
-/** Proveedores de servicios generales del sistema */
-
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Event;
@@ -24,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
     /**
      * Las asignaciones de detectores de eventos para la aplicación..
      *
-     * @var array
+     * @var array $listen
      */
     protected $listen = [
         Registered::class => [
@@ -41,14 +39,14 @@ class EventServiceProvider extends ServiceProvider
     /**
      * Registre cualquier evento para su aplicación.
      *
-     * @method  boot
-     *
      * @return void
      */
     public function boot()
     {
         parent::boot();
 
-        //
+        if (config('auth.active_directory.enabled', false)) {
+            Event::forget(Registered::class);
+        }
     }
 }

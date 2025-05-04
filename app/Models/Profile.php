@@ -1,12 +1,11 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
+use App\Traits\ModelsTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 
 /**
@@ -14,6 +13,14 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * @brief Datos de Perfiles de usuario
  *
  * Gestiona el modelo de datos para las Perfiles de usuario
+ *
+ * @property string $first_name
+ * @property string $last_name
+ * @property int    $image_id
+ * @property int    $user_id
+ * @property int    $institution_id
+ * @property int    $employee_id
+ * @property object $institution
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -24,6 +31,7 @@ class Profile extends Model implements Auditable
 {
     use SoftDeletes;
     use AuditableTrait;
+    use ModelsTrait;
 
     /**
      * Lista de atributos para la gestión de fechas
@@ -41,17 +49,27 @@ class Profile extends Model implements Auditable
         'first_name', 'last_name', 'image_id', 'user_id', 'institution_id', 'employee_id'
     ];
 
+    /**
+     * Agrega campos al resultado de consultas
+     *
+     * @var array $appends
+     */
     protected $appends = ['full_name'];
 
+    /**
+     * Obtiene el nombre completo del perfil
+     *
+     * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return string
+     */
     public function getFullNameAttribute()
     {
         return trim($this->first_name . ' ' . $this->last_name);
     }
 
     /**
-     * Profile belongs to User.
-     *
-     * @method  user
+     * Obtiene el usuario al que pertenece el perfil
      *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -65,11 +83,9 @@ class Profile extends Model implements Auditable
     /**
      * Método que obtiene la imagen de perfil
      *
-     * @method  image
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con el registro relacionado al modelo Image
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function image()
     {
@@ -77,9 +93,7 @@ class Profile extends Model implements Auditable
     }
 
     /**
-     * Profile belongs to Institution.
-     *
-     * @method  institution
+     * Método que obtiene la institución al que pertenece el perfil
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

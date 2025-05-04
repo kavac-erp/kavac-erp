@@ -1,0 +1,9 @@
+<map id="getList" name="getList">
+<area shape="rect" id="Node000001" title="Listado de los años de ejercicio fiscal." alt="" coords="147,55,213,80"/>
+<area shape="rect" id="Node000002" href="$da/db7/classApp_1_1Http_1_1Controllers_1_1FiscalYearController.html#aba0d5b303383fb5b1fabb5fd01cd3800" title="Listado de todos los años de ejercicio fiscal abiertos / cerrados." alt="" coords="22,5,82,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,52,81,32,83,27,135,47"/>
+<area shape="rect" id="Node000003" href="$da/db7/classApp_1_1Http_1_1Controllers_1_1FiscalYearController.html#a0f75fed519a096a9f9b5dd41b69fb3d1" title="Listado de los años de ejercicio fiscal cerrados." alt="" coords="9,55,95,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="133,70,95,70,95,65,133,65"/>
+<area shape="rect" id="Node000004" href="$da/db7/classApp_1_1Http_1_1Controllers_1_1FiscalYearController.html#aba815f77b201b87fbb3ced99cd6c8b98" title="Listado de los años de ejercicio fiscal que aún no han sido cerrados." alt="" coords="5,104,99,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="135,88,87,106,85,101,133,83"/>
+</map>

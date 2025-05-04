@@ -5,8 +5,10 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 /**
+ * @class AddFieldPurchaseSupplierIdToAssetsTable
+ * @brief Agrega una clave foraénea purchase_supplier_id de la tabla de bienes
  *
- * Método que ejecuta las migraciones
+ * Agrega una clave foraénea purchase_supplier_id de la tabla de bienes
  *
  * @author Francisco J. P. Ruiz <javierrupe19@gmail.com>
  *
@@ -39,7 +41,6 @@ class AddFieldPurchaseSupplierIdToAssetsTable extends Migration
      */
     public function down()
     {
-        
         if (Schema::hasTable('assets')) {
             Schema::table('assets', function (Blueprint $table) {
                 if (Schema::hasColumn('assets', 'purchase_supplier_id')) {

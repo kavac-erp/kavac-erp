@@ -8,10 +8,10 @@ use App\Roles\Models\Role;
 use App\Roles\Models\Permission;
 
 /**
- * @class $CLASS$
+ * @class CitizenServiceRoleAndPermissionsTableSeeder
  * @brief Inicializa los roles y permisos del módulo de atención al ciudadano
  *
- * @author [Ing. Yennifer Ramirez] [yramirez@cenditel.gob.ve]
+ * @author Ing. Yennifer Ramirez <yramirez@cenditel.gob.ve>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -21,9 +21,7 @@ class CitizenServiceRoleAndPermissionsTableSeeder extends Seeder
     /**
      * Ejecuta los seeds de la base de datos
      *
-     * @method run
-     *
-     * @return void     [descripción de los datos devueltos]
+     * @return void
      */
     public function run()
     {
@@ -44,9 +42,7 @@ class CitizenServiceRoleAndPermissionsTableSeeder extends Seeder
                 'model' => '', 'model_prefix' => 'OAC',
                 'slug_alt' => 'configuracion.ver'
             ],
-            /**
-             * Request (Solicitudes)
-             */
+            /* Request (Solicitudes) */
             [
                 'name' => 'Ver gestión de atención al ciudadano',
                 'slug' => 'citizenservice.requests.list',
@@ -97,7 +93,7 @@ class CitizenServiceRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Agregar indicador a la solicitud',
-                'slug' => 'citizenservice.requests.addIndicator',
+                'slug' => 'citizenservice.requests.addindicator',
                 'description' => 'Acceso para agragar un indicador a la solicitud',
                 'model' => 'Modules\CitizenService\Models\CitizenServiceRequest',
                 'model_prefix' => 'OAC',
@@ -129,9 +125,7 @@ class CitizenServiceRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'reporte.ver',
                 'short_description' => 'generar reporte de atención al ciudadano'
             ],
-            /**
-             * Register (Cronograma)
-             */
+            /* Register (Cronograma) */
             [
                 'name' => 'Ver gestión de cronograma de actividades',
                 'slug' => 'citizenservice.registers.list',
@@ -164,12 +158,10 @@ class CitizenServiceRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'OAC',
                 'slug_alt' => 'cronograma.eliminar'
             ],
-            /**
-             * request-type (Tipo de solicitud)
-             */
+            /* request-type (Tipo de solicitud) */
             [
                 'name' => 'Crear tipo de solicitud',
-                'slug' => 'citizenservice.request-types.create',
+                'slug' => 'citizenservice.request.types.create',
                 'description' => 'Acceso para crear tipo de solicitud',
                 'model' => 'Modules\CitizenService\Models\CitizenServiceRequestType',
                 'model_prefix' => 'OAC',
@@ -177,7 +169,7 @@ class CitizenServiceRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Editar tipo de solicitud',
-                'slug' => 'citizenservice.request-types.edit',
+                'slug' => 'citizenservice.request.types.edit',
                 'description' => 'Acceso para editar tipo de solicitud',
                 'model' => 'Modules\CitizenService\Models\CitizenServiceRequestType',
                 'model_prefix' => 'OAC',
@@ -185,15 +177,13 @@ class CitizenServiceRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Eliminar tipo de solicitud',
-                'slug' => 'citizenservice.request-types.delete',
+                'slug' => 'citizenservice.request.types.delete',
                 'description' => 'Acceso para eliminar tipo de solicitud',
                 'model' => 'Modules\CitizenService\Models\CitizenServiceRequestType',
                 'model_prefix' => 'OAC',
                 'slug_alt' => 'tipo-de-solicitud.eliminar'
             ],
-            /**
-             * departament (Departamento)
-             */
+            /* departament (Departamento) */
             [
                 'name' => 'Crear departamento',
                 'slug' => 'citizenservice.departaments.create',
@@ -218,12 +208,10 @@ class CitizenServiceRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'OAC',
                 'slug_alt' => 'departamento.eliminar'
             ],
-            /**
-             * effect-types (Tipo de impacto)
-             */
+            /* effect-types (Tipo de impacto) */
             [
                 'name' => 'Crear tipo de impacto',
-                'slug' => 'citizenservice.effect-types.create',
+                'slug' => 'citizenservice.effect.types.create',
                 'description' => 'Acceso para crear un tipo de impacto',
                 'model' => 'Modules\CitizenService\Models\CitizenServiceEffectType',
                 'model_prefix' => 'OAC',
@@ -231,7 +219,7 @@ class CitizenServiceRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Editar tipo de impacto',
-                'slug' => 'citizenservice.effect-types.edit',
+                'slug' => 'citizenservice.effect.types.edit',
                 'description' => 'Acceso para editar un tipo de impacto',
                 'model' => 'Modules\CitizenService\Models\CitizenServiceEffectType',
                 'model_prefix' => 'OAC',
@@ -239,15 +227,13 @@ class CitizenServiceRoleAndPermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Eliminar tipo de impacto',
-                'slug' => 'citizenservice.effect-types.delete',
+                'slug' => 'citizenservice.effect.types.delete',
                 'description' => 'Acceso para eliminar un tipo de impacto',
                 'model' => 'Modules\CitizenService\Models\CitizenServiceEffectType',
                 'model_prefix' => 'OAC',
                 'slug_alt' => 'tipo_de_impacto.eliminar'
             ],
-            /**
-             * indicators (Indicador)
-             */
+            /* indicators (Indicador) */
             [
                 'name' => 'Crear indicador',
                 'slug' => 'citizenservice.indicators.create',
@@ -272,12 +258,10 @@ class CitizenServiceRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'OAC',
                 'slug_alt' => 'indicador.eliminar'
             ],
-            /**
-             * request-close (Cierre de solicitud)
-             */
+            /* request-close (Cierre de solicitud) */
             [
                 'name' => 'Ver cierre de solicitudes',
-                'slug' => 'citizenservice.requests.close-list',
+                'slug' => 'citizenservice.requests.close.list',
                 'description' => 'Acceso para ver cierre de solicitud',
                 'model' => 'Modules\CitizenService\Models\CitizenServiceRequest',
                 'model_prefix' => 'OAC',
@@ -291,9 +275,7 @@ class CitizenServiceRoleAndPermissionsTableSeeder extends Seeder
                 'model_prefix' => 'OAC',
                 'slug_alt' => 'solicitud.cerrar'
             ],
-            /**
-            * Dashboard
-            */
+            /* Dashboard */
             [
                 'name'              => 'Vista principal del dashboard del módulo de OAC',
                 'slug'              => 'citizenservice.dashboard',

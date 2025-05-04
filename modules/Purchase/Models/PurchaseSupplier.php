@@ -2,13 +2,13 @@
 
 namespace Modules\Purchase\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 use Modules\Purchase\Models\PurchaseSupplierObject;
-use Modules\Accounting\Models\AccountingAccount;
 
 /**
  * @class PurchaseSupplier
@@ -17,9 +17,9 @@ use Modules\Accounting\Models\AccountingAccount;
  * Gestiona el modelo de datos para los proveedores
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PurchaseSupplier extends Model implements Auditable
 {
@@ -28,35 +28,56 @@ class PurchaseSupplier extends Model implements Auditable
     use ModelsTrait;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Lista de atributos de tipo fecha
      *
-     * @var array
+     * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * Lista de relaciones a cargar por defecto con el modelo
+     *
+     * @var array $with
+     */
     protected $with = [
         'purchaseSupplierSpecialty', 'purchaseSupplierType', 'purchaseSupplierBranch', 'purchaseSupplierObjects',
         'phones', 'city', 'contacts'
     ];
 
+    /**
+     * Lista de atributos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = [
         'rif', 'code', 'name', 'direction', 'person_type', 'company_type', 'website',
         'active', 'purchase_supplier_specialty_id', 'purchase_supplier_type_id', 'purchase_supplier_object_id',
         'purchase_supplier_branch_id', 'accounting_account_id','country_id', 'estate_id', 'city_id', 'rnc_status',
-        'rnc_certificate_number', 'social_purpose'
+        'rnc_certificate_number', 'social_purpose', 'file_number'
     ];
 
+    /**
+     * Lista de atributos personalizados a cargar con el modelo
+     *
+     * @var array $appends
+     */
     protected $appends = ['referential_name'];
 
+    /**
+     * Obtiene el nombre completo del proveedor
+     *
+     * @return string
+     */
     public function getReferentialNameAttribute()
     {
         return $this->rif . " - " . $this->name;
     }
 
     /**
-     * Get all of the budget project's specific actions.
+     * Establece la relación con los teléfonos de los proveedores
      *
      * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function phones()
@@ -65,9 +86,10 @@ class PurchaseSupplier extends Model implements Auditable
     }
 
     /**
-     * PurchaseSupplier morphs many contact.
+     * Establece la relación con los contactos de los proveedores
      *
      * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function contacts()
@@ -86,18 +108,17 @@ class PurchaseSupplier extends Model implements Auditable
     }
 
     /**
-     * PurchaseSupplier belongs to PurchaseSupplierSpecialty.
+     * Establece la relación con las especialidades de los proveedor
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function purchaseSupplierSpecialty()
     {
-        //return $this->belongsTo(PurchaseSupplierSpecialty::class);
         return $this->belongsToMany(PurchaseSupplierSpecialty::class, 'purchase_specialty_supplier');
     }
 
     /**
-     * PurchaseSupplier belongs to PurchaseSupplierType.
+     * Establece la relación con el tipo de proveedor
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -107,7 +128,7 @@ class PurchaseSupplier extends Model implements Auditable
     }
 
     /**
-     * PurchaseSupplier belongs to Country.
+     * Establece la relación con el Pais de ubicación del proveedor
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -117,7 +138,7 @@ class PurchaseSupplier extends Model implements Auditable
     }
 
     /**
-     * PurchaseSupplier belongs to Estate.
+     * Establece la relación con el Estado de ubicación del proveedor
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -137,18 +158,17 @@ class PurchaseSupplier extends Model implements Auditable
     }
 
     /**
-     * PurchaseSupplier belongs to PurchaseSupplierBranch.
+     * Establece la relación con las ramas de los proveedores
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function purchaseSupplierBranch()
     {
-        //return $this->belongsTo(PurchaseSupplierBranch::class);
         return $this->belongsToMany(PurchaseSupplierBranch::class, 'purchase_branch_supplier');
     }
 
     /**
-     * The purchaseSupplierObjects that belong to the PurchaseSupplier
+     * Establece la relación con l;os objetos de los proveedores
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -158,23 +178,24 @@ class PurchaseSupplier extends Model implements Auditable
     }
 
     /**
-     * PurchaseSupplier has many PurchaseOrder.
+     * Establece la relación con las ordenes de compra
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function purchaseOrder()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = purchaseSupplier_id, localKey = id)
         return $this->hasMany(PurchaseOrder::class);
     }
 
     /**
-     * accountingAccount that belong to the PurchaseSupplier
+     * Establece la relación con las cuentas contables del módulo de contabilidad si esta presente
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function accountingAccount()
     {
-        return $this->belongsTo(AccountingAccount::class);
+        return (
+            Module::has('Accounting') && Module::isEnabled('Accounting')
+        ) ? $this->belongsTo(\Modules\Accounting\Models\AccountingAccount::class) : null;
     }
 }

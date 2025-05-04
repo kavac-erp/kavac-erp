@@ -12,14 +12,24 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 
+/**
+ * @class FirstSheetExport
+ * @brief Exportar datos de la primera hoja del archivo
+ *
+ * @author Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *      [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class FirstSheetExport extends DataExport implements WithCustomStartCell, WithEvents, WithMapping, WithHeadings, WithTitle
 {
     use RegistersEventListeners;
 
     /**
-     * Constructor for the class.
+     * Constructor de la clase
      *
-     * @param  string  $startCell    The total lines to be set as default.
+     * @param  string  $startCell    Total de líneas por defecto
+     *
      * @return void
      */
     public function __construct(
@@ -28,31 +38,56 @@ class FirstSheetExport extends DataExport implements WithCustomStartCell, WithEv
     ) {
     }
 
+    /**
+     * Método que define el nombre de la hoja
+     *
+     * @return string
+     */
     public function title(): string
     {
         return 'data';
     }
 
+    /**
+     * Método que define el punto de inicio de la hoja
+     *
+     * @return string
+     */
     public function startCell(): string
     {
         return $this->startCell;
     }
 
+    /**
+     * Método que define los encabezados de la hoja
+     *
+     * @return array
+     */
     public function headings(): array
     {
-        /** Encabezados de la primera hoja */
+        /* Encabezados de la primera hoja */
         return [
             'Columna 1',
             'Columna 2',
         ];
     }
 
+    /**
+     * Método para obtener los datos de la hoja
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function collection(): Collection
     {
-        /** Lógica para obtener los datos de la primera hoja */
+        /* Lógica para obtener los datos de la primera hoja */
         return collect([]);
     }
 
+    /**
+     * Método para registrar eventos de la hoja
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
         return [
@@ -69,6 +104,13 @@ class FirstSheetExport extends DataExport implements WithCustomStartCell, WithEv
         ];
     }
 
+    /**
+     * Método para mapear los datos de la hoja
+     *
+     * @param mixed $data Datos de la hoja
+     *
+     * @return array
+     */
     public function map($data): array
     {
         return [];

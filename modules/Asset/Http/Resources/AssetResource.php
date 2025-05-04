@@ -6,12 +6,22 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Asset\Repositories\AssetParametersRepository;
 use Illuminate\Support\Str;
 
+/**
+ * @class AssetResource
+ * @brief Clase que maneja el recurso de bienes
+ *
+ * @author Manuel Zambrano <mzambrano@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class AssetResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transforma el recurso en un array.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
@@ -269,7 +279,7 @@ class AssetResource extends JsonResource
                 if (!array_key_exists($field_name, $record)) {
                     $allParameters = $parameters->loadAllParameters();
                     $pluralName = Str::plural($field_name);
-                    if (array_key_exists($pluralName, $allParameters)) {
+                    if (array_key_exists($pluralName, $allParameters) || 'type' == $field_name) {
                         $details_fields[$field_name] = [
                             'label' => $parameter['label'],
                             'value' => (

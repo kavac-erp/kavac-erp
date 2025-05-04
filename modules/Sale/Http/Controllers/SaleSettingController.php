@@ -9,6 +9,13 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Rules\CodeSetting as CodeSettingRule;
 use App\Models\CodeSetting;
 
+/**
+ * @class SaleSettingController
+ * @brief Gestiona los datos de la configuración del módulo de comercialización
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class SaleSettingController extends Controller
 {
     use ValidatesRequests;
@@ -17,16 +24,19 @@ class SaleSettingController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         $this->middleware('permission:sale.setting', ['only' => 'index']);
     }
 
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Muestra la configuración del módulo de comercialización
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -47,22 +57,25 @@ class SaleSettingController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para la creación de un nuevo registro de configuración
+     *
+     * @return void
      */
     public function create()
     {
-        //   return view('sale::create');
+        //
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Almacena la configuración del módulo de comercialización
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        /** Reglas de validación para la configuración de códigos */
+        /* Reglas de validación para la configuración de códigos */
         $this->validate($request, [
             'products_code' => [new CodeSettingRule()],
             'movements_code' => [new CodeSettingRule()],
@@ -73,13 +86,13 @@ class SaleSettingController extends Controller
             'warehouse_reports_code' => [new CodeSettingRule()]
         ]);
 
-        /** @var array $codes Arreglo con información de los campos de códigos configurados */
+        /* Arreglo con información de los campos de códigos configurados */
         $codes = $request->input();
-        /** @var boolean $saved Define el estatus verdadero para indicar que no se ha registrado información */
+        /* Define el estatus verdadero para indicar que no se ha registrado información */
         $saved = false;
 
         foreach ($codes as $key => $value) {
-            /** @var string $model Define el modelo al cual hace referencia el código */
+            /* Define el modelo al cual hace referencia el código */
             $model = '';
 
             if ($key !== '_token' && !is_null($value)) {
@@ -87,40 +100,40 @@ class SaleSettingController extends Controller
                 list($prefix, $digits, $sufix) = CodeSetting::divideCode($value);
 
                 if ($table === "products") {
-                    /** @var string $table Define la tabla asociado a los productos inventariados */
+                    /* Define la tabla asociado a los productos inventariados */
                     $table = "warehouse_inventory_products";
 
-                    /** @var string $model Define el modelo asociado a los productos inventariados */
+                    /* Define el modelo asociado a los productos inventariados */
                     $model = \Modules\Sale\Models\SaleWarehouseInventoryProduct::class;
                 } elseif ($table === "movements") {
-                    /** @var string $table Define la tabla asociado a los moviemientos de almacén */
+                    /* Define la tabla asociado a los moviemientos de almacén */
                     $table = "warehouse_movements";
-                    /** @var string $model Define el modelo para asociado a los movimientos de almacén */
+                    /* Define el modelo para asociado a los movimientos de almacén */
                     $model = \Modules\Sale\Models\SaleWarehouseMovement::class;
                 } elseif ($table === "bills") {
-                    /** @var string $table Define la tabla asociado a las facturas */
+                    /* Define la tabla asociado a las facturas */
                     $table = "bills";
-                    /** @var string $model Define el modelo de las facturas */
+                    /* Define el modelo de las facturas */
                     $model = \Modules\Sale\Models\SaleBill::class;
                 } elseif ($table === "services") {
-                    /** @var string $table Define la tabla asociado a las facturas */
+                    /* Define la tabla asociado a las facturas */
                     $table = "services";
-                    /** @var string $model Define el modelo de las facturas */
+                    /* Define el modelo de las facturas */
                     $model = \Modules\Sale\Models\SaleService::class;
                 } elseif ($table === "orders") {
-                    /** @var string $table Define la tabla asociada a los pedidos */
+                    /* Define la tabla asociada a los pedidos */
                     $table = "orders";
-                    /** @var string $model Define el modelo de los pedidos */
+                    /* Define el modelo de los pedidos */
                     $model = \Modules\Sale\Models\SaleOrder::class;
                 } elseif ($table === "quotes") {
-                    /** @var string $table Define la tabla asociada a las cotizaciones */
+                    /* Define la tabla asociada a las cotizaciones */
                     $table = "quotes";
-                    /** @var string $model Define el modelo de las cotizaciones */
+                    /* Define el modelo de las cotizaciones */
                     $model = \Modules\Sale\Models\SaleQuote::class;
                 } elseif ($table === "reports") {
-                    /** @var string $table Define la tabla asociado a los reportes */
+                    /* Define la tabla asociado a los reportes */
                     $table = "warehouse_reports";
-                    /** @var string $model Define el modelo de los reportes */
+                    /* Define el modelo de los reportes */
                     $model = \Modules\Sale\Models\SaleWarehouseReport::class;
                 }
 
@@ -135,7 +148,7 @@ class SaleSettingController extends Controller
                     'model' => $model,
                 ]);
 
-                /** @var boolean $saved Define el estado verdadero para indicar que se ha registrado información */
+                /* Define el estado verdadero para indicar que se ha registrado información */
                 $saved = true;
             }
         }
@@ -148,37 +161,44 @@ class SaleSettingController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de una configuración
+     *
+     * @return void
      */
     public function show()
     {
-        //  return view('sale::show');
+        //
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para la edición de una configuración
+     *
+     * @return void
      */
     public function edit()
     {
-        //  return view('sale::edit');
+        //
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza la información de una configuración
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return void
      */
     public function update(Request $request)
     {
+        //
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Renderable
+     * Elimina una configuración
+     *
+     * @return void
      */
     public function destroy()
     {
+        //
     }
 }

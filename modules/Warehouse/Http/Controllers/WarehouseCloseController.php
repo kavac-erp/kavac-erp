@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Auth;
  * Clase que gestiona los cierres de almacén
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class WarehouseCloseController extends Controller
 {
@@ -26,13 +26,15 @@ class WarehouseCloseController extends Controller
 
     /**
      * Arreglo con las reglas de validación sobre los datos de un formulario
-     * @var Array $validateRules
+     *
+     * @var array $validateRules
      */
     protected $validateRules;
 
     /**
      * Arreglo con los mensajes para las reglas de validación
-     * @var Array $messages
+     *
+     * @var array $messages
      */
     protected $messages;
 
@@ -40,11 +42,13 @@ class WarehouseCloseController extends Controller
      * Define la configuración de la clase
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
 
-        /** Define las reglas de validación para el formulario */
+        /* Define las reglas de validación para el formulario */
         $this->validateRules = [
             'warehouse_id' => ['required'],
             'initial_date' => ['required'],
@@ -52,7 +56,7 @@ class WarehouseCloseController extends Controller
             'observations' => ['required']
         ];
 
-        /** Define los mensajes de validación para las reglas del formulario */
+        /* Define los mensajes de validación para las reglas del formulario */
         $this->messages = [
             'warehouse_id.required' => 'El campo nombre del almacén es obligatorio.',
             'initial_date.required' => 'El campo inicio del cierre de almacén es obligatorio.',
@@ -65,7 +69,8 @@ class WarehouseCloseController extends Controller
      * Muestra un listado de los cierres de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -79,8 +84,10 @@ class WarehouseCloseController extends Controller
      * Valida y registra un nuevo cierre de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -111,9 +118,11 @@ class WarehouseCloseController extends Controller
      * Actualiza la información de los cierres de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  \Illuminate\Http\Request  $request (Datos de la petición)
-     * @param  \Modules\Warehouse\Models\WarehouseClose  $close (Datos del cierre de almacén)
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  \Illuminate\Http\Request  $request Datos de la petición
+     * @param  \Modules\Warehouse\Models\WarehouseClose  $close Datos del cierre de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, WarehouseClose $close)
     {
@@ -147,8 +156,10 @@ class WarehouseCloseController extends Controller
      * Elimina un cierre de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  \Modules\Warehouse\Models\WarehouseClose $close (Datos del Cierre de almacén)
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  \Modules\Warehouse\Models\WarehouseClose $close Datos del Cierre de almacén
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(WarehouseClose $close)
     {
@@ -160,8 +171,9 @@ class WarehouseCloseController extends Controller
      * Finaliza un cierre de almacén
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
-     * @param  $id Identificador único del Cierre de Almacén
-     * @return \Illuminate\Http\Response (JSON con los registros a mostrar)
+     *
+     * @param  integer $id Identificador único del Cierre de Almacén
+     * @return \Illuminate\Http\JsonResponse
      */
     public function closeWarehouse($id)
     {

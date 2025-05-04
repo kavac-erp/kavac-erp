@@ -27,6 +27,7 @@ class PayrollOrganization extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
@@ -44,6 +45,7 @@ class PayrollOrganization extends Model implements Auditable
      * PayrollOrganization pertenece a PayrollSectorType
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollSectorType()
@@ -55,6 +57,7 @@ class PayrollOrganization extends Model implements Auditable
      * PayrollOrganization pertenece a PayrollEmployment
      *
      * @author William Páez <wpaezs@cenditel.gob.ve>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollEmployment()

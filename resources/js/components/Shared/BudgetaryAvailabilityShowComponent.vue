@@ -33,6 +33,22 @@
                     </div>
                     <!-- modal-body -->
                     <div class="modal-body">
+
+                        <div v-if="records?.purchaseBudgetaryAvailabilityDocument && records?.purchaseBudgetaryAvailabilityDocument?.url" class="col-md-12">
+                            <div class="form-group">
+                                <strong>Ver Documento:</strong>
+                                <div class="row" style="margin: 1px 0">
+                                    <a
+                                        :href="showDocument()" target="_blank"
+                                        class="btn btn-primary btn-xs btn-icon btn-action btn-tooltip"
+                                        data-toggle="tooltip" title="Ver documento que avala la modificación presupuestaria"
+                                    >
+                                        <i class="fa fa-file" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                         <v-client-table
                             :columns="column_requirements"
                             :data="purchase_requirement"
@@ -157,8 +173,8 @@
                                 </thead>
                                 <tbody>
                                     <tr
-                                        v-for="x in purchase_requirement_items"
-                                        class="row"
+                                        v-for="(x, index) in purchase_requirement_items"
+                                        :key="index" class="row"
                                     >
                                         <td
                                             style="border: 1px solid #dee2e6"
@@ -364,7 +380,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="account in records.availabilityitem">
+                                <tr v-for="(account, index) in records.availabilityitem" :key="index">
                                     <td class="col-md-3 text-center">
                                         {{ account.item_code }}
                                     </td>
@@ -484,7 +500,7 @@ export default {
         /**
          * Calcula el total del debe y haber del asiento contable
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         CalculateTot() {
             const vm = this;
@@ -515,7 +531,7 @@ export default {
         /**
          * Establece la cantidad de decimales correspondientes a la moneda que se maneja
          *
-         * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+         * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
          */
         cualculateLimitDecimal() {
             var res = "0.";
@@ -527,6 +543,10 @@ export default {
             res += "1";
             return res;
         },
+
+        showDocument() {
+            return `${window.app_url}/${this.records?.purchaseBudgetaryAvailabilityDocument?.url}`;
+        }
     },
     computed: {
         record_tax: function () {

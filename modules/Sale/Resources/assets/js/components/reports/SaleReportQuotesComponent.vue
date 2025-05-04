@@ -3,7 +3,7 @@
     <div class="card-body">
       <div class="alert alert-danger" v-if="errors.length > 0">
         <ul>
-          <li v-for="error in errors">{{ error }}</li>
+          <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
         </ul>
       </div>
       <div class="row align-items-center">
@@ -97,7 +97,7 @@
         </div>
         <div slot="products" slot-scope="props">
           <div v-if="props.row.sale_quote_product">
-            <ul v-for="product in props.row.sale_quote_product">
+            <ul v-for="(product, index) in props.row.sale_quote_product" :key="index">
               <li>{{ (product.sale_warehouse_inventory_product_id)? product.sale_warehouse_inventory_product.sale_setting_product.name : product.sale_type_good.name }}</li>
             </ul>
           </div>

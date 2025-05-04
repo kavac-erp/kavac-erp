@@ -10,5 +10,5 @@
     @if(!isset($setting_view))
         {!! Html::style(mix('modules/asset/css/app.css'), [], Request::secure()) !!}
     @endif
-    
+
 @endsection

@@ -27,6 +27,15 @@ use Modules\Payroll\Exports\FailRegisterImportExport;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
+/**
+ * @class RegisterStaffImport
+ * @brief Importa un archivo de expediente de personal
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class RegisterStaffImport implements
     WithMultipleSheets,
     WithChunkReading,
@@ -36,10 +45,23 @@ class RegisterStaffImport implements
     use Importable;
     use SkipsFailures;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @param string  $filePath Ruta del archivo a exportar
+     * @param string  $disk Sistema de archivos a implementar
+     * @param integer $userId Id del usuario
+     * @param string $fileErrosPath Ruta del archivo de errores
+     * @param array $sheets Arreglo de hojas a importar
+     *
+     * @throws \Exception
+     *
+     * @return void
+     */
     public function __construct(
         protected string $filePath,
         protected string $disk,
-        protected object $user,
+        protected int $userId,
         protected string $fileErrosPath,
         protected array $sheets = [],
     ) {
@@ -64,22 +86,36 @@ class RegisterStaffImport implements
         }
     }
 
+    /**
+     * Tamaño de los trozos de datos a importar
+     *
+     * @return integer
+     */
     public function chunkSize(): int
     {
         return 200;
     }
 
-    /** @return array<mixed> */
+    /**
+     * Hojas a importar
+     *
+     * @return array
+     */
     public function sheets(): array
     {
         return $this->sheets;
     }
 
+    /**
+     * Registro de eventos de importación
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
         return [
             ImportFailed::class => function (ImportFailed $event) {
-                $user = User::find($this->user->id);
+                $user = User::without(['roles', 'permissions'])->where('id', $this->userId)->first();
                 $exception = $event->getException();
                 Storage::disk('temporary')->delete($this->filePath);
 
@@ -106,15 +142,14 @@ class RegisterStaffImport implements
                 $errors = [];
                 foreach ($lines as $line) {
                     if (!empty($line)) {
-                        array_push($errors,json_decode($line,true));
+                        array_push($errors, json_decode($line, true));
                     }
                 }
-                $user = User::find($this->user->id);
+                $user = User::without(['roles', 'permissions'])->where('id', $this->userId)->first();
 
                 if (count($errors) > 0) {
                     $importNotificationMessage = 'Alguno de los registros que trataste de importar fallaron.';
                     $sendEmailMessage = '';
-                    // $excelFile = Excel::raw(new FailRegisterImportExport($errors), \Maatwebsite\Excel\Excel::XLSX);
 
                     $errorExcelFiles = [
                         [
@@ -123,12 +158,10 @@ class RegisterStaffImport implements
                         ]
                     ];
 
-                    $email = $this->user->email;
-
-                    if ($email) {
+                    if ($user->email) {
                         try {
-                            Mail::to($email)->send(new FailImportNotification($errorExcelFiles));
-                        } catch (\Exception$e) {                         
+                            Mail::to($user->email)->send(new FailImportNotification($errorExcelFiles));
+                        } catch (\Exception $e) {
                             Log::info($e);
                             $sendEmailMessage = 'No se pudo enviar el correo de importación. ';
                         }

@@ -1,5 +1,7 @@
 <map id="sendLockedAccountResponse" name="sendLockedAccountResponse">
-<area shape="rect" id="node1" title="Obtiene la instancia de la petición del usuario bloqueado." alt="" coords="5,31,219,57"/>
-<area shape="rect" id="node2" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a96d814961dfbac6feee462ca03bdff51" title="Obtiene el mensaje a mostrar para la cuenta bloqueada." alt="" coords="267,5,465,32"/>
-<area shape="rect" id="node3" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a7475524fbb2e38dd6c9f7a6661b0bb81" title="Obtiene el campo usado como nombre de usuario para el acceso a la aplicación, usado por el controlado..." alt="" coords="323,56,409,83"/>
+<area shape="rect" id="Node000001" title="Obtiene la instancia de la petición del usuario bloqueado." alt="" coords="5,31,219,56"/>
+<area shape="rect" id="Node000002" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a96d814961dfbac6feee462ca03bdff51" title="Obtiene el mensaje a mostrar para la cuenta bloqueada." alt="" coords="267,5,465,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,30,253,27,254,32,219,35"/>
+<area shape="rect" id="Node000003" href="$de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html#a7475524fbb2e38dd6c9f7a6661b0bb81" title="Obtiene el campo usado como nombre de usuario para el acceso a la aplicación." alt="" coords="323,55,409,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,51,310,59,309,65,219,56"/>
 </map>

@@ -15,17 +15,36 @@ use Modules\Payroll\Models\PayrollNationality;
 use Modules\Payroll\Models\PayrollGender;
 use Modules\Payroll\Models\PayrollLicenseDegree;
 
+/**
+ * @class PayrollStaffValidationExport
+ * @brief Genera el archivo de validación de los trabajadores
+ *
+ * @author Ing. Henry Paredes <hparedes@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PayrollStaffValidationExport implements
     FromCollection,
     WithEvents,
     WithHeadings,
     WithTitle
 {
+    /**
+     * Establece el tiúlo de la hoja
+     *
+     * @return string
+     */
     public function title(): string
     {
         return 'validation';
     }
 
+    /**
+     * Colección de datos a exportar
+
+     * @return \Illuminate\Support\Collection
+     */
     public function collection(): Collection
     {
         $nationalities = PayrollNationality::query()->select('name')->get()->pluck('name')->toArray();
@@ -65,14 +84,25 @@ class PayrollStaffValidationExport implements
         ));
     }
 
+    /**
+     * Encabezados de la hoja
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return ['Nacionalidad', 'Genero', 'Discapacidad', 'Tipo de sangre', 'Grado de licencia', 'Parroquia', 'Desicion'];
     }
 
+    /**
+     * Registro de eventos para la hoja
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
-        /** @todo Instrucciones para ocultar la hoja de validaciones
+        /**
+         * @todo Instrucciones para ocultar la hoja de validaciones
          * Descomentar cuando este verificada la hoja
          */
         return [

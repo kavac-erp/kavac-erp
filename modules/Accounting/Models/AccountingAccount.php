@@ -14,7 +14,8 @@ use App\Traits\ModelsTrait;
  *
  * Gestiona el modelo de datos para las cuentas del Clasificador Patrimoniales
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -34,10 +35,15 @@ class AccountingAccount extends Model implements Auditable
     /**
      * Listado de campos adjuntos a los campos por defecto
      *
-     * @var    array
+     * @var    array $append
      */
     protected $appends = ['code'];
 
+    /**
+     * Lista de campos del modelo
+     *
+     * @var array $fillable
+     */
     protected $fillable = [
         'group',
         'subgroup',
@@ -56,7 +62,7 @@ class AccountingAccount extends Model implements Auditable
     ];
 
     /**
-     * AccountingAccount morphs many Accountable.
+     * Establece el tipo de relación con la cuenta contable
      *
      * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
@@ -64,33 +70,32 @@ class AccountingAccount extends Model implements Auditable
      */
     public function accountable()
     {
-        // morphMany(MorphedModel, morphableName, type = able_type, relatedKeyName = able_id, localKey = id)
         return $this->morphMany(Accountable::class, 'accountable');
     }
 
     /**
-     * AccountingAccount has many AccountingEntryAccount.
+     * Establece la relación con el asiento contable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function entryAccount()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = accountingAccount_id, localKey = id)
         return $this->hasMany(AccountingEntryAccount::class);
     }
 
     /**
      * Método que permite obtener la cuenta asociada de nivel superior
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @param  [string] $group       Grupo de la cuenta
-     * @param  [string] $subgroup    Subgrupo de la cuenta
-     * @param  [string] $item        Ítem de la cuenta
-     * @param  [string] $generic     Genérica de la cuenta
-     * @param  [string] $specific    Específica de la cuenta
-     * @param  [string] $subspecific Subespecífica de la cuenta
-     * @return [boolean|object]      Retorna falso si no existe una cuenta de nivel superior,
-     *                               de lo contrario obtiene los datos de la misma
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @param  string $group       Grupo de la cuenta
+     * @param  string $subgroup    Subgrupo de la cuenta
+     * @param  string $item        Ítem de la cuenta
+     * @param  string $generic     Genérica de la cuenta
+     * @param  string $specific    Específica de la cuenta
+     * @param  string $subspecific Subespecífica de la cuenta
+     * @return boolean|AccountingAccount      Retorna falso si no existe una cuenta de nivel superior,
+     *                                        de lo contrario obtiene los datos de la misma
      */
     public static function getParent($group, $subgroup, $item, $generic, $specific, $subspecific, $institutional)
     {
@@ -133,9 +138,11 @@ class AccountingAccount extends Model implements Auditable
     }
 
     /**
-     * AccountingAccount has Many AccountingAccount.
+     * Establece la relación con las cuentas contables hijas
      *
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function children()
     {
@@ -143,9 +150,11 @@ class AccountingAccount extends Model implements Auditable
     }
 
     /**
-     * AccountingAccount belongs to AccountingAccount.
+     * Establece la relación con las cuentas padres
      *
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent()
     {
@@ -153,11 +162,11 @@ class AccountingAccount extends Model implements Auditable
     }
 
     /**
-     * Contatena ciertos valores del registro para generar el codigo
-     * correspondiente
+     * Concatena ciertos valores del registro para generar el código correspondiente
      *
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @return [string] [codigo que identifica a la cuenta]
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return string código que identifica a la cuenta
      */
     public function getCodeAttribute()
     {
@@ -174,13 +183,12 @@ class AccountingAccount extends Model implements Auditable
     /**
      * Método que obtiene los modelos morfológicos asociados a cuenta patrimonial
      *
-     * @author  Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author  Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function pivotAccountable()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = accountingAccount_id, localKey = id)
         return $this->hasMany(Accountable::class, 'accounting_account_id');
     }
 }

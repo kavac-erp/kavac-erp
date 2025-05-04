@@ -20,11 +20,9 @@ use Modules\Payroll\Actions\PayrollPaymentRelationshipAction;
 
 /**
  * @class SendReceiptJob
- * @brief [descripción detallada]
+ * @brief Instrucciones para enviar recibos de pago de nómina
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -36,6 +34,18 @@ class SendReceiptJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
+    /**
+     * Variable que contiene el tiempo de espera para la ejecución del trabajo.
+     *
+     * @var integer $timeout
+     */
+    public $timeout = 0;
+
+    /**
+     * Listado de meses del año
+     *
+     * @var array $months
+     */
     protected $months = [
         'January'   => 'Enero',
         'February'  => 'Febrero',
@@ -51,21 +61,66 @@ class SendReceiptJob implements ShouldQueue
         'December'  => 'Diciembre',
     ];
 
+    /**
+     * Mes del recibo de pago
+     *
+     * @var string $month
+     */
     protected $month;
 
+    /**
+     * Año del recibo de pago
+     *
+     * @var string $year
+     */
     protected $year;
 
+    /**
+     * Monto total del recibo de pago
+     *
+     * @var float $total
+     */
     protected $total;
 
+    /**
+     * Monto total de asignaciones
+     *
+     * @var float $assignations_total
+     */
     protected $assignations_total;
 
+    /**
+     * Monto total de deducciones
+     *
+     * @var float $deductions_total
+     */
     protected $deductions_total;
 
+    /**
+     * Monto total actual
+     *
+     * @var float $current_total
+     */
     protected $current_total;
 
+    /**
+     * Establece si la nómina tiene parámetros
+     *
+     * @var boolean $has_params
+     */
     protected $has_params = false;
 
 
+    /**
+     * Método constructor de la clase
+     *
+     * @param integer $payrollId ID de la nómina
+     * @param integer $institutionId ID de la institución
+     * @param Parameter $number_decimals Número de decimales a mostrar
+     * @param Parameter $round Función de redondeo a usar
+     *
+     * @return void
+     */
     public function __construct(
         protected int $payrollId,
         protected int $institutionId,
@@ -88,19 +143,7 @@ class SendReceiptJob implements ShouldQueue
     }
 
     /**
-     * undocumented function summary
-     *
-     * Undocumented function long description
-     *
-     * @param Type $var Description
-     * @return type
-     * @throws conditon
-     **/
-
-    /**
      * Ejecuta el trabajo.
-     *
-     * @method handle
      *
      * @return void
      */
@@ -159,11 +202,10 @@ class SendReceiptJob implements ShouldQueue
 
             foreach ($payrollStaff['concept_type'] as $concept_name => &$concept_type_arr) {
                 $this->current_total = 0.0;
-                foreach ($concept_type_arr as &$concept_type) {
+                foreach ($concept_type_arr as $index => &$concept_type) {
                     if (doubleval($concept_type['value']) > 0) {
                         if ($concept_type["sign"] == '+') {
-
-                            /** Listado de trabajadores a los que aplica un concepto */
+                            /* Listado de trabajadores a los que aplica un concepto */
                             if (!isset($payrollPersonalConceptAssign[$concept_type["id"]])) {
                                 $payrollPersonalConceptAssign[$concept_type["id"]] =
                                     $params->getPayrollPersonalConceptAssign(
@@ -172,19 +214,20 @@ class SendReceiptJob implements ShouldQueue
                                         true
                                     );
                             }
-                            $concept_type["parameters"] = array_map(function ($parameter) use ($timeParameters, $payrollStaff, $concept_type) {
-                                $filter = array_filter($timeParameters[$payrollStaff['payroll_staff_id']], function ($timeParameter) use ($parameter, $concept_type) {
-                                    return ($timeParameter["id"] == $parameter["id"]) && ($timeParameter["time_sheet"] == $concept_type["time_sheet"]);
-                                });
-
-                                return (count($filter) > 0) ? array(reset($filter)) : [];
-                            }, isset($payrollPersonalConceptAssign[$concept_type["id"]]) ? $payrollPersonalConceptAssign[$concept_type["id"]]["record"]["parameters"] : []);
+                            if (count($timeParameters)) {
+                                $concept_type["parameters"] = array_map(function ($parameter) use ($timeParameters, $payrollStaff, $concept_type) {
+                                    $filter = array_filter($timeParameters[$payrollStaff['payroll_staff_id']], function ($timeParameter) use ($parameter, $concept_type) {
+                                        return ($timeParameter["id"] == $parameter["id"]) && ($timeParameter["time_sheet"] == $concept_type["time_sheet"]);
+                                    });
+                                    return (count($filter) > 0) ? array(reset($filter)) : [];
+                                }, isset($payrollPersonalConceptAssign[$concept_type["id"]]) ? $payrollPersonalConceptAssign[$concept_type["id"]]["record"]["parameters"] : []);
+                            }
                         }
 
                         if ($concept_type["sign"] == '+') {
                             $this->assignations_total +=
                                 $nameDecimalFunction($concept_type["value"], $this->number_decimals->p_value);
-                        } else if ($concept_type["sign"] == '-') {
+                        } elseif ($concept_type["sign"] == '-') {
                             $this->deductions_total +=
                                 $nameDecimalFunction($concept_type["value"], $this->number_decimals->p_value);
                         }
@@ -195,6 +238,8 @@ class SendReceiptJob implements ShouldQueue
                                 $this->assignations_total - $this->deductions_total,
                                 $this->number_decimals->p_value
                             );
+                    } else {
+                        unset($concept_type_arr[$index]);
                     }
                 }
             }

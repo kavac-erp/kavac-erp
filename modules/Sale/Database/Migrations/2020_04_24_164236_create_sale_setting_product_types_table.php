@@ -4,10 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * @class CreateSaleSettingProductTypesTable
+ * @brief Migración encargada de crear la tabla de los tipos de producto
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CreateSaleSettingProductTypesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -15,7 +22,7 @@ class CreateSaleSettingProductTypesTable extends Migration
     {
         Schema::create('sale_setting_product_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            
+
             $table->string('name')->comment('Nombre');
 
             $table->timestamps();
@@ -24,7 +31,7 @@ class CreateSaleSettingProductTypesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

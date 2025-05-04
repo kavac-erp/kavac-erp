@@ -1,0 +1,5 @@
+<map id="MaritalStatus" name="MaritalStatus">
+<area shape="rect" id="Node000001" title="Modelo que extiende las funcionalidades del modelo base MaritalStatus." alt="" coords="5,179,179,244"/>
+<area shape="rect" id="Node000002" href="$d2/d58/classApp_1_1Models_1_1MaritalStatus.html" title="Datos de los estados civiles." alt="" coords="41,5,143,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,145,95,178,89,178,89,145"/>
+</map>

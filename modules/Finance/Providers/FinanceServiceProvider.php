@@ -2,7 +2,11 @@
 
 namespace Modules\Finance\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Modules\Finance\Console\Commands\DeleteBankMovement;
+use Modules\Finance\Console\Commands\FixBankMovementCodes;
+use Modules\Finance\Console\Commands\UpdateStatusPayOrder;
 
 /**
  * @class FinanceServiceProvider
@@ -11,24 +15,28 @@ use Illuminate\Support\ServiceProvider;
  * Gestiona el service provider del módulo de finanzas
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class FinanceServiceProvider extends ServiceProvider
 {
     /**
+     * Nombre del módulo
+     *
      * @var string $moduleName
      */
     protected $moduleName = 'Finance';
 
     /**
+     * Nombre del módulo en minúsculas
+     *
      * @var string $moduleNameLower
      */
     protected $moduleNameLower = 'finance';
 
     /**
-     * Boot the application events.
+     * Carga los eventos del módulo.
      *
      * @return void
      */
@@ -39,10 +47,11 @@ class FinanceServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->registerCommands();
     }
 
     /**
-     * Register the service provider.
+     * Registra los proveedores de servicios
      *
      * @return void
      */
@@ -52,7 +61,7 @@ class FinanceServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register config.
+     * Registra la configuración
      *
      * @return void
      */
@@ -68,7 +77,7 @@ class FinanceServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register views.
+     * Registra las vistas.
      *
      * @return void
      */
@@ -86,7 +95,7 @@ class FinanceServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register translations.
+     * Registra las traducciones.
      *
      * @return void
      */
@@ -102,7 +111,7 @@ class FinanceServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register an additional directory of factories.
+     * Registra un directorio adicional para los factories
      *
      * @return void
      */
@@ -114,7 +123,7 @@ class FinanceServiceProvider extends ServiceProvider
     }
 
     /**
-     * Get the services provided by the provider.
+     * Obtiene los proveedores de servicios por proveedor
      *
      * @return array
      */
@@ -126,11 +135,28 @@ class FinanceServiceProvider extends ServiceProvider
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (\Config::get('view.paths') as $path) {
+        foreach (Config::get('view.paths') as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }
         }
         return $paths;
+    }
+
+    /**
+     * Registra los comandos del módulo
+     *
+     * @return void
+     */
+    public function registerCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            // Registrar comandos solo si se está ejecutando en la consola
+            $this->commands([
+                UpdateStatusPayOrder::class,
+                FixBankMovementCodes::class,
+                DeleteBankMovement::class,
+            ]);
+        }
     }
 }

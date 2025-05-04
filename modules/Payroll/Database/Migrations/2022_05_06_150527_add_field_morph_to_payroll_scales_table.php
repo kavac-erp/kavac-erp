@@ -6,9 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * @class AddFieldMorphToPayrollScalesTable
- * @brief [descripción detallada]
- *
- * [descripción corta]
+ * @brief Migración para agregar el campo morph a la tabla payroll_scales
  *
  * @author    Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
  *

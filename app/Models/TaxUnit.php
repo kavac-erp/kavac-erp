@@ -1,11 +1,11 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
+use App\Traits\ModelsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Date;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 
@@ -14,6 +14,11 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
  * @brief Datos de Unidades Tributarias (U.T.)
  *
  * Gestiona el modelo de datos para las unidades tributarias
+ *
+ * @property double $value
+ * @property Date $start_date
+ * @property Date $end_date
+ * @property boolean $active
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -24,6 +29,7 @@ class TaxUnit extends Model implements Auditable
 {
     use SoftDeletes;
     use AuditableTrait;
+    use ModelsTrait;
 
     /**
      * Lista de atributos para la gestión de fechas
@@ -49,8 +55,6 @@ class TaxUnit extends Model implements Auditable
     /**
      * Método mutador que permite obtener información del campo start_date en formato de fecha sin marca de tiempo
      *
-     * @method     getStartDateAttribute()
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @return     string                 Devuelve la fecha en formato año-mes-día
@@ -63,8 +67,6 @@ class TaxUnit extends Model implements Auditable
 
     /**
      * Método mutador que permite obtener información del campo end_date en formato de fecha sin marca de tiempo
-     *
-     * @method     getEndDateAttribute()
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

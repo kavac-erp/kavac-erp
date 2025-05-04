@@ -3,36 +3,19 @@
         <div class="card-header">
             <h6 class="card-title text-uppercase">
                 Formulación de presupuesto de gastos por sub específicas
-                <a
-                    id="btnHelp"
-                    class="btn-help"
-                    href="javascript:void(0)"
-                    title=""
-                    data-toggle="tooltip"
+                <a id="btnHelp" class="btn-help" href="javascript:void(0)" title="" data-toggle="tooltip"
                     data-original-title="
                         Haz click para ver la ayuda guiada de este elemento
-                    "
-                    @click="initUIGuide(helpFile)"
-                >
+                    " @click="initUIGuide(helpFile)">
                     <i class="ion ion-ios-help-outline cursor-pointer"></i>
                 </a>
             </h6>
             <div class="card-btns">
-                <a
-                    class="btn btn-sm btn-primary btn-custom"
-                    data-toggle="tooltip"
-                    href="#"
-                    title="Ir atrás"
-                    @click="redirect_back(route_list)"
-                >
+                <a class="btn btn-sm btn-primary btn-custom" data-toggle="tooltip" href="#" title="Ir atrás"
+                    @click="redirect_back(route_list)">
                     <i class="fa fa-reply"></i>
                 </a>
-                <a
-                    class="card-minimize btn btn-card-action btn-round"
-                    data-toggle="tooltip"
-                    href="#"
-                    title="Minimizar"
-                >
+                <a class="card-minimize btn btn-card-action btn-round" data-toggle="tooltip" href="#" title="Minimizar">
                     <i class="now-ui-icons arrows-1_minimal-up"></i>
                 </a>
             </div>
@@ -43,15 +26,13 @@
                     <i class="now-ui-icons objects_support-17"></i>
                 </div>
                 <strong>Cuidado!</strong> Debe verificar los siguientes errores antes de continuar:
-                <button type="button" class="close" data-dismiss="alert"
-                    aria-label="Close">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">
                         <i class="now-ui-icons ui-1_simple-remove"></i>
                     </span>
                 </button>
                 <ul>
-                    <li v-for="(error, index) in errors"
-                        :key="index">{{ error }}
+                    <li v-for="(error, index) in errors" :key="index">{{ error }}
                     </li>
                 </ul>
             </div>
@@ -59,33 +40,19 @@
                 <div id="help_date" class="col-4">
                     <div class="form-group is-required">
                         <label>Fecha de generación:</label>
-                        <input
-                            type="date"
-                            class="form-control input-sm"
-                            placeholder="Fecha de generación"
-                            tabindex="1"
-                            data-toggle="tooltip"
-                            title="Fecha de generación"
-                            v-model="record.date"
-                        >
+                        <input type="date" class="form-control input-sm" placeholder="Fecha de generación" tabindex="1"
+                            data-toggle="tooltip" title="Fecha de generación" v-model="record.date">
                     </div>
                 </div>
                 <div id="help_fiscal_years" class="col-4">
                     <label class="control-label">Ejercicio fiscal</label>
-                    <select2 id="fiscal_years"
-                        tabindex="1"
-                        :options="fiscal_years"
-                        v-model="record.fiscal_year">
+                    <select2 id="fiscal_years" tabindex="1" :options="fiscal_years" v-model="record.fiscal_year">
                     </select2>
                 </div>
                 <div id="help_institution" class="col-4">
                     <div class="form-group is-required">
                         <label class="control-label">Institución</label>
-                        <select2
-                            tabindex="2"
-                            :options="institutions"
-                            v-model="record.institution_id"
-                            disabled>
+                        <select2 tabindex="2" :options="institutions" v-model="record.institution_id" disabled>
                         </select2>
                         <input type="hidden" v-model="record.id" />
                     </div>
@@ -93,91 +60,62 @@
                 <div id="help_currencies" class="col-4">
                     <div class="form-group is-required" v-if="currencies">
                         <label class="control-label">Moneda</label>
-                        <select2
-                            tabindex="3"
-                            :options="currencies"
-                            v-model="record.currency_id">
-                        </select2>
+                        <select2 tabindex="3" :options="currencies" v-model="record.currency_id"/>
                     </div>
                 </div>
                 <div id="help_financement_type" class="col-4">
                     <div class="form-group is-required">
                         <label>Fuente de financiamiento:</label>
-                        <select2
-                            tabindex="4"
-                            :options="financementTypes"
+                        <select2 tabindex="4" :options="financementTypes"
                             @input="loadFinancementSources ? getFinancementSources() : ''"
-                            v-model="record.financement_type_id"
-                            >
+                            v-model="record.financement_type_id">
                         </select2>
                     </div>
                 </div>
                 <div id="help_financement_source" class="col-4">
-                    <div class="form-group is-required">
+                    <div class="form-group">
                         <label>Tipo de financiamiento:</label>
-                        <select2
-                            tabindex="5"
-                            :options="financementSources"
-                            v-model="record.financement_source_id"
-                            >
+                        <select2 tabindex="5" :options="financementSources" v-model="record.financement_source_id">
                         </select2>
                     </div>
                 </div>
                 <div id="help_amount" class="col-4">
-                    <div class="form-group is-required">
+                    <div class="form-group">
                         <label>Monto:</label>
-                        <input
-                            type="text"
-                            class="form-control input-sm"
-                            placeholder="Monto"
-                            tabindex="6"
-                            oninput="this.value=this.value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');"
-                            data-toggle="tooltip"
-                            title="Monto"
-                            v-model="record.financement_amount"
-                        >
+                        <div class="row">
+                            <div class="col-12">
+                                {{ formatToCurrency(record.financement_amount, '') }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div id="help_project" class="col-6 mt-4">
                     <div class="custom-control custom-switch">
-                        <input
-                            id="sel_project"
-                            class="custom-control-input sel_pry_acc"
-                            type="radio"
-                            name="project_centralized_action"
-                            value="project"
-                        />
+                        <input id="sel_project" class="custom-control-input sel_pry_acc" type="radio"
+                            name="project_centralized_action" value="project" />
                         <label class="custom-control-label" for="sel_project">
                             Proyecto
                         </label>
                     </div>
                     <div class="mt-4">
-                        <select2 id="project_id" disabled :options="projects"
-                            v-model="record.project_id"
+                        <select2 id="project_id" disabled :options="projects" v-model="record.project_id"
                             @input="getSpecificActions('Project')">
                         </select2>
                     </div>
                 </div>
                 <div id="help_action" class="col-6 mt-4">
                     <div class="custom-control custom-switch">
-                        <input
-                            id="sel_centralized_action"
-                            class="custom-control-input sel_pry_acc"
-                            type="radio"
-                            name="project_centralized_action"
-                            value="centralized_action"
-                        />
+                        <input id="sel_centralized_action" class="custom-control-input sel_pry_acc" type="radio"
+                            name="project_centralized_action" value="centralized_action" />
                         <label class="custom-control-label" for="sel_centralized_action">
                             Acción Centralizada
                         </label>
                     </div>
                     <div class="mt-4">
-                        <select2 id="centralized_action_id" disabled
-                            :options="centralized_actions"
-                            v-model="record.centralized_action_id"
-                            @input="getSpecificActions('CentralizedAction')">
+                        <select2 id="centralized_action_id" disabled :options="centralized_actions"
+                            v-model="record.centralized_action_id" @input="getSpecificActions('CentralizedAction')">
                         </select2>
                     </div>
                 </div>
@@ -186,37 +124,21 @@
                 <div id="help_specific" class="col-12 mt-4">
                     <div class="form-group is-required">
                         <label class="control-label">Acción Específica</label>
-                        <select2
-                            id="specific_action_id"
-                            disabled
-                            :options="specific_actions"
-                            v-model="record.specific_action_id"
-                        ></select2>
+                        <select2 id="specific_action_id" disabled :options="specific_actions"
+                            v-model="record.specific_action_id"></select2>
                     </div>
                 </div>
             </div>
             <div class="row-flex">
                 <label class="control-label"> Distribución financiera</label>
                 <div id="help_table_search" class="search-section">
-                    <input
-                        class="form-control input-sm"
-                        type="text"
-                        placeholder="Buscador de cuentas por código y/o denominación"
-                        @keyup.enter="searchAccounts"
-                        v-model="search"
-                    />
-                    <button
-                        type="button"
-                        class="btn btn-primary btn-sm btn-round"
-                        @click="searchAccounts"
-                    >
+                    <input class="form-control input-sm" type="text"
+                        placeholder="Buscador de cuentas por código y/o denominación" @keyup.enter="searchAccounts"
+                        v-model="search" />
+                    <button type="button" class="btn btn-primary btn-sm btn-round" @click="searchAccounts">
                         Buscar <i class="fa fa-search"></i>
                     </button>
-                    <button
-                        type="button"
-                        class="btn btn-default btn-sm btn-round"
-                        @click="cleanSearch"
-                    >
+                    <button type="button" class="btn btn-default btn-sm btn-round" @click="cleanSearch">
                         Ver todas <i class="fa fa-eraser"></i>
                     </button>
                 </div>
@@ -225,39 +147,23 @@
             <div class="row">
                 <div class="col-4 offset-md-8">
                     <div class="float-right">
-                        <form
-                            action=""
-                            id=""
-                            method="post"
-                            role="form"
-                            class="form"
-                            enctype="multipart/form-data"
-                        >
-                            <button
-                                type="button"
-                                data-toggle="tooltip"
-                                :disabled=" !record.institution_id || !record.currency_id || !record.specific_action_id"
+                        <form action="" id="" method="post" role="form" class="form" enctype="multipart/form-data">
+                            <button type="button" data-toggle="tooltip"
+                                :disabled="!record.institution_id || !record.currency_id || !record.specific_action_id"
                                 class="btn btn-sm btn-info btn-import"
                                 title="Presione para importar la información. Los archivos permitidos son: .csv, .ods, .xls o .xlsx"
-                                @click="setFile('import_formulation')"
-                            >
+                                aria-label="Presione para importar la información"
+                                @click="setFile('import_formulation')">
                                 <i class="fa fa-upload"></i>
                             </button>
-                            <button
-                                type="button"
-                                data-toggle="tooltip"
-                                class="btn btn-sm btn-warning btn-import"
-                                title="Presione para exportar la información." @click="getExportFormulation()" 
-                                :disabled=" !record.institution_id || !record.currency_id || !record.specific_action_id"
-                            >
+                            <button type="button" data-toggle="tooltip" class="btn btn-sm btn-warning btn-import"
+                                title="Presione para exportar la información."
+                                aria-label="Presione para exportar la información" @click="getExportFormulation()"
+                                :disabled="!record.institution_id || !record.currency_id || !record.specific_action_id">
                                 <i class="fa fa-download"></i>
                             </button>
-                            <input
-                                type="file"
-                                id="import_formulation"
-                                class="nodisplay"
-                                @change="getImportFormulation('import_formulation')"
-                            />
+                            <input type="file" id="import_formulation" class="nodisplay"
+                                @change="getImportFormulation('import_formulation')" />
                         </form>
                     </div>
                 </div>
@@ -265,7 +171,7 @@
             <!-- Final de botones para importar y exportar la tabla de formulación del presupuesto -->
 
             <!-- Tabla para la formulación del presupuesto -->
-            <div id="help_table_formulation" class="table-responsive" style="overflow-y: auto; max-height: 500px;">
+            <div id="help_table_formulation" class="table-responsive" style="overflow-y: auto; max-height: 250px;">
                 <table class="table table-formulation">
                     <thead class="sticky-top bg-light border-top border-light" style="top: -2px">
                         <tr>
@@ -275,7 +181,8 @@
                             <th class="text-capitalize" style="min-width: 100px">Real</th>
                             <th class="text-capitalize" style="min-width: 100px">Estimado</th>
                             <th class="text-capitalize" style="min-width: 100px">Total año</th>
-                            <th class="text-capitalize" style="min-width: 100px" v-for="(month, index) in months" :key="index">
+                            <th class="text-capitalize" style="min-width: 100px" v-for="(month, index) in months"
+                                :key="index">
                                 <span v-if="month === 'jan'">Ene</span>
                                 <span v-else-if="month === 'apr'">Abr</span>
                                 <span v-else-if="month === 'aug'">Ago</span>
@@ -293,7 +200,7 @@
                                     title="Elemento bloqueado, de solo lectura" data-toggle="tooltip"></i>
                                 <i v-else :id="'add_account_' + account.id" class="fa fa-eye text-blue cursor-pointer"
                                     title="Pulse para agregar esta cuenta presupuestaria a la formulación"
-                                    data-toggle="tooltip" @click="showAccountInputs(index)"></i>
+                                    data-toggle="tooltip" @click="validateCurrency(); showAccountInputs(index)"></i>
                             </td>
                             <td class="td-code">{{ account.code }}</td>
                             <td>{{ account.denomination }}</td>
@@ -309,8 +216,7 @@
                                 <input class="form-control input-sm total_estimated" type="text" data-toggle="tooltip"
                                     onfocus="this.select()"
                                     oninput="this.value=this.value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');"
-                                    :readonly="account.locked"
-                                    v-model="account.total_estimated_amount"
+                                    :readonly="account.locked" v-model="account.total_estimated_amount"
                                     v-show="account.locked || account.formulated"
                                     @change="calculateAmounts(index, 'estimated')" />
                             </td>
@@ -348,11 +254,11 @@
                             </td>
                             <td class="td-with-border">
                                 <input class="form-control input-sm apr" type="text" data-toggle="tooltip"
-                                        onfocus="this.select()"
-                                        oninput="this.value=this.value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');"
-                                        :readonly="account.locked" v-model="account.apr_amount"
-                                        v-show="account.locked || account.formulated"
-                                        @change="calculateAmounts(index, 'month')" />
+                                    onfocus="this.select()"
+                                    oninput="this.value=this.value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');"
+                                    :readonly="account.locked" v-model="account.apr_amount"
+                                    v-show="account.locked || account.formulated"
+                                    @change="calculateAmounts(index, 'month')" />
                             </td>
                             <td class="td-with-border">
                                 <input class="form-control input-sm may" type="text" data-toggle="tooltip"
@@ -382,8 +288,8 @@
                                 <input class="form-control input-sm aug" type="text" data-toggle="tooltip"
                                     onfocus="this.select()"
                                     oninput="this.value=this.value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');"
-                                    :readonly="account.locked"
-                                    v-model="account.aug_amount" v-show="account.locked || account.formulated"
+                                    :readonly="account.locked" v-model="account.aug_amount"
+                                    v-show="account.locked || account.formulated"
                                     @change="calculateAmounts(index, 'month')" />
                             </td>
                             <td class="td-with-border">
@@ -417,10 +323,10 @@
                 </table>
             </div>
             <!-- Final de la tabla para la formulación del presupuesto -->
-            <buttonsDisplay :route_list="app_url+'/budget/subspecific-formulations'"></buttonsDisplay>
+            <buttonsDisplay :route_list="app_url + '/budget/subspecific-formulations'"></buttonsDisplay>
         </div>
         <div class="card-footer text-right">
-            <buttonsDisplay :route_list="app_url+'/budget/subspecific-formulations'" display="false"></buttonsDisplay>
+            <buttonsDisplay :route_list="app_url + '/budget/subspecific-formulations'" display="false"></buttonsDisplay>
         </div>
     </div>
 </template>
@@ -484,7 +390,7 @@ export default {
          *
          * @author  In- Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
          */
-        reset: function() {
+        reset: function () {
             this.record.date = '';
             this.record.year = '';
             this.record.currency_id = '';
@@ -493,10 +399,10 @@ export default {
             this.record.specific_action_id = '';
             this.record.formulated_accounts = [];
             this.record.financement_type_id = '',
-            this.record.financement_source_id = '',
-            this.record.financement_amount = '',
-            this.errors = [];
-            
+                this.record.financement_source_id = '',
+                this.record.financement_amount = '',
+                this.errors = [];
+
             document.getElementById('fiscal_years').value = '';
             document.getElementById('fiscal_years').dispatchEvent(new Event('change'));
             document.getElementById('sel_centralized_action').checked = false;
@@ -537,13 +443,13 @@ export default {
                 let partial_ammount = parseFloat(
                     parseFloat(vm.records[index].total_year_amount) / 12
                 ).toFixed(vm.decimals);
-                $.each(vm.months, function() {
+                $.each(vm.months, function () {
                     vm.records[index][this + '_amount'] = partial_ammount;
                 });
             } else if (input === 'month') {
                 /** Asigna el monto total para la cuenta a formular */
                 let total_year = 0;
-                $.each(vm.months, function() {
+                $.each(vm.months, function () {
                     total_year += parseFloat(
                         vm.records[index][this + '_amount']
                     );
@@ -596,7 +502,7 @@ export default {
             });
 
             /** Calcula los montos de la cuenta específica */
-            $.each(specific_acc, function() {
+            $.each(specific_acc, function () {
                 let s = this,
                     total_year = 0,
                     total_estimated = 0,
@@ -615,10 +521,10 @@ export default {
                     total_dec = 0;
 
                 if (
-                    vm.records[index].subspecific !== '00' && 
-                    vm.records[index].group === s.group && 
-                    vm.records[index].item === s.item && 
-                    vm.records[index].generic === s.generic && 
+                    vm.records[index].subspecific !== '00' &&
+                    vm.records[index].group === s.group &&
+                    vm.records[index].item === s.item &&
+                    vm.records[index].generic === s.generic &&
                     vm.records[index].specific === s.specific
                 ) {
                     s.total_real_amount = 0;
@@ -638,11 +544,11 @@ export default {
                     s.dec_amount = 0;
                 }
 
-                $.each(form_acc, function() {
+                $.each(form_acc, function () {
                     if (
                         this.group === s.group &&
                         this.item === s.item &&
-                        this.generic === s.generic && 
+                        this.generic === s.generic &&
                         this.specific === s.specific
                     ) {
                         total_year += parseFloat(this.total_year_amount);
@@ -688,9 +594,9 @@ export default {
                     s.dec_amount = parseFloat(total_dec).toFixed(vm.decimals);
                 }
             });
-            
+
             /** Calcula los montos de la cuenta genérica */
-            $.each(generic_acc, function() {
+            $.each(generic_acc, function () {
                 let g = this,
                     total_year = 0,
                     total_estimated = 0,
@@ -707,7 +613,7 @@ export default {
                     total_oct = 0,
                     total_nov = 0,
                     total_dec = 0;
-                $.each(form_acc, function() {
+                $.each(form_acc, function () {
                     if (
                         this.group === g.group &&
                         this.item === g.item &&
@@ -758,7 +664,7 @@ export default {
             });
 
             /** Calcula los montos de la cuenta ítems */
-            $.each(item_acc, function() {
+            $.each(item_acc, function () {
                 let i = this,
                     total_year = 0,
                     total_estimated = 0,
@@ -775,7 +681,7 @@ export default {
                     total_oct = 0,
                     total_nov = 0,
                     total_dec = 0;
-                $.each(generic_acc, function() {
+                $.each(generic_acc, function () {
                     if (this.group === i.group && this.item === i.item) {
                         total_year += parseFloat(this.total_year_amount);
                         total_estimated += parseFloat(
@@ -822,7 +728,7 @@ export default {
             });
 
             /** Calcula los montos de la cuenta de grupo */
-            $.each(group_acc, function() {
+            $.each(group_acc, function () {
                 let gr = this,
                     total_year = 0,
                     total_estimated = 0,
@@ -839,7 +745,7 @@ export default {
                     total_oct = 0,
                     total_nov = 0,
                     total_dec = 0;
-                $.each(item_acc, function() {
+                $.each(item_acc, function () {
                     if (this.group === gr.group) {
                         total_year += parseFloat(this.total_year_amount);
                         total_estimated += parseFloat(
@@ -883,7 +789,17 @@ export default {
                     gr.nov_amount = parseFloat(total_nov).toFixed(vm.decimals);
                     gr.dec_amount = parseFloat(total_dec).toFixed(vm.decimals);
                 }
+                // El monto total del año se asigna automáticamente al monto total
+                // de la formulación.
+                vm.record.financement_amount = parseFloat(total_year);
             });
+        },
+
+        validateCurrency() {
+            if (!this.record.currency_id) {
+                bootbox.alert('Debe seleccionar primero un tipo de moneda');
+                return false;
+            }
         },
         /**
          * Muestra u oculta los campos de texto para ingresar información sobre los montos
@@ -894,12 +810,6 @@ export default {
          */
         async showAccountInputs(index) {
             let vm = this;
-
-            if (!this.record.currency_id) {
-                bootbox.alert('Debe seleccionar primero un tipo de moneda');
-                return false;
-            }
-
             let add_account = $('#add_account_' + this.records[index].id);
 
             if (add_account.hasClass('fa-eye')) {
@@ -928,15 +838,15 @@ export default {
                 if (this.records[index].subspecific !== '00') {
                     this.records.forEach(row => {
                         if (
-                            row.code.substring(11) === '00' && 
+                            row.code.substring(11) === '00' &&
                             row.code.substring(0, 10) === this.records[index].code.substring(0, 10)
                         ) {
                             let hasChild = this.records.filter(child => {
-                                return child.code.substring(11) !== '00' && 
-                                child.code.substring(0, 10) === this.records[index].code.substring(0, 10)
+                                return child.code.substring(11) !== '00' &&
+                                    child.code.substring(0, 10) === this.records[index].code.substring(0, 10)
                             });
-                            row.locked = (hasChild)?true:false;
-                            row.formulated = (hasChild)?true:false;
+                            row.locked = (hasChild) ? true : false;
+                            row.formulated = (hasChild) ? true : false;
                             if (hasChild) {
                                 let el = document.getElementById(row.id);
                                 el.classList.add('disable-row');
@@ -948,7 +858,7 @@ export default {
             else if (add_account.hasClass('fa-eye-slash')) {
                 // Si confirma, oculta y limpia los campos de texto para una cuenta presupuestaria.
                 var data = this.records;
-                
+
                 if (this.createBootbox == false) {
                     this.createBootbox = true;
                     await bootbox.confirm({
@@ -990,14 +900,14 @@ export default {
                                 if (data[index].subspecific !== '00') {
                                     let hasChilds = data.filter(d => {
                                         return (
-                                            d.code.substring(0, 10) === data[index].code.substring(0, 10) && 
+                                            d.code.substring(0, 10) === data[index].code.substring(0, 10) &&
                                             d.subspecific !== '00' && d.formulated
                                         );
                                     })[0] || null;
                                     if (hasChilds === null) {
                                         data.forEach(row => {
                                             if (
-                                                row.code.substring(0, 10) === data[index].code.substring(0, 10) && 
+                                                row.code.substring(0, 10) === data[index].code.substring(0, 10) &&
                                                 row.subspecific === '00'
                                             ) {
                                                 row.locked = false;
@@ -1078,14 +988,14 @@ export default {
                 ).then(response => {
                     this.specific_actions = response.data;
                 })
-                .catch(error => {
-                    vm.logs(
-                        'BudgetSubSpecificFormulationComponent.vue',
-                        551,
-                        error,
-                        'getSpecificActions'
-                    );
-                });
+                    .catch(error => {
+                        vm.logs(
+                            'BudgetSubSpecificFormulationComponent.vue',
+                            551,
+                            error,
+                            'getSpecificActions'
+                        );
+                    });
                 if (vm.record.id) {
                     vm.record.specific_action_id = vm.record.specific_action.id;
                 }
@@ -1107,7 +1017,7 @@ export default {
             });
 
             /** Asigna las cuentas de solo lectura que hayan sido formuladas */
-            $.each(lock_acc, function() {
+            $.each(lock_acc, function () {
                 this.formulated = parseFloat(this.total_year_amount) > 0;
             });
             /** Filtra todas las cuentas que hayan sido marcadas como formuladas */
@@ -1141,7 +1051,7 @@ export default {
                                             '<i class="fa fa-check"></i> Confirmar'
                                     }
                                 },
-                                callback: function(result) {
+                                callback: function (result) {
                                     location.href = result
                                         ? vm.route_create
                                         : `${window.app_url}/budget/subspecific-formulations`;
@@ -1189,11 +1099,11 @@ export default {
                 /** {String} determina el tipo de acción específica */
                 let saType = response.data.formulation.specific_action.specificable_type;
                 var pry_acc_id = response.data.formulation.specific_action.specificable.id;
-                var pry_acc_type = (saType.indexOf("BudgetProject")>=0)?'Proyecto':'Acción Centralizada';
+                var pry_acc_type = (saType.indexOf("BudgetProject") >= 0) ? 'Proyecto' : 'Acción Centralizada';
                 var formulation = response.data.formulation;
 
-                $('#centralized_action_id').attr('disabled',pry_acc_type === 'Proyecto');
-                $('#project_id').attr('disabled',!(pry_acc_type === 'Proyecto'));
+                $('#centralized_action_id').attr('disabled', pry_acc_type === 'Proyecto');
+                $('#project_id').attr('disabled', !(pry_acc_type === 'Proyecto'));
 
                 if (pry_acc_type === 'Proyecto') {
                     $('#sel_project').click();
@@ -1212,7 +1122,7 @@ export default {
                 vm.record.financement_type_id = formulation.budget_financement_type_id;
                 vm.record.financement_amount = formulation.financement_amount;
                 vm.record.project_id = pry_acc_type === 'Proyecto' ? pry_acc_id : '';
-                vm.record.centralized_action_id = !(pry_acc_type === 'Proyecto')? pry_acc_id: '';
+                vm.record.centralized_action_id = !(pry_acc_type === 'Proyecto') ? pry_acc_id : '';
                 vm.record.specific_action = formulation.specific_action;
 
                 await vm.getFinancementSources().then(() => {
@@ -1224,8 +1134,9 @@ export default {
 
                 /** Carga los datos de las partidas presupuestarias formuladas */
                 setTimeout(() => {
-                    $.each(vm.records, function(index, el) {
-                        $.each(formulation.account_opens, function() {
+                    vm.validateCurrency();
+                    $.each(vm.records, function (index, el) {
+                        $.each(formulation.account_opens, function () {
                             if (el.id === this.budget_account_id) {
                                 vm.showAccountInputs(index);
                                 vm.records[
@@ -1295,7 +1206,7 @@ export default {
                 .then(response => {
                     if (response.data.result) {
                         this.showMessage('update');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             location.href = `${window.app_url}/budget/subspecific-formulations`;
                         }, 2000);
                     } else {
@@ -1332,7 +1243,7 @@ export default {
         setFile(input_id) {
             bootbox.confirm({
                 title: 'Formato de archivo',
-                message:   `<h6>EJEMPLO: Formato de hoja de cálculo </h6>
+                message: `<h6>EJEMPLO: Formato de hoja de cálculo </h6>
                             <table cellpadding="1" border="1" style="font-size: .70em;">
                                 <thead>
                                     <tr>
@@ -1378,6 +1289,10 @@ export default {
                             <small class="form-text text-muted" style="font-size: .9em">
                                 <b>Observaciones:</b>
                                 <ul>
+                                    <li>Cuando se exporta el archivo de carga masiva, este contiene todas las partidas del clasificador presupuestario. Es necesario depurar este archivo y dejar únicamente las cuentas a formular.</li>
+                                    <li>La estructura de la hoja de cálculo no puede ser modificada.</li>
+                                    <li>Las columnas total_real y total_estimado pueden estar vacías o contener únicamente el valor cero (0).</li>
+                                    <li>En la hoja de cálculo, los montos pueden ser ingresados mensualmente según lo solicitado para la formulación. También es posible colocar el monto total en la columna denominada total_anho, distribuyéndolo uniformemente a lo largo de todos los meses del año, tal como se muestra en el ejemplo del formato de hoja de cálculo.</li>
                                     <li>Los títulos de cada columna deben ser exactos a los del ejemplo</li>
                                     <li>Solo incluya las cuentas a formular, sin las cuentas de nivel superior</li>
                                 </ul>
@@ -1417,39 +1332,43 @@ export default {
                 }
             }).then(response => {
                 if (response.data.result && response.data.records) {
-                    $.each(response.data.records, function(i, row) {
+                    $.each(response.data.records, function (i, row) {
                         let objData = {};
-                        $.each(row, function(j, col) {
+                        $.each(row, function (j, col) {
                             objData[j] = col ? col : 0;
                         });
                         var accountEl = $(
                             `[data-code="${objData.codigo}"]`
                         );
-                        var index = accountEl.data('index');
-                        accountEl.find('[id^=add_account]').click();
-                        vm.records[index].total_real_amount =
-                            objData.total_real;
-                        vm.records[index].total_estimated_amount =
-                            objData.total_estimado;
-                        vm.records[index].total_year_amount =
-                            objData.total_anho;
-                        vm.records[index].jan_amount = objData.ene;
-                        vm.records[index].feb_amount = objData.feb;
-                        vm.records[index].mar_amount = objData.mar;
-                        vm.records[index].apr_amount = objData.abr;
-                        vm.records[index].may_amount = objData.may;
-                        vm.records[index].jun_amount = objData.jun;
-                        vm.records[index].jul_amount = objData.jul;
-                        vm.records[index].aug_amount = objData.ago;
-                        vm.records[index].sep_amount = objData.sep;
-                        vm.records[index].oct_amount = objData.oct;
-                        vm.records[index].nov_amount = objData.nov;
-                        vm.records[index].dec_amount = objData.dic;
-                        vm.calculateAmounts(
-                            index,
-                            objData.total_anho > 0 ? 'year' : 'month'
-                        );
+                        if (accountEl) {
+                            vm.createBootbox = true;
+                            accountEl.find('[id^=add_account]').click();
+                            var index = accountEl.data('index');
+                            vm.records[index].total_real_amount =
+                                objData.total_real;
+                            vm.records[index].total_estimated_amount =
+                                objData.total_estimado;
+                            vm.records[index].total_year_amount =
+                                objData.total_anho;
+                            vm.records[index].jan_amount = objData.ene;
+                            vm.records[index].feb_amount = objData.feb;
+                            vm.records[index].mar_amount = objData.mar;
+                            vm.records[index].apr_amount = objData.abr;
+                            vm.records[index].may_amount = objData.may;
+                            vm.records[index].jun_amount = objData.jun;
+                            vm.records[index].jul_amount = objData.jul;
+                            vm.records[index].aug_amount = objData.ago;
+                            vm.records[index].sep_amount = objData.sep;
+                            vm.records[index].oct_amount = objData.oct;
+                            vm.records[index].nov_amount = objData.nov;
+                            vm.records[index].dec_amount = objData.dic;
+                            vm.calculateAmounts(
+                                index,
+                                objData.total_anho > 0 ? 'year' : 'month'
+                            );
+                        }
                     });
+                    vm.showMessage('update');
                 } else {
                     vm.showMessage(
                         'custom',
@@ -1461,12 +1380,21 @@ export default {
                 }
             }).catch(error => {
                 console.log(error);
+                vm.showMessage(
+                    'custom',
+                    'Error!',
+                    'danger',
+                    'screen-error',
+                    'Ah ocurrido un error en la importación de los datos, intente nuevamente'
+                );
             });
             vm.loading = false;
+            vm.createBootbox = false;
+            inputFile.value = '';
         },
         /**
          * Exporta la información de las cuentas formuladas
-         * 
+         *
          * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
          */
         getExportFormulation() {
@@ -1546,7 +1474,7 @@ export default {
          *
          * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
          */
-        specific_actions: function() {
+        specific_actions: function () {
             $('#specific_action_id').attr(
                 'disabled',
                 this.specific_actions.length <= 1
@@ -1554,7 +1482,7 @@ export default {
         },
         record: {
             deep: true,
-            handler: function(newValue, oldValue) {
+            handler: function (newValue, oldValue) {
                 this.decimals = 2;
                 if (newValue.currency_id) {
                     axios
@@ -1586,7 +1514,7 @@ export default {
         const vm = this;
         vm.loading = true; // Inicia el spinner de carga
         await vm.getOpenedFiscalYears();
-        // await vm.getCurrencies();
+
         document.getElementById('loading-message').innerText = 'Cargando catálogo de cuentas. Por favor espere';
         await vm.getProjects();
         await vm.getCentralizedActions();
@@ -1607,7 +1535,7 @@ export default {
          * Evento para determinar los datos a requerir según el tipo de formulación
          * (por proyecto o acción centralizada)
          */
-        $('.sel_pry_acc').on('change', function(e) {
+        $('.sel_pry_acc').on('change', function (e) {
             $('#project_id').attr('disabled', e.target.id !== 'sel_project');
             $('#centralized_action_id').attr(
                 'disabled',

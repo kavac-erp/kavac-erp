@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class UpdateFieldsTechnicalSupportRequestRepairsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -57,7 +57,7 @@ class UpdateFieldsTechnicalSupportRequestRepairsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

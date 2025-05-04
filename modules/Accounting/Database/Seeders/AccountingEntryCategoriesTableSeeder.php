@@ -13,14 +13,15 @@ use Modules\Accounting\Models\AccountingEntryCategory;
  *
  * Gestiona la información por defecto a registrar inicialmente de las categorias de origen de asientos contables
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AccountingEntryCategoriesTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Ejecuta los seeders de categorías de asientos contables
      *
      * @return void
      */
@@ -47,6 +48,10 @@ class AccountingEntryCategoriesTableSeeder extends Seeder
             [
                 'name' => 'Estado de resultado',
                 'acronym' => 'EDR',
+            ],
+            [
+                'name' => 'Ajustes de resultados acumulados',
+                'acronym' => 'ARA',
             ]
         ];
 

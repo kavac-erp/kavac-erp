@@ -1,0 +1,5 @@
+<map id="AccountingAccountExport" name="AccountingAccountExport">
+<area shape="rect" id="Node000001" title="Gestiona la exportación de datos de asientos contables." alt="" coords="5,159,185,264"/>
+<area shape="rect" id="Node000002" href="$df/dfd/classApp_1_1Exports_1_1DataExport.html" title="Permite la exportación de datos." alt="" coords="27,5,164,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,124,98,158,93,158,93,124"/>
+</map>

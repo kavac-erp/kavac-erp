@@ -1,5 +1,8 @@
 <?php
 
+/** Configuración del módulo $STUDLY_NAME$ */
+
 return [
-    'name' => '$STUDLY_NAME$'
+    'name' => '$STUDLY_NAME$',
+    'name_es' => [indicar nombre del módulo en español]
 ];

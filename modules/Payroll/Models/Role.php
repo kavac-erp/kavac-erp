@@ -11,6 +11,7 @@ use App\Roles\Models\Role as BaseRole;
  * Gestiona el modelo de roles
  *
  * @author     Henry Paredes <hparedes@cenditel.gob.ve>
+ *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
@@ -20,6 +21,7 @@ class Role extends BaseRole
      * Obtiene información de las opciones asignadas asociadas a un rol
      *
      * @author    Henry Paredes <hparedes@cenditel.gob.ve>
+     *
      * @return    \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function payrollConceptAssignOptions()

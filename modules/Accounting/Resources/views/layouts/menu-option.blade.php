@@ -18,17 +18,24 @@
         <li class="{!! set_active_menu(['accounting.report.accountingBooks', 'accounting.report.financeStatements']) !!}">
             <a href="javascript:void(0)">Reportes</a>
             @php
-            $submenuReports = '';
-            if (in_array(Route::current()->getName(), ['accounting.report.accountingBooks', 'accounting.report.financeStatements'])) {
-                $submenuReports = 'style="display:block"';
-            }
+                $submenuReports = '';
+                if (
+                    in_array(Route::current()->getName(), [
+                        'accounting.report.accountingBooks',
+                        'accounting.report.financeStatements',
+                    ])
+                ) {
+                    $submenuReports = 'style="display:block"';
+                }
             @endphp
             <ul class="submenu" {!! $submenuReports !!}>
                 <li class="{!! set_active_menu(['accounting.report.accountingBooks']) !!}">
-                    <a href="{{ route('accounting.report.accountingBooks') }}" data-toggle="tooltip" data-placement="right">Libros contables</a>
+                    <a href="{{ route('accounting.report.accountingBooks') }}" data-toggle="tooltip"
+                        data-placement="right">Libros contables</a>
                 </li>
                 <li class="{!! set_active_menu(['accounting.report.financeStatements']) !!}">
-                    <a href="{{ route('accounting.report.financeStatements') }}" data-toggle="tooltip" data-placement="right">Estados financieros</a>
+                    <a href="{{ route('accounting.report.financeStatements') }}" data-toggle="tooltip"
+                        data-placement="right">Estados financieros</a>
                 </li>
             </ul>
         </li>

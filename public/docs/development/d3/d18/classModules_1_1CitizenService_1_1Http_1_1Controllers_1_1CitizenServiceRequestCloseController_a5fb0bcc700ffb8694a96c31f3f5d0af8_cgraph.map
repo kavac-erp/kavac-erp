@@ -1,0 +1,17 @@
+<map id="store" name="store">
+<area shape="rect" id="Node000001" title="Almacena los datos de una nuevo cierre de solicitud." alt="" coords="5,173,60,198"/>
+<area shape="rect" id="Node000002" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#a7dee7bfcbdb7506632ce368b86fda3f6" title="Obtiene el nombre del documento." alt="" coords="116,5,323,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="35,172,59,116,79,83,106,55,113,50,116,55,110,59,84,86,64,118,40,174"/>
+<area shape="rect" id="Node000003" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#afb37afc470c73cd55965d9fa9b135b27" title="Obtiene el objeto del documento guardado." alt="" coords="116,69,323,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="44,170,71,144,107,119,121,112,123,117,109,124,74,148,48,174"/>
+<area shape="rect" id="Node000004" href="$d8/d99/classApp_1_1Repositories_1_1UploadImageRepository.html#aaf32631867a60dd7cfa734b52e0ffb66" title="Obtiene el nombre de la image." alt="" coords="108,133,331,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="60,178,94,172,95,177,61,183"/>
+<area shape="rect" id="Node000005" href="$d8/d99/classApp_1_1Repositories_1_1UploadImageRepository.html#a850357c01b6efe0c74a1087dddd5ab80" title="Obtiene el objeto de la imagen guardada." alt="" coords="108,197,331,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="61,187,95,193,94,198,60,193"/>
+<area shape="rect" id="Node000006" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#a722186532257dcbec79866616e82e115" title="Instrucciones para verificar y subir un documento a la ruta indicada en el servidor." alt="" coords="116,261,323,301"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="48,197,74,222,109,247,123,254,121,259,107,252,71,226,44,200"/>
+<area shape="rect" id="Node000007" href="$d8/d99/classApp_1_1Repositories_1_1UploadImageRepository.html#a01c7d99692e9d1d3dde729a9372885ba" title="Instrucciones para verificar y subir una imagen a la ruta indicada en el servidor." alt="" coords="108,325,331,365"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="40,197,64,252,84,284,110,311,116,316,113,320,106,315,79,287,59,255,35,199"/>
+<area shape="rect" id="Node000008" href="$d8/d99/classApp_1_1Repositories_1_1UploadImageRepository.html#a39a17d15acae0f6320bf0213a38ffe0f" title="Verifica que el tamaño de la imagen corresponda con el mínimo y máximo permitido." alt="" coords="379,325,601,365"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="331,343,365,343,365,348,331,348"/>
+</map>

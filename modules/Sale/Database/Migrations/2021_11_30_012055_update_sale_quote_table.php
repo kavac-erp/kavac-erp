@@ -8,9 +8,7 @@ use Illuminate\Database\Migrations\Migration;
  * @class UpdateSaleQuoteTable
  * @brief Cambia el campo payment method a form payments
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)

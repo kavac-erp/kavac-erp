@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Jobs;
 
 use Illuminate\Bus\Queueable;
@@ -15,11 +13,9 @@ use Modules\Payroll\Imports\AriRegisterImport;
 
 /**
  * @class PayrollAriRegisterImportJob
- * @brief [descripción detallada]
+ * @brief Trabajo que se encarga de importar el archivo de registros de ARI
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -31,12 +27,15 @@ class PayrollAriRegisterImportJob implements ShouldQueue
     use SerializesModels;
     use SerializesModels;
 
+    /**
+     * Ruta del archivo a importar
+     *
+     * @var string $file
+     */
     protected $file;
 
     /**
      * Crea una nueva instancia de trabajo.
-     *
-     * @method __construct
      *
      * @return void
      */
@@ -47,8 +46,6 @@ class PayrollAriRegisterImportJob implements ShouldQueue
 
     /**
      * Ejecuta el trabajo.
-     *
-     * @method handle
      *
      * @return void
      */

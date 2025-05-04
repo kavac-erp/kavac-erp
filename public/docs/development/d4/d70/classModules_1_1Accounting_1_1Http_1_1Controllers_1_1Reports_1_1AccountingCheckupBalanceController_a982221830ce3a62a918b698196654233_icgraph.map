@@ -1,0 +1,13 @@
+<map id="getAccAccount" name="getAccAccount">
+<area shape="rect" id="Node000001" title="Consulta y formatea las cuentas en un rango determinado y las almacena en variables en el controlador..." alt="" coords="483,29,601,55"/>
+<area shape="rect" id="Node000002" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a57455bb46bddda149ebb5968c2a10a76" title="Calcula los saldos iniciales de cada cuenta en el rango dado, y lo alamcena." alt="" coords="236,29,435,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="469,45,435,45,435,39,469,39"/>
+<area shape="rect" id="Node000003" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a5c0379fc68799a3f32447bd6760dcd02" title="Vista en la que se genera el reporte en pdf de balance de comprobación." alt="" coords="131,5,174,31"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="484,29,434,19,359,14,285,13,174,19,174,14,285,8,360,9,435,14,485,23"/>
+<area shape="rect" id="Node000005" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a23c281813aa2f3d73fe2c7089b2b7f03" title="Vista en la que se genera el reporte en pdf de balance de comprobación." alt="" coords="117,55,188,80"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="485,61,435,70,366,75,298,76,188,73,188,67,298,71,366,70,434,65,484,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="225,30,174,23,175,18,226,25"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="230,59,188,65,188,60,230,54"/>
+<area shape="rect" id="Node000004" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a23d7453ab9e51eca5ab50a38ce4a84c0" title="Genera el reporte en hojade cálculo de balance general." alt="" coords="5,5,69,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="118,21,70,21,70,15,118,15"/>
+</map>

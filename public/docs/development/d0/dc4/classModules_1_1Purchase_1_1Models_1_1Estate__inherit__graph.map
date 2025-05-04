@@ -1,3 +1,5 @@
 <map id="Estate" name="Estate">
-<area shape="rect" id="node1" title="Extension de la clase Estate del modulo de presupuesto." alt="" coords="5,5,172,83"/>
+<area shape="rect" id="Node000001" title="Extension de la clase Estate del modulo de presupuesto." alt="" coords="5,219,163,284"/>
+<area shape="rect" id="Node000002" href="$dc/d9b/classApp_1_1Models_1_1Estate.html" title="Datos de Estados." alt="" coords="19,5,149,171"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,184,87,219,81,219,81,184"/>
 </map>

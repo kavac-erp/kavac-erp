@@ -27,6 +27,7 @@ class ProjectTrackingPosition extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
@@ -40,6 +41,11 @@ class ProjectTrackingPosition extends Model implements Auditable
         'name', 'description'
     ];
 
+    /**
+     * Establece la relación con el personal
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function personal()
     {
         return $this->belongsToMany(ProjectTrackingPersonalRegister::class);

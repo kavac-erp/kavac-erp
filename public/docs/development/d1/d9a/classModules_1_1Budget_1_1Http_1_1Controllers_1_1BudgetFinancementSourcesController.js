@@ -6,5 +6,6 @@ var classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetFinancementSourcesCon
     [ "index", "d1/d9a/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetFinancementSourcesController.html#a149eb92716c1084a935e04a8d95f7347", null ],
     [ "show", "d1/d9a/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetFinancementSourcesController.html#a2b8e3779f5bd8c38f70307574859bd36", null ],
     [ "store", "d1/d9a/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetFinancementSourcesController.html#a9ef485163104597c12185b53cdacf638", null ],
-    [ "update", "d1/d9a/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetFinancementSourcesController.html#affb03cc19897a1800a0f411264d6c7cc", null ]
+    [ "update", "d1/d9a/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetFinancementSourcesController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
+    [ "$data", "d1/d9a/classModules_1_1Budget_1_1Http_1_1Controllers_1_1BudgetFinancementSourcesController.html#a165bc765ae7568c8712902a65b77bf12", null ]
 ];

@@ -13,31 +13,49 @@ use App\Repositories\UploadImageRepository;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\CitizenService\Models\CitizenServiceRequest;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
+/**
+ * @class CitizenServiceRequestCloseController
+ * @brief Controlador para el cierre de solicitudes de la oficina de atención al ciudadano
+ *
+ * Clase que gestiona el controlador para el cierre de solicitudes de la OAC
+ *
+ * @author Ing. Yenifer Ramirez <yramirez@cenditel.gob.ve>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class CitizenServiceRequestCloseController extends Controller
 {
     use ValidatesRequests;
 
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Método constructor de la clase
+     *
+     * @return void
      */
-
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-
-        $this->middleware('permission:citizenservice.requests.close-list', ['only' => ['index']]);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:citizenservice.requests.close.list', ['only' => ['index']]);
         $this->middleware('permission:citizenservice.requests.close', ['only' => ['store', 'update']]);
     }
+
+    /**
+     * Muestra el listado de cierre de las solicitudes de la OAC
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('citizenservice::requests.list');
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear una nuevo cierre de solicitud
+     *
+     * @return void
      */
     public function create()
     {
@@ -45,9 +63,13 @@ class CitizenServiceRequestCloseController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena los datos de una nuevo cierre de solicitud
+     *
+     * @param  Request $request Datos de la petición
+     * @param  UploadImageRepository $upImage Repositorio para subir imagenes
+     * @param  UploadDocRepository $upDoc Repositorio para subir documentos
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, UploadImageRepository $upImage, UploadDocRepository $upDoc)
     {
@@ -118,8 +140,9 @@ class CitizenServiceRequestCloseController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra el cierre de solicitud seleccionado
+     *
+     * @return BinaryFileResponse
      */
     public function show($filename)
     {
@@ -133,8 +156,11 @@ class CitizenServiceRequestCloseController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar un cierre de solicitud
+     *
+     * @param  Image $image Imagen del cierre de solicitud
+     *
+     * @return void
      */
     public function edit(Image $image)
     {
@@ -142,17 +168,18 @@ class CitizenServiceRequestCloseController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Renderable
+     * Actualiza los datos del cierre de solicitud
+     *
+     * @param  Request $request Datos de la petición
+     * @param  integer $id ID del cierre de solicitud
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
         $citizenServiceRequest = CitizenServiceRequest::find($id);
         $citizenServiceRequest->date_verification = $request->date_verification;
         $citizenServiceRequest->state = 'Culminado';
-
-
 
         $citizenServiceRequest->save();
 
@@ -161,8 +188,12 @@ class CitizenServiceRequestCloseController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina un cierre de solicitud
+     *
+     * @param  Request $request Datos de la petición
+     * @param  integer $id ID del cierre de solicitud
+     *
+     * @return \Illuminate\Http\JsonResponse|void
      */
     public function destroy(Request $request, $id)
     {
@@ -208,6 +239,14 @@ class CitizenServiceRequestCloseController extends Controller
         }
     }
 
+    /**
+     * Obtiene los documentos de solicitudes
+     *
+     * @param string|integer $id ID de la solicitud
+     * @param mixed $all Define si se obtienen todos los registros
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getCitizenServiceRequestDocuments($id, $all = null)
     {
         if (is_null($all)) {

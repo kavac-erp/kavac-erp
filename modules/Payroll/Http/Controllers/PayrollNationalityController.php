@@ -15,32 +15,45 @@ use Modules\Payroll\Models\PayrollNationality;
  * Clase que gestiona las nacionalidades
  *
  * @author William Páez <wpaez@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 
 class PayrollNationalityController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Reglas de validación para el formulario
+     *
+     * @var array $rules
+     */
     protected $rules;
+
+    /**
+     * Atributos para los campos personalizados
+     *
+     * @var array $attributes
+     */
     protected $attributes;
 
     /**
      * Define la configuración de la clase
      *
      * @author William Páez <wpaez@cenditel.gob.ve>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
         /*$this->middleware('permission:payroll.nationalities.list', ['only' => 'index']);*/
         $this->middleware('permission:payroll.nationalities.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:payroll.nationalities.edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:payroll.nationalities.delete', ['only' => 'destroy']);
 
-        /** Define los atributos para los campos personalizados */
+        /* Define los atributos para los campos personalizados */
         $this->attributes = [
             'country_id' => 'país',
         ];
@@ -50,6 +63,7 @@ class PayrollNationalityController extends Controller
      * Muestra todos los registros de nacionalidades
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de nacionalidades
      */
     public function index()
@@ -58,8 +72,9 @@ class PayrollNationalityController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para crear una nueva nacionalidad
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -70,7 +85,9 @@ class PayrollNationalityController extends Controller
      * Valida y registra una nueva nacionalidad
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request $request    Solicitud con los datos a guardar
+     *
      * @return \Illuminate\Http\JsonResponse        Json: objeto guardado y mensaje de confirmación de la operación
      */
     public function store(Request $request)
@@ -85,8 +102,9 @@ class PayrollNationalityController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información de la nacionalidad
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -94,8 +112,9 @@ class PayrollNationalityController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar la nacionalidad
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -106,8 +125,10 @@ class PayrollNationalityController extends Controller
      * Actualiza la información de la nacionalidad
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  \Illuminate\Http\Request  $request   Solicitud con los datos a actualizar
      * @param  integer $id                          Identificador de la nacionalidad a actualizar
+     *
      * @return \Illuminate\Http\JsonResponse        Json con mensaje de confirmación de la operación
      */
     public function update(Request $request, $id)
@@ -126,7 +147,9 @@ class PayrollNationalityController extends Controller
      * Elimina la nacionalidad
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @param  integer $id                      Identificador de la nacionalidad a eliminar
+     *
      * @return \Illuminate\Http\JsonResponse    Json: objeto eliminado y mensaje de confirmación de la operación
      */
     public function destroy($id)
@@ -140,6 +163,7 @@ class PayrollNationalityController extends Controller
      * Obtiene las nacionalidades registrados
      *
      * @author  William Páez <wpaez@cenditel.gob.ve>
+     *
      * @return \Illuminate\Http\JsonResponse    Json con los datos de nacionalidades
      */
     public function getPayrollNationalities()

@@ -1,0 +1,5 @@
+<map id="update" name="update">
+<area shape="rect" id="Node000001" title="Actualiza el certificado del firmante." alt="" coords="5,5,72,31"/>
+<area shape="rect" id="Node000002" href="$de/dab/classModules_1_1DigitalSignature_1_1Http_1_1Controllers_1_1DigitalSignatureController.html#a49f9b32bbc837e6b29eadb7deaf8af4f" title="Genera un nuevo certificado P12." alt="" coords="120,5,240,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,15,106,15,106,21,72,21"/>
+</map>

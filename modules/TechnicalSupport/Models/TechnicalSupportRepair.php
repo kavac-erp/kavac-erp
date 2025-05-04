@@ -16,9 +16,8 @@ use App\Models\User;
  * Gestiona el modelo de datos de las reparaciones de bienes institucionales.
  *
  * @author Henry Paredes <hparedes@cenditel.gob.ve>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class TechnicalSupportRepair extends Model implements Auditable
 {

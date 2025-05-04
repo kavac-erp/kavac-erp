@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreateFinanceBankingAgenciesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta las migraciones.
      *
      * @return void
      */
@@ -29,7 +29,7 @@ class CreateFinanceBankingAgenciesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte las migraciones.
      *
      * @return void
      */

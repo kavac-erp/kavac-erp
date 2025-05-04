@@ -2,11 +2,13 @@
 
 namespace Modules\Payroll\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 use App\Traits\ModelsTrait;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Auditable as AuditableTrait;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @class Position
@@ -27,6 +29,7 @@ class PayrollPosition extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
@@ -44,37 +47,38 @@ class PayrollPosition extends Model implements Auditable
     ];
 
     /**
-     * PayrollPosition has many BudgetProjects.
+     * Obtiene la relación con la responsabilidad
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function payrollResponsibility(): HasOne
+    {
+        return $this->hasOne(PayrollResponsibility::class);
+    }
+
+    /**
+     * Obtiene la relación con proyectos de presupuesto si el módulo de presupuesto esta presente
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function budgetProjects()
     {
-        return (Module::has('Budget')) ? $this->hasMany(\Modules\Budget\Models\BudgetProject::class) : [];
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->hasMany(\Modules\Budget\Models\BudgetProject::class) : [];
     }
 
     /**
-     * PayrollPosition has many BudgetCentralizedAction.
+     * Obtiene la acción centralizada de presupuesto si el módulo de presupuesto esta presente
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function budgetCentralizedActions()
     {
-        return (Module::has('Budget')) ? $this->hasMany(\Modules\Budget\Models\BudgetCentralizedAction::class) : [];
+        return (
+            Module::has('Budget') && Module::isEnabled('Budget')
+        ) ? $this->hasMany(\Modules\Budget\Models\BudgetCentralizedAction::class) : [];
     }
-
-    /**
-     * Método que obtiene el cargo asociado a muchos datos laborales
-     *
-     * @author William Páez <wpaez@cenditel.gob.ve>
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    /*
-    public function payrollEmployments()
-    {
-        return $this->hasMany(PayrollEmployment::class);
-    }
-    */
 
     /**
      * Método que establece una relación de "muchos a muchos" (belongsToMany)
@@ -93,6 +97,7 @@ class PayrollPosition extends Model implements Auditable
      * Método que obtiene los requerimientos de las escalas asociados a un cargo
      *
      * @author Henry Paredes <hparedes@cenditel.gob.ve>
+
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function payrollScaleRequirements()

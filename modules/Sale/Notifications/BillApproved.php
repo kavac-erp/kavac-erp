@@ -4,11 +4,12 @@
 
 namespace Modules\Sale\Notifications;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
+use Modules\Sale\Models\SaleBill;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
-use App\Models\User;
 
 /**
  * @class BillApproved
@@ -25,20 +26,43 @@ class BillApproved extends Notification //implements ShouldQueue
 {
     use Queueable;
 
-    /** @var User Objeto con información del usuario registrado */
+    /**
+     * Objeto con información del usuario registrado
+     *
+     * @var User $user
+      */
     protected $user;
 
-    /** @var User Objeto con información de la factura aprobada */
+    /**
+     * Objeto con información de la factura aprobada
+     *
+     * @var SaleBill $bill
+     */
     protected $bill;
 
+    /**
+     * Datos del usuario autenticado
+     *
+     * @var User $auth_user
+     */
     protected $auth_user;
+
+    /**
+     * Título de la notificación
+     *
+     * @var string $notifyTitle
+     */
     protected $notifyTitle;
+
+    /**
+     * Mensaje de la notificación
+     *
+     * @var string $notifyMessage
+     */
     protected $notifyMessage;
 
     /**
-     * Create a new notification instance.
-     *
-     * @method  __construct
+     * Crea una nueva instancia de la notificación.
      *
      * @return void
      */
@@ -52,9 +76,7 @@ class BillApproved extends Notification //implements ShouldQueue
     }
 
     /**
-     * Get the notification's delivery channels.
-     *
-     * @method  via
+     * Obtiene el canal de la notificación
      *
      * @param  mixed  $notifiable
      *
@@ -66,9 +88,7 @@ class BillApproved extends Notification //implements ShouldQueue
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
-     * @method  toMail
+     * Obtiene la representación por correo electrónico de la notificación.
      *
      * @param  mixed  $notifiable
      *
@@ -93,9 +113,7 @@ class BillApproved extends Notification //implements ShouldQueue
     }
 
     /**
-     * Get the array representation of the notification.
-     *
-     * @method  toArray
+     * Obtiene la representación de arreglo de la notificación.
      *
      * @param  mixed  $notifiable
      *
@@ -111,7 +129,7 @@ class BillApproved extends Notification //implements ShouldQueue
     }
 
     /**
-     * Get the array representation of the notification.
+     * Obtiene la representación de base de datos de la notificación.
      *
      * @method  toDatabase
      *

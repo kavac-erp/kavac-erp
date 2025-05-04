@@ -4,5 +4,6 @@ var classApp_1_1Http_1_1Controllers_1_1InstitutionTypeController =
     [ "destroy", "d3/da7/classApp_1_1Http_1_1Controllers_1_1InstitutionTypeController.html#a0f49c5ae145392b534151e9bb424338b", null ],
     [ "getType", "d3/da7/classApp_1_1Http_1_1Controllers_1_1InstitutionTypeController.html#ab3d6ee03590bae8815531ed434bc128d", null ],
     [ "index", "d3/da7/classApp_1_1Http_1_1Controllers_1_1InstitutionTypeController.html#a149eb92716c1084a935e04a8d95f7347", null ],
+    [ "store", "d3/da7/classApp_1_1Http_1_1Controllers_1_1InstitutionTypeController.html#a9ef485163104597c12185b53cdacf638", null ],
     [ "update", "d3/da7/classApp_1_1Http_1_1Controllers_1_1InstitutionTypeController.html#a486a797a6cab2c05a33f158c727b8f08", null ]
 ];

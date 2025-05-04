@@ -1,10 +1,10 @@
 <template>
 	<section id="payrollExceptionTypesFormComponent">
 		<a class="btn-simplex btn-simplex-md btn-simplex-primary" href=""
-           title="Registros de tipos de excepción de jornada laboral" data-toggle="tooltip"
+           title="Registros de categorías de la hoja de tiempo" data-toggle="tooltip"
            @click="addRecord('add_payroll_exception_type', 'payroll/exception-types', $event)">
            <i class="icofont icofont-ui-block ico-3x"></i>
-           <span>Tipos de<br>Excepción</span>
+           <span>Categorías <br>Hoja de Tiempo</span>
         </a>
 		<div class="modal fade text-left" tabindex="-1" role="dialog" id="add_payroll_exception_type">
 			<div class="modal-dialog vue-crud" role="document">
@@ -15,7 +15,7 @@
 						</button>
 						<h6>
 							<i class="icofont icofont-ui-block ico-3x"></i>
-							Tipo de excepción de jornada laboral
+							Categorías de la Hoja de Tiempo
 						</h6>
 					</div>
 					<div class="modal-body">
@@ -45,25 +45,10 @@
         							<label for="name">Nombre:</label>
         							<input type="text" id="name" placeholder="Nombre"
         								   class="form-control input-sm" v-model="record.name" data-toggle="tooltip"
-        								   title="Indique el nombre de la excepción de jornada laboral (requerido)">
+        								   title="Indique el nombre de categoría de la hoja de tiempo (requerido)">
         							<input type="hidden" name="id" id="id" v-model="record.id">
         	                    </div>
                                 <!-- ./nombre -->
-								<!-- affect -->
-                                <!-- <div class="form-group">
-                                    <label for="affect">Incide sobre :</label>
-                                    <select2 :options="exceptionTypes"
-                                             v-model="record.affect_id"></select2>
-                                </div> -->
-                                <!-- ./affect -->
-								<!-- signo -->
-                                <!-- <div class="form-group is-required"
-									 v-if="record.affect_id">
-                                    <label for="sign">Signo:</label>
-                                    <select2 :options="signs"
-                                             v-model="record.sign"></select2>
-                                </div> -->
-                                <!-- ./signo -->
 								<!-- valor máximo -->
                                 <div class="form-group">
                                     <label for="value_max">Valor máximo por período:</label>
@@ -84,7 +69,7 @@
                                 <div class="form-group">
                                     <label for="description">Descripción:</label>
                                     <ckeditor :editor="ckeditor.editor" id="description" data-toggle="tooltip"
-                                              title="Indique la descripción del tipo de excepción de jornada laboral"
+                                              title="Indique la descripción de la categoría de la hoja de tiempo"
                                               :config="ckeditor.editorConfig" class="form-control"
                                               name="description" tag-name="textarea"
                                               v-model="record.description"></ckeditor>
@@ -95,15 +80,15 @@
 	                </div>
 					<div class="modal-footer">
 	                	<div class="form-group">
-	                		<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+	                		<button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('payroll/exception-types')" 
+							<button type="button" @click="createRecord('payroll/exception-types')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>

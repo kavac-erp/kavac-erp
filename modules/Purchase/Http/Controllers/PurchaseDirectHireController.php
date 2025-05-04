@@ -4,6 +4,7 @@ namespace Modules\Purchase\Http\Controllers;
 
 use App\Models\CodeSetting;
 use App\Models\FiscalYear;
+use App\Models\HistoryTax as ModelsHistoryTax;
 use App\Models\Profile;
 use App\Models\Receiver;
 use App\Models\Tax;
@@ -12,7 +13,6 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Payroll\Models\PayrollEmployment;
 use Modules\Purchase\Models\DocumentStatus;
 use Modules\Purchase\Models\HistoryTax;
 use Modules\Purchase\Models\Pivot;
@@ -25,7 +25,7 @@ use Modules\Purchase\Models\TaxUnit;
 use Nwidart\Modules\Facades\Module;
 use App\Rules\DateBeforeFiscalYear;
 use Illuminate\Support\Facades\DB;
-use React\Dns\Model\Record;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @class PurchaseDirectHireController
@@ -33,7 +33,7 @@ use React\Dns\Model\Record;
  *
  * Clase para gestionar las contrationes directas
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
@@ -42,22 +42,26 @@ class PurchaseDirectHireController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
-        $this->middleware('permission:purchase.directHire.list', ['only' => 'index', 'vueList']);
-        $this->middleware('permission:purchase.directHire.create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:purchase.directHire.edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:purchase.directHire.delete', ['only' => 'destroy']);
+        // Establece permisos de acceso para cada método del controlador
+        $this->middleware('permission:purchase.directhire.list', ['only' => 'index', 'vueList']);
+        $this->middleware('permission:purchase.directhire.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:purchase.directhire.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:purchase.directhire.delete', ['only' => 'destroy']);
     }
+
     /**
-     * [descripción del método]
+     * Muestra el listado de órdenes de compra
      *
-     * @method    index
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function index()
     {
@@ -74,13 +78,12 @@ class PurchaseDirectHireController extends Controller
     }
 
     /**
-     * [create]
+     * Muestra el formulario para crear una orden de compra
      *
-     * @method    create
-     *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      * @author Francisco Escala <fjescala@gmail.com>
-     * @return    Renderable    [description de los datos devueltos]
+     *
+     * @return    \Illuminate\View\View
      */
     public function create()
     {
@@ -146,9 +149,7 @@ class PurchaseDirectHireController extends Controller
         )->where(['orderable_id' => null, 'status' => 'APPROVED'])
             ->orderBy('id', 'ASC')->get();
 
-        /**
-         * Se obtienen los datos laborales
-         */
+        /* Se obtienen los datos laborales */
         $employments = [
             [
                 'id' => '',
@@ -156,49 +157,50 @@ class PurchaseDirectHireController extends Controller
             ],
         ];
 
-        if ($user_profile && $user_profile->institution !== null) {
-            foreach (
-                PayrollEmployment::with('payrollStaff', 'profile')
-                ->whereHas('profile', function ($query) use ($user_profile) {
-                    $query->where('institution_id', $user_profile->institution_id);
-                })->get() as $key => $employment
-            ) {
-                $text = '';
-                if ($employment->payrollStaff !== null) {
-                    if ($employment->payrollStaff->id_number) {
-                        $text = $employment->payrollStaff->id_number . ' - ' .
-                        $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
-                    } else {
-                        $text = $employment->payrollStaff->passport . ' - ' .
-                        $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+        if (Module::has('Payroll') && Module::isEnabled('Payroll')) {
+            if ($user_profile && $user_profile->institution !== null) {
+                foreach (
+                    \Modules\Payroll\Models\PayrollEmployment::with('payrollStaff', 'profile')
+                    ->whereHas('profile', function ($query) use ($user_profile) {
+                        $query->where('institution_id', $user_profile->institution_id);
+                    })->get() as $key => $employment
+                ) {
+                    $text = '';
+                    if ($employment->payrollStaff !== null) {
+                        if ($employment->payrollStaff->id_number) {
+                            $text = $employment->payrollStaff->id_number . ' - ' .
+                            $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+                        } else {
+                            $text = $employment->payrollStaff->passport . ' - ' .
+                            $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+                        }
+                        array_push($employments, [
+                            'id' => $employment->id,
+                            'text' => $text,
+                        ]);
                     }
-                    array_push($employments, [
-                        'id' => $employment->id,
-                        'text' => $text,
-                    ]);
                 }
-            }
-        } else {
-            foreach (PayrollEmployment::with('payrollStaff')->get() as $key => $employment) {
-                $text = '';
-                if ($employment->payrollStaff !== null) {
-                    if ($employment->payrollStaff->id_number) {
-                        $text = $employment->payrollStaff->id_number . ' - ' .
-                        $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
-                    } else {
-                        $text = $employment->payrollStaff->passport . ' - ' .
-                        $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+            } else {
+                foreach (\Modules\Payroll\Models\PayrollEmployment::with('payrollStaff')->get() as $key => $employment) {
+                    $text = '';
+                    if ($employment->payrollStaff !== null) {
+                        if ($employment->payrollStaff->id_number) {
+                            $text = $employment->payrollStaff->id_number . ' - ' .
+                            $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+                        } else {
+                            $text = $employment->payrollStaff->passport . ' - ' .
+                            $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+                        }
+                        array_push($employments, [
+                            'id' => $employment->id,
+                            'text' => $text,
+                        ]);
                     }
-                    array_push($employments, [
-                        'id' => $employment->id,
-                        'text' => $text,
-                    ]);
                 }
             }
         }
         return view('purchase::purchase_order.direct_hire_form', [
             'quotations' => $quotations,
-            // 'currencies' => json_encode($currencies),
             'tax' => json_encode($historyTax),
             'tax_unit' => json_encode($taxUnit),
             'department_list' => json_encode($department_list),
@@ -209,15 +211,13 @@ class PurchaseDirectHireController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Almacena un nuevo registro de contratación directa
      *
-     * @method    store
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @param     Request    $request    Datos de la petición
      *
-     * @param     object    Request    $request    Objeto con información de la petición
-     *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, UploadDocRepository $upDoc)
     {
@@ -306,16 +306,14 @@ class PurchaseDirectHireController extends Controller
         $data['hiring_number'] = $data['hiring_number'] ?? '';
         $purchaseDirectHire = PurchaseDirectHire::create($data);
 
-        /** Registro y asociación de documentos */
+        /* Registro y asociación de documentos */
         $documentFormat = ['pdf'];
 
         if ($request->files_purchase_type) {
             foreach ($request->files_purchase_type as $key => $file) {
                 $extensionFile = $file->getClientOriginalExtension();
                 if (in_array($extensionFile, $documentFormat)) {
-                    /**
-                     * Se guarda el archivo y se almacena
-                     */
+                    /* Se guarda el archivo y se almacena */
                     $upDoc->uploadDoc(
                         $file,
                         'documents',
@@ -332,9 +330,7 @@ class PurchaseDirectHireController extends Controller
             }
         }
 
-        /**
-         * Se relaciona los presupuestos base con la orden de contratación directa
-         */
+        /* Se relaciona los presupuestos base con la orden de contratación directa */
         $quotation_list = json_decode(json_encode($request->all()['quotation_list']));
 
         $purchaseQuotationsID = [];
@@ -363,15 +359,13 @@ class PurchaseDirectHireController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Muestra información de una contratación directa
      *
-     * @method    show
-     *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -418,17 +412,14 @@ class PurchaseDirectHireController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    edit
+     * Muestra el formulario para editar una contratación directa
      *
      * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve | pedrobui@gmail.com>
-     *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -457,15 +448,13 @@ class PurchaseDirectHireController extends Controller
             $due_date = json_decode($record->due_date, true);
             $time_frame = array_keys($due_date);
             $record->due_date = $due_date[$time_frame[0]];
-            $record->time_frame = $time_frame[0];
+            $record->time_frame = $time_frame[0] ?? '';
         }
 
         //información requerida en el vista
         $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
 
         $suppliers = template_choices('Modules\Purchase\Models\PurchaseSupplier', ['rif', '-', 'name'], [], true);
-
-        // $currencies = template_choices('Modules\Purchase\Models\Currency', ['name'], [], true);
 
         $department_list = template_choices('App\Models\Department', 'name', [], true);
 
@@ -541,9 +530,7 @@ class PurchaseDirectHireController extends Controller
 
         array_push($quotations_orderable, $quotation_id);
 
-        /**
-         * Se obtienen los datos laborales
-         */
+        /* Se obtienen los datos laborales */
         $employments = [
             [
                 'id' => '',
@@ -551,49 +538,50 @@ class PurchaseDirectHireController extends Controller
             ],
         ];
 
-        if ($user_profile && $user_profile->institution !== null) {
-            foreach (
-                PayrollEmployment::with('payrollStaff', 'profile')
-                ->whereHas('profile', function ($query) use ($user_profile) {
-                    $query->where('institution_id', $user_profile->institution->id);
-                })->get() as $key => $employment
-            ) {
-                $text = '';
-                if ($employment->payrollStaff !== null) {
-                    if ($employment->payrollStaff->id_number) {
-                        $text = $employment->payrollStaff->id_number . ' - ' .
-                        $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
-                    } else {
-                        $text = $employment->payrollStaff->passport . ' - ' .
-                        $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+        if (Module::has('Payroll') && Module::isEnabled('Payroll')) {
+            if ($user_profile && $user_profile->institution !== null) {
+                foreach (
+                    \Modules\Payroll\Models\PayrollEmployment::with('payrollStaff', 'profile')
+                    ->whereHas('profile', function ($query) use ($user_profile) {
+                        $query->where('institution_id', $user_profile->institution->id);
+                    })->get() as $key => $employment
+                ) {
+                    $text = '';
+                    if ($employment->payrollStaff !== null) {
+                        if ($employment->payrollStaff->id_number) {
+                            $text = $employment->payrollStaff->id_number . ' - ' .
+                            $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+                        } else {
+                            $text = $employment->payrollStaff->passport . ' - ' .
+                            $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+                        }
+                        array_push($employments, [
+                            'id' => $employment->id,
+                            'text' => $text,
+                        ]);
                     }
-                    array_push($employments, [
-                        'id' => $employment->id,
-                        'text' => $text,
-                    ]);
                 }
-            }
-        } else {
-            foreach (PayrollEmployment::with('payrollStaff')->get() as $key => $employment) {
-                $text = '';
-                if ($employment->payrollStaff !== null) {
-                    if ($employment->payrollStaff->id_number) {
-                        $text = $employment->payrollStaff->id_number . ' - ' .
-                        $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
-                    } else {
-                        $text = $employment->payrollStaff->passport . ' - ' .
-                        $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+            } else {
+                foreach (\Modules\Payroll\Models\PayrollEmployment::with('payrollStaff')->get() as $key => $employment) {
+                    $text = '';
+                    if ($employment->payrollStaff !== null) {
+                        if ($employment->payrollStaff->id_number) {
+                            $text = $employment->payrollStaff->id_number . ' - ' .
+                            $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+                        } else {
+                            $text = $employment->payrollStaff->passport . ' - ' .
+                            $employment->payrollStaff->first_name . ' ' . $employment->payrollStaff->last_name;
+                        }
+                        array_push($employments, [
+                            'id' => $employment->id,
+                            'text' => $text,
+                        ]);
                     }
-                    array_push($employments, [
-                        'id' => $employment->id,
-                        'text' => $text,
-                    ]);
                 }
             }
         }
         return view('purchase::purchase_order.direct_hire_form', [
             'requirements' => json_encode($quotations_orderable),
-            // 'currencies' => json_encode($currencies),
             'tax' => json_encode($historyTax),
             'tax_unit' => json_encode($taxUnit),
             'department_list' => json_encode($department_list),
@@ -605,16 +593,14 @@ class PurchaseDirectHireController extends Controller
     }
 
     /**
-     * [descripción del método]
+     * Actualiza los datos de una contratación directa
      *
-     * @method    update
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     *
-     * @param     object    Request    $request         Objeto con datos de la petición
+     * @param     Request    $request         Datos de la petición
      * @param     integer   $id        Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -656,10 +642,7 @@ class PurchaseDirectHireController extends Controller
             ]
         );
 
-        /**
-         * [$has_budget determina si esta instalado y habilitado el modulo Budget]
-         * @var [boolean]
-         */
+        /* determina si esta instalado y habilitado el modulo Budget */
         $has_budget = (Module::has('Budget') && Module::isEnabled('Budget'));
         if (!Module::has('Budget') || !Module::isEnabled('Budget')) {
         }
@@ -679,15 +662,13 @@ class PurchaseDirectHireController extends Controller
     }
 
     /**
-     * [descripción del método]
-     *
-     * @method    destroy
+     * Elimina una contratación directa
      *
      * @author   Franscisco Escala <Fjescala@gmail.com>
      *
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse
      */
     public function destroy(UploadDocRepository $upDoc, $id)
     {
@@ -700,7 +681,7 @@ class PurchaseDirectHireController extends Controller
                 $sPurchaseQuotation->orderable_id = null;
                 $sPurchaseQuotation->save();
             }
-            /** Se elimina la relacion y los documentos previos **/
+            /* Se elimina la relacion y los documentos previos **/
             $supp_docs = $record->documents()->get();
             if (count($supp_docs) > 0) {
                 foreach ($supp_docs as $doc) {
@@ -714,33 +695,42 @@ class PurchaseDirectHireController extends Controller
     }
 
     /**
-     * Obtiene listado de registros
+     * Obtiene listado de registros de contratación directa
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function vueList()
+    public function vueList(Request $request)
     {
-        return response()->json(['records' => PurchaseDirectHire::with(
+        $records = PurchaseDirectHire::query()->with(
             'fiscalYear',
             'preparedBy',
             'reviewedBy',
             'verifiedBy',
             'firstSignature',
             'secondSignature'
-        )->orderBy('id', 'asc')->get()], 200);
+        )
+        ->orderBy('id')
+        ->search($request->query('query'))
+        ->paginate($request->limit ?? 10);
+
+        return response()->json([
+            'data' => $records->items(),
+            'count' => $records->total(),
+        ], 200);
     }
 
     /**
      * Realiza la actualización de registro de orden de compra directa
      *
-     * @method    updatePurchaseOrder
-     *
      * @author Pedro Buitrago <pbuitrago@cenditel.gob.ve | pedrobui@gmail.com>
      * @author   Franscisco Escala <Fjescala@gmail.com>
+     *
+     * @param     \Illuminate\Http\Request    $request    Datos de la petición
      * @param     integer    $id    Identificador del registro
      *
-     * @return    Renderable    [description de los datos devueltos]
+     * @return    \Illuminate\Http\JsonResponse|void
      */
     public function updatePurchaseOrder(Request $request, $id, UploadDocRepository $upDoc)
     {
@@ -749,6 +739,8 @@ class PurchaseDirectHireController extends Controller
                 $prod = json_decode($product, true);
             }
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['message' => 'Error actualizando el registro'], 500);
         }
 
         $this->validate(
@@ -766,6 +758,7 @@ class PurchaseDirectHireController extends Controller
                 'quotation_list' => 'required',
                 'due_date' => 'required_unless:time_frame,"delivery"',
                 'time_frame' => 'required',
+                'date' => ['required', new DateBeforeFiscalYear('fecha de generación')],
                 // Firmas
                 'prepared_by_id' => 'required',
                 'purchase_type_id' => 'required',
@@ -869,7 +862,7 @@ class PurchaseDirectHireController extends Controller
                 $purchaseDirectHire->save();
                 $documentFormat = ['pdf'];
 
-                /** Registro y asociación de documentos */
+                /* Registro y asociación de documentos */
                 if ($request->files_purchase_type) {
                     foreach ($request->files_purchase_type as $key => $file) {
                         $extensionFile = $file->getClientOriginalExtension();
@@ -881,9 +874,7 @@ class PurchaseDirectHireController extends Controller
                                     $oldFile->delete();
                                 }
                             }
-                            /**
-                             * Se guarda el archivo y se almacena
-                             */
+                            /* Se guarda el archivo y se almacena */
                             $upDoc->uploadDoc(
                                 $file,
                                 'documents',
@@ -900,9 +891,7 @@ class PurchaseDirectHireController extends Controller
                     }
                 }
 
-                /**
-                 * Se relaciona los presupuestos base con la orden de contratación directa
-                 */
+                /* Se relaciona los presupuestos base con la orden de contratación directa */
                 //Se busca los viejos requerimientos asociados contratación directa y limpiarlo
                 $searchPurchaseQuotation = PurchaseQuotation::where('orderable_id', $purchaseDirectHire->id)->get();
                 foreach ($searchPurchaseQuotation as $sPurchaseQuotation) {
@@ -923,10 +912,11 @@ class PurchaseDirectHireController extends Controller
                     $baseBudget->orderable_id = $purchaseDirectHire->id;
                     $baseBudget->save();
                 }
-                /** @var Object Datos del compromiso */
+                /* Datos del compromiso */
                 return response()->json(['message' => 'Success'], 200);
             });
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $message = str_replace("\n", "", $e->getMessage());
             if (strpos($message, 'ERROR') !== false && strpos($message, 'DETAIL') !== false) {
                 $pattern = '/ERROR:(.*?)DETAIL/';
@@ -946,13 +936,17 @@ class PurchaseDirectHireController extends Controller
                     'text' => 'No se pudo completar la operación. ' . ucfirst($errorMessage)
                 ]
             );
+
+            return response()->json(['message' => 'Error'], 500);
         }
     }
 
     /**
-     * [generateCodeAvailable genera el código disponible]
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
-     * @return string [código que se asignara]
+     * Genera el código disponible a asignar
+     *
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
+     * @return string
      */
     public function generateCodeAvailable()
     {
@@ -990,7 +984,7 @@ class PurchaseDirectHireController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function changeStatus(Request $request)
     {
@@ -1046,7 +1040,7 @@ class PurchaseDirectHireController extends Controller
 
             $total = 0;
 
-            /** Gestiona los ítems del compromiso */
+            /* Gestiona los ítems del compromiso */
             foreach ($purchaseOrder->quatations[0]->relatable as $product) {
                 $prod = json_decode($product, true);
                 $amount = 0;
@@ -1059,7 +1053,7 @@ class PurchaseDirectHireController extends Controller
                 $tax_id = $warehouseProduct && $warehouseProduct['history_tax_id']
                     ? $warehouseProduct['history_tax']['tax_id'] : false;
                 $tax = $tax_id ? Tax::find($tax_id) : false;
-                $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new Tax();
+                $taxHistory = ($tax) ? $tax->histories()->orderBy('operation_date', 'desc')->first() : new HistoryTax();
                 $taxAmount = ($amount * (($taxHistory) ? $taxHistory->percentage : 0)) / 100;
 
                 $compromise->budgetCompromiseDetails()->Create([
@@ -1069,8 +1063,6 @@ class PurchaseDirectHireController extends Controller
                     'amount' => $amount,
                     'tax_amount' => $taxAmount,
                     'tax_id' => $tax ? $tax->id : null,
-                    // 'budget_account_id' => $account['account_id'],
-                    // 'budget_sub_specific_formulation_id' => $formulation->id,
                 ]);
 
                 $total += ($amount + $taxAmount);
@@ -1096,5 +1088,25 @@ class PurchaseDirectHireController extends Controller
             'type' => 'custom', 'title' => 'Alerta', 'icon' => 'screen-error', 'class' => 'danger',
             'text' => 'Error al intentar aprobar la orden de compra',
         ]], 500);
+    }
+
+    /**
+     * Método que buusca el registro por el campo 'code' en lugar de 'id'
+     *
+     * @author Ing. Argenis Osorio | <aosorio@cenditel.gob.ve>
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function showDirectHireCurrency($code)
+    {
+        $record = PurchaseDirectHire::with('currency')->where('code', $code)->first();
+
+        if (!$record) {
+            return response()->json(['error' => 'Record not found'], 404);
+        }
+
+        return response()->json(['record' => $record], 200);
     }
 }

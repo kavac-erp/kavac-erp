@@ -1,20 +1,10 @@
 <?php
 
+use Nwidart\Modules\Facades\Module;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * @class CreateFinanceBankingMovementsTable
- * @brief [descripción detallada]
- *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
- *
- * @license
- *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
- */
 class CreateFinanceBankingMovementsTable extends Migration
 {
     /**
@@ -35,13 +25,13 @@ class CreateFinanceBankingMovementsTable extends Migration
             $table->foreignId('currency_id')->nullable()->constrained()->onDelete('cascade')->comment('Tipo de moneda');
 
             if (Module::has('Accounting') && Module::isEnabled('Accounting')) {
-                /** Relación a la acción específica en presupuesto */
+                /* Relación a la acción específica en presupuesto */
                 $table->foreignId('accounting_entry_id')->nullable()->constrained()
                       ->onDelete('restrict')->onUpdate('cascade');
             }
 
             if (Module::has('Budget') && Module::isEnabled('Budget')) {
-                /** Relación a la acción específica en presupuesto */
+                /* Relación a la acción específica en presupuesto */
                 $table->foreignId('budget_compromise_id')->nullable()->constrained()
                       ->onDelete('restrict')->onUpdate('cascade');
             }

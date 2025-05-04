@@ -1,20 +1,13 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Asset\Http\Controllers;
 
-use Auth;
 use App\Models\Profile;
 use App\Models\Institution;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Repositories\ReportRepository;
 use Modules\Asset\Models\AssetInventory;
-use Illuminate\Contracts\Support\Renderable;
 use Modules\Asset\Http\Resources\AssetResource;
-use Modules\Asset\Repositories\AssetParametersRepository;
-use Modules\Asset\Http\Controllers\AssetSpecificCategoryController;
 
 /**
  * @class AssetInventoryReportController
@@ -23,8 +16,9 @@ use Modules\Asset\Http\Controllers\AssetSpecificCategoryController;
  * Clase que gestiona de la emision de un pdf
  *
  * @author Daniel Contreras <dcontreras@cenditel.gob.ve | exodiadaniel@gmail.com>
- * @copyright <a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *                LICENCIA DE SOFTWARE CENDITEL</a>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AssetInventoryReportController extends Controller
 {
@@ -32,18 +26,22 @@ class AssetInventoryReportController extends Controller
      * Define la configuración de la clase
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve | exodiadaniel@gmail.com>
+     *
+     * @return void
      */
     public function __construct()
     {
-        /** Establece permisos de acceso para cada método del controlador */
+        // Establece permisos de acceso para cada método del controlador
     }
 
-        /**
+    /**
      * vista en la que se genera la emisión de la factura en pdf
      *
      * @author Daniel Contreras <dcontreras@cenditel.gob.ve | exodiadaniel@gmail.com>
-     * @param Int $id id de la factura
-    */
+     *
+     * @param string $type Tipo de reporte
+     * @param string $code Código del inventario
+     */
     public function pdf($type, $code)
     {
         ini_set('max_execution_time', 3600);
@@ -88,20 +86,14 @@ class AssetInventoryReportController extends Controller
                 array_push($collection, $content);
             }
         }
-        /**
-         * [$pdf base para generar el pdf]
-         * @var [Modules\Accounting\Pdf\Pdf]
-         */
+
+        /* base para generar el pdf */
         $pdf = new ReportRepository();
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definicion de las caracteristicas generales de la página pdf */
         $institution = null;
 
-        /*
-         *  Definicion de las caracteristicas generales de la página pdf
-         */
+        /* Definicion de las caracteristicas generales de la página pdf */
         if (auth()->user()->isAdmin()) {
             $institution = Institution::first();
         } else {

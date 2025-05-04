@@ -1,7 +1,5 @@
 <?php
 
-/** Repositorios del sistema */
-
 namespace App\Repositories;
 
 use App\Models\Parameter;
@@ -21,8 +19,6 @@ class ParameterRepository
 {
     /**
      * Actualiza o registra un parámetro de configuración
-     *
-     * @method    updateOrCreate
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *

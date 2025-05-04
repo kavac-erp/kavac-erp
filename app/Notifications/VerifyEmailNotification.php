@@ -1,7 +1,5 @@
 <?php
 
-/** Notificaciones de la aplicación */
-
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -25,9 +23,7 @@ class VerifyEmailNotification extends VerifyEmail implements ShouldQueue
     use Queueable;
 
     /**
-     * Get the verify email notification mail message for the given URL.
-     *
-     * @method  buildMailMessage
+     * Envía la notificación para la verificación de la cuenta de usuario.
      *
      * @param  string  $url
      *

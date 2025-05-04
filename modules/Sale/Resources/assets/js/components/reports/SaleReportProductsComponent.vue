@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="alert alert-danger" v-if="errors.length > 0">
                 <ul>
-                    <li v-for="error in errors">{{ error }}</li>
+                    <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                 </ul>
             </div>
 

@@ -1,5 +1,5 @@
 {
-    "version": "1.0.4",
+    "version": "1.0.5",
     "name": "Purchase",
     "alias": "purchase",
     "name_es": "Compras",
@@ -7,15 +7,23 @@
     "long_description": "",
     "authors": [
         {
+            "name": "Ing. Roldan Vargas",
+            "email": ["rvargas@cenditel.gob.ve", "roldandvg@gmail.com"]
+        },
+        {
             "name": "Ing. Juan Rosas",
             "email": ["juan.rosasr01@gmail.com"]
         }
     ],
+    "icon": {
+        "name": "ion-document-text",
+        "color": "#0073b7"
+    },
+    "logo": "purchase-logo.png",
     "keywords": [],
     "active": 1,
     "order": 3,
     "priority": 3,
-    "logo": "purchase-logo.png",
     "providers": [
         "Modules\\Purchase\\Providers\\PurchaseServiceProvider"
     ],

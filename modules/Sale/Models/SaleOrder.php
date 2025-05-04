@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Sale\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,9 +10,7 @@ use App\Traits\ModelsTrait;
 
 /**
  * @class SaleOrder
- * @brief [descripción detallada]
- *
- * [descripción corta]
+ * @brief Gestiona la información, procesos, consultas y relaciones asociadas al modelo
  *
  * @author jpuentes jpuentes@cenditel.gob.ve
  *
@@ -29,12 +25,14 @@ class SaleOrder extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'id_number', 'email', 'phone', 'status', 'products', 'type_person'];

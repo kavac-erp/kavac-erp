@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Jobs;
 
 use Illuminate\Bus\Queueable;
@@ -12,30 +10,43 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
 /**
- * @class PayrollSendReceiptsJob
- * @brief [descripción detallada]
+ * @class PayrollSendReceiptsEmailJob
+ * @brief Trabajo que se encarga de enviar los recibos de pago
  *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
  * @license
  *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PayrollSendReceiptsEmailJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
+    /**
+     * Correo electrónico del destinatario
+     *
+     * @var string $email
+     */
     protected $email;
 
+    /**
+     * Objeto con la información del correo a envíar
+     *
+     * @var object $mailable
+     */
     protected $mailable;
 
+    /**
+     * Ruta del archivo del recibo de pago
+     * @var string $pdfPath
+     */
     protected $pdfPath;
 
     /**
      * Crea una nueva instancia de trabajo.
-     *
-     * @method __construct
      *
      * @return void
      */
@@ -48,14 +59,15 @@ class PayrollSendReceiptsEmailJob implements ShouldQueue
     /**
      * Ejecuta el trabajo.
      *
-     * @method handle
-     *
      * @return void
      */
     public function handle()
     {
-        Mail::to($this->email)->send($this->mailable);
+        if (filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            // Verifica si es un correo válido para envíar el mensaje
+            Mail::to($this->email)->send($this->mailable);
 
-        unlink($this->pdfPath);
+            unlink($this->pdfPath);
+        }
     }
 }

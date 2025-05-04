@@ -1,9 +1,10 @@
 <?php
-/** [descripción del namespace] */
+
 namespace $NAMESPACE$;
 
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+[NO SE DEBEN IMPORTAR ACA NINGUNA REFERENCIA A OTRO MODULO]
 
 /**
  * @class $CLASS$
@@ -21,8 +22,6 @@ class $CLASS$
     /**
      * Crea un detector de eventos.
      *
-     * @method __construct
-     *
      * @return void
      */
     public function __construct()
@@ -32,8 +31,6 @@ class $CLASS$
 
     /**
      * Gestiona el evento
-     *
-     * @method    handle
      *
      * @param     object    $event    Objeto con información del evento
      *

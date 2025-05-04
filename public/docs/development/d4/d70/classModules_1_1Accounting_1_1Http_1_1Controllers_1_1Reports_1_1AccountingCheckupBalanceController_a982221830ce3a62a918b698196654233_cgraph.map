@@ -1,0 +1,21 @@
+<map id="getAccAccount" name="getAccAccount">
+<area shape="rect" id="Node000001" title="Consulta y formatea las cuentas en un rango determinado y las almacena en variables en el controlador..." alt="" coords="5,179,124,204"/>
+<area shape="rect" id="Node000002" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a67f6fd263661bf21f4157f0d63040ba2" title="Calcula la suma de los saldos de la cuenta en los asientos contables aprobados." alt="" coords="172,104,283,129"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,176,171,138,183,133,185,137,173,143,93,181"/>
+<area shape="rect" id="Node000008" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a74ed2723b9e17798ebd125edcd14cabe" title="Establece la fecha final." alt="" coords="179,153,276,179"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="124,179,165,173,166,178,125,185"/>
+<area shape="rect" id="Node000009" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#aa27bdb0e6b08e2606b6c3fc10f7110d8" title="Establece la fecha inicial." alt="" coords="180,203,275,228"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="125,197,167,204,166,209,124,203"/>
+<area shape="rect" id="Node000010" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#abf60f8c2a16cb6270ec1b58d3651befe" title="Establece los registros." alt="" coords="180,252,275,277"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="94,202,173,238,185,244,183,249,171,243,92,206"/>
+<area shape="rect" id="Node000003" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#ab0ddffde595d12d9c85da6f4c1eb2605" title="Encuentra los tipos de cambio." alt="" coords="331,5,512,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="241,102,279,71,329,40,346,33,349,37,332,44,282,75,244,106"/>
+<area shape="rect" id="Node000004" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a6f3d70e44a5afea25eb600c5e19f6a29" title="Realiza la conversion de saldo." alt="" coords="349,55,494,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="277,101,356,81,358,86,279,107"/>
+<area shape="rect" id="Node000005" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a4412028831ce993246eb29b08f2ebb03" title="Obtiene las conversiones." alt="" coords="361,104,482,129"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="283,114,347,114,347,119,283,119"/>
+<area shape="rect" id="Node000006" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#aa4c79afa7ea1ba7a95b832f2b6ab8ec4" title="Obtiene el identificador de la moneda." alt="" coords="365,153,478,179"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="279,127,358,147,356,152,277,132"/>
+<area shape="rect" id="Node000007" href="$d4/d70/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1Reports_1_1AccountingCheckupBalanceController.html#a678f5c49204c69d24b2b293794996ecd" title="Establece las conversiones." alt="" coords="361,203,481,228"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="264,127,284,138,299,152,308,164,318,176,332,188,349,196,347,201,329,192,314,180,304,168,295,155,281,143,262,132"/>
+</map>

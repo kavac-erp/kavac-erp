@@ -18,8 +18,6 @@ if (!function_exists('generate_registration_code_budget')) {
     {
         $newCode = 1;
 
-        // $targetModel = $model::select('id', $field)->where($field, 'like', "{$prefix}-%-{$year}")
-        //                     ->withTrashed()->orderBy('code', 'desc')->orderBy('id', 'desc')->get();
         $targetModel = $model::select($field)
         ->where($field, 'like', "{$prefix}-%-{$year}")
         ->withTrashed()

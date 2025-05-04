@@ -71,19 +71,22 @@
                 </div>
                 <div class="colunm justify-content-center">
                     <v-client-table :columns="columns" :data="records" :options="table_options">
-                        <div slot="depreciation" slot-scope="props">
+                        <!--                         <div slot="depreciation" slot-scope="props">
                             {{ lastDepreciation(props.row.depreciation).year }}
                         </div>
                         <div slot="depreciation_year" slot-scope="props">
-                            {{ lastDepreciation(props.row.depreciation).year_amount }}{{ " " + props.row.currency.symbol + "."
+                            {{ lastDepreciation(props.row.depreciation).year_amount }}{{ " " + props.row.currency.symbol +
+                                "."
                             }}
                         </div>
                         <div slot="acummulated_depreciation" slot-scope="props">
-                            {{ lastDepreciation(props.row.depreciation).acumulated_amount }}{{ " " + props.row.currency.symbol
+                            {{ lastDepreciation(props.row.depreciation).acumulated_amount }}{{ " " +
+                                props.row.currency.symbol
                                 + "." }}
                         </div>
                         <div slot="asset_book_value" slot-scope="props">
-                            {{ lastDepreciation(props.row.depreciation).asset_book_value }}{{ " " + props.row.currency.symbol +
+                            {{ lastDepreciation(props.row.depreciation).asset_book_value }}{{ " " +
+                                props.row.currency.symbol +
                                 "." }}
                         </div>
                         <div slot="asset_details" slot-scope="props">
@@ -92,7 +95,7 @@
                                     <b>{{ att.label + ":" }}</b> {{ att.value }}
                                 </div>
                             </span>
-                        </div>
+                        </div> -->
                     </v-client-table>
                 </div>
             </div>
@@ -118,9 +121,9 @@ export default {
             institutions: [],
             records: [],
             columns: [
-                'asset_institutional_code.name',
-                'asset_details',
-                'depreciation',
+                'asset_institutional_code',
+                'description',
+                'year',
                 'depreciation_year',
                 'acummulated_depreciation',
                 'asset_book_value',
@@ -128,9 +131,9 @@ export default {
 
             table_options: {
                 headings: {
-                    'asset_institutional_code.name': 'Código interno',
-                    'asset_details': 'Detalles',
-                    'depreciation': 'Año',
+                    'asset_institutional_code': 'Código interno',
+                    'description': 'Detalles',
+                    'year': 'Año',
                     'depreciation_year': 'Depreciación Anual',
                     'acummulated_depreciation': 'Depreciación Acumulada',
                     'asset_book_value': 'Valor en Libros',
@@ -177,7 +180,7 @@ export default {
             const vm = this;
             axios.post(url, fields).then(response => {
                 if (typeof (response.data.records) !== "undefined") {
-                    vm.records = response.data.records;
+                    vm.records = response.data.records[0]['table_depreciation'];
                 }
             });
         },

@@ -1,12 +1,21 @@
 <?php
 
+/**
+ * @file Helper.php
+ * @brief Definición de funciones de ayuda
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ */
+
 use Carbon\Carbon;
+use App\Models\Currency;
+use App\Models\Institution;
 use App\Models\DocumentStatus;
+use Illuminate\Support\Facades\DB;
 use Nwidart\Modules\Facades\Module;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 if (!function_exists('set_active_menu')) {
     /**
@@ -100,7 +109,7 @@ if (!function_exists('template_choices')) {
      *
      * @param  string|object    $model       Nombre de la clase del modelo al cual generar el listado de opciones
      * @param  string|array     $fields      Campo(s) a utilizar para mostrar en el listado de opciones
-     * @param  array            $filters     Arreglo con los filtros a ser aplicados en la consulta
+     * @param  string|array     $filters     Arreglo con los filtros a ser aplicados en la consulta
      *                                       Ej. sin relación con otro modelo: ['active' => 'true']
      *                                       Ej. con relación a otro modelo:
      *                                       ['relationship' => 'metodoRelacion', 'where' => ['active' => true]]
@@ -123,7 +132,7 @@ if (!function_exists('template_choices')) {
                     $records = $model::where($filters)->get();
                 }
             } else {
-                /** Filtra la información a obtener mediante relaciones */
+                // Filtra la información a obtener mediante relaciones
                 $relationship = $filters['relationship'];
                 $records = $model::whereHas($relationship, function ($q) use ($filters) {
                     $q->where($filters['where']);
@@ -131,7 +140,7 @@ if (!function_exists('template_choices')) {
             }
         }
 
-        /** Inicia la opción vacia por defecto */
+        // Inicia la opción vacia por defecto
         $options = ($vuejs) ? [['id' => '', 'text' => 'Seleccione...']] : ['' => 'Seleccione...'];
 
         foreach ($records as $rec) {
@@ -147,12 +156,13 @@ if (!function_exists('template_choices')) {
             }
 
             if (is_null($except_id) || $except_id !== $rec->id) {
-                /**
+                /*
                  * Carga el listado según el tipo de plantilla en el cual se va a implementar
                  * (normal o con VueJS)
                  */
-                ($vuejs) ? array_push($options, ['id' => $rec->id, 'text' => $text])
-                    : $options[$rec->id] = $text;
+                ($vuejs)
+                ? array_push($options, ['id' => $rec->id, 'text' => $text])
+                : $options[$rec->id] = $text;
             }
         }
         return $options;
@@ -173,19 +183,19 @@ if (!function_exists('validate_rif')) {
     {
         $rifCheck = preg_match('/^([VEJPG]{1})([0-9]{8})([0-9]{1})$/', strtoupper($rif), $output_array);
 
-        /** Si el número de RIF no es correcto retorna falso */
+        // Si el número de RIF no es correcto retorna falso
         if (!$rifCheck || !$output_array) {
             return false;
         }
 
-        /** @var string Caracter que identifica el tipo de RIF (V, E, J, P, G) */
+        // Caracter que identifica el tipo de RIF (V, E, J, P, G)
         $type = $output_array[1];
-        /** @var string Número de RIF sin el tipo y el dígito verificador */
+        // Número de RIF sin el tipo y el dígito verificador
         $number = $output_array[2];
-        /** @var string Caracter que representa el digito verificador del RIF */
+        // Caracter que representa el digito verificador del RIF
         $digit = $output_array[3];
 
-        /** @var array Arreglo con cada número que compone los datos del RIF, sin el tipo y el dígito verificador */
+        // Arreglo con cada número que compone los datos del RIF, sin el tipo y el dígito verificador
         $validateNumber = str_split($number);
         $validateNumber[7] *= 2;
         $validateNumber[6] *= 3;
@@ -196,7 +206,7 @@ if (!function_exists('validate_rif')) {
         $validateNumber[1] *= 2;
         $validateNumber[0] *= 3;
 
-        /** Determinar dígito especial según la inicial del RIF (Regla introducida por el SENIAT) */
+        // Determinar dígito especial según la inicial del RIF (Regla introducida por el SENIAT)
         switch ($type) {
             case 'V':
                 $specialDigit = 1;
@@ -217,24 +227,21 @@ if (!function_exists('validate_rif')) {
                 $specialDigit = 0;
         }
 
-        /** @var integer Sumatoria de los números del RIF y el dígito especial de validación */
+        // Sumatoria de los números del RIF y el dígito especial de validación
         $sum = array_sum($validateNumber) + ($specialDigit * 4);
-        /** @var integer Residuo obtenido entre la sumatoria de los números del rif y el dígito especial de validación */
+        // Residuo obtenido entre la sumatoria de los números del rif y el dígito especial de validación
         $residue = $sum % 11;
-        /** @var integer Resta obtenida del residuo */
+        // Resta obtenida del residuo
         $subtraction = 11 - $residue;
-        /**
-         * @var integer Dato que permite identificar si el dígito verificador es correcto.
-         *              0 = digito correcto, de lo contrario es incorrecto
-         */
+        // Dato que permite identificar si el dígito verificador es correcto. 0 = digito correcto, de lo contrario es incorrecto
         $verifyDigit = ($subtraction >= 10) ? 0 : $subtraction;
 
         if ($verifyDigit != $digit) {
-            /** Devuelve falso si el dígito verificador no es correcto */
+            // Devuelve falso si el dígito verificador no es correcto
             return false;
         }
 
-        /** Retorna verdadero si el dígito verificador es correcto */
+        // Retorna verdadero si el dígito verificador es correcto
         return true;
     }
 }
@@ -254,7 +261,7 @@ if (!function_exists('rif_exists')) {
         // Comprueba si existe conexión externa
         $connectionExists = check_connection();
         $rifExists = false;
-        // TODO: Agregar lógica que permita validar el número de rif ante la autoridad que los emite
+        // TODO: Agregar instrucciones que permita validar el número de rif ante la autoridad que los emite
         return ($connectionExists && $rifExists);
     }
 }
@@ -283,8 +290,6 @@ if (!function_exists('validate_ci')) {
             return false;
         }
 
-        // Establecer conexión con el organismo rector para determinar si la cédula existe
-
         return true;
     }
 }
@@ -308,6 +313,7 @@ if (!function_exists('ci_exists')) {
 
         if ($connectionExists) {
             $client = new GuzzleHttp\Client();
+            // TODO: Modificar URL para obtener datos de la autoridad que emite la cedula
             $res = $client->request(
                 'GET',
                 'www.cne.gob.ve/web/registro_civil/buscar_rep.php?nac=' . $nac . '&ced=' . $ci
@@ -316,7 +322,7 @@ if (!function_exists('ci_exists')) {
             if ($res->getStatusCode() === 200) {
                 preg_match('/<b[^>]*>[^<]*<\/b>/', $res->getBody(), $content);
                 if (count($content) > 0) {
-                    // La cédula existe en el organismo rector
+                    // La cédula existe en el organismo emisor
                     $oneName = strpos($content[0], '  ');
                     $oneLastName = strpos($content[0], ' </b>');
                     $filterContent = str_replace("  ", " ", trim($content[0]));
@@ -377,7 +383,7 @@ if (!function_exists('get_json_resource')) {
      *
      * @param      string   $file   Nombre del archivo .json del cual se va a obtener su contenido
      *
-     * @return     object   Objeto con elementos json
+     * @return     object|array   Objeto con elementos json
      */
     function get_json_resource($file, $module = null)
     {
@@ -413,14 +419,14 @@ if (!function_exists('check_connection')) {
 
 if (!function_exists('get_institution')) {
     /**
-     * Obtiene la informacion de una organización
+     * Obtiene la información de una organización
      *
-     * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
      *
-     * @param  int|null $id [identificador único de la organización]
+     * @param  int|null $id Identificador único de la organización
      *
      * @return \App\Models\Institution     Devuelve un objeto con información de la organización,
-     *                                     si no se indica un ID devuelve el primer registro,
+     *                                     si no se indica un ID devuelve el registro de la organización por defecto,
      *                                     de lo contrario devuelve los datos de la organización solicitada
      */
     function get_institution($id = null)
@@ -429,7 +435,31 @@ if (!function_exists('get_institution')) {
             return App\Models\Institution::find($id);
         }
         return App\Models\Institution::where('default', true)->first()
-                ?? App\Models\Institution::first();
+               ?? App\Models\Institution::first();
+    }
+}
+
+if (!function_exists('get_user_institution')) {
+    /**
+     * Obtiene la informacion de la organización del usuario autenticado
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return \App\Models\Institution     Devuelve un objeto con información de la organización,
+     *                                     si no se indica un ID devuelve el registro de la organización por defecto,
+     *                                     de lo contrario devuelve los datos de la organización asociada al usuario
+     */
+    function get_user_institution($authUser)
+    {
+        $institution = Institution::query()->where([
+            'active' => true, 'default' => true
+        ])->first();
+        if (isset($authUser->profile) && isset($authUser->profile->institution_id)) {
+            $institution = Institution::query()->where([
+                'id' => $authUser->profile->institution_id
+            ])->first();
+        }
+        return $institution;
     }
 }
 
@@ -541,7 +571,7 @@ if (!function_exists('has_foreign_key')) {
      */
     function has_foreign_key($table, $foreignKey)
     {
-        /** @var object Objeto con información detallada de las propiedades de la tabla */
+        // Objeto con información detallada de las propiedades de la tabla
         $detailTable = Schema::getConnection()->getDoctrineSchemaManager()->listTableDetails($table);
         return $detailTable->hasForeignKey($foreignKey);
     }
@@ -549,7 +579,7 @@ if (!function_exists('has_foreign_key')) {
 
 if (!function_exists('has_data_in_foreign_key')) {
     /**
-     * Verifica si una tabla de la base de datos contiene una datos en una clave foránea específica
+     * Verifica si una tabla de la base de datos contiene información en una clave foránea específica
      *
      * @author     Daniel Contreras <dcontreras@cenditel.gob.ve>
      *
@@ -560,16 +590,16 @@ if (!function_exists('has_data_in_foreign_key')) {
      */
     function has_data_in_foreign_key($id, $foreignKey)
     {
-        /** @var object Objeto con información detallada de las propiedades de la tabla */
-        $table_names = \Illuminate\Support\Facades\Schema::getConnection()
+        // Objeto con información detallada de las propiedades de la tabla
+        $table_names = Schema::getConnection()
                         ->getDoctrineSchemaManager()->listTableNames();
 
         foreach ($table_names as $table_name) {
-            $table = \Illuminate\Support\Facades\Schema::getConnection()
+            $table = Schema::getConnection()
                         ->getDoctrineSchemaManager()->listTableDetails($table_name);
             $hasForeignKey = $table->hasColumn($foreignKey);
             if ($hasForeignKey) {
-                $count = \Illuminate\Support\Facades\DB::table($table_name)
+                $count = DB::table($table_name)
                     ->whereNotNull($foreignKey)
                     ->where($foreignKey, $id)
                     ->count();
@@ -597,7 +627,7 @@ if (!function_exists('has_index_key')) {
      */
     function has_index_key($table, $indexKey)
     {
-        /** @var object Objeto con información detallada de las propiedades de la tabla */
+        // Objeto con información detallada de las propiedades de la tabla
         $detailTable = Schema::getConnection()->getDoctrineSchemaManager()->listTableDetails($table);
         return $detailTable->hasIndex($indexKey);
     }
@@ -614,10 +644,10 @@ if (!function_exists('get_database_info')) {
     function get_database_info()
     {
         if (env('DB_CONNECTION') === 'sqlite') {
-            /** @var PDO Conexión a base de datos SQLite */
+            // Conexión a base de datos SQLite
             $conn = new PDO('sqlite:' . env('DB_DATABASE'));
         } else {
-            /** @var PDO Conexión a base de datos PostgreSQL o MySQL */
+            // Conexión a base de datos PostgreSQL o MySQL
             $conn = new PDO(
                 env('DB_CONNECTION') . ':host=' . env('DB_HOST') .
                 ';port=' . env('DB_PORT') . ';dbname=' . env('DB_DATABASE'),
@@ -625,7 +655,7 @@ if (!function_exists('get_database_info')) {
                 env('DB_PASSWORD')
             );
         }
-        /** @var string Versión de la base de datos */
+        // Versión de la base de datos
         $version = $conn->getAttribute(PDO::ATTR_SERVER_VERSION);
         if (env('DB_CONNECTION') === 'pgsql') {
             $version = substr($version, 0, strpos($version, ' '));
@@ -722,11 +752,11 @@ if (!function_exists('age')) {
         $age = $difference->y;
 
         if ($withDecimal) {
-            // Calculamos la fracción de año representada por los meses y días
+            // Calcula la fracción de año representada por los meses y días
             $age += $difference->m / 12;
             $age += $difference->d / 365;
 
-            // Redondeamos a dos decimales
+            // Redondea la edad a dos decimales
             $age = round($age, 2);
         }
 
@@ -737,8 +767,6 @@ if (!function_exists('age')) {
 if (!function_exists('convert_filesize')) {
     /**
      * Convierte un tamaño expresado en bytes a Bytes, KiloBytes, MegaBytes, etc...
-     *
-     * @method    convert_filesize
      *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
@@ -777,7 +805,6 @@ if (!function_exists('convert_to_bytes')) {
         $number = substr($from, 0, -2);
         $suffix = strtoupper(substr($from, -2));
 
-        //B or no suffix
         if (is_numeric(substr($suffix, 0, 1))) {
             return preg_replace('/[^\d]/', '', $from);
         }
@@ -804,36 +831,36 @@ if (!function_exists('check_max_upload_size')) {
      */
     function check_max_upload_size($file)
     {
-        /** @var float Tamaño en bytes del archivo a verificar */
+        // Tamaño en bytes del archivo a verificar
         $fileSize = filesize($file);
-        /** @var string Tamaño del archivo con el factor en Bytes, kilo Bytes, Mega Bytes, etc... */
+        // Tamaño del archivo con el factor en Bytes, kilo Bytes, Mega Bytes, etc...
         $humanFileSize = convert_filesize($fileSize);
         preg_match_all('/\d+/', ini_get('upload_max_filesize'), $uploadMaxFilesize);
         preg_match_all('/[^0-9]/', ini_get('upload_max_filesize'), $factor);
         preg_match_all('/\d+/', ini_get('post_max_size'), $postMaxSize);
         preg_match_all('/[^0-9]/', ini_get('post_max_size'), $factorPost);
-        /** @var float Tamaño máximo permitido para subir */
+        // Tamaño máximo permitido para subir
         $maxSize = (float)$uploadMaxFilesize[0][0];
-        /** @var float Tamaño máximo permitido por el método POST */
+        // Tamaño máximo permitido por el método POST
         $maxSizePost = (float)$postMaxSize[0][0];
 
         if ($maxSize === 0 && $maxSizePost === 0) {
-            /** No existe límite máximo para subir archivos */
+            // No existe límite máximo para subir archivos
             return true;
         }
-        /** @var string Unidad que establece el tamaño máximo */
+        // Unidad que establece el tamaño máximo
         $unit = $factor[0][0] . 'B';
-        /** @var string Unidad que establece el tamaño máximo a través del método POST */
+        // Unidad que establece el tamaño máximo a través del método POST
         $unitPost = $factorPost[0][0] . 'B';
 
-        /** @var string Tamaño máximo permitido para subir archivos */
+        // Tamaño máximo permitido para subir archivos
         $size = (string)$maxSize . $unit;
-        /** @var string Tamaño máximo permitido a través del método POST */
+        // Tamaño máximo permitido a través del método POST
         $sizePost = (string)$maxSizePost . $unitPost;
 
-        /** @var float Conversión a bytes del tamaño máximo permitido para subir archivos */
+        // Conversión a bytes del tamaño máximo permitido para subir archivos
         $bytes = convert_to_bytes($size);
-        /** @var float Conversión a bytes del tamaño máximo a través del método POST */
+        // Conversión a bytes del tamaño máximo a través del método POST
         $bytesPost = convert_to_bytes($sizePost);
 
         return $fileSize < $bytes && $fileSize < $bytesPost;
@@ -873,20 +900,20 @@ if (!function_exists('info_modules')) {
      * @param  boolean $min Mínima versión a buscar. Opcional
      * @param  string  $mod Nombre del módulo del cual se va a mostrar información. Opcional
      *
-     * @return void
+     * @return array|null
      */
     function info_modules($min = false, $mod = null)
     {
-        /** @var Module Objeto con información de todos los módulos de la aplicación */
+        // Objeto con información de todos los módulos de la aplicación
         $modules = Module::all();
 
-        /** @var array Arreglo con información detallada de los módulos de la aplicación */
+        // Arreglo con información detallada de los módulos de la aplicación
         $listModules = [];
         foreach ($modules as $module) {
             if ($mod !== null && $module->getLowerName() !== trim(strtolower($mod))) {
                 continue;
             }
-            /** @var array Arreglo con los requerimientos del módulo */
+            // Arreglo con los requerimientos del módulo
             $requirements = [];
             if (count($module->getRequires()) > 0) {
                 foreach ($module->getRequires() as $modName => $version) {
@@ -894,7 +921,7 @@ if (!function_exists('info_modules')) {
                 }
             }
 
-            /** @var array Arreglo con información de los autores del módulo */
+            // Arreglo con información de los autores del módulo
             $authors = [];
             if (!is_null($module->get('authors')) && count($module->get('authors')) > 0) {
                 foreach ($module->get('authors') as $author) {
@@ -935,8 +962,6 @@ if (!function_exists('listMonths')) {
     /**
      * Listado de meses
      *
-     * @method    listMonths
-     *
      * @author     Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
      * @param     boolean    $reverse    Determina si el listado a retornar es por número de mes o por nombre
@@ -959,17 +984,45 @@ if (!function_exists('listMonths')) {
     }
 }
 
+if (! function_exists('months_dictionary')) {
+    /**
+     * Diccionario de nombres de los meses del año
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg at gmail.com>
+     *
+     * @param boolean $short Determina si se retornan los nombres abreviados de los meses,
+     *                       si se establece en true devuelve los nombres abreviados,
+     *                       de lo contrario devuelve los nombres completos
+     *
+     * @return array Arreglo con el listado de los nombres de los meses
+     */
+    function months_dictionary($short = false)
+    {
+        $months = [
+            'January' => 'Enero', 'February' => 'Febrero', 'March' => 'Marzo', 'April' => 'Abril', 'May' => 'Mayo',
+            'June' => 'Junio', 'July' => 'Julio', 'August' => 'Agosto', 'September' => 'Septiembre',
+            'October' => 'Octubre', 'November' => 'Noviembre', 'December' => 'Diciembre',
+        ];
+
+        if ($short) {
+            $months = [
+                'jan' => 'Ene', 'feb' => 'Feb', 'mar' => 'Mar', 'apr' => 'Abr', 'may' => 'May', 'jun' => 'Jun',
+                'jul' => 'Jul', 'aug' => 'Ago', 'sep' => 'Sep', 'oct' => 'Oct', 'nov' => 'Nov', 'dec' => 'Dic'
+            ];
+        }
+        return $months;
+    }
+}
+
 if (! function_exists('isModuleEnabled')) {
     /**
      * Estado de un módulo
-     *
-     * @method    isModuleEnabled
      *
      * @author     Pedro Buitrago <pbuitrago@cenditel.gob.ve> | <pedrobui@gmail.com>
      *
      * @param     string    $moduleName    Nombre del modulo
      *
-     * @return    boolean   Devuelver verdadero si el modulo esta activo, de lo contrario devuelve falso
+     * @return    boolean   Devuelve verdadero si el módulo esta activo, de lo contrario devuelve falso
      */
     function isModuleEnabled($moduleName)
     {
@@ -982,18 +1035,17 @@ if (! function_exists('restoreSoftDeletedRelatedModels')) {
      * Restaura todos los registros eliminados que poseen SoftDeletes para el modelo dado y
      * todas sus relaciones internas.
      *
-     * @method    restoreSoftDeletedRelatedModels($model)
-     *
      * @author    Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
      *
-     * @param Illuminate\Database\Eloquent\Model $modelName
-     * @param int $id
+     * @param Illuminate\Database\Eloquent\Model|string $modelName Nombre del modelo a restaurar
+     * @param int $id Identificador del registro a restaurar
+     *
      * @return void
      */
     function restoreSoftDeletedRelatedModels($modelName, $id)
     {
         // Obtener el modelo dado su nombre
-        $model = app($modelName)->withTrashed()->findOrFail($id);
+        $model = (new $modelName())->withTrashed()->findOrFail($id);
 
         if (!$model) {
             return; //retorna vacío sí el modelo no es encontrado
@@ -1030,9 +1082,8 @@ if (! function_exists('restoreSoftDeletedRelatedModels')) {
                 // Verificar si el modelo relacionado utiliza SoftDeletes
                 if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($relation))) {
                     // Restaurar los registros eliminados tempóralmete para el modelo relacionado
-                    // Si hay más relaciones en el modelo relacionado, buscarlas y restaurar todos
-                    // los registros eliminados temporalmente en ellas
-                    // de manera recursiva
+                    // Si hay más relaciones en el modelo relacionado, busca y restaura todos
+                    // los registros eliminados temporalmente en ellas de manera recursiva
                     restoreSoftDeletedRelatedModels(get_class($relation), $relation->id);
                 }
             }
@@ -1040,173 +1091,142 @@ if (! function_exists('restoreSoftDeletedRelatedModels')) {
     }
 }
 
-// function restoreSoftDeleted($modelName, $id)
-// {
-//     $relatedModels = [];
-
-//     // Obtener el modelo dado su nombre
-//     $model = app($modelName)->withTrashed()->findOrFail($id);
-
-//     if(!$model) return; //retorna vacío sí el modelo no es encontrado
-
-//     // Restaurar el modelo dado
-//     $model->restore();
-
-//     // Buscar todas las relaciones del modelo
-//     $relationships = $model->getRelations();
-//     if(!$relationships){
-//         return;
-//     }
-//     foreach($relationships as $relationName => $relation){
-//         $model->load([$relationName => function($query) {
-//             $query->withTrashed();
-//         }]);
-//     }
-//     dd($model->getRelations());
-
-//     // Iteramos a través de todas las relaciones del modelo principal
-//     // foreach ($model::getRelations() as $relationName => $relation) {
-//     //     // Verificamos si la relación es una instancia de la clase Relation
-//     //     if ($relation instanceof Relation) {
-//     //         $relatedModel = $relation->getRelated();
-//     //         // Verificamos si la relación usa SoftDeletes
-//     //         if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($relatedModel))) {
-//     //             $relatedModels[$relationName] = $relatedModel;
-//     //             // Restauramos los registros eliminados suavemente de la relación
-//     //             $relatedModel::withTrashed()->where($relation->getQualifiedForeignKeyName(), $id)->restore();
-//     //         }
-//     //         // Verificamos si la relación tiene otras relaciones y las restauramos
-//     //         if ($relatedModel::getRelations()) {
-//     //             restoreSoftDeleted($relatedModel, $id);
-//     //         }
-//     //     }
-//     // }
-
-//     // // Restauramos las relaciones anidadas
-//     // foreach ($relatedModels as $relationName => $relatedModel) {
-//     //     if ($relatedModel::getRelations()) {
-//     //         restoreSoftDeleted($relatedModel, $id);
-//     //     }
-//     // }
-// }
-
-
 // =================== Números a letras ===================
 if (! function_exists('unidad')) {
-    function unidad($numuero)
+    /**
+     * Obtiene el texto de la unidad del número
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  integer $unitNumber Unidad del número
+     *
+     * @return string Devuelve el texto correspondiente a la unidad de un número
+     */
+    function unidad($unitNumber)
     {
-        switch (floor($numuero)) {
+        $unitText = "";
+        switch (floor($unitNumber)) {
             case 9:
-                $numu = "NUEVE";
+                $unitText = __("NUEVE");
                 break;
             case 8:
-                $numu = "OCHO";
+                $unitText = __("OCHO");
                 break;
             case 7:
-                $numu = "SIETE";
+                $unitText = __("SIETE");
                 break;
             case 6:
-                $numu = "SEIS";
+                $unitText = __("SEIS");
                 break;
             case 5:
-                $numu = "CINCO";
+                $unitText = __("CINCO");
                 break;
             case 4:
-                $numu = "CUATRO";
+                $unitText = __("CUATRO");
                 break;
             case 3:
-                $numu = "TRES";
+                $unitText = __("TRES");
                 break;
             case 2:
-                $numu = "DOS";
+                $unitText = __("DOS");
                 break;
             case 1:
-                $numu = "UN";
+                $unitText = __("UN");
                 break;
             case 0:
-                $numu = "";
+                $unitText = "";
                 break;
         }
-        return $numu;
+        return $unitText;
     }
 }
 
 if (! function_exists('decena')) {
+    /**
+     * Obtiene el texto de la decena del número
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  integer $numdero Decena del número
+     *
+     * @return string Devuelve el texto correspondiente a la decena de un número
+     */
     function decena($numdero)
     {
+        $numd = "";
         $numdero = floor($numdero);
         if ($numdero >= 90 && $numdero <= 99) {
-            $numd = "NOVENTA ";
+            $numd = __("NOVENTA ");
             if ($numdero > 90) {
-                $numd = $numd . "Y " . (unidad($numdero - 90));
+                $numd = $numd . __("Y ") . (unidad($numdero - 90));
             }
         } elseif ($numdero >= 80 && $numdero <= 89) {
-            $numd = "OCHENTA ";
+            $numd = __("OCHENTA ");
             if ($numdero > 80) {
-                $numd = $numd . "Y " . (unidad($numdero - 80));
+                $numd = $numd . __("Y ") . (unidad($numdero - 80));
             }
         } elseif ($numdero >= 70 && $numdero <= 79) {
-            $numd = "SETENTA ";
+            $numd = __("SETENTA ");
             if ($numdero > 70) {
-                $numd = $numd . "Y " . (unidad($numdero - 70));
+                $numd = $numd . __("Y ") . (unidad($numdero - 70));
             }
         } elseif ($numdero >= 60 && $numdero <= 69) {
-            $numd = "SESENTA ";
+            $numd = __("SESENTA ");
             if ($numdero > 60) {
-                $numd = $numd . "Y " . (unidad($numdero - 60));
+                $numd = $numd . __("Y ") . (unidad($numdero - 60));
             }
         } elseif ($numdero >= 50 && $numdero <= 59) {
-            $numd = "CINCUENTA ";
+            $numd = __("CINCUENTA ");
             if ($numdero > 50) {
-                $numd = $numd . "Y " . (unidad($numdero - 50));
+                $numd = $numd . __("Y ") . (unidad($numdero - 50));
             }
         } elseif ($numdero >= 40 && $numdero <= 49) {
-            $numd = "CUARENTA ";
+            $numd = __("CUARENTA ");
             if ($numdero > 40) {
-                $numd = $numd . "Y " . (unidad($numdero - 40));
+                $numd = $numd . __("Y ") . (unidad($numdero - 40));
             }
         } elseif ($numdero >= 30 && $numdero <= 39) {
-            $numd = "TREINTA ";
+            $numd = __("TREINTA ");
             if ($numdero > 30) {
-                $numd = $numd . "Y " . (unidad($numdero - 30));
+                $numd = $numd . __("Y ") . (unidad($numdero - 30));
             }
         } elseif ($numdero >= 20 && $numdero <= 29) {
             if ($numdero == 20) {
-                $numd = "VEINTE ";
+                $numd = __("VEINTE ");
             } else {
-                $numd = "VEINTI" . (unidad($numdero - 20));
+                $numd = __("VEINTI") . (unidad($numdero - 20));
             }
         } elseif ($numdero >= 10 && $numdero <= 19) {
             switch ($numdero) {
                 case 10:
-                    $numd = "DIEZ ";
+                    $numd = __("DIEZ ");
                     break;
                 case 11:
-                    $numd = "ONCE ";
+                    $numd = __("ONCE ");
                     break;
                 case 12:
-                    $numd = "DOCE ";
+                    $numd = __("DOCE ");
                     break;
                 case 13:
-                    $numd = "TRECE ";
+                    $numd = __("TRECE ");
                     break;
                 case 14:
-                    $numd = "CATORCE ";
+                    $numd = _("CATORCE ");
                     break;
                 case 15:
-                    $numd = "QUINCE ";
+                    $numd = __("QUINCE ");
                     break;
                 case 16:
-                    $numd = "DIECISEIS ";
+                    $numd = __("DIECISEIS ");
                     break;
                 case 17:
-                    $numd = "DIECISIETE ";
+                    $numd = __("DIECISIETE ");
                     break;
                 case 18:
-                    $numd = "DIECIOCHO ";
+                    $numd = __("DIECIOCHO ");
                     break;
                 case 19:
-                    $numd = "DIECINUEVE ";
+                    $numd = __("DIECINUEVE ");
                     break;
             }
         } else {
@@ -1218,55 +1238,65 @@ if (! function_exists('decena')) {
 }
 
 if (! function_exists('centena')) {
+    /**
+     * Obtiene el texto de la centena del número
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  integer $numc Centena del número
+     *
+     * @return string Devuelve el texto correspondiente a la centena de un número
+     */
     function centena($numc)
     {
+        $numce = "";
         $numc = floor($numc);
         if ($numc >= 100) {
             if ($numc >= 900 && $numc <= 999) {
-                $numce = "NOVECIENTOS ";
+                $numce = __("NOVECIENTOS ");
                 if ($numc > 900) {
                     $numce = $numce . (decena($numc - 900));
                 }
             } elseif ($numc >= 800 && $numc <= 899) {
-                $numce = "OCHOCIENTOS ";
+                $numce = __("OCHOCIENTOS ");
                 if ($numc > 800) {
                     $numce = $numce . (decena($numc - 800));
                 }
             } elseif ($numc >= 700 && $numc <= 799) {
-                $numce = "SETECIENTOS ";
+                $numce = __("SETECIENTOS ");
                 if ($numc > 700) {
                     $numce = $numce . (decena($numc - 700));
                 }
             } elseif ($numc >= 600 && $numc <= 699) {
-                $numce = "SEISCIENTOS ";
+                $numce = __("SEISCIENTOS ");
                 if ($numc > 600) {
                     $numce = $numce . (decena($numc - 600));
                 }
             } elseif ($numc >= 500 && $numc <= 599) {
-                $numce = "QUINIENTOS ";
+                $numce = __("QUINIENTOS ");
                 if ($numc > 500) {
                     $numce = $numce . (decena($numc - 500));
                 }
             } elseif ($numc >= 400 && $numc <= 499) {
-                $numce = "CUATROCIENTOS ";
+                $numce = __("CUATROCIENTOS ");
                 if ($numc > 400) {
                     $numce = $numce . (decena($numc - 400));
                 }
             } elseif ($numc >= 300 && $numc <= 399) {
-                $numce = "TRESCIENTOS ";
+                $numce = __("TRESCIENTOS ");
                 if ($numc > 300) {
                     $numce = $numce . (decena($numc - 300));
                 }
             } elseif ($numc >= 200 && $numc <= 299) {
-                $numce = "DOSCIENTOS ";
+                $numce = __("DOSCIENTOS ");
                 if ($numc > 200) {
                     $numce = $numce . (decena($numc - 200));
                 }
             } elseif ($numc >= 100 && $numc <= 199) {
                 if ($numc == 100) {
-                    $numce = "CIEN ";
+                    $numce = __("CIEN ");
                 } else {
-                    $numce = "CIENTO " . (decena($numc - 100));
+                    $numce = __("CIENTO ") . (decena($numc - 100));
                 }
             }
         } else {
@@ -1278,14 +1308,24 @@ if (! function_exists('centena')) {
 }
 
 if (! function_exists('miles')) {
+    /**
+     * Obtiene el texto del número en miles
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  integer $nummero Unidad de mil del número
+     *
+     * @return string Devuelve el texto correspondiente al número en miles
+     */
     function miles($nummero)
     {
+        $numm = "";
         $nummero = floor($nummero);
         if ($nummero >= 1000 && $nummero < 2000) {
-            $numm = "MIL " . (centena($nummero % 1000));
+            $numm = __("MIL ") . (centena($nummero % 1000));
         }
         if ($nummero >= 2000 && $nummero < 10000) {
-            $numm = unidad(Floor($nummero / 1000)) . " MIL " . (centena($nummero % 1000));
+            $numm = unidad(Floor($nummero / 1000)) . __(" MIL ") . (centena($nummero % 1000));
         }
         if ($nummero < 1000) {
             $numm = centena($nummero);
@@ -1296,16 +1336,26 @@ if (! function_exists('miles')) {
 }
 
 if (! function_exists('decmiles')) {
+    /**
+     * Obtiene el texto del número en decena de miles
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  integer $numdmero Decena de mil del número
+     *
+     * @return string Devuelve el texto correspondiente al número en decena de miles
+     */
     function decmiles($numdmero)
     {
+        $numde = "";
         if ($numdmero == 10000) {
-            $numde = "DIEZ MIL";
+            $numde = __("DIEZ MIL");
         }
         if ($numdmero > 10000 && $numdmero < 20000) {
-            $numde = decena(Floor($numdmero / 1000)) . "MIL " . (centena($numdmero % 1000));
+            $numde = decena(Floor($numdmero / 1000)) . __("MIL ") . (centena($numdmero % 1000));
         }
         if ($numdmero >= 20000 && $numdmero < 100000) {
-            $numde = decena(Floor($numdmero / 1000)) . " MIL " . (miles($numdmero % 1000));
+            $numde = decena(Floor($numdmero / 1000)) . __(" MIL ") . (miles($numdmero % 1000));
         }
         if ($numdmero < 10000) {
             $numde = miles($numdmero);
@@ -1316,13 +1366,23 @@ if (! function_exists('decmiles')) {
 }
 
 if (! function_exists('cienmiles')) {
+    /**
+     * Obtiene el texto del número en cien de miles
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  integer $numcmero Cien de mil del número
+     *
+     * @return string Devuelve el texto correspondiente al número en cien de miles
+     */
     function cienmiles($numcmero)
     {
+        $num_letracm = "";
         if ($numcmero == 100000) {
-            $num_letracm = "CIEN MIL";
+            $num_letracm = __("CIEN MIL");
         }
         if ($numcmero >= 100000 && $numcmero < 1000000) {
-            $num_letracm = centena(Floor($numcmero / 1000)) . " MIL " . (centena((int)$numcmero % 1000));
+            $num_letracm = centena(Floor($numcmero / 1000)) . __(" MIL ") . (centena((int)$numcmero % 1000));
         }
         if ($numcmero < 100000) {
             $num_letracm = decmiles($numcmero);
@@ -1333,18 +1393,28 @@ if (! function_exists('cienmiles')) {
 }
 
 if (! function_exists('millon')) {
+    /**
+     * Obtiene el texto del número en millon
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  integer $nummiero Millon del número
+     *
+     * @return string Devuelve el texto correspondiente al número en millon
+     */
     function millon($nummiero)
     {
+        $num_letramm = "";
         if (((int)($nummiero) % 1000000) == 0) {
-            $deletras = 'DE ';
+            $deletras = __('DE ');
         } else {
             $deletras = '';
         }
         if ($nummiero >= 1000000 && $nummiero < 2000000) {
-            $num_letramm = "UN MILLON " . $deletras . (cienmiles($nummiero % 1000000));
+            $num_letramm = __("UN MILLON ") . $deletras . (cienmiles($nummiero % 1000000));
         }
         if ($nummiero >= 2000000 && $nummiero < 10000000) {
-            $num_letramm = unidad(Floor($nummiero / 1000000)) . " MILLONES " . $deletras . (cienmiles($nummiero % 1000000));
+            $num_letramm = unidad(Floor($nummiero / 1000000)) . __(" MILLONES ") . $deletras . (cienmiles($nummiero % 1000000));
         }
         if ($nummiero < 1000000) {
             $num_letramm = cienmiles($nummiero);
@@ -1355,21 +1425,32 @@ if (! function_exists('millon')) {
 }
 
 if (! function_exists(('decmillon'))) {
+    /**
+     * Obtiene el texto del número en decena de millon
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  integer $numerodm Decena de millon del número
+     *
+     * @return string Devuelve el texto correspondiente al número en decena de millon
+     */
     function decmillon($numerodm)
     {
+        $numerodm = (int) $numerodm;
+        $num_letradmm = "";
         if (abs(Floor($numerodm / 1000000)) == 0) {
-            $deletras = 'DE ';
+            $deletras = __('DE ');
         } else {
             $deletras = '';
         }
         if ($numerodm == 10000000) {
-            $num_letradmm = "DIEZ MILLONES" . $deletras;
+            $num_letradmm = __("DIEZ MILLONES") . $deletras;
         }
         if ($numerodm > 10000000 && $numerodm < 20000000) {
-            $num_letradmm = decena(Floor($numerodm / 1000000)) . "MILLONES " . $deletras . (cienmiles($numerodm % 1000000));
+            $num_letradmm = decena(Floor($numerodm / 1000000)) . __("MILLONES ") . $deletras . (cienmiles($numerodm % 1000000));
         }
         if ($numerodm >= 20000000 && $numerodm < 100000000) {
-            $num_letradmm = decena(Floor($numerodm / 1000000)) . " MILLONES " . $deletras . (millon($numerodm % 1000000));
+            $num_letradmm = decena(Floor($numerodm / 1000000)) . __(" MILLONES ") . $deletras . (millon($numerodm % 1000000));
         }
         if ($numerodm < 10000000) {
             $num_letradmm = millon($numerodm);
@@ -1380,18 +1461,28 @@ if (! function_exists(('decmillon'))) {
 }
 
 if (! function_exists('cienmillon')) {
+    /**
+     * Obtiene el texto del número en cien de millon
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  integer $numcmeros Cien de millon del número
+     *
+     * @return string Devuelve el texto correspondiente al número en cien de millon
+     */
     function cienmillon($numcmeros)
     {
+        $num_letracms = "";
         if (abs(Floor($numcmeros / 1000000)) == 0) {
-            $deletras = 'DE ';
+            $deletras = __('DE ');
         } else {
             $deletras = '';
         }
         if ($numcmeros == 100000000) {
-            $num_letracms = "CIEN MILLONES" . $deletras;
+            $num_letracms = __("CIEN MILLONES") . $deletras;
         }
         if ($numcmeros >= 100000000 && $numcmeros < 1000000000) {
-            $num_letracms = centena(Floor($numcmeros / 1000000)) . " MILLONES " . $deletras . (millon($numcmeros % 1000000));
+            $num_letracms = centena(Floor($numcmeros / 1000000)) . __(" MILLONES ") . $deletras . (millon($numcmeros % 1000000));
         }
         if ($numcmeros < 100000000) {
             $num_letracms = decmillon($numcmeros);
@@ -1402,13 +1493,24 @@ if (! function_exists('cienmillon')) {
 }
 
 if (! function_exists('milmillon')) {
+    /**
+     * Obtiene el texto del número en mil de millon
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  integer $nummierod Mil de millon del número
+     *
+     * @return string Devuelve el texto correspondiente al número en mil de millon
+     */
     function milmillon($nummierod)
     {
+        $nummierod = (int) $nummierod;
+        $num_letrammd = "";
         if ($nummierod >= 1000000000 && $nummierod < 2000000000) {
-            $num_letrammd = "MIL " . (cienmillon($nummierod % 1000000000));
+            $num_letrammd = __("MIL ") . (cienmillon($nummierod % 1000000000));
         }
         if ($nummierod >= 2000000000 && $nummierod < 10000000000) {
-            $num_letrammd = unidad(Floor($nummierod / 1000000000)) . " MIL " . (cienmillon($nummierod % 1000000000));
+            $num_letrammd = unidad(Floor($nummierod / 1000000000)) . __(" MIL ") . (cienmillon($nummierod % 1000000000));
         }
         if ($nummierod < 1000000000) {
             $num_letrammd = cienmillon($nummierod);
@@ -1419,16 +1521,46 @@ if (! function_exists('milmillon')) {
 }
 
 if (! function_exists('convertirNumeros')) {
-    function convertirNumeros($numero)
+    /**
+     * Convierte un número a su representación en texto
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  float $numero Número a convertir
+     * @param  string $moneda Moneda a representar
+     *
+     * @return string Devuelve el número en texto
+     */
+    function convertirNumeros($numero, $moneda = "BOLIVARES")
     {
+        $moneda = __($moneda);
+        $with = __("CON");
         $numf = milmillon($numero);
         $explodeNumber = explode(".", $numero);
-        $decimals = (isset($explodeNumber[1])) ? "$explodeNumber[1]/100" : "00/100";
-        return $numf . " BOLIVARES CON $decimals";
+        $decimals = $explodeNumber[1] ?? "00";
+        if (strlen($decimals) == 1) {
+            $decimals .= "0";
+        }
+        if (empty($numf)) {
+            return __("Solo se puede convertir números menores a 10 mil millones");
+        }
+        $numberToText = $numf . " $moneda $with $decimals/100";
+        return preg_replace('/\s+/', ' ', $numberToText);
     }
 }
 
 if (! function_exists('currency_format')) {
+    /**
+     * Convierte un número a formato de moneda
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @param  string  $number          Número a mostrar en formato de moneda
+     * @param  integer $decimalPlaces   Cantidad de decimales
+     * @param  boolean $withDecimal     Muestra o no los decimales
+     *
+     * @return string Devuelve el número en formato de moneda
+     */
     function currency_format(string $number, $decimalPlaces = 2, $withDecimal = false)
     {
 
@@ -1442,7 +1574,29 @@ if (! function_exists('currency_format')) {
     }
 }
 
+if (! function_exists('get_default_currency')) {
+    /**
+     * Obtiene la moneda por defecto
+     *
+     * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+     *
+     * @return Currency Devuelve información de la moneda por defecto
+     */
+    function get_default_currency()
+    {
+        $currency = Currency::query()->where('default', true)->first();
+        return $currency;
+    }
+}
+
 if (! function_exists('default_document_status')) {
+    /**
+     * Obtiene o Crea un nuevo estado de documento por defecto para el estado PR = En Proceso
+     *
+     * @author Ing. Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
+     *
+     * @return DocumentStatus Devuelve información del estatus del documento
+     */
     function default_document_status()
     {
         $data = [
@@ -1459,6 +1613,13 @@ if (! function_exists('default_document_status')) {
 }
 
 if (! function_exists('default_document_status_el')) {
+    /**
+     * Obtiene o Crea un nuevo estado de documento por defecto para el estado EL = Elaborado(a)
+     *
+     * @author Ing. Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
+     *
+     * @return DocumentStatus Devuelve información del estatus del documento
+     */
     function default_document_status_el()
     {
         $data = [

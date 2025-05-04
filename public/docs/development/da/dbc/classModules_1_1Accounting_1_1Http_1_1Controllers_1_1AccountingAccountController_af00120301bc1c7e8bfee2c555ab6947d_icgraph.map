@@ -1,0 +1,11 @@
+<map id="getAccounts" name="getAccounts">
+<area shape="rect" id="Node000001" title="Obtiene los registros de las cuentas patrimoniales." alt="" coords="120,80,223,105"/>
+<area shape="rect" id="Node000002" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#a0a4689988e90859d81c6d895ff885d79" title="Lee las filas de un archivo de hoja de calculo." alt="" coords="6,5,71,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,75,61,33,64,29,137,70"/>
+<area shape="rect" id="Node000003" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#a149eb92716c1084a935e04a8d95f7347" title="Muestra un listado de cuentas patrimoniales." alt="" coords="9,55,68,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="106,83,68,75,69,70,107,78"/>
+<area shape="rect" id="Node000004" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#a9ef485163104597c12185b53cdacf638" title="Crea una nueva cuenta patrimonial." alt="" coords="11,104,66,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="107,107,67,114,66,109,106,102"/>
+<area shape="rect" id="Node000005" href="$da/dbc/classModules_1_1Accounting_1_1Http_1_1Controllers_1_1AccountingAccountController.html#affb03cc19897a1800a0f411264d6c7cc" title="Actualiza los datos de la cuenta patrimonial." alt="" coords="5,153,72,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="137,115,64,155,62,151,134,110"/>
+</map>

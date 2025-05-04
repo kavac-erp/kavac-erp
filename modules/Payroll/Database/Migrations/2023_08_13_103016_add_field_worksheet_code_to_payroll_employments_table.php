@@ -12,8 +12,8 @@ use Illuminate\Database\Migrations\Migration;
  *
  * @author Fabián Palmera <fapalmera@cenditel.gob.ve>
  *
- * @license LICENCIA DE SOFTWARE CENDITEL
- * @link    http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class AddFieldWorksheetCodeToPayrollEmploymentsTable extends Migration
 {

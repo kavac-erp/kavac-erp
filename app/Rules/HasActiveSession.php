@@ -1,5 +1,5 @@
 <?php
-/** Reglas de validación personalizadas */
+
 namespace App\Rules;
 
 use App\Models\User;
@@ -27,6 +27,7 @@ class HasActiveSession implements Rule
      */
     public function __construct()
     {
+        //
     }
 
     /**
@@ -34,6 +35,7 @@ class HasActiveSession implements Rule
      *
      * @param  string  $attribute
      * @param  mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)

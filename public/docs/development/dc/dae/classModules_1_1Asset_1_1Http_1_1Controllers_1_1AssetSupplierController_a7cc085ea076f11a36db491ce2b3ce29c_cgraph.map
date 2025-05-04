@@ -1,0 +1,7 @@
+<map id="store" name="store">
+<area shape="rect" id="Node000001" title="Almacena un nuevo Proveedor de bienes." alt="" coords="5,45,60,70"/>
+<area shape="rect" id="Node000002" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#afb37afc470c73cd55965d9fa9b135b27" title="Obtiene el objeto del documento guardado." alt="" coords="108,5,315,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,50,94,44,95,49,61,55"/>
+<area shape="rect" id="Node000003" href="$df/dad/classApp_1_1Repositories_1_1UploadDocRepository.html#a722186532257dcbec79866616e82e115" title="Instrucciones para verificar y subir un documento a la ruta indicada en el servidor." alt="" coords="108,69,315,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="61,60,95,66,94,71,60,65"/>
+</map>

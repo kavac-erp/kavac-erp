@@ -11,11 +11,6 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
-use Modules\Payroll\Models\PayrollDisability;
-use Modules\Payroll\Models\PayrollSchoolingLevel;
-use Modules\Payroll\Models\PayrollScholarshipType;
-use Modules\Payroll\Models\PayrollRelationship;
-use App\Models\Gender;
 use Carbon\Carbon;
 
 class SocioStaffExportFromButton extends DataExport implements
@@ -28,15 +23,33 @@ class SocioStaffExportFromButton extends DataExport implements
 {
     use RegistersEventListeners;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @param mixed $collection
+     *
+     * @return void
+     */
     public function __construct(protected mixed $collection = null)
     {
+        //
     }
 
+    /**
+     * Metodo para obtener la colección de datos
+     *
+     * @return mixed
+     */
     public function collection()
     {
         return $this->collection;
     }
 
+    /**
+     * Encabezados de la hoja
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return [
@@ -59,6 +72,13 @@ class SocioStaffExportFromButton extends DataExport implements
         ];
     }
 
+    /**
+     * Mapeo de los datos de la hoja
+     *
+     * @param mixed $data Datos de la hoja
+     *
+     * @return array
+     */
     public function map($data): array
     {
         $map = [
@@ -90,23 +110,38 @@ class SocioStaffExportFromButton extends DataExport implements
         return $map;
     }
 
+    /**
+     * Título de la hoja a exportar
+     *
+     * @return string
+     */
     public function title(): string
     {
         return 'Datos Socioeconomicos';
     }
 
+    /**
+     * Celda en la que se debe comenzar a escribir el archivo a exportar
+     *
+     * @return string
+     */
     public function startCell(): string
     {
         return 'A1';
     }
 
+    /**
+     * Registra los eventos de la clase
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                /** Se crea una instancia Worksheet para acceder a las dos sheet. */
+                /* Se crea una instancia Worksheet para acceder a las dos sheet. */
                 $sheet = $event->sheet->getDelegate();
-                /** Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
+                /* Se establece el valor del rango para instanciarlo en la formula. (NombreSheet!Rango) */
                 $marital_status = 'validation!$A$2:$A$5000';
                 $payroll_schooling_level = 'validation!$B$2:$B$5000';
                 $disability = 'validation!$C$2:$C$5000';

@@ -84,7 +84,7 @@
 					<div class="col-md-12" id="helpCitizenServiceRegisterTeam">
 						<div class="form-group is-required">
 							<label for="team_name">Equipo responsable</label>
-						    <v-multiselect :options="payroll_staffs" 
+						    <v-multiselect :options="payroll_staffs"
 						    track_by="text"
 									v-model="record.team_name"
 								    :hide_selected="false">
@@ -158,8 +158,6 @@
 			},
 			/**
 			 * Método que borra todos los datos del formulario
-			 *
-			 *
 			 */
 			reset() {
 				this.record = {

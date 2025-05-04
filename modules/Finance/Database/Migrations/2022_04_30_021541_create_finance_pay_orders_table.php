@@ -6,17 +6,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * @class CreateFinancePayOrdersTable
- * @brief [descripción detallada]
- *
- * [descripción corta]
- *
- * @author [autor de la clase] [correo del autor]
- *
- * @license
- *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
- */
 class CreateFinancePayOrdersTable extends Migration
 {
     /**
@@ -29,7 +18,7 @@ class CreateFinancePayOrdersTable extends Migration
         if (!Schema::hasTable('finance_pay_orders')) {
             Schema::create('finance_pay_orders', function (Blueprint $table) {
                 $table->id();
-                
+
                 $table->string('code', 100)->unique()->comment('Código de la órden de pago');
                 $table->date('ordered_at')->default(DB::Raw('CURRENT_TIMESTAMP'))->comment('Fecha de la orden de pago');
                 $table->enum('type', ['PR', 'NP'])->default('PR')
@@ -58,9 +47,9 @@ class CreateFinancePayOrdersTable extends Migration
                 $table->foreignId('finance_payment_method_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
                 $table->foreignId('finance_bank_account_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
                 $table->foreignId('institution_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
-                /** Relación al documento de origen */
+                /* Relación al documento de origen */
                 $table->nullableMorphs('document_sourceable');
-                /** Relación al proveedor o beneficiario de la órden de pago */
+                /* Relación al proveedor o beneficiario de la órden de pago */
                 $table->nullableMorphs('name_sourceable');
             });
         }

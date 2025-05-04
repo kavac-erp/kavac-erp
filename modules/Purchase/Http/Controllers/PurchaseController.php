@@ -2,16 +2,22 @@
 
 namespace Modules\Purchase\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Modules\Purchase\Models\FiscalYear;
 
+/**
+ * @class PurchaseController
+ * @brief Controlador para la gestión del módulo de compras
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseController extends Controller
 {
     /**
      * Obtiene el año fiscal actual
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getFiscalYear()
     {
@@ -20,8 +26,9 @@ class PurchaseController extends Controller
     }
 
     /**
-     * Obtine un listado de las instituciones
-     * @return JsonResponse
+     * Obtiene un listado de las instituciones
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getInstitutions()
     {

@@ -12,9 +12,11 @@ var classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController =
     [ "index", "de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#a149eb92716c1084a935e04a8d95f7347", null ],
     [ "rejected", "de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#a05e897e19d752054aa6820912986054c", null ],
     [ "showDocuments", "de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#a8fd1f19718f57980d7673ef85b9793f5", null ],
+    [ "store", "de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#a5fb0bcc700ffb8694a96c31f3f5d0af8", null ],
     [ "update", "de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#affb03cc19897a1800a0f411264d6c7cc", null ],
     [ "vueInfo", "de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#a33c93a58e2d349e7e235a94a1691a76d", null ],
     [ "vueList", "de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#aca78b35dd9df5b11e63e88796cf08c66", null ],
     [ "vuePendingList", "de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#a8b33c34bcfa8ed7c94869b0c15bc653a", null ],
-    [ "$data", "de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#a6efc15b5a2314dd4b5aaa556a375c6d6", null ]
+    [ "$customAttributes", "de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#a521f9f3392b9032a84bfbadf8cf3597e", null ],
+    [ "$data", "de/d5c/classModules_1_1Asset_1_1Http_1_1Controllers_1_1AssetRequestController.html#a165bc765ae7568c8712902a65b77bf12", null ]
 ];

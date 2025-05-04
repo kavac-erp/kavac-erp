@@ -1,3 +1,11 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$dc/da3/classCreatePayrollSalaryAssignmentTable.html" title="Crear tabla de asignaciones de nómina." alt="" coords="5,5,232,47"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d5/d37/classApp_1_1Models_1_1City.html" title="Datos de Ciudades." alt="" coords="5,80,53,105"/>
+<area shape="rect" id="Node000001" href="$da/df2/classModules_1_1Asset_1_1Models_1_1City.html" title="Extiende del modelo de ciudad de la aplicación base." alt="" coords="101,5,149,31"/>
+<area shape="poly" id="edge6_Node000000_Node000001" title=" " alt="" coords="56,69,106,29,110,33,59,73"/>
+<area shape="rect" id="Node000002" href="$d8/d76/classModules_1_1CitizenService_1_1Models_1_1City.html" title="Extiende del modelo City de la aplicación base." alt="" coords="101,55,149,80"/>
+<area shape="poly" id="edge7_Node000000_Node000002" title=" " alt="" coords="66,80,100,71,102,76,67,85"/>
+<area shape="rect" id="Node000003" href="$dd/d54/classModules_1_1Finance_1_1Models_1_1City.html" title="Clase que extiende del modelo de Ciudad de la aplicación base." alt="" coords="101,104,149,129"/>
+<area shape="poly" id="edge8_Node000000_Node000003" title=" " alt="" coords="67,99,102,108,101,113,66,105"/>
+<area shape="rect" id="Node000004" href="$d8/d90/classModules_1_1Purchase_1_1Models_1_1City.html" title="Extension de la clase City de la aplicación base." alt="" coords="101,153,149,179"/>
+<area shape="poly" id="edge9_Node000000_Node000004" title=" " alt="" coords="59,112,109,151,106,155,56,116"/>
 </map>

@@ -19,10 +19,10 @@ use App\Traits\ModelsTrait;
  * Causado = CAU
  * Pagado = PAG
  *
- * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PurchaseStates extends Model implements Auditable
 {
@@ -32,20 +32,23 @@ class PurchaseStates extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at', 'registered_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['code', 'registered_at', 'type', 'amount', 'budget_compromise_id'];
 
     /**
-     * PurchaseStage morphs to models in stageable_type.
+     * Establece la relación con los estados
      *
-     * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
+     * @author Ing. Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function stageable()
@@ -54,7 +57,7 @@ class PurchaseStates extends Model implements Auditable
     }
 
     /**
-     * PurchaseStage belongs to BudgetCompromise.
+     * Establece la relación con los compromisos presupuestarios
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -11,13 +11,12 @@ use App\Roles\Models\Permission;
  * @class   DigitalSignatureRoleAndPermissionsTableSeeder
  * @brief   Gestiona la inserción de permisos en la base de datos
  *
- *          Clase que gestiona la inserción de permisos en la base de datos.
+ * Clase que gestiona la inserción de permisos en la base de datos.
  *
  * @author  Ing. Argenis Osorio <aosorio@cenditel.gob.ve>
  *
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class DigitalSignatureRoleAndPermissionsTableSeeder extends Seeder
 {
@@ -97,9 +96,7 @@ class DigitalSignatureRoleAndPermissionsTableSeeder extends Seeder
                 'slug_alt' => 'firma_electronica.verify',
                 'short_description' => 'Verificar la firma electrónica de un documento'
             ],
-            /**
-            * Dashboard
-            */
+            /* Dashboard */
             [
                 'name'              => 'Vista principal del dashboard del módulo de firma electrónica',
                 'slug'              => 'digitalsignature.dashboard',

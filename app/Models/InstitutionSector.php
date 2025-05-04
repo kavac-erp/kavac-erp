@@ -1,7 +1,5 @@
 <?php
 
-/** Modelos generales de base de datos */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +13,8 @@ use App\Traits\ModelsTrait;
  * @brief Datos de los sectores de las Organizaciones
  *
  * Gestiona el modelo de datos para los sectores de Organizaciones
+ *
+ * @property string $name
  *
  * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
  *
@@ -51,11 +51,9 @@ class InstitutionSector extends Model implements Auditable
     /**
      * Método que obtiene las organizaciones asociadas a un sector
      *
-     * @method  institutions
-     *
      * @author  Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
      *
-     * @return object Objeto con los registros relacionados al modelo InstitutionSector
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function institutions()
     {

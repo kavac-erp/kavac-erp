@@ -1,3 +1,7 @@
-<map id="Representación gráfica de la clase" name="Representación gráfica de la clase">
-<area shape="rect" id="node1" href="$d0/d22/classModules_1_1Purchase_1_1Http_1_1Controllers_1_1PurchaseParameterController.html" title="Controlador de la gestión de los parámetros de Compras." alt="" coords="5,5,217,32"/>
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" href="$d7/da4/classApp_1_1Models_1_1Image.html" title="Datos de Imágenes." alt="" coords="5,31,68,56"/>
+<area shape="rect" id="Node000001" href="$d3/dcb/classModules_1_1Finance_1_1Models_1_1Image.html" title="Estiende de la clase Image de la aplicación base." alt="" coords="116,5,179,31"/>
+<area shape="poly" id="edge89_Node000000_Node000001" title=" " alt="" coords="81,31,115,23,116,28,82,36"/>
+<area shape="rect" id="Node000002" href="$dd/d56/classModules_1_1Payroll_1_1Models_1_1Image.html" title="Modelo que extiende las funcionalidades del modelo base Image." alt="" coords="116,55,179,80"/>
+<area shape="poly" id="edge90_Node000000_Node000002" title=" " alt="" coords="82,50,116,58,115,63,81,56"/>
 </map>

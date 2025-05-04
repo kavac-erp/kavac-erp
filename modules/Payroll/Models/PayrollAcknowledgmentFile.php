@@ -1,7 +1,5 @@
 <?php
 
-/** [descripción del namespace] */
-
 namespace Modules\Payroll\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -29,12 +27,14 @@ class PayrollAcknowledgmentFile extends Model implements Auditable
 
     /**
      * Lista de atributos para la gestión de fechas
+     *
      * @var array $dates
      */
     protected $dates = ['deleted_at'];
 
     /**
      * Lista de atributos que pueden ser asignados masivamente
+     *
      * @var array $fillable
      */
     protected $fillable = ['name', 'payroll_acknowledgment_id', 'image_id'];
@@ -43,6 +43,7 @@ class PayrollAcknowledgmentFile extends Model implements Auditable
      * Método que obtiene el reconocimiento asociado a un archivo de reconocimiento
      *
      * @author  William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payrollAcknowledgment()
@@ -54,6 +55,7 @@ class PayrollAcknowledgmentFile extends Model implements Auditable
      * Método que obtiene la imagen asociada a un archivo de reconocimiento
      *
      * @author  William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function image()
@@ -65,6 +67,7 @@ class PayrollAcknowledgmentFile extends Model implements Auditable
      * Obtiene todos los documentos asociados al reconocimiento
      *
      * @author William Páez <wpaez@cenditel.gob.ve> | <paez.william8@gmail.com>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function documents()

@@ -183,7 +183,7 @@
                                 <label>Código SIGECOF</label>
                                 <input type="text" placeholder="Código del bien" data-toggle="tooltip"
                                        title="Código del bien según catálogo SIGECOF" disabled
-                                       class="form-control input-sm" v-model="record.code_sigecof = code"
+                                       class="form-control input-sm" v-model="record.code_sigecof"
                                        v-input-mask data-inputmask="'mask': '99999-9999'" />
                             </div>
                         </div>
@@ -252,6 +252,18 @@
                                              v-model="record.asset_details[current -1]['department_id']"></select2>
                                 </div>
                             </div>
+                            <div class="col-md-4" id="helpAssetStatus">
+                                <div class="form-group">
+                                    <label>Depósito</label>
+                                    <select2
+                                        :options="asset_institution_storages"
+                                        data-toggle="tooltip"
+                                        disabled="true"
+                                        title="Seleccione un registro de la lista"
+                                        v-model="record.asset_details[current - 1]['asset_institution_storages_id']">
+                                    </select2>
+                                </div>
+                            </div>
                             <div class="col-md-8" id="helpAssetSpecification">
                                 <div class="form-group">
                                     <label>Descripción</label>
@@ -263,7 +275,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4" v-for="(field, index) in fields">
+                            <div class="col-md-4" v-for="(field, index) in fields" :key="index">
                                 <div class="form-group is-required">
                                     <label> {{ field['label'] }} </label>
                                     <input  v-if="field['type'] == 'date'"
@@ -292,7 +304,7 @@
                                             :data-inputmask="field['mask']"
                                             disabled
                                             />
-                                    
+
                                     <input  v-else-if="field['type'] == 'text' && field['mask'] &&
                                             (field['name'] == 'residual_value' || field['name'] == 'depresciation_years')"
                                             type="text"
@@ -506,7 +518,6 @@
 </template>
 
 <script>
-import SaleListSubservicesMethodVue from '../../../../../../Sale/Resources/assets/js/components/settings/SaleListSubservicesMethod.vue';
     export default {
         data() {
             return {
@@ -552,11 +563,13 @@ import SaleListSubservicesMethodVue from '../../../../../../Sale/Resources/asset
                 total: '',
                 required: {},
 
+                editForm: false,
                 editIndex: false,
                 addDescription: false,
 
                 fields: [],
                 records: [],
+                asset_institution_storages: [],
                 columns: [
                     'code_sigecof', 'department.name', 'asset_specific_category.name', 'asset_count', 'id'
                 ],
@@ -704,6 +717,36 @@ import SaleListSubservicesMethodVue from '../../../../../../Sale/Resources/asset
                 });
             },
             /**
+             * Obtiene una lista con los depositos institucionales
+             *
+             * @author Manuel Zambrano <mazambranos@cenditel.gob.ve>
+             */
+            getAssetInstitutionStorages() {
+                const vm = this;
+                vm.asset_institution_storages = [];
+                axios.get(`${window.app_url}/asset/get-storages/${vm.record.institution_id}`).then(response => {
+                    let storages = response.data.filter(item => item.storage !== null).map((item) => {
+                        return {
+                            id: item.id,
+                            text: item.storage.name
+                        }
+                    });
+                    if(storages.length > 0) {
+                        storages.unshift({
+                        id: '',
+                        text: "Seleccione..."
+                    });
+                    }else{
+                        storages.unshift({
+                            id: '',
+                            text: 'No hay Depósitos Activos registrados'
+                        });
+
+                    }
+                    vm.asset_institution_storages = storages;
+                });
+            },
+            /**
              * Obtiene los datos de las funciones de uso de los bienes institucionales
              *
              * @author Henry Paredes <hparedes@cenditel.gob.ve>
@@ -770,6 +813,7 @@ import SaleListSubservicesMethodVue from '../../../../../../Sale/Resources/asset
                         };
 
                         setTimeout(() => {
+                            vm.editForm = true;
                             vm.record.asset_details[0]['department_id'] = recordEdit.department_id
                         }, 2000);
                     }
@@ -842,7 +886,7 @@ import SaleListSubservicesMethodVue from '../../../../../../Sale/Resources/asset
             async getPurchaseSuppliers() {
                 const vm = this;
                 vm.purchase_suppliers = [];
-                await axios.get(`${window.app_url}/purchase/suppliers-list`).then(response => {
+                await axios.get(`${window.app_url}/asset/suppliers-list`).then(response => {
                     vm.purchase_suppliers = response.data;
                 });
             },
@@ -981,7 +1025,7 @@ import SaleListSubservicesMethodVue from '../../../../../../Sale/Resources/asset
                     if(typeof(record[field['name']]) == 'undefined') {
                         validate = false;
                         vm.errors.push('El campo ' + field['label'] + ' es requerido.');
-                    } else if (record[field['name']] == '' && field['required'] == true) {
+                    } else if (record[field['name']] === '' && field['required'] == true) {
                         validate = false;
                         vm.errors.push('El campo ' + field['label'] + ' es requerido.');
                     }
@@ -1005,7 +1049,7 @@ import SaleListSubservicesMethodVue from '../../../../../../Sale/Resources/asset
                         description: '',
                     }
                     return defaultValueField;
-                
+
             },
             nextAsset(event) {
                 const vm = this;
@@ -1144,6 +1188,7 @@ import SaleListSubservicesMethodVue from '../../../../../../Sale/Resources/asset
                         })[0];
                     }
                     fieldCode += (fieldSpc) ? fieldSpc['code'] : '';
+                    this.record.code_sigecof = fieldCode;
                     return fieldCode;
                 }
             }
@@ -1154,6 +1199,7 @@ import SaleListSubservicesMethodVue from '../../../../../../Sale/Resources/asset
             vm.getHeadquarters();
             vm.getPurchaseSuppliers();
             vm.getAssetAcquisitionTypes();
+            vm.getAssetInstitutionStorages()
             vm.getCurrencies();
             vm.getAssetTypes();
             vm.getAssetConditions();
@@ -1175,8 +1221,8 @@ import SaleListSubservicesMethodVue from '../../../../../../Sale/Resources/asset
                  $('select').select2('destroy');
              }
 
-            
-            
+
+
         },
     };
 </script>

@@ -74,11 +74,19 @@
                     <span
                         class="badge badge-success"
                         v-show="
+                            props.row.available == 'AP'
+                        "
+                    >
+                        <strong>Aprobado(a)</strong>
+                    </span>
+                    <span
+                        class="badge badge-info"
+                        v-show="
                             props.row.available == 'Disponible'
                             || props.row.available == 'available'
                         "
                     >
-                        <strong>Disponible</strong>
+                        <strong>Por aprobar</strong>
                     </span>
                     <span
                         class="badge badge-danger"
@@ -126,6 +134,21 @@
                         "
                     />
                     <!-- Final de Show modal -->
+                    <!-- Aprobar disponibilidad presupuestaria -->
+                    <button
+                        v-show="
+                                props.row.available == 'Disponible'
+                                || props.row.available == 'available'
+                            "
+                        class="btn btn-success btn-xs btn-icon btn-action"
+                        title="Aprobar disponibilidad presupuestaria"
+                        data-toggle="tooltip"
+                        type="button"
+                        @click="approveBudgetAvailability(props.row)"
+                    >
+                        <i class="fa fa-check"></i>
+                    </button>
+                    <!-- Final de Aprobar disponibilidad presupuestaria -->
                     <!-- Completar solicitud -->
                     <span v-if="props.row.module == 'Purchase'">
                         <button
@@ -157,7 +180,7 @@
                     </button>
                     <!-- Final de Completar solicitud -->
                     <!-- Editar solicitud -->
-                    <span v-if="props.row.module == 'Purchase'">
+                    <span v-if="props.row.module == 'Purchase' && props.row.available == 'Disponible'">
                         <button
                             v-if="props.row.module == 'Purchase' && props.row.available"
                             @click="editForm(props.row.id)"
@@ -169,18 +192,6 @@
                             <i class="fa fa-edit"></i>
                         </button>
                     </span>
-                    <!-- <span v-if="props.row.module == 'Payroll'">
-                        <button
-                            v-if="props.row.available != 'send' && props.row.available != 'AN'"
-                            @click="editForm(props.row.id)"
-                            class="btn btn-warning btn-xs btn-icon btn-action"
-                            title="Modificar registro"
-                            data-toggle="tooltip"
-                            v-has-tooltip
-                        >
-                            <i class="fa fa-edit"></i>
-                        </button>
-                    </span> -->
                     <!-- Final de Editar solicitud -->
                     <a
                         v-if="props.row.available"
@@ -193,22 +204,6 @@
                     >
                         <i class="fa fa-print" style="text-align: center;"></i>
                     </a>
-                    <!--button
-                        v-if="props.row.availability != ''"
-                        @click="
-                            deleteRecord(
-                                props.row.id,
-                                '/purchase/budgetary_availability'
-                            )
-                        "
-                        class="btn btn-danger btn-xs btn-icon btn-action"
-                        title="Eliminar registro"
-                        data-toggle="tooltip"
-                        v-has-tooltip
-                        type="button"
-                    >
-                        <i class="fa fa-trash-o"></i>
-                    </button-->
                 </div>
             </div>
         </v-client-table>
@@ -383,6 +378,82 @@ export default {
                 },
             });
         },
+
+        /**
+         * Método para aprobar una disponibilidad presupuestaria
+         *
+         * @method approveBudgetAvailability
+         *
+         * @param {object} budget_availability Disponibilidad presupuestaria
+         *
+         * @author Francisco J. P. Ruiz <fjpenya@cenditel.gob.ve> | <javierrupe19@gmail.com>
+         */
+         approveBudgetAvailability(budget_availability) {
+            const vm = this;
+            const url = vm.setUrl('/purchase/budgetary_availability/approve');
+            bootbox.confirm({
+                title: "Aprobar disponibilidad presupuestaria",
+                message: "Código del requrimiento: " + budget_availability.code,
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> No'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Si'
+                    }
+                },
+                callback: function(result) {
+                    if (result) {
+
+                        bootbox.confirm({
+                            title: "Aprobar disponibilidad presupuestaria",
+                            message: "¿Está seguro? Una vez aprobado no se podrá modificar y/o eliminar este registro.\n\n" +
+                                    "Código del requrimiento: " + budget_availability.code,
+                            buttons: {
+                                cancel: {
+                                    label: '<i class="fa fa-times"></i> Cancelar'
+                                },
+                                confirm: {
+                                    label: '<i class="fa fa-check"></i> Confirmar'
+                                }
+                            },
+                            callback: function(result) {
+                                if (result) {
+                                    vm.loading = true;
+                                    let records = {
+                                        id: budget_availability.id,
+                                        status: budget_availability.available,
+                                        module: budget_availability.module,
+                                    }
+                                    axios.post(url, records).then(response => {
+                                        if (response.status == 200){
+                                            vm.showMessage('custom', '¡Éxito!', 'success', 'screen-ok', 'Disponibilidad presupuestaria aprobada');
+                                            location.reload();
+                                        }
+                                    }).catch(error => {
+                                        if (typeof(error.response) !="undefined") {
+                                            if (error.response.status == 403) {
+                                                vm.showMessage(
+                                                    'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
+                                                );
+                                            }
+                                            if (error.response.status == 500) {
+                                                const messages = error.response.data.message;
+                                                vm.showMessage(
+                                                    messages.type, messages.title, messages.class, messages.icon, messages.text
+                                                );
+                                            }
+                                            console.error(error);
+                                        }
+                                    });
+                                    vm.loading = false;
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        },
     },
     created() {
         this.table_options.headings = {
@@ -406,6 +477,7 @@ export default {
             "currency_name",
         ];
         this.table_options.filterable = [
+            "code",
             "description",
             "currency_name",
         ];

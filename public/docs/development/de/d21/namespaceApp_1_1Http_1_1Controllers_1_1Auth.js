@@ -1,5 +1,6 @@
 var namespaceApp_1_1Http_1_1Controllers_1_1Auth =
 [
+    [ "ConfirmPasswordController", "de/d21/namespaceApp_1_1Http_1_1Controllers_1_1Auth.html#df/d12/classApp_1_1Http_1_1Controllers_1_1Auth_1_1ConfirmPasswordController", null ],
     [ "ForgotPasswordController", "d5/d84/classApp_1_1Http_1_1Controllers_1_1Auth_1_1ForgotPasswordController.html", "d5/d84/classApp_1_1Http_1_1Controllers_1_1Auth_1_1ForgotPasswordController" ],
     [ "LoginController", "de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController.html", "de/d5f/classApp_1_1Http_1_1Controllers_1_1Auth_1_1LoginController" ],
     [ "RegisterController", "d5/d17/classApp_1_1Http_1_1Controllers_1_1Auth_1_1RegisterController.html", "d5/d17/classApp_1_1Http_1_1Controllers_1_1Auth_1_1RegisterController" ],

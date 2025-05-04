@@ -13,41 +13,35 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounting'], function () {
 
-    /**
-     * Rutas temporal para la visualizacion del dashboard del modulo de contabilidad
-     */
-    Route::get('', 'AccountingDashboardController@index', ['as' => 'accounting'])->name('accounting.dashboard.test');
+    /* Rutas temporal para la visualizacion del dashboard del modulo de contabilidad */
+    Route::get('', 'AccountingDashboardController@index')->name('accounting.dashboard.test');
 
-    /**
-    * Ruta del dashboard para consultar ultimas operaciones en el modulo
-    */
-    Route::post('lastOperations', 'AccountingDashboardController@getOperations', ['as' => 'accounting'])
+    /* Ruta del dashboard para consultar ultimas operaciones en el modulo */
+    Route::post('lastOperations', 'AccountingDashboardController@getOperations')
     ->name('accounting.dashboard.last_operations');
 
-    Route::post('get_report_histories', 'AccountingDashboardController@getReportHistories', ['as' => 'accounting'])
+    Route::post('get_report_histories', 'AccountingDashboardController@getReportHistories')
     ->name('accounting.dashboard.report_histories');
 
-    /** Ruta que obtiene las cuentas contables */
+    /* Ruta que obtiene las cuentas contables */
     Route::get('get_accounts', 'AccountingAccountController@getAccounts')
     ->name('accounting.get_accounts');
 
     Route::get('get_original_accounts', 'AccountingEntryController@getGroupAccountingAccount')
     ->name('accounting.get_original_accounts');
 
-    /**
-     * Rutas para la gestion de cuentas patrimoniales
-     */
+    /* Rutas para la gestion de cuentas patrimoniales */
     Route::get('accounts', 'AccountingAccountController@index')
             ->name('accounting.accounts.index');
 
     Route::get('get-children-account/{parent_id}', 'AccountingAccountController@getChildrenAccount')
             ->name('accounting.accounts.getChildrenAccount');
 
-    /** Ruta que permite importar la información de las cuentas patrimoniales */
+    /* Ruta que permite importar la información de las cuentas patrimoniales */
     Route::post('import', 'AccountingAccountController@import')
         ->name('accounting.accounts.import');
 
-    /** Ruta que permite exportar la información de las cuentas patrimoniales */
+    /* Ruta que permite exportar la información de las cuentas patrimoniales */
     Route::get('export/all', 'AccountingAccountController@export')
         ->name('accounting.accounts.export.all');
 
@@ -58,9 +52,7 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
         'except' => ['index']]
     );
 
-    /**
-     * Rutas para las operaciones de conversión de cuentas
-     */
+    /* Rutas para las operaciones de conversión de cuentas */
     Route::get('converter', 'AccountingAccountConverterController@index')
             ->name('accounting.converter.index');
 
@@ -97,26 +89,19 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
         'except' => ['index']]
     );
 
-    /**
-     * aprobar un asiento contable
-     */
+    /* aprobar un asiento contable */
     Route::post('entries/approve/{id}', 'AccountingEntryController@approve')
             ->name('accounting.entries.approve');
 
-    /**
-     * genera reverso de asiento contable
-     */
-    Route::post('entries/reverse/{id}', 'AccountingEntryController@reverse')
+    /* genera reverso de asiento contable */
+    Route::post('entries/reverse', 'AccountingEntryController@reverse')
             ->name('accounting.entries.reverse');
 
-    /*
-     * Convierte registros relacionados a cuentas patrimoniales en asientos contables
-     */
+    /* Convierte registros relacionados a cuentas patrimoniales en asientos contables */
     Route::post('entries/converterToEntry', 'AccountingEntryController@converterToEntry')
             ->name('accounting.entries.converterToEntry');
-    /**
-     * rutas para la gestión de asientos contables
-     */
+
+    /* Rutas para la gestión de asientos contables */
     Route::resource(
         'entries',
         'AccountingEntryController',
@@ -124,40 +109,35 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
     );
     Route::get('entries', 'AccountingEntryController@index')
             ->name('accounting.entries.index');
-    /**
-     * ruta para crear asientos contables
-     */
+
+    /* Ruta para crear asientos contables */
     Route::post('entries/create', 'AccountingEntryController@create')
             ->name('accounting.entries.create');
 
-
-    /**
-     * ruta para el filtrado o busqueda de asientos contables aprobados
-     */
+    /* Ruta para el filtrado o busqueda de asientos contables aprobados */
     Route::post('entries/Filter-Records/{perPage?}/{page?}', 'AccountingEntryController@filterRecords')
             ->name('accounting.entries.FilterRecords');
 
-    /**
-     * rutas para los pdf de asientos contables
-     */
+    /* Rutas para los pdf de asientos contables */
     Route::get('entries/pdf/{id}', 'Reports\AccountingEntryController@pdf');
 
-    /**
-    * Rutas index para los formularios de los reportes
-    */
-
+    /* Rutas index para los formularios de los reportes */
     Route::get('report/accountingBooks', 'Reports\AccountingReportsController@accountingBooks')
         ->name('accounting.report.accountingBooks');
 
     Route::get('report/financeStatements', 'Reports\AccountingReportsController@financeStatements')
         ->name('accounting.report.financeStatements');
 
-    /**
-     * rutas para reporte de balance de comprobación
-     */
+    /* Rutas para reporte de balance de comprobación */
     Route::get(
         'report/balanceCheckUp/{report}',
         'Reports\AccountingCheckupBalanceController@pdf'
+    );
+
+    /* Rutas para reporte de balance de comprobación */
+    Route::get(
+        'report/balanceCheckUp/sheet/{report}',
+        'Reports\AccountingCheckupBalanceController@export'
     );
 
     Route::get(
@@ -165,9 +145,7 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
         'Reports\AccountingCheckupBalanceController@pdfVue'
     );
 
-    /**
-     * rutas para reporte de balance de comprobación con firma electrónica
-     */
+    /* Rutas para reporte de balance de comprobación con firma electrónica */
     Route::get(
         'report/balanceCheckUpSign/{report}',
         'Reports\AccountingCheckupBalanceController@pdfSign'
@@ -178,9 +156,7 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
         'Reports\AccountingCheckupBalanceController@pdfVueSign'
     );
 
-    /**
-     * rutas para reporte del Mayor Analítico
-     */
+    /* Rutas para reporte del Mayor Analítico */
     Route::post(
         'report/analyticalMajor/AccAccount',
         'Reports\AccountingAnalyticalMajorController@getAccAccount'
@@ -192,13 +168,16 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
     );
 
     Route::get(
+        'report/analyticalMajor/sheet/{report}',
+        'Reports\AccountingAnalyticalMajorController@export'
+    );
+
+    Route::get(
         'report/analyticalMajor/pdfVue/{initDate}/{endDate}/{initAcc}/{endAcc}/{currency}',
         'Reports\AccountingAnalyticalMajorController@pdfVue'
     );
 
-     /**
-     * rutas para reporte del Mayor Analítico con firma electrónica
-     */
+    /* Rutas para reporte del Mayor Analítico con firma electrónica */
     Route::get(
         'report/analyticalMajorSign/{report}',
         'Reports\AccountingAnalyticalMajorController@pdfSign'
@@ -209,22 +188,23 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
         'Reports\AccountingAnalyticalMajorController@pdfVueSign'
     );
 
-    /**
-     * rutas para reporte del libro diario
-     */
+    /* Rutas para reporte del libro diario */
     Route::get(
         'report/dailyBook/{report}',
         'Reports\AccountingDailyBookController@pdf'
     );
 
+    Route::get(
+        'report/dailyBook/sheet/{report}',
+        'Reports\AccountingDailyBookController@export'
+    );
 
     Route::get(
         'report/dailyBook/pdfVue/{initDate}/{endDate}/{currency}',
         'Reports\AccountingDailyBookController@pdfVue'
     );
-    /**
-     * rutas para reporte del libro diario firmado electrónicamente
-     */
+
+    /* Rutas para reporte del libro diario firmado electrónicamente */
     Route::get(
         'report/dailyBookSign/{report}',
         'Reports\AccountingDailyBookController@pdfSign'
@@ -235,9 +215,7 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
         'Reports\AccountingDailyBookController@pdfVueSign'
     );
 
-    /**
-     * rutas para reporte de libro auxiliar
-     */
+    /* Rutas para reporte de libro auxiliar */
     Route::get(
         'report/auxiliaryBook/{report}',
         'Reports\AccountingAuxiliaryBookController@pdf'
@@ -248,9 +226,7 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
         'Reports\AccountingAuxiliaryBookController@pdfVue'
     );
 
-    /**
-     * rutas para reporte de libro auxiliar con firma electrónica
-     */
+    /* Rutas para reporte de libro auxiliar con firma electrónica */
     Route::get(
         'report/auxiliaryBookSign/{report}',
         'Reports\AccountingAuxiliaryBookController@pdfSign'
@@ -261,21 +237,24 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
         'Reports\AccountingAuxiliaryBookController@pdfVueSign'
     );
 
-    /**
-     * rutas para reporte de balance general
-     */
+    /* Rutas para reporte de balance general */
     Route::get(
         'report/BalanceSheet/{report}',
         'Reports\AccountingBalanceSheetController@pdf'
+    );
+
+    /* Rutas para reporte de balance general */
+    Route::get(
+        'report/BalanceSheet/sheet/{report}',
+        'Reports\AccountingBalanceSheetController@export'
     );
 
     Route::get(
         'report/BalanceSheet/pdfVue/{date}/{level}/{currency}/{zero?}',
         'Reports\AccountingBalanceSheetController@pdfVue'
     );
-    /**
-     * rutas para reporte de balance general con firma electrónica
-     */
+
+    /* Rutas para reporte de balance general con firma electrónica */
     Route::get(
         'report/BalanceSheetSign/{report}',
         'Reports\AccountingBalanceSheetController@pdfSign'
@@ -286,21 +265,24 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
         'Reports\AccountingBalanceSheetController@pdfVueSign'
     );
 
-    /**
-     * rutas para reporte de estado de resultados
-     */
+    /* Rutas para reporte de estado de resultados */
     Route::get(
         'report/StateOfResults/{report}',
         'Reports\AccountingStateOfResultsController@pdf'
+    );
+
+    /* Rutas para reporte de hoja de calculo de estado de resultados */
+    Route::get(
+        'report/StateOfResults/sheet/{report}',
+        'Reports\AccountingStateOfResultsController@export'
     );
 
     Route::get(
         'report/StateOfResults/pdfVue/{date}/{level}/{currency}/{zero?}',
         'Reports\AccountingStateOfResultsController@pdfVue'
     );
-    /**
-     * rutas para reporte de estado de resultados con firma electrónica
-     */
+
+    /* Rutas para reporte de estado de resultados con firma electrónica */
     Route::get(
         'report/StateOfResultsSign/{report}',
         'Reports\AccountingStateOfResultsController@pdfSign'
@@ -311,9 +293,29 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
         'Reports\AccountingStateOfResultsController@pdfVueSign'
     );
 
-    /**
-     * Rutas para las vistas de configuración de categorias del modulo de contabilidad
-     */
+    /* Rutas para reporte de estado de movimiento del patrimonio */
+    Route::get(
+        'report/PatrimonialMovement/{report}',
+        'Reports\AccountingPatrimonialMovementController@pdf'
+    );
+
+    Route::get(
+        'report/PatrimonialMovement/pdfVue/{date}/{level}/{currency}/{zero?}',
+        'Reports\AccountingPatrimonialMovementController@pdfVue'
+    );
+
+    /* Rutas para reporte de estado de movimiento del patrimonio con firma electrónica */
+    Route::get(
+        'report/PatrimonialMovementSign/{report}',
+        'Reports\AccountingPatrimonialMovementController@pdfSign'
+    );
+
+    Route::get(
+        'report/PatrimonialMovementSign/pdfVue/{date}/{level}/{currency}/{zero?}',
+        'Reports\AccountingPatrimonialMovementController@pdfVueSign'
+    );
+
+    /* Rutas para las vistas de configuración de categorias del modulo de contabilidad */
     Route::get('settings', 'AccountingSettingController@index')
             ->name('accounting.settings.index');
 
@@ -325,7 +327,10 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
         'AccountingSettingController@generateReferenceCode'
     )->name('accounting.settings.code.generate');
 
-    Route::post('update-institution-parameters', 'AccountingSettingController@updateInstitutionParameters')->name('accounting.parameters.update-institution-parameters');
+    Route::post(
+        'update-institution-parameters',
+        'AccountingSettingController@updateInstitutionParameters'
+    )->name('accounting.parameters.update-institution-parameters');
 
 
     Route::resource(
@@ -337,7 +342,7 @@ Route::group(['middleware' => ['web', 'auth', 'verified'], 'prefix' => 'accounti
     Route::get('get-categories/', 'AccountingSettingCategoryController@getCategories');
 
      /* Ruta para visualizar el interfaz para firmar documento PDF */
-        Route::get('viewSignfile', function () {
-            return view('accounting::viewSignfile', ['signfile' => 'false']);
-        })->name('viewSignfile');
+    Route::get('viewSignfile', function () {
+        return view('accounting::viewSignfile', ['signfile' => 'false']);
+    })->name('viewSignfile');
 });

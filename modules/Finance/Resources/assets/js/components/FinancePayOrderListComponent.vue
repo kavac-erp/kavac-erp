@@ -137,7 +137,7 @@
                             title="Aprobar registro"
                             data-toggle="tooltip"
                             type="button"
-                            @click="approvePayOrderPermission 
+                            @click="approvePayOrderPermission
                             ? changeDocumentStatus('AP', props.row)
                             : showMessage(
                                 'custom',
@@ -149,30 +149,6 @@
                             <i class="fa fa-check"></i>
                         </button>
                     </div>
-                    <!-- <div class="col-4 mb-1">
-                        <button
-                            v-if="props.row.status_aux === 'RE'
-                                || props.row.status_aux === 'AP'
-                                || props.row.status_aux === 'PA'
-                                || props.row.status_aux === 'AN'
-                                || (lastYear && format_date(props.row.ordered_at, 'YYYY') <= lastYear)
-                            "
-                            class="btn btn-xs btn-icon btn-action"
-                            type="button"
-                            disabled
-                        >
-                            <i class="fa fa-ban"></i>
-                        </button>
-                        <button
-                            v-else class="btn btn-xs btn-icon btn-action"
-                            title="Rechazar"
-                            data-toggle="tooltip"
-                            type="button"
-                            @click="changeDocumentStatus('RE', props.row)"
-                        >
-                            <i class="fa fa-ban"></i>
-                        </button>
-                    </div> -->
                     <div class="col-1 mb-1">
                         <a
                             :href="
@@ -212,35 +188,6 @@
                             <i class="fa fa-edit"></i>
                         </button>
                     </div>
-                    <!-- <div class="col-4 mb-1">
-                        <button
-                            v-if="
-                                props.row.status_payment_execute === 'PA'
-                                || props.row.status_aux === 'AN'
-                                || props.row.status_payment_execute === 'AN'
-                                || props.row.status_aux === 'AP'
-                                || (lastYear && format_date(props.row.ordered_at, 'YYYY') <= lastYear)
-                            "
-                            class="btn btn-danger btn-xs btn-icon btn-action"
-                            type="button"
-                            title="Eliminar registro"
-                            disabled
-                        >
-                            <i class="fa fa-trash-o"></i>
-                        </button>
-                        <button
-                            v-else
-                            @click="
-                                deleteRecord(props.row.id, '/finance/pay-orders')
-                            "
-                            class="btn btn-danger btn-xs btn-icon btn-action"
-                            title="Eliminar registro"
-                            data-toggle="tooltip"
-                            type="button"
-                        >
-                            <i class="fa fa-trash-o"></i>
-                        </button>
-                    </div> -->
                     <div class="col-1 mb-1">
                         <finance-cancel-pay-order
                             v-if="(cancelPayOrderPermission
@@ -261,7 +208,7 @@
                             :is_payroll_contribution="props.row.is_payroll_contribution"
                             :fiscal_year="(fiscal_years.length > 0) ? fiscal_years[0].text : ''"
                         />
-                        
+
                         <a
                             v-else
                             @click="
@@ -391,7 +338,7 @@
                                         >
                                             <td class="text-center">
                                                 {{
-                                                    index + 1 
+                                                    index + 1
                                                 }}
                                             </td>
                                             <td class="text-center">
@@ -434,7 +381,7 @@
                                     'N/A'
                                 }}
                             </div>
-                            <div class="col-md-4">
+                            <div v-if="details.document_number" class="col-md-4">
                                 <b>Nro. de Documento:</b> {{ details.document_number || 'No indica' }}
                             </div>
                             <div class="col-md-4">
@@ -442,9 +389,6 @@
                             </div>
                             <div class="col-md-4">
                                 <b>Concepto:</b> {{ details.concept }}
-                            </div>
-                            <div class="col-md-4">
-                                <b>Monto a pagar</b> {{ formatToCurrency(details.amount, details.currency.symbol) }}
                             </div>
                             <div class="col-12">
                                 <b>Observación:</b>
@@ -678,6 +622,19 @@ export default {
                             );
                             location.reload();
                         }).catch(error => {
+                            if (typeof(error.response) !="undefined") {
+                                if (error.response.status == 403) {
+                                    vm.showMessage(
+                                        'custom', 'Acceso Denegado', 'danger', 'screen-error', error.response.data.message
+                                    );
+                                }
+                                if (error.response.status == 500) {
+                                    const messages = error.response.data.message;
+                                    vm.showMessage(
+                                        messages.type, messages.title, messages.class, messages.icon, messages.text
+                                    );
+                                }
+                            }
                             console.error(error);
                         });
                         vm.loading = false;

@@ -36,6 +36,7 @@
                         <label>Código del grupo de supervisados:</label>
                         <select2 :options="payroll_supervised_groups"
                             @input="getDatasupervisedGroup()"
+                            :disabled="(record.confirmed_periods && record.confirmed_periods.length > 0) ? true : false"
                             v-model="record.payroll_supervised_group_id"></select2>
                     </div>
                 </div>
@@ -125,7 +126,7 @@
                                         ? 'min-width: 100px; background-color: white;'
                                         : 'min-width: 100px; background-color: darkgray;'"
                                     @click="getConfirmedDays(field) ? 'javascript:void(0)' : setEditColumns(index)">
-                                    <span>{{ field['day'] }}</span>
+                                    <span>{{ field['day'] + ' - ' + field['day_name'] }}</span>
                                 </th>
                             </tr>
                         </thead>
@@ -146,10 +147,10 @@
                                                     style="background-color: white; color: darkgray;">
                                                 <div class="multiselect__tags" style="display: flex; flex-wrap: wrap;">
                                                     <div class="multiselect__tags-wrap" style="inline-grid"
-                                                        v-for="(selection, index) in record.data_source[staff.id + '-' + field['month'] + '-' + field['day']]">
-                                                        <span class="multiselect__tag" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        v-for="(selection, index) in record.data_source[staff.id + '-' + field['month'] + '-' + field['day']]" :key="index">
+                                                        <span class="multiselect__tag" :style="multiselectTag">
                                                             {{ selection.acronym }}
-                                                            <span class="badge badge-light" style="left: 1rem;"
+                                                            <span class="badge badge-light" :style="'left: 1rem;'"
                                                                 v-if="selection.count > 1">
                                                                 {{ selection.count }}
                                                             </span>
@@ -188,8 +189,8 @@
                             <li :class="(page == number)
                                 ? 'VuePagination__pagination-item page-item active'
                                 : 'VuePagination__pagination-item page-item'"
-                                :key="index" v-if="number <= lastPage"
-                                v-for="(number, index) in pageValues">
+                                :key="index"
+                                v-for="(number, index) in filteredPageValues">
                                 <a class="page-link active" role="button" @click="changePage(number)">{{number}}</a>
                             </li>
                             <li class="VuePagination__pagination-item page-item  VuePagination__pagination-item-next-page" v-if="page < lastPage">
@@ -242,6 +243,8 @@
 </template>
 
 <script>
+    import moment from 'moment';
+    import 'moment/locale/es';
     export default {
         props: {
             id: {
@@ -267,20 +270,6 @@
                 payroll_time_parameters: [],
                 supervised_groups: {},
                 months: [],
-                translateMonths: {
-                    'January': 'Enero',
-                    'February': 'Febrero',
-                    'March': 'Marzo',
-                    'April': 'Abril',
-                    'May': 'Mayo',
-                    'June': 'Junio',
-                    'July': 'Julio',
-                    'August': 'Agosto',
-                    'September': 'Septiembre',
-                    'October': 'Octubre',
-                    'November': 'Noviembre',
-                    'December': 'Diciembre',
-                },
                 editColumns: {},
                 daysPerMonth: [],
                 totalDays: [],
@@ -303,6 +292,7 @@
                         'text': '50'
                     }
                 ],
+                multiselectTag: "white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
             }
         },
         methods: {
@@ -354,14 +344,16 @@
                 let end_date = moment(vm.record.to_date);
 
                 while (start_date.isBefore(end_date) || start_date.isSame(end_date)) {
-                    if (!vm.months.includes(vm.translateMonths[start_date.format("MMMM")])) {
-                        vm.months.push(vm.translateMonths[start_date.format("MMMM")]);
-                        vm.daysPerMonth[vm.translateMonths[start_date.format("MMMM")]] = [];
+                    let str_date = start_date.format("MMMM").charAt(0).toUpperCase() + start_date.format("MMMM").slice(1);
+                    if (!vm.months.includes(str_date)) {
+                        vm.months.push(str_date);
+                        vm.daysPerMonth[str_date] = [];
                     }
-                    vm.daysPerMonth[vm.translateMonths[start_date.format("MMMM")]].push(start_date.format("D"));
+                    vm.daysPerMonth[str_date].push(start_date.format("D"));
                     vm.totalDays.push({
-                        'month': vm.translateMonths[start_date.format("MMMM")],
+                        'month': str_date,
                         'day': start_date.format("D"),
+                        'day_name': start_date.format("dddd"),
                         'view': false
                     });
                     start_date.add(1, 'day');
@@ -421,7 +413,7 @@
                 let recordEdit = await axios.get(`${window.app_url}/payroll/guard-schemes/show/${id}`).then(response => {
                     return response.data.record;
                 });
-                
+
                 vm.record = await recordEdit;
                 await vm.getDatasupervisedGroup();
             },
@@ -469,6 +461,9 @@
             }
         },
         computed: {
+            filteredPageValues() {
+                return this.pageValues.filter(number => number <= this.lastPage);
+            },
             visibleRows() {
                 const vm = this;
                 let records = (vm.record.payroll_supervised_group)

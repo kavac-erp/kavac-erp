@@ -1,7 +1,5 @@
 <?php
 
-/** Controladores para la gestión de autenticación de usuarios */
-
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
@@ -15,32 +13,25 @@ use Illuminate\Foundation\Auth\RegistersUsers;
  * @brief Gestiona información de registro de usuarios
  *
  * Controlador para gestionar el registro de usuarios
+ *
+ * @author Ing. Roldan Vargas <rvargas@cenditel.gob.ve> | <roldandvg@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
     use RegistersUsers;
 
     /**
      * Ruta a la cual redioreccionar después del registro de un usuario.
      *
-     * @var string
+     * @var string $redirectTo
      */
     protected $redirectTo = '/';
 
     /**
      * Crea una nueva instancia del controlador.
-     *
-     * @method  __construct
      *
      * @return void
      */
@@ -51,8 +42,6 @@ class RegisterController extends Controller
 
     /**
      * Obtiene un validador para una petición entrante de registro de usuario.
-     *
-     * @method  validator
      *
      * @param  array  $data
      *
@@ -69,8 +58,6 @@ class RegisterController extends Controller
 
     /**
      * Crea una nueva instancia de usuario después de un registro válido.
-     *
-     * @method  create
      *
      * @param  array  $data
      *

@@ -14,18 +14,19 @@ use Modules\Purchase\Models\PurchaseTypeOperation;
  *
  * Clase que gestiona los tipos de operaciones
  *
- * @author Juan Rosas <jrosas@cenditel.gob.ve | juan.rosasr01@gmail.com>
- * @license<a href='http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/'>
- *              LICENCIA DE SOFTWARE CENDITEL
- *          </a>
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
  */
 class PurchaseTypeOperationController extends Controller
 {
     use ValidatesRequests;
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Muestra un listado de los tipos de operaciones
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -33,8 +34,9 @@ class PurchaseTypeOperationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Muestra el formulario para registrar un nuevo tipo de operación
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -42,9 +44,11 @@ class PurchaseTypeOperationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena un nuevo tipo de operación
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -60,8 +64,9 @@ class PurchaseTypeOperationController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return Renderable
+     * Muestra información sobre el tipo de operación
+     *
+     * @return \Illuminate\View\View
      */
     public function show()
     {
@@ -69,8 +74,9 @@ class PurchaseTypeOperationController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar el tipo de operación
+     *
+     * @return \Illuminate\View\View
      */
     public function edit()
     {
@@ -78,9 +84,11 @@ class PurchaseTypeOperationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza un tipo de operación
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -94,21 +102,31 @@ class PurchaseTypeOperationController extends Controller
         $record->name                  = $request->name;
         $record->description           = $request->description;
         $record->save();
-        return response()->json(['records' => PurchaseTypeOperation::orderBy('id')->get(),
-            'message' => 'Success'], 200);
+        return response()->json([
+            'records' => PurchaseTypeOperation::orderBy('id')->get(),
+            'message' => 'Success'
+        ], 200);
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina un tipo de operación
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         PurchaseTypeOperation::find($id)->delete();
-        return response()->json(['records' => PurchaseTypeOperation::orderBy('id')->get(),
-            'message' => 'Success'], 200);
+        return response()->json([
+            'records' => PurchaseTypeOperation::orderBy('id')->get(),
+            'message' => 'Success'
+        ], 200);
     }
 
+    /**
+     * Obtiene el listado de los tipos de operaciones
+     *
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function getRecords()
     {
         $records = template_choices('Modules\Purchase\Models\PurchaseTypeOperation', 'name', [], true);

@@ -1,0 +1,13 @@
+<map id="handle" name="handle">
+<area shape="rect" id="Node000001" title="Ejecuta el trabajo." alt="" coords="5,104,72,129"/>
+<area shape="rect" id="Node000002" href="$d7/dd6/classModules_1_1Payroll_1_1Jobs_1_1PayrollExportNotification.html#a8be66d4719cab1e64a7879ef91f53b8c" title="Obtiene la hoja de datos de la información contable del personal." alt="" coords="133,5,284,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="49,102,78,71,119,40,132,33,135,38,121,44,81,75,52,105"/>
+<area shape="rect" id="Node000003" href="$d7/dd6/classModules_1_1Payroll_1_1Jobs_1_1PayrollExportNotification.html#afaea1d6459df717a954868f16ffffe99" title="Obtiene la hoja de datos del expediente del personal." alt="" coords="127,55,290,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="71,104,119,89,146,81,147,86,121,94,73,109"/>
+<area shape="rect" id="Node000004" href="$d7/dd6/classModules_1_1Payroll_1_1Jobs_1_1PayrollExportNotification.html#a7135da16847944bcea1d1c3227176c22" title="Obtiene la hoja de datos de la información financiera del personal." alt="" coords="140,104,277,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="72,114,126,114,126,119,72,119"/>
+<area shape="rect" id="Node000005" href="$d7/dd6/classModules_1_1Payroll_1_1Jobs_1_1PayrollExportNotification.html#ad4b79d72c353959a3c081c95b6df0584" title="Obtiene la hoja de datos de la información socioeconómica del personal." alt="" coords="120,153,297,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="73,124,121,138,151,147,150,152,119,143,72,129"/>
+<area shape="rect" id="Node000006" href="$d7/dd6/classModules_1_1Payroll_1_1Jobs_1_1PayrollExportNotification.html#ab30bd2f49c7b10b72318489aaa018c0b" title="Obtiene la hoja de datos de la información laboral del personal." alt="" coords="154,203,263,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="52,128,82,158,121,188,142,197,140,202,119,192,78,162,49,131"/>
+</map>

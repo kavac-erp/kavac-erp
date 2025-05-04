@@ -56,17 +56,18 @@
                             <div class="col-12 col-md-3">
                                 <div class="form-group">
                                     <label>Monto:</label>
-                                    <input type="number" step="0.01" class="form-control input-sm"
-                                           v-model="record.amount" data-toggle="tooltip"
-                                           title="monto del tipo de cambio">
+                                    <input
+                                        type="text" class="form-control input-sm" v-model="record.amount" data-toggle="tooltip"
+                                        title="monto del tipo de cambio" v-is-numeric
+                                    >
                                 </div>
                             </div>
                             <div class="col-12 col-md-3">
                                 <div class="form-group is-required">
                                     <label>Activo:</label>
-                                    <div class="custom-control custom-switch" data-toggle="tooltip" 
+                                    <div class="custom-control custom-switch" data-toggle="tooltip"
                                          title="Indique si el tipo de cambio está o no activo">
-										<input type="checkbox" class="custom-control-input" 
+										<input type="checkbox" class="custom-control-input"
 											   id="exchangeActive" v-model="record.active" :value="true">
 										<label class="custom-control-label" for="exchangeActive"></label>
 									</div>
@@ -76,15 +77,15 @@
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close" 
+                            <button type="button" class="btn btn-default btn-sm btn-round btn-modal-close"
 									@click="clearFilters" data-dismiss="modal">
 								Cerrar
 							</button>
-							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear" 
+							<button type="button" class="btn btn-warning btn-sm btn-round btn-modal btn-modal-clear"
 									@click="reset()">
 								Cancelar
 							</button>
-							<button type="button" @click="createRecord('exchange-rates')" 
+							<button type="button" @click="createRecord('exchange-rates')"
 									class="btn btn-primary btn-sm btn-round btn-modal-save">
 								Guardar
 							</button>
@@ -140,7 +141,7 @@
                     id: '',
                     start_at: '',
                     end_at: null,
-                    active: false,
+                    active: true,
                     amount: 0,
                     from_currency_id: '0',
                     to_currency_id: '0',
@@ -162,7 +163,7 @@
                     id: '',
                     start_at: '',
                     end_at: null,
-                    active: false,
+                    active: true,
                     amount: 0,
                     from_currency_id: '0',
                     to_currency_id: '0',
@@ -193,9 +194,14 @@
         },
         mounted() {
             const vm = this;
-            
-            $("#add_exchange_rate").on('show.bs.modal', function() {
-                vm.getCurrencies();
+
+            $("#add_exchange_rate").on('show.bs.modal', async function() {
+                await vm.getCurrencies();
+                vm.currencies.unshift({
+                        default: true,
+                        id: '',
+                        text: 'Seleccione...'
+                });
             });
         }
     };

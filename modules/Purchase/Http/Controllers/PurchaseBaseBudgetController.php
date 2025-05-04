@@ -2,55 +2,103 @@
 
 namespace Modules\Purchase\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Profile;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Models\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Payroll\Models\PayrollEmployment;
-use Modules\Purchase\Jobs\PurchaseManageBaseBudget;
-use Modules\Purchase\Models\PurchaseBaseBudget;
-use Modules\Purchase\Models\PurchasePivotModelsToRequirementItem;
-use Modules\Purchase\Models\PurchaseRequirement;
-use App\Models\User;
-use App\Notifications\SystemNotification;
 use Nwidart\Modules\Facades\Module;
+use App\Notifications\SystemNotification;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Payroll\Models\PayrollEmployment;
+use Modules\Purchase\Models\PurchaseBaseBudget;
+use Modules\Purchase\Models\PurchaseRequirement;
+use Modules\Purchase\Jobs\PurchaseManageBaseBudget;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Modules\Purchase\Models\PurchasePivotModelsToRequirementItem;
 
+/**
+ * @class PurchaseBaseBudgetController
+ * @brief Controlador para la gestión del presupuesto base de compra
+ *
+ * @author Juan Rosas <jrosas@cenditel.gob.ve> | <juan.rosasr01@gmail.com>
+ *
+ * @license
+ *     [LICENCIA DE SOFTWARE CENDITEL](http://conocimientolibre.cenditel.gob.ve/licencia-de-software-v-1-3/)
+ */
 class PurchaseBaseBudgetController extends Controller
 {
     use ValidatesRequests;
 
+    /**
+     * Datos de la moneda
+     *
+     * @var array $currency
+     */
     protected $currencies;
 
+    /**
+     * Método constructor de la clase
+     *
+     * @return void
+     */
     public function __construct()
     {
         // $this->currencies = template_choices('App\Models\Currency', 'name', [], true);
     }
 
     /**
-     * Display a listing of the resource.
-     * @return JsonResponse
+     * Listado de presupuesto base
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
+        $PurchaseBaseBudget = PurchaseBaseBudget::query()
+        ->with([
+            'currency',
+            'purchaseRequirement.contratingDepartment',
+            'purchaseRequirement.userDepartment',
+            'relatable.purchaseRequirementItem.purchaseRequirement',
+            'pivotRelatable.recordable'
+        ])->orderBy('id', 'ASC')
+        ->get();
+
         return response()->json([
-            'records' => PurchaseBaseBudget::with([
-                'currency',
-                'purchaseRequirement.contratingDepartment',
-                'purchaseRequirement.userDepartment',
-                'relatable.purchaseRequirementItem.purchaseRequirement',
-                'pivotRelatable' => function ($q) {
-                    $q->with(['recordable' => function ($query) {
-                    }])->get();
-                },
-            ])->orderBy('id', 'ASC')->get(),
+            'records' => $PurchaseBaseBudget,
             'message' => 'success',
         ], 200);
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Listado de presupuesto base
+     *
+     * @param \Illuminate\Http\Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function vueList(Request $request)
+    {
+        $PurchaseBaseBudget = PurchaseBaseBudget::query()
+        ->with([
+            'currency',
+            'purchaseRequirement.contratingDepartment',
+            'purchaseRequirement.userDepartment',
+            'relatable.purchaseRequirementItem.purchaseRequirement',
+        ])->orderBy('id', 'ASC')
+        ->search($request->query('query'))
+        ->paginate($request->limit ?? 10);
+        return response()->json([
+            'data' => $PurchaseBaseBudget->items(),
+            'count' => $PurchaseBaseBudget->total(),
+            'message' => 'success',
+        ], 200);
+    }
+
+    /**
+     * Muestra el formulario para crear un nuevo registro de presupuesto base
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -70,9 +118,11 @@ class PurchaseBaseBudgetController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Almacena un nuevo registro de presupuesto base
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -98,8 +148,9 @@ class PurchaseBaseBudgetController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @return JsonResponse
+     * Muestra información de un presupuesto base
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -125,8 +176,9 @@ class PurchaseBaseBudgetController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @return Renderable
+     * Muestra el formulario para editar un presupuesto base
+     *
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -138,9 +190,7 @@ class PurchaseBaseBudgetController extends Controller
             'relatable'
         )->find($id);
 
-        /**
-         * Se obtienen los datos laborales
-         */
+        /* Se obtienen los datos laborales */
         $user_profile = Profile::with('institution')->where('user_id', auth()->user()->id)->first();
 
         $employments = [
@@ -190,11 +240,6 @@ class PurchaseBaseBudgetController extends Controller
                 }
             }
         }
-        // $requirements = PurchaseRequirement::with(
-        //     'contratingDepartment',
-        //     'userDepartment',
-        //     'purchaseRequirementItems'
-        // )->where('requirement_status', 'WAIT')->orderBy('code', 'ASC')->get();
         return view('purchase::requirements.base_budget', [
             'requirements' => json_encode([0 => $baseBudget['purchaseRequirement']]),
             'currencies' => json_encode($this->currencies),
@@ -204,9 +249,11 @@ class PurchaseBaseBudgetController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return JsonResponse
+     * Actualiza la información de un presupuesto base
+     *
+     * @param  Request $request Datos de la petición
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -231,16 +278,15 @@ class PurchaseBaseBudgetController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return JsonResponse
+     * Elimina un presupuesto base
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $record = PurchaseBaseBudget::find($id);
         if ($record) {
             foreach (PurchaseRequirement::where('purchase_base_budget_id', $id)->orderBy('id', 'ASC')->get() as $r) {
-                // $r->purchase_base_budget_id = null;
-                // $r->requirement_status = 'WAIT';
                 $r->delete();
             }
             foreach (
@@ -261,9 +307,9 @@ class PurchaseBaseBudgetController extends Controller
      *
      * @author Ing. Roldan Vargas <roldandvg at gmail.com> | <rvargas at cenditel.gob.ve>
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request $request Datos de la petición
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function sendNotify(Request $request)
     {

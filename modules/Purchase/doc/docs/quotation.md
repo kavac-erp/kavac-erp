@@ -3,23 +3,23 @@
 
 ![Screenshot](img/logokavac.png#imagen)
 
-El usuario selecciona el módulo de Compras en el menú lateral de los módulos del sistema, ahí visualizara las opciones **Configuración**, **Proveedores**, **Plan de compras**, **Requerimientos**, **Cotización**, **Disponibilidad Presupuestaria** y **Orden de compras**, debiendo pulsar **Cotización** 
+El usuario selecciona el módulo de Compras en el menú lateral de los módulos del sistema, ahí visualizará las opciones **Configuración**, **Proveedores**, **Planes de compras**, **Requerimientos**, **Cotizaciones** y **Órdenes de compras/Servicios**, debiendo pulsar **Cotización** 
 
-![Screenshot](img/menu_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 50:  Menú del Módulo de Compras</div>
-
+![Screenshot](img/cotizacion_compras.png)<div style="text-align: center;font-weight: bold">Figura 1: Menú del Módulo de Compras</div>
+<br>
 
 ## Listado de Cotizaciones 
 
-A través de esta sección se lleva a cabo la gestión de cotizaciones en el módulo de compras. Esta sección lista los registros de cotizaciones con información relevante sobre cada uno de ellos, desde la tabla de registros es posible crear un nuevo registro o gestionar cualquier registro de cotizaciones. 
+A través de esta sección se lleva a cabo la gestión de cotizaciones en el módulo de compras. Esta sección lista los registros de cotizaciones con información relevante sobre cada uno de ellos. Desde la tabla de registros es posible crear un nuevo registro o gestionar cualquier registro de cotizaciones. 
 
-![Screenshot](img/cotizaciones.png)<div style="text-align: center;font-weight: bold">Figura 51: Tabla de registros de las cotizaciones</div>
-
+![Screenshot](img/cotizaciones.png)<div style="text-align: center;font-weight: bold">Figura 2: Tabla de registros de las cotizaciones</div>
+<br>
 
 ### Registrar cotización  
 
--   El usuario ingresará a la opción **Cotización**. Seguidamente el sistema presenta la sección **Listado de cotización**  
--   Haciendo uso del botón **Crear** ![Screenshot](img/create.png#imagen) ubicado en la esquina superior derecha de esta sección(Figura 51 Tabla de registros de cotización), se procede a realizar un nuevo registro de cotización. 
--   El sistema despliega un formulario de requerimientos para completar los datos del mismo. 
+- El usuario ingresará a la opción **Cotización**. Seguidamente el sistema presenta la sección **Listado de cotización**  
+- Haciendo uso del botón **Crear** ![Screenshot](img/create.png#imagen) ubicado en la esquina superior derecha de esta sección, se procede a realizar un nuevo registro de cotización. 
+- El sistema despliega un formulario de requerimientos para completar los datos del mismo. 
 - Complete el formulario de cotizaciones. Tenga en consideración completar los campos obligatorios que son requeridos para el registro de una cotización. 
 
 
@@ -30,10 +30,10 @@ Para agregar tipos de monedas  acceda a **Configuración** > **General** > **Reg
 
  Para agregar proveedores del módulo de Compras acceda a **Compras** > **Proveedores**. 
 
-   ![Screenshot](/img/proveedores_re.png)
+   ![Screenshot](img/figure_15.png)
 
 
-!!! info "Cotizaciones Parciales"
+**Nota:** "Cotizaciones Parciales"
     - Si se desea generar una cotización parcial, se deben seleccionar los productos que se deseen usar para la cotización parcial en la columna "Acción" de la siguiente manera:
      ![Screenshot](img/cotizacion_parcial.png#imagen)
     - Al realizar esta acción, el sistema almacena la cotización como "Cotización Parcial", y permite generar una cotización con los productos restantes. 
@@ -45,15 +45,11 @@ Para agregar tipos de monedas  acceda a **Configuración** > **General** > **Reg
 - Para retornar a la ruta anterior presione el botón ![Screenshot](img/back.png).
 
 
-
-
-
-
 ## Gestionar cotización
 
 La gestión de cotización se lleva a cabo a través del apartado **Cotizaciones**. 
 
--   Para acceder a esta sección debe dirigirse a **Compras** y ubicarse en la sección **Cotizaciones** apartado **Listado de Cotizaciones** (ver Figura 51).
+-   Para acceder a esta sección debe dirigirse a **Compras** y ubicarse en la sección **Cotizaciones** apartado **Listado de Cotizaciones**.
 
 A través del apartado **Listado de cotizaciones** se listan los registros de **Listado de cotizaciones** en una tabla.   
 
@@ -61,49 +57,63 @@ Desde este apartado se pueden llevar a cabo las siguientes acciones:
 
 -   ***Registrar cotizaciones***.   
 -   ***Consultar registros***.
--   ***Solicitar Disponibilidad Presupuestaria***. 
+-   ***Aprobar registros***. 
+-   ***Imprimir registros***. 
 -   ***Editar registros***. 
 -   ***Eliminar registros***. 
 
-![Screenshot](img/cotizaciones.png)<div style="text-align: center;font-weight: bold">Figura 52: Cotizaciones registradas</div>
+![Screenshot](img/cotizaciones_2.png)<div style="text-align: center;font-weight: bold">Figura 3: Cotizaciones registradas</div>
+<br>
 
 ### Registrar cotizaciones
 
--   Presione el botón **Crear registro** ![Screenshot](img/create.png) ubicado en la parte superior derecha del apartado **Cotizaciones** (ver Figura 52)
+-   Presione el botón **Crear registro** ![Screenshot](img/create.png) ubicado en la parte superior derecha del apartado **Cotizaciones**.
 -   A continuación complete el formulario siguiendo los pasos descritos en el apartado [Registrar cotizaciones](##Registrar-cotizaciones).
 -   Presione el botón **Guardar**  ![Screenshot](img/save_1.png) para registrar los cambios efectuados.
 
-![Screenshot](img/registrar_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 53: Registrar cotizaciones</div>
-
+![Screenshot](img/registrar_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 4: Registrar cotizaciones</div>
+<br>
 
 ### Consultar registros
 
 -   Presione el botón **Consultar registro** ![Screenshot](img/see.png) ubicado en la columna titulada **Acción** de un registro de cotizaciones que se prefiere consultar. 
 
-![Screenshot](img/ver_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 53: Consultar Registros de cotizaciones </div>
+![Screenshot](img/ver_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 5: Consultar Registros de cotizaciones </div>
+<br>
 
 -   A continuación el sistema despliega una sección donde se describen los datos de la cotización seleccionada.
 
-![Screenshot](img/consultar_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 54: Datos del cotizaciones</div>
+![Screenshot](img/consultar_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 6: Datos del cotizaciones</div>
+<br>
 
 
+### Aprobar registro
 
-### Solicitar Disponibilidad Presupuestaria
+-   Presione el botón **Aprobar registro** ![Screenshot](img/aprobar_boton.png) ubicado en la columna titulada **Acción** del registro de cotizaciones que se desee seleccionar para aprobar. 
 
--   Presione el botón **Solicitar disponibilidad presupuestaria** ![Screenshot](img/disponibilidad_solicitar.png)  ubicado en la columna titulada **Acción** del registro de cotizaciones que se desee seleccionar para solicitar disponibilidad presupuestaria. 
+![Screenshot](img/aprobar_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 7: Aprobar la cotización</div>
+<br>
 
-![Screenshot](img/solicitar_disponibilidad.png)<div style="text-align: center;font-weight: bold">Figura 55: Solicitar Disponibilidad Presupuestaria</div>
+- El sistema presenta una ventana emergente donde se debe confirmar la aprobación. 
 
-- El sistema presenta una ventana emergente donde se debe ingresar el usuario y el mensaje solicitado la disponibilidad presupuestaria. 
+![Screenshot](img/aprobar_cotizacion_2.png)<div style="text-align: center;font-weight: bold">Figura 8: Mensaje para aprobar la cotización</div>
+<br>
 
-![Screenshot](img/mensaje_disponibilidad.png)<div style="text-align: center;font-weight: bold">Figura 56: Mensaje para solicitar disponibilidad presupuestaria</div>
+### Imprimir registros
 
+-   Presione el botón **Imprimir registro** ![Screenshot](img/imprimir_boton.png) ubicado en la columna titulada **Acción** del registro de cotizaciones que se desee seleccionar para imprimir. 
+
+![Screenshot](img/imprimir_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 9: Imprimir registro de cotización</div>
+<br>
+
+- El sistema presenta en un documento PDF, la información sobre el registro de cotización. 
 
 ### Editar registros
 
--   Presione el botón **Editar registro** ![Screenshot](img/edit.png)  ubicado en la columna titulada **Acción** del registro de cotizaciones que se desee seleccionar para actualizar datos. 
+-   Presione el botón **Editar registro** ![Screenshot](img/edit.png) ubicado en la columna titulada **Acción** del registro de cotizaciones que se desee seleccionar para actualizar datos. 
 
-![Screenshot](img/editar_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 57: Editar Registros de cotizaciones</div>
+![Screenshot](img/editar_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 9: Editar Registros de cotizaciones</div>
+<br>
 
 -   Actualice los datos del formulario siguiendo los pasos descritos en el apartado [Registrar cotizaciones](#registrar-cotizaciones).
 -   Presione el botón **Guardar**  ![Screenshot](img/save_1.png) para registrar los cambios efectuados.
@@ -113,7 +123,8 @@ Desde este apartado se pueden llevar a cabo las siguientes acciones:
 
 -   Presione el botón **Eliminar registro** ![Screenshot](img/delete.png)  ubicado en la columna titulada **Acción** del registro de cotizaciones que se desee seleccionar para eliminar del sistema. 
 
-![Screenshot](img/eliminar_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 58: Eliminar Registros de cotizacion</div>
+![Screenshot](img/eliminar_cotizacion.png)<div style="text-align: center;font-weight: bold">Figura 10: Eliminar Registros de cotizacion</div>
+<br>
 
--   Confirme que esta seguro de eliminar el registro seleccionado a través de la ventana emergente, mediante el botón **Confirmar** y efectue los cambios.  
+-   Confirme que esta seguro de eliminar el registro seleccionado a través de la ventana emergente, mediante el botón **Confirmar**.  
 

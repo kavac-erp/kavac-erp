@@ -9,12 +9,6 @@
                         <select2 :options="purchase_types" id="purchase_types" @input="loadPurchaseProcess()" v-model="record.purchase_type_id"></select2>
                     </div>
                 </div>
-                <!--<div class="col-3">
-                    <div class="form-group is-required">
-                        <label class="control-label" for="purchase_process">Proceso de compra</label><br>
-                        <select2 :options="purchase_process" :disabled="disabledInputProcess" id="purchase_process" v-model="record.purchase_processes_id"></select2>
-                    </div>
-                </div>-->
                 <div class="col-3" id="helpResponsable">
                     <div class="form-group is-required">
                         <label class="control-label" for="responsable">Responsable</label><br>
@@ -36,23 +30,6 @@
                         <!--<input type="date" class="form-control" v-model="record.end_date" tabindex="1">-->
                     </div>
                 </div>
-               
-                <!--<div class="col-3" id="HelpPurchasePlanDocument">
-                    <label for="purchase_plan">Plan de compra</label>
-                    <label class="custom-control">
-                        <button type="button" data-toggle="tooltip" 
-                                v-has-tooltip 
-                                class="btn btn-sm btn-info btn-import" 
-                                title="Presione para subir el archivo del documento." 
-                                @click="setFile('purchase_plan')">
-                                <i class="fa fa-upload"></i>
-                        </button>
-                        <input type="file" id="purchase_plan" @change="uploadFile('purchase_plan', $event)" style="display:none;">
-                        <span class="badge badge-success" id="status_purchase_plan" style="display:none;">
-                            <strong>Documento Cargado.</strong>
-                        </span>
-                    </label>
-                </div>-->
             </div>
         </div>
         <div class="card-footer text-right">
@@ -94,7 +71,6 @@ export default {
                 end_date: '',
                 init_date: '',
                 purchase_type_id: '',
-                //purchase_processes_id: '',
                 payroll_staff_id: '',
             },
             disabledInputProcess: false,
@@ -114,7 +90,6 @@ export default {
                 end_date: '',
                 init_date: '',
                 purchase_type_id: '',
-                //purchase_processes_id: '',
                 payroll_staff_id: '',
             };
             vm.$refs.purchaseShowError.reset();
